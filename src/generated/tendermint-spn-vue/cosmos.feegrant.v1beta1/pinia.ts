@@ -7,7 +7,7 @@ import {
   PeriodicAllowance,
   AllowedMsgAllowance,
   Grant
-} from 'ts-client/cosmos.feegrant.v1beta1/types'
+} from 'tendermint-spn-ts-client/cosmos.feegrant.v1beta1/types'
 
 type PiniaState = {
   BasicAllowanceAll: BasicAllowance[]

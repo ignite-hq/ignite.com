@@ -9,7 +9,7 @@ import {
   Validator,
   ValidatorDescription,
   ValidatorByOperatorAddress
-} from 'ts-client/tendermint.spn.profile/types'
+} from 'tendermint-spn-ts-client/tendermint.spn.profile/types'
 
 type PiniaState = {
   CoordinatorAll: Coordinator[]

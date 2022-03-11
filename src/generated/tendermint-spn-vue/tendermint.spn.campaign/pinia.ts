@@ -11,7 +11,7 @@ import {
   ShareDelayedVesting,
   Params,
   TotalSupplyRange
-} from 'ts-client/tendermint.spn.campaign/types'
+} from 'tendermint-spn-ts-client/tendermint.spn.campaign/types'
 
 type PiniaState = {
   CampaignAll: Campaign[]

@@ -9,7 +9,7 @@ import {
   Params,
   ProviderClientID,
   VerifiedClientID
-} from 'ts-client/tendermint.spn.monitoringc/types'
+} from 'tendermint-spn-ts-client/tendermint.spn.monitoringc/types'
 
 type PiniaState = {
   LaunchIDFromChannelIDAll: LaunchIDFromChannelID[]

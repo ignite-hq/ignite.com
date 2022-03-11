@@ -2,7 +2,7 @@
 
 import { defineStore } from 'pinia'
 
-import { Equivocation } from 'ts-client/cosmos.evidence.v1beta1/types'
+import { Equivocation } from 'tendermint-spn-ts-client/cosmos.evidence.v1beta1/types'
 
 type PiniaState = {
   EquivocationAll: Equivocation[]

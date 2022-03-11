@@ -21,7 +21,7 @@ import {
   VestingAccount,
   VestingOptions,
   DelayedVesting
-} from 'ts-client/tendermint.spn.launch/types'
+} from 'tendermint-spn-ts-client/tendermint.spn.launch/types'
 
 type PiniaState = {
   ChainAll: Chain[]

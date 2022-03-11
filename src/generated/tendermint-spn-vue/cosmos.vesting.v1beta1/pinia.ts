@@ -9,7 +9,7 @@ import {
   Period,
   PeriodicVestingAccount,
   PermanentLockedAccount
-} from 'ts-client/cosmos.vesting.v1beta1/types'
+} from 'tendermint-spn-ts-client/cosmos.vesting.v1beta1/types'
 
 type PiniaState = {
   BaseVestingAccountAll: BaseVestingAccount[]

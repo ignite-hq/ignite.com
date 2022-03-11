@@ -12,7 +12,7 @@ import {
   DenomUnit,
   Metadata,
   Balance
-} from 'ts-client/cosmos.bank.v1beta1/types'
+} from 'tendermint-spn-ts-client/cosmos.bank.v1beta1/types'
 
 type PiniaState = {
   SendAuthorizationAll: SendAuthorization[]

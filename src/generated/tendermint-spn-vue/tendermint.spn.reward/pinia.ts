@@ -2,7 +2,7 @@
 
 import { defineStore } from 'pinia'
 
-import { Params, RewardPool } from 'ts-client/tendermint.spn.reward/types'
+import { Params, RewardPool } from 'tendermint-spn-ts-client/tendermint.spn.reward/types'
 
 type PiniaState = {
   ParamsAll: Params[]

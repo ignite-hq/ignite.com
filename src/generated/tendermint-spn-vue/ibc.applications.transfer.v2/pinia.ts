@@ -2,7 +2,7 @@
 
 import { defineStore } from 'pinia'
 
-import { FungibleTokenPacketData } from 'ts-client/ibc.applications.transfer.v2/types'
+import { FungibleTokenPacketData } from 'tendermint-spn-ts-client/ibc.applications.transfer.v2/types'
 
 type PiniaState = {
   FungibleTokenPacketDataAll: FungibleTokenPacketData[]

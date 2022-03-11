@@ -5,7 +5,7 @@ import { defineStore } from 'pinia'
 import {
   DenomTrace,
   Params
-} from 'ts-client/ibc.applications.transfer.v1/types'
+} from 'tendermint-spn-ts-client/ibc.applications.transfer.v1/types'
 
 type PiniaState = {
   DenomTraceAll: DenomTrace[]

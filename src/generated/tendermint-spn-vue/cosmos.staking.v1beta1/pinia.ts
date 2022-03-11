@@ -26,7 +26,7 @@ import {
   RedelegationEntryResponse,
   RedelegationResponse,
   Pool
-} from 'ts-client/cosmos.staking.v1beta1/types'
+} from 'tendermint-spn-ts-client/cosmos.staking.v1beta1/types'
 
 type PiniaState = {
   StakeAuthorizationAll: StakeAuthorization[]

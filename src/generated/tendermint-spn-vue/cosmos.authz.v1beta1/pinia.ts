@@ -8,7 +8,7 @@ import {
   EventGrant,
   EventRevoke,
   GrantAuthorization
-} from 'ts-client/cosmos.authz.v1beta1/types'
+} from 'tendermint-spn-ts-client/cosmos.authz.v1beta1/types'
 
 type PiniaState = {
   GenericAuthorizationAll: GenericAuthorization[]

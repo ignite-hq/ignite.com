@@ -11,7 +11,7 @@ import {
   VestingQueue,
   AllowedBidder,
   Bid
-} from 'ts-client/tendermint.fundraising/types'
+} from 'tendermint-spn-ts-client/tendermint.fundraising/types'
 
 type PiniaState = {
   ParamsAll: Params[]

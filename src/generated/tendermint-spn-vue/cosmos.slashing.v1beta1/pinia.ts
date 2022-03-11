@@ -8,7 +8,7 @@ import {
   MissedBlock,
   ValidatorSigningInfo,
   Params
-} from 'ts-client/cosmos.slashing.v1beta1/types'
+} from 'tendermint-spn-ts-client/cosmos.slashing.v1beta1/types'
 
 type PiniaState = {
   SigningInfoAll: SigningInfo[]

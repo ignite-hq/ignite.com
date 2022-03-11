@@ -22,7 +22,7 @@ import {
   ValidatorCurrentRewardsRecord,
   DelegatorStartingInfoRecord,
   ValidatorSlashEventRecord
-} from 'ts-client/cosmos.distribution.v1beta1/types'
+} from 'tendermint-spn-ts-client/cosmos.distribution.v1beta1/types'
 
 type PiniaState = {
   ParamsAll: Params[]

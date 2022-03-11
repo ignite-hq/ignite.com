@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import { Ignite } from 'tendermint-spn-ts-client'
-import { useTendermintFundraisingModule } from 'tendermint-spn-vue'
+import { useTendermintSpnLaunchModule } from 'tendermint-spn-vue'
 
 import { inject, watch, Ref } from 'vue'
 
@@ -17,7 +17,7 @@ export default {
       () => $ignt.value,
       async () => {
         if ($ignt.value) {
-          let { queryAuctions } = useTendermintFundraisingModule({
+          let { $s, queryChainAll } = useTendermintSpnLaunchModule({
             $ignt: $ignt.value
           })
         }

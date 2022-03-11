@@ -12,7 +12,7 @@ import {
   DepositParams,
   VotingParams,
   TallyParams
-} from 'ts-client/cosmos.gov.v1beta1/types'
+} from 'tendermint-spn-ts-client/cosmos.gov.v1beta1/types'
 
 type PiniaState = {
   WeightedVoteOptionAll: WeightedVoteOption[]
