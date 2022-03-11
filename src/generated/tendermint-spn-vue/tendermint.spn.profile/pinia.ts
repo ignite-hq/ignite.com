@@ -1,6 +1,6 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia'
 
 import {
   Coordinator,
@@ -8,17 +8,17 @@ import {
   CoordinatorByAddress,
   Validator,
   ValidatorDescription,
-  ValidatorByOperatorAddress,
-} from "ts-client/tendermint.spn.profile/types";
+  ValidatorByOperatorAddress
+} from 'ts-client/tendermint.spn.profile/types'
 
 type PiniaState = {
-  CoordinatorAll: Coordinator[];
-  CoordinatorDescriptionAll: CoordinatorDescription[];
-  CoordinatorByAddressAll: CoordinatorByAddress[];
-  ValidatorAll: Validator[];
-  ValidatorDescriptionAll: ValidatorDescription[];
-  ValidatorByOperatorAddressAll: ValidatorByOperatorAddress[];
-};
+  CoordinatorAll: Coordinator[]
+  CoordinatorDescriptionAll: CoordinatorDescription[]
+  CoordinatorByAddressAll: CoordinatorByAddress[]
+  ValidatorAll: Validator[]
+  ValidatorDescriptionAll: ValidatorDescription[]
+  ValidatorByOperatorAddressAll: ValidatorByOperatorAddress[]
+}
 
 const piniaStore = {
   state: (): PiniaState => {
@@ -28,11 +28,11 @@ const piniaStore = {
       CoordinatorByAddressAll: [],
       ValidatorAll: [],
       ValidatorDescriptionAll: [],
-      ValidatorByOperatorAddressAll: [],
-    };
-  },
-};
+      ValidatorByOperatorAddressAll: []
+    }
+  }
+}
 
-const usePiniaStore = defineStore("tendermint.spn.profile", piniaStore);
+const usePiniaStore = defineStore('tendermint.spn.profile', piniaStore)
 
-export { usePiniaStore, PiniaState };
+export { usePiniaStore, PiniaState }

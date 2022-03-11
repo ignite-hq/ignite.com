@@ -1,6 +1,6 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia'
 
 import {
   WeightedVoteOption,
@@ -11,20 +11,20 @@ import {
   Vote,
   DepositParams,
   VotingParams,
-  TallyParams,
-} from "ts-client/cosmos.gov.v1beta1/types";
+  TallyParams
+} from 'ts-client/cosmos.gov.v1beta1/types'
 
 type PiniaState = {
-  WeightedVoteOptionAll: WeightedVoteOption[];
-  TextProposalAll: TextProposal[];
-  DepositAll: Deposit[];
-  ProposalAll: Proposal[];
-  TallyResultAll: TallyResult[];
-  VoteAll: Vote[];
-  DepositParamsAll: DepositParams[];
-  VotingParamsAll: VotingParams[];
-  TallyParamsAll: TallyParams[];
-};
+  WeightedVoteOptionAll: WeightedVoteOption[]
+  TextProposalAll: TextProposal[]
+  DepositAll: Deposit[]
+  ProposalAll: Proposal[]
+  TallyResultAll: TallyResult[]
+  VoteAll: Vote[]
+  DepositParamsAll: DepositParams[]
+  VotingParamsAll: VotingParams[]
+  TallyParamsAll: TallyParams[]
+}
 
 const piniaStore = {
   state: (): PiniaState => {
@@ -37,11 +37,11 @@ const piniaStore = {
       VoteAll: [],
       DepositParamsAll: [],
       VotingParamsAll: [],
-      TallyParamsAll: [],
-    };
-  },
-};
+      TallyParamsAll: []
+    }
+  }
+}
 
-const usePiniaStore = defineStore("cosmos.gov.v1beta1", piniaStore);
+const usePiniaStore = defineStore('cosmos.gov.v1beta1', piniaStore)
 
-export { usePiniaStore, PiniaState };
+export { usePiniaStore, PiniaState }

@@ -20,6 +20,7 @@ export default defineComponent({
     let address = computed<string>(() => $s.getters['common/wallet/address'])
     let chainId = computed<string>(() => $s.getters['common/env/chainId'])
 
+    // watch
     watch(
       () => address.value,
       async () => {
@@ -46,6 +47,7 @@ export default defineComponent({
       { immediate: true }
     )
 
+    // provide
     provide('ignt', $ignt)
   }
 })

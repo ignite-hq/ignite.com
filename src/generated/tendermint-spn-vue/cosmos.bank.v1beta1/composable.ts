@@ -1,42 +1,42 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
-import { Store } from "pinia";
-import { usePiniaStore, PiniaState } from "./";
+import { Store } from 'pinia'
+import { usePiniaStore, PiniaState } from './'
 
-import { Ignite } from "tendermint-spn-ts-client";
-import Module from "tendermint-spn-ts-client/cosmos.bank.v1beta1/module";
+import { Ignite } from 'tendermint-spn-ts-client'
+import Module from 'tendermint-spn-ts-client/cosmos.bank.v1beta1/module'
 
-type SendMsgSendType = typeof Module.prototype.sendMsgSend;
-type SendMsgMultiSendType = typeof Module.prototype.sendMsgMultiSend;
+type SendMsgSendType = typeof Module.prototype.sendMsgSend
+type SendMsgMultiSendType = typeof Module.prototype.sendMsgMultiSend
 
-type QueryBalanceType = typeof Module.prototype.queryBalance;
-type QueryAllBalancesType = typeof Module.prototype.queryAllBalances;
-type QueryTotalSupplyType = typeof Module.prototype.queryTotalSupply;
-type QuerySupplyOfType = typeof Module.prototype.querySupplyOf;
-type QueryParamsType = typeof Module.prototype.queryParams;
-type QueryDenomMetadataType = typeof Module.prototype.queryDenomMetadata;
-type QueryDenomsMetadataType = typeof Module.prototype.queryDenomsMetadata;
+type QueryBalanceType = typeof Module.prototype.queryBalance
+type QueryAllBalancesType = typeof Module.prototype.queryAllBalances
+type QueryTotalSupplyType = typeof Module.prototype.queryTotalSupply
+type QuerySupplyOfType = typeof Module.prototype.querySupplyOf
+type QueryParamsType = typeof Module.prototype.queryParams
+type QueryDenomMetadataType = typeof Module.prototype.queryDenomMetadata
+type QueryDenomsMetadataType = typeof Module.prototype.queryDenomsMetadata
 
 type Response = {
-  $s: Store<"cosmos.bank.v1beta1", PiniaState, {}, {}>;
-  sendMsgSend: SendMsgSendType;
-  sendMsgMultiSend: SendMsgMultiSendType;
+  $s: Store<'cosmos.bank.v1beta1', PiniaState, {}, {}>
+  sendMsgSend: SendMsgSendType
+  sendMsgMultiSend: SendMsgMultiSendType
 
-  queryBalance: QueryBalanceType;
-  queryAllBalances: QueryAllBalancesType;
-  queryTotalSupply: QueryTotalSupplyType;
-  querySupplyOf: QuerySupplyOfType;
-  queryParams: QueryParamsType;
-  queryDenomMetadata: QueryDenomMetadataType;
-  queryDenomsMetadata: QueryDenomsMetadataType;
-};
+  queryBalance: QueryBalanceType
+  queryAllBalances: QueryAllBalancesType
+  queryTotalSupply: QueryTotalSupplyType
+  querySupplyOf: QuerySupplyOfType
+  queryParams: QueryParamsType
+  queryDenomMetadata: QueryDenomMetadataType
+  queryDenomsMetadata: QueryDenomsMetadataType
+}
 
 type Params = {
-  $ignt: Ignite;
-};
+  $ignt: Ignite
+}
 
 function useModule({ $ignt }: Params): Response {
-  let $s = usePiniaStore();
+  let $s = usePiniaStore()
 
   let {
     sendMsgSend,
@@ -55,8 +55,8 @@ function useModule({ $ignt }: Params): Response {
 
     queryDenomMetadata,
 
-    queryDenomsMetadata,
-  } = $ignt.CosmosBankV1Beta1;
+    queryDenomsMetadata
+  } = $ignt.CosmosBankV1Beta1
 
   return {
     $s,
@@ -77,8 +77,8 @@ function useModule({ $ignt }: Params): Response {
 
     queryDenomMetadata,
 
-    queryDenomsMetadata,
-  };
+    queryDenomsMetadata
+  }
 }
 
-export { useModule };
+export { useModule }

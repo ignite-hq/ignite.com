@@ -1,6 +1,6 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia'
 
 import {
   LaunchIDFromChannelID,
@@ -8,17 +8,17 @@ import {
   MonitoringHistory,
   Params,
   ProviderClientID,
-  VerifiedClientID,
-} from "ts-client/tendermint.spn.monitoringc/types";
+  VerifiedClientID
+} from 'ts-client/tendermint.spn.monitoringc/types'
 
 type PiniaState = {
-  LaunchIDFromChannelIDAll: LaunchIDFromChannelID[];
-  LaunchIDFromVerifiedClientIDAll: LaunchIDFromVerifiedClientID[];
-  MonitoringHistoryAll: MonitoringHistory[];
-  ParamsAll: Params[];
-  ProviderClientIDAll: ProviderClientID[];
-  VerifiedClientIDAll: VerifiedClientID[];
-};
+  LaunchIDFromChannelIDAll: LaunchIDFromChannelID[]
+  LaunchIDFromVerifiedClientIDAll: LaunchIDFromVerifiedClientID[]
+  MonitoringHistoryAll: MonitoringHistory[]
+  ParamsAll: Params[]
+  ProviderClientIDAll: ProviderClientID[]
+  VerifiedClientIDAll: VerifiedClientID[]
+}
 
 const piniaStore = {
   state: (): PiniaState => {
@@ -28,11 +28,11 @@ const piniaStore = {
       MonitoringHistoryAll: [],
       ParamsAll: [],
       ProviderClientIDAll: [],
-      VerifiedClientIDAll: [],
-    };
-  },
-};
+      VerifiedClientIDAll: []
+    }
+  }
+}
 
-const usePiniaStore = defineStore("tendermint.spn.monitoringc", piniaStore);
+const usePiniaStore = defineStore('tendermint.spn.monitoringc', piniaStore)
 
-export { usePiniaStore, PiniaState };
+export { usePiniaStore, PiniaState }

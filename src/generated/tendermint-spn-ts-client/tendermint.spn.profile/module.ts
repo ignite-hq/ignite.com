@@ -1,319 +1,319 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
-import { StdFee } from "@cosmjs/launchpad";
-import { SigningStargateClient, DeliverTxResponse } from "@cosmjs/stargate";
-import { EncodeObject } from "@cosmjs/proto-signing";
+import { StdFee } from '@cosmjs/launchpad'
+import { SigningStargateClient, DeliverTxResponse } from '@cosmjs/stargate'
+import { EncodeObject } from '@cosmjs/proto-signing'
 
-import { Api } from "./rest";
-import { MsgUpdateCoordinatorAddress } from "./types/profile/tx";
-import { MsgUpdateValidatorDescription } from "./types/profile/tx";
-import { MsgUpdateCoordinatorDescription } from "./types/profile/tx";
-import { MsgCreateCoordinator } from "./types/profile/tx";
-import { MsgAddValidatorOperatorAddress } from "./types/profile/tx";
-import { MsgDisableCoordinator } from "./types/profile/tx";
+import { Api } from './rest'
+import { MsgUpdateCoordinatorAddress } from './types/profile/tx'
+import { MsgUpdateValidatorDescription } from './types/profile/tx'
+import { MsgUpdateCoordinatorDescription } from './types/profile/tx'
+import { MsgCreateCoordinator } from './types/profile/tx'
+import { MsgAddValidatorOperatorAddress } from './types/profile/tx'
+import { MsgDisableCoordinator } from './types/profile/tx'
 
 type sendMsgUpdateCoordinatorAddressParams = {
-  value: MsgUpdateCoordinatorAddress;
-  fee?: StdFee;
-  memo?: string;
-};
+  value: MsgUpdateCoordinatorAddress
+  fee?: StdFee
+  memo?: string
+}
 
 type sendMsgUpdateValidatorDescriptionParams = {
-  value: MsgUpdateValidatorDescription;
-  fee?: StdFee;
-  memo?: string;
-};
+  value: MsgUpdateValidatorDescription
+  fee?: StdFee
+  memo?: string
+}
 
 type sendMsgUpdateCoordinatorDescriptionParams = {
-  value: MsgUpdateCoordinatorDescription;
-  fee?: StdFee;
-  memo?: string;
-};
+  value: MsgUpdateCoordinatorDescription
+  fee?: StdFee
+  memo?: string
+}
 
 type sendMsgCreateCoordinatorParams = {
-  value: MsgCreateCoordinator;
-  fee?: StdFee;
-  memo?: string;
-};
+  value: MsgCreateCoordinator
+  fee?: StdFee
+  memo?: string
+}
 
 type sendMsgAddValidatorOperatorAddressParams = {
-  value: MsgAddValidatorOperatorAddress;
-  fee?: StdFee;
-  memo?: string;
-};
+  value: MsgAddValidatorOperatorAddress
+  fee?: StdFee
+  memo?: string
+}
 
 type sendMsgDisableCoordinatorParams = {
-  value: MsgDisableCoordinator;
-  fee?: StdFee;
-  memo?: string;
-};
+  value: MsgDisableCoordinator
+  fee?: StdFee
+  memo?: string
+}
 
 type msgUpdateCoordinatorAddressParams = {
-  value: MsgUpdateCoordinatorAddress;
-};
+  value: MsgUpdateCoordinatorAddress
+}
 
 type msgUpdateValidatorDescriptionParams = {
-  value: MsgUpdateValidatorDescription;
-};
+  value: MsgUpdateValidatorDescription
+}
 
 type msgUpdateCoordinatorDescriptionParams = {
-  value: MsgUpdateCoordinatorDescription;
-};
+  value: MsgUpdateCoordinatorDescription
+}
 
 type msgCreateCoordinatorParams = {
-  value: MsgCreateCoordinator;
-};
+  value: MsgCreateCoordinator
+}
 
 type msgAddValidatorOperatorAddressParams = {
-  value: MsgAddValidatorOperatorAddress;
-};
+  value: MsgAddValidatorOperatorAddress
+}
 
 type msgDisableCoordinatorParams = {
-  value: MsgDisableCoordinator;
-};
+  value: MsgDisableCoordinator
+}
 
 class Module extends Api<any> {
-  private _client: SigningStargateClient;
-  private _address: string;
+  private _client: SigningStargateClient
+  private _address: string
 
   constructor(client: SigningStargateClient, address: string, baseUrl: string) {
     super({
-      baseUrl,
-    });
+      baseUrl
+    })
 
-    this._client = client;
-    this._address = address;
+    this._client = client
+    this._address = address
   }
 
   async sendMsgUpdateCoordinatorAddress({
     value,
     fee,
-    memo,
+    memo
   }: sendMsgUpdateCoordinatorAddressParams): Promise<DeliverTxResponse> {
     try {
       let msg = this.msgUpdateCoordinatorAddress({
-        value: MsgUpdateCoordinatorAddress.fromPartial(value),
-      });
+        value: MsgUpdateCoordinatorAddress.fromPartial(value)
+      })
       return await this._client.signAndBroadcast(
         this._address,
         [msg],
-        fee ? fee : { amount: [], gas: "200000" },
+        fee ? fee : { amount: [], gas: '200000' },
         memo
-      );
+      )
     } catch (e: any) {
       throw new Error(
-        "TxClient:MsgUpdateCoordinatorAddress:Send Could not broadcast Tx: " +
+        'TxClient:MsgUpdateCoordinatorAddress:Send Could not broadcast Tx: ' +
           e.message
-      );
+      )
     }
   }
 
   async sendMsgUpdateValidatorDescription({
     value,
     fee,
-    memo,
+    memo
   }: sendMsgUpdateValidatorDescriptionParams): Promise<DeliverTxResponse> {
     try {
       let msg = this.msgUpdateValidatorDescription({
-        value: MsgUpdateValidatorDescription.fromPartial(value),
-      });
+        value: MsgUpdateValidatorDescription.fromPartial(value)
+      })
       return await this._client.signAndBroadcast(
         this._address,
         [msg],
-        fee ? fee : { amount: [], gas: "200000" },
+        fee ? fee : { amount: [], gas: '200000' },
         memo
-      );
+      )
     } catch (e: any) {
       throw new Error(
-        "TxClient:MsgUpdateValidatorDescription:Send Could not broadcast Tx: " +
+        'TxClient:MsgUpdateValidatorDescription:Send Could not broadcast Tx: ' +
           e.message
-      );
+      )
     }
   }
 
   async sendMsgUpdateCoordinatorDescription({
     value,
     fee,
-    memo,
+    memo
   }: sendMsgUpdateCoordinatorDescriptionParams): Promise<DeliverTxResponse> {
     try {
       let msg = this.msgUpdateCoordinatorDescription({
-        value: MsgUpdateCoordinatorDescription.fromPartial(value),
-      });
+        value: MsgUpdateCoordinatorDescription.fromPartial(value)
+      })
       return await this._client.signAndBroadcast(
         this._address,
         [msg],
-        fee ? fee : { amount: [], gas: "200000" },
+        fee ? fee : { amount: [], gas: '200000' },
         memo
-      );
+      )
     } catch (e: any) {
       throw new Error(
-        "TxClient:MsgUpdateCoordinatorDescription:Send Could not broadcast Tx: " +
+        'TxClient:MsgUpdateCoordinatorDescription:Send Could not broadcast Tx: ' +
           e.message
-      );
+      )
     }
   }
 
   async sendMsgCreateCoordinator({
     value,
     fee,
-    memo,
+    memo
   }: sendMsgCreateCoordinatorParams): Promise<DeliverTxResponse> {
     try {
       let msg = this.msgCreateCoordinator({
-        value: MsgCreateCoordinator.fromPartial(value),
-      });
+        value: MsgCreateCoordinator.fromPartial(value)
+      })
       return await this._client.signAndBroadcast(
         this._address,
         [msg],
-        fee ? fee : { amount: [], gas: "200000" },
+        fee ? fee : { amount: [], gas: '200000' },
         memo
-      );
+      )
     } catch (e: any) {
       throw new Error(
-        "TxClient:MsgCreateCoordinator:Send Could not broadcast Tx: " +
+        'TxClient:MsgCreateCoordinator:Send Could not broadcast Tx: ' +
           e.message
-      );
+      )
     }
   }
 
   async sendMsgAddValidatorOperatorAddress({
     value,
     fee,
-    memo,
+    memo
   }: sendMsgAddValidatorOperatorAddressParams): Promise<DeliverTxResponse> {
     try {
       let msg = this.msgAddValidatorOperatorAddress({
-        value: MsgAddValidatorOperatorAddress.fromPartial(value),
-      });
+        value: MsgAddValidatorOperatorAddress.fromPartial(value)
+      })
       return await this._client.signAndBroadcast(
         this._address,
         [msg],
-        fee ? fee : { amount: [], gas: "200000" },
+        fee ? fee : { amount: [], gas: '200000' },
         memo
-      );
+      )
     } catch (e: any) {
       throw new Error(
-        "TxClient:MsgAddValidatorOperatorAddress:Send Could not broadcast Tx: " +
+        'TxClient:MsgAddValidatorOperatorAddress:Send Could not broadcast Tx: ' +
           e.message
-      );
+      )
     }
   }
 
   async sendMsgDisableCoordinator({
     value,
     fee,
-    memo,
+    memo
   }: sendMsgDisableCoordinatorParams): Promise<DeliverTxResponse> {
     try {
       let msg = this.msgDisableCoordinator({
-        value: MsgDisableCoordinator.fromPartial(value),
-      });
+        value: MsgDisableCoordinator.fromPartial(value)
+      })
       return await this._client.signAndBroadcast(
         this._address,
         [msg],
-        fee ? fee : { amount: [], gas: "200000" },
+        fee ? fee : { amount: [], gas: '200000' },
         memo
-      );
+      )
     } catch (e: any) {
       throw new Error(
-        "TxClient:MsgDisableCoordinator:Send Could not broadcast Tx: " +
+        'TxClient:MsgDisableCoordinator:Send Could not broadcast Tx: ' +
           e.message
-      );
+      )
     }
   }
 
   msgUpdateCoordinatorAddress({
-    value,
+    value
   }: msgUpdateCoordinatorAddressParams): EncodeObject {
     try {
       return {
-        typeUrl: "/tendermint.spn.profile.MsgUpdateCoordinatorAddress",
-        value: MsgUpdateCoordinatorAddress.fromPartial(value),
-      };
+        typeUrl: '/tendermint.spn.profile.MsgUpdateCoordinatorAddress',
+        value: MsgUpdateCoordinatorAddress.fromPartial(value)
+      }
     } catch (e: any) {
       throw new Error(
-        "TxClient:MsgUpdateCoordinatorAddress:Create Could not create message: " +
+        'TxClient:MsgUpdateCoordinatorAddress:Create Could not create message: ' +
           e.message
-      );
+      )
     }
   }
 
   msgUpdateValidatorDescription({
-    value,
+    value
   }: msgUpdateValidatorDescriptionParams): EncodeObject {
     try {
       return {
-        typeUrl: "/tendermint.spn.profile.MsgUpdateValidatorDescription",
-        value: MsgUpdateValidatorDescription.fromPartial(value),
-      };
+        typeUrl: '/tendermint.spn.profile.MsgUpdateValidatorDescription',
+        value: MsgUpdateValidatorDescription.fromPartial(value)
+      }
     } catch (e: any) {
       throw new Error(
-        "TxClient:MsgUpdateValidatorDescription:Create Could not create message: " +
+        'TxClient:MsgUpdateValidatorDescription:Create Could not create message: ' +
           e.message
-      );
+      )
     }
   }
 
   msgUpdateCoordinatorDescription({
-    value,
+    value
   }: msgUpdateCoordinatorDescriptionParams): EncodeObject {
     try {
       return {
-        typeUrl: "/tendermint.spn.profile.MsgUpdateCoordinatorDescription",
-        value: MsgUpdateCoordinatorDescription.fromPartial(value),
-      };
+        typeUrl: '/tendermint.spn.profile.MsgUpdateCoordinatorDescription',
+        value: MsgUpdateCoordinatorDescription.fromPartial(value)
+      }
     } catch (e: any) {
       throw new Error(
-        "TxClient:MsgUpdateCoordinatorDescription:Create Could not create message: " +
+        'TxClient:MsgUpdateCoordinatorDescription:Create Could not create message: ' +
           e.message
-      );
+      )
     }
   }
 
   msgCreateCoordinator({ value }: msgCreateCoordinatorParams): EncodeObject {
     try {
       return {
-        typeUrl: "/tendermint.spn.profile.MsgCreateCoordinator",
-        value: MsgCreateCoordinator.fromPartial(value),
-      };
+        typeUrl: '/tendermint.spn.profile.MsgCreateCoordinator',
+        value: MsgCreateCoordinator.fromPartial(value)
+      }
     } catch (e: any) {
       throw new Error(
-        "TxClient:MsgCreateCoordinator:Create Could not create message: " +
+        'TxClient:MsgCreateCoordinator:Create Could not create message: ' +
           e.message
-      );
+      )
     }
   }
 
   msgAddValidatorOperatorAddress({
-    value,
+    value
   }: msgAddValidatorOperatorAddressParams): EncodeObject {
     try {
       return {
-        typeUrl: "/tendermint.spn.profile.MsgAddValidatorOperatorAddress",
-        value: MsgAddValidatorOperatorAddress.fromPartial(value),
-      };
+        typeUrl: '/tendermint.spn.profile.MsgAddValidatorOperatorAddress',
+        value: MsgAddValidatorOperatorAddress.fromPartial(value)
+      }
     } catch (e: any) {
       throw new Error(
-        "TxClient:MsgAddValidatorOperatorAddress:Create Could not create message: " +
+        'TxClient:MsgAddValidatorOperatorAddress:Create Could not create message: ' +
           e.message
-      );
+      )
     }
   }
 
   msgDisableCoordinator({ value }: msgDisableCoordinatorParams): EncodeObject {
     try {
       return {
-        typeUrl: "/tendermint.spn.profile.MsgDisableCoordinator",
-        value: MsgDisableCoordinator.fromPartial(value),
-      };
+        typeUrl: '/tendermint.spn.profile.MsgDisableCoordinator',
+        value: MsgDisableCoordinator.fromPartial(value)
+      }
     } catch (e: any) {
       throw new Error(
-        "TxClient:MsgDisableCoordinator:Create Could not create message: " +
+        'TxClient:MsgDisableCoordinator:Create Could not create message: ' +
           e.message
-      );
+      )
     }
   }
 }
 
-export default Module;
+export default Module

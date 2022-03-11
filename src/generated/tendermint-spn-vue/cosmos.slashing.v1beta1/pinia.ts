@@ -1,22 +1,22 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia'
 
 import {
   SigningInfo,
   ValidatorMissedBlocks,
   MissedBlock,
   ValidatorSigningInfo,
-  Params,
-} from "ts-client/cosmos.slashing.v1beta1/types";
+  Params
+} from 'ts-client/cosmos.slashing.v1beta1/types'
 
 type PiniaState = {
-  SigningInfoAll: SigningInfo[];
-  ValidatorMissedBlocksAll: ValidatorMissedBlocks[];
-  MissedBlockAll: MissedBlock[];
-  ValidatorSigningInfoAll: ValidatorSigningInfo[];
-  ParamsAll: Params[];
-};
+  SigningInfoAll: SigningInfo[]
+  ValidatorMissedBlocksAll: ValidatorMissedBlocks[]
+  MissedBlockAll: MissedBlock[]
+  ValidatorSigningInfoAll: ValidatorSigningInfo[]
+  ParamsAll: Params[]
+}
 
 const piniaStore = {
   state: (): PiniaState => {
@@ -25,11 +25,11 @@ const piniaStore = {
       ValidatorMissedBlocksAll: [],
       MissedBlockAll: [],
       ValidatorSigningInfoAll: [],
-      ParamsAll: [],
-    };
-  },
-};
+      ParamsAll: []
+    }
+  }
+}
 
-const usePiniaStore = defineStore("cosmos.slashing.v1beta1", piniaStore);
+const usePiniaStore = defineStore('cosmos.slashing.v1beta1', piniaStore)
 
-export { usePiniaStore, PiniaState };
+export { usePiniaStore, PiniaState }

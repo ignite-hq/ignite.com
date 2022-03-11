@@ -1,32 +1,32 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
-import { Store } from "pinia";
-import { usePiniaStore, PiniaState } from "./";
+import { Store } from 'pinia'
+import { usePiniaStore, PiniaState } from './'
 
-import { Ignite } from "tendermint-spn-ts-client";
-import Module from "tendermint-spn-ts-client/ibc.applications.transfer.v1/module";
+import { Ignite } from 'tendermint-spn-ts-client'
+import Module from 'tendermint-spn-ts-client/ibc.applications.transfer.v1/module'
 
-type SendMsgTransferType = typeof Module.prototype.sendMsgTransfer;
+type SendMsgTransferType = typeof Module.prototype.sendMsgTransfer
 
-type QueryDenomTraceType = typeof Module.prototype.queryDenomTrace;
-type QueryDenomTracesType = typeof Module.prototype.queryDenomTraces;
-type QueryParamsType = typeof Module.prototype.queryParams;
+type QueryDenomTraceType = typeof Module.prototype.queryDenomTrace
+type QueryDenomTracesType = typeof Module.prototype.queryDenomTraces
+type QueryParamsType = typeof Module.prototype.queryParams
 
 type Response = {
-  $s: Store<"ibc.applications.transfer.v1", PiniaState, {}, {}>;
-  sendMsgTransfer: SendMsgTransferType;
+  $s: Store<'ibc.applications.transfer.v1', PiniaState, {}, {}>
+  sendMsgTransfer: SendMsgTransferType
 
-  queryDenomTrace: QueryDenomTraceType;
-  queryDenomTraces: QueryDenomTracesType;
-  queryParams: QueryParamsType;
-};
+  queryDenomTrace: QueryDenomTraceType
+  queryDenomTraces: QueryDenomTracesType
+  queryParams: QueryParamsType
+}
 
 type Params = {
-  $ignt: Ignite;
-};
+  $ignt: Ignite
+}
 
 function useModule({ $ignt }: Params): Response {
-  let $s = usePiniaStore();
+  let $s = usePiniaStore()
 
   let {
     sendMsgTransfer,
@@ -35,8 +35,8 @@ function useModule({ $ignt }: Params): Response {
 
     queryDenomTraces,
 
-    queryParams,
-  } = $ignt.IbcApplicationsTransferV1;
+    queryParams
+  } = $ignt.IbcApplicationsTransferV1
 
   return {
     $s,
@@ -47,8 +47,8 @@ function useModule({ $ignt }: Params): Response {
 
     queryDenomTraces,
 
-    queryParams,
-  };
+    queryParams
+  }
 }
 
-export { useModule };
+export { useModule }

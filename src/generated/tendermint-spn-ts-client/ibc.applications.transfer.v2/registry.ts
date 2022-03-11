@@ -1,5 +1,5 @@
-import { GeneratedType } from "@cosmjs/proto-signing";
+import { GeneratedType } from '@cosmjs/proto-signing'
 
-const msgTypes: Array<[string, GeneratedType]> = [];
+const msgTypes: Array<[string, GeneratedType]> = []
 
-export { msgTypes };
+export { msgTypes }

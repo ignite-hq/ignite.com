@@ -1,21 +1,21 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia'
 
-import { FungibleTokenPacketData } from "ts-client/ibc.applications.transfer.v2/types";
+import { FungibleTokenPacketData } from 'ts-client/ibc.applications.transfer.v2/types'
 
 type PiniaState = {
-  FungibleTokenPacketDataAll: FungibleTokenPacketData[];
-};
+  FungibleTokenPacketDataAll: FungibleTokenPacketData[]
+}
 
 const piniaStore = {
   state: (): PiniaState => {
     return {
-      FungibleTokenPacketDataAll: [],
-    };
-  },
-};
+      FungibleTokenPacketDataAll: []
+    }
+  }
+}
 
-const usePiniaStore = defineStore("ibc.applications.transfer.v2", piniaStore);
+const usePiniaStore = defineStore('ibc.applications.transfer.v2', piniaStore)
 
-export { usePiniaStore, PiniaState };
+export { usePiniaStore, PiniaState }

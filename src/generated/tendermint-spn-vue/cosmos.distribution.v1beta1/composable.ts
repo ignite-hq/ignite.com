@@ -1,60 +1,59 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
-import { Store } from "pinia";
-import { usePiniaStore, PiniaState } from "./";
+import { Store } from 'pinia'
+import { usePiniaStore, PiniaState } from './'
 
-import { Ignite } from "tendermint-spn-ts-client";
-import Module from "tendermint-spn-ts-client/cosmos.distribution.v1beta1/module";
+import { Ignite } from 'tendermint-spn-ts-client'
+import Module from 'tendermint-spn-ts-client/cosmos.distribution.v1beta1/module'
 
 type SendMsgWithdrawDelegatorRewardType =
-  typeof Module.prototype.sendMsgWithdrawDelegatorReward;
+  typeof Module.prototype.sendMsgWithdrawDelegatorReward
 type SendMsgSetWithdrawAddressType =
-  typeof Module.prototype.sendMsgSetWithdrawAddress;
+  typeof Module.prototype.sendMsgSetWithdrawAddress
 type SendMsgFundCommunityPoolType =
-  typeof Module.prototype.sendMsgFundCommunityPool;
+  typeof Module.prototype.sendMsgFundCommunityPool
 type SendMsgWithdrawValidatorCommissionType =
-  typeof Module.prototype.sendMsgWithdrawValidatorCommission;
+  typeof Module.prototype.sendMsgWithdrawValidatorCommission
 
-type QueryParamsType = typeof Module.prototype.queryParams;
+type QueryParamsType = typeof Module.prototype.queryParams
 type QueryValidatorOutstandingRewardsType =
-  typeof Module.prototype.queryValidatorOutstandingRewards;
+  typeof Module.prototype.queryValidatorOutstandingRewards
 type QueryValidatorCommissionType =
-  typeof Module.prototype.queryValidatorCommission;
-type QueryValidatorSlashesType = typeof Module.prototype.queryValidatorSlashes;
-type QueryDelegationRewardsType =
-  typeof Module.prototype.queryDelegationRewards;
+  typeof Module.prototype.queryValidatorCommission
+type QueryValidatorSlashesType = typeof Module.prototype.queryValidatorSlashes
+type QueryDelegationRewardsType = typeof Module.prototype.queryDelegationRewards
 type QueryDelegationTotalRewardsType =
-  typeof Module.prototype.queryDelegationTotalRewards;
+  typeof Module.prototype.queryDelegationTotalRewards
 type QueryDelegatorValidatorsType =
-  typeof Module.prototype.queryDelegatorValidators;
+  typeof Module.prototype.queryDelegatorValidators
 type QueryDelegatorWithdrawAddressType =
-  typeof Module.prototype.queryDelegatorWithdrawAddress;
-type QueryCommunityPoolType = typeof Module.prototype.queryCommunityPool;
+  typeof Module.prototype.queryDelegatorWithdrawAddress
+type QueryCommunityPoolType = typeof Module.prototype.queryCommunityPool
 
 type Response = {
-  $s: Store<"cosmos.distribution.v1beta1", PiniaState, {}, {}>;
-  sendMsgWithdrawDelegatorReward: SendMsgWithdrawDelegatorRewardType;
-  sendMsgSetWithdrawAddress: SendMsgSetWithdrawAddressType;
-  sendMsgFundCommunityPool: SendMsgFundCommunityPoolType;
-  sendMsgWithdrawValidatorCommission: SendMsgWithdrawValidatorCommissionType;
+  $s: Store<'cosmos.distribution.v1beta1', PiniaState, {}, {}>
+  sendMsgWithdrawDelegatorReward: SendMsgWithdrawDelegatorRewardType
+  sendMsgSetWithdrawAddress: SendMsgSetWithdrawAddressType
+  sendMsgFundCommunityPool: SendMsgFundCommunityPoolType
+  sendMsgWithdrawValidatorCommission: SendMsgWithdrawValidatorCommissionType
 
-  queryParams: QueryParamsType;
-  queryValidatorOutstandingRewards: QueryValidatorOutstandingRewardsType;
-  queryValidatorCommission: QueryValidatorCommissionType;
-  queryValidatorSlashes: QueryValidatorSlashesType;
-  queryDelegationRewards: QueryDelegationRewardsType;
-  queryDelegationTotalRewards: QueryDelegationTotalRewardsType;
-  queryDelegatorValidators: QueryDelegatorValidatorsType;
-  queryDelegatorWithdrawAddress: QueryDelegatorWithdrawAddressType;
-  queryCommunityPool: QueryCommunityPoolType;
-};
+  queryParams: QueryParamsType
+  queryValidatorOutstandingRewards: QueryValidatorOutstandingRewardsType
+  queryValidatorCommission: QueryValidatorCommissionType
+  queryValidatorSlashes: QueryValidatorSlashesType
+  queryDelegationRewards: QueryDelegationRewardsType
+  queryDelegationTotalRewards: QueryDelegationTotalRewardsType
+  queryDelegatorValidators: QueryDelegatorValidatorsType
+  queryDelegatorWithdrawAddress: QueryDelegatorWithdrawAddressType
+  queryCommunityPool: QueryCommunityPoolType
+}
 
 type Params = {
-  $ignt: Ignite;
-};
+  $ignt: Ignite
+}
 
 function useModule({ $ignt }: Params): Response {
-  let $s = usePiniaStore();
+  let $s = usePiniaStore()
 
   let {
     sendMsgWithdrawDelegatorReward,
@@ -81,8 +80,8 @@ function useModule({ $ignt }: Params): Response {
 
     queryDelegatorWithdrawAddress,
 
-    queryCommunityPool,
-  } = $ignt.CosmosDistributionV1Beta1;
+    queryCommunityPool
+  } = $ignt.CosmosDistributionV1Beta1
 
   return {
     $s,
@@ -111,8 +110,8 @@ function useModule({ $ignt }: Params): Response {
 
     queryDelegatorWithdrawAddress,
 
-    queryCommunityPool,
-  };
+    queryCommunityPool
+  }
 }
 
-export { useModule };
+export { useModule }

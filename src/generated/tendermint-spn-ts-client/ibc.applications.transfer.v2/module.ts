@@ -1,23 +1,23 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
-import { StdFee } from "@cosmjs/launchpad";
-import { SigningStargateClient, DeliverTxResponse } from "@cosmjs/stargate";
-import { EncodeObject } from "@cosmjs/proto-signing";
+import { StdFee } from '@cosmjs/launchpad'
+import { SigningStargateClient, DeliverTxResponse } from '@cosmjs/stargate'
+import { EncodeObject } from '@cosmjs/proto-signing'
 
-import { Api } from "./rest";
+import { Api } from './rest'
 
 class Module extends Api<any> {
-  private _client: SigningStargateClient;
-  private _address: string;
+  private _client: SigningStargateClient
+  private _address: string
 
   constructor(client: SigningStargateClient, address: string, baseUrl: string) {
     super({
-      baseUrl,
-    });
+      baseUrl
+    })
 
-    this._client = client;
-    this._address = address;
+    this._client = client
+    this._address = address
   }
 }
 
-export default Module;
+export default Module

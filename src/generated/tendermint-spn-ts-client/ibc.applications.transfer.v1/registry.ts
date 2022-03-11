@@ -1,8 +1,8 @@
-import { GeneratedType } from "@cosmjs/proto-signing";
-import { MsgTransfer } from "./types/ibc/applications/transfer/v1/tx";
+import { GeneratedType } from '@cosmjs/proto-signing'
+import { MsgTransfer } from './types/ibc/applications/transfer/v1/tx'
 
 const msgTypes: Array<[string, GeneratedType]> = [
-  ["/ibc.applications.transfer.v1.MsgTransfer", MsgTransfer],
-];
+  ['/ibc.applications.transfer.v1.MsgTransfer', MsgTransfer]
+]
 
-export { msgTypes };
+export { msgTypes }

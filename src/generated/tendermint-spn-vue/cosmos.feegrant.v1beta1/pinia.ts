@@ -1,20 +1,20 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia'
 
 import {
   BasicAllowance,
   PeriodicAllowance,
   AllowedMsgAllowance,
-  Grant,
-} from "ts-client/cosmos.feegrant.v1beta1/types";
+  Grant
+} from 'ts-client/cosmos.feegrant.v1beta1/types'
 
 type PiniaState = {
-  BasicAllowanceAll: BasicAllowance[];
-  PeriodicAllowanceAll: PeriodicAllowance[];
-  AllowedMsgAllowanceAll: AllowedMsgAllowance[];
-  GrantAll: Grant[];
-};
+  BasicAllowanceAll: BasicAllowance[]
+  PeriodicAllowanceAll: PeriodicAllowance[]
+  AllowedMsgAllowanceAll: AllowedMsgAllowance[]
+  GrantAll: Grant[]
+}
 
 const piniaStore = {
   state: (): PiniaState => {
@@ -22,11 +22,11 @@ const piniaStore = {
       BasicAllowanceAll: [],
       PeriodicAllowanceAll: [],
       AllowedMsgAllowanceAll: [],
-      GrantAll: [],
-    };
-  },
-};
+      GrantAll: []
+    }
+  }
+}
 
-const usePiniaStore = defineStore("cosmos.feegrant.v1beta1", piniaStore);
+const usePiniaStore = defineStore('cosmos.feegrant.v1beta1', piniaStore)
 
-export { usePiniaStore, PiniaState };
+export { usePiniaStore, PiniaState }

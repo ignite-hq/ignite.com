@@ -1,6 +1,6 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia'
 
 import {
   Campaign,
@@ -10,19 +10,19 @@ import {
   ShareVestingOptions,
   ShareDelayedVesting,
   Params,
-  TotalSupplyRange,
-} from "ts-client/tendermint.spn.campaign/types";
+  TotalSupplyRange
+} from 'ts-client/tendermint.spn.campaign/types'
 
 type PiniaState = {
-  CampaignAll: Campaign[];
-  CampaignChainsAll: CampaignChains[];
-  MainnetAccountAll: MainnetAccount[];
-  MainnetVestingAccountAll: MainnetVestingAccount[];
-  ShareVestingOptionsAll: ShareVestingOptions[];
-  ShareDelayedVestingAll: ShareDelayedVesting[];
-  ParamsAll: Params[];
-  TotalSupplyRangeAll: TotalSupplyRange[];
-};
+  CampaignAll: Campaign[]
+  CampaignChainsAll: CampaignChains[]
+  MainnetAccountAll: MainnetAccount[]
+  MainnetVestingAccountAll: MainnetVestingAccount[]
+  ShareVestingOptionsAll: ShareVestingOptions[]
+  ShareDelayedVestingAll: ShareDelayedVesting[]
+  ParamsAll: Params[]
+  TotalSupplyRangeAll: TotalSupplyRange[]
+}
 
 const piniaStore = {
   state: (): PiniaState => {
@@ -34,11 +34,11 @@ const piniaStore = {
       ShareVestingOptionsAll: [],
       ShareDelayedVestingAll: [],
       ParamsAll: [],
-      TotalSupplyRangeAll: [],
-    };
-  },
-};
+      TotalSupplyRangeAll: []
+    }
+  }
+}
 
-const usePiniaStore = defineStore("tendermint.spn.campaign", piniaStore);
+const usePiniaStore = defineStore('tendermint.spn.campaign', piniaStore)
 
-export { usePiniaStore, PiniaState };
+export { usePiniaStore, PiniaState }

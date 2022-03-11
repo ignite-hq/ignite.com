@@ -1,32 +1,32 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
-import { Store } from "pinia";
-import { usePiniaStore, PiniaState } from "./";
+import { Store } from 'pinia'
+import { usePiniaStore, PiniaState } from './'
 
-import { Ignite } from "tendermint-spn-ts-client";
-import Module from "tendermint-spn-ts-client/cosmos.slashing.v1beta1/module";
+import { Ignite } from 'tendermint-spn-ts-client'
+import Module from 'tendermint-spn-ts-client/cosmos.slashing.v1beta1/module'
 
-type SendMsgUnjailType = typeof Module.prototype.sendMsgUnjail;
+type SendMsgUnjailType = typeof Module.prototype.sendMsgUnjail
 
-type QueryParamsType = typeof Module.prototype.queryParams;
-type QuerySigningInfoType = typeof Module.prototype.querySigningInfo;
-type QuerySigningInfosType = typeof Module.prototype.querySigningInfos;
+type QueryParamsType = typeof Module.prototype.queryParams
+type QuerySigningInfoType = typeof Module.prototype.querySigningInfo
+type QuerySigningInfosType = typeof Module.prototype.querySigningInfos
 
 type Response = {
-  $s: Store<"cosmos.slashing.v1beta1", PiniaState, {}, {}>;
-  sendMsgUnjail: SendMsgUnjailType;
+  $s: Store<'cosmos.slashing.v1beta1', PiniaState, {}, {}>
+  sendMsgUnjail: SendMsgUnjailType
 
-  queryParams: QueryParamsType;
-  querySigningInfo: QuerySigningInfoType;
-  querySigningInfos: QuerySigningInfosType;
-};
+  queryParams: QueryParamsType
+  querySigningInfo: QuerySigningInfoType
+  querySigningInfos: QuerySigningInfosType
+}
 
 type Params = {
-  $ignt: Ignite;
-};
+  $ignt: Ignite
+}
 
 function useModule({ $ignt }: Params): Response {
-  let $s = usePiniaStore();
+  let $s = usePiniaStore()
 
   let {
     sendMsgUnjail,
@@ -35,8 +35,8 @@ function useModule({ $ignt }: Params): Response {
 
     querySigningInfo,
 
-    querySigningInfos,
-  } = $ignt.CosmosSlashingV1Beta1;
+    querySigningInfos
+  } = $ignt.CosmosSlashingV1Beta1
 
   return {
     $s,
@@ -47,8 +47,8 @@ function useModule({ $ignt }: Params): Response {
 
     querySigningInfo,
 
-    querySigningInfos,
-  };
+    querySigningInfos
+  }
 }
 
-export { useModule };
+export { useModule }

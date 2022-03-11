@@ -1,6 +1,6 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia'
 
 import {
   StakeAuthorization,
@@ -25,34 +25,34 @@ import {
   DelegationResponse,
   RedelegationEntryResponse,
   RedelegationResponse,
-  Pool,
-} from "ts-client/cosmos.staking.v1beta1/types";
+  Pool
+} from 'ts-client/cosmos.staking.v1beta1/types'
 
 type PiniaState = {
-  StakeAuthorizationAll: StakeAuthorization[];
-  StakeAuthorization_ValidatorsAll: StakeAuthorization_Validators[];
-  LastValidatorPowerAll: LastValidatorPower[];
-  HistoricalInfoAll: HistoricalInfo[];
-  CommissionRatesAll: CommissionRates[];
-  CommissionAll: Commission[];
-  DescriptionAll: Description[];
-  ValidatorAll: Validator[];
-  ValAddressesAll: ValAddresses[];
-  DVPairAll: DVPair[];
-  DVPairsAll: DVPairs[];
-  DVVTripletAll: DVVTriplet[];
-  DVVTripletsAll: DVVTriplets[];
-  DelegationAll: Delegation[];
-  UnbondingDelegationAll: UnbondingDelegation[];
-  UnbondingDelegationEntryAll: UnbondingDelegationEntry[];
-  RedelegationEntryAll: RedelegationEntry[];
-  RedelegationAll: Redelegation[];
-  ParamsAll: Params[];
-  DelegationResponseAll: DelegationResponse[];
-  RedelegationEntryResponseAll: RedelegationEntryResponse[];
-  RedelegationResponseAll: RedelegationResponse[];
-  PoolAll: Pool[];
-};
+  StakeAuthorizationAll: StakeAuthorization[]
+  StakeAuthorization_ValidatorsAll: StakeAuthorization_Validators[]
+  LastValidatorPowerAll: LastValidatorPower[]
+  HistoricalInfoAll: HistoricalInfo[]
+  CommissionRatesAll: CommissionRates[]
+  CommissionAll: Commission[]
+  DescriptionAll: Description[]
+  ValidatorAll: Validator[]
+  ValAddressesAll: ValAddresses[]
+  DVPairAll: DVPair[]
+  DVPairsAll: DVPairs[]
+  DVVTripletAll: DVVTriplet[]
+  DVVTripletsAll: DVVTriplets[]
+  DelegationAll: Delegation[]
+  UnbondingDelegationAll: UnbondingDelegation[]
+  UnbondingDelegationEntryAll: UnbondingDelegationEntry[]
+  RedelegationEntryAll: RedelegationEntry[]
+  RedelegationAll: Redelegation[]
+  ParamsAll: Params[]
+  DelegationResponseAll: DelegationResponse[]
+  RedelegationEntryResponseAll: RedelegationEntryResponse[]
+  RedelegationResponseAll: RedelegationResponse[]
+  PoolAll: Pool[]
+}
 
 const piniaStore = {
   state: (): PiniaState => {
@@ -79,11 +79,11 @@ const piniaStore = {
       DelegationResponseAll: [],
       RedelegationEntryResponseAll: [],
       RedelegationResponseAll: [],
-      PoolAll: [],
-    };
-  },
-};
+      PoolAll: []
+    }
+  }
+}
 
-const usePiniaStore = defineStore("cosmos.staking.v1beta1", piniaStore);
+const usePiniaStore = defineStore('cosmos.staking.v1beta1', piniaStore)
 
-export { usePiniaStore, PiniaState };
+export { usePiniaStore, PiniaState }

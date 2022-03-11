@@ -1,21 +1,21 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia'
 
-import { Equivocation } from "ts-client/cosmos.evidence.v1beta1/types";
+import { Equivocation } from 'ts-client/cosmos.evidence.v1beta1/types'
 
 type PiniaState = {
-  EquivocationAll: Equivocation[];
-};
+  EquivocationAll: Equivocation[]
+}
 
 const piniaStore = {
   state: (): PiniaState => {
     return {
-      EquivocationAll: [],
-    };
-  },
-};
+      EquivocationAll: []
+    }
+  }
+}
 
-const usePiniaStore = defineStore("cosmos.evidence.v1beta1", piniaStore);
+const usePiniaStore = defineStore('cosmos.evidence.v1beta1', piniaStore)
 
-export { usePiniaStore, PiniaState };
+export { usePiniaStore, PiniaState }

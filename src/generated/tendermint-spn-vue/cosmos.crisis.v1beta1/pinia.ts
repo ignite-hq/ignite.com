@@ -1,17 +1,17 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia'
 
-import {} from "ts-client/cosmos.crisis.v1beta1/types";
+import {} from 'ts-client/cosmos.crisis.v1beta1/types'
 
-type PiniaState = {};
+type PiniaState = {}
 
 const piniaStore = {
   state: (): PiniaState => {
-    return {};
-  },
-};
+    return {}
+  }
+}
 
-const usePiniaStore = defineStore("cosmos.crisis.v1beta1", piniaStore);
+const usePiniaStore = defineStore('cosmos.crisis.v1beta1', piniaStore)
 
-export { usePiniaStore, PiniaState };
+export { usePiniaStore, PiniaState }

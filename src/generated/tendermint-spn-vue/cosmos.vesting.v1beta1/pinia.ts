@@ -1,6 +1,6 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia'
 
 import {
   BaseVestingAccount,
@@ -8,17 +8,17 @@ import {
   DelayedVestingAccount,
   Period,
   PeriodicVestingAccount,
-  PermanentLockedAccount,
-} from "ts-client/cosmos.vesting.v1beta1/types";
+  PermanentLockedAccount
+} from 'ts-client/cosmos.vesting.v1beta1/types'
 
 type PiniaState = {
-  BaseVestingAccountAll: BaseVestingAccount[];
-  ContinuousVestingAccountAll: ContinuousVestingAccount[];
-  DelayedVestingAccountAll: DelayedVestingAccount[];
-  PeriodAll: Period[];
-  PeriodicVestingAccountAll: PeriodicVestingAccount[];
-  PermanentLockedAccountAll: PermanentLockedAccount[];
-};
+  BaseVestingAccountAll: BaseVestingAccount[]
+  ContinuousVestingAccountAll: ContinuousVestingAccount[]
+  DelayedVestingAccountAll: DelayedVestingAccount[]
+  PeriodAll: Period[]
+  PeriodicVestingAccountAll: PeriodicVestingAccount[]
+  PermanentLockedAccountAll: PermanentLockedAccount[]
+}
 
 const piniaStore = {
   state: (): PiniaState => {
@@ -28,11 +28,11 @@ const piniaStore = {
       DelayedVestingAccountAll: [],
       PeriodAll: [],
       PeriodicVestingAccountAll: [],
-      PermanentLockedAccountAll: [],
-    };
-  },
-};
+      PermanentLockedAccountAll: []
+    }
+  }
+}
 
-const usePiniaStore = defineStore("cosmos.vesting.v1beta1", piniaStore);
+const usePiniaStore = defineStore('cosmos.vesting.v1beta1', piniaStore)
 
-export { usePiniaStore, PiniaState };
+export { usePiniaStore, PiniaState }

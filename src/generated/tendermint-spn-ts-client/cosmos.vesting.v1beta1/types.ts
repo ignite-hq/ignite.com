@@ -1,9 +1,9 @@
-import { BaseVestingAccount } from "./types/cosmos/vesting/v1beta1/vesting";
-import { ContinuousVestingAccount } from "./types/cosmos/vesting/v1beta1/vesting";
-import { DelayedVestingAccount } from "./types/cosmos/vesting/v1beta1/vesting";
-import { Period } from "./types/cosmos/vesting/v1beta1/vesting";
-import { PeriodicVestingAccount } from "./types/cosmos/vesting/v1beta1/vesting";
-import { PermanentLockedAccount } from "./types/cosmos/vesting/v1beta1/vesting";
+import { BaseVestingAccount } from './types/cosmos/vesting/v1beta1/vesting'
+import { ContinuousVestingAccount } from './types/cosmos/vesting/v1beta1/vesting'
+import { DelayedVestingAccount } from './types/cosmos/vesting/v1beta1/vesting'
+import { Period } from './types/cosmos/vesting/v1beta1/vesting'
+import { PeriodicVestingAccount } from './types/cosmos/vesting/v1beta1/vesting'
+import { PermanentLockedAccount } from './types/cosmos/vesting/v1beta1/vesting'
 
 export {
   BaseVestingAccount,
@@ -11,5 +11,5 @@ export {
   DelayedVestingAccount,
   Period,
   PeriodicVestingAccount,
-  PermanentLockedAccount,
-};
+  PermanentLockedAccount
+}
