@@ -8,7 +8,7 @@ export interface Equivocation {
     height: number;
     time: Date | undefined;
     power: number;
-    consensusAddress: string;
+    consensus_address: string;
 }
 export declare const Equivocation: {
     encode(message: Equivocation, writer?: Writer): Writer;

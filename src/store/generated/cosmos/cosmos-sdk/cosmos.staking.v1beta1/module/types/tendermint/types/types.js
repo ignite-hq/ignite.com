@@ -256,8 +256,8 @@ export const BlockID = {
         if (message.hash.length !== 0) {
             writer.uint32(10).bytes(message.hash);
         }
-        if (message.partSetHeader !== undefined) {
-            PartSetHeader.encode(message.partSetHeader, writer.uint32(18).fork()).ldelim();
+        if (message.part_set_header !== undefined) {
+            PartSetHeader.encode(message.part_set_header, writer.uint32(18).fork()).ldelim();
         }
         return writer;
     },
@@ -272,7 +272,7 @@ export const BlockID = {
                     message.hash = reader.bytes();
                     break;
                 case 2:
-                    message.partSetHeader = PartSetHeader.decode(reader, reader.uint32());
+                    message.part_set_header = PartSetHeader.decode(reader, reader.uint32());
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -286,11 +286,12 @@ export const BlockID = {
         if (object.hash !== undefined && object.hash !== null) {
             message.hash = bytesFromBase64(object.hash);
         }
-        if (object.partSetHeader !== undefined && object.partSetHeader !== null) {
-            message.partSetHeader = PartSetHeader.fromJSON(object.partSetHeader);
+        if (object.part_set_header !== undefined &&
+            object.part_set_header !== null) {
+            message.part_set_header = PartSetHeader.fromJSON(object.part_set_header);
         }
         else {
-            message.partSetHeader = undefined;
+            message.part_set_header = undefined;
         }
         return message;
     },
@@ -298,9 +299,9 @@ export const BlockID = {
         const obj = {};
         message.hash !== undefined &&
             (obj.hash = base64FromBytes(message.hash !== undefined ? message.hash : new Uint8Array()));
-        message.partSetHeader !== undefined &&
-            (obj.partSetHeader = message.partSetHeader
-                ? PartSetHeader.toJSON(message.partSetHeader)
+        message.part_set_header !== undefined &&
+            (obj.part_set_header = message.part_set_header
+                ? PartSetHeader.toJSON(message.part_set_header)
                 : undefined);
         return obj;
     },
@@ -312,23 +313,24 @@ export const BlockID = {
         else {
             message.hash = new Uint8Array();
         }
-        if (object.partSetHeader !== undefined && object.partSetHeader !== null) {
-            message.partSetHeader = PartSetHeader.fromPartial(object.partSetHeader);
+        if (object.part_set_header !== undefined &&
+            object.part_set_header !== null) {
+            message.part_set_header = PartSetHeader.fromPartial(object.part_set_header);
         }
         else {
-            message.partSetHeader = undefined;
+            message.part_set_header = undefined;
         }
         return message;
     },
 };
-const baseHeader = { chainId: "", height: 0 };
+const baseHeader = { chain_id: "", height: 0 };
 export const Header = {
     encode(message, writer = Writer.create()) {
         if (message.version !== undefined) {
             Consensus.encode(message.version, writer.uint32(10).fork()).ldelim();
         }
-        if (message.chainId !== "") {
-            writer.uint32(18).string(message.chainId);
+        if (message.chain_id !== "") {
+            writer.uint32(18).string(message.chain_id);
         }
         if (message.height !== 0) {
             writer.uint32(24).int64(message.height);
@@ -336,35 +338,35 @@ export const Header = {
         if (message.time !== undefined) {
             Timestamp.encode(toTimestamp(message.time), writer.uint32(34).fork()).ldelim();
         }
-        if (message.lastBlockId !== undefined) {
-            BlockID.encode(message.lastBlockId, writer.uint32(42).fork()).ldelim();
+        if (message.last_block_id !== undefined) {
+            BlockID.encode(message.last_block_id, writer.uint32(42).fork()).ldelim();
         }
-        if (message.lastCommitHash.length !== 0) {
-            writer.uint32(50).bytes(message.lastCommitHash);
+        if (message.last_commit_hash.length !== 0) {
+            writer.uint32(50).bytes(message.last_commit_hash);
         }
-        if (message.dataHash.length !== 0) {
-            writer.uint32(58).bytes(message.dataHash);
+        if (message.data_hash.length !== 0) {
+            writer.uint32(58).bytes(message.data_hash);
         }
-        if (message.validatorsHash.length !== 0) {
-            writer.uint32(66).bytes(message.validatorsHash);
+        if (message.validators_hash.length !== 0) {
+            writer.uint32(66).bytes(message.validators_hash);
         }
-        if (message.nextValidatorsHash.length !== 0) {
-            writer.uint32(74).bytes(message.nextValidatorsHash);
+        if (message.next_validators_hash.length !== 0) {
+            writer.uint32(74).bytes(message.next_validators_hash);
         }
-        if (message.consensusHash.length !== 0) {
-            writer.uint32(82).bytes(message.consensusHash);
+        if (message.consensus_hash.length !== 0) {
+            writer.uint32(82).bytes(message.consensus_hash);
         }
-        if (message.appHash.length !== 0) {
-            writer.uint32(90).bytes(message.appHash);
+        if (message.app_hash.length !== 0) {
+            writer.uint32(90).bytes(message.app_hash);
         }
-        if (message.lastResultsHash.length !== 0) {
-            writer.uint32(98).bytes(message.lastResultsHash);
+        if (message.last_results_hash.length !== 0) {
+            writer.uint32(98).bytes(message.last_results_hash);
         }
-        if (message.evidenceHash.length !== 0) {
-            writer.uint32(106).bytes(message.evidenceHash);
+        if (message.evidence_hash.length !== 0) {
+            writer.uint32(106).bytes(message.evidence_hash);
         }
-        if (message.proposerAddress.length !== 0) {
-            writer.uint32(114).bytes(message.proposerAddress);
+        if (message.proposer_address.length !== 0) {
+            writer.uint32(114).bytes(message.proposer_address);
         }
         return writer;
     },
@@ -379,7 +381,7 @@ export const Header = {
                     message.version = Consensus.decode(reader, reader.uint32());
                     break;
                 case 2:
-                    message.chainId = reader.string();
+                    message.chain_id = reader.string();
                     break;
                 case 3:
                     message.height = longToNumber(reader.int64());
@@ -388,34 +390,34 @@ export const Header = {
                     message.time = fromTimestamp(Timestamp.decode(reader, reader.uint32()));
                     break;
                 case 5:
-                    message.lastBlockId = BlockID.decode(reader, reader.uint32());
+                    message.last_block_id = BlockID.decode(reader, reader.uint32());
                     break;
                 case 6:
-                    message.lastCommitHash = reader.bytes();
+                    message.last_commit_hash = reader.bytes();
                     break;
                 case 7:
-                    message.dataHash = reader.bytes();
+                    message.data_hash = reader.bytes();
                     break;
                 case 8:
-                    message.validatorsHash = reader.bytes();
+                    message.validators_hash = reader.bytes();
                     break;
                 case 9:
-                    message.nextValidatorsHash = reader.bytes();
+                    message.next_validators_hash = reader.bytes();
                     break;
                 case 10:
-                    message.consensusHash = reader.bytes();
+                    message.consensus_hash = reader.bytes();
                     break;
                 case 11:
-                    message.appHash = reader.bytes();
+                    message.app_hash = reader.bytes();
                     break;
                 case 12:
-                    message.lastResultsHash = reader.bytes();
+                    message.last_results_hash = reader.bytes();
                     break;
                 case 13:
-                    message.evidenceHash = reader.bytes();
+                    message.evidence_hash = reader.bytes();
                     break;
                 case 14:
-                    message.proposerAddress = reader.bytes();
+                    message.proposer_address = reader.bytes();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -432,11 +434,11 @@ export const Header = {
         else {
             message.version = undefined;
         }
-        if (object.chainId !== undefined && object.chainId !== null) {
-            message.chainId = String(object.chainId);
+        if (object.chain_id !== undefined && object.chain_id !== null) {
+            message.chain_id = String(object.chain_id);
         }
         else {
-            message.chainId = "";
+            message.chain_id = "";
         }
         if (object.height !== undefined && object.height !== null) {
             message.height = Number(object.height);
@@ -450,41 +452,43 @@ export const Header = {
         else {
             message.time = undefined;
         }
-        if (object.lastBlockId !== undefined && object.lastBlockId !== null) {
-            message.lastBlockId = BlockID.fromJSON(object.lastBlockId);
+        if (object.last_block_id !== undefined && object.last_block_id !== null) {
+            message.last_block_id = BlockID.fromJSON(object.last_block_id);
         }
         else {
-            message.lastBlockId = undefined;
+            message.last_block_id = undefined;
         }
-        if (object.lastCommitHash !== undefined && object.lastCommitHash !== null) {
-            message.lastCommitHash = bytesFromBase64(object.lastCommitHash);
+        if (object.last_commit_hash !== undefined &&
+            object.last_commit_hash !== null) {
+            message.last_commit_hash = bytesFromBase64(object.last_commit_hash);
         }
-        if (object.dataHash !== undefined && object.dataHash !== null) {
-            message.dataHash = bytesFromBase64(object.dataHash);
+        if (object.data_hash !== undefined && object.data_hash !== null) {
+            message.data_hash = bytesFromBase64(object.data_hash);
         }
-        if (object.validatorsHash !== undefined && object.validatorsHash !== null) {
-            message.validatorsHash = bytesFromBase64(object.validatorsHash);
+        if (object.validators_hash !== undefined &&
+            object.validators_hash !== null) {
+            message.validators_hash = bytesFromBase64(object.validators_hash);
         }
-        if (object.nextValidatorsHash !== undefined &&
-            object.nextValidatorsHash !== null) {
-            message.nextValidatorsHash = bytesFromBase64(object.nextValidatorsHash);
+        if (object.next_validators_hash !== undefined &&
+            object.next_validators_hash !== null) {
+            message.next_validators_hash = bytesFromBase64(object.next_validators_hash);
         }
-        if (object.consensusHash !== undefined && object.consensusHash !== null) {
-            message.consensusHash = bytesFromBase64(object.consensusHash);
+        if (object.consensus_hash !== undefined && object.consensus_hash !== null) {
+            message.consensus_hash = bytesFromBase64(object.consensus_hash);
         }
-        if (object.appHash !== undefined && object.appHash !== null) {
-            message.appHash = bytesFromBase64(object.appHash);
+        if (object.app_hash !== undefined && object.app_hash !== null) {
+            message.app_hash = bytesFromBase64(object.app_hash);
         }
-        if (object.lastResultsHash !== undefined &&
-            object.lastResultsHash !== null) {
-            message.lastResultsHash = bytesFromBase64(object.lastResultsHash);
+        if (object.last_results_hash !== undefined &&
+            object.last_results_hash !== null) {
+            message.last_results_hash = bytesFromBase64(object.last_results_hash);
         }
-        if (object.evidenceHash !== undefined && object.evidenceHash !== null) {
-            message.evidenceHash = bytesFromBase64(object.evidenceHash);
+        if (object.evidence_hash !== undefined && object.evidence_hash !== null) {
+            message.evidence_hash = bytesFromBase64(object.evidence_hash);
         }
-        if (object.proposerAddress !== undefined &&
-            object.proposerAddress !== null) {
-            message.proposerAddress = bytesFromBase64(object.proposerAddress);
+        if (object.proposer_address !== undefined &&
+            object.proposer_address !== null) {
+            message.proposer_address = bytesFromBase64(object.proposer_address);
         }
         return message;
     },
@@ -494,46 +498,46 @@ export const Header = {
             (obj.version = message.version
                 ? Consensus.toJSON(message.version)
                 : undefined);
-        message.chainId !== undefined && (obj.chainId = message.chainId);
+        message.chain_id !== undefined && (obj.chain_id = message.chain_id);
         message.height !== undefined && (obj.height = message.height);
         message.time !== undefined &&
             (obj.time =
                 message.time !== undefined ? message.time.toISOString() : null);
-        message.lastBlockId !== undefined &&
-            (obj.lastBlockId = message.lastBlockId
-                ? BlockID.toJSON(message.lastBlockId)
+        message.last_block_id !== undefined &&
+            (obj.last_block_id = message.last_block_id
+                ? BlockID.toJSON(message.last_block_id)
                 : undefined);
-        message.lastCommitHash !== undefined &&
-            (obj.lastCommitHash = base64FromBytes(message.lastCommitHash !== undefined
-                ? message.lastCommitHash
+        message.last_commit_hash !== undefined &&
+            (obj.last_commit_hash = base64FromBytes(message.last_commit_hash !== undefined
+                ? message.last_commit_hash
                 : new Uint8Array()));
-        message.dataHash !== undefined &&
-            (obj.dataHash = base64FromBytes(message.dataHash !== undefined ? message.dataHash : new Uint8Array()));
-        message.validatorsHash !== undefined &&
-            (obj.validatorsHash = base64FromBytes(message.validatorsHash !== undefined
-                ? message.validatorsHash
+        message.data_hash !== undefined &&
+            (obj.data_hash = base64FromBytes(message.data_hash !== undefined ? message.data_hash : new Uint8Array()));
+        message.validators_hash !== undefined &&
+            (obj.validators_hash = base64FromBytes(message.validators_hash !== undefined
+                ? message.validators_hash
                 : new Uint8Array()));
-        message.nextValidatorsHash !== undefined &&
-            (obj.nextValidatorsHash = base64FromBytes(message.nextValidatorsHash !== undefined
-                ? message.nextValidatorsHash
+        message.next_validators_hash !== undefined &&
+            (obj.next_validators_hash = base64FromBytes(message.next_validators_hash !== undefined
+                ? message.next_validators_hash
                 : new Uint8Array()));
-        message.consensusHash !== undefined &&
-            (obj.consensusHash = base64FromBytes(message.consensusHash !== undefined
-                ? message.consensusHash
+        message.consensus_hash !== undefined &&
+            (obj.consensus_hash = base64FromBytes(message.consensus_hash !== undefined
+                ? message.consensus_hash
                 : new Uint8Array()));
-        message.appHash !== undefined &&
-            (obj.appHash = base64FromBytes(message.appHash !== undefined ? message.appHash : new Uint8Array()));
-        message.lastResultsHash !== undefined &&
-            (obj.lastResultsHash = base64FromBytes(message.lastResultsHash !== undefined
-                ? message.lastResultsHash
+        message.app_hash !== undefined &&
+            (obj.app_hash = base64FromBytes(message.app_hash !== undefined ? message.app_hash : new Uint8Array()));
+        message.last_results_hash !== undefined &&
+            (obj.last_results_hash = base64FromBytes(message.last_results_hash !== undefined
+                ? message.last_results_hash
                 : new Uint8Array()));
-        message.evidenceHash !== undefined &&
-            (obj.evidenceHash = base64FromBytes(message.evidenceHash !== undefined
-                ? message.evidenceHash
+        message.evidence_hash !== undefined &&
+            (obj.evidence_hash = base64FromBytes(message.evidence_hash !== undefined
+                ? message.evidence_hash
                 : new Uint8Array()));
-        message.proposerAddress !== undefined &&
-            (obj.proposerAddress = base64FromBytes(message.proposerAddress !== undefined
-                ? message.proposerAddress
+        message.proposer_address !== undefined &&
+            (obj.proposer_address = base64FromBytes(message.proposer_address !== undefined
+                ? message.proposer_address
                 : new Uint8Array()));
         return obj;
     },
@@ -545,11 +549,11 @@ export const Header = {
         else {
             message.version = undefined;
         }
-        if (object.chainId !== undefined && object.chainId !== null) {
-            message.chainId = object.chainId;
+        if (object.chain_id !== undefined && object.chain_id !== null) {
+            message.chain_id = object.chain_id;
         }
         else {
-            message.chainId = "";
+            message.chain_id = "";
         }
         if (object.height !== undefined && object.height !== null) {
             message.height = object.height;
@@ -563,68 +567,70 @@ export const Header = {
         else {
             message.time = undefined;
         }
-        if (object.lastBlockId !== undefined && object.lastBlockId !== null) {
-            message.lastBlockId = BlockID.fromPartial(object.lastBlockId);
+        if (object.last_block_id !== undefined && object.last_block_id !== null) {
+            message.last_block_id = BlockID.fromPartial(object.last_block_id);
         }
         else {
-            message.lastBlockId = undefined;
+            message.last_block_id = undefined;
         }
-        if (object.lastCommitHash !== undefined && object.lastCommitHash !== null) {
-            message.lastCommitHash = object.lastCommitHash;
-        }
-        else {
-            message.lastCommitHash = new Uint8Array();
-        }
-        if (object.dataHash !== undefined && object.dataHash !== null) {
-            message.dataHash = object.dataHash;
+        if (object.last_commit_hash !== undefined &&
+            object.last_commit_hash !== null) {
+            message.last_commit_hash = object.last_commit_hash;
         }
         else {
-            message.dataHash = new Uint8Array();
+            message.last_commit_hash = new Uint8Array();
         }
-        if (object.validatorsHash !== undefined && object.validatorsHash !== null) {
-            message.validatorsHash = object.validatorsHash;
-        }
-        else {
-            message.validatorsHash = new Uint8Array();
-        }
-        if (object.nextValidatorsHash !== undefined &&
-            object.nextValidatorsHash !== null) {
-            message.nextValidatorsHash = object.nextValidatorsHash;
+        if (object.data_hash !== undefined && object.data_hash !== null) {
+            message.data_hash = object.data_hash;
         }
         else {
-            message.nextValidatorsHash = new Uint8Array();
+            message.data_hash = new Uint8Array();
         }
-        if (object.consensusHash !== undefined && object.consensusHash !== null) {
-            message.consensusHash = object.consensusHash;
-        }
-        else {
-            message.consensusHash = new Uint8Array();
-        }
-        if (object.appHash !== undefined && object.appHash !== null) {
-            message.appHash = object.appHash;
+        if (object.validators_hash !== undefined &&
+            object.validators_hash !== null) {
+            message.validators_hash = object.validators_hash;
         }
         else {
-            message.appHash = new Uint8Array();
+            message.validators_hash = new Uint8Array();
         }
-        if (object.lastResultsHash !== undefined &&
-            object.lastResultsHash !== null) {
-            message.lastResultsHash = object.lastResultsHash;
-        }
-        else {
-            message.lastResultsHash = new Uint8Array();
-        }
-        if (object.evidenceHash !== undefined && object.evidenceHash !== null) {
-            message.evidenceHash = object.evidenceHash;
+        if (object.next_validators_hash !== undefined &&
+            object.next_validators_hash !== null) {
+            message.next_validators_hash = object.next_validators_hash;
         }
         else {
-            message.evidenceHash = new Uint8Array();
+            message.next_validators_hash = new Uint8Array();
         }
-        if (object.proposerAddress !== undefined &&
-            object.proposerAddress !== null) {
-            message.proposerAddress = object.proposerAddress;
+        if (object.consensus_hash !== undefined && object.consensus_hash !== null) {
+            message.consensus_hash = object.consensus_hash;
         }
         else {
-            message.proposerAddress = new Uint8Array();
+            message.consensus_hash = new Uint8Array();
+        }
+        if (object.app_hash !== undefined && object.app_hash !== null) {
+            message.app_hash = object.app_hash;
+        }
+        else {
+            message.app_hash = new Uint8Array();
+        }
+        if (object.last_results_hash !== undefined &&
+            object.last_results_hash !== null) {
+            message.last_results_hash = object.last_results_hash;
+        }
+        else {
+            message.last_results_hash = new Uint8Array();
+        }
+        if (object.evidence_hash !== undefined && object.evidence_hash !== null) {
+            message.evidence_hash = object.evidence_hash;
+        }
+        else {
+            message.evidence_hash = new Uint8Array();
+        }
+        if (object.proposer_address !== undefined &&
+            object.proposer_address !== null) {
+            message.proposer_address = object.proposer_address;
+        }
+        else {
+            message.proposer_address = new Uint8Array();
         }
         return message;
     },
@@ -686,7 +692,7 @@ export const Data = {
         return message;
     },
 };
-const baseVote = { type: 0, height: 0, round: 0, validatorIndex: 0 };
+const baseVote = { type: 0, height: 0, round: 0, validator_index: 0 };
 export const Vote = {
     encode(message, writer = Writer.create()) {
         if (message.type !== 0) {
@@ -698,17 +704,17 @@ export const Vote = {
         if (message.round !== 0) {
             writer.uint32(24).int32(message.round);
         }
-        if (message.blockId !== undefined) {
-            BlockID.encode(message.blockId, writer.uint32(34).fork()).ldelim();
+        if (message.block_id !== undefined) {
+            BlockID.encode(message.block_id, writer.uint32(34).fork()).ldelim();
         }
         if (message.timestamp !== undefined) {
             Timestamp.encode(toTimestamp(message.timestamp), writer.uint32(42).fork()).ldelim();
         }
-        if (message.validatorAddress.length !== 0) {
-            writer.uint32(50).bytes(message.validatorAddress);
+        if (message.validator_address.length !== 0) {
+            writer.uint32(50).bytes(message.validator_address);
         }
-        if (message.validatorIndex !== 0) {
-            writer.uint32(56).int32(message.validatorIndex);
+        if (message.validator_index !== 0) {
+            writer.uint32(56).int32(message.validator_index);
         }
         if (message.signature.length !== 0) {
             writer.uint32(66).bytes(message.signature);
@@ -732,16 +738,16 @@ export const Vote = {
                     message.round = reader.int32();
                     break;
                 case 4:
-                    message.blockId = BlockID.decode(reader, reader.uint32());
+                    message.block_id = BlockID.decode(reader, reader.uint32());
                     break;
                 case 5:
                     message.timestamp = fromTimestamp(Timestamp.decode(reader, reader.uint32()));
                     break;
                 case 6:
-                    message.validatorAddress = reader.bytes();
+                    message.validator_address = reader.bytes();
                     break;
                 case 7:
-                    message.validatorIndex = reader.int32();
+                    message.validator_index = reader.int32();
                     break;
                 case 8:
                     message.signature = reader.bytes();
@@ -773,11 +779,11 @@ export const Vote = {
         else {
             message.round = 0;
         }
-        if (object.blockId !== undefined && object.blockId !== null) {
-            message.blockId = BlockID.fromJSON(object.blockId);
+        if (object.block_id !== undefined && object.block_id !== null) {
+            message.block_id = BlockID.fromJSON(object.block_id);
         }
         else {
-            message.blockId = undefined;
+            message.block_id = undefined;
         }
         if (object.timestamp !== undefined && object.timestamp !== null) {
             message.timestamp = fromJsonTimestamp(object.timestamp);
@@ -785,15 +791,16 @@ export const Vote = {
         else {
             message.timestamp = undefined;
         }
-        if (object.validatorAddress !== undefined &&
-            object.validatorAddress !== null) {
-            message.validatorAddress = bytesFromBase64(object.validatorAddress);
+        if (object.validator_address !== undefined &&
+            object.validator_address !== null) {
+            message.validator_address = bytesFromBase64(object.validator_address);
         }
-        if (object.validatorIndex !== undefined && object.validatorIndex !== null) {
-            message.validatorIndex = Number(object.validatorIndex);
+        if (object.validator_index !== undefined &&
+            object.validator_index !== null) {
+            message.validator_index = Number(object.validator_index);
         }
         else {
-            message.validatorIndex = 0;
+            message.validator_index = 0;
         }
         if (object.signature !== undefined && object.signature !== null) {
             message.signature = bytesFromBase64(object.signature);
@@ -806,21 +813,21 @@ export const Vote = {
             (obj.type = signedMsgTypeToJSON(message.type));
         message.height !== undefined && (obj.height = message.height);
         message.round !== undefined && (obj.round = message.round);
-        message.blockId !== undefined &&
-            (obj.blockId = message.blockId
-                ? BlockID.toJSON(message.blockId)
+        message.block_id !== undefined &&
+            (obj.block_id = message.block_id
+                ? BlockID.toJSON(message.block_id)
                 : undefined);
         message.timestamp !== undefined &&
             (obj.timestamp =
                 message.timestamp !== undefined
                     ? message.timestamp.toISOString()
                     : null);
-        message.validatorAddress !== undefined &&
-            (obj.validatorAddress = base64FromBytes(message.validatorAddress !== undefined
-                ? message.validatorAddress
+        message.validator_address !== undefined &&
+            (obj.validator_address = base64FromBytes(message.validator_address !== undefined
+                ? message.validator_address
                 : new Uint8Array()));
-        message.validatorIndex !== undefined &&
-            (obj.validatorIndex = message.validatorIndex);
+        message.validator_index !== undefined &&
+            (obj.validator_index = message.validator_index);
         message.signature !== undefined &&
             (obj.signature = base64FromBytes(message.signature !== undefined ? message.signature : new Uint8Array()));
         return obj;
@@ -845,11 +852,11 @@ export const Vote = {
         else {
             message.round = 0;
         }
-        if (object.blockId !== undefined && object.blockId !== null) {
-            message.blockId = BlockID.fromPartial(object.blockId);
+        if (object.block_id !== undefined && object.block_id !== null) {
+            message.block_id = BlockID.fromPartial(object.block_id);
         }
         else {
-            message.blockId = undefined;
+            message.block_id = undefined;
         }
         if (object.timestamp !== undefined && object.timestamp !== null) {
             message.timestamp = object.timestamp;
@@ -857,18 +864,19 @@ export const Vote = {
         else {
             message.timestamp = undefined;
         }
-        if (object.validatorAddress !== undefined &&
-            object.validatorAddress !== null) {
-            message.validatorAddress = object.validatorAddress;
+        if (object.validator_address !== undefined &&
+            object.validator_address !== null) {
+            message.validator_address = object.validator_address;
         }
         else {
-            message.validatorAddress = new Uint8Array();
+            message.validator_address = new Uint8Array();
         }
-        if (object.validatorIndex !== undefined && object.validatorIndex !== null) {
-            message.validatorIndex = object.validatorIndex;
+        if (object.validator_index !== undefined &&
+            object.validator_index !== null) {
+            message.validator_index = object.validator_index;
         }
         else {
-            message.validatorIndex = 0;
+            message.validator_index = 0;
         }
         if (object.signature !== undefined && object.signature !== null) {
             message.signature = object.signature;
@@ -888,8 +896,8 @@ export const Commit = {
         if (message.round !== 0) {
             writer.uint32(16).int32(message.round);
         }
-        if (message.blockId !== undefined) {
-            BlockID.encode(message.blockId, writer.uint32(26).fork()).ldelim();
+        if (message.block_id !== undefined) {
+            BlockID.encode(message.block_id, writer.uint32(26).fork()).ldelim();
         }
         for (const v of message.signatures) {
             CommitSig.encode(v, writer.uint32(34).fork()).ldelim();
@@ -911,7 +919,7 @@ export const Commit = {
                     message.round = reader.int32();
                     break;
                 case 3:
-                    message.blockId = BlockID.decode(reader, reader.uint32());
+                    message.block_id = BlockID.decode(reader, reader.uint32());
                     break;
                 case 4:
                     message.signatures.push(CommitSig.decode(reader, reader.uint32()));
@@ -938,11 +946,11 @@ export const Commit = {
         else {
             message.round = 0;
         }
-        if (object.blockId !== undefined && object.blockId !== null) {
-            message.blockId = BlockID.fromJSON(object.blockId);
+        if (object.block_id !== undefined && object.block_id !== null) {
+            message.block_id = BlockID.fromJSON(object.block_id);
         }
         else {
-            message.blockId = undefined;
+            message.block_id = undefined;
         }
         if (object.signatures !== undefined && object.signatures !== null) {
             for (const e of object.signatures) {
@@ -955,9 +963,9 @@ export const Commit = {
         const obj = {};
         message.height !== undefined && (obj.height = message.height);
         message.round !== undefined && (obj.round = message.round);
-        message.blockId !== undefined &&
-            (obj.blockId = message.blockId
-                ? BlockID.toJSON(message.blockId)
+        message.block_id !== undefined &&
+            (obj.block_id = message.block_id
+                ? BlockID.toJSON(message.block_id)
                 : undefined);
         if (message.signatures) {
             obj.signatures = message.signatures.map((e) => e ? CommitSig.toJSON(e) : undefined);
@@ -982,11 +990,11 @@ export const Commit = {
         else {
             message.round = 0;
         }
-        if (object.blockId !== undefined && object.blockId !== null) {
-            message.blockId = BlockID.fromPartial(object.blockId);
+        if (object.block_id !== undefined && object.block_id !== null) {
+            message.block_id = BlockID.fromPartial(object.block_id);
         }
         else {
-            message.blockId = undefined;
+            message.block_id = undefined;
         }
         if (object.signatures !== undefined && object.signatures !== null) {
             for (const e of object.signatures) {
@@ -996,14 +1004,14 @@ export const Commit = {
         return message;
     },
 };
-const baseCommitSig = { blockIdFlag: 0 };
+const baseCommitSig = { block_id_flag: 0 };
 export const CommitSig = {
     encode(message, writer = Writer.create()) {
-        if (message.blockIdFlag !== 0) {
-            writer.uint32(8).int32(message.blockIdFlag);
+        if (message.block_id_flag !== 0) {
+            writer.uint32(8).int32(message.block_id_flag);
         }
-        if (message.validatorAddress.length !== 0) {
-            writer.uint32(18).bytes(message.validatorAddress);
+        if (message.validator_address.length !== 0) {
+            writer.uint32(18).bytes(message.validator_address);
         }
         if (message.timestamp !== undefined) {
             Timestamp.encode(toTimestamp(message.timestamp), writer.uint32(26).fork()).ldelim();
@@ -1021,10 +1029,10 @@ export const CommitSig = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.blockIdFlag = reader.int32();
+                    message.block_id_flag = reader.int32();
                     break;
                 case 2:
-                    message.validatorAddress = reader.bytes();
+                    message.validator_address = reader.bytes();
                     break;
                 case 3:
                     message.timestamp = fromTimestamp(Timestamp.decode(reader, reader.uint32()));
@@ -1041,15 +1049,15 @@ export const CommitSig = {
     },
     fromJSON(object) {
         const message = { ...baseCommitSig };
-        if (object.blockIdFlag !== undefined && object.blockIdFlag !== null) {
-            message.blockIdFlag = blockIDFlagFromJSON(object.blockIdFlag);
+        if (object.block_id_flag !== undefined && object.block_id_flag !== null) {
+            message.block_id_flag = blockIDFlagFromJSON(object.block_id_flag);
         }
         else {
-            message.blockIdFlag = 0;
+            message.block_id_flag = 0;
         }
-        if (object.validatorAddress !== undefined &&
-            object.validatorAddress !== null) {
-            message.validatorAddress = bytesFromBase64(object.validatorAddress);
+        if (object.validator_address !== undefined &&
+            object.validator_address !== null) {
+            message.validator_address = bytesFromBase64(object.validator_address);
         }
         if (object.timestamp !== undefined && object.timestamp !== null) {
             message.timestamp = fromJsonTimestamp(object.timestamp);
@@ -1064,11 +1072,11 @@ export const CommitSig = {
     },
     toJSON(message) {
         const obj = {};
-        message.blockIdFlag !== undefined &&
-            (obj.blockIdFlag = blockIDFlagToJSON(message.blockIdFlag));
-        message.validatorAddress !== undefined &&
-            (obj.validatorAddress = base64FromBytes(message.validatorAddress !== undefined
-                ? message.validatorAddress
+        message.block_id_flag !== undefined &&
+            (obj.block_id_flag = blockIDFlagToJSON(message.block_id_flag));
+        message.validator_address !== undefined &&
+            (obj.validator_address = base64FromBytes(message.validator_address !== undefined
+                ? message.validator_address
                 : new Uint8Array()));
         message.timestamp !== undefined &&
             (obj.timestamp =
@@ -1081,18 +1089,18 @@ export const CommitSig = {
     },
     fromPartial(object) {
         const message = { ...baseCommitSig };
-        if (object.blockIdFlag !== undefined && object.blockIdFlag !== null) {
-            message.blockIdFlag = object.blockIdFlag;
+        if (object.block_id_flag !== undefined && object.block_id_flag !== null) {
+            message.block_id_flag = object.block_id_flag;
         }
         else {
-            message.blockIdFlag = 0;
+            message.block_id_flag = 0;
         }
-        if (object.validatorAddress !== undefined &&
-            object.validatorAddress !== null) {
-            message.validatorAddress = object.validatorAddress;
+        if (object.validator_address !== undefined &&
+            object.validator_address !== null) {
+            message.validator_address = object.validator_address;
         }
         else {
-            message.validatorAddress = new Uint8Array();
+            message.validator_address = new Uint8Array();
         }
         if (object.timestamp !== undefined && object.timestamp !== null) {
             message.timestamp = object.timestamp;
@@ -1109,7 +1117,7 @@ export const CommitSig = {
         return message;
     },
 };
-const baseProposal = { type: 0, height: 0, round: 0, polRound: 0 };
+const baseProposal = { type: 0, height: 0, round: 0, pol_round: 0 };
 export const Proposal = {
     encode(message, writer = Writer.create()) {
         if (message.type !== 0) {
@@ -1121,11 +1129,11 @@ export const Proposal = {
         if (message.round !== 0) {
             writer.uint32(24).int32(message.round);
         }
-        if (message.polRound !== 0) {
-            writer.uint32(32).int32(message.polRound);
+        if (message.pol_round !== 0) {
+            writer.uint32(32).int32(message.pol_round);
         }
-        if (message.blockId !== undefined) {
-            BlockID.encode(message.blockId, writer.uint32(42).fork()).ldelim();
+        if (message.block_id !== undefined) {
+            BlockID.encode(message.block_id, writer.uint32(42).fork()).ldelim();
         }
         if (message.timestamp !== undefined) {
             Timestamp.encode(toTimestamp(message.timestamp), writer.uint32(50).fork()).ldelim();
@@ -1152,10 +1160,10 @@ export const Proposal = {
                     message.round = reader.int32();
                     break;
                 case 4:
-                    message.polRound = reader.int32();
+                    message.pol_round = reader.int32();
                     break;
                 case 5:
-                    message.blockId = BlockID.decode(reader, reader.uint32());
+                    message.block_id = BlockID.decode(reader, reader.uint32());
                     break;
                 case 6:
                     message.timestamp = fromTimestamp(Timestamp.decode(reader, reader.uint32()));
@@ -1190,17 +1198,17 @@ export const Proposal = {
         else {
             message.round = 0;
         }
-        if (object.polRound !== undefined && object.polRound !== null) {
-            message.polRound = Number(object.polRound);
+        if (object.pol_round !== undefined && object.pol_round !== null) {
+            message.pol_round = Number(object.pol_round);
         }
         else {
-            message.polRound = 0;
+            message.pol_round = 0;
         }
-        if (object.blockId !== undefined && object.blockId !== null) {
-            message.blockId = BlockID.fromJSON(object.blockId);
+        if (object.block_id !== undefined && object.block_id !== null) {
+            message.block_id = BlockID.fromJSON(object.block_id);
         }
         else {
-            message.blockId = undefined;
+            message.block_id = undefined;
         }
         if (object.timestamp !== undefined && object.timestamp !== null) {
             message.timestamp = fromJsonTimestamp(object.timestamp);
@@ -1219,10 +1227,10 @@ export const Proposal = {
             (obj.type = signedMsgTypeToJSON(message.type));
         message.height !== undefined && (obj.height = message.height);
         message.round !== undefined && (obj.round = message.round);
-        message.polRound !== undefined && (obj.polRound = message.polRound);
-        message.blockId !== undefined &&
-            (obj.blockId = message.blockId
-                ? BlockID.toJSON(message.blockId)
+        message.pol_round !== undefined && (obj.pol_round = message.pol_round);
+        message.block_id !== undefined &&
+            (obj.block_id = message.block_id
+                ? BlockID.toJSON(message.block_id)
                 : undefined);
         message.timestamp !== undefined &&
             (obj.timestamp =
@@ -1253,17 +1261,17 @@ export const Proposal = {
         else {
             message.round = 0;
         }
-        if (object.polRound !== undefined && object.polRound !== null) {
-            message.polRound = object.polRound;
+        if (object.pol_round !== undefined && object.pol_round !== null) {
+            message.pol_round = object.pol_round;
         }
         else {
-            message.polRound = 0;
+            message.pol_round = 0;
         }
-        if (object.blockId !== undefined && object.blockId !== null) {
-            message.blockId = BlockID.fromPartial(object.blockId);
+        if (object.block_id !== undefined && object.block_id !== null) {
+            message.block_id = BlockID.fromPartial(object.block_id);
         }
         else {
-            message.blockId = undefined;
+            message.block_id = undefined;
         }
         if (object.timestamp !== undefined && object.timestamp !== null) {
             message.timestamp = object.timestamp;
@@ -1355,11 +1363,11 @@ export const SignedHeader = {
 const baseLightBlock = {};
 export const LightBlock = {
     encode(message, writer = Writer.create()) {
-        if (message.signedHeader !== undefined) {
-            SignedHeader.encode(message.signedHeader, writer.uint32(10).fork()).ldelim();
+        if (message.signed_header !== undefined) {
+            SignedHeader.encode(message.signed_header, writer.uint32(10).fork()).ldelim();
         }
-        if (message.validatorSet !== undefined) {
-            ValidatorSet.encode(message.validatorSet, writer.uint32(18).fork()).ldelim();
+        if (message.validator_set !== undefined) {
+            ValidatorSet.encode(message.validator_set, writer.uint32(18).fork()).ldelim();
         }
         return writer;
     },
@@ -1371,10 +1379,10 @@ export const LightBlock = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.signedHeader = SignedHeader.decode(reader, reader.uint32());
+                    message.signed_header = SignedHeader.decode(reader, reader.uint32());
                     break;
                 case 2:
-                    message.validatorSet = ValidatorSet.decode(reader, reader.uint32());
+                    message.validator_set = ValidatorSet.decode(reader, reader.uint32());
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -1385,63 +1393,63 @@ export const LightBlock = {
     },
     fromJSON(object) {
         const message = { ...baseLightBlock };
-        if (object.signedHeader !== undefined && object.signedHeader !== null) {
-            message.signedHeader = SignedHeader.fromJSON(object.signedHeader);
+        if (object.signed_header !== undefined && object.signed_header !== null) {
+            message.signed_header = SignedHeader.fromJSON(object.signed_header);
         }
         else {
-            message.signedHeader = undefined;
+            message.signed_header = undefined;
         }
-        if (object.validatorSet !== undefined && object.validatorSet !== null) {
-            message.validatorSet = ValidatorSet.fromJSON(object.validatorSet);
+        if (object.validator_set !== undefined && object.validator_set !== null) {
+            message.validator_set = ValidatorSet.fromJSON(object.validator_set);
         }
         else {
-            message.validatorSet = undefined;
+            message.validator_set = undefined;
         }
         return message;
     },
     toJSON(message) {
         const obj = {};
-        message.signedHeader !== undefined &&
-            (obj.signedHeader = message.signedHeader
-                ? SignedHeader.toJSON(message.signedHeader)
+        message.signed_header !== undefined &&
+            (obj.signed_header = message.signed_header
+                ? SignedHeader.toJSON(message.signed_header)
                 : undefined);
-        message.validatorSet !== undefined &&
-            (obj.validatorSet = message.validatorSet
-                ? ValidatorSet.toJSON(message.validatorSet)
+        message.validator_set !== undefined &&
+            (obj.validator_set = message.validator_set
+                ? ValidatorSet.toJSON(message.validator_set)
                 : undefined);
         return obj;
     },
     fromPartial(object) {
         const message = { ...baseLightBlock };
-        if (object.signedHeader !== undefined && object.signedHeader !== null) {
-            message.signedHeader = SignedHeader.fromPartial(object.signedHeader);
+        if (object.signed_header !== undefined && object.signed_header !== null) {
+            message.signed_header = SignedHeader.fromPartial(object.signed_header);
         }
         else {
-            message.signedHeader = undefined;
+            message.signed_header = undefined;
         }
-        if (object.validatorSet !== undefined && object.validatorSet !== null) {
-            message.validatorSet = ValidatorSet.fromPartial(object.validatorSet);
+        if (object.validator_set !== undefined && object.validator_set !== null) {
+            message.validator_set = ValidatorSet.fromPartial(object.validator_set);
         }
         else {
-            message.validatorSet = undefined;
+            message.validator_set = undefined;
         }
         return message;
     },
 };
-const baseBlockMeta = { blockSize: 0, numTxs: 0 };
+const baseBlockMeta = { block_size: 0, num_txs: 0 };
 export const BlockMeta = {
     encode(message, writer = Writer.create()) {
-        if (message.blockId !== undefined) {
-            BlockID.encode(message.blockId, writer.uint32(10).fork()).ldelim();
+        if (message.block_id !== undefined) {
+            BlockID.encode(message.block_id, writer.uint32(10).fork()).ldelim();
         }
-        if (message.blockSize !== 0) {
-            writer.uint32(16).int64(message.blockSize);
+        if (message.block_size !== 0) {
+            writer.uint32(16).int64(message.block_size);
         }
         if (message.header !== undefined) {
             Header.encode(message.header, writer.uint32(26).fork()).ldelim();
         }
-        if (message.numTxs !== 0) {
-            writer.uint32(32).int64(message.numTxs);
+        if (message.num_txs !== 0) {
+            writer.uint32(32).int64(message.num_txs);
         }
         return writer;
     },
@@ -1453,16 +1461,16 @@ export const BlockMeta = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.blockId = BlockID.decode(reader, reader.uint32());
+                    message.block_id = BlockID.decode(reader, reader.uint32());
                     break;
                 case 2:
-                    message.blockSize = longToNumber(reader.int64());
+                    message.block_size = longToNumber(reader.int64());
                     break;
                 case 3:
                     message.header = Header.decode(reader, reader.uint32());
                     break;
                 case 4:
-                    message.numTxs = longToNumber(reader.int64());
+                    message.num_txs = longToNumber(reader.int64());
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -1473,17 +1481,17 @@ export const BlockMeta = {
     },
     fromJSON(object) {
         const message = { ...baseBlockMeta };
-        if (object.blockId !== undefined && object.blockId !== null) {
-            message.blockId = BlockID.fromJSON(object.blockId);
+        if (object.block_id !== undefined && object.block_id !== null) {
+            message.block_id = BlockID.fromJSON(object.block_id);
         }
         else {
-            message.blockId = undefined;
+            message.block_id = undefined;
         }
-        if (object.blockSize !== undefined && object.blockSize !== null) {
-            message.blockSize = Number(object.blockSize);
+        if (object.block_size !== undefined && object.block_size !== null) {
+            message.block_size = Number(object.block_size);
         }
         else {
-            message.blockSize = 0;
+            message.block_size = 0;
         }
         if (object.header !== undefined && object.header !== null) {
             message.header = Header.fromJSON(object.header);
@@ -1491,39 +1499,39 @@ export const BlockMeta = {
         else {
             message.header = undefined;
         }
-        if (object.numTxs !== undefined && object.numTxs !== null) {
-            message.numTxs = Number(object.numTxs);
+        if (object.num_txs !== undefined && object.num_txs !== null) {
+            message.num_txs = Number(object.num_txs);
         }
         else {
-            message.numTxs = 0;
+            message.num_txs = 0;
         }
         return message;
     },
     toJSON(message) {
         const obj = {};
-        message.blockId !== undefined &&
-            (obj.blockId = message.blockId
-                ? BlockID.toJSON(message.blockId)
+        message.block_id !== undefined &&
+            (obj.block_id = message.block_id
+                ? BlockID.toJSON(message.block_id)
                 : undefined);
-        message.blockSize !== undefined && (obj.blockSize = message.blockSize);
+        message.block_size !== undefined && (obj.block_size = message.block_size);
         message.header !== undefined &&
             (obj.header = message.header ? Header.toJSON(message.header) : undefined);
-        message.numTxs !== undefined && (obj.numTxs = message.numTxs);
+        message.num_txs !== undefined && (obj.num_txs = message.num_txs);
         return obj;
     },
     fromPartial(object) {
         const message = { ...baseBlockMeta };
-        if (object.blockId !== undefined && object.blockId !== null) {
-            message.blockId = BlockID.fromPartial(object.blockId);
+        if (object.block_id !== undefined && object.block_id !== null) {
+            message.block_id = BlockID.fromPartial(object.block_id);
         }
         else {
-            message.blockId = undefined;
+            message.block_id = undefined;
         }
-        if (object.blockSize !== undefined && object.blockSize !== null) {
-            message.blockSize = object.blockSize;
+        if (object.block_size !== undefined && object.block_size !== null) {
+            message.block_size = object.block_size;
         }
         else {
-            message.blockSize = 0;
+            message.block_size = 0;
         }
         if (object.header !== undefined && object.header !== null) {
             message.header = Header.fromPartial(object.header);
@@ -1531,11 +1539,11 @@ export const BlockMeta = {
         else {
             message.header = undefined;
         }
-        if (object.numTxs !== undefined && object.numTxs !== null) {
-            message.numTxs = object.numTxs;
+        if (object.num_txs !== undefined && object.num_txs !== null) {
+            message.num_txs = object.num_txs;
         }
         else {
-            message.numTxs = 0;
+            message.num_txs = 0;
         }
         return message;
     },
@@ -1543,8 +1551,8 @@ export const BlockMeta = {
 const baseTxProof = {};
 export const TxProof = {
     encode(message, writer = Writer.create()) {
-        if (message.rootHash.length !== 0) {
-            writer.uint32(10).bytes(message.rootHash);
+        if (message.root_hash.length !== 0) {
+            writer.uint32(10).bytes(message.root_hash);
         }
         if (message.data.length !== 0) {
             writer.uint32(18).bytes(message.data);
@@ -1562,7 +1570,7 @@ export const TxProof = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.rootHash = reader.bytes();
+                    message.root_hash = reader.bytes();
                     break;
                 case 2:
                     message.data = reader.bytes();
@@ -1579,8 +1587,8 @@ export const TxProof = {
     },
     fromJSON(object) {
         const message = { ...baseTxProof };
-        if (object.rootHash !== undefined && object.rootHash !== null) {
-            message.rootHash = bytesFromBase64(object.rootHash);
+        if (object.root_hash !== undefined && object.root_hash !== null) {
+            message.root_hash = bytesFromBase64(object.root_hash);
         }
         if (object.data !== undefined && object.data !== null) {
             message.data = bytesFromBase64(object.data);
@@ -1595,8 +1603,8 @@ export const TxProof = {
     },
     toJSON(message) {
         const obj = {};
-        message.rootHash !== undefined &&
-            (obj.rootHash = base64FromBytes(message.rootHash !== undefined ? message.rootHash : new Uint8Array()));
+        message.root_hash !== undefined &&
+            (obj.root_hash = base64FromBytes(message.root_hash !== undefined ? message.root_hash : new Uint8Array()));
         message.data !== undefined &&
             (obj.data = base64FromBytes(message.data !== undefined ? message.data : new Uint8Array()));
         message.proof !== undefined &&
@@ -1605,11 +1613,11 @@ export const TxProof = {
     },
     fromPartial(object) {
         const message = { ...baseTxProof };
-        if (object.rootHash !== undefined && object.rootHash !== null) {
-            message.rootHash = object.rootHash;
+        if (object.root_hash !== undefined && object.root_hash !== null) {
+            message.root_hash = object.root_hash;
         }
         else {
-            message.rootHash = new Uint8Array();
+            message.root_hash = new Uint8Array();
         }
         if (object.data !== undefined && object.data !== null) {
             message.data = object.data;

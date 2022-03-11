@@ -5,7 +5,7 @@ export declare const protobufPackage = "cosmos.gov.v1beta1";
 /** QueryProposalRequest is the request type for the Query/Proposal RPC method. */
 export interface QueryProposalRequest {
     /** proposal_id defines the unique id of the proposal. */
-    proposalId: number;
+    proposal_id: number;
 }
 /** QueryProposalResponse is the response type for the Query/Proposal RPC method. */
 export interface QueryProposalResponse {
@@ -14,7 +14,7 @@ export interface QueryProposalResponse {
 /** QueryProposalsRequest is the request type for the Query/Proposals RPC method. */
 export interface QueryProposalsRequest {
     /** proposal_status defines the status of the proposals. */
-    proposalStatus: ProposalStatus;
+    proposal_status: ProposalStatus;
     /** voter defines the voter address for the proposals. */
     voter: string;
     /** depositor defines the deposit addresses from the proposals. */
@@ -34,7 +34,7 @@ export interface QueryProposalsResponse {
 /** QueryVoteRequest is the request type for the Query/Vote RPC method. */
 export interface QueryVoteRequest {
     /** proposal_id defines the unique id of the proposal. */
-    proposalId: number;
+    proposal_id: number;
     /** voter defines the oter address for the proposals. */
     voter: string;
 }
@@ -46,7 +46,7 @@ export interface QueryVoteResponse {
 /** QueryVotesRequest is the request type for the Query/Votes RPC method. */
 export interface QueryVotesRequest {
     /** proposal_id defines the unique id of the proposal. */
-    proposalId: number;
+    proposal_id: number;
     /** pagination defines an optional pagination for the request. */
     pagination: PageRequest | undefined;
 }
@@ -63,21 +63,21 @@ export interface QueryParamsRequest {
      * params_type defines which parameters to query for, can be one of "voting",
      * "tallying" or "deposit".
      */
-    paramsType: string;
+    params_type: string;
 }
 /** QueryParamsResponse is the response type for the Query/Params RPC method. */
 export interface QueryParamsResponse {
     /** voting_params defines the parameters related to voting. */
-    votingParams: VotingParams | undefined;
+    voting_params: VotingParams | undefined;
     /** deposit_params defines the parameters related to deposit. */
-    depositParams: DepositParams | undefined;
+    deposit_params: DepositParams | undefined;
     /** tally_params defines the parameters related to tally. */
-    tallyParams: TallyParams | undefined;
+    tally_params: TallyParams | undefined;
 }
 /** QueryDepositRequest is the request type for the Query/Deposit RPC method. */
 export interface QueryDepositRequest {
     /** proposal_id defines the unique id of the proposal. */
-    proposalId: number;
+    proposal_id: number;
     /** depositor defines the deposit addresses from the proposals. */
     depositor: string;
 }
@@ -89,7 +89,7 @@ export interface QueryDepositResponse {
 /** QueryDepositsRequest is the request type for the Query/Deposits RPC method. */
 export interface QueryDepositsRequest {
     /** proposal_id defines the unique id of the proposal. */
-    proposalId: number;
+    proposal_id: number;
     /** pagination defines an optional pagination for the request. */
     pagination: PageRequest | undefined;
 }
@@ -102,7 +102,7 @@ export interface QueryDepositsResponse {
 /** QueryTallyResultRequest is the request type for the Query/Tally RPC method. */
 export interface QueryTallyResultRequest {
     /** proposal_id defines the unique id of the proposal. */
-    proposalId: number;
+    proposal_id: number;
 }
 /** QueryTallyResultResponse is the response type for the Query/Tally RPC method. */
 export interface QueryTallyResultResponse {

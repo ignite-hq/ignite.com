@@ -3,8 +3,8 @@ import { Writer, Reader } from "protobufjs/minimal";
 export declare const protobufPackage = "ibc.applications.transfer.v1";
 /** GenesisState defines the ibc-transfer genesis state */
 export interface GenesisState {
-    portId: string;
-    denomTraces: DenomTrace[];
+    port_id: string;
+    denom_traces: DenomTrace[];
     params: Params | undefined;
 }
 export declare const GenesisState: {

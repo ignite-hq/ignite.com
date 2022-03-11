@@ -4,7 +4,7 @@ export declare const protobufPackage = "cosmos.gov.v1beta1";
 /** GenesisState defines the gov module's genesis state. */
 export interface GenesisState {
     /** starting_proposal_id is the ID of the starting proposal. */
-    startingProposalId: number;
+    starting_proposal_id: number;
     /** deposits defines all the deposits present at genesis. */
     deposits: Deposit[];
     /** votes defines all the votes present at genesis. */
@@ -12,11 +12,11 @@ export interface GenesisState {
     /** proposals defines all the proposals present at genesis. */
     proposals: Proposal[];
     /** params defines all the paramaters of related to deposit. */
-    depositParams: DepositParams | undefined;
+    deposit_params: DepositParams | undefined;
     /** params defines all the paramaters of related to voting. */
-    votingParams: VotingParams | undefined;
+    voting_params: VotingParams | undefined;
     /** params defines all the paramaters of related to tally. */
-    tallyParams: TallyParams | undefined;
+    tally_params: TallyParams | undefined;
 }
 export declare const GenesisState: {
     encode(message: GenesisState, writer?: Writer): Writer;

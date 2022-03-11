@@ -3,16 +3,16 @@ import { Reader, Writer } from "protobufjs/minimal";
 import { Coin } from "../../../cosmos/base/v1beta1/coin";
 export const protobufPackage = "cosmos.distribution.v1beta1";
 const baseMsgSetWithdrawAddress = {
-    delegatorAddress: "",
-    withdrawAddress: "",
+    delegator_address: "",
+    withdraw_address: "",
 };
 export const MsgSetWithdrawAddress = {
     encode(message, writer = Writer.create()) {
-        if (message.delegatorAddress !== "") {
-            writer.uint32(10).string(message.delegatorAddress);
+        if (message.delegator_address !== "") {
+            writer.uint32(10).string(message.delegator_address);
         }
-        if (message.withdrawAddress !== "") {
-            writer.uint32(18).string(message.withdrawAddress);
+        if (message.withdraw_address !== "") {
+            writer.uint32(18).string(message.withdraw_address);
         }
         return writer;
     },
@@ -24,10 +24,10 @@ export const MsgSetWithdrawAddress = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.delegatorAddress = reader.string();
+                    message.delegator_address = reader.string();
                     break;
                 case 2:
-                    message.withdrawAddress = reader.string();
+                    message.withdraw_address = reader.string();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -38,45 +38,45 @@ export const MsgSetWithdrawAddress = {
     },
     fromJSON(object) {
         const message = { ...baseMsgSetWithdrawAddress };
-        if (object.delegatorAddress !== undefined &&
-            object.delegatorAddress !== null) {
-            message.delegatorAddress = String(object.delegatorAddress);
+        if (object.delegator_address !== undefined &&
+            object.delegator_address !== null) {
+            message.delegator_address = String(object.delegator_address);
         }
         else {
-            message.delegatorAddress = "";
+            message.delegator_address = "";
         }
-        if (object.withdrawAddress !== undefined &&
-            object.withdrawAddress !== null) {
-            message.withdrawAddress = String(object.withdrawAddress);
+        if (object.withdraw_address !== undefined &&
+            object.withdraw_address !== null) {
+            message.withdraw_address = String(object.withdraw_address);
         }
         else {
-            message.withdrawAddress = "";
+            message.withdraw_address = "";
         }
         return message;
     },
     toJSON(message) {
         const obj = {};
-        message.delegatorAddress !== undefined &&
-            (obj.delegatorAddress = message.delegatorAddress);
-        message.withdrawAddress !== undefined &&
-            (obj.withdrawAddress = message.withdrawAddress);
+        message.delegator_address !== undefined &&
+            (obj.delegator_address = message.delegator_address);
+        message.withdraw_address !== undefined &&
+            (obj.withdraw_address = message.withdraw_address);
         return obj;
     },
     fromPartial(object) {
         const message = { ...baseMsgSetWithdrawAddress };
-        if (object.delegatorAddress !== undefined &&
-            object.delegatorAddress !== null) {
-            message.delegatorAddress = object.delegatorAddress;
+        if (object.delegator_address !== undefined &&
+            object.delegator_address !== null) {
+            message.delegator_address = object.delegator_address;
         }
         else {
-            message.delegatorAddress = "";
+            message.delegator_address = "";
         }
-        if (object.withdrawAddress !== undefined &&
-            object.withdrawAddress !== null) {
-            message.withdrawAddress = object.withdrawAddress;
+        if (object.withdraw_address !== undefined &&
+            object.withdraw_address !== null) {
+            message.withdraw_address = object.withdraw_address;
         }
         else {
-            message.withdrawAddress = "";
+            message.withdraw_address = "";
         }
         return message;
     },
@@ -120,16 +120,16 @@ export const MsgSetWithdrawAddressResponse = {
     },
 };
 const baseMsgWithdrawDelegatorReward = {
-    delegatorAddress: "",
-    validatorAddress: "",
+    delegator_address: "",
+    validator_address: "",
 };
 export const MsgWithdrawDelegatorReward = {
     encode(message, writer = Writer.create()) {
-        if (message.delegatorAddress !== "") {
-            writer.uint32(10).string(message.delegatorAddress);
+        if (message.delegator_address !== "") {
+            writer.uint32(10).string(message.delegator_address);
         }
-        if (message.validatorAddress !== "") {
-            writer.uint32(18).string(message.validatorAddress);
+        if (message.validator_address !== "") {
+            writer.uint32(18).string(message.validator_address);
         }
         return writer;
     },
@@ -143,10 +143,10 @@ export const MsgWithdrawDelegatorReward = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.delegatorAddress = reader.string();
+                    message.delegator_address = reader.string();
                     break;
                 case 2:
-                    message.validatorAddress = reader.string();
+                    message.validator_address = reader.string();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -159,47 +159,47 @@ export const MsgWithdrawDelegatorReward = {
         const message = {
             ...baseMsgWithdrawDelegatorReward,
         };
-        if (object.delegatorAddress !== undefined &&
-            object.delegatorAddress !== null) {
-            message.delegatorAddress = String(object.delegatorAddress);
+        if (object.delegator_address !== undefined &&
+            object.delegator_address !== null) {
+            message.delegator_address = String(object.delegator_address);
         }
         else {
-            message.delegatorAddress = "";
+            message.delegator_address = "";
         }
-        if (object.validatorAddress !== undefined &&
-            object.validatorAddress !== null) {
-            message.validatorAddress = String(object.validatorAddress);
+        if (object.validator_address !== undefined &&
+            object.validator_address !== null) {
+            message.validator_address = String(object.validator_address);
         }
         else {
-            message.validatorAddress = "";
+            message.validator_address = "";
         }
         return message;
     },
     toJSON(message) {
         const obj = {};
-        message.delegatorAddress !== undefined &&
-            (obj.delegatorAddress = message.delegatorAddress);
-        message.validatorAddress !== undefined &&
-            (obj.validatorAddress = message.validatorAddress);
+        message.delegator_address !== undefined &&
+            (obj.delegator_address = message.delegator_address);
+        message.validator_address !== undefined &&
+            (obj.validator_address = message.validator_address);
         return obj;
     },
     fromPartial(object) {
         const message = {
             ...baseMsgWithdrawDelegatorReward,
         };
-        if (object.delegatorAddress !== undefined &&
-            object.delegatorAddress !== null) {
-            message.delegatorAddress = object.delegatorAddress;
+        if (object.delegator_address !== undefined &&
+            object.delegator_address !== null) {
+            message.delegator_address = object.delegator_address;
         }
         else {
-            message.delegatorAddress = "";
+            message.delegator_address = "";
         }
-        if (object.validatorAddress !== undefined &&
-            object.validatorAddress !== null) {
-            message.validatorAddress = object.validatorAddress;
+        if (object.validator_address !== undefined &&
+            object.validator_address !== null) {
+            message.validator_address = object.validator_address;
         }
         else {
-            message.validatorAddress = "";
+            message.validator_address = "";
         }
         return message;
     },
@@ -242,11 +242,11 @@ export const MsgWithdrawDelegatorRewardResponse = {
         return message;
     },
 };
-const baseMsgWithdrawValidatorCommission = { validatorAddress: "" };
+const baseMsgWithdrawValidatorCommission = { validator_address: "" };
 export const MsgWithdrawValidatorCommission = {
     encode(message, writer = Writer.create()) {
-        if (message.validatorAddress !== "") {
-            writer.uint32(10).string(message.validatorAddress);
+        if (message.validator_address !== "") {
+            writer.uint32(10).string(message.validator_address);
         }
         return writer;
     },
@@ -260,7 +260,7 @@ export const MsgWithdrawValidatorCommission = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.validatorAddress = reader.string();
+                    message.validator_address = reader.string();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -273,31 +273,31 @@ export const MsgWithdrawValidatorCommission = {
         const message = {
             ...baseMsgWithdrawValidatorCommission,
         };
-        if (object.validatorAddress !== undefined &&
-            object.validatorAddress !== null) {
-            message.validatorAddress = String(object.validatorAddress);
+        if (object.validator_address !== undefined &&
+            object.validator_address !== null) {
+            message.validator_address = String(object.validator_address);
         }
         else {
-            message.validatorAddress = "";
+            message.validator_address = "";
         }
         return message;
     },
     toJSON(message) {
         const obj = {};
-        message.validatorAddress !== undefined &&
-            (obj.validatorAddress = message.validatorAddress);
+        message.validator_address !== undefined &&
+            (obj.validator_address = message.validator_address);
         return obj;
     },
     fromPartial(object) {
         const message = {
             ...baseMsgWithdrawValidatorCommission,
         };
-        if (object.validatorAddress !== undefined &&
-            object.validatorAddress !== null) {
-            message.validatorAddress = object.validatorAddress;
+        if (object.validator_address !== undefined &&
+            object.validator_address !== null) {
+            message.validator_address = object.validator_address;
         }
         else {
-            message.validatorAddress = "";
+            message.validator_address = "";
         }
         return message;
     },

@@ -121,14 +121,14 @@ export const FungibleTokenPacketData = {
         return message;
     },
 };
-const baseDenomTrace = { path: "", baseDenom: "" };
+const baseDenomTrace = { path: "", base_denom: "" };
 export const DenomTrace = {
     encode(message, writer = Writer.create()) {
         if (message.path !== "") {
             writer.uint32(10).string(message.path);
         }
-        if (message.baseDenom !== "") {
-            writer.uint32(18).string(message.baseDenom);
+        if (message.base_denom !== "") {
+            writer.uint32(18).string(message.base_denom);
         }
         return writer;
     },
@@ -143,7 +143,7 @@ export const DenomTrace = {
                     message.path = reader.string();
                     break;
                 case 2:
-                    message.baseDenom = reader.string();
+                    message.base_denom = reader.string();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -160,18 +160,18 @@ export const DenomTrace = {
         else {
             message.path = "";
         }
-        if (object.baseDenom !== undefined && object.baseDenom !== null) {
-            message.baseDenom = String(object.baseDenom);
+        if (object.base_denom !== undefined && object.base_denom !== null) {
+            message.base_denom = String(object.base_denom);
         }
         else {
-            message.baseDenom = "";
+            message.base_denom = "";
         }
         return message;
     },
     toJSON(message) {
         const obj = {};
         message.path !== undefined && (obj.path = message.path);
-        message.baseDenom !== undefined && (obj.baseDenom = message.baseDenom);
+        message.base_denom !== undefined && (obj.base_denom = message.base_denom);
         return obj;
     },
     fromPartial(object) {
@@ -182,23 +182,23 @@ export const DenomTrace = {
         else {
             message.path = "";
         }
-        if (object.baseDenom !== undefined && object.baseDenom !== null) {
-            message.baseDenom = object.baseDenom;
+        if (object.base_denom !== undefined && object.base_denom !== null) {
+            message.base_denom = object.base_denom;
         }
         else {
-            message.baseDenom = "";
+            message.base_denom = "";
         }
         return message;
     },
 };
-const baseParams = { sendEnabled: false, receiveEnabled: false };
+const baseParams = { send_enabled: false, receive_enabled: false };
 export const Params = {
     encode(message, writer = Writer.create()) {
-        if (message.sendEnabled === true) {
-            writer.uint32(8).bool(message.sendEnabled);
+        if (message.send_enabled === true) {
+            writer.uint32(8).bool(message.send_enabled);
         }
-        if (message.receiveEnabled === true) {
-            writer.uint32(16).bool(message.receiveEnabled);
+        if (message.receive_enabled === true) {
+            writer.uint32(16).bool(message.receive_enabled);
         }
         return writer;
     },
@@ -210,10 +210,10 @@ export const Params = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.sendEnabled = reader.bool();
+                    message.send_enabled = reader.bool();
                     break;
                 case 2:
-                    message.receiveEnabled = reader.bool();
+                    message.receive_enabled = reader.bool();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -224,41 +224,43 @@ export const Params = {
     },
     fromJSON(object) {
         const message = { ...baseParams };
-        if (object.sendEnabled !== undefined && object.sendEnabled !== null) {
-            message.sendEnabled = Boolean(object.sendEnabled);
+        if (object.send_enabled !== undefined && object.send_enabled !== null) {
+            message.send_enabled = Boolean(object.send_enabled);
         }
         else {
-            message.sendEnabled = false;
+            message.send_enabled = false;
         }
-        if (object.receiveEnabled !== undefined && object.receiveEnabled !== null) {
-            message.receiveEnabled = Boolean(object.receiveEnabled);
+        if (object.receive_enabled !== undefined &&
+            object.receive_enabled !== null) {
+            message.receive_enabled = Boolean(object.receive_enabled);
         }
         else {
-            message.receiveEnabled = false;
+            message.receive_enabled = false;
         }
         return message;
     },
     toJSON(message) {
         const obj = {};
-        message.sendEnabled !== undefined &&
-            (obj.sendEnabled = message.sendEnabled);
-        message.receiveEnabled !== undefined &&
-            (obj.receiveEnabled = message.receiveEnabled);
+        message.send_enabled !== undefined &&
+            (obj.send_enabled = message.send_enabled);
+        message.receive_enabled !== undefined &&
+            (obj.receive_enabled = message.receive_enabled);
         return obj;
     },
     fromPartial(object) {
         const message = { ...baseParams };
-        if (object.sendEnabled !== undefined && object.sendEnabled !== null) {
-            message.sendEnabled = object.sendEnabled;
+        if (object.send_enabled !== undefined && object.send_enabled !== null) {
+            message.send_enabled = object.send_enabled;
         }
         else {
-            message.sendEnabled = false;
+            message.send_enabled = false;
         }
-        if (object.receiveEnabled !== undefined && object.receiveEnabled !== null) {
-            message.receiveEnabled = object.receiveEnabled;
+        if (object.receive_enabled !== undefined &&
+            object.receive_enabled !== null) {
+            message.receive_enabled = object.receive_enabled;
         }
         else {
-            message.receiveEnabled = false;
+            message.receive_enabled = false;
         }
         return message;
     },

@@ -4,17 +4,17 @@ export declare const protobufPackage = "tendermint.types";
 export interface ValidatorSet {
     validators: Validator[];
     proposer: Validator | undefined;
-    totalVotingPower: number;
+    total_voting_power: number;
 }
 export interface Validator {
     address: Uint8Array;
-    pubKey: PublicKey | undefined;
-    votingPower: number;
-    proposerPriority: number;
+    pub_key: PublicKey | undefined;
+    voting_power: number;
+    proposer_priority: number;
 }
 export interface SimpleValidator {
-    pubKey: PublicKey | undefined;
-    votingPower: number;
+    pub_key: PublicKey | undefined;
+    voting_power: number;
 }
 export declare const ValidatorSet: {
     encode(message: ValidatorSet, writer?: Writer): Writer;

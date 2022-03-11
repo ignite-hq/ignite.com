@@ -21,15 +21,15 @@ export interface TxResponse {
      * The output of the application's logger (raw string). May be
      * non-deterministic.
      */
-    rawLog: string;
+    raw_log: string;
     /** The output of the application's logger (typed). May be non-deterministic. */
     logs: ABCIMessageLog[];
     /** Additional information. May be non-deterministic. */
     info: string;
     /** Amount of gas requested for transaction. */
-    gasWanted: number;
+    gas_wanted: number;
     /** Amount of gas consumed by transaction. */
-    gasUsed: number;
+    gas_used: number;
     /** The request transaction bytes. */
     tx: Any | undefined;
     /**
@@ -50,7 +50,7 @@ export interface TxResponse {
 }
 /** ABCIMessageLog defines a structure containing an indexed tx ABCI message log. */
 export interface ABCIMessageLog {
-    msgIndex: number;
+    msg_index: number;
     log: string;
     /**
      * Events contains a slice of Event objects that were emitted during some
@@ -77,9 +77,9 @@ export interface Attribute {
 /** GasInfo defines tx execution gas context. */
 export interface GasInfo {
     /** GasWanted is the maximum units of work we allow this tx to perform. */
-    gasWanted: number;
+    gas_wanted: number;
     /** GasUsed is the amount of gas actually consumed. */
-    gasUsed: number;
+    gas_used: number;
 }
 /** Result is the union of ResponseFormat and ResponseCheckTx. */
 export interface Result {
@@ -101,7 +101,7 @@ export interface Result {
  * successfully simulated.
  */
 export interface SimulationResponse {
-    gasInfo: GasInfo | undefined;
+    gas_info: GasInfo | undefined;
     result: Result | undefined;
 }
 /**
@@ -109,7 +109,7 @@ export interface SimulationResponse {
  * execution.
  */
 export interface MsgData {
-    msgType: string;
+    msg_type: string;
     data: Uint8Array;
 }
 /**
@@ -122,13 +122,13 @@ export interface TxMsgData {
 /** SearchTxsResult defines a structure for querying txs pageable */
 export interface SearchTxsResult {
     /** Count of all txs */
-    totalCount: number;
+    total_count: number;
     /** Count of txs in current page */
     count: number;
     /** Index of current page, start from 1 */
-    pageNumber: number;
+    page_number: number;
     /** Count of total pages */
-    pageTotal: number;
+    page_total: number;
     /** Max count txs per page */
     limit: number;
     /** List of txs in current page */

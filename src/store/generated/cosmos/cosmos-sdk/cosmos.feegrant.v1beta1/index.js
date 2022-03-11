@@ -1,6 +1,4 @@
 import { txClient, queryClient, MissingWalletError, registry } from './module';
-// @ts-ignore
-import { SpVuexError } from '@starport/vuex';
 import { BasicAllowance } from "./module/types/cosmos/feegrant/v1beta1/feegrant";
 import { PeriodicAllowance } from "./module/types/cosmos/feegrant/v1beta1/feegrant";
 import { AllowedMsgAllowance } from "./module/types/cosmos/feegrant/v1beta1/feegrant";
@@ -112,7 +110,7 @@ export default {
                     await dispatch(sub.action, sub.payload);
                 }
                 catch (e) {
-                    throw new SpVuexError('Subscriptions: ' + e.message);
+                    throw new Error('Subscriptions: ' + e.message);
                 }
             });
         },
@@ -127,7 +125,7 @@ export default {
                 return getters['getAllowance']({ params: { ...key }, query }) ?? {};
             }
             catch (e) {
-                throw new SpVuexError('QueryClient:QueryAllowance', 'API Node Unavailable. Could not perform query: ' + e.message);
+                throw new Error('QueryClient:QueryAllowance API Node Unavailable. Could not perform query: ' + e.message);
             }
         },
         async QueryAllowances({ commit, rootGetters, getters }, { options: { subscribe, all } = { subscribe: false, all: false }, params, query = null }) {
@@ -145,7 +143,7 @@ export default {
                 return getters['getAllowances']({ params: { ...key }, query }) ?? {};
             }
             catch (e) {
-                throw new SpVuexError('QueryClient:QueryAllowances', 'API Node Unavailable. Could not perform query: ' + e.message);
+                throw new Error('QueryClient:QueryAllowances API Node Unavailable. Could not perform query: ' + e.message);
             }
         },
         async sendMsgRevokeAllowance({ rootGetters }, { value, fee = [], memo = '' }) {
@@ -158,10 +156,10 @@ export default {
             }
             catch (e) {
                 if (e == MissingWalletError) {
-                    throw new SpVuexError('TxClient:MsgRevokeAllowance:Init', 'Could not initialize signing client. Wallet is required.');
+                    throw new Error('TxClient:MsgRevokeAllowance:Init Could not initialize signing client. Wallet is required.');
                 }
                 else {
-                    throw new SpVuexError('TxClient:MsgRevokeAllowance:Send', 'Could not broadcast Tx: ' + e.message);
+                    throw new Error('TxClient:MsgRevokeAllowance:Send Could not broadcast Tx: ' + e.message);
                 }
             }
         },
@@ -175,10 +173,10 @@ export default {
             }
             catch (e) {
                 if (e == MissingWalletError) {
-                    throw new SpVuexError('TxClient:MsgGrantAllowance:Init', 'Could not initialize signing client. Wallet is required.');
+                    throw new Error('TxClient:MsgGrantAllowance:Init Could not initialize signing client. Wallet is required.');
                 }
                 else {
-                    throw new SpVuexError('TxClient:MsgGrantAllowance:Send', 'Could not broadcast Tx: ' + e.message);
+                    throw new Error('TxClient:MsgGrantAllowance:Send Could not broadcast Tx: ' + e.message);
                 }
             }
         },
@@ -190,10 +188,10 @@ export default {
             }
             catch (e) {
                 if (e == MissingWalletError) {
-                    throw new SpVuexError('TxClient:MsgRevokeAllowance:Init', 'Could not initialize signing client. Wallet is required.');
+                    throw new Error('TxClient:MsgRevokeAllowance:Init  Could not initialize signing client. Wallet is required.');
                 }
                 else {
-                    throw new SpVuexError('TxClient:MsgRevokeAllowance:Create', 'Could not create message: ' + e.message);
+                    throw new Error('TxClient:MsgRevokeAllowance:Create  Could not create message: ' + e.message);
                 }
             }
         },
@@ -205,10 +203,10 @@ export default {
             }
             catch (e) {
                 if (e == MissingWalletError) {
-                    throw new SpVuexError('TxClient:MsgGrantAllowance:Init', 'Could not initialize signing client. Wallet is required.');
+                    throw new Error('TxClient:MsgGrantAllowance:Init  Could not initialize signing client. Wallet is required.');
                 }
                 else {
-                    throw new SpVuexError('TxClient:MsgGrantAllowance:Create', 'Could not create message: ' + e.message);
+                    throw new Error('TxClient:MsgGrantAllowance:Create  Could not create message: ' + e.message);
                 }
             }
         },

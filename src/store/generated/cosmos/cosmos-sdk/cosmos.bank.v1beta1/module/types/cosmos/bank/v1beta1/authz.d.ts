@@ -8,7 +8,7 @@ export declare const protobufPackage = "cosmos.bank.v1beta1";
  * Since: cosmos-sdk 0.43
  */
 export interface SendAuthorization {
-    spendLimit: Coin[];
+    spend_limit: Coin[];
 }
 export declare const SendAuthorization: {
     encode(message: SendAuthorization, writer?: Writer): Writer;

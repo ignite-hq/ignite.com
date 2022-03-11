@@ -6,7 +6,7 @@ export const protobufPackage = "cosmos.authz.v1beta1";
 const baseQueryGrantsRequest = {
     granter: "",
     grantee: "",
-    msgTypeUrl: "",
+    msg_type_url: "",
 };
 export const QueryGrantsRequest = {
     encode(message, writer = Writer.create()) {
@@ -16,8 +16,8 @@ export const QueryGrantsRequest = {
         if (message.grantee !== "") {
             writer.uint32(18).string(message.grantee);
         }
-        if (message.msgTypeUrl !== "") {
-            writer.uint32(26).string(message.msgTypeUrl);
+        if (message.msg_type_url !== "") {
+            writer.uint32(26).string(message.msg_type_url);
         }
         if (message.pagination !== undefined) {
             PageRequest.encode(message.pagination, writer.uint32(34).fork()).ldelim();
@@ -38,7 +38,7 @@ export const QueryGrantsRequest = {
                     message.grantee = reader.string();
                     break;
                 case 3:
-                    message.msgTypeUrl = reader.string();
+                    message.msg_type_url = reader.string();
                     break;
                 case 4:
                     message.pagination = PageRequest.decode(reader, reader.uint32());
@@ -64,11 +64,11 @@ export const QueryGrantsRequest = {
         else {
             message.grantee = "";
         }
-        if (object.msgTypeUrl !== undefined && object.msgTypeUrl !== null) {
-            message.msgTypeUrl = String(object.msgTypeUrl);
+        if (object.msg_type_url !== undefined && object.msg_type_url !== null) {
+            message.msg_type_url = String(object.msg_type_url);
         }
         else {
-            message.msgTypeUrl = "";
+            message.msg_type_url = "";
         }
         if (object.pagination !== undefined && object.pagination !== null) {
             message.pagination = PageRequest.fromJSON(object.pagination);
@@ -82,7 +82,8 @@ export const QueryGrantsRequest = {
         const obj = {};
         message.granter !== undefined && (obj.granter = message.granter);
         message.grantee !== undefined && (obj.grantee = message.grantee);
-        message.msgTypeUrl !== undefined && (obj.msgTypeUrl = message.msgTypeUrl);
+        message.msg_type_url !== undefined &&
+            (obj.msg_type_url = message.msg_type_url);
         message.pagination !== undefined &&
             (obj.pagination = message.pagination
                 ? PageRequest.toJSON(message.pagination)
@@ -103,11 +104,11 @@ export const QueryGrantsRequest = {
         else {
             message.grantee = "";
         }
-        if (object.msgTypeUrl !== undefined && object.msgTypeUrl !== null) {
-            message.msgTypeUrl = object.msgTypeUrl;
+        if (object.msg_type_url !== undefined && object.msg_type_url !== null) {
+            message.msg_type_url = object.msg_type_url;
         }
         else {
-            message.msgTypeUrl = "";
+            message.msg_type_url = "";
         }
         if (object.pagination !== undefined && object.pagination !== null) {
             message.pagination = PageRequest.fromPartial(object.pagination);

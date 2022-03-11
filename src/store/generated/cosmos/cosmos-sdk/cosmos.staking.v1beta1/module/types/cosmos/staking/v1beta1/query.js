@@ -162,11 +162,11 @@ export const QueryValidatorsResponse = {
         return message;
     },
 };
-const baseQueryValidatorRequest = { validatorAddr: "" };
+const baseQueryValidatorRequest = { validator_addr: "" };
 export const QueryValidatorRequest = {
     encode(message, writer = Writer.create()) {
-        if (message.validatorAddr !== "") {
-            writer.uint32(10).string(message.validatorAddr);
+        if (message.validator_addr !== "") {
+            writer.uint32(10).string(message.validator_addr);
         }
         return writer;
     },
@@ -178,7 +178,7 @@ export const QueryValidatorRequest = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.validatorAddr = reader.string();
+                    message.validator_addr = reader.string();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -189,27 +189,27 @@ export const QueryValidatorRequest = {
     },
     fromJSON(object) {
         const message = { ...baseQueryValidatorRequest };
-        if (object.validatorAddr !== undefined && object.validatorAddr !== null) {
-            message.validatorAddr = String(object.validatorAddr);
+        if (object.validator_addr !== undefined && object.validator_addr !== null) {
+            message.validator_addr = String(object.validator_addr);
         }
         else {
-            message.validatorAddr = "";
+            message.validator_addr = "";
         }
         return message;
     },
     toJSON(message) {
         const obj = {};
-        message.validatorAddr !== undefined &&
-            (obj.validatorAddr = message.validatorAddr);
+        message.validator_addr !== undefined &&
+            (obj.validator_addr = message.validator_addr);
         return obj;
     },
     fromPartial(object) {
         const message = { ...baseQueryValidatorRequest };
-        if (object.validatorAddr !== undefined && object.validatorAddr !== null) {
-            message.validatorAddr = object.validatorAddr;
+        if (object.validator_addr !== undefined && object.validator_addr !== null) {
+            message.validator_addr = object.validator_addr;
         }
         else {
-            message.validatorAddr = "";
+            message.validator_addr = "";
         }
         return message;
     },
@@ -268,11 +268,11 @@ export const QueryValidatorResponse = {
         return message;
     },
 };
-const baseQueryValidatorDelegationsRequest = { validatorAddr: "" };
+const baseQueryValidatorDelegationsRequest = { validator_addr: "" };
 export const QueryValidatorDelegationsRequest = {
     encode(message, writer = Writer.create()) {
-        if (message.validatorAddr !== "") {
-            writer.uint32(10).string(message.validatorAddr);
+        if (message.validator_addr !== "") {
+            writer.uint32(10).string(message.validator_addr);
         }
         if (message.pagination !== undefined) {
             PageRequest.encode(message.pagination, writer.uint32(18).fork()).ldelim();
@@ -289,7 +289,7 @@ export const QueryValidatorDelegationsRequest = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.validatorAddr = reader.string();
+                    message.validator_addr = reader.string();
                     break;
                 case 2:
                     message.pagination = PageRequest.decode(reader, reader.uint32());
@@ -305,11 +305,11 @@ export const QueryValidatorDelegationsRequest = {
         const message = {
             ...baseQueryValidatorDelegationsRequest,
         };
-        if (object.validatorAddr !== undefined && object.validatorAddr !== null) {
-            message.validatorAddr = String(object.validatorAddr);
+        if (object.validator_addr !== undefined && object.validator_addr !== null) {
+            message.validator_addr = String(object.validator_addr);
         }
         else {
-            message.validatorAddr = "";
+            message.validator_addr = "";
         }
         if (object.pagination !== undefined && object.pagination !== null) {
             message.pagination = PageRequest.fromJSON(object.pagination);
@@ -321,8 +321,8 @@ export const QueryValidatorDelegationsRequest = {
     },
     toJSON(message) {
         const obj = {};
-        message.validatorAddr !== undefined &&
-            (obj.validatorAddr = message.validatorAddr);
+        message.validator_addr !== undefined &&
+            (obj.validator_addr = message.validator_addr);
         message.pagination !== undefined &&
             (obj.pagination = message.pagination
                 ? PageRequest.toJSON(message.pagination)
@@ -333,11 +333,11 @@ export const QueryValidatorDelegationsRequest = {
         const message = {
             ...baseQueryValidatorDelegationsRequest,
         };
-        if (object.validatorAddr !== undefined && object.validatorAddr !== null) {
-            message.validatorAddr = object.validatorAddr;
+        if (object.validator_addr !== undefined && object.validator_addr !== null) {
+            message.validator_addr = object.validator_addr;
         }
         else {
-            message.validatorAddr = "";
+            message.validator_addr = "";
         }
         if (object.pagination !== undefined && object.pagination !== null) {
             message.pagination = PageRequest.fromPartial(object.pagination);
@@ -351,7 +351,7 @@ export const QueryValidatorDelegationsRequest = {
 const baseQueryValidatorDelegationsResponse = {};
 export const QueryValidatorDelegationsResponse = {
     encode(message, writer = Writer.create()) {
-        for (const v of message.delegationResponses) {
+        for (const v of message.delegation_responses) {
             DelegationResponse.encode(v, writer.uint32(10).fork()).ldelim();
         }
         if (message.pagination !== undefined) {
@@ -365,12 +365,12 @@ export const QueryValidatorDelegationsResponse = {
         const message = {
             ...baseQueryValidatorDelegationsResponse,
         };
-        message.delegationResponses = [];
+        message.delegation_responses = [];
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.delegationResponses.push(DelegationResponse.decode(reader, reader.uint32()));
+                    message.delegation_responses.push(DelegationResponse.decode(reader, reader.uint32()));
                     break;
                 case 2:
                     message.pagination = PageResponse.decode(reader, reader.uint32());
@@ -386,11 +386,11 @@ export const QueryValidatorDelegationsResponse = {
         const message = {
             ...baseQueryValidatorDelegationsResponse,
         };
-        message.delegationResponses = [];
-        if (object.delegationResponses !== undefined &&
-            object.delegationResponses !== null) {
-            for (const e of object.delegationResponses) {
-                message.delegationResponses.push(DelegationResponse.fromJSON(e));
+        message.delegation_responses = [];
+        if (object.delegation_responses !== undefined &&
+            object.delegation_responses !== null) {
+            for (const e of object.delegation_responses) {
+                message.delegation_responses.push(DelegationResponse.fromJSON(e));
             }
         }
         if (object.pagination !== undefined && object.pagination !== null) {
@@ -403,11 +403,11 @@ export const QueryValidatorDelegationsResponse = {
     },
     toJSON(message) {
         const obj = {};
-        if (message.delegationResponses) {
-            obj.delegationResponses = message.delegationResponses.map((e) => e ? DelegationResponse.toJSON(e) : undefined);
+        if (message.delegation_responses) {
+            obj.delegation_responses = message.delegation_responses.map((e) => e ? DelegationResponse.toJSON(e) : undefined);
         }
         else {
-            obj.delegationResponses = [];
+            obj.delegation_responses = [];
         }
         message.pagination !== undefined &&
             (obj.pagination = message.pagination
@@ -419,11 +419,11 @@ export const QueryValidatorDelegationsResponse = {
         const message = {
             ...baseQueryValidatorDelegationsResponse,
         };
-        message.delegationResponses = [];
-        if (object.delegationResponses !== undefined &&
-            object.delegationResponses !== null) {
-            for (const e of object.delegationResponses) {
-                message.delegationResponses.push(DelegationResponse.fromPartial(e));
+        message.delegation_responses = [];
+        if (object.delegation_responses !== undefined &&
+            object.delegation_responses !== null) {
+            for (const e of object.delegation_responses) {
+                message.delegation_responses.push(DelegationResponse.fromPartial(e));
             }
         }
         if (object.pagination !== undefined && object.pagination !== null) {
@@ -436,12 +436,12 @@ export const QueryValidatorDelegationsResponse = {
     },
 };
 const baseQueryValidatorUnbondingDelegationsRequest = {
-    validatorAddr: "",
+    validator_addr: "",
 };
 export const QueryValidatorUnbondingDelegationsRequest = {
     encode(message, writer = Writer.create()) {
-        if (message.validatorAddr !== "") {
-            writer.uint32(10).string(message.validatorAddr);
+        if (message.validator_addr !== "") {
+            writer.uint32(10).string(message.validator_addr);
         }
         if (message.pagination !== undefined) {
             PageRequest.encode(message.pagination, writer.uint32(18).fork()).ldelim();
@@ -458,7 +458,7 @@ export const QueryValidatorUnbondingDelegationsRequest = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.validatorAddr = reader.string();
+                    message.validator_addr = reader.string();
                     break;
                 case 2:
                     message.pagination = PageRequest.decode(reader, reader.uint32());
@@ -474,11 +474,11 @@ export const QueryValidatorUnbondingDelegationsRequest = {
         const message = {
             ...baseQueryValidatorUnbondingDelegationsRequest,
         };
-        if (object.validatorAddr !== undefined && object.validatorAddr !== null) {
-            message.validatorAddr = String(object.validatorAddr);
+        if (object.validator_addr !== undefined && object.validator_addr !== null) {
+            message.validator_addr = String(object.validator_addr);
         }
         else {
-            message.validatorAddr = "";
+            message.validator_addr = "";
         }
         if (object.pagination !== undefined && object.pagination !== null) {
             message.pagination = PageRequest.fromJSON(object.pagination);
@@ -490,8 +490,8 @@ export const QueryValidatorUnbondingDelegationsRequest = {
     },
     toJSON(message) {
         const obj = {};
-        message.validatorAddr !== undefined &&
-            (obj.validatorAddr = message.validatorAddr);
+        message.validator_addr !== undefined &&
+            (obj.validator_addr = message.validator_addr);
         message.pagination !== undefined &&
             (obj.pagination = message.pagination
                 ? PageRequest.toJSON(message.pagination)
@@ -502,11 +502,11 @@ export const QueryValidatorUnbondingDelegationsRequest = {
         const message = {
             ...baseQueryValidatorUnbondingDelegationsRequest,
         };
-        if (object.validatorAddr !== undefined && object.validatorAddr !== null) {
-            message.validatorAddr = object.validatorAddr;
+        if (object.validator_addr !== undefined && object.validator_addr !== null) {
+            message.validator_addr = object.validator_addr;
         }
         else {
-            message.validatorAddr = "";
+            message.validator_addr = "";
         }
         if (object.pagination !== undefined && object.pagination !== null) {
             message.pagination = PageRequest.fromPartial(object.pagination);
@@ -520,7 +520,7 @@ export const QueryValidatorUnbondingDelegationsRequest = {
 const baseQueryValidatorUnbondingDelegationsResponse = {};
 export const QueryValidatorUnbondingDelegationsResponse = {
     encode(message, writer = Writer.create()) {
-        for (const v of message.unbondingResponses) {
+        for (const v of message.unbonding_responses) {
             UnbondingDelegation.encode(v, writer.uint32(10).fork()).ldelim();
         }
         if (message.pagination !== undefined) {
@@ -534,12 +534,12 @@ export const QueryValidatorUnbondingDelegationsResponse = {
         const message = {
             ...baseQueryValidatorUnbondingDelegationsResponse,
         };
-        message.unbondingResponses = [];
+        message.unbonding_responses = [];
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.unbondingResponses.push(UnbondingDelegation.decode(reader, reader.uint32()));
+                    message.unbonding_responses.push(UnbondingDelegation.decode(reader, reader.uint32()));
                     break;
                 case 2:
                     message.pagination = PageResponse.decode(reader, reader.uint32());
@@ -555,11 +555,11 @@ export const QueryValidatorUnbondingDelegationsResponse = {
         const message = {
             ...baseQueryValidatorUnbondingDelegationsResponse,
         };
-        message.unbondingResponses = [];
-        if (object.unbondingResponses !== undefined &&
-            object.unbondingResponses !== null) {
-            for (const e of object.unbondingResponses) {
-                message.unbondingResponses.push(UnbondingDelegation.fromJSON(e));
+        message.unbonding_responses = [];
+        if (object.unbonding_responses !== undefined &&
+            object.unbonding_responses !== null) {
+            for (const e of object.unbonding_responses) {
+                message.unbonding_responses.push(UnbondingDelegation.fromJSON(e));
             }
         }
         if (object.pagination !== undefined && object.pagination !== null) {
@@ -572,11 +572,11 @@ export const QueryValidatorUnbondingDelegationsResponse = {
     },
     toJSON(message) {
         const obj = {};
-        if (message.unbondingResponses) {
-            obj.unbondingResponses = message.unbondingResponses.map((e) => e ? UnbondingDelegation.toJSON(e) : undefined);
+        if (message.unbonding_responses) {
+            obj.unbonding_responses = message.unbonding_responses.map((e) => e ? UnbondingDelegation.toJSON(e) : undefined);
         }
         else {
-            obj.unbondingResponses = [];
+            obj.unbonding_responses = [];
         }
         message.pagination !== undefined &&
             (obj.pagination = message.pagination
@@ -588,11 +588,11 @@ export const QueryValidatorUnbondingDelegationsResponse = {
         const message = {
             ...baseQueryValidatorUnbondingDelegationsResponse,
         };
-        message.unbondingResponses = [];
-        if (object.unbondingResponses !== undefined &&
-            object.unbondingResponses !== null) {
-            for (const e of object.unbondingResponses) {
-                message.unbondingResponses.push(UnbondingDelegation.fromPartial(e));
+        message.unbonding_responses = [];
+        if (object.unbonding_responses !== undefined &&
+            object.unbonding_responses !== null) {
+            for (const e of object.unbonding_responses) {
+                message.unbonding_responses.push(UnbondingDelegation.fromPartial(e));
             }
         }
         if (object.pagination !== undefined && object.pagination !== null) {
@@ -605,16 +605,16 @@ export const QueryValidatorUnbondingDelegationsResponse = {
     },
 };
 const baseQueryDelegationRequest = {
-    delegatorAddr: "",
-    validatorAddr: "",
+    delegator_addr: "",
+    validator_addr: "",
 };
 export const QueryDelegationRequest = {
     encode(message, writer = Writer.create()) {
-        if (message.delegatorAddr !== "") {
-            writer.uint32(10).string(message.delegatorAddr);
+        if (message.delegator_addr !== "") {
+            writer.uint32(10).string(message.delegator_addr);
         }
-        if (message.validatorAddr !== "") {
-            writer.uint32(18).string(message.validatorAddr);
+        if (message.validator_addr !== "") {
+            writer.uint32(18).string(message.validator_addr);
         }
         return writer;
     },
@@ -626,10 +626,10 @@ export const QueryDelegationRequest = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.delegatorAddr = reader.string();
+                    message.delegator_addr = reader.string();
                     break;
                 case 2:
-                    message.validatorAddr = reader.string();
+                    message.validator_addr = reader.string();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -640,41 +640,41 @@ export const QueryDelegationRequest = {
     },
     fromJSON(object) {
         const message = { ...baseQueryDelegationRequest };
-        if (object.delegatorAddr !== undefined && object.delegatorAddr !== null) {
-            message.delegatorAddr = String(object.delegatorAddr);
+        if (object.delegator_addr !== undefined && object.delegator_addr !== null) {
+            message.delegator_addr = String(object.delegator_addr);
         }
         else {
-            message.delegatorAddr = "";
+            message.delegator_addr = "";
         }
-        if (object.validatorAddr !== undefined && object.validatorAddr !== null) {
-            message.validatorAddr = String(object.validatorAddr);
+        if (object.validator_addr !== undefined && object.validator_addr !== null) {
+            message.validator_addr = String(object.validator_addr);
         }
         else {
-            message.validatorAddr = "";
+            message.validator_addr = "";
         }
         return message;
     },
     toJSON(message) {
         const obj = {};
-        message.delegatorAddr !== undefined &&
-            (obj.delegatorAddr = message.delegatorAddr);
-        message.validatorAddr !== undefined &&
-            (obj.validatorAddr = message.validatorAddr);
+        message.delegator_addr !== undefined &&
+            (obj.delegator_addr = message.delegator_addr);
+        message.validator_addr !== undefined &&
+            (obj.validator_addr = message.validator_addr);
         return obj;
     },
     fromPartial(object) {
         const message = { ...baseQueryDelegationRequest };
-        if (object.delegatorAddr !== undefined && object.delegatorAddr !== null) {
-            message.delegatorAddr = object.delegatorAddr;
+        if (object.delegator_addr !== undefined && object.delegator_addr !== null) {
+            message.delegator_addr = object.delegator_addr;
         }
         else {
-            message.delegatorAddr = "";
+            message.delegator_addr = "";
         }
-        if (object.validatorAddr !== undefined && object.validatorAddr !== null) {
-            message.validatorAddr = object.validatorAddr;
+        if (object.validator_addr !== undefined && object.validator_addr !== null) {
+            message.validator_addr = object.validator_addr;
         }
         else {
-            message.validatorAddr = "";
+            message.validator_addr = "";
         }
         return message;
     },
@@ -682,8 +682,8 @@ export const QueryDelegationRequest = {
 const baseQueryDelegationResponse = {};
 export const QueryDelegationResponse = {
     encode(message, writer = Writer.create()) {
-        if (message.delegationResponse !== undefined) {
-            DelegationResponse.encode(message.delegationResponse, writer.uint32(10).fork()).ldelim();
+        if (message.delegation_response !== undefined) {
+            DelegationResponse.encode(message.delegation_response, writer.uint32(10).fork()).ldelim();
         }
         return writer;
     },
@@ -697,7 +697,7 @@ export const QueryDelegationResponse = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.delegationResponse = DelegationResponse.decode(reader, reader.uint32());
+                    message.delegation_response = DelegationResponse.decode(reader, reader.uint32());
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -710,20 +710,20 @@ export const QueryDelegationResponse = {
         const message = {
             ...baseQueryDelegationResponse,
         };
-        if (object.delegationResponse !== undefined &&
-            object.delegationResponse !== null) {
-            message.delegationResponse = DelegationResponse.fromJSON(object.delegationResponse);
+        if (object.delegation_response !== undefined &&
+            object.delegation_response !== null) {
+            message.delegation_response = DelegationResponse.fromJSON(object.delegation_response);
         }
         else {
-            message.delegationResponse = undefined;
+            message.delegation_response = undefined;
         }
         return message;
     },
     toJSON(message) {
         const obj = {};
-        message.delegationResponse !== undefined &&
-            (obj.delegationResponse = message.delegationResponse
-                ? DelegationResponse.toJSON(message.delegationResponse)
+        message.delegation_response !== undefined &&
+            (obj.delegation_response = message.delegation_response
+                ? DelegationResponse.toJSON(message.delegation_response)
                 : undefined);
         return obj;
     },
@@ -731,27 +731,27 @@ export const QueryDelegationResponse = {
         const message = {
             ...baseQueryDelegationResponse,
         };
-        if (object.delegationResponse !== undefined &&
-            object.delegationResponse !== null) {
-            message.delegationResponse = DelegationResponse.fromPartial(object.delegationResponse);
+        if (object.delegation_response !== undefined &&
+            object.delegation_response !== null) {
+            message.delegation_response = DelegationResponse.fromPartial(object.delegation_response);
         }
         else {
-            message.delegationResponse = undefined;
+            message.delegation_response = undefined;
         }
         return message;
     },
 };
 const baseQueryUnbondingDelegationRequest = {
-    delegatorAddr: "",
-    validatorAddr: "",
+    delegator_addr: "",
+    validator_addr: "",
 };
 export const QueryUnbondingDelegationRequest = {
     encode(message, writer = Writer.create()) {
-        if (message.delegatorAddr !== "") {
-            writer.uint32(10).string(message.delegatorAddr);
+        if (message.delegator_addr !== "") {
+            writer.uint32(10).string(message.delegator_addr);
         }
-        if (message.validatorAddr !== "") {
-            writer.uint32(18).string(message.validatorAddr);
+        if (message.validator_addr !== "") {
+            writer.uint32(18).string(message.validator_addr);
         }
         return writer;
     },
@@ -765,10 +765,10 @@ export const QueryUnbondingDelegationRequest = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.delegatorAddr = reader.string();
+                    message.delegator_addr = reader.string();
                     break;
                 case 2:
-                    message.validatorAddr = reader.string();
+                    message.validator_addr = reader.string();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -781,43 +781,43 @@ export const QueryUnbondingDelegationRequest = {
         const message = {
             ...baseQueryUnbondingDelegationRequest,
         };
-        if (object.delegatorAddr !== undefined && object.delegatorAddr !== null) {
-            message.delegatorAddr = String(object.delegatorAddr);
+        if (object.delegator_addr !== undefined && object.delegator_addr !== null) {
+            message.delegator_addr = String(object.delegator_addr);
         }
         else {
-            message.delegatorAddr = "";
+            message.delegator_addr = "";
         }
-        if (object.validatorAddr !== undefined && object.validatorAddr !== null) {
-            message.validatorAddr = String(object.validatorAddr);
+        if (object.validator_addr !== undefined && object.validator_addr !== null) {
+            message.validator_addr = String(object.validator_addr);
         }
         else {
-            message.validatorAddr = "";
+            message.validator_addr = "";
         }
         return message;
     },
     toJSON(message) {
         const obj = {};
-        message.delegatorAddr !== undefined &&
-            (obj.delegatorAddr = message.delegatorAddr);
-        message.validatorAddr !== undefined &&
-            (obj.validatorAddr = message.validatorAddr);
+        message.delegator_addr !== undefined &&
+            (obj.delegator_addr = message.delegator_addr);
+        message.validator_addr !== undefined &&
+            (obj.validator_addr = message.validator_addr);
         return obj;
     },
     fromPartial(object) {
         const message = {
             ...baseQueryUnbondingDelegationRequest,
         };
-        if (object.delegatorAddr !== undefined && object.delegatorAddr !== null) {
-            message.delegatorAddr = object.delegatorAddr;
+        if (object.delegator_addr !== undefined && object.delegator_addr !== null) {
+            message.delegator_addr = object.delegator_addr;
         }
         else {
-            message.delegatorAddr = "";
+            message.delegator_addr = "";
         }
-        if (object.validatorAddr !== undefined && object.validatorAddr !== null) {
-            message.validatorAddr = object.validatorAddr;
+        if (object.validator_addr !== undefined && object.validator_addr !== null) {
+            message.validator_addr = object.validator_addr;
         }
         else {
-            message.validatorAddr = "";
+            message.validator_addr = "";
         }
         return message;
     },
@@ -882,11 +882,11 @@ export const QueryUnbondingDelegationResponse = {
         return message;
     },
 };
-const baseQueryDelegatorDelegationsRequest = { delegatorAddr: "" };
+const baseQueryDelegatorDelegationsRequest = { delegator_addr: "" };
 export const QueryDelegatorDelegationsRequest = {
     encode(message, writer = Writer.create()) {
-        if (message.delegatorAddr !== "") {
-            writer.uint32(10).string(message.delegatorAddr);
+        if (message.delegator_addr !== "") {
+            writer.uint32(10).string(message.delegator_addr);
         }
         if (message.pagination !== undefined) {
             PageRequest.encode(message.pagination, writer.uint32(18).fork()).ldelim();
@@ -903,7 +903,7 @@ export const QueryDelegatorDelegationsRequest = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.delegatorAddr = reader.string();
+                    message.delegator_addr = reader.string();
                     break;
                 case 2:
                     message.pagination = PageRequest.decode(reader, reader.uint32());
@@ -919,11 +919,11 @@ export const QueryDelegatorDelegationsRequest = {
         const message = {
             ...baseQueryDelegatorDelegationsRequest,
         };
-        if (object.delegatorAddr !== undefined && object.delegatorAddr !== null) {
-            message.delegatorAddr = String(object.delegatorAddr);
+        if (object.delegator_addr !== undefined && object.delegator_addr !== null) {
+            message.delegator_addr = String(object.delegator_addr);
         }
         else {
-            message.delegatorAddr = "";
+            message.delegator_addr = "";
         }
         if (object.pagination !== undefined && object.pagination !== null) {
             message.pagination = PageRequest.fromJSON(object.pagination);
@@ -935,8 +935,8 @@ export const QueryDelegatorDelegationsRequest = {
     },
     toJSON(message) {
         const obj = {};
-        message.delegatorAddr !== undefined &&
-            (obj.delegatorAddr = message.delegatorAddr);
+        message.delegator_addr !== undefined &&
+            (obj.delegator_addr = message.delegator_addr);
         message.pagination !== undefined &&
             (obj.pagination = message.pagination
                 ? PageRequest.toJSON(message.pagination)
@@ -947,11 +947,11 @@ export const QueryDelegatorDelegationsRequest = {
         const message = {
             ...baseQueryDelegatorDelegationsRequest,
         };
-        if (object.delegatorAddr !== undefined && object.delegatorAddr !== null) {
-            message.delegatorAddr = object.delegatorAddr;
+        if (object.delegator_addr !== undefined && object.delegator_addr !== null) {
+            message.delegator_addr = object.delegator_addr;
         }
         else {
-            message.delegatorAddr = "";
+            message.delegator_addr = "";
         }
         if (object.pagination !== undefined && object.pagination !== null) {
             message.pagination = PageRequest.fromPartial(object.pagination);
@@ -965,7 +965,7 @@ export const QueryDelegatorDelegationsRequest = {
 const baseQueryDelegatorDelegationsResponse = {};
 export const QueryDelegatorDelegationsResponse = {
     encode(message, writer = Writer.create()) {
-        for (const v of message.delegationResponses) {
+        for (const v of message.delegation_responses) {
             DelegationResponse.encode(v, writer.uint32(10).fork()).ldelim();
         }
         if (message.pagination !== undefined) {
@@ -979,12 +979,12 @@ export const QueryDelegatorDelegationsResponse = {
         const message = {
             ...baseQueryDelegatorDelegationsResponse,
         };
-        message.delegationResponses = [];
+        message.delegation_responses = [];
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.delegationResponses.push(DelegationResponse.decode(reader, reader.uint32()));
+                    message.delegation_responses.push(DelegationResponse.decode(reader, reader.uint32()));
                     break;
                 case 2:
                     message.pagination = PageResponse.decode(reader, reader.uint32());
@@ -1000,11 +1000,11 @@ export const QueryDelegatorDelegationsResponse = {
         const message = {
             ...baseQueryDelegatorDelegationsResponse,
         };
-        message.delegationResponses = [];
-        if (object.delegationResponses !== undefined &&
-            object.delegationResponses !== null) {
-            for (const e of object.delegationResponses) {
-                message.delegationResponses.push(DelegationResponse.fromJSON(e));
+        message.delegation_responses = [];
+        if (object.delegation_responses !== undefined &&
+            object.delegation_responses !== null) {
+            for (const e of object.delegation_responses) {
+                message.delegation_responses.push(DelegationResponse.fromJSON(e));
             }
         }
         if (object.pagination !== undefined && object.pagination !== null) {
@@ -1017,11 +1017,11 @@ export const QueryDelegatorDelegationsResponse = {
     },
     toJSON(message) {
         const obj = {};
-        if (message.delegationResponses) {
-            obj.delegationResponses = message.delegationResponses.map((e) => e ? DelegationResponse.toJSON(e) : undefined);
+        if (message.delegation_responses) {
+            obj.delegation_responses = message.delegation_responses.map((e) => e ? DelegationResponse.toJSON(e) : undefined);
         }
         else {
-            obj.delegationResponses = [];
+            obj.delegation_responses = [];
         }
         message.pagination !== undefined &&
             (obj.pagination = message.pagination
@@ -1033,11 +1033,11 @@ export const QueryDelegatorDelegationsResponse = {
         const message = {
             ...baseQueryDelegatorDelegationsResponse,
         };
-        message.delegationResponses = [];
-        if (object.delegationResponses !== undefined &&
-            object.delegationResponses !== null) {
-            for (const e of object.delegationResponses) {
-                message.delegationResponses.push(DelegationResponse.fromPartial(e));
+        message.delegation_responses = [];
+        if (object.delegation_responses !== undefined &&
+            object.delegation_responses !== null) {
+            for (const e of object.delegation_responses) {
+                message.delegation_responses.push(DelegationResponse.fromPartial(e));
             }
         }
         if (object.pagination !== undefined && object.pagination !== null) {
@@ -1050,12 +1050,12 @@ export const QueryDelegatorDelegationsResponse = {
     },
 };
 const baseQueryDelegatorUnbondingDelegationsRequest = {
-    delegatorAddr: "",
+    delegator_addr: "",
 };
 export const QueryDelegatorUnbondingDelegationsRequest = {
     encode(message, writer = Writer.create()) {
-        if (message.delegatorAddr !== "") {
-            writer.uint32(10).string(message.delegatorAddr);
+        if (message.delegator_addr !== "") {
+            writer.uint32(10).string(message.delegator_addr);
         }
         if (message.pagination !== undefined) {
             PageRequest.encode(message.pagination, writer.uint32(18).fork()).ldelim();
@@ -1072,7 +1072,7 @@ export const QueryDelegatorUnbondingDelegationsRequest = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.delegatorAddr = reader.string();
+                    message.delegator_addr = reader.string();
                     break;
                 case 2:
                     message.pagination = PageRequest.decode(reader, reader.uint32());
@@ -1088,11 +1088,11 @@ export const QueryDelegatorUnbondingDelegationsRequest = {
         const message = {
             ...baseQueryDelegatorUnbondingDelegationsRequest,
         };
-        if (object.delegatorAddr !== undefined && object.delegatorAddr !== null) {
-            message.delegatorAddr = String(object.delegatorAddr);
+        if (object.delegator_addr !== undefined && object.delegator_addr !== null) {
+            message.delegator_addr = String(object.delegator_addr);
         }
         else {
-            message.delegatorAddr = "";
+            message.delegator_addr = "";
         }
         if (object.pagination !== undefined && object.pagination !== null) {
             message.pagination = PageRequest.fromJSON(object.pagination);
@@ -1104,8 +1104,8 @@ export const QueryDelegatorUnbondingDelegationsRequest = {
     },
     toJSON(message) {
         const obj = {};
-        message.delegatorAddr !== undefined &&
-            (obj.delegatorAddr = message.delegatorAddr);
+        message.delegator_addr !== undefined &&
+            (obj.delegator_addr = message.delegator_addr);
         message.pagination !== undefined &&
             (obj.pagination = message.pagination
                 ? PageRequest.toJSON(message.pagination)
@@ -1116,11 +1116,11 @@ export const QueryDelegatorUnbondingDelegationsRequest = {
         const message = {
             ...baseQueryDelegatorUnbondingDelegationsRequest,
         };
-        if (object.delegatorAddr !== undefined && object.delegatorAddr !== null) {
-            message.delegatorAddr = object.delegatorAddr;
+        if (object.delegator_addr !== undefined && object.delegator_addr !== null) {
+            message.delegator_addr = object.delegator_addr;
         }
         else {
-            message.delegatorAddr = "";
+            message.delegator_addr = "";
         }
         if (object.pagination !== undefined && object.pagination !== null) {
             message.pagination = PageRequest.fromPartial(object.pagination);
@@ -1134,7 +1134,7 @@ export const QueryDelegatorUnbondingDelegationsRequest = {
 const baseQueryDelegatorUnbondingDelegationsResponse = {};
 export const QueryDelegatorUnbondingDelegationsResponse = {
     encode(message, writer = Writer.create()) {
-        for (const v of message.unbondingResponses) {
+        for (const v of message.unbonding_responses) {
             UnbondingDelegation.encode(v, writer.uint32(10).fork()).ldelim();
         }
         if (message.pagination !== undefined) {
@@ -1148,12 +1148,12 @@ export const QueryDelegatorUnbondingDelegationsResponse = {
         const message = {
             ...baseQueryDelegatorUnbondingDelegationsResponse,
         };
-        message.unbondingResponses = [];
+        message.unbonding_responses = [];
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.unbondingResponses.push(UnbondingDelegation.decode(reader, reader.uint32()));
+                    message.unbonding_responses.push(UnbondingDelegation.decode(reader, reader.uint32()));
                     break;
                 case 2:
                     message.pagination = PageResponse.decode(reader, reader.uint32());
@@ -1169,11 +1169,11 @@ export const QueryDelegatorUnbondingDelegationsResponse = {
         const message = {
             ...baseQueryDelegatorUnbondingDelegationsResponse,
         };
-        message.unbondingResponses = [];
-        if (object.unbondingResponses !== undefined &&
-            object.unbondingResponses !== null) {
-            for (const e of object.unbondingResponses) {
-                message.unbondingResponses.push(UnbondingDelegation.fromJSON(e));
+        message.unbonding_responses = [];
+        if (object.unbonding_responses !== undefined &&
+            object.unbonding_responses !== null) {
+            for (const e of object.unbonding_responses) {
+                message.unbonding_responses.push(UnbondingDelegation.fromJSON(e));
             }
         }
         if (object.pagination !== undefined && object.pagination !== null) {
@@ -1186,11 +1186,11 @@ export const QueryDelegatorUnbondingDelegationsResponse = {
     },
     toJSON(message) {
         const obj = {};
-        if (message.unbondingResponses) {
-            obj.unbondingResponses = message.unbondingResponses.map((e) => e ? UnbondingDelegation.toJSON(e) : undefined);
+        if (message.unbonding_responses) {
+            obj.unbonding_responses = message.unbonding_responses.map((e) => e ? UnbondingDelegation.toJSON(e) : undefined);
         }
         else {
-            obj.unbondingResponses = [];
+            obj.unbonding_responses = [];
         }
         message.pagination !== undefined &&
             (obj.pagination = message.pagination
@@ -1202,11 +1202,11 @@ export const QueryDelegatorUnbondingDelegationsResponse = {
         const message = {
             ...baseQueryDelegatorUnbondingDelegationsResponse,
         };
-        message.unbondingResponses = [];
-        if (object.unbondingResponses !== undefined &&
-            object.unbondingResponses !== null) {
-            for (const e of object.unbondingResponses) {
-                message.unbondingResponses.push(UnbondingDelegation.fromPartial(e));
+        message.unbonding_responses = [];
+        if (object.unbonding_responses !== undefined &&
+            object.unbonding_responses !== null) {
+            for (const e of object.unbonding_responses) {
+                message.unbonding_responses.push(UnbondingDelegation.fromPartial(e));
             }
         }
         if (object.pagination !== undefined && object.pagination !== null) {
@@ -1219,20 +1219,20 @@ export const QueryDelegatorUnbondingDelegationsResponse = {
     },
 };
 const baseQueryRedelegationsRequest = {
-    delegatorAddr: "",
-    srcValidatorAddr: "",
-    dstValidatorAddr: "",
+    delegator_addr: "",
+    src_validator_addr: "",
+    dst_validator_addr: "",
 };
 export const QueryRedelegationsRequest = {
     encode(message, writer = Writer.create()) {
-        if (message.delegatorAddr !== "") {
-            writer.uint32(10).string(message.delegatorAddr);
+        if (message.delegator_addr !== "") {
+            writer.uint32(10).string(message.delegator_addr);
         }
-        if (message.srcValidatorAddr !== "") {
-            writer.uint32(18).string(message.srcValidatorAddr);
+        if (message.src_validator_addr !== "") {
+            writer.uint32(18).string(message.src_validator_addr);
         }
-        if (message.dstValidatorAddr !== "") {
-            writer.uint32(26).string(message.dstValidatorAddr);
+        if (message.dst_validator_addr !== "") {
+            writer.uint32(26).string(message.dst_validator_addr);
         }
         if (message.pagination !== undefined) {
             PageRequest.encode(message.pagination, writer.uint32(34).fork()).ldelim();
@@ -1249,13 +1249,13 @@ export const QueryRedelegationsRequest = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.delegatorAddr = reader.string();
+                    message.delegator_addr = reader.string();
                     break;
                 case 2:
-                    message.srcValidatorAddr = reader.string();
+                    message.src_validator_addr = reader.string();
                     break;
                 case 3:
-                    message.dstValidatorAddr = reader.string();
+                    message.dst_validator_addr = reader.string();
                     break;
                 case 4:
                     message.pagination = PageRequest.decode(reader, reader.uint32());
@@ -1271,25 +1271,25 @@ export const QueryRedelegationsRequest = {
         const message = {
             ...baseQueryRedelegationsRequest,
         };
-        if (object.delegatorAddr !== undefined && object.delegatorAddr !== null) {
-            message.delegatorAddr = String(object.delegatorAddr);
+        if (object.delegator_addr !== undefined && object.delegator_addr !== null) {
+            message.delegator_addr = String(object.delegator_addr);
         }
         else {
-            message.delegatorAddr = "";
+            message.delegator_addr = "";
         }
-        if (object.srcValidatorAddr !== undefined &&
-            object.srcValidatorAddr !== null) {
-            message.srcValidatorAddr = String(object.srcValidatorAddr);
-        }
-        else {
-            message.srcValidatorAddr = "";
-        }
-        if (object.dstValidatorAddr !== undefined &&
-            object.dstValidatorAddr !== null) {
-            message.dstValidatorAddr = String(object.dstValidatorAddr);
+        if (object.src_validator_addr !== undefined &&
+            object.src_validator_addr !== null) {
+            message.src_validator_addr = String(object.src_validator_addr);
         }
         else {
-            message.dstValidatorAddr = "";
+            message.src_validator_addr = "";
+        }
+        if (object.dst_validator_addr !== undefined &&
+            object.dst_validator_addr !== null) {
+            message.dst_validator_addr = String(object.dst_validator_addr);
+        }
+        else {
+            message.dst_validator_addr = "";
         }
         if (object.pagination !== undefined && object.pagination !== null) {
             message.pagination = PageRequest.fromJSON(object.pagination);
@@ -1301,12 +1301,12 @@ export const QueryRedelegationsRequest = {
     },
     toJSON(message) {
         const obj = {};
-        message.delegatorAddr !== undefined &&
-            (obj.delegatorAddr = message.delegatorAddr);
-        message.srcValidatorAddr !== undefined &&
-            (obj.srcValidatorAddr = message.srcValidatorAddr);
-        message.dstValidatorAddr !== undefined &&
-            (obj.dstValidatorAddr = message.dstValidatorAddr);
+        message.delegator_addr !== undefined &&
+            (obj.delegator_addr = message.delegator_addr);
+        message.src_validator_addr !== undefined &&
+            (obj.src_validator_addr = message.src_validator_addr);
+        message.dst_validator_addr !== undefined &&
+            (obj.dst_validator_addr = message.dst_validator_addr);
         message.pagination !== undefined &&
             (obj.pagination = message.pagination
                 ? PageRequest.toJSON(message.pagination)
@@ -1317,25 +1317,25 @@ export const QueryRedelegationsRequest = {
         const message = {
             ...baseQueryRedelegationsRequest,
         };
-        if (object.delegatorAddr !== undefined && object.delegatorAddr !== null) {
-            message.delegatorAddr = object.delegatorAddr;
+        if (object.delegator_addr !== undefined && object.delegator_addr !== null) {
+            message.delegator_addr = object.delegator_addr;
         }
         else {
-            message.delegatorAddr = "";
+            message.delegator_addr = "";
         }
-        if (object.srcValidatorAddr !== undefined &&
-            object.srcValidatorAddr !== null) {
-            message.srcValidatorAddr = object.srcValidatorAddr;
-        }
-        else {
-            message.srcValidatorAddr = "";
-        }
-        if (object.dstValidatorAddr !== undefined &&
-            object.dstValidatorAddr !== null) {
-            message.dstValidatorAddr = object.dstValidatorAddr;
+        if (object.src_validator_addr !== undefined &&
+            object.src_validator_addr !== null) {
+            message.src_validator_addr = object.src_validator_addr;
         }
         else {
-            message.dstValidatorAddr = "";
+            message.src_validator_addr = "";
+        }
+        if (object.dst_validator_addr !== undefined &&
+            object.dst_validator_addr !== null) {
+            message.dst_validator_addr = object.dst_validator_addr;
+        }
+        else {
+            message.dst_validator_addr = "";
         }
         if (object.pagination !== undefined && object.pagination !== null) {
             message.pagination = PageRequest.fromPartial(object.pagination);
@@ -1349,7 +1349,7 @@ export const QueryRedelegationsRequest = {
 const baseQueryRedelegationsResponse = {};
 export const QueryRedelegationsResponse = {
     encode(message, writer = Writer.create()) {
-        for (const v of message.redelegationResponses) {
+        for (const v of message.redelegation_responses) {
             RedelegationResponse.encode(v, writer.uint32(10).fork()).ldelim();
         }
         if (message.pagination !== undefined) {
@@ -1363,12 +1363,12 @@ export const QueryRedelegationsResponse = {
         const message = {
             ...baseQueryRedelegationsResponse,
         };
-        message.redelegationResponses = [];
+        message.redelegation_responses = [];
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.redelegationResponses.push(RedelegationResponse.decode(reader, reader.uint32()));
+                    message.redelegation_responses.push(RedelegationResponse.decode(reader, reader.uint32()));
                     break;
                 case 2:
                     message.pagination = PageResponse.decode(reader, reader.uint32());
@@ -1384,11 +1384,11 @@ export const QueryRedelegationsResponse = {
         const message = {
             ...baseQueryRedelegationsResponse,
         };
-        message.redelegationResponses = [];
-        if (object.redelegationResponses !== undefined &&
-            object.redelegationResponses !== null) {
-            for (const e of object.redelegationResponses) {
-                message.redelegationResponses.push(RedelegationResponse.fromJSON(e));
+        message.redelegation_responses = [];
+        if (object.redelegation_responses !== undefined &&
+            object.redelegation_responses !== null) {
+            for (const e of object.redelegation_responses) {
+                message.redelegation_responses.push(RedelegationResponse.fromJSON(e));
             }
         }
         if (object.pagination !== undefined && object.pagination !== null) {
@@ -1401,11 +1401,11 @@ export const QueryRedelegationsResponse = {
     },
     toJSON(message) {
         const obj = {};
-        if (message.redelegationResponses) {
-            obj.redelegationResponses = message.redelegationResponses.map((e) => e ? RedelegationResponse.toJSON(e) : undefined);
+        if (message.redelegation_responses) {
+            obj.redelegation_responses = message.redelegation_responses.map((e) => e ? RedelegationResponse.toJSON(e) : undefined);
         }
         else {
-            obj.redelegationResponses = [];
+            obj.redelegation_responses = [];
         }
         message.pagination !== undefined &&
             (obj.pagination = message.pagination
@@ -1417,11 +1417,11 @@ export const QueryRedelegationsResponse = {
         const message = {
             ...baseQueryRedelegationsResponse,
         };
-        message.redelegationResponses = [];
-        if (object.redelegationResponses !== undefined &&
-            object.redelegationResponses !== null) {
-            for (const e of object.redelegationResponses) {
-                message.redelegationResponses.push(RedelegationResponse.fromPartial(e));
+        message.redelegation_responses = [];
+        if (object.redelegation_responses !== undefined &&
+            object.redelegation_responses !== null) {
+            for (const e of object.redelegation_responses) {
+                message.redelegation_responses.push(RedelegationResponse.fromPartial(e));
             }
         }
         if (object.pagination !== undefined && object.pagination !== null) {
@@ -1433,11 +1433,11 @@ export const QueryRedelegationsResponse = {
         return message;
     },
 };
-const baseQueryDelegatorValidatorsRequest = { delegatorAddr: "" };
+const baseQueryDelegatorValidatorsRequest = { delegator_addr: "" };
 export const QueryDelegatorValidatorsRequest = {
     encode(message, writer = Writer.create()) {
-        if (message.delegatorAddr !== "") {
-            writer.uint32(10).string(message.delegatorAddr);
+        if (message.delegator_addr !== "") {
+            writer.uint32(10).string(message.delegator_addr);
         }
         if (message.pagination !== undefined) {
             PageRequest.encode(message.pagination, writer.uint32(18).fork()).ldelim();
@@ -1454,7 +1454,7 @@ export const QueryDelegatorValidatorsRequest = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.delegatorAddr = reader.string();
+                    message.delegator_addr = reader.string();
                     break;
                 case 2:
                     message.pagination = PageRequest.decode(reader, reader.uint32());
@@ -1470,11 +1470,11 @@ export const QueryDelegatorValidatorsRequest = {
         const message = {
             ...baseQueryDelegatorValidatorsRequest,
         };
-        if (object.delegatorAddr !== undefined && object.delegatorAddr !== null) {
-            message.delegatorAddr = String(object.delegatorAddr);
+        if (object.delegator_addr !== undefined && object.delegator_addr !== null) {
+            message.delegator_addr = String(object.delegator_addr);
         }
         else {
-            message.delegatorAddr = "";
+            message.delegator_addr = "";
         }
         if (object.pagination !== undefined && object.pagination !== null) {
             message.pagination = PageRequest.fromJSON(object.pagination);
@@ -1486,8 +1486,8 @@ export const QueryDelegatorValidatorsRequest = {
     },
     toJSON(message) {
         const obj = {};
-        message.delegatorAddr !== undefined &&
-            (obj.delegatorAddr = message.delegatorAddr);
+        message.delegator_addr !== undefined &&
+            (obj.delegator_addr = message.delegator_addr);
         message.pagination !== undefined &&
             (obj.pagination = message.pagination
                 ? PageRequest.toJSON(message.pagination)
@@ -1498,11 +1498,11 @@ export const QueryDelegatorValidatorsRequest = {
         const message = {
             ...baseQueryDelegatorValidatorsRequest,
         };
-        if (object.delegatorAddr !== undefined && object.delegatorAddr !== null) {
-            message.delegatorAddr = object.delegatorAddr;
+        if (object.delegator_addr !== undefined && object.delegator_addr !== null) {
+            message.delegator_addr = object.delegator_addr;
         }
         else {
-            message.delegatorAddr = "";
+            message.delegator_addr = "";
         }
         if (object.pagination !== undefined && object.pagination !== null) {
             message.pagination = PageRequest.fromPartial(object.pagination);
@@ -1599,16 +1599,16 @@ export const QueryDelegatorValidatorsResponse = {
     },
 };
 const baseQueryDelegatorValidatorRequest = {
-    delegatorAddr: "",
-    validatorAddr: "",
+    delegator_addr: "",
+    validator_addr: "",
 };
 export const QueryDelegatorValidatorRequest = {
     encode(message, writer = Writer.create()) {
-        if (message.delegatorAddr !== "") {
-            writer.uint32(10).string(message.delegatorAddr);
+        if (message.delegator_addr !== "") {
+            writer.uint32(10).string(message.delegator_addr);
         }
-        if (message.validatorAddr !== "") {
-            writer.uint32(18).string(message.validatorAddr);
+        if (message.validator_addr !== "") {
+            writer.uint32(18).string(message.validator_addr);
         }
         return writer;
     },
@@ -1622,10 +1622,10 @@ export const QueryDelegatorValidatorRequest = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.delegatorAddr = reader.string();
+                    message.delegator_addr = reader.string();
                     break;
                 case 2:
-                    message.validatorAddr = reader.string();
+                    message.validator_addr = reader.string();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -1638,43 +1638,43 @@ export const QueryDelegatorValidatorRequest = {
         const message = {
             ...baseQueryDelegatorValidatorRequest,
         };
-        if (object.delegatorAddr !== undefined && object.delegatorAddr !== null) {
-            message.delegatorAddr = String(object.delegatorAddr);
+        if (object.delegator_addr !== undefined && object.delegator_addr !== null) {
+            message.delegator_addr = String(object.delegator_addr);
         }
         else {
-            message.delegatorAddr = "";
+            message.delegator_addr = "";
         }
-        if (object.validatorAddr !== undefined && object.validatorAddr !== null) {
-            message.validatorAddr = String(object.validatorAddr);
+        if (object.validator_addr !== undefined && object.validator_addr !== null) {
+            message.validator_addr = String(object.validator_addr);
         }
         else {
-            message.validatorAddr = "";
+            message.validator_addr = "";
         }
         return message;
     },
     toJSON(message) {
         const obj = {};
-        message.delegatorAddr !== undefined &&
-            (obj.delegatorAddr = message.delegatorAddr);
-        message.validatorAddr !== undefined &&
-            (obj.validatorAddr = message.validatorAddr);
+        message.delegator_addr !== undefined &&
+            (obj.delegator_addr = message.delegator_addr);
+        message.validator_addr !== undefined &&
+            (obj.validator_addr = message.validator_addr);
         return obj;
     },
     fromPartial(object) {
         const message = {
             ...baseQueryDelegatorValidatorRequest,
         };
-        if (object.delegatorAddr !== undefined && object.delegatorAddr !== null) {
-            message.delegatorAddr = object.delegatorAddr;
+        if (object.delegator_addr !== undefined && object.delegator_addr !== null) {
+            message.delegator_addr = object.delegator_addr;
         }
         else {
-            message.delegatorAddr = "";
+            message.delegator_addr = "";
         }
-        if (object.validatorAddr !== undefined && object.validatorAddr !== null) {
-            message.validatorAddr = object.validatorAddr;
+        if (object.validator_addr !== undefined && object.validator_addr !== null) {
+            message.validator_addr = object.validator_addr;
         }
         else {
-            message.validatorAddr = "";
+            message.validator_addr = "";
         }
         return message;
     },

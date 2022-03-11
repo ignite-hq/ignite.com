@@ -2,7 +2,7 @@ import { Reader, Writer } from "protobufjs/minimal";
 export declare const protobufPackage = "cosmos.slashing.v1beta1";
 /** MsgUnjail defines the Msg/Unjail request type */
 export interface MsgUnjail {
-    validatorAddr: string;
+    validator_addr: string;
 }
 /** MsgUnjailResponse defines the Msg/Unjail response type */
 export interface MsgUnjailResponse {

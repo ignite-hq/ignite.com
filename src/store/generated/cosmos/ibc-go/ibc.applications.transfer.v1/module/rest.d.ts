@@ -9,12 +9,12 @@ export interface Applicationstransferv1Params {
      * send_enabled enables or disables all cross-chain token transfers from this
      * chain.
      */
-    sendEnabled?: boolean;
+    send_enabled?: boolean;
     /**
      * receive_enabled enables or disables all cross-chain token transfers to this
      * chain.
      */
-    receiveEnabled?: boolean;
+    receive_enabled?: boolean;
 }
 /**
 * `Any` contains an arbitrary serialized protocol buffer message along with a
@@ -149,7 +149,7 @@ export interface V1DenomTrace {
      */
     path?: string;
     /** base denomination of the relayed fungible token. */
-    baseDenom?: string;
+    base_denom?: string;
 }
 /**
 * Normally the RevisionHeight is incremented at each height while keeping
@@ -161,9 +161,9 @@ gets reset
 */
 export interface V1Height {
     /** @format uint64 */
-    revisionNumber?: string;
+    revision_number?: string;
     /** @format uint64 */
-    revisionHeight?: string;
+    revision_height?: string;
 }
 /**
  * MsgTransferResponse defines the Msg/Transfer response type.
@@ -175,7 +175,7 @@ method.
 */
 export interface V1QueryDenomTraceResponse {
     /** denom_trace returns the requested denomination trace information. */
-    denomTrace?: V1DenomTrace;
+    denom_trace?: V1DenomTrace;
 }
 /**
 * QueryConnectionsResponse is the response type for the Query/DenomTraces RPC
@@ -183,7 +183,7 @@ method.
 */
 export interface V1QueryDenomTracesResponse {
     /** denom_traces returns all denominations trace information. */
-    denomTraces?: V1DenomTrace[];
+    denom_traces?: V1DenomTrace[];
     /** pagination defines the pagination in the response. */
     pagination?: V1Beta1PageResponse;
 }
@@ -237,7 +237,7 @@ export interface V1Beta1PageRequest {
      * count_total is only respected when offset is used. It is ignored when key
      * is set.
      */
-    countTotal?: boolean;
+    count_total?: boolean;
 }
 /**
 * PageResponse is to be embedded in gRPC response messages where the
@@ -250,7 +250,7 @@ corresponding request message has used PageRequest.
 */
 export interface V1Beta1PageResponse {
     /** @format byte */
-    nextKey?: string;
+    next_key?: string;
     /** @format uint64 */
     total?: string;
 }
@@ -324,7 +324,7 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
         "pagination.key"?: string;
         "pagination.offset"?: string;
         "pagination.limit"?: string;
-        "pagination.countTotal"?: boolean;
+        "pagination.count_total"?: boolean;
     }, params?: RequestParams) => Promise<HttpResponse<V1QueryDenomTracesResponse, RpcStatus>>;
     /**
      * No description

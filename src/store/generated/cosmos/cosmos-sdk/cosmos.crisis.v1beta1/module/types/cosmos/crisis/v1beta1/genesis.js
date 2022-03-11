@@ -5,8 +5,8 @@ export const protobufPackage = "cosmos.crisis.v1beta1";
 const baseGenesisState = {};
 export const GenesisState = {
     encode(message, writer = Writer.create()) {
-        if (message.constantFee !== undefined) {
-            Coin.encode(message.constantFee, writer.uint32(26).fork()).ldelim();
+        if (message.constant_fee !== undefined) {
+            Coin.encode(message.constant_fee, writer.uint32(26).fork()).ldelim();
         }
         return writer;
     },
@@ -18,7 +18,7 @@ export const GenesisState = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 3:
-                    message.constantFee = Coin.decode(reader, reader.uint32());
+                    message.constant_fee = Coin.decode(reader, reader.uint32());
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -29,29 +29,29 @@ export const GenesisState = {
     },
     fromJSON(object) {
         const message = { ...baseGenesisState };
-        if (object.constantFee !== undefined && object.constantFee !== null) {
-            message.constantFee = Coin.fromJSON(object.constantFee);
+        if (object.constant_fee !== undefined && object.constant_fee !== null) {
+            message.constant_fee = Coin.fromJSON(object.constant_fee);
         }
         else {
-            message.constantFee = undefined;
+            message.constant_fee = undefined;
         }
         return message;
     },
     toJSON(message) {
         const obj = {};
-        message.constantFee !== undefined &&
-            (obj.constantFee = message.constantFee
-                ? Coin.toJSON(message.constantFee)
+        message.constant_fee !== undefined &&
+            (obj.constant_fee = message.constant_fee
+                ? Coin.toJSON(message.constant_fee)
                 : undefined);
         return obj;
     },
     fromPartial(object) {
         const message = { ...baseGenesisState };
-        if (object.constantFee !== undefined && object.constantFee !== null) {
-            message.constantFee = Coin.fromPartial(object.constantFee);
+        if (object.constant_fee !== undefined && object.constant_fee !== null) {
+            message.constant_fee = Coin.fromPartial(object.constant_fee);
         }
         else {
-            message.constantFee = undefined;
+            message.constant_fee = undefined;
         }
         return message;
     },

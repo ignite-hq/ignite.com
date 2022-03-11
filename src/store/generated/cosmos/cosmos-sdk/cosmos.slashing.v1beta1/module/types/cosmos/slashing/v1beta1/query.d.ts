@@ -15,7 +15,7 @@ export interface QueryParamsResponse {
  */
 export interface QuerySigningInfoRequest {
     /** cons_address is the address to query signing info of */
-    consAddress: string;
+    cons_address: string;
 }
 /**
  * QuerySigningInfoResponse is the response type for the Query/SigningInfo RPC
@@ -23,7 +23,7 @@ export interface QuerySigningInfoRequest {
  */
 export interface QuerySigningInfoResponse {
     /** val_signing_info is the signing info of requested val cons address */
-    valSigningInfo: ValidatorSigningInfo | undefined;
+    val_signing_info: ValidatorSigningInfo | undefined;
 }
 /**
  * QuerySigningInfosRequest is the request type for the Query/SigningInfos RPC

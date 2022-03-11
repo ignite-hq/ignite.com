@@ -3,8 +3,8 @@ import { Writer, Reader } from "protobufjs/minimal";
 export declare const protobufPackage = "cosmos.bank.v1beta1";
 /** Params defines the parameters for the bank module. */
 export interface Params {
-    sendEnabled: SendEnabled[];
-    defaultSendEnabled: boolean;
+    send_enabled: SendEnabled[];
+    default_send_enabled: boolean;
 }
 /**
  * SendEnabled maps coin denom to a send_enabled status (whether a denom is
@@ -59,7 +59,7 @@ export interface DenomUnit {
 export interface Metadata {
     description: string;
     /** denom_units represents the list of DenomUnit's for a given coin */
-    denomUnits: DenomUnit[];
+    denom_units: DenomUnit[];
     /** base represents the base denom (should be the DenomUnit with exponent = 0). */
     base: string;
     /**

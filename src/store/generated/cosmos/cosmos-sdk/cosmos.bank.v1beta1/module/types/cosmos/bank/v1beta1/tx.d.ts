@@ -4,8 +4,8 @@ import { Input, Output } from "../../../cosmos/bank/v1beta1/bank";
 export declare const protobufPackage = "cosmos.bank.v1beta1";
 /** MsgSend represents a message to send coins from one account to another. */
 export interface MsgSend {
-    fromAddress: string;
-    toAddress: string;
+    from_address: string;
+    to_address: string;
     amount: Coin[];
 }
 /** MsgSendResponse defines the Msg/Send response type. */

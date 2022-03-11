@@ -40,7 +40,7 @@ export interface MsgGrantResponse {
 export interface MsgRevoke {
     granter: string;
     grantee: string;
-    msgTypeUrl: string;
+    msg_type_url: string;
 }
 /** MsgRevokeResponse defines the Msg/MsgRevokeResponse response type. */
 export interface MsgRevokeResponse {

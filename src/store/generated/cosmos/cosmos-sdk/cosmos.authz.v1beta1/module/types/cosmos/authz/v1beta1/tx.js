@@ -258,7 +258,7 @@ export const MsgGrantResponse = {
         return message;
     },
 };
-const baseMsgRevoke = { granter: "", grantee: "", msgTypeUrl: "" };
+const baseMsgRevoke = { granter: "", grantee: "", msg_type_url: "" };
 export const MsgRevoke = {
     encode(message, writer = Writer.create()) {
         if (message.granter !== "") {
@@ -267,8 +267,8 @@ export const MsgRevoke = {
         if (message.grantee !== "") {
             writer.uint32(18).string(message.grantee);
         }
-        if (message.msgTypeUrl !== "") {
-            writer.uint32(26).string(message.msgTypeUrl);
+        if (message.msg_type_url !== "") {
+            writer.uint32(26).string(message.msg_type_url);
         }
         return writer;
     },
@@ -286,7 +286,7 @@ export const MsgRevoke = {
                     message.grantee = reader.string();
                     break;
                 case 3:
-                    message.msgTypeUrl = reader.string();
+                    message.msg_type_url = reader.string();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -309,11 +309,11 @@ export const MsgRevoke = {
         else {
             message.grantee = "";
         }
-        if (object.msgTypeUrl !== undefined && object.msgTypeUrl !== null) {
-            message.msgTypeUrl = String(object.msgTypeUrl);
+        if (object.msg_type_url !== undefined && object.msg_type_url !== null) {
+            message.msg_type_url = String(object.msg_type_url);
         }
         else {
-            message.msgTypeUrl = "";
+            message.msg_type_url = "";
         }
         return message;
     },
@@ -321,7 +321,8 @@ export const MsgRevoke = {
         const obj = {};
         message.granter !== undefined && (obj.granter = message.granter);
         message.grantee !== undefined && (obj.grantee = message.grantee);
-        message.msgTypeUrl !== undefined && (obj.msgTypeUrl = message.msgTypeUrl);
+        message.msg_type_url !== undefined &&
+            (obj.msg_type_url = message.msg_type_url);
         return obj;
     },
     fromPartial(object) {
@@ -338,11 +339,11 @@ export const MsgRevoke = {
         else {
             message.grantee = "";
         }
-        if (object.msgTypeUrl !== undefined && object.msgTypeUrl !== null) {
-            message.msgTypeUrl = object.msgTypeUrl;
+        if (object.msg_type_url !== undefined && object.msg_type_url !== null) {
+            message.msg_type_url = object.msg_type_url;
         }
         else {
-            message.msgTypeUrl = "";
+            message.msg_type_url = "";
         }
         return message;
     },

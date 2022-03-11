@@ -123,17 +123,17 @@ export const ConsensusParams = {
         return message;
     },
 };
-const baseBlockParams = { maxBytes: 0, maxGas: 0, timeIotaMs: 0 };
+const baseBlockParams = { max_bytes: 0, max_gas: 0, time_iota_ms: 0 };
 export const BlockParams = {
     encode(message, writer = Writer.create()) {
-        if (message.maxBytes !== 0) {
-            writer.uint32(8).int64(message.maxBytes);
+        if (message.max_bytes !== 0) {
+            writer.uint32(8).int64(message.max_bytes);
         }
-        if (message.maxGas !== 0) {
-            writer.uint32(16).int64(message.maxGas);
+        if (message.max_gas !== 0) {
+            writer.uint32(16).int64(message.max_gas);
         }
-        if (message.timeIotaMs !== 0) {
-            writer.uint32(24).int64(message.timeIotaMs);
+        if (message.time_iota_ms !== 0) {
+            writer.uint32(24).int64(message.time_iota_ms);
         }
         return writer;
     },
@@ -145,13 +145,13 @@ export const BlockParams = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.maxBytes = longToNumber(reader.int64());
+                    message.max_bytes = longToNumber(reader.int64());
                     break;
                 case 2:
-                    message.maxGas = longToNumber(reader.int64());
+                    message.max_gas = longToNumber(reader.int64());
                     break;
                 case 3:
-                    message.timeIotaMs = longToNumber(reader.int64());
+                    message.time_iota_ms = longToNumber(reader.int64());
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -162,67 +162,68 @@ export const BlockParams = {
     },
     fromJSON(object) {
         const message = { ...baseBlockParams };
-        if (object.maxBytes !== undefined && object.maxBytes !== null) {
-            message.maxBytes = Number(object.maxBytes);
+        if (object.max_bytes !== undefined && object.max_bytes !== null) {
+            message.max_bytes = Number(object.max_bytes);
         }
         else {
-            message.maxBytes = 0;
+            message.max_bytes = 0;
         }
-        if (object.maxGas !== undefined && object.maxGas !== null) {
-            message.maxGas = Number(object.maxGas);
-        }
-        else {
-            message.maxGas = 0;
-        }
-        if (object.timeIotaMs !== undefined && object.timeIotaMs !== null) {
-            message.timeIotaMs = Number(object.timeIotaMs);
+        if (object.max_gas !== undefined && object.max_gas !== null) {
+            message.max_gas = Number(object.max_gas);
         }
         else {
-            message.timeIotaMs = 0;
+            message.max_gas = 0;
+        }
+        if (object.time_iota_ms !== undefined && object.time_iota_ms !== null) {
+            message.time_iota_ms = Number(object.time_iota_ms);
+        }
+        else {
+            message.time_iota_ms = 0;
         }
         return message;
     },
     toJSON(message) {
         const obj = {};
-        message.maxBytes !== undefined && (obj.maxBytes = message.maxBytes);
-        message.maxGas !== undefined && (obj.maxGas = message.maxGas);
-        message.timeIotaMs !== undefined && (obj.timeIotaMs = message.timeIotaMs);
+        message.max_bytes !== undefined && (obj.max_bytes = message.max_bytes);
+        message.max_gas !== undefined && (obj.max_gas = message.max_gas);
+        message.time_iota_ms !== undefined &&
+            (obj.time_iota_ms = message.time_iota_ms);
         return obj;
     },
     fromPartial(object) {
         const message = { ...baseBlockParams };
-        if (object.maxBytes !== undefined && object.maxBytes !== null) {
-            message.maxBytes = object.maxBytes;
+        if (object.max_bytes !== undefined && object.max_bytes !== null) {
+            message.max_bytes = object.max_bytes;
         }
         else {
-            message.maxBytes = 0;
+            message.max_bytes = 0;
         }
-        if (object.maxGas !== undefined && object.maxGas !== null) {
-            message.maxGas = object.maxGas;
-        }
-        else {
-            message.maxGas = 0;
-        }
-        if (object.timeIotaMs !== undefined && object.timeIotaMs !== null) {
-            message.timeIotaMs = object.timeIotaMs;
+        if (object.max_gas !== undefined && object.max_gas !== null) {
+            message.max_gas = object.max_gas;
         }
         else {
-            message.timeIotaMs = 0;
+            message.max_gas = 0;
+        }
+        if (object.time_iota_ms !== undefined && object.time_iota_ms !== null) {
+            message.time_iota_ms = object.time_iota_ms;
+        }
+        else {
+            message.time_iota_ms = 0;
         }
         return message;
     },
 };
-const baseEvidenceParams = { maxAgeNumBlocks: 0, maxBytes: 0 };
+const baseEvidenceParams = { max_age_num_blocks: 0, max_bytes: 0 };
 export const EvidenceParams = {
     encode(message, writer = Writer.create()) {
-        if (message.maxAgeNumBlocks !== 0) {
-            writer.uint32(8).int64(message.maxAgeNumBlocks);
+        if (message.max_age_num_blocks !== 0) {
+            writer.uint32(8).int64(message.max_age_num_blocks);
         }
-        if (message.maxAgeDuration !== undefined) {
-            Duration.encode(message.maxAgeDuration, writer.uint32(18).fork()).ldelim();
+        if (message.max_age_duration !== undefined) {
+            Duration.encode(message.max_age_duration, writer.uint32(18).fork()).ldelim();
         }
-        if (message.maxBytes !== 0) {
-            writer.uint32(24).int64(message.maxBytes);
+        if (message.max_bytes !== 0) {
+            writer.uint32(24).int64(message.max_bytes);
         }
         return writer;
     },
@@ -234,13 +235,13 @@ export const EvidenceParams = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.maxAgeNumBlocks = longToNumber(reader.int64());
+                    message.max_age_num_blocks = longToNumber(reader.int64());
                     break;
                 case 2:
-                    message.maxAgeDuration = Duration.decode(reader, reader.uint32());
+                    message.max_age_duration = Duration.decode(reader, reader.uint32());
                     break;
                 case 3:
-                    message.maxBytes = longToNumber(reader.int64());
+                    message.max_bytes = longToNumber(reader.int64());
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -251,66 +252,68 @@ export const EvidenceParams = {
     },
     fromJSON(object) {
         const message = { ...baseEvidenceParams };
-        if (object.maxAgeNumBlocks !== undefined &&
-            object.maxAgeNumBlocks !== null) {
-            message.maxAgeNumBlocks = Number(object.maxAgeNumBlocks);
+        if (object.max_age_num_blocks !== undefined &&
+            object.max_age_num_blocks !== null) {
+            message.max_age_num_blocks = Number(object.max_age_num_blocks);
         }
         else {
-            message.maxAgeNumBlocks = 0;
+            message.max_age_num_blocks = 0;
         }
-        if (object.maxAgeDuration !== undefined && object.maxAgeDuration !== null) {
-            message.maxAgeDuration = Duration.fromJSON(object.maxAgeDuration);
-        }
-        else {
-            message.maxAgeDuration = undefined;
-        }
-        if (object.maxBytes !== undefined && object.maxBytes !== null) {
-            message.maxBytes = Number(object.maxBytes);
+        if (object.max_age_duration !== undefined &&
+            object.max_age_duration !== null) {
+            message.max_age_duration = Duration.fromJSON(object.max_age_duration);
         }
         else {
-            message.maxBytes = 0;
+            message.max_age_duration = undefined;
+        }
+        if (object.max_bytes !== undefined && object.max_bytes !== null) {
+            message.max_bytes = Number(object.max_bytes);
+        }
+        else {
+            message.max_bytes = 0;
         }
         return message;
     },
     toJSON(message) {
         const obj = {};
-        message.maxAgeNumBlocks !== undefined &&
-            (obj.maxAgeNumBlocks = message.maxAgeNumBlocks);
-        message.maxAgeDuration !== undefined &&
-            (obj.maxAgeDuration = message.maxAgeDuration
-                ? Duration.toJSON(message.maxAgeDuration)
+        message.max_age_num_blocks !== undefined &&
+            (obj.max_age_num_blocks = message.max_age_num_blocks);
+        message.max_age_duration !== undefined &&
+            (obj.max_age_duration = message.max_age_duration
+                ? Duration.toJSON(message.max_age_duration)
                 : undefined);
-        message.maxBytes !== undefined && (obj.maxBytes = message.maxBytes);
+        message.max_bytes !== undefined && (obj.max_bytes = message.max_bytes);
         return obj;
     },
     fromPartial(object) {
         const message = { ...baseEvidenceParams };
-        if (object.maxAgeNumBlocks !== undefined &&
-            object.maxAgeNumBlocks !== null) {
-            message.maxAgeNumBlocks = object.maxAgeNumBlocks;
+        if (object.max_age_num_blocks !== undefined &&
+            object.max_age_num_blocks !== null) {
+            message.max_age_num_blocks = object.max_age_num_blocks;
         }
         else {
-            message.maxAgeNumBlocks = 0;
+            message.max_age_num_blocks = 0;
         }
-        if (object.maxAgeDuration !== undefined && object.maxAgeDuration !== null) {
-            message.maxAgeDuration = Duration.fromPartial(object.maxAgeDuration);
-        }
-        else {
-            message.maxAgeDuration = undefined;
-        }
-        if (object.maxBytes !== undefined && object.maxBytes !== null) {
-            message.maxBytes = object.maxBytes;
+        if (object.max_age_duration !== undefined &&
+            object.max_age_duration !== null) {
+            message.max_age_duration = Duration.fromPartial(object.max_age_duration);
         }
         else {
-            message.maxBytes = 0;
+            message.max_age_duration = undefined;
+        }
+        if (object.max_bytes !== undefined && object.max_bytes !== null) {
+            message.max_bytes = object.max_bytes;
+        }
+        else {
+            message.max_bytes = 0;
         }
         return message;
     },
 };
-const baseValidatorParams = { pubKeyTypes: "" };
+const baseValidatorParams = { pub_key_types: "" };
 export const ValidatorParams = {
     encode(message, writer = Writer.create()) {
-        for (const v of message.pubKeyTypes) {
+        for (const v of message.pub_key_types) {
             writer.uint32(10).string(v);
         }
         return writer;
@@ -319,12 +322,12 @@ export const ValidatorParams = {
         const reader = input instanceof Uint8Array ? new Reader(input) : input;
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = { ...baseValidatorParams };
-        message.pubKeyTypes = [];
+        message.pub_key_types = [];
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.pubKeyTypes.push(reader.string());
+                    message.pub_key_types.push(reader.string());
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -335,40 +338,40 @@ export const ValidatorParams = {
     },
     fromJSON(object) {
         const message = { ...baseValidatorParams };
-        message.pubKeyTypes = [];
-        if (object.pubKeyTypes !== undefined && object.pubKeyTypes !== null) {
-            for (const e of object.pubKeyTypes) {
-                message.pubKeyTypes.push(String(e));
+        message.pub_key_types = [];
+        if (object.pub_key_types !== undefined && object.pub_key_types !== null) {
+            for (const e of object.pub_key_types) {
+                message.pub_key_types.push(String(e));
             }
         }
         return message;
     },
     toJSON(message) {
         const obj = {};
-        if (message.pubKeyTypes) {
-            obj.pubKeyTypes = message.pubKeyTypes.map((e) => e);
+        if (message.pub_key_types) {
+            obj.pub_key_types = message.pub_key_types.map((e) => e);
         }
         else {
-            obj.pubKeyTypes = [];
+            obj.pub_key_types = [];
         }
         return obj;
     },
     fromPartial(object) {
         const message = { ...baseValidatorParams };
-        message.pubKeyTypes = [];
-        if (object.pubKeyTypes !== undefined && object.pubKeyTypes !== null) {
-            for (const e of object.pubKeyTypes) {
-                message.pubKeyTypes.push(e);
+        message.pub_key_types = [];
+        if (object.pub_key_types !== undefined && object.pub_key_types !== null) {
+            for (const e of object.pub_key_types) {
+                message.pub_key_types.push(e);
             }
         }
         return message;
     },
 };
-const baseVersionParams = { appVersion: 0 };
+const baseVersionParams = { app_version: 0 };
 export const VersionParams = {
     encode(message, writer = Writer.create()) {
-        if (message.appVersion !== 0) {
-            writer.uint32(8).uint64(message.appVersion);
+        if (message.app_version !== 0) {
+            writer.uint32(8).uint64(message.app_version);
         }
         return writer;
     },
@@ -380,7 +383,7 @@ export const VersionParams = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.appVersion = longToNumber(reader.uint64());
+                    message.app_version = longToNumber(reader.uint64());
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -391,38 +394,39 @@ export const VersionParams = {
     },
     fromJSON(object) {
         const message = { ...baseVersionParams };
-        if (object.appVersion !== undefined && object.appVersion !== null) {
-            message.appVersion = Number(object.appVersion);
+        if (object.app_version !== undefined && object.app_version !== null) {
+            message.app_version = Number(object.app_version);
         }
         else {
-            message.appVersion = 0;
+            message.app_version = 0;
         }
         return message;
     },
     toJSON(message) {
         const obj = {};
-        message.appVersion !== undefined && (obj.appVersion = message.appVersion);
+        message.app_version !== undefined &&
+            (obj.app_version = message.app_version);
         return obj;
     },
     fromPartial(object) {
         const message = { ...baseVersionParams };
-        if (object.appVersion !== undefined && object.appVersion !== null) {
-            message.appVersion = object.appVersion;
+        if (object.app_version !== undefined && object.app_version !== null) {
+            message.app_version = object.app_version;
         }
         else {
-            message.appVersion = 0;
+            message.app_version = 0;
         }
         return message;
     },
 };
-const baseHashedParams = { blockMaxBytes: 0, blockMaxGas: 0 };
+const baseHashedParams = { block_max_bytes: 0, block_max_gas: 0 };
 export const HashedParams = {
     encode(message, writer = Writer.create()) {
-        if (message.blockMaxBytes !== 0) {
-            writer.uint32(8).int64(message.blockMaxBytes);
+        if (message.block_max_bytes !== 0) {
+            writer.uint32(8).int64(message.block_max_bytes);
         }
-        if (message.blockMaxGas !== 0) {
-            writer.uint32(16).int64(message.blockMaxGas);
+        if (message.block_max_gas !== 0) {
+            writer.uint32(16).int64(message.block_max_gas);
         }
         return writer;
     },
@@ -434,10 +438,10 @@ export const HashedParams = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.blockMaxBytes = longToNumber(reader.int64());
+                    message.block_max_bytes = longToNumber(reader.int64());
                     break;
                 case 2:
-                    message.blockMaxGas = longToNumber(reader.int64());
+                    message.block_max_gas = longToNumber(reader.int64());
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -448,41 +452,43 @@ export const HashedParams = {
     },
     fromJSON(object) {
         const message = { ...baseHashedParams };
-        if (object.blockMaxBytes !== undefined && object.blockMaxBytes !== null) {
-            message.blockMaxBytes = Number(object.blockMaxBytes);
+        if (object.block_max_bytes !== undefined &&
+            object.block_max_bytes !== null) {
+            message.block_max_bytes = Number(object.block_max_bytes);
         }
         else {
-            message.blockMaxBytes = 0;
+            message.block_max_bytes = 0;
         }
-        if (object.blockMaxGas !== undefined && object.blockMaxGas !== null) {
-            message.blockMaxGas = Number(object.blockMaxGas);
+        if (object.block_max_gas !== undefined && object.block_max_gas !== null) {
+            message.block_max_gas = Number(object.block_max_gas);
         }
         else {
-            message.blockMaxGas = 0;
+            message.block_max_gas = 0;
         }
         return message;
     },
     toJSON(message) {
         const obj = {};
-        message.blockMaxBytes !== undefined &&
-            (obj.blockMaxBytes = message.blockMaxBytes);
-        message.blockMaxGas !== undefined &&
-            (obj.blockMaxGas = message.blockMaxGas);
+        message.block_max_bytes !== undefined &&
+            (obj.block_max_bytes = message.block_max_bytes);
+        message.block_max_gas !== undefined &&
+            (obj.block_max_gas = message.block_max_gas);
         return obj;
     },
     fromPartial(object) {
         const message = { ...baseHashedParams };
-        if (object.blockMaxBytes !== undefined && object.blockMaxBytes !== null) {
-            message.blockMaxBytes = object.blockMaxBytes;
+        if (object.block_max_bytes !== undefined &&
+            object.block_max_bytes !== null) {
+            message.block_max_bytes = object.block_max_bytes;
         }
         else {
-            message.blockMaxBytes = 0;
+            message.block_max_bytes = 0;
         }
-        if (object.blockMaxGas !== undefined && object.blockMaxGas !== null) {
-            message.blockMaxGas = object.blockMaxGas;
+        if (object.block_max_gas !== undefined && object.block_max_gas !== null) {
+            message.block_max_gas = object.block_max_gas;
         }
         else {
-            message.blockMaxGas = 0;
+            message.block_max_gas = 0;
         }
         return message;
     },

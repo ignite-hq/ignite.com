@@ -90,12 +90,12 @@ export const QueryParamsResponse = {
     },
 };
 const baseQueryValidatorOutstandingRewardsRequest = {
-    validatorAddress: "",
+    validator_address: "",
 };
 export const QueryValidatorOutstandingRewardsRequest = {
     encode(message, writer = Writer.create()) {
-        if (message.validatorAddress !== "") {
-            writer.uint32(10).string(message.validatorAddress);
+        if (message.validator_address !== "") {
+            writer.uint32(10).string(message.validator_address);
         }
         return writer;
     },
@@ -109,7 +109,7 @@ export const QueryValidatorOutstandingRewardsRequest = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.validatorAddress = reader.string();
+                    message.validator_address = reader.string();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -122,31 +122,31 @@ export const QueryValidatorOutstandingRewardsRequest = {
         const message = {
             ...baseQueryValidatorOutstandingRewardsRequest,
         };
-        if (object.validatorAddress !== undefined &&
-            object.validatorAddress !== null) {
-            message.validatorAddress = String(object.validatorAddress);
+        if (object.validator_address !== undefined &&
+            object.validator_address !== null) {
+            message.validator_address = String(object.validator_address);
         }
         else {
-            message.validatorAddress = "";
+            message.validator_address = "";
         }
         return message;
     },
     toJSON(message) {
         const obj = {};
-        message.validatorAddress !== undefined &&
-            (obj.validatorAddress = message.validatorAddress);
+        message.validator_address !== undefined &&
+            (obj.validator_address = message.validator_address);
         return obj;
     },
     fromPartial(object) {
         const message = {
             ...baseQueryValidatorOutstandingRewardsRequest,
         };
-        if (object.validatorAddress !== undefined &&
-            object.validatorAddress !== null) {
-            message.validatorAddress = object.validatorAddress;
+        if (object.validator_address !== undefined &&
+            object.validator_address !== null) {
+            message.validator_address = object.validator_address;
         }
         else {
-            message.validatorAddress = "";
+            message.validator_address = "";
         }
         return message;
     },
@@ -211,11 +211,11 @@ export const QueryValidatorOutstandingRewardsResponse = {
         return message;
     },
 };
-const baseQueryValidatorCommissionRequest = { validatorAddress: "" };
+const baseQueryValidatorCommissionRequest = { validator_address: "" };
 export const QueryValidatorCommissionRequest = {
     encode(message, writer = Writer.create()) {
-        if (message.validatorAddress !== "") {
-            writer.uint32(10).string(message.validatorAddress);
+        if (message.validator_address !== "") {
+            writer.uint32(10).string(message.validator_address);
         }
         return writer;
     },
@@ -229,7 +229,7 @@ export const QueryValidatorCommissionRequest = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.validatorAddress = reader.string();
+                    message.validator_address = reader.string();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -242,31 +242,31 @@ export const QueryValidatorCommissionRequest = {
         const message = {
             ...baseQueryValidatorCommissionRequest,
         };
-        if (object.validatorAddress !== undefined &&
-            object.validatorAddress !== null) {
-            message.validatorAddress = String(object.validatorAddress);
+        if (object.validator_address !== undefined &&
+            object.validator_address !== null) {
+            message.validator_address = String(object.validator_address);
         }
         else {
-            message.validatorAddress = "";
+            message.validator_address = "";
         }
         return message;
     },
     toJSON(message) {
         const obj = {};
-        message.validatorAddress !== undefined &&
-            (obj.validatorAddress = message.validatorAddress);
+        message.validator_address !== undefined &&
+            (obj.validator_address = message.validator_address);
         return obj;
     },
     fromPartial(object) {
         const message = {
             ...baseQueryValidatorCommissionRequest,
         };
-        if (object.validatorAddress !== undefined &&
-            object.validatorAddress !== null) {
-            message.validatorAddress = object.validatorAddress;
+        if (object.validator_address !== undefined &&
+            object.validator_address !== null) {
+            message.validator_address = object.validator_address;
         }
         else {
-            message.validatorAddress = "";
+            message.validator_address = "";
         }
         return message;
     },
@@ -332,20 +332,20 @@ export const QueryValidatorCommissionResponse = {
     },
 };
 const baseQueryValidatorSlashesRequest = {
-    validatorAddress: "",
-    startingHeight: 0,
-    endingHeight: 0,
+    validator_address: "",
+    starting_height: 0,
+    ending_height: 0,
 };
 export const QueryValidatorSlashesRequest = {
     encode(message, writer = Writer.create()) {
-        if (message.validatorAddress !== "") {
-            writer.uint32(10).string(message.validatorAddress);
+        if (message.validator_address !== "") {
+            writer.uint32(10).string(message.validator_address);
         }
-        if (message.startingHeight !== 0) {
-            writer.uint32(16).uint64(message.startingHeight);
+        if (message.starting_height !== 0) {
+            writer.uint32(16).uint64(message.starting_height);
         }
-        if (message.endingHeight !== 0) {
-            writer.uint32(24).uint64(message.endingHeight);
+        if (message.ending_height !== 0) {
+            writer.uint32(24).uint64(message.ending_height);
         }
         if (message.pagination !== undefined) {
             PageRequest.encode(message.pagination, writer.uint32(34).fork()).ldelim();
@@ -362,13 +362,13 @@ export const QueryValidatorSlashesRequest = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.validatorAddress = reader.string();
+                    message.validator_address = reader.string();
                     break;
                 case 2:
-                    message.startingHeight = longToNumber(reader.uint64());
+                    message.starting_height = longToNumber(reader.uint64());
                     break;
                 case 3:
-                    message.endingHeight = longToNumber(reader.uint64());
+                    message.ending_height = longToNumber(reader.uint64());
                     break;
                 case 4:
                     message.pagination = PageRequest.decode(reader, reader.uint32());
@@ -384,24 +384,25 @@ export const QueryValidatorSlashesRequest = {
         const message = {
             ...baseQueryValidatorSlashesRequest,
         };
-        if (object.validatorAddress !== undefined &&
-            object.validatorAddress !== null) {
-            message.validatorAddress = String(object.validatorAddress);
+        if (object.validator_address !== undefined &&
+            object.validator_address !== null) {
+            message.validator_address = String(object.validator_address);
         }
         else {
-            message.validatorAddress = "";
+            message.validator_address = "";
         }
-        if (object.startingHeight !== undefined && object.startingHeight !== null) {
-            message.startingHeight = Number(object.startingHeight);
-        }
-        else {
-            message.startingHeight = 0;
-        }
-        if (object.endingHeight !== undefined && object.endingHeight !== null) {
-            message.endingHeight = Number(object.endingHeight);
+        if (object.starting_height !== undefined &&
+            object.starting_height !== null) {
+            message.starting_height = Number(object.starting_height);
         }
         else {
-            message.endingHeight = 0;
+            message.starting_height = 0;
+        }
+        if (object.ending_height !== undefined && object.ending_height !== null) {
+            message.ending_height = Number(object.ending_height);
+        }
+        else {
+            message.ending_height = 0;
         }
         if (object.pagination !== undefined && object.pagination !== null) {
             message.pagination = PageRequest.fromJSON(object.pagination);
@@ -413,12 +414,12 @@ export const QueryValidatorSlashesRequest = {
     },
     toJSON(message) {
         const obj = {};
-        message.validatorAddress !== undefined &&
-            (obj.validatorAddress = message.validatorAddress);
-        message.startingHeight !== undefined &&
-            (obj.startingHeight = message.startingHeight);
-        message.endingHeight !== undefined &&
-            (obj.endingHeight = message.endingHeight);
+        message.validator_address !== undefined &&
+            (obj.validator_address = message.validator_address);
+        message.starting_height !== undefined &&
+            (obj.starting_height = message.starting_height);
+        message.ending_height !== undefined &&
+            (obj.ending_height = message.ending_height);
         message.pagination !== undefined &&
             (obj.pagination = message.pagination
                 ? PageRequest.toJSON(message.pagination)
@@ -429,24 +430,25 @@ export const QueryValidatorSlashesRequest = {
         const message = {
             ...baseQueryValidatorSlashesRequest,
         };
-        if (object.validatorAddress !== undefined &&
-            object.validatorAddress !== null) {
-            message.validatorAddress = object.validatorAddress;
+        if (object.validator_address !== undefined &&
+            object.validator_address !== null) {
+            message.validator_address = object.validator_address;
         }
         else {
-            message.validatorAddress = "";
+            message.validator_address = "";
         }
-        if (object.startingHeight !== undefined && object.startingHeight !== null) {
-            message.startingHeight = object.startingHeight;
-        }
-        else {
-            message.startingHeight = 0;
-        }
-        if (object.endingHeight !== undefined && object.endingHeight !== null) {
-            message.endingHeight = object.endingHeight;
+        if (object.starting_height !== undefined &&
+            object.starting_height !== null) {
+            message.starting_height = object.starting_height;
         }
         else {
-            message.endingHeight = 0;
+            message.starting_height = 0;
+        }
+        if (object.ending_height !== undefined && object.ending_height !== null) {
+            message.ending_height = object.ending_height;
+        }
+        else {
+            message.ending_height = 0;
         }
         if (object.pagination !== undefined && object.pagination !== null) {
             message.pagination = PageRequest.fromPartial(object.pagination);
@@ -543,16 +545,16 @@ export const QueryValidatorSlashesResponse = {
     },
 };
 const baseQueryDelegationRewardsRequest = {
-    delegatorAddress: "",
-    validatorAddress: "",
+    delegator_address: "",
+    validator_address: "",
 };
 export const QueryDelegationRewardsRequest = {
     encode(message, writer = Writer.create()) {
-        if (message.delegatorAddress !== "") {
-            writer.uint32(10).string(message.delegatorAddress);
+        if (message.delegator_address !== "") {
+            writer.uint32(10).string(message.delegator_address);
         }
-        if (message.validatorAddress !== "") {
-            writer.uint32(18).string(message.validatorAddress);
+        if (message.validator_address !== "") {
+            writer.uint32(18).string(message.validator_address);
         }
         return writer;
     },
@@ -566,10 +568,10 @@ export const QueryDelegationRewardsRequest = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.delegatorAddress = reader.string();
+                    message.delegator_address = reader.string();
                     break;
                 case 2:
-                    message.validatorAddress = reader.string();
+                    message.validator_address = reader.string();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -582,47 +584,47 @@ export const QueryDelegationRewardsRequest = {
         const message = {
             ...baseQueryDelegationRewardsRequest,
         };
-        if (object.delegatorAddress !== undefined &&
-            object.delegatorAddress !== null) {
-            message.delegatorAddress = String(object.delegatorAddress);
+        if (object.delegator_address !== undefined &&
+            object.delegator_address !== null) {
+            message.delegator_address = String(object.delegator_address);
         }
         else {
-            message.delegatorAddress = "";
+            message.delegator_address = "";
         }
-        if (object.validatorAddress !== undefined &&
-            object.validatorAddress !== null) {
-            message.validatorAddress = String(object.validatorAddress);
+        if (object.validator_address !== undefined &&
+            object.validator_address !== null) {
+            message.validator_address = String(object.validator_address);
         }
         else {
-            message.validatorAddress = "";
+            message.validator_address = "";
         }
         return message;
     },
     toJSON(message) {
         const obj = {};
-        message.delegatorAddress !== undefined &&
-            (obj.delegatorAddress = message.delegatorAddress);
-        message.validatorAddress !== undefined &&
-            (obj.validatorAddress = message.validatorAddress);
+        message.delegator_address !== undefined &&
+            (obj.delegator_address = message.delegator_address);
+        message.validator_address !== undefined &&
+            (obj.validator_address = message.validator_address);
         return obj;
     },
     fromPartial(object) {
         const message = {
             ...baseQueryDelegationRewardsRequest,
         };
-        if (object.delegatorAddress !== undefined &&
-            object.delegatorAddress !== null) {
-            message.delegatorAddress = object.delegatorAddress;
+        if (object.delegator_address !== undefined &&
+            object.delegator_address !== null) {
+            message.delegator_address = object.delegator_address;
         }
         else {
-            message.delegatorAddress = "";
+            message.delegator_address = "";
         }
-        if (object.validatorAddress !== undefined &&
-            object.validatorAddress !== null) {
-            message.validatorAddress = object.validatorAddress;
+        if (object.validator_address !== undefined &&
+            object.validator_address !== null) {
+            message.validator_address = object.validator_address;
         }
         else {
-            message.validatorAddress = "";
+            message.validator_address = "";
         }
         return message;
     },
@@ -690,11 +692,13 @@ export const QueryDelegationRewardsResponse = {
         return message;
     },
 };
-const baseQueryDelegationTotalRewardsRequest = { delegatorAddress: "" };
+const baseQueryDelegationTotalRewardsRequest = {
+    delegator_address: "",
+};
 export const QueryDelegationTotalRewardsRequest = {
     encode(message, writer = Writer.create()) {
-        if (message.delegatorAddress !== "") {
-            writer.uint32(10).string(message.delegatorAddress);
+        if (message.delegator_address !== "") {
+            writer.uint32(10).string(message.delegator_address);
         }
         return writer;
     },
@@ -708,7 +712,7 @@ export const QueryDelegationTotalRewardsRequest = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.delegatorAddress = reader.string();
+                    message.delegator_address = reader.string();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -721,31 +725,31 @@ export const QueryDelegationTotalRewardsRequest = {
         const message = {
             ...baseQueryDelegationTotalRewardsRequest,
         };
-        if (object.delegatorAddress !== undefined &&
-            object.delegatorAddress !== null) {
-            message.delegatorAddress = String(object.delegatorAddress);
+        if (object.delegator_address !== undefined &&
+            object.delegator_address !== null) {
+            message.delegator_address = String(object.delegator_address);
         }
         else {
-            message.delegatorAddress = "";
+            message.delegator_address = "";
         }
         return message;
     },
     toJSON(message) {
         const obj = {};
-        message.delegatorAddress !== undefined &&
-            (obj.delegatorAddress = message.delegatorAddress);
+        message.delegator_address !== undefined &&
+            (obj.delegator_address = message.delegator_address);
         return obj;
     },
     fromPartial(object) {
         const message = {
             ...baseQueryDelegationTotalRewardsRequest,
         };
-        if (object.delegatorAddress !== undefined &&
-            object.delegatorAddress !== null) {
-            message.delegatorAddress = object.delegatorAddress;
+        if (object.delegator_address !== undefined &&
+            object.delegator_address !== null) {
+            message.delegator_address = object.delegator_address;
         }
         else {
-            message.delegatorAddress = "";
+            message.delegator_address = "";
         }
         return message;
     },
@@ -838,11 +842,11 @@ export const QueryDelegationTotalRewardsResponse = {
         return message;
     },
 };
-const baseQueryDelegatorValidatorsRequest = { delegatorAddress: "" };
+const baseQueryDelegatorValidatorsRequest = { delegator_address: "" };
 export const QueryDelegatorValidatorsRequest = {
     encode(message, writer = Writer.create()) {
-        if (message.delegatorAddress !== "") {
-            writer.uint32(10).string(message.delegatorAddress);
+        if (message.delegator_address !== "") {
+            writer.uint32(10).string(message.delegator_address);
         }
         return writer;
     },
@@ -856,7 +860,7 @@ export const QueryDelegatorValidatorsRequest = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.delegatorAddress = reader.string();
+                    message.delegator_address = reader.string();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -869,31 +873,31 @@ export const QueryDelegatorValidatorsRequest = {
         const message = {
             ...baseQueryDelegatorValidatorsRequest,
         };
-        if (object.delegatorAddress !== undefined &&
-            object.delegatorAddress !== null) {
-            message.delegatorAddress = String(object.delegatorAddress);
+        if (object.delegator_address !== undefined &&
+            object.delegator_address !== null) {
+            message.delegator_address = String(object.delegator_address);
         }
         else {
-            message.delegatorAddress = "";
+            message.delegator_address = "";
         }
         return message;
     },
     toJSON(message) {
         const obj = {};
-        message.delegatorAddress !== undefined &&
-            (obj.delegatorAddress = message.delegatorAddress);
+        message.delegator_address !== undefined &&
+            (obj.delegator_address = message.delegator_address);
         return obj;
     },
     fromPartial(object) {
         const message = {
             ...baseQueryDelegatorValidatorsRequest,
         };
-        if (object.delegatorAddress !== undefined &&
-            object.delegatorAddress !== null) {
-            message.delegatorAddress = object.delegatorAddress;
+        if (object.delegator_address !== undefined &&
+            object.delegator_address !== null) {
+            message.delegator_address = object.delegator_address;
         }
         else {
-            message.delegatorAddress = "";
+            message.delegator_address = "";
         }
         return message;
     },
@@ -962,12 +966,12 @@ export const QueryDelegatorValidatorsResponse = {
     },
 };
 const baseQueryDelegatorWithdrawAddressRequest = {
-    delegatorAddress: "",
+    delegator_address: "",
 };
 export const QueryDelegatorWithdrawAddressRequest = {
     encode(message, writer = Writer.create()) {
-        if (message.delegatorAddress !== "") {
-            writer.uint32(10).string(message.delegatorAddress);
+        if (message.delegator_address !== "") {
+            writer.uint32(10).string(message.delegator_address);
         }
         return writer;
     },
@@ -981,7 +985,7 @@ export const QueryDelegatorWithdrawAddressRequest = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.delegatorAddress = reader.string();
+                    message.delegator_address = reader.string();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -994,42 +998,42 @@ export const QueryDelegatorWithdrawAddressRequest = {
         const message = {
             ...baseQueryDelegatorWithdrawAddressRequest,
         };
-        if (object.delegatorAddress !== undefined &&
-            object.delegatorAddress !== null) {
-            message.delegatorAddress = String(object.delegatorAddress);
+        if (object.delegator_address !== undefined &&
+            object.delegator_address !== null) {
+            message.delegator_address = String(object.delegator_address);
         }
         else {
-            message.delegatorAddress = "";
+            message.delegator_address = "";
         }
         return message;
     },
     toJSON(message) {
         const obj = {};
-        message.delegatorAddress !== undefined &&
-            (obj.delegatorAddress = message.delegatorAddress);
+        message.delegator_address !== undefined &&
+            (obj.delegator_address = message.delegator_address);
         return obj;
     },
     fromPartial(object) {
         const message = {
             ...baseQueryDelegatorWithdrawAddressRequest,
         };
-        if (object.delegatorAddress !== undefined &&
-            object.delegatorAddress !== null) {
-            message.delegatorAddress = object.delegatorAddress;
+        if (object.delegator_address !== undefined &&
+            object.delegator_address !== null) {
+            message.delegator_address = object.delegator_address;
         }
         else {
-            message.delegatorAddress = "";
+            message.delegator_address = "";
         }
         return message;
     },
 };
 const baseQueryDelegatorWithdrawAddressResponse = {
-    withdrawAddress: "",
+    withdraw_address: "",
 };
 export const QueryDelegatorWithdrawAddressResponse = {
     encode(message, writer = Writer.create()) {
-        if (message.withdrawAddress !== "") {
-            writer.uint32(10).string(message.withdrawAddress);
+        if (message.withdraw_address !== "") {
+            writer.uint32(10).string(message.withdraw_address);
         }
         return writer;
     },
@@ -1043,7 +1047,7 @@ export const QueryDelegatorWithdrawAddressResponse = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.withdrawAddress = reader.string();
+                    message.withdraw_address = reader.string();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -1056,31 +1060,31 @@ export const QueryDelegatorWithdrawAddressResponse = {
         const message = {
             ...baseQueryDelegatorWithdrawAddressResponse,
         };
-        if (object.withdrawAddress !== undefined &&
-            object.withdrawAddress !== null) {
-            message.withdrawAddress = String(object.withdrawAddress);
+        if (object.withdraw_address !== undefined &&
+            object.withdraw_address !== null) {
+            message.withdraw_address = String(object.withdraw_address);
         }
         else {
-            message.withdrawAddress = "";
+            message.withdraw_address = "";
         }
         return message;
     },
     toJSON(message) {
         const obj = {};
-        message.withdrawAddress !== undefined &&
-            (obj.withdrawAddress = message.withdrawAddress);
+        message.withdraw_address !== undefined &&
+            (obj.withdraw_address = message.withdraw_address);
         return obj;
     },
     fromPartial(object) {
         const message = {
             ...baseQueryDelegatorWithdrawAddressResponse,
         };
-        if (object.withdrawAddress !== undefined &&
-            object.withdrawAddress !== null) {
-            message.withdrawAddress = object.withdrawAddress;
+        if (object.withdraw_address !== undefined &&
+            object.withdraw_address !== null) {
+            message.withdraw_address = object.withdraw_address;
         }
         else {
-            message.withdrawAddress = "";
+            message.withdraw_address = "";
         }
         return message;
     },

@@ -6,8 +6,8 @@ export declare const protobufPackage = "cosmos.distribution.v1beta1";
  * a delegator (or validator self-delegation).
  */
 export interface MsgSetWithdrawAddress {
-    delegatorAddress: string;
-    withdrawAddress: string;
+    delegator_address: string;
+    withdraw_address: string;
 }
 /** MsgSetWithdrawAddressResponse defines the Msg/SetWithdrawAddress response type. */
 export interface MsgSetWithdrawAddressResponse {
@@ -17,8 +17,8 @@ export interface MsgSetWithdrawAddressResponse {
  * from a single validator.
  */
 export interface MsgWithdrawDelegatorReward {
-    delegatorAddress: string;
-    validatorAddress: string;
+    delegator_address: string;
+    validator_address: string;
 }
 /** MsgWithdrawDelegatorRewardResponse defines the Msg/WithdrawDelegatorReward response type. */
 export interface MsgWithdrawDelegatorRewardResponse {
@@ -28,7 +28,7 @@ export interface MsgWithdrawDelegatorRewardResponse {
  * address.
  */
 export interface MsgWithdrawValidatorCommission {
-    validatorAddress: string;
+    validator_address: string;
 }
 /** MsgWithdrawValidatorCommissionResponse defines the Msg/WithdrawValidatorCommission response type. */
 export interface MsgWithdrawValidatorCommissionResponse {

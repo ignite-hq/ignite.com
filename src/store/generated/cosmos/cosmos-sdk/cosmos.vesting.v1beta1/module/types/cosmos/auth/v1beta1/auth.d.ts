@@ -8,23 +8,23 @@ export declare const protobufPackage = "cosmos.auth.v1beta1";
  */
 export interface BaseAccount {
     address: string;
-    pubKey: Any | undefined;
-    accountNumber: number;
+    pub_key: Any | undefined;
+    account_number: number;
     sequence: number;
 }
 /** ModuleAccount defines an account for modules that holds coins on a pool. */
 export interface ModuleAccount {
-    baseAccount: BaseAccount | undefined;
+    base_account: BaseAccount | undefined;
     name: string;
     permissions: string[];
 }
 /** Params defines the parameters for the auth module. */
 export interface Params {
-    maxMemoCharacters: number;
-    txSigLimit: number;
-    txSizeCostPerByte: number;
-    sigVerifyCostEd25519: number;
-    sigVerifyCostSecp256k1: number;
+    max_memo_characters: number;
+    tx_sig_limit: number;
+    tx_size_cost_per_byte: number;
+    sig_verify_cost_ed25519: number;
+    sig_verify_cost_secp256k1: number;
 }
 export declare const BaseAccount: {
     encode(message: BaseAccount, writer?: Writer): Writer;

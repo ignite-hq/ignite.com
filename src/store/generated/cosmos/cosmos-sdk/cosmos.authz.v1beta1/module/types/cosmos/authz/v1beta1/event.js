@@ -1,11 +1,11 @@
 /* eslint-disable */
 import { Writer, Reader } from "protobufjs/minimal";
 export const protobufPackage = "cosmos.authz.v1beta1";
-const baseEventGrant = { msgTypeUrl: "", granter: "", grantee: "" };
+const baseEventGrant = { msg_type_url: "", granter: "", grantee: "" };
 export const EventGrant = {
     encode(message, writer = Writer.create()) {
-        if (message.msgTypeUrl !== "") {
-            writer.uint32(18).string(message.msgTypeUrl);
+        if (message.msg_type_url !== "") {
+            writer.uint32(18).string(message.msg_type_url);
         }
         if (message.granter !== "") {
             writer.uint32(26).string(message.granter);
@@ -23,7 +23,7 @@ export const EventGrant = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 2:
-                    message.msgTypeUrl = reader.string();
+                    message.msg_type_url = reader.string();
                     break;
                 case 3:
                     message.granter = reader.string();
@@ -40,11 +40,11 @@ export const EventGrant = {
     },
     fromJSON(object) {
         const message = { ...baseEventGrant };
-        if (object.msgTypeUrl !== undefined && object.msgTypeUrl !== null) {
-            message.msgTypeUrl = String(object.msgTypeUrl);
+        if (object.msg_type_url !== undefined && object.msg_type_url !== null) {
+            message.msg_type_url = String(object.msg_type_url);
         }
         else {
-            message.msgTypeUrl = "";
+            message.msg_type_url = "";
         }
         if (object.granter !== undefined && object.granter !== null) {
             message.granter = String(object.granter);
@@ -62,18 +62,19 @@ export const EventGrant = {
     },
     toJSON(message) {
         const obj = {};
-        message.msgTypeUrl !== undefined && (obj.msgTypeUrl = message.msgTypeUrl);
+        message.msg_type_url !== undefined &&
+            (obj.msg_type_url = message.msg_type_url);
         message.granter !== undefined && (obj.granter = message.granter);
         message.grantee !== undefined && (obj.grantee = message.grantee);
         return obj;
     },
     fromPartial(object) {
         const message = { ...baseEventGrant };
-        if (object.msgTypeUrl !== undefined && object.msgTypeUrl !== null) {
-            message.msgTypeUrl = object.msgTypeUrl;
+        if (object.msg_type_url !== undefined && object.msg_type_url !== null) {
+            message.msg_type_url = object.msg_type_url;
         }
         else {
-            message.msgTypeUrl = "";
+            message.msg_type_url = "";
         }
         if (object.granter !== undefined && object.granter !== null) {
             message.granter = object.granter;
@@ -90,11 +91,11 @@ export const EventGrant = {
         return message;
     },
 };
-const baseEventRevoke = { msgTypeUrl: "", granter: "", grantee: "" };
+const baseEventRevoke = { msg_type_url: "", granter: "", grantee: "" };
 export const EventRevoke = {
     encode(message, writer = Writer.create()) {
-        if (message.msgTypeUrl !== "") {
-            writer.uint32(18).string(message.msgTypeUrl);
+        if (message.msg_type_url !== "") {
+            writer.uint32(18).string(message.msg_type_url);
         }
         if (message.granter !== "") {
             writer.uint32(26).string(message.granter);
@@ -112,7 +113,7 @@ export const EventRevoke = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 2:
-                    message.msgTypeUrl = reader.string();
+                    message.msg_type_url = reader.string();
                     break;
                 case 3:
                     message.granter = reader.string();
@@ -129,11 +130,11 @@ export const EventRevoke = {
     },
     fromJSON(object) {
         const message = { ...baseEventRevoke };
-        if (object.msgTypeUrl !== undefined && object.msgTypeUrl !== null) {
-            message.msgTypeUrl = String(object.msgTypeUrl);
+        if (object.msg_type_url !== undefined && object.msg_type_url !== null) {
+            message.msg_type_url = String(object.msg_type_url);
         }
         else {
-            message.msgTypeUrl = "";
+            message.msg_type_url = "";
         }
         if (object.granter !== undefined && object.granter !== null) {
             message.granter = String(object.granter);
@@ -151,18 +152,19 @@ export const EventRevoke = {
     },
     toJSON(message) {
         const obj = {};
-        message.msgTypeUrl !== undefined && (obj.msgTypeUrl = message.msgTypeUrl);
+        message.msg_type_url !== undefined &&
+            (obj.msg_type_url = message.msg_type_url);
         message.granter !== undefined && (obj.granter = message.granter);
         message.grantee !== undefined && (obj.grantee = message.grantee);
         return obj;
     },
     fromPartial(object) {
         const message = { ...baseEventRevoke };
-        if (object.msgTypeUrl !== undefined && object.msgTypeUrl !== null) {
-            message.msgTypeUrl = object.msgTypeUrl;
+        if (object.msg_type_url !== undefined && object.msg_type_url !== null) {
+            message.msg_type_url = object.msg_type_url;
         }
         else {
-            message.msgTypeUrl = "";
+            message.msg_type_url = "";
         }
         if (object.granter !== undefined && object.granter !== null) {
             message.granter = object.granter;

@@ -1,6 +1,4 @@
 import { txClient, queryClient, MissingWalletError, registry } from './module';
-// @ts-ignore
-import { SpVuexError } from '@starport/vuex';
 async function initTxClient(vuexGetters) {
     return await txClient(vuexGetters['common/wallet/signer'], {
         addr: vuexGetters['common/env/apiTendermint']
@@ -88,7 +86,7 @@ export default {
                     await dispatch(sub.action, sub.payload);
                 }
                 catch (e) {
-                    throw new SpVuexError('Subscriptions: ' + e.message);
+                    throw new Error('Subscriptions: ' + e.message);
                 }
             });
         },
@@ -102,10 +100,10 @@ export default {
             }
             catch (e) {
                 if (e == MissingWalletError) {
-                    throw new SpVuexError('TxClient:MsgVerifyInvariant:Init', 'Could not initialize signing client. Wallet is required.');
+                    throw new Error('TxClient:MsgVerifyInvariant:Init Could not initialize signing client. Wallet is required.');
                 }
                 else {
-                    throw new SpVuexError('TxClient:MsgVerifyInvariant:Send', 'Could not broadcast Tx: ' + e.message);
+                    throw new Error('TxClient:MsgVerifyInvariant:Send Could not broadcast Tx: ' + e.message);
                 }
             }
         },
@@ -117,10 +115,10 @@ export default {
             }
             catch (e) {
                 if (e == MissingWalletError) {
-                    throw new SpVuexError('TxClient:MsgVerifyInvariant:Init', 'Could not initialize signing client. Wallet is required.');
+                    throw new Error('TxClient:MsgVerifyInvariant:Init  Could not initialize signing client. Wallet is required.');
                 }
                 else {
-                    throw new SpVuexError('TxClient:MsgVerifyInvariant:Create', 'Could not create message: ' + e.message);
+                    throw new Error('TxClient:MsgVerifyInvariant:Create  Could not create message: ' + e.message);
                 }
             }
         },

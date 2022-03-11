@@ -10,10 +10,10 @@ const baseTxResponse = {
     codespace: "",
     code: 0,
     data: "",
-    rawLog: "",
+    raw_log: "",
     info: "",
-    gasWanted: 0,
-    gasUsed: 0,
+    gas_wanted: 0,
+    gas_used: 0,
     timestamp: "",
 };
 export const TxResponse = {
@@ -33,8 +33,8 @@ export const TxResponse = {
         if (message.data !== "") {
             writer.uint32(42).string(message.data);
         }
-        if (message.rawLog !== "") {
-            writer.uint32(50).string(message.rawLog);
+        if (message.raw_log !== "") {
+            writer.uint32(50).string(message.raw_log);
         }
         for (const v of message.logs) {
             ABCIMessageLog.encode(v, writer.uint32(58).fork()).ldelim();
@@ -42,11 +42,11 @@ export const TxResponse = {
         if (message.info !== "") {
             writer.uint32(66).string(message.info);
         }
-        if (message.gasWanted !== 0) {
-            writer.uint32(72).int64(message.gasWanted);
+        if (message.gas_wanted !== 0) {
+            writer.uint32(72).int64(message.gas_wanted);
         }
-        if (message.gasUsed !== 0) {
-            writer.uint32(80).int64(message.gasUsed);
+        if (message.gas_used !== 0) {
+            writer.uint32(80).int64(message.gas_used);
         }
         if (message.tx !== undefined) {
             Any.encode(message.tx, writer.uint32(90).fork()).ldelim();
@@ -84,7 +84,7 @@ export const TxResponse = {
                     message.data = reader.string();
                     break;
                 case 6:
-                    message.rawLog = reader.string();
+                    message.raw_log = reader.string();
                     break;
                 case 7:
                     message.logs.push(ABCIMessageLog.decode(reader, reader.uint32()));
@@ -93,10 +93,10 @@ export const TxResponse = {
                     message.info = reader.string();
                     break;
                 case 9:
-                    message.gasWanted = longToNumber(reader.int64());
+                    message.gas_wanted = longToNumber(reader.int64());
                     break;
                 case 10:
-                    message.gasUsed = longToNumber(reader.int64());
+                    message.gas_used = longToNumber(reader.int64());
                     break;
                 case 11:
                     message.tx = Any.decode(reader, reader.uint32());
@@ -148,11 +148,11 @@ export const TxResponse = {
         else {
             message.data = "";
         }
-        if (object.rawLog !== undefined && object.rawLog !== null) {
-            message.rawLog = String(object.rawLog);
+        if (object.raw_log !== undefined && object.raw_log !== null) {
+            message.raw_log = String(object.raw_log);
         }
         else {
-            message.rawLog = "";
+            message.raw_log = "";
         }
         if (object.logs !== undefined && object.logs !== null) {
             for (const e of object.logs) {
@@ -165,17 +165,17 @@ export const TxResponse = {
         else {
             message.info = "";
         }
-        if (object.gasWanted !== undefined && object.gasWanted !== null) {
-            message.gasWanted = Number(object.gasWanted);
+        if (object.gas_wanted !== undefined && object.gas_wanted !== null) {
+            message.gas_wanted = Number(object.gas_wanted);
         }
         else {
-            message.gasWanted = 0;
+            message.gas_wanted = 0;
         }
-        if (object.gasUsed !== undefined && object.gasUsed !== null) {
-            message.gasUsed = Number(object.gasUsed);
+        if (object.gas_used !== undefined && object.gas_used !== null) {
+            message.gas_used = Number(object.gas_used);
         }
         else {
-            message.gasUsed = 0;
+            message.gas_used = 0;
         }
         if (object.tx !== undefined && object.tx !== null) {
             message.tx = Any.fromJSON(object.tx);
@@ -203,7 +203,7 @@ export const TxResponse = {
         message.codespace !== undefined && (obj.codespace = message.codespace);
         message.code !== undefined && (obj.code = message.code);
         message.data !== undefined && (obj.data = message.data);
-        message.rawLog !== undefined && (obj.rawLog = message.rawLog);
+        message.raw_log !== undefined && (obj.raw_log = message.raw_log);
         if (message.logs) {
             obj.logs = message.logs.map((e) => e ? ABCIMessageLog.toJSON(e) : undefined);
         }
@@ -211,8 +211,8 @@ export const TxResponse = {
             obj.logs = [];
         }
         message.info !== undefined && (obj.info = message.info);
-        message.gasWanted !== undefined && (obj.gasWanted = message.gasWanted);
-        message.gasUsed !== undefined && (obj.gasUsed = message.gasUsed);
+        message.gas_wanted !== undefined && (obj.gas_wanted = message.gas_wanted);
+        message.gas_used !== undefined && (obj.gas_used = message.gas_used);
         message.tx !== undefined &&
             (obj.tx = message.tx ? Any.toJSON(message.tx) : undefined);
         message.timestamp !== undefined && (obj.timestamp = message.timestamp);
@@ -258,11 +258,11 @@ export const TxResponse = {
         else {
             message.data = "";
         }
-        if (object.rawLog !== undefined && object.rawLog !== null) {
-            message.rawLog = object.rawLog;
+        if (object.raw_log !== undefined && object.raw_log !== null) {
+            message.raw_log = object.raw_log;
         }
         else {
-            message.rawLog = "";
+            message.raw_log = "";
         }
         if (object.logs !== undefined && object.logs !== null) {
             for (const e of object.logs) {
@@ -275,17 +275,17 @@ export const TxResponse = {
         else {
             message.info = "";
         }
-        if (object.gasWanted !== undefined && object.gasWanted !== null) {
-            message.gasWanted = object.gasWanted;
+        if (object.gas_wanted !== undefined && object.gas_wanted !== null) {
+            message.gas_wanted = object.gas_wanted;
         }
         else {
-            message.gasWanted = 0;
+            message.gas_wanted = 0;
         }
-        if (object.gasUsed !== undefined && object.gasUsed !== null) {
-            message.gasUsed = object.gasUsed;
+        if (object.gas_used !== undefined && object.gas_used !== null) {
+            message.gas_used = object.gas_used;
         }
         else {
-            message.gasUsed = 0;
+            message.gas_used = 0;
         }
         if (object.tx !== undefined && object.tx !== null) {
             message.tx = Any.fromPartial(object.tx);
@@ -307,11 +307,11 @@ export const TxResponse = {
         return message;
     },
 };
-const baseABCIMessageLog = { msgIndex: 0, log: "" };
+const baseABCIMessageLog = { msg_index: 0, log: "" };
 export const ABCIMessageLog = {
     encode(message, writer = Writer.create()) {
-        if (message.msgIndex !== 0) {
-            writer.uint32(8).uint32(message.msgIndex);
+        if (message.msg_index !== 0) {
+            writer.uint32(8).uint32(message.msg_index);
         }
         if (message.log !== "") {
             writer.uint32(18).string(message.log);
@@ -330,7 +330,7 @@ export const ABCIMessageLog = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.msgIndex = reader.uint32();
+                    message.msg_index = reader.uint32();
                     break;
                 case 2:
                     message.log = reader.string();
@@ -348,11 +348,11 @@ export const ABCIMessageLog = {
     fromJSON(object) {
         const message = { ...baseABCIMessageLog };
         message.events = [];
-        if (object.msgIndex !== undefined && object.msgIndex !== null) {
-            message.msgIndex = Number(object.msgIndex);
+        if (object.msg_index !== undefined && object.msg_index !== null) {
+            message.msg_index = Number(object.msg_index);
         }
         else {
-            message.msgIndex = 0;
+            message.msg_index = 0;
         }
         if (object.log !== undefined && object.log !== null) {
             message.log = String(object.log);
@@ -369,7 +369,7 @@ export const ABCIMessageLog = {
     },
     toJSON(message) {
         const obj = {};
-        message.msgIndex !== undefined && (obj.msgIndex = message.msgIndex);
+        message.msg_index !== undefined && (obj.msg_index = message.msg_index);
         message.log !== undefined && (obj.log = message.log);
         if (message.events) {
             obj.events = message.events.map((e) => e ? StringEvent.toJSON(e) : undefined);
@@ -382,11 +382,11 @@ export const ABCIMessageLog = {
     fromPartial(object) {
         const message = { ...baseABCIMessageLog };
         message.events = [];
-        if (object.msgIndex !== undefined && object.msgIndex !== null) {
-            message.msgIndex = object.msgIndex;
+        if (object.msg_index !== undefined && object.msg_index !== null) {
+            message.msg_index = object.msg_index;
         }
         else {
-            message.msgIndex = 0;
+            message.msg_index = 0;
         }
         if (object.log !== undefined && object.log !== null) {
             message.log = object.log;
@@ -548,14 +548,14 @@ export const Attribute = {
         return message;
     },
 };
-const baseGasInfo = { gasWanted: 0, gasUsed: 0 };
+const baseGasInfo = { gas_wanted: 0, gas_used: 0 };
 export const GasInfo = {
     encode(message, writer = Writer.create()) {
-        if (message.gasWanted !== 0) {
-            writer.uint32(8).uint64(message.gasWanted);
+        if (message.gas_wanted !== 0) {
+            writer.uint32(8).uint64(message.gas_wanted);
         }
-        if (message.gasUsed !== 0) {
-            writer.uint32(16).uint64(message.gasUsed);
+        if (message.gas_used !== 0) {
+            writer.uint32(16).uint64(message.gas_used);
         }
         return writer;
     },
@@ -567,10 +567,10 @@ export const GasInfo = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.gasWanted = longToNumber(reader.uint64());
+                    message.gas_wanted = longToNumber(reader.uint64());
                     break;
                 case 2:
-                    message.gasUsed = longToNumber(reader.uint64());
+                    message.gas_used = longToNumber(reader.uint64());
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -581,39 +581,39 @@ export const GasInfo = {
     },
     fromJSON(object) {
         const message = { ...baseGasInfo };
-        if (object.gasWanted !== undefined && object.gasWanted !== null) {
-            message.gasWanted = Number(object.gasWanted);
+        if (object.gas_wanted !== undefined && object.gas_wanted !== null) {
+            message.gas_wanted = Number(object.gas_wanted);
         }
         else {
-            message.gasWanted = 0;
+            message.gas_wanted = 0;
         }
-        if (object.gasUsed !== undefined && object.gasUsed !== null) {
-            message.gasUsed = Number(object.gasUsed);
+        if (object.gas_used !== undefined && object.gas_used !== null) {
+            message.gas_used = Number(object.gas_used);
         }
         else {
-            message.gasUsed = 0;
+            message.gas_used = 0;
         }
         return message;
     },
     toJSON(message) {
         const obj = {};
-        message.gasWanted !== undefined && (obj.gasWanted = message.gasWanted);
-        message.gasUsed !== undefined && (obj.gasUsed = message.gasUsed);
+        message.gas_wanted !== undefined && (obj.gas_wanted = message.gas_wanted);
+        message.gas_used !== undefined && (obj.gas_used = message.gas_used);
         return obj;
     },
     fromPartial(object) {
         const message = { ...baseGasInfo };
-        if (object.gasWanted !== undefined && object.gasWanted !== null) {
-            message.gasWanted = object.gasWanted;
+        if (object.gas_wanted !== undefined && object.gas_wanted !== null) {
+            message.gas_wanted = object.gas_wanted;
         }
         else {
-            message.gasWanted = 0;
+            message.gas_wanted = 0;
         }
-        if (object.gasUsed !== undefined && object.gasUsed !== null) {
-            message.gasUsed = object.gasUsed;
+        if (object.gas_used !== undefined && object.gas_used !== null) {
+            message.gas_used = object.gas_used;
         }
         else {
-            message.gasUsed = 0;
+            message.gas_used = 0;
         }
         return message;
     },
@@ -714,8 +714,8 @@ export const Result = {
 const baseSimulationResponse = {};
 export const SimulationResponse = {
     encode(message, writer = Writer.create()) {
-        if (message.gasInfo !== undefined) {
-            GasInfo.encode(message.gasInfo, writer.uint32(10).fork()).ldelim();
+        if (message.gas_info !== undefined) {
+            GasInfo.encode(message.gas_info, writer.uint32(10).fork()).ldelim();
         }
         if (message.result !== undefined) {
             Result.encode(message.result, writer.uint32(18).fork()).ldelim();
@@ -730,7 +730,7 @@ export const SimulationResponse = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.gasInfo = GasInfo.decode(reader, reader.uint32());
+                    message.gas_info = GasInfo.decode(reader, reader.uint32());
                     break;
                 case 2:
                     message.result = Result.decode(reader, reader.uint32());
@@ -744,11 +744,11 @@ export const SimulationResponse = {
     },
     fromJSON(object) {
         const message = { ...baseSimulationResponse };
-        if (object.gasInfo !== undefined && object.gasInfo !== null) {
-            message.gasInfo = GasInfo.fromJSON(object.gasInfo);
+        if (object.gas_info !== undefined && object.gas_info !== null) {
+            message.gas_info = GasInfo.fromJSON(object.gas_info);
         }
         else {
-            message.gasInfo = undefined;
+            message.gas_info = undefined;
         }
         if (object.result !== undefined && object.result !== null) {
             message.result = Result.fromJSON(object.result);
@@ -760,9 +760,9 @@ export const SimulationResponse = {
     },
     toJSON(message) {
         const obj = {};
-        message.gasInfo !== undefined &&
-            (obj.gasInfo = message.gasInfo
-                ? GasInfo.toJSON(message.gasInfo)
+        message.gas_info !== undefined &&
+            (obj.gas_info = message.gas_info
+                ? GasInfo.toJSON(message.gas_info)
                 : undefined);
         message.result !== undefined &&
             (obj.result = message.result ? Result.toJSON(message.result) : undefined);
@@ -770,11 +770,11 @@ export const SimulationResponse = {
     },
     fromPartial(object) {
         const message = { ...baseSimulationResponse };
-        if (object.gasInfo !== undefined && object.gasInfo !== null) {
-            message.gasInfo = GasInfo.fromPartial(object.gasInfo);
+        if (object.gas_info !== undefined && object.gas_info !== null) {
+            message.gas_info = GasInfo.fromPartial(object.gas_info);
         }
         else {
-            message.gasInfo = undefined;
+            message.gas_info = undefined;
         }
         if (object.result !== undefined && object.result !== null) {
             message.result = Result.fromPartial(object.result);
@@ -785,11 +785,11 @@ export const SimulationResponse = {
         return message;
     },
 };
-const baseMsgData = { msgType: "" };
+const baseMsgData = { msg_type: "" };
 export const MsgData = {
     encode(message, writer = Writer.create()) {
-        if (message.msgType !== "") {
-            writer.uint32(10).string(message.msgType);
+        if (message.msg_type !== "") {
+            writer.uint32(10).string(message.msg_type);
         }
         if (message.data.length !== 0) {
             writer.uint32(18).bytes(message.data);
@@ -804,7 +804,7 @@ export const MsgData = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.msgType = reader.string();
+                    message.msg_type = reader.string();
                     break;
                 case 2:
                     message.data = reader.bytes();
@@ -818,11 +818,11 @@ export const MsgData = {
     },
     fromJSON(object) {
         const message = { ...baseMsgData };
-        if (object.msgType !== undefined && object.msgType !== null) {
-            message.msgType = String(object.msgType);
+        if (object.msg_type !== undefined && object.msg_type !== null) {
+            message.msg_type = String(object.msg_type);
         }
         else {
-            message.msgType = "";
+            message.msg_type = "";
         }
         if (object.data !== undefined && object.data !== null) {
             message.data = bytesFromBase64(object.data);
@@ -831,18 +831,18 @@ export const MsgData = {
     },
     toJSON(message) {
         const obj = {};
-        message.msgType !== undefined && (obj.msgType = message.msgType);
+        message.msg_type !== undefined && (obj.msg_type = message.msg_type);
         message.data !== undefined &&
             (obj.data = base64FromBytes(message.data !== undefined ? message.data : new Uint8Array()));
         return obj;
     },
     fromPartial(object) {
         const message = { ...baseMsgData };
-        if (object.msgType !== undefined && object.msgType !== null) {
-            message.msgType = object.msgType;
+        if (object.msg_type !== undefined && object.msg_type !== null) {
+            message.msg_type = object.msg_type;
         }
         else {
-            message.msgType = "";
+            message.msg_type = "";
         }
         if (object.data !== undefined && object.data !== null) {
             message.data = object.data;
@@ -911,25 +911,25 @@ export const TxMsgData = {
     },
 };
 const baseSearchTxsResult = {
-    totalCount: 0,
+    total_count: 0,
     count: 0,
-    pageNumber: 0,
-    pageTotal: 0,
+    page_number: 0,
+    page_total: 0,
     limit: 0,
 };
 export const SearchTxsResult = {
     encode(message, writer = Writer.create()) {
-        if (message.totalCount !== 0) {
-            writer.uint32(8).uint64(message.totalCount);
+        if (message.total_count !== 0) {
+            writer.uint32(8).uint64(message.total_count);
         }
         if (message.count !== 0) {
             writer.uint32(16).uint64(message.count);
         }
-        if (message.pageNumber !== 0) {
-            writer.uint32(24).uint64(message.pageNumber);
+        if (message.page_number !== 0) {
+            writer.uint32(24).uint64(message.page_number);
         }
-        if (message.pageTotal !== 0) {
-            writer.uint32(32).uint64(message.pageTotal);
+        if (message.page_total !== 0) {
+            writer.uint32(32).uint64(message.page_total);
         }
         if (message.limit !== 0) {
             writer.uint32(40).uint64(message.limit);
@@ -948,16 +948,16 @@ export const SearchTxsResult = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.totalCount = longToNumber(reader.uint64());
+                    message.total_count = longToNumber(reader.uint64());
                     break;
                 case 2:
                     message.count = longToNumber(reader.uint64());
                     break;
                 case 3:
-                    message.pageNumber = longToNumber(reader.uint64());
+                    message.page_number = longToNumber(reader.uint64());
                     break;
                 case 4:
-                    message.pageTotal = longToNumber(reader.uint64());
+                    message.page_total = longToNumber(reader.uint64());
                     break;
                 case 5:
                     message.limit = longToNumber(reader.uint64());
@@ -975,11 +975,11 @@ export const SearchTxsResult = {
     fromJSON(object) {
         const message = { ...baseSearchTxsResult };
         message.txs = [];
-        if (object.totalCount !== undefined && object.totalCount !== null) {
-            message.totalCount = Number(object.totalCount);
+        if (object.total_count !== undefined && object.total_count !== null) {
+            message.total_count = Number(object.total_count);
         }
         else {
-            message.totalCount = 0;
+            message.total_count = 0;
         }
         if (object.count !== undefined && object.count !== null) {
             message.count = Number(object.count);
@@ -987,17 +987,17 @@ export const SearchTxsResult = {
         else {
             message.count = 0;
         }
-        if (object.pageNumber !== undefined && object.pageNumber !== null) {
-            message.pageNumber = Number(object.pageNumber);
+        if (object.page_number !== undefined && object.page_number !== null) {
+            message.page_number = Number(object.page_number);
         }
         else {
-            message.pageNumber = 0;
+            message.page_number = 0;
         }
-        if (object.pageTotal !== undefined && object.pageTotal !== null) {
-            message.pageTotal = Number(object.pageTotal);
+        if (object.page_total !== undefined && object.page_total !== null) {
+            message.page_total = Number(object.page_total);
         }
         else {
-            message.pageTotal = 0;
+            message.page_total = 0;
         }
         if (object.limit !== undefined && object.limit !== null) {
             message.limit = Number(object.limit);
@@ -1014,10 +1014,12 @@ export const SearchTxsResult = {
     },
     toJSON(message) {
         const obj = {};
-        message.totalCount !== undefined && (obj.totalCount = message.totalCount);
+        message.total_count !== undefined &&
+            (obj.total_count = message.total_count);
         message.count !== undefined && (obj.count = message.count);
-        message.pageNumber !== undefined && (obj.pageNumber = message.pageNumber);
-        message.pageTotal !== undefined && (obj.pageTotal = message.pageTotal);
+        message.page_number !== undefined &&
+            (obj.page_number = message.page_number);
+        message.page_total !== undefined && (obj.page_total = message.page_total);
         message.limit !== undefined && (obj.limit = message.limit);
         if (message.txs) {
             obj.txs = message.txs.map((e) => (e ? TxResponse.toJSON(e) : undefined));
@@ -1030,11 +1032,11 @@ export const SearchTxsResult = {
     fromPartial(object) {
         const message = { ...baseSearchTxsResult };
         message.txs = [];
-        if (object.totalCount !== undefined && object.totalCount !== null) {
-            message.totalCount = object.totalCount;
+        if (object.total_count !== undefined && object.total_count !== null) {
+            message.total_count = object.total_count;
         }
         else {
-            message.totalCount = 0;
+            message.total_count = 0;
         }
         if (object.count !== undefined && object.count !== null) {
             message.count = object.count;
@@ -1042,17 +1044,17 @@ export const SearchTxsResult = {
         else {
             message.count = 0;
         }
-        if (object.pageNumber !== undefined && object.pageNumber !== null) {
-            message.pageNumber = object.pageNumber;
+        if (object.page_number !== undefined && object.page_number !== null) {
+            message.page_number = object.page_number;
         }
         else {
-            message.pageNumber = 0;
+            message.page_number = 0;
         }
-        if (object.pageTotal !== undefined && object.pageTotal !== null) {
-            message.pageTotal = object.pageTotal;
+        if (object.page_total !== undefined && object.page_total !== null) {
+            message.page_total = object.page_total;
         }
         else {
-            message.pageTotal = 0;
+            message.page_total = 0;
         }
         if (object.limit !== undefined && object.limit !== null) {
             message.limit = object.limit;

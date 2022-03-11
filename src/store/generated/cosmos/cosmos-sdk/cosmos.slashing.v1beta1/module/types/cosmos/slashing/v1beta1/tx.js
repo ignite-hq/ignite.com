@@ -1,11 +1,11 @@
 /* eslint-disable */
 import { Reader, Writer } from "protobufjs/minimal";
 export const protobufPackage = "cosmos.slashing.v1beta1";
-const baseMsgUnjail = { validatorAddr: "" };
+const baseMsgUnjail = { validator_addr: "" };
 export const MsgUnjail = {
     encode(message, writer = Writer.create()) {
-        if (message.validatorAddr !== "") {
-            writer.uint32(10).string(message.validatorAddr);
+        if (message.validator_addr !== "") {
+            writer.uint32(10).string(message.validator_addr);
         }
         return writer;
     },
@@ -17,7 +17,7 @@ export const MsgUnjail = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.validatorAddr = reader.string();
+                    message.validator_addr = reader.string();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -28,27 +28,27 @@ export const MsgUnjail = {
     },
     fromJSON(object) {
         const message = { ...baseMsgUnjail };
-        if (object.validatorAddr !== undefined && object.validatorAddr !== null) {
-            message.validatorAddr = String(object.validatorAddr);
+        if (object.validator_addr !== undefined && object.validator_addr !== null) {
+            message.validator_addr = String(object.validator_addr);
         }
         else {
-            message.validatorAddr = "";
+            message.validator_addr = "";
         }
         return message;
     },
     toJSON(message) {
         const obj = {};
-        message.validatorAddr !== undefined &&
-            (obj.validatorAddr = message.validatorAddr);
+        message.validator_addr !== undefined &&
+            (obj.validator_addr = message.validator_addr);
         return obj;
     },
     fromPartial(object) {
         const message = { ...baseMsgUnjail };
-        if (object.validatorAddr !== undefined && object.validatorAddr !== null) {
-            message.validatorAddr = object.validatorAddr;
+        if (object.validator_addr !== undefined && object.validator_addr !== null) {
+            message.validator_addr = object.validator_addr;
         }
         else {
-            message.validatorAddr = "";
+            message.validator_addr = "";
         }
         return message;
     },

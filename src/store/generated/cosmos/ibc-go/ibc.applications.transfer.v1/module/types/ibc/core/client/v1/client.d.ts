@@ -8,9 +8,9 @@ export declare const protobufPackage = "ibc.core.client.v1";
  */
 export interface IdentifiedClientState {
     /** client identifier */
-    clientId: string;
+    client_id: string;
     /** client state */
-    clientState: Any | undefined;
+    client_state: Any | undefined;
 }
 /**
  * ConsensusStateWithHeight defines a consensus state with an additional height
@@ -20,7 +20,7 @@ export interface ConsensusStateWithHeight {
     /** consensus state height */
     height: Height | undefined;
     /** consensus state */
-    consensusState: Any | undefined;
+    consensus_state: Any | undefined;
 }
 /**
  * ClientConsensusStates defines all the stored consensus states for a given
@@ -28,9 +28,9 @@ export interface ConsensusStateWithHeight {
  */
 export interface ClientConsensusStates {
     /** client identifier */
-    clientId: string;
+    client_id: string;
     /** consensus states and their heights associated with the client */
-    consensusStates: ConsensusStateWithHeight[];
+    consensus_states: ConsensusStateWithHeight[];
 }
 /**
  * ClientUpdateProposal is a governance proposal. If it passes, the substitute
@@ -44,12 +44,12 @@ export interface ClientUpdateProposal {
     /** the description of the proposal */
     description: string;
     /** the client identifier for the client to be updated if the proposal passes */
-    subjectClientId: string;
+    subject_client_id: string;
     /**
      * the substitute client identifier for the client standing in for the subject
      * client
      */
-    substituteClientId: string;
+    substitute_client_id: string;
 }
 /**
  * UpgradeProposal is a gov Content type for initiating an IBC breaking
@@ -67,7 +67,7 @@ export interface UpgradeProposal {
      * of the chain. This will allow IBC connections to persist smoothly across
      * planned chain upgrades
      */
-    upgradedClientState: Any | undefined;
+    upgraded_client_state: Any | undefined;
 }
 /**
  * Height is a monotonically increasing data type
@@ -83,14 +83,14 @@ export interface UpgradeProposal {
  */
 export interface Height {
     /** the revision that the client is currently on */
-    revisionNumber: number;
+    revision_number: number;
     /** the height within the given revision */
-    revisionHeight: number;
+    revision_height: number;
 }
 /** Params defines the set of IBC light client parameters. */
 export interface Params {
     /** allowed_clients defines the list of allowed client state types. */
-    allowedClients: string[];
+    allowed_clients: string[];
 }
 export declare const IdentifiedClientState: {
     encode(message: IdentifiedClientState, writer?: Writer): Writer;

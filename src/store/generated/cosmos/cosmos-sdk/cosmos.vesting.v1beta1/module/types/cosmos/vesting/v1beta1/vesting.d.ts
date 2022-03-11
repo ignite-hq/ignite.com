@@ -7,19 +7,19 @@ export declare const protobufPackage = "cosmos.vesting.v1beta1";
  * the necessary fields needed for any vesting account implementation.
  */
 export interface BaseVestingAccount {
-    baseAccount: BaseAccount | undefined;
-    originalVesting: Coin[];
-    delegatedFree: Coin[];
-    delegatedVesting: Coin[];
-    endTime: number;
+    base_account: BaseAccount | undefined;
+    original_vesting: Coin[];
+    delegated_free: Coin[];
+    delegated_vesting: Coin[];
+    end_time: number;
 }
 /**
  * ContinuousVestingAccount implements the VestingAccount interface. It
  * continuously vests by unlocking coins linearly with respect to time.
  */
 export interface ContinuousVestingAccount {
-    baseVestingAccount: BaseVestingAccount | undefined;
-    startTime: number;
+    base_vesting_account: BaseVestingAccount | undefined;
+    start_time: number;
 }
 /**
  * DelayedVestingAccount implements the VestingAccount interface. It vests all
@@ -27,7 +27,7 @@ export interface ContinuousVestingAccount {
  * locked until a specified time.
  */
 export interface DelayedVestingAccount {
-    baseVestingAccount: BaseVestingAccount | undefined;
+    base_vesting_account: BaseVestingAccount | undefined;
 }
 /** Period defines a length of time and amount of coins that will vest. */
 export interface Period {
@@ -39,9 +39,9 @@ export interface Period {
  * periodically vests by unlocking coins during each specified period.
  */
 export interface PeriodicVestingAccount {
-    baseVestingAccount: BaseVestingAccount | undefined;
-    startTime: number;
-    vestingPeriods: Period[];
+    base_vesting_account: BaseVestingAccount | undefined;
+    start_time: number;
+    vesting_periods: Period[];
 }
 /**
  * PermanentLockedAccount implements the VestingAccount interface. It does
@@ -51,7 +51,7 @@ export interface PeriodicVestingAccount {
  * Since: cosmos-sdk 0.43
  */
 export interface PermanentLockedAccount {
-    baseVestingAccount: BaseVestingAccount | undefined;
+    base_vesting_account: BaseVestingAccount | undefined;
 }
 export declare const BaseVestingAccount: {
     encode(message: BaseVestingAccount, writer?: Writer): Writer;

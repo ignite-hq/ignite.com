@@ -1,6 +1,4 @@
 import { txClient, queryClient, MissingWalletError, registry } from './module';
-// @ts-ignore
-import { SpVuexError } from '@starport/vuex';
 import { SendAuthorization } from "./module/types/cosmos/bank/v1beta1/authz";
 import { Params } from "./module/types/cosmos/bank/v1beta1/bank";
 import { SendEnabled } from "./module/types/cosmos/bank/v1beta1/bank";
@@ -157,7 +155,7 @@ export default {
                     await dispatch(sub.action, sub.payload);
                 }
                 catch (e) {
-                    throw new SpVuexError('Subscriptions: ' + e.message);
+                    throw new Error('Subscriptions: ' + e.message);
                 }
             });
         },
@@ -176,7 +174,7 @@ export default {
                 return getters['getBalance']({ params: { ...key }, query }) ?? {};
             }
             catch (e) {
-                throw new SpVuexError('QueryClient:QueryBalance', 'API Node Unavailable. Could not perform query: ' + e.message);
+                throw new Error('QueryClient:QueryBalance API Node Unavailable. Could not perform query: ' + e.message);
             }
         },
         async QueryAllBalances({ commit, rootGetters, getters }, { options: { subscribe, all } = { subscribe: false, all: false }, params, query = null }) {
@@ -194,7 +192,7 @@ export default {
                 return getters['getAllBalances']({ params: { ...key }, query }) ?? {};
             }
             catch (e) {
-                throw new SpVuexError('QueryClient:QueryAllBalances', 'API Node Unavailable. Could not perform query: ' + e.message);
+                throw new Error('QueryClient:QueryAllBalances API Node Unavailable. Could not perform query: ' + e.message);
             }
         },
         async QueryTotalSupply({ commit, rootGetters, getters }, { options: { subscribe, all } = { subscribe: false, all: false }, params, query = null }) {
@@ -212,7 +210,7 @@ export default {
                 return getters['getTotalSupply']({ params: { ...key }, query }) ?? {};
             }
             catch (e) {
-                throw new SpVuexError('QueryClient:QueryTotalSupply', 'API Node Unavailable. Could not perform query: ' + e.message);
+                throw new Error('QueryClient:QueryTotalSupply API Node Unavailable. Could not perform query: ' + e.message);
             }
         },
         async QuerySupplyOf({ commit, rootGetters, getters }, { options: { subscribe, all } = { subscribe: false, all: false }, params, query = null }) {
@@ -226,7 +224,7 @@ export default {
                 return getters['getSupplyOf']({ params: { ...key }, query }) ?? {};
             }
             catch (e) {
-                throw new SpVuexError('QueryClient:QuerySupplyOf', 'API Node Unavailable. Could not perform query: ' + e.message);
+                throw new Error('QueryClient:QuerySupplyOf API Node Unavailable. Could not perform query: ' + e.message);
             }
         },
         async QueryParams({ commit, rootGetters, getters }, { options: { subscribe, all } = { subscribe: false, all: false }, params, query = null }) {
@@ -240,7 +238,7 @@ export default {
                 return getters['getParams']({ params: { ...key }, query }) ?? {};
             }
             catch (e) {
-                throw new SpVuexError('QueryClient:QueryParams', 'API Node Unavailable. Could not perform query: ' + e.message);
+                throw new Error('QueryClient:QueryParams API Node Unavailable. Could not perform query: ' + e.message);
             }
         },
         async QueryDenomMetadata({ commit, rootGetters, getters }, { options: { subscribe, all } = { subscribe: false, all: false }, params, query = null }) {
@@ -254,7 +252,7 @@ export default {
                 return getters['getDenomMetadata']({ params: { ...key }, query }) ?? {};
             }
             catch (e) {
-                throw new SpVuexError('QueryClient:QueryDenomMetadata', 'API Node Unavailable. Could not perform query: ' + e.message);
+                throw new Error('QueryClient:QueryDenomMetadata API Node Unavailable. Could not perform query: ' + e.message);
             }
         },
         async QueryDenomsMetadata({ commit, rootGetters, getters }, { options: { subscribe, all } = { subscribe: false, all: false }, params, query = null }) {
@@ -272,7 +270,7 @@ export default {
                 return getters['getDenomsMetadata']({ params: { ...key }, query }) ?? {};
             }
             catch (e) {
-                throw new SpVuexError('QueryClient:QueryDenomsMetadata', 'API Node Unavailable. Could not perform query: ' + e.message);
+                throw new Error('QueryClient:QueryDenomsMetadata API Node Unavailable. Could not perform query: ' + e.message);
             }
         },
         async sendMsgMultiSend({ rootGetters }, { value, fee = [], memo = '' }) {
@@ -285,10 +283,10 @@ export default {
             }
             catch (e) {
                 if (e == MissingWalletError) {
-                    throw new SpVuexError('TxClient:MsgMultiSend:Init', 'Could not initialize signing client. Wallet is required.');
+                    throw new Error('TxClient:MsgMultiSend:Init Could not initialize signing client. Wallet is required.');
                 }
                 else {
-                    throw new SpVuexError('TxClient:MsgMultiSend:Send', 'Could not broadcast Tx: ' + e.message);
+                    throw new Error('TxClient:MsgMultiSend:Send Could not broadcast Tx: ' + e.message);
                 }
             }
         },
@@ -302,10 +300,10 @@ export default {
             }
             catch (e) {
                 if (e == MissingWalletError) {
-                    throw new SpVuexError('TxClient:MsgSend:Init', 'Could not initialize signing client. Wallet is required.');
+                    throw new Error('TxClient:MsgSend:Init Could not initialize signing client. Wallet is required.');
                 }
                 else {
-                    throw new SpVuexError('TxClient:MsgSend:Send', 'Could not broadcast Tx: ' + e.message);
+                    throw new Error('TxClient:MsgSend:Send Could not broadcast Tx: ' + e.message);
                 }
             }
         },
@@ -317,10 +315,10 @@ export default {
             }
             catch (e) {
                 if (e == MissingWalletError) {
-                    throw new SpVuexError('TxClient:MsgMultiSend:Init', 'Could not initialize signing client. Wallet is required.');
+                    throw new Error('TxClient:MsgMultiSend:Init  Could not initialize signing client. Wallet is required.');
                 }
                 else {
-                    throw new SpVuexError('TxClient:MsgMultiSend:Create', 'Could not create message: ' + e.message);
+                    throw new Error('TxClient:MsgMultiSend:Create  Could not create message: ' + e.message);
                 }
             }
         },
@@ -332,10 +330,10 @@ export default {
             }
             catch (e) {
                 if (e == MissingWalletError) {
-                    throw new SpVuexError('TxClient:MsgSend:Init', 'Could not initialize signing client. Wallet is required.');
+                    throw new Error('TxClient:MsgSend:Init  Could not initialize signing client. Wallet is required.');
                 }
                 else {
-                    throw new SpVuexError('TxClient:MsgSend:Create', 'Could not create message: ' + e.message);
+                    throw new Error('TxClient:MsgSend:Create  Could not create message: ' + e.message);
                 }
             }
         },

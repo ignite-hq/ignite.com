@@ -23,18 +23,18 @@ export interface Request {
     echo: RequestEcho | undefined;
     flush: RequestFlush | undefined;
     info: RequestInfo | undefined;
-    setOption: RequestSetOption | undefined;
-    initChain: RequestInitChain | undefined;
+    set_option: RequestSetOption | undefined;
+    init_chain: RequestInitChain | undefined;
     query: RequestQuery | undefined;
-    beginBlock: RequestBeginBlock | undefined;
-    checkTx: RequestCheckTx | undefined;
-    deliverTx: RequestDeliverTx | undefined;
-    endBlock: RequestEndBlock | undefined;
+    begin_block: RequestBeginBlock | undefined;
+    check_tx: RequestCheckTx | undefined;
+    deliver_tx: RequestDeliverTx | undefined;
+    end_block: RequestEndBlock | undefined;
     commit: RequestCommit | undefined;
-    listSnapshots: RequestListSnapshots | undefined;
-    offerSnapshot: RequestOfferSnapshot | undefined;
-    loadSnapshotChunk: RequestLoadSnapshotChunk | undefined;
-    applySnapshotChunk: RequestApplySnapshotChunk | undefined;
+    list_snapshots: RequestListSnapshots | undefined;
+    offer_snapshot: RequestOfferSnapshot | undefined;
+    load_snapshot_chunk: RequestLoadSnapshotChunk | undefined;
+    apply_snapshot_chunk: RequestApplySnapshotChunk | undefined;
 }
 export interface RequestEcho {
     message: string;
@@ -43,8 +43,8 @@ export interface RequestFlush {
 }
 export interface RequestInfo {
     version: string;
-    blockVersion: number;
-    p2pVersion: number;
+    block_version: number;
+    p2p_version: number;
 }
 /** nondeterministic */
 export interface RequestSetOption {
@@ -53,11 +53,11 @@ export interface RequestSetOption {
 }
 export interface RequestInitChain {
     time: Date | undefined;
-    chainId: string;
-    consensusParams: ConsensusParams | undefined;
+    chain_id: string;
+    consensus_params: ConsensusParams | undefined;
     validators: ValidatorUpdate[];
-    appStateBytes: Uint8Array;
-    initialHeight: number;
+    app_state_bytes: Uint8Array;
+    initial_height: number;
 }
 export interface RequestQuery {
     data: Uint8Array;
@@ -68,8 +68,8 @@ export interface RequestQuery {
 export interface RequestBeginBlock {
     hash: Uint8Array;
     header: Header | undefined;
-    lastCommitInfo: LastCommitInfo | undefined;
-    byzantineValidators: Evidence[];
+    last_commit_info: LastCommitInfo | undefined;
+    byzantine_validators: Evidence[];
 }
 export interface RequestCheckTx {
     tx: Uint8Array;
@@ -91,7 +91,7 @@ export interface RequestOfferSnapshot {
     /** snapshot offered by peers */
     snapshot: Snapshot | undefined;
     /** light client-verified app hash for snapshot height */
-    appHash: Uint8Array;
+    app_hash: Uint8Array;
 }
 /** loads a snapshot chunk */
 export interface RequestLoadSnapshotChunk {
@@ -110,18 +110,18 @@ export interface Response {
     echo: ResponseEcho | undefined;
     flush: ResponseFlush | undefined;
     info: ResponseInfo | undefined;
-    setOption: ResponseSetOption | undefined;
-    initChain: ResponseInitChain | undefined;
+    set_option: ResponseSetOption | undefined;
+    init_chain: ResponseInitChain | undefined;
     query: ResponseQuery | undefined;
-    beginBlock: ResponseBeginBlock | undefined;
-    checkTx: ResponseCheckTx | undefined;
-    deliverTx: ResponseDeliverTx | undefined;
-    endBlock: ResponseEndBlock | undefined;
+    begin_block: ResponseBeginBlock | undefined;
+    check_tx: ResponseCheckTx | undefined;
+    deliver_tx: ResponseDeliverTx | undefined;
+    end_block: ResponseEndBlock | undefined;
     commit: ResponseCommit | undefined;
-    listSnapshots: ResponseListSnapshots | undefined;
-    offerSnapshot: ResponseOfferSnapshot | undefined;
-    loadSnapshotChunk: ResponseLoadSnapshotChunk | undefined;
-    applySnapshotChunk: ResponseApplySnapshotChunk | undefined;
+    list_snapshots: ResponseListSnapshots | undefined;
+    offer_snapshot: ResponseOfferSnapshot | undefined;
+    load_snapshot_chunk: ResponseLoadSnapshotChunk | undefined;
+    apply_snapshot_chunk: ResponseApplySnapshotChunk | undefined;
 }
 /** nondeterministic */
 export interface ResponseException {
@@ -135,9 +135,9 @@ export interface ResponseFlush {
 export interface ResponseInfo {
     data: string;
     version: string;
-    appVersion: number;
-    lastBlockHeight: number;
-    lastBlockAppHash: Uint8Array;
+    app_version: number;
+    last_block_height: number;
+    last_block_app_hash: Uint8Array;
 }
 /** nondeterministic */
 export interface ResponseSetOption {
@@ -147,9 +147,9 @@ export interface ResponseSetOption {
     info: string;
 }
 export interface ResponseInitChain {
-    consensusParams: ConsensusParams | undefined;
+    consensus_params: ConsensusParams | undefined;
     validators: ValidatorUpdate[];
-    appHash: Uint8Array;
+    app_hash: Uint8Array;
 }
 export interface ResponseQuery {
     code: number;
@@ -160,7 +160,7 @@ export interface ResponseQuery {
     index: number;
     key: Uint8Array;
     value: Uint8Array;
-    proofOps: ProofOps | undefined;
+    proof_ops: ProofOps | undefined;
     height: number;
     codespace: string;
 }
@@ -174,8 +174,8 @@ export interface ResponseCheckTx {
     log: string;
     /** nondeterministic */
     info: string;
-    gasWanted: number;
-    gasUsed: number;
+    gas_wanted: number;
+    gas_used: number;
     events: Event[];
     codespace: string;
 }
@@ -186,20 +186,20 @@ export interface ResponseDeliverTx {
     log: string;
     /** nondeterministic */
     info: string;
-    gasWanted: number;
-    gasUsed: number;
+    gas_wanted: number;
+    gas_used: number;
     events: Event[];
     codespace: string;
 }
 export interface ResponseEndBlock {
-    validatorUpdates: ValidatorUpdate[];
-    consensusParamUpdates: ConsensusParams | undefined;
+    validator_updates: ValidatorUpdate[];
+    consensus_param_updates: ConsensusParams | undefined;
     events: Event[];
 }
 export interface ResponseCommit {
     /** reserve 1 */
     data: Uint8Array;
-    retainHeight: number;
+    retain_height: number;
 }
 export interface ResponseListSnapshots {
     snapshots: Snapshot[];
@@ -230,9 +230,9 @@ export interface ResponseLoadSnapshotChunk {
 export interface ResponseApplySnapshotChunk {
     result: ResponseApplySnapshotChunk_Result;
     /** Chunks to refetch and reapply */
-    refetchChunks: number[];
+    refetch_chunks: number[];
     /** Chunk senders to reject and ban */
-    rejectSenders: string[];
+    reject_senders: string[];
 }
 export declare enum ResponseApplySnapshotChunk_Result {
     /** UNKNOWN - Unknown result, abort all snapshot restoration */
@@ -264,9 +264,9 @@ export interface ConsensusParams {
 /** BlockParams contains limits on the block size. */
 export interface BlockParams {
     /** Note: must be greater than 0 */
-    maxBytes: number;
+    max_bytes: number;
     /** Note: must be greater or equal to -1 */
-    maxGas: number;
+    max_gas: number;
 }
 export interface LastCommitInfo {
     round: number;
@@ -308,13 +308,13 @@ export interface Validator {
 }
 /** ValidatorUpdate */
 export interface ValidatorUpdate {
-    pubKey: PublicKey | undefined;
+    pub_key: PublicKey | undefined;
     power: number;
 }
 /** VoteInfo */
 export interface VoteInfo {
     validator: Validator | undefined;
-    signedLastBlock: boolean;
+    signed_last_block: boolean;
 }
 export interface Evidence {
     type: EvidenceType;
@@ -329,7 +329,7 @@ export interface Evidence {
      * not store historical validators.
      * https://github.com/tendermint/tendermint/issues/4581
      */
-    totalVotingPower: number;
+    total_voting_power: number;
 }
 export interface Snapshot {
     /** The height at which the snapshot was taken */

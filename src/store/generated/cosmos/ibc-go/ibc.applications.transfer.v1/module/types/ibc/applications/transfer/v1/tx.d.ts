@@ -9,9 +9,9 @@ export declare const protobufPackage = "ibc.applications.transfer.v1";
  */
 export interface MsgTransfer {
     /** the port on which the packet will be sent */
-    sourcePort: string;
+    source_port: string;
     /** the channel by which the packet will be sent */
-    sourceChannel: string;
+    source_channel: string;
     /** the tokens to be transferred */
     token: Coin | undefined;
     /** the sender address */
@@ -22,12 +22,12 @@ export interface MsgTransfer {
      * Timeout height relative to the current block height.
      * The timeout is disabled when set to 0.
      */
-    timeoutHeight: Height | undefined;
+    timeout_height: Height | undefined;
     /**
      * Timeout timestamp (in nanoseconds) relative to the current block timestamp.
      * The timeout is disabled when set to 0.
      */
-    timeoutTimestamp: number;
+    timeout_timestamp: number;
 }
 /** MsgTransferResponse defines the Msg/Transfer response type. */
 export interface MsgTransferResponse {

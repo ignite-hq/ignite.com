@@ -1,14 +1,14 @@
 /* eslint-disable */
 import { Writer, Reader } from "protobufjs/minimal";
 export const protobufPackage = "google.api";
-const baseHttp = { fullyDecodeReservedExpansion: false };
+const baseHttp = { fully_decode_reserved_expansion: false };
 export const Http = {
     encode(message, writer = Writer.create()) {
         for (const v of message.rules) {
             HttpRule.encode(v, writer.uint32(10).fork()).ldelim();
         }
-        if (message.fullyDecodeReservedExpansion === true) {
-            writer.uint32(16).bool(message.fullyDecodeReservedExpansion);
+        if (message.fully_decode_reserved_expansion === true) {
+            writer.uint32(16).bool(message.fully_decode_reserved_expansion);
         }
         return writer;
     },
@@ -24,7 +24,7 @@ export const Http = {
                     message.rules.push(HttpRule.decode(reader, reader.uint32()));
                     break;
                 case 2:
-                    message.fullyDecodeReservedExpansion = reader.bool();
+                    message.fully_decode_reserved_expansion = reader.bool();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -41,12 +41,12 @@ export const Http = {
                 message.rules.push(HttpRule.fromJSON(e));
             }
         }
-        if (object.fullyDecodeReservedExpansion !== undefined &&
-            object.fullyDecodeReservedExpansion !== null) {
-            message.fullyDecodeReservedExpansion = Boolean(object.fullyDecodeReservedExpansion);
+        if (object.fully_decode_reserved_expansion !== undefined &&
+            object.fully_decode_reserved_expansion !== null) {
+            message.fully_decode_reserved_expansion = Boolean(object.fully_decode_reserved_expansion);
         }
         else {
-            message.fullyDecodeReservedExpansion = false;
+            message.fully_decode_reserved_expansion = false;
         }
         return message;
     },
@@ -58,8 +58,9 @@ export const Http = {
         else {
             obj.rules = [];
         }
-        message.fullyDecodeReservedExpansion !== undefined &&
-            (obj.fullyDecodeReservedExpansion = message.fullyDecodeReservedExpansion);
+        message.fully_decode_reserved_expansion !== undefined &&
+            (obj.fully_decode_reserved_expansion =
+                message.fully_decode_reserved_expansion);
         return obj;
     },
     fromPartial(object) {
@@ -70,18 +71,18 @@ export const Http = {
                 message.rules.push(HttpRule.fromPartial(e));
             }
         }
-        if (object.fullyDecodeReservedExpansion !== undefined &&
-            object.fullyDecodeReservedExpansion !== null) {
-            message.fullyDecodeReservedExpansion =
-                object.fullyDecodeReservedExpansion;
+        if (object.fully_decode_reserved_expansion !== undefined &&
+            object.fully_decode_reserved_expansion !== null) {
+            message.fully_decode_reserved_expansion =
+                object.fully_decode_reserved_expansion;
         }
         else {
-            message.fullyDecodeReservedExpansion = false;
+            message.fully_decode_reserved_expansion = false;
         }
         return message;
     },
 };
-const baseHttpRule = { selector: "", body: "", responseBody: "" };
+const baseHttpRule = { selector: "", body: "", response_body: "" };
 export const HttpRule = {
     encode(message, writer = Writer.create()) {
         if (message.selector !== "") {
@@ -108,10 +109,10 @@ export const HttpRule = {
         if (message.body !== "") {
             writer.uint32(58).string(message.body);
         }
-        if (message.responseBody !== "") {
-            writer.uint32(98).string(message.responseBody);
+        if (message.response_body !== "") {
+            writer.uint32(98).string(message.response_body);
         }
-        for (const v of message.additionalBindings) {
+        for (const v of message.additional_bindings) {
             HttpRule.encode(v, writer.uint32(90).fork()).ldelim();
         }
         return writer;
@@ -120,7 +121,7 @@ export const HttpRule = {
         const reader = input instanceof Uint8Array ? new Reader(input) : input;
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = { ...baseHttpRule };
-        message.additionalBindings = [];
+        message.additional_bindings = [];
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
@@ -149,10 +150,10 @@ export const HttpRule = {
                     message.body = reader.string();
                     break;
                 case 12:
-                    message.responseBody = reader.string();
+                    message.response_body = reader.string();
                     break;
                 case 11:
-                    message.additionalBindings.push(HttpRule.decode(reader, reader.uint32()));
+                    message.additional_bindings.push(HttpRule.decode(reader, reader.uint32()));
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -163,7 +164,7 @@ export const HttpRule = {
     },
     fromJSON(object) {
         const message = { ...baseHttpRule };
-        message.additionalBindings = [];
+        message.additional_bindings = [];
         if (object.selector !== undefined && object.selector !== null) {
             message.selector = String(object.selector);
         }
@@ -212,16 +213,16 @@ export const HttpRule = {
         else {
             message.body = "";
         }
-        if (object.responseBody !== undefined && object.responseBody !== null) {
-            message.responseBody = String(object.responseBody);
+        if (object.response_body !== undefined && object.response_body !== null) {
+            message.response_body = String(object.response_body);
         }
         else {
-            message.responseBody = "";
+            message.response_body = "";
         }
-        if (object.additionalBindings !== undefined &&
-            object.additionalBindings !== null) {
-            for (const e of object.additionalBindings) {
-                message.additionalBindings.push(HttpRule.fromJSON(e));
+        if (object.additional_bindings !== undefined &&
+            object.additional_bindings !== null) {
+            for (const e of object.additional_bindings) {
+                message.additional_bindings.push(HttpRule.fromJSON(e));
             }
         }
         return message;
@@ -239,19 +240,19 @@ export const HttpRule = {
                 ? CustomHttpPattern.toJSON(message.custom)
                 : undefined);
         message.body !== undefined && (obj.body = message.body);
-        message.responseBody !== undefined &&
-            (obj.responseBody = message.responseBody);
-        if (message.additionalBindings) {
-            obj.additionalBindings = message.additionalBindings.map((e) => e ? HttpRule.toJSON(e) : undefined);
+        message.response_body !== undefined &&
+            (obj.response_body = message.response_body);
+        if (message.additional_bindings) {
+            obj.additional_bindings = message.additional_bindings.map((e) => e ? HttpRule.toJSON(e) : undefined);
         }
         else {
-            obj.additionalBindings = [];
+            obj.additional_bindings = [];
         }
         return obj;
     },
     fromPartial(object) {
         const message = { ...baseHttpRule };
-        message.additionalBindings = [];
+        message.additional_bindings = [];
         if (object.selector !== undefined && object.selector !== null) {
             message.selector = object.selector;
         }
@@ -300,16 +301,16 @@ export const HttpRule = {
         else {
             message.body = "";
         }
-        if (object.responseBody !== undefined && object.responseBody !== null) {
-            message.responseBody = object.responseBody;
+        if (object.response_body !== undefined && object.response_body !== null) {
+            message.response_body = object.response_body;
         }
         else {
-            message.responseBody = "";
+            message.response_body = "";
         }
-        if (object.additionalBindings !== undefined &&
-            object.additionalBindings !== null) {
-            for (const e of object.additionalBindings) {
-                message.additionalBindings.push(HttpRule.fromPartial(e));
+        if (object.additional_bindings !== undefined &&
+            object.additional_bindings !== null) {
+            for (const e of object.additional_bindings) {
+                message.additional_bindings.push(HttpRule.fromPartial(e));
             }
         }
         return message;

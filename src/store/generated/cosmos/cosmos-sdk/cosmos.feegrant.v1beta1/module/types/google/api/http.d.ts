@@ -20,7 +20,7 @@ export interface Http {
      * The default behavior is to not decode RFC 6570 reserved characters in multi
      * segment matches.
      */
-    fullyDecodeReservedExpansion: boolean;
+    fully_decode_reserved_expansion: boolean;
 }
 /**
  * `HttpRule` defines the mapping of an RPC method to one or more HTTP
@@ -277,13 +277,13 @@ export interface HttpRule {
      * body of response. Other response fields are ignored. When
      * not set, the response message will be used as HTTP body of response.
      */
-    responseBody: string;
+    response_body: string;
     /**
      * Additional HTTP bindings for the selector. Nested bindings must
      * not contain an `additional_bindings` field themselves (that is,
      * the nesting may only be one level deep).
      */
-    additionalBindings: HttpRule[];
+    additional_bindings: HttpRule[];
 }
 /** A custom pattern is used for defining custom HTTP verb. */
 export interface CustomHttpPattern {

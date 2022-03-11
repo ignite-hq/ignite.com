@@ -3,7 +3,7 @@ import * as Long from "long";
 import { util, configure, Writer, Reader } from "protobufjs/minimal";
 import { PublicKey } from "../../tendermint/crypto/keys";
 export const protobufPackage = "tendermint.types";
-const baseValidatorSet = { totalVotingPower: 0 };
+const baseValidatorSet = { total_voting_power: 0 };
 export const ValidatorSet = {
     encode(message, writer = Writer.create()) {
         for (const v of message.validators) {
@@ -12,8 +12,8 @@ export const ValidatorSet = {
         if (message.proposer !== undefined) {
             Validator.encode(message.proposer, writer.uint32(18).fork()).ldelim();
         }
-        if (message.totalVotingPower !== 0) {
-            writer.uint32(24).int64(message.totalVotingPower);
+        if (message.total_voting_power !== 0) {
+            writer.uint32(24).int64(message.total_voting_power);
         }
         return writer;
     },
@@ -32,7 +32,7 @@ export const ValidatorSet = {
                     message.proposer = Validator.decode(reader, reader.uint32());
                     break;
                 case 3:
-                    message.totalVotingPower = longToNumber(reader.int64());
+                    message.total_voting_power = longToNumber(reader.int64());
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -55,12 +55,12 @@ export const ValidatorSet = {
         else {
             message.proposer = undefined;
         }
-        if (object.totalVotingPower !== undefined &&
-            object.totalVotingPower !== null) {
-            message.totalVotingPower = Number(object.totalVotingPower);
+        if (object.total_voting_power !== undefined &&
+            object.total_voting_power !== null) {
+            message.total_voting_power = Number(object.total_voting_power);
         }
         else {
-            message.totalVotingPower = 0;
+            message.total_voting_power = 0;
         }
         return message;
     },
@@ -76,8 +76,8 @@ export const ValidatorSet = {
             (obj.proposer = message.proposer
                 ? Validator.toJSON(message.proposer)
                 : undefined);
-        message.totalVotingPower !== undefined &&
-            (obj.totalVotingPower = message.totalVotingPower);
+        message.total_voting_power !== undefined &&
+            (obj.total_voting_power = message.total_voting_power);
         return obj;
     },
     fromPartial(object) {
@@ -94,30 +94,30 @@ export const ValidatorSet = {
         else {
             message.proposer = undefined;
         }
-        if (object.totalVotingPower !== undefined &&
-            object.totalVotingPower !== null) {
-            message.totalVotingPower = object.totalVotingPower;
+        if (object.total_voting_power !== undefined &&
+            object.total_voting_power !== null) {
+            message.total_voting_power = object.total_voting_power;
         }
         else {
-            message.totalVotingPower = 0;
+            message.total_voting_power = 0;
         }
         return message;
     },
 };
-const baseValidator = { votingPower: 0, proposerPriority: 0 };
+const baseValidator = { voting_power: 0, proposer_priority: 0 };
 export const Validator = {
     encode(message, writer = Writer.create()) {
         if (message.address.length !== 0) {
             writer.uint32(10).bytes(message.address);
         }
-        if (message.pubKey !== undefined) {
-            PublicKey.encode(message.pubKey, writer.uint32(18).fork()).ldelim();
+        if (message.pub_key !== undefined) {
+            PublicKey.encode(message.pub_key, writer.uint32(18).fork()).ldelim();
         }
-        if (message.votingPower !== 0) {
-            writer.uint32(24).int64(message.votingPower);
+        if (message.voting_power !== 0) {
+            writer.uint32(24).int64(message.voting_power);
         }
-        if (message.proposerPriority !== 0) {
-            writer.uint32(32).int64(message.proposerPriority);
+        if (message.proposer_priority !== 0) {
+            writer.uint32(32).int64(message.proposer_priority);
         }
         return writer;
     },
@@ -132,13 +132,13 @@ export const Validator = {
                     message.address = reader.bytes();
                     break;
                 case 2:
-                    message.pubKey = PublicKey.decode(reader, reader.uint32());
+                    message.pub_key = PublicKey.decode(reader, reader.uint32());
                     break;
                 case 3:
-                    message.votingPower = longToNumber(reader.int64());
+                    message.voting_power = longToNumber(reader.int64());
                     break;
                 case 4:
-                    message.proposerPriority = longToNumber(reader.int64());
+                    message.proposer_priority = longToNumber(reader.int64());
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -152,24 +152,24 @@ export const Validator = {
         if (object.address !== undefined && object.address !== null) {
             message.address = bytesFromBase64(object.address);
         }
-        if (object.pubKey !== undefined && object.pubKey !== null) {
-            message.pubKey = PublicKey.fromJSON(object.pubKey);
+        if (object.pub_key !== undefined && object.pub_key !== null) {
+            message.pub_key = PublicKey.fromJSON(object.pub_key);
         }
         else {
-            message.pubKey = undefined;
+            message.pub_key = undefined;
         }
-        if (object.votingPower !== undefined && object.votingPower !== null) {
-            message.votingPower = Number(object.votingPower);
-        }
-        else {
-            message.votingPower = 0;
-        }
-        if (object.proposerPriority !== undefined &&
-            object.proposerPriority !== null) {
-            message.proposerPriority = Number(object.proposerPriority);
+        if (object.voting_power !== undefined && object.voting_power !== null) {
+            message.voting_power = Number(object.voting_power);
         }
         else {
-            message.proposerPriority = 0;
+            message.voting_power = 0;
+        }
+        if (object.proposer_priority !== undefined &&
+            object.proposer_priority !== null) {
+            message.proposer_priority = Number(object.proposer_priority);
+        }
+        else {
+            message.proposer_priority = 0;
         }
         return message;
     },
@@ -177,14 +177,14 @@ export const Validator = {
         const obj = {};
         message.address !== undefined &&
             (obj.address = base64FromBytes(message.address !== undefined ? message.address : new Uint8Array()));
-        message.pubKey !== undefined &&
-            (obj.pubKey = message.pubKey
-                ? PublicKey.toJSON(message.pubKey)
+        message.pub_key !== undefined &&
+            (obj.pub_key = message.pub_key
+                ? PublicKey.toJSON(message.pub_key)
                 : undefined);
-        message.votingPower !== undefined &&
-            (obj.votingPower = message.votingPower);
-        message.proposerPriority !== undefined &&
-            (obj.proposerPriority = message.proposerPriority);
+        message.voting_power !== undefined &&
+            (obj.voting_power = message.voting_power);
+        message.proposer_priority !== undefined &&
+            (obj.proposer_priority = message.proposer_priority);
         return obj;
     },
     fromPartial(object) {
@@ -195,36 +195,36 @@ export const Validator = {
         else {
             message.address = new Uint8Array();
         }
-        if (object.pubKey !== undefined && object.pubKey !== null) {
-            message.pubKey = PublicKey.fromPartial(object.pubKey);
+        if (object.pub_key !== undefined && object.pub_key !== null) {
+            message.pub_key = PublicKey.fromPartial(object.pub_key);
         }
         else {
-            message.pubKey = undefined;
+            message.pub_key = undefined;
         }
-        if (object.votingPower !== undefined && object.votingPower !== null) {
-            message.votingPower = object.votingPower;
-        }
-        else {
-            message.votingPower = 0;
-        }
-        if (object.proposerPriority !== undefined &&
-            object.proposerPriority !== null) {
-            message.proposerPriority = object.proposerPriority;
+        if (object.voting_power !== undefined && object.voting_power !== null) {
+            message.voting_power = object.voting_power;
         }
         else {
-            message.proposerPriority = 0;
+            message.voting_power = 0;
+        }
+        if (object.proposer_priority !== undefined &&
+            object.proposer_priority !== null) {
+            message.proposer_priority = object.proposer_priority;
+        }
+        else {
+            message.proposer_priority = 0;
         }
         return message;
     },
 };
-const baseSimpleValidator = { votingPower: 0 };
+const baseSimpleValidator = { voting_power: 0 };
 export const SimpleValidator = {
     encode(message, writer = Writer.create()) {
-        if (message.pubKey !== undefined) {
-            PublicKey.encode(message.pubKey, writer.uint32(10).fork()).ldelim();
+        if (message.pub_key !== undefined) {
+            PublicKey.encode(message.pub_key, writer.uint32(10).fork()).ldelim();
         }
-        if (message.votingPower !== 0) {
-            writer.uint32(16).int64(message.votingPower);
+        if (message.voting_power !== 0) {
+            writer.uint32(16).int64(message.voting_power);
         }
         return writer;
     },
@@ -236,10 +236,10 @@ export const SimpleValidator = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.pubKey = PublicKey.decode(reader, reader.uint32());
+                    message.pub_key = PublicKey.decode(reader, reader.uint32());
                     break;
                 case 2:
-                    message.votingPower = longToNumber(reader.int64());
+                    message.voting_power = longToNumber(reader.int64());
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -250,43 +250,43 @@ export const SimpleValidator = {
     },
     fromJSON(object) {
         const message = { ...baseSimpleValidator };
-        if (object.pubKey !== undefined && object.pubKey !== null) {
-            message.pubKey = PublicKey.fromJSON(object.pubKey);
+        if (object.pub_key !== undefined && object.pub_key !== null) {
+            message.pub_key = PublicKey.fromJSON(object.pub_key);
         }
         else {
-            message.pubKey = undefined;
+            message.pub_key = undefined;
         }
-        if (object.votingPower !== undefined && object.votingPower !== null) {
-            message.votingPower = Number(object.votingPower);
+        if (object.voting_power !== undefined && object.voting_power !== null) {
+            message.voting_power = Number(object.voting_power);
         }
         else {
-            message.votingPower = 0;
+            message.voting_power = 0;
         }
         return message;
     },
     toJSON(message) {
         const obj = {};
-        message.pubKey !== undefined &&
-            (obj.pubKey = message.pubKey
-                ? PublicKey.toJSON(message.pubKey)
+        message.pub_key !== undefined &&
+            (obj.pub_key = message.pub_key
+                ? PublicKey.toJSON(message.pub_key)
                 : undefined);
-        message.votingPower !== undefined &&
-            (obj.votingPower = message.votingPower);
+        message.voting_power !== undefined &&
+            (obj.voting_power = message.voting_power);
         return obj;
     },
     fromPartial(object) {
         const message = { ...baseSimpleValidator };
-        if (object.pubKey !== undefined && object.pubKey !== null) {
-            message.pubKey = PublicKey.fromPartial(object.pubKey);
+        if (object.pub_key !== undefined && object.pub_key !== null) {
+            message.pub_key = PublicKey.fromPartial(object.pub_key);
         }
         else {
-            message.pubKey = undefined;
+            message.pub_key = undefined;
         }
-        if (object.votingPower !== undefined && object.votingPower !== null) {
-            message.votingPower = object.votingPower;
+        if (object.voting_power !== undefined && object.voting_power !== null) {
+            message.voting_power = object.voting_power;
         }
         else {
-            message.votingPower = 0;
+            message.voting_power = 0;
         }
         return message;
     },

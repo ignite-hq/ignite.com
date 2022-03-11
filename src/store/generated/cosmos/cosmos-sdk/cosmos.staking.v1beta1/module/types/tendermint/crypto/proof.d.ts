@@ -3,7 +3,7 @@ export declare const protobufPackage = "tendermint.crypto";
 export interface Proof {
     total: number;
     index: number;
-    leafHash: Uint8Array;
+    leaf_hash: Uint8Array;
     aunts: Uint8Array[];
 }
 export interface ValueOp {

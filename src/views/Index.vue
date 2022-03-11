@@ -1,10 +1,22 @@
-<template></template>
+<template>
+  <div class="container"></div>
+</template>
 
 <script>
 export default {
-  name: 'Index'
+  setup() {
+    return {}
+  }
 }
 </script>
 
-<style scoped lang="scss">
+<style scoped>
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+.col {
+  flex-grow: 1;
+  padding: 20px;
+}
 </style>

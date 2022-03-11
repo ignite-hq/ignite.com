@@ -9,16 +9,16 @@ export declare const protobufPackage = "cosmos.gov.v1beta1";
  */
 export interface MsgSubmitProposal {
     content: Any | undefined;
-    initialDeposit: Coin[];
+    initial_deposit: Coin[];
     proposer: string;
 }
 /** MsgSubmitProposalResponse defines the Msg/SubmitProposal response type. */
 export interface MsgSubmitProposalResponse {
-    proposalId: number;
+    proposal_id: number;
 }
 /** MsgVote defines a message to cast a vote. */
 export interface MsgVote {
-    proposalId: number;
+    proposal_id: number;
     voter: string;
     option: VoteOption;
 }
@@ -31,7 +31,7 @@ export interface MsgVoteResponse {
  * Since: cosmos-sdk 0.43
  */
 export interface MsgVoteWeighted {
-    proposalId: number;
+    proposal_id: number;
     voter: string;
     options: WeightedVoteOption[];
 }
@@ -44,7 +44,7 @@ export interface MsgVoteWeightedResponse {
 }
 /** MsgDeposit defines a message to submit a deposit to an existing proposal. */
 export interface MsgDeposit {
-    proposalId: number;
+    proposal_id: number;
     depositor: string;
     amount: Coin[];
 }

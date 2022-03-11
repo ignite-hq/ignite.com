@@ -4,23 +4,23 @@ import { util, configure, Writer, Reader } from "protobufjs/minimal";
 import { BaseAccount } from "../../../cosmos/auth/v1beta1/auth";
 import { Coin } from "../../../cosmos/base/v1beta1/coin";
 export const protobufPackage = "cosmos.vesting.v1beta1";
-const baseBaseVestingAccount = { endTime: 0 };
+const baseBaseVestingAccount = { end_time: 0 };
 export const BaseVestingAccount = {
     encode(message, writer = Writer.create()) {
-        if (message.baseAccount !== undefined) {
-            BaseAccount.encode(message.baseAccount, writer.uint32(10).fork()).ldelim();
+        if (message.base_account !== undefined) {
+            BaseAccount.encode(message.base_account, writer.uint32(10).fork()).ldelim();
         }
-        for (const v of message.originalVesting) {
+        for (const v of message.original_vesting) {
             Coin.encode(v, writer.uint32(18).fork()).ldelim();
         }
-        for (const v of message.delegatedFree) {
+        for (const v of message.delegated_free) {
             Coin.encode(v, writer.uint32(26).fork()).ldelim();
         }
-        for (const v of message.delegatedVesting) {
+        for (const v of message.delegated_vesting) {
             Coin.encode(v, writer.uint32(34).fork()).ldelim();
         }
-        if (message.endTime !== 0) {
-            writer.uint32(40).int64(message.endTime);
+        if (message.end_time !== 0) {
+            writer.uint32(40).int64(message.end_time);
         }
         return writer;
     },
@@ -28,26 +28,26 @@ export const BaseVestingAccount = {
         const reader = input instanceof Uint8Array ? new Reader(input) : input;
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = { ...baseBaseVestingAccount };
-        message.originalVesting = [];
-        message.delegatedFree = [];
-        message.delegatedVesting = [];
+        message.original_vesting = [];
+        message.delegated_free = [];
+        message.delegated_vesting = [];
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.baseAccount = BaseAccount.decode(reader, reader.uint32());
+                    message.base_account = BaseAccount.decode(reader, reader.uint32());
                     break;
                 case 2:
-                    message.originalVesting.push(Coin.decode(reader, reader.uint32()));
+                    message.original_vesting.push(Coin.decode(reader, reader.uint32()));
                     break;
                 case 3:
-                    message.delegatedFree.push(Coin.decode(reader, reader.uint32()));
+                    message.delegated_free.push(Coin.decode(reader, reader.uint32()));
                     break;
                 case 4:
-                    message.delegatedVesting.push(Coin.decode(reader, reader.uint32()));
+                    message.delegated_vesting.push(Coin.decode(reader, reader.uint32()));
                     break;
                 case 5:
-                    message.endTime = longToNumber(reader.int64());
+                    message.end_time = longToNumber(reader.int64());
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -58,112 +58,112 @@ export const BaseVestingAccount = {
     },
     fromJSON(object) {
         const message = { ...baseBaseVestingAccount };
-        message.originalVesting = [];
-        message.delegatedFree = [];
-        message.delegatedVesting = [];
-        if (object.baseAccount !== undefined && object.baseAccount !== null) {
-            message.baseAccount = BaseAccount.fromJSON(object.baseAccount);
+        message.original_vesting = [];
+        message.delegated_free = [];
+        message.delegated_vesting = [];
+        if (object.base_account !== undefined && object.base_account !== null) {
+            message.base_account = BaseAccount.fromJSON(object.base_account);
         }
         else {
-            message.baseAccount = undefined;
+            message.base_account = undefined;
         }
-        if (object.originalVesting !== undefined &&
-            object.originalVesting !== null) {
-            for (const e of object.originalVesting) {
-                message.originalVesting.push(Coin.fromJSON(e));
+        if (object.original_vesting !== undefined &&
+            object.original_vesting !== null) {
+            for (const e of object.original_vesting) {
+                message.original_vesting.push(Coin.fromJSON(e));
             }
         }
-        if (object.delegatedFree !== undefined && object.delegatedFree !== null) {
-            for (const e of object.delegatedFree) {
-                message.delegatedFree.push(Coin.fromJSON(e));
+        if (object.delegated_free !== undefined && object.delegated_free !== null) {
+            for (const e of object.delegated_free) {
+                message.delegated_free.push(Coin.fromJSON(e));
             }
         }
-        if (object.delegatedVesting !== undefined &&
-            object.delegatedVesting !== null) {
-            for (const e of object.delegatedVesting) {
-                message.delegatedVesting.push(Coin.fromJSON(e));
+        if (object.delegated_vesting !== undefined &&
+            object.delegated_vesting !== null) {
+            for (const e of object.delegated_vesting) {
+                message.delegated_vesting.push(Coin.fromJSON(e));
             }
         }
-        if (object.endTime !== undefined && object.endTime !== null) {
-            message.endTime = Number(object.endTime);
+        if (object.end_time !== undefined && object.end_time !== null) {
+            message.end_time = Number(object.end_time);
         }
         else {
-            message.endTime = 0;
+            message.end_time = 0;
         }
         return message;
     },
     toJSON(message) {
         const obj = {};
-        message.baseAccount !== undefined &&
-            (obj.baseAccount = message.baseAccount
-                ? BaseAccount.toJSON(message.baseAccount)
+        message.base_account !== undefined &&
+            (obj.base_account = message.base_account
+                ? BaseAccount.toJSON(message.base_account)
                 : undefined);
-        if (message.originalVesting) {
-            obj.originalVesting = message.originalVesting.map((e) => e ? Coin.toJSON(e) : undefined);
+        if (message.original_vesting) {
+            obj.original_vesting = message.original_vesting.map((e) => e ? Coin.toJSON(e) : undefined);
         }
         else {
-            obj.originalVesting = [];
+            obj.original_vesting = [];
         }
-        if (message.delegatedFree) {
-            obj.delegatedFree = message.delegatedFree.map((e) => e ? Coin.toJSON(e) : undefined);
-        }
-        else {
-            obj.delegatedFree = [];
-        }
-        if (message.delegatedVesting) {
-            obj.delegatedVesting = message.delegatedVesting.map((e) => e ? Coin.toJSON(e) : undefined);
+        if (message.delegated_free) {
+            obj.delegated_free = message.delegated_free.map((e) => e ? Coin.toJSON(e) : undefined);
         }
         else {
-            obj.delegatedVesting = [];
+            obj.delegated_free = [];
         }
-        message.endTime !== undefined && (obj.endTime = message.endTime);
+        if (message.delegated_vesting) {
+            obj.delegated_vesting = message.delegated_vesting.map((e) => e ? Coin.toJSON(e) : undefined);
+        }
+        else {
+            obj.delegated_vesting = [];
+        }
+        message.end_time !== undefined && (obj.end_time = message.end_time);
         return obj;
     },
     fromPartial(object) {
         const message = { ...baseBaseVestingAccount };
-        message.originalVesting = [];
-        message.delegatedFree = [];
-        message.delegatedVesting = [];
-        if (object.baseAccount !== undefined && object.baseAccount !== null) {
-            message.baseAccount = BaseAccount.fromPartial(object.baseAccount);
+        message.original_vesting = [];
+        message.delegated_free = [];
+        message.delegated_vesting = [];
+        if (object.base_account !== undefined && object.base_account !== null) {
+            message.base_account = BaseAccount.fromPartial(object.base_account);
         }
         else {
-            message.baseAccount = undefined;
+            message.base_account = undefined;
         }
-        if (object.originalVesting !== undefined &&
-            object.originalVesting !== null) {
-            for (const e of object.originalVesting) {
-                message.originalVesting.push(Coin.fromPartial(e));
+        if (object.original_vesting !== undefined &&
+            object.original_vesting !== null) {
+            for (const e of object.original_vesting) {
+                message.original_vesting.push(Coin.fromPartial(e));
             }
         }
-        if (object.delegatedFree !== undefined && object.delegatedFree !== null) {
-            for (const e of object.delegatedFree) {
-                message.delegatedFree.push(Coin.fromPartial(e));
+        if (object.delegated_free !== undefined && object.delegated_free !== null) {
+            for (const e of object.delegated_free) {
+                message.delegated_free.push(Coin.fromPartial(e));
             }
         }
-        if (object.delegatedVesting !== undefined &&
-            object.delegatedVesting !== null) {
-            for (const e of object.delegatedVesting) {
-                message.delegatedVesting.push(Coin.fromPartial(e));
+        if (object.delegated_vesting !== undefined &&
+            object.delegated_vesting !== null) {
+            for (const e of object.delegated_vesting) {
+                message.delegated_vesting.push(Coin.fromPartial(e));
             }
         }
-        if (object.endTime !== undefined && object.endTime !== null) {
-            message.endTime = object.endTime;
+        if (object.end_time !== undefined && object.end_time !== null) {
+            message.end_time = object.end_time;
         }
         else {
-            message.endTime = 0;
+            message.end_time = 0;
         }
         return message;
     },
 };
-const baseContinuousVestingAccount = { startTime: 0 };
+const baseContinuousVestingAccount = { start_time: 0 };
 export const ContinuousVestingAccount = {
     encode(message, writer = Writer.create()) {
-        if (message.baseVestingAccount !== undefined) {
-            BaseVestingAccount.encode(message.baseVestingAccount, writer.uint32(10).fork()).ldelim();
+        if (message.base_vesting_account !== undefined) {
+            BaseVestingAccount.encode(message.base_vesting_account, writer.uint32(10).fork()).ldelim();
         }
-        if (message.startTime !== 0) {
-            writer.uint32(16).int64(message.startTime);
+        if (message.start_time !== 0) {
+            writer.uint32(16).int64(message.start_time);
         }
         return writer;
     },
@@ -177,10 +177,10 @@ export const ContinuousVestingAccount = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.baseVestingAccount = BaseVestingAccount.decode(reader, reader.uint32());
+                    message.base_vesting_account = BaseVestingAccount.decode(reader, reader.uint32());
                     break;
                 case 2:
-                    message.startTime = longToNumber(reader.int64());
+                    message.start_time = longToNumber(reader.int64());
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -193,46 +193,46 @@ export const ContinuousVestingAccount = {
         const message = {
             ...baseContinuousVestingAccount,
         };
-        if (object.baseVestingAccount !== undefined &&
-            object.baseVestingAccount !== null) {
-            message.baseVestingAccount = BaseVestingAccount.fromJSON(object.baseVestingAccount);
+        if (object.base_vesting_account !== undefined &&
+            object.base_vesting_account !== null) {
+            message.base_vesting_account = BaseVestingAccount.fromJSON(object.base_vesting_account);
         }
         else {
-            message.baseVestingAccount = undefined;
+            message.base_vesting_account = undefined;
         }
-        if (object.startTime !== undefined && object.startTime !== null) {
-            message.startTime = Number(object.startTime);
+        if (object.start_time !== undefined && object.start_time !== null) {
+            message.start_time = Number(object.start_time);
         }
         else {
-            message.startTime = 0;
+            message.start_time = 0;
         }
         return message;
     },
     toJSON(message) {
         const obj = {};
-        message.baseVestingAccount !== undefined &&
-            (obj.baseVestingAccount = message.baseVestingAccount
-                ? BaseVestingAccount.toJSON(message.baseVestingAccount)
+        message.base_vesting_account !== undefined &&
+            (obj.base_vesting_account = message.base_vesting_account
+                ? BaseVestingAccount.toJSON(message.base_vesting_account)
                 : undefined);
-        message.startTime !== undefined && (obj.startTime = message.startTime);
+        message.start_time !== undefined && (obj.start_time = message.start_time);
         return obj;
     },
     fromPartial(object) {
         const message = {
             ...baseContinuousVestingAccount,
         };
-        if (object.baseVestingAccount !== undefined &&
-            object.baseVestingAccount !== null) {
-            message.baseVestingAccount = BaseVestingAccount.fromPartial(object.baseVestingAccount);
+        if (object.base_vesting_account !== undefined &&
+            object.base_vesting_account !== null) {
+            message.base_vesting_account = BaseVestingAccount.fromPartial(object.base_vesting_account);
         }
         else {
-            message.baseVestingAccount = undefined;
+            message.base_vesting_account = undefined;
         }
-        if (object.startTime !== undefined && object.startTime !== null) {
-            message.startTime = object.startTime;
+        if (object.start_time !== undefined && object.start_time !== null) {
+            message.start_time = object.start_time;
         }
         else {
-            message.startTime = 0;
+            message.start_time = 0;
         }
         return message;
     },
@@ -240,8 +240,8 @@ export const ContinuousVestingAccount = {
 const baseDelayedVestingAccount = {};
 export const DelayedVestingAccount = {
     encode(message, writer = Writer.create()) {
-        if (message.baseVestingAccount !== undefined) {
-            BaseVestingAccount.encode(message.baseVestingAccount, writer.uint32(10).fork()).ldelim();
+        if (message.base_vesting_account !== undefined) {
+            BaseVestingAccount.encode(message.base_vesting_account, writer.uint32(10).fork()).ldelim();
         }
         return writer;
     },
@@ -253,7 +253,7 @@ export const DelayedVestingAccount = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.baseVestingAccount = BaseVestingAccount.decode(reader, reader.uint32());
+                    message.base_vesting_account = BaseVestingAccount.decode(reader, reader.uint32());
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -264,31 +264,31 @@ export const DelayedVestingAccount = {
     },
     fromJSON(object) {
         const message = { ...baseDelayedVestingAccount };
-        if (object.baseVestingAccount !== undefined &&
-            object.baseVestingAccount !== null) {
-            message.baseVestingAccount = BaseVestingAccount.fromJSON(object.baseVestingAccount);
+        if (object.base_vesting_account !== undefined &&
+            object.base_vesting_account !== null) {
+            message.base_vesting_account = BaseVestingAccount.fromJSON(object.base_vesting_account);
         }
         else {
-            message.baseVestingAccount = undefined;
+            message.base_vesting_account = undefined;
         }
         return message;
     },
     toJSON(message) {
         const obj = {};
-        message.baseVestingAccount !== undefined &&
-            (obj.baseVestingAccount = message.baseVestingAccount
-                ? BaseVestingAccount.toJSON(message.baseVestingAccount)
+        message.base_vesting_account !== undefined &&
+            (obj.base_vesting_account = message.base_vesting_account
+                ? BaseVestingAccount.toJSON(message.base_vesting_account)
                 : undefined);
         return obj;
     },
     fromPartial(object) {
         const message = { ...baseDelayedVestingAccount };
-        if (object.baseVestingAccount !== undefined &&
-            object.baseVestingAccount !== null) {
-            message.baseVestingAccount = BaseVestingAccount.fromPartial(object.baseVestingAccount);
+        if (object.base_vesting_account !== undefined &&
+            object.base_vesting_account !== null) {
+            message.base_vesting_account = BaseVestingAccount.fromPartial(object.base_vesting_account);
         }
         else {
-            message.baseVestingAccount = undefined;
+            message.base_vesting_account = undefined;
         }
         return message;
     },
@@ -369,16 +369,16 @@ export const Period = {
         return message;
     },
 };
-const basePeriodicVestingAccount = { startTime: 0 };
+const basePeriodicVestingAccount = { start_time: 0 };
 export const PeriodicVestingAccount = {
     encode(message, writer = Writer.create()) {
-        if (message.baseVestingAccount !== undefined) {
-            BaseVestingAccount.encode(message.baseVestingAccount, writer.uint32(10).fork()).ldelim();
+        if (message.base_vesting_account !== undefined) {
+            BaseVestingAccount.encode(message.base_vesting_account, writer.uint32(10).fork()).ldelim();
         }
-        if (message.startTime !== 0) {
-            writer.uint32(16).int64(message.startTime);
+        if (message.start_time !== 0) {
+            writer.uint32(16).int64(message.start_time);
         }
-        for (const v of message.vestingPeriods) {
+        for (const v of message.vesting_periods) {
             Period.encode(v, writer.uint32(26).fork()).ldelim();
         }
         return writer;
@@ -387,18 +387,18 @@ export const PeriodicVestingAccount = {
         const reader = input instanceof Uint8Array ? new Reader(input) : input;
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = { ...basePeriodicVestingAccount };
-        message.vestingPeriods = [];
+        message.vesting_periods = [];
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.baseVestingAccount = BaseVestingAccount.decode(reader, reader.uint32());
+                    message.base_vesting_account = BaseVestingAccount.decode(reader, reader.uint32());
                     break;
                 case 2:
-                    message.startTime = longToNumber(reader.int64());
+                    message.start_time = longToNumber(reader.int64());
                     break;
                 case 3:
-                    message.vestingPeriods.push(Period.decode(reader, reader.uint32()));
+                    message.vesting_periods.push(Period.decode(reader, reader.uint32()));
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -409,61 +409,63 @@ export const PeriodicVestingAccount = {
     },
     fromJSON(object) {
         const message = { ...basePeriodicVestingAccount };
-        message.vestingPeriods = [];
-        if (object.baseVestingAccount !== undefined &&
-            object.baseVestingAccount !== null) {
-            message.baseVestingAccount = BaseVestingAccount.fromJSON(object.baseVestingAccount);
+        message.vesting_periods = [];
+        if (object.base_vesting_account !== undefined &&
+            object.base_vesting_account !== null) {
+            message.base_vesting_account = BaseVestingAccount.fromJSON(object.base_vesting_account);
         }
         else {
-            message.baseVestingAccount = undefined;
+            message.base_vesting_account = undefined;
         }
-        if (object.startTime !== undefined && object.startTime !== null) {
-            message.startTime = Number(object.startTime);
+        if (object.start_time !== undefined && object.start_time !== null) {
+            message.start_time = Number(object.start_time);
         }
         else {
-            message.startTime = 0;
+            message.start_time = 0;
         }
-        if (object.vestingPeriods !== undefined && object.vestingPeriods !== null) {
-            for (const e of object.vestingPeriods) {
-                message.vestingPeriods.push(Period.fromJSON(e));
+        if (object.vesting_periods !== undefined &&
+            object.vesting_periods !== null) {
+            for (const e of object.vesting_periods) {
+                message.vesting_periods.push(Period.fromJSON(e));
             }
         }
         return message;
     },
     toJSON(message) {
         const obj = {};
-        message.baseVestingAccount !== undefined &&
-            (obj.baseVestingAccount = message.baseVestingAccount
-                ? BaseVestingAccount.toJSON(message.baseVestingAccount)
+        message.base_vesting_account !== undefined &&
+            (obj.base_vesting_account = message.base_vesting_account
+                ? BaseVestingAccount.toJSON(message.base_vesting_account)
                 : undefined);
-        message.startTime !== undefined && (obj.startTime = message.startTime);
-        if (message.vestingPeriods) {
-            obj.vestingPeriods = message.vestingPeriods.map((e) => e ? Period.toJSON(e) : undefined);
+        message.start_time !== undefined && (obj.start_time = message.start_time);
+        if (message.vesting_periods) {
+            obj.vesting_periods = message.vesting_periods.map((e) => e ? Period.toJSON(e) : undefined);
         }
         else {
-            obj.vestingPeriods = [];
+            obj.vesting_periods = [];
         }
         return obj;
     },
     fromPartial(object) {
         const message = { ...basePeriodicVestingAccount };
-        message.vestingPeriods = [];
-        if (object.baseVestingAccount !== undefined &&
-            object.baseVestingAccount !== null) {
-            message.baseVestingAccount = BaseVestingAccount.fromPartial(object.baseVestingAccount);
+        message.vesting_periods = [];
+        if (object.base_vesting_account !== undefined &&
+            object.base_vesting_account !== null) {
+            message.base_vesting_account = BaseVestingAccount.fromPartial(object.base_vesting_account);
         }
         else {
-            message.baseVestingAccount = undefined;
+            message.base_vesting_account = undefined;
         }
-        if (object.startTime !== undefined && object.startTime !== null) {
-            message.startTime = object.startTime;
+        if (object.start_time !== undefined && object.start_time !== null) {
+            message.start_time = object.start_time;
         }
         else {
-            message.startTime = 0;
+            message.start_time = 0;
         }
-        if (object.vestingPeriods !== undefined && object.vestingPeriods !== null) {
-            for (const e of object.vestingPeriods) {
-                message.vestingPeriods.push(Period.fromPartial(e));
+        if (object.vesting_periods !== undefined &&
+            object.vesting_periods !== null) {
+            for (const e of object.vesting_periods) {
+                message.vesting_periods.push(Period.fromPartial(e));
             }
         }
         return message;
@@ -472,8 +474,8 @@ export const PeriodicVestingAccount = {
 const basePermanentLockedAccount = {};
 export const PermanentLockedAccount = {
     encode(message, writer = Writer.create()) {
-        if (message.baseVestingAccount !== undefined) {
-            BaseVestingAccount.encode(message.baseVestingAccount, writer.uint32(10).fork()).ldelim();
+        if (message.base_vesting_account !== undefined) {
+            BaseVestingAccount.encode(message.base_vesting_account, writer.uint32(10).fork()).ldelim();
         }
         return writer;
     },
@@ -485,7 +487,7 @@ export const PermanentLockedAccount = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.baseVestingAccount = BaseVestingAccount.decode(reader, reader.uint32());
+                    message.base_vesting_account = BaseVestingAccount.decode(reader, reader.uint32());
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -496,31 +498,31 @@ export const PermanentLockedAccount = {
     },
     fromJSON(object) {
         const message = { ...basePermanentLockedAccount };
-        if (object.baseVestingAccount !== undefined &&
-            object.baseVestingAccount !== null) {
-            message.baseVestingAccount = BaseVestingAccount.fromJSON(object.baseVestingAccount);
+        if (object.base_vesting_account !== undefined &&
+            object.base_vesting_account !== null) {
+            message.base_vesting_account = BaseVestingAccount.fromJSON(object.base_vesting_account);
         }
         else {
-            message.baseVestingAccount = undefined;
+            message.base_vesting_account = undefined;
         }
         return message;
     },
     toJSON(message) {
         const obj = {};
-        message.baseVestingAccount !== undefined &&
-            (obj.baseVestingAccount = message.baseVestingAccount
-                ? BaseVestingAccount.toJSON(message.baseVestingAccount)
+        message.base_vesting_account !== undefined &&
+            (obj.base_vesting_account = message.base_vesting_account
+                ? BaseVestingAccount.toJSON(message.base_vesting_account)
                 : undefined);
         return obj;
     },
     fromPartial(object) {
         const message = { ...basePermanentLockedAccount };
-        if (object.baseVestingAccount !== undefined &&
-            object.baseVestingAccount !== null) {
-            message.baseVestingAccount = BaseVestingAccount.fromPartial(object.baseVestingAccount);
+        if (object.base_vesting_account !== undefined &&
+            object.base_vesting_account !== null) {
+            message.base_vesting_account = BaseVestingAccount.fromPartial(object.base_vesting_account);
         }
         else {
-            message.baseVestingAccount = undefined;
+            message.base_vesting_account = undefined;
         }
         return message;
     },

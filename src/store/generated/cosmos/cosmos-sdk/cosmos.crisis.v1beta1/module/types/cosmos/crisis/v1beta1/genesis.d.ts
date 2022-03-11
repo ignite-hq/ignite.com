@@ -7,7 +7,7 @@ export interface GenesisState {
      * constant_fee is the fee used to verify the invariant in the crisis
      * module.
      */
-    constantFee: Coin | undefined;
+    constant_fee: Coin | undefined;
 }
 export declare const GenesisState: {
     encode(message: GenesisState, writer?: Writer): Writer;

@@ -4,24 +4,24 @@ import { util, configure, Writer, Reader } from "protobufjs/minimal";
 import { DecCoin, Coin } from "../../../cosmos/base/v1beta1/coin";
 export const protobufPackage = "cosmos.distribution.v1beta1";
 const baseParams = {
-    communityTax: "",
-    baseProposerReward: "",
-    bonusProposerReward: "",
-    withdrawAddrEnabled: false,
+    community_tax: "",
+    base_proposer_reward: "",
+    bonus_proposer_reward: "",
+    withdraw_addr_enabled: false,
 };
 export const Params = {
     encode(message, writer = Writer.create()) {
-        if (message.communityTax !== "") {
-            writer.uint32(10).string(message.communityTax);
+        if (message.community_tax !== "") {
+            writer.uint32(10).string(message.community_tax);
         }
-        if (message.baseProposerReward !== "") {
-            writer.uint32(18).string(message.baseProposerReward);
+        if (message.base_proposer_reward !== "") {
+            writer.uint32(18).string(message.base_proposer_reward);
         }
-        if (message.bonusProposerReward !== "") {
-            writer.uint32(26).string(message.bonusProposerReward);
+        if (message.bonus_proposer_reward !== "") {
+            writer.uint32(26).string(message.bonus_proposer_reward);
         }
-        if (message.withdrawAddrEnabled === true) {
-            writer.uint32(32).bool(message.withdrawAddrEnabled);
+        if (message.withdraw_addr_enabled === true) {
+            writer.uint32(32).bool(message.withdraw_addr_enabled);
         }
         return writer;
     },
@@ -33,16 +33,16 @@ export const Params = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.communityTax = reader.string();
+                    message.community_tax = reader.string();
                     break;
                 case 2:
-                    message.baseProposerReward = reader.string();
+                    message.base_proposer_reward = reader.string();
                     break;
                 case 3:
-                    message.bonusProposerReward = reader.string();
+                    message.bonus_proposer_reward = reader.string();
                     break;
                 case 4:
-                    message.withdrawAddrEnabled = reader.bool();
+                    message.withdraw_addr_enabled = reader.bool();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -53,87 +53,87 @@ export const Params = {
     },
     fromJSON(object) {
         const message = { ...baseParams };
-        if (object.communityTax !== undefined && object.communityTax !== null) {
-            message.communityTax = String(object.communityTax);
+        if (object.community_tax !== undefined && object.community_tax !== null) {
+            message.community_tax = String(object.community_tax);
         }
         else {
-            message.communityTax = "";
+            message.community_tax = "";
         }
-        if (object.baseProposerReward !== undefined &&
-            object.baseProposerReward !== null) {
-            message.baseProposerReward = String(object.baseProposerReward);
-        }
-        else {
-            message.baseProposerReward = "";
-        }
-        if (object.bonusProposerReward !== undefined &&
-            object.bonusProposerReward !== null) {
-            message.bonusProposerReward = String(object.bonusProposerReward);
+        if (object.base_proposer_reward !== undefined &&
+            object.base_proposer_reward !== null) {
+            message.base_proposer_reward = String(object.base_proposer_reward);
         }
         else {
-            message.bonusProposerReward = "";
+            message.base_proposer_reward = "";
         }
-        if (object.withdrawAddrEnabled !== undefined &&
-            object.withdrawAddrEnabled !== null) {
-            message.withdrawAddrEnabled = Boolean(object.withdrawAddrEnabled);
+        if (object.bonus_proposer_reward !== undefined &&
+            object.bonus_proposer_reward !== null) {
+            message.bonus_proposer_reward = String(object.bonus_proposer_reward);
         }
         else {
-            message.withdrawAddrEnabled = false;
+            message.bonus_proposer_reward = "";
+        }
+        if (object.withdraw_addr_enabled !== undefined &&
+            object.withdraw_addr_enabled !== null) {
+            message.withdraw_addr_enabled = Boolean(object.withdraw_addr_enabled);
+        }
+        else {
+            message.withdraw_addr_enabled = false;
         }
         return message;
     },
     toJSON(message) {
         const obj = {};
-        message.communityTax !== undefined &&
-            (obj.communityTax = message.communityTax);
-        message.baseProposerReward !== undefined &&
-            (obj.baseProposerReward = message.baseProposerReward);
-        message.bonusProposerReward !== undefined &&
-            (obj.bonusProposerReward = message.bonusProposerReward);
-        message.withdrawAddrEnabled !== undefined &&
-            (obj.withdrawAddrEnabled = message.withdrawAddrEnabled);
+        message.community_tax !== undefined &&
+            (obj.community_tax = message.community_tax);
+        message.base_proposer_reward !== undefined &&
+            (obj.base_proposer_reward = message.base_proposer_reward);
+        message.bonus_proposer_reward !== undefined &&
+            (obj.bonus_proposer_reward = message.bonus_proposer_reward);
+        message.withdraw_addr_enabled !== undefined &&
+            (obj.withdraw_addr_enabled = message.withdraw_addr_enabled);
         return obj;
     },
     fromPartial(object) {
         const message = { ...baseParams };
-        if (object.communityTax !== undefined && object.communityTax !== null) {
-            message.communityTax = object.communityTax;
+        if (object.community_tax !== undefined && object.community_tax !== null) {
+            message.community_tax = object.community_tax;
         }
         else {
-            message.communityTax = "";
+            message.community_tax = "";
         }
-        if (object.baseProposerReward !== undefined &&
-            object.baseProposerReward !== null) {
-            message.baseProposerReward = object.baseProposerReward;
-        }
-        else {
-            message.baseProposerReward = "";
-        }
-        if (object.bonusProposerReward !== undefined &&
-            object.bonusProposerReward !== null) {
-            message.bonusProposerReward = object.bonusProposerReward;
+        if (object.base_proposer_reward !== undefined &&
+            object.base_proposer_reward !== null) {
+            message.base_proposer_reward = object.base_proposer_reward;
         }
         else {
-            message.bonusProposerReward = "";
+            message.base_proposer_reward = "";
         }
-        if (object.withdrawAddrEnabled !== undefined &&
-            object.withdrawAddrEnabled !== null) {
-            message.withdrawAddrEnabled = object.withdrawAddrEnabled;
+        if (object.bonus_proposer_reward !== undefined &&
+            object.bonus_proposer_reward !== null) {
+            message.bonus_proposer_reward = object.bonus_proposer_reward;
         }
         else {
-            message.withdrawAddrEnabled = false;
+            message.bonus_proposer_reward = "";
+        }
+        if (object.withdraw_addr_enabled !== undefined &&
+            object.withdraw_addr_enabled !== null) {
+            message.withdraw_addr_enabled = object.withdraw_addr_enabled;
+        }
+        else {
+            message.withdraw_addr_enabled = false;
         }
         return message;
     },
 };
-const baseValidatorHistoricalRewards = { referenceCount: 0 };
+const baseValidatorHistoricalRewards = { reference_count: 0 };
 export const ValidatorHistoricalRewards = {
     encode(message, writer = Writer.create()) {
-        for (const v of message.cumulativeRewardRatio) {
+        for (const v of message.cumulative_reward_ratio) {
             DecCoin.encode(v, writer.uint32(10).fork()).ldelim();
         }
-        if (message.referenceCount !== 0) {
-            writer.uint32(16).uint32(message.referenceCount);
+        if (message.reference_count !== 0) {
+            writer.uint32(16).uint32(message.reference_count);
         }
         return writer;
     },
@@ -143,15 +143,15 @@ export const ValidatorHistoricalRewards = {
         const message = {
             ...baseValidatorHistoricalRewards,
         };
-        message.cumulativeRewardRatio = [];
+        message.cumulative_reward_ratio = [];
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.cumulativeRewardRatio.push(DecCoin.decode(reader, reader.uint32()));
+                    message.cumulative_reward_ratio.push(DecCoin.decode(reader, reader.uint32()));
                     break;
                 case 2:
-                    message.referenceCount = reader.uint32();
+                    message.reference_count = reader.uint32();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -164,49 +164,51 @@ export const ValidatorHistoricalRewards = {
         const message = {
             ...baseValidatorHistoricalRewards,
         };
-        message.cumulativeRewardRatio = [];
-        if (object.cumulativeRewardRatio !== undefined &&
-            object.cumulativeRewardRatio !== null) {
-            for (const e of object.cumulativeRewardRatio) {
-                message.cumulativeRewardRatio.push(DecCoin.fromJSON(e));
+        message.cumulative_reward_ratio = [];
+        if (object.cumulative_reward_ratio !== undefined &&
+            object.cumulative_reward_ratio !== null) {
+            for (const e of object.cumulative_reward_ratio) {
+                message.cumulative_reward_ratio.push(DecCoin.fromJSON(e));
             }
         }
-        if (object.referenceCount !== undefined && object.referenceCount !== null) {
-            message.referenceCount = Number(object.referenceCount);
+        if (object.reference_count !== undefined &&
+            object.reference_count !== null) {
+            message.reference_count = Number(object.reference_count);
         }
         else {
-            message.referenceCount = 0;
+            message.reference_count = 0;
         }
         return message;
     },
     toJSON(message) {
         const obj = {};
-        if (message.cumulativeRewardRatio) {
-            obj.cumulativeRewardRatio = message.cumulativeRewardRatio.map((e) => e ? DecCoin.toJSON(e) : undefined);
+        if (message.cumulative_reward_ratio) {
+            obj.cumulative_reward_ratio = message.cumulative_reward_ratio.map((e) => e ? DecCoin.toJSON(e) : undefined);
         }
         else {
-            obj.cumulativeRewardRatio = [];
+            obj.cumulative_reward_ratio = [];
         }
-        message.referenceCount !== undefined &&
-            (obj.referenceCount = message.referenceCount);
+        message.reference_count !== undefined &&
+            (obj.reference_count = message.reference_count);
         return obj;
     },
     fromPartial(object) {
         const message = {
             ...baseValidatorHistoricalRewards,
         };
-        message.cumulativeRewardRatio = [];
-        if (object.cumulativeRewardRatio !== undefined &&
-            object.cumulativeRewardRatio !== null) {
-            for (const e of object.cumulativeRewardRatio) {
-                message.cumulativeRewardRatio.push(DecCoin.fromPartial(e));
+        message.cumulative_reward_ratio = [];
+        if (object.cumulative_reward_ratio !== undefined &&
+            object.cumulative_reward_ratio !== null) {
+            for (const e of object.cumulative_reward_ratio) {
+                message.cumulative_reward_ratio.push(DecCoin.fromPartial(e));
             }
         }
-        if (object.referenceCount !== undefined && object.referenceCount !== null) {
-            message.referenceCount = object.referenceCount;
+        if (object.reference_count !== undefined &&
+            object.reference_count !== null) {
+            message.reference_count = object.reference_count;
         }
         else {
-            message.referenceCount = 0;
+            message.reference_count = 0;
         }
         return message;
     },
@@ -419,11 +421,11 @@ export const ValidatorOutstandingRewards = {
         return message;
     },
 };
-const baseValidatorSlashEvent = { validatorPeriod: 0, fraction: "" };
+const baseValidatorSlashEvent = { validator_period: 0, fraction: "" };
 export const ValidatorSlashEvent = {
     encode(message, writer = Writer.create()) {
-        if (message.validatorPeriod !== 0) {
-            writer.uint32(8).uint64(message.validatorPeriod);
+        if (message.validator_period !== 0) {
+            writer.uint32(8).uint64(message.validator_period);
         }
         if (message.fraction !== "") {
             writer.uint32(18).string(message.fraction);
@@ -438,7 +440,7 @@ export const ValidatorSlashEvent = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.validatorPeriod = longToNumber(reader.uint64());
+                    message.validator_period = longToNumber(reader.uint64());
                     break;
                 case 2:
                     message.fraction = reader.string();
@@ -452,12 +454,12 @@ export const ValidatorSlashEvent = {
     },
     fromJSON(object) {
         const message = { ...baseValidatorSlashEvent };
-        if (object.validatorPeriod !== undefined &&
-            object.validatorPeriod !== null) {
-            message.validatorPeriod = Number(object.validatorPeriod);
+        if (object.validator_period !== undefined &&
+            object.validator_period !== null) {
+            message.validator_period = Number(object.validator_period);
         }
         else {
-            message.validatorPeriod = 0;
+            message.validator_period = 0;
         }
         if (object.fraction !== undefined && object.fraction !== null) {
             message.fraction = String(object.fraction);
@@ -469,19 +471,19 @@ export const ValidatorSlashEvent = {
     },
     toJSON(message) {
         const obj = {};
-        message.validatorPeriod !== undefined &&
-            (obj.validatorPeriod = message.validatorPeriod);
+        message.validator_period !== undefined &&
+            (obj.validator_period = message.validator_period);
         message.fraction !== undefined && (obj.fraction = message.fraction);
         return obj;
     },
     fromPartial(object) {
         const message = { ...baseValidatorSlashEvent };
-        if (object.validatorPeriod !== undefined &&
-            object.validatorPeriod !== null) {
-            message.validatorPeriod = object.validatorPeriod;
+        if (object.validator_period !== undefined &&
+            object.validator_period !== null) {
+            message.validator_period = object.validator_period;
         }
         else {
-            message.validatorPeriod = 0;
+            message.validator_period = 0;
         }
         if (object.fraction !== undefined && object.fraction !== null) {
             message.fraction = object.fraction;
@@ -495,7 +497,7 @@ export const ValidatorSlashEvent = {
 const baseValidatorSlashEvents = {};
 export const ValidatorSlashEvents = {
     encode(message, writer = Writer.create()) {
-        for (const v of message.validatorSlashEvents) {
+        for (const v of message.validator_slash_events) {
             ValidatorSlashEvent.encode(v, writer.uint32(10).fork()).ldelim();
         }
         return writer;
@@ -504,12 +506,12 @@ export const ValidatorSlashEvents = {
         const reader = input instanceof Uint8Array ? new Reader(input) : input;
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = { ...baseValidatorSlashEvents };
-        message.validatorSlashEvents = [];
+        message.validator_slash_events = [];
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.validatorSlashEvents.push(ValidatorSlashEvent.decode(reader, reader.uint32()));
+                    message.validator_slash_events.push(ValidatorSlashEvent.decode(reader, reader.uint32()));
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -520,32 +522,32 @@ export const ValidatorSlashEvents = {
     },
     fromJSON(object) {
         const message = { ...baseValidatorSlashEvents };
-        message.validatorSlashEvents = [];
-        if (object.validatorSlashEvents !== undefined &&
-            object.validatorSlashEvents !== null) {
-            for (const e of object.validatorSlashEvents) {
-                message.validatorSlashEvents.push(ValidatorSlashEvent.fromJSON(e));
+        message.validator_slash_events = [];
+        if (object.validator_slash_events !== undefined &&
+            object.validator_slash_events !== null) {
+            for (const e of object.validator_slash_events) {
+                message.validator_slash_events.push(ValidatorSlashEvent.fromJSON(e));
             }
         }
         return message;
     },
     toJSON(message) {
         const obj = {};
-        if (message.validatorSlashEvents) {
-            obj.validatorSlashEvents = message.validatorSlashEvents.map((e) => e ? ValidatorSlashEvent.toJSON(e) : undefined);
+        if (message.validator_slash_events) {
+            obj.validator_slash_events = message.validator_slash_events.map((e) => e ? ValidatorSlashEvent.toJSON(e) : undefined);
         }
         else {
-            obj.validatorSlashEvents = [];
+            obj.validator_slash_events = [];
         }
         return obj;
     },
     fromPartial(object) {
         const message = { ...baseValidatorSlashEvents };
-        message.validatorSlashEvents = [];
-        if (object.validatorSlashEvents !== undefined &&
-            object.validatorSlashEvents !== null) {
-            for (const e of object.validatorSlashEvents) {
-                message.validatorSlashEvents.push(ValidatorSlashEvent.fromPartial(e));
+        message.validator_slash_events = [];
+        if (object.validator_slash_events !== undefined &&
+            object.validator_slash_events !== null) {
+            for (const e of object.validator_slash_events) {
+                message.validator_slash_events.push(ValidatorSlashEvent.fromPartial(e));
             }
         }
         return message;
@@ -554,7 +556,7 @@ export const ValidatorSlashEvents = {
 const baseFeePool = {};
 export const FeePool = {
     encode(message, writer = Writer.create()) {
-        for (const v of message.communityPool) {
+        for (const v of message.community_pool) {
             DecCoin.encode(v, writer.uint32(10).fork()).ldelim();
         }
         return writer;
@@ -563,12 +565,12 @@ export const FeePool = {
         const reader = input instanceof Uint8Array ? new Reader(input) : input;
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = { ...baseFeePool };
-        message.communityPool = [];
+        message.community_pool = [];
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.communityPool.push(DecCoin.decode(reader, reader.uint32()));
+                    message.community_pool.push(DecCoin.decode(reader, reader.uint32()));
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -579,30 +581,30 @@ export const FeePool = {
     },
     fromJSON(object) {
         const message = { ...baseFeePool };
-        message.communityPool = [];
-        if (object.communityPool !== undefined && object.communityPool !== null) {
-            for (const e of object.communityPool) {
-                message.communityPool.push(DecCoin.fromJSON(e));
+        message.community_pool = [];
+        if (object.community_pool !== undefined && object.community_pool !== null) {
+            for (const e of object.community_pool) {
+                message.community_pool.push(DecCoin.fromJSON(e));
             }
         }
         return message;
     },
     toJSON(message) {
         const obj = {};
-        if (message.communityPool) {
-            obj.communityPool = message.communityPool.map((e) => e ? DecCoin.toJSON(e) : undefined);
+        if (message.community_pool) {
+            obj.community_pool = message.community_pool.map((e) => e ? DecCoin.toJSON(e) : undefined);
         }
         else {
-            obj.communityPool = [];
+            obj.community_pool = [];
         }
         return obj;
     },
     fromPartial(object) {
         const message = { ...baseFeePool };
-        message.communityPool = [];
-        if (object.communityPool !== undefined && object.communityPool !== null) {
-            for (const e of object.communityPool) {
-                message.communityPool.push(DecCoin.fromPartial(e));
+        message.community_pool = [];
+        if (object.community_pool !== undefined && object.community_pool !== null) {
+            for (const e of object.community_pool) {
+                message.community_pool.push(DecCoin.fromPartial(e));
             }
         }
         return message;
@@ -734,14 +736,14 @@ export const CommunityPoolSpendProposal = {
     },
 };
 const baseDelegatorStartingInfo = {
-    previousPeriod: 0,
+    previous_period: 0,
     stake: "",
     height: 0,
 };
 export const DelegatorStartingInfo = {
     encode(message, writer = Writer.create()) {
-        if (message.previousPeriod !== 0) {
-            writer.uint32(8).uint64(message.previousPeriod);
+        if (message.previous_period !== 0) {
+            writer.uint32(8).uint64(message.previous_period);
         }
         if (message.stake !== "") {
             writer.uint32(18).string(message.stake);
@@ -759,7 +761,7 @@ export const DelegatorStartingInfo = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.previousPeriod = longToNumber(reader.uint64());
+                    message.previous_period = longToNumber(reader.uint64());
                     break;
                 case 2:
                     message.stake = reader.string();
@@ -776,11 +778,12 @@ export const DelegatorStartingInfo = {
     },
     fromJSON(object) {
         const message = { ...baseDelegatorStartingInfo };
-        if (object.previousPeriod !== undefined && object.previousPeriod !== null) {
-            message.previousPeriod = Number(object.previousPeriod);
+        if (object.previous_period !== undefined &&
+            object.previous_period !== null) {
+            message.previous_period = Number(object.previous_period);
         }
         else {
-            message.previousPeriod = 0;
+            message.previous_period = 0;
         }
         if (object.stake !== undefined && object.stake !== null) {
             message.stake = String(object.stake);
@@ -798,19 +801,20 @@ export const DelegatorStartingInfo = {
     },
     toJSON(message) {
         const obj = {};
-        message.previousPeriod !== undefined &&
-            (obj.previousPeriod = message.previousPeriod);
+        message.previous_period !== undefined &&
+            (obj.previous_period = message.previous_period);
         message.stake !== undefined && (obj.stake = message.stake);
         message.height !== undefined && (obj.height = message.height);
         return obj;
     },
     fromPartial(object) {
         const message = { ...baseDelegatorStartingInfo };
-        if (object.previousPeriod !== undefined && object.previousPeriod !== null) {
-            message.previousPeriod = object.previousPeriod;
+        if (object.previous_period !== undefined &&
+            object.previous_period !== null) {
+            message.previous_period = object.previous_period;
         }
         else {
-            message.previousPeriod = 0;
+            message.previous_period = 0;
         }
         if (object.stake !== undefined && object.stake !== null) {
             message.stake = object.stake;
@@ -827,11 +831,11 @@ export const DelegatorStartingInfo = {
         return message;
     },
 };
-const baseDelegationDelegatorReward = { validatorAddress: "" };
+const baseDelegationDelegatorReward = { validator_address: "" };
 export const DelegationDelegatorReward = {
     encode(message, writer = Writer.create()) {
-        if (message.validatorAddress !== "") {
-            writer.uint32(10).string(message.validatorAddress);
+        if (message.validator_address !== "") {
+            writer.uint32(10).string(message.validator_address);
         }
         for (const v of message.reward) {
             DecCoin.encode(v, writer.uint32(18).fork()).ldelim();
@@ -849,7 +853,7 @@ export const DelegationDelegatorReward = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.validatorAddress = reader.string();
+                    message.validator_address = reader.string();
                     break;
                 case 2:
                     message.reward.push(DecCoin.decode(reader, reader.uint32()));
@@ -866,12 +870,12 @@ export const DelegationDelegatorReward = {
             ...baseDelegationDelegatorReward,
         };
         message.reward = [];
-        if (object.validatorAddress !== undefined &&
-            object.validatorAddress !== null) {
-            message.validatorAddress = String(object.validatorAddress);
+        if (object.validator_address !== undefined &&
+            object.validator_address !== null) {
+            message.validator_address = String(object.validator_address);
         }
         else {
-            message.validatorAddress = "";
+            message.validator_address = "";
         }
         if (object.reward !== undefined && object.reward !== null) {
             for (const e of object.reward) {
@@ -882,8 +886,8 @@ export const DelegationDelegatorReward = {
     },
     toJSON(message) {
         const obj = {};
-        message.validatorAddress !== undefined &&
-            (obj.validatorAddress = message.validatorAddress);
+        message.validator_address !== undefined &&
+            (obj.validator_address = message.validator_address);
         if (message.reward) {
             obj.reward = message.reward.map((e) => e ? DecCoin.toJSON(e) : undefined);
         }
@@ -897,12 +901,12 @@ export const DelegationDelegatorReward = {
             ...baseDelegationDelegatorReward,
         };
         message.reward = [];
-        if (object.validatorAddress !== undefined &&
-            object.validatorAddress !== null) {
-            message.validatorAddress = object.validatorAddress;
+        if (object.validator_address !== undefined &&
+            object.validator_address !== null) {
+            message.validator_address = object.validator_address;
         }
         else {
-            message.validatorAddress = "";
+            message.validator_address = "";
         }
         if (object.reward !== undefined && object.reward !== null) {
             for (const e of object.reward) {
