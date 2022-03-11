@@ -46,4 +46,5 @@ The generated code is on early alpha. This means a bunch of minors and couple of
 
 - For now using the Pinia Store is not recommend.
 - The logic inside `Ignt.vue` will be moved to outside the repo.
-- The need to place the usage of Vue API inside a watch (as in views/Index.vue) is only temporary.
+- The need to place the usage of Vue API inside a watch (as in `views/Index.vue`) is only temporary.
+- The need for having both `src/store/generated` and `src/generated` is only temporary.
