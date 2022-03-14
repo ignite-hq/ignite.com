@@ -21,7 +21,7 @@ export default {
     // USAGE EXAMPLES
     //
     // await queryChainAll()
-    // 
+    //
     // sendMsgRequestAddAccount({
     //   value: {
     //     address: 'spn1l9wuy2w80v3ntc38ede0zdn7vn0lhslfutqnka',
