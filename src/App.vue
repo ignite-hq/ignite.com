@@ -1,15 +1,13 @@
 <template>
   <div>
     <Suspense>
-      <Ignt>
-        <SpTheme>
-          <SpNavbar
-            :links="navbarLinks"
-            :activeRoute="router.currentRoute.value.path"
-          />
-          <router-view />
-        </SpTheme>
-      </Ignt>
+      <SpTheme>
+        <SpNavbar
+          :links="navbarLinks"
+          :activeRoute="router.currentRoute.value.path"
+        />
+        <router-view v-if="$ignt" />
+      </SpTheme>
     </Suspense>
   </div>
 </template>
@@ -19,12 +17,15 @@ import { computed, onBeforeMount } from 'vue'
 import { useStore } from 'vuex'
 import { SpTheme, SpNavbar } from '@starport/vue'
 import { useRouter } from 'vue-router'
-import Ignt from './components/Ignt.vue'
+import useIgnite from './composables/useIgnite'
 
 export default {
-  components: { SpTheme, SpNavbar, Ignt },
+  components: { SpTheme, SpNavbar },
 
   setup() {
+    // ignt
+    let { $ignt } = useIgnite()
+
     // store
     let $s = useStore()
 
@@ -43,6 +44,8 @@ export default {
     })
 
     return {
+      // ignt
+      $ignt,
       // state,
       navbarLinks,
       // router

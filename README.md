@@ -18,7 +18,7 @@ The two packages, `tendermint-spn-ts-client` and `tendermint-spn-vue`, inside `s
 import { useTendermintFundraisingModule } from 'tendermint-spn-vue'
 
 let { queryAuctions } = useTendermintFundraisingModule({
-    $ignt: $ignt.value
+  $ignt: $ignt.value
 })
 ```
 
@@ -36,7 +36,7 @@ let $ignt = inject<Ref<Ignite>>('ignt')
 import { useTendermintFundraisingModule } from 'tendermint-spn-vue'
 
 let { $s } = useTendermintFundraisingModule({
-    $ignt: $ignt.value
+  $ignt: $ignt.value
 })
 ```
 
