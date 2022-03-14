@@ -17,19 +17,19 @@ export default {
         $ignt: $ignt.value
       })
 
-    console.log(await queryChainAll())
-
-    // console.log(
-    //   'add acc',
-    //   sendMsgRequestAddAccount({
-    //     value: {
-    //       address: 'spn1l9wuy2w80v3ntc38ede0zdn7vn0lhslfutqnka',
-    //       coins: [{ amount: '99999', denom: 'spn' }],
-    //       creator: 'spn1l9wuy2w80v3ntc38ede0zdn7vn0lhslfutqnka',
-    //       launchID: 1
-    //     }
-    //   })
-    // )
+    //
+    // USAGE EXAMPLES
+    //
+    // await queryChainAll()
+    // 
+    // sendMsgRequestAddAccount({
+    //   value: {
+    //     address: 'spn1l9wuy2w80v3ntc38ede0zdn7vn0lhslfutqnka',
+    //     coins: [{ amount: '99999', denom: 'spn' }],
+    //     creator: 'spn1l9wuy2w80v3ntc38ede0zdn7vn0lhslfutqnka',
+    //     launchID: 1
+    //   }
+    // })
   }
 }
 </script>
