@@ -5,21 +5,21 @@ import { SigningStargateClient, DeliverTxResponse } from '@cosmjs/stargate'
 import { EncodeObject } from '@cosmjs/proto-signing'
 
 import { Api } from './rest'
-import { MsgUpdateCoordinatorAddress } from './types/profile/tx'
-import { MsgUpdateValidatorDescription } from './types/profile/tx'
-import { MsgUpdateCoordinatorDescription } from './types/profile/tx'
 import { MsgCreateCoordinator } from './types/profile/tx'
+import { MsgUpdateCoordinatorAddress } from './types/profile/tx'
+import { MsgUpdateCoordinatorDescription } from './types/profile/tx'
+import { MsgUpdateValidatorDescription } from './types/profile/tx'
 import { MsgAddValidatorOperatorAddress } from './types/profile/tx'
 import { MsgDisableCoordinator } from './types/profile/tx'
 
-type sendMsgUpdateCoordinatorAddressParams = {
-  value: MsgUpdateCoordinatorAddress
+type sendMsgCreateCoordinatorParams = {
+  value: MsgCreateCoordinator
   fee?: StdFee
   memo?: string
 }
 
-type sendMsgUpdateValidatorDescriptionParams = {
-  value: MsgUpdateValidatorDescription
+type sendMsgUpdateCoordinatorAddressParams = {
+  value: MsgUpdateCoordinatorAddress
   fee?: StdFee
   memo?: string
 }
@@ -30,8 +30,8 @@ type sendMsgUpdateCoordinatorDescriptionParams = {
   memo?: string
 }
 
-type sendMsgCreateCoordinatorParams = {
-  value: MsgCreateCoordinator
+type sendMsgUpdateValidatorDescriptionParams = {
+  value: MsgUpdateValidatorDescription
   fee?: StdFee
   memo?: string
 }
@@ -48,20 +48,20 @@ type sendMsgDisableCoordinatorParams = {
   memo?: string
 }
 
-type msgUpdateCoordinatorAddressParams = {
-  value: MsgUpdateCoordinatorAddress
+type msgCreateCoordinatorParams = {
+  value: MsgCreateCoordinator
 }
 
-type msgUpdateValidatorDescriptionParams = {
-  value: MsgUpdateValidatorDescription
+type msgUpdateCoordinatorAddressParams = {
+  value: MsgUpdateCoordinatorAddress
 }
 
 type msgUpdateCoordinatorDescriptionParams = {
   value: MsgUpdateCoordinatorDescription
 }
 
-type msgCreateCoordinatorParams = {
-  value: MsgCreateCoordinator
+type msgUpdateValidatorDescriptionParams = {
+  value: MsgUpdateValidatorDescription
 }
 
 type msgAddValidatorOperatorAddressParams = {
@@ -85,6 +85,29 @@ class Module extends Api<any> {
     this._address = address
   }
 
+  async sendMsgCreateCoordinator({
+    value,
+    fee,
+    memo
+  }: sendMsgCreateCoordinatorParams): Promise<DeliverTxResponse> {
+    try {
+      let msg = this.msgCreateCoordinator({
+        value: MsgCreateCoordinator.fromPartial(value)
+      })
+      return await this._client.signAndBroadcast(
+        this._address,
+        [msg],
+        fee ? fee : { amount: [], gas: '200000' },
+        memo
+      )
+    } catch (e: any) {
+      throw new Error(
+        'TxClient:MsgCreateCoordinator:Send Could not broadcast Tx: ' +
+          e.message
+      )
+    }
+  }
+
   async sendMsgUpdateCoordinatorAddress({
     value,
     fee,
@@ -103,29 +126,6 @@ class Module extends Api<any> {
     } catch (e: any) {
       throw new Error(
         'TxClient:MsgUpdateCoordinatorAddress:Send Could not broadcast Tx: ' +
-          e.message
-      )
-    }
-  }
-
-  async sendMsgUpdateValidatorDescription({
-    value,
-    fee,
-    memo
-  }: sendMsgUpdateValidatorDescriptionParams): Promise<DeliverTxResponse> {
-    try {
-      let msg = this.msgUpdateValidatorDescription({
-        value: MsgUpdateValidatorDescription.fromPartial(value)
-      })
-      return await this._client.signAndBroadcast(
-        this._address,
-        [msg],
-        fee ? fee : { amount: [], gas: '200000' },
-        memo
-      )
-    } catch (e: any) {
-      throw new Error(
-        'TxClient:MsgUpdateValidatorDescription:Send Could not broadcast Tx: ' +
           e.message
       )
     }
@@ -154,14 +154,14 @@ class Module extends Api<any> {
     }
   }
 
-  async sendMsgCreateCoordinator({
+  async sendMsgUpdateValidatorDescription({
     value,
     fee,
     memo
-  }: sendMsgCreateCoordinatorParams): Promise<DeliverTxResponse> {
+  }: sendMsgUpdateValidatorDescriptionParams): Promise<DeliverTxResponse> {
     try {
-      let msg = this.msgCreateCoordinator({
-        value: MsgCreateCoordinator.fromPartial(value)
+      let msg = this.msgUpdateValidatorDescription({
+        value: MsgUpdateValidatorDescription.fromPartial(value)
       })
       return await this._client.signAndBroadcast(
         this._address,
@@ -171,7 +171,7 @@ class Module extends Api<any> {
       )
     } catch (e: any) {
       throw new Error(
-        'TxClient:MsgCreateCoordinator:Send Could not broadcast Tx: ' +
+        'TxClient:MsgUpdateValidatorDescription:Send Could not broadcast Tx: ' +
           e.message
       )
     }
@@ -223,6 +223,20 @@ class Module extends Api<any> {
     }
   }
 
+  msgCreateCoordinator({ value }: msgCreateCoordinatorParams): EncodeObject {
+    try {
+      return {
+        typeUrl: '/tendermint.spn.profile.MsgCreateCoordinator',
+        value: MsgCreateCoordinator.fromPartial(value)
+      }
+    } catch (e: any) {
+      throw new Error(
+        'TxClient:MsgCreateCoordinator:Create Could not create message: ' +
+          e.message
+      )
+    }
+  }
+
   msgUpdateCoordinatorAddress({
     value
   }: msgUpdateCoordinatorAddressParams): EncodeObject {
@@ -234,22 +248,6 @@ class Module extends Api<any> {
     } catch (e: any) {
       throw new Error(
         'TxClient:MsgUpdateCoordinatorAddress:Create Could not create message: ' +
-          e.message
-      )
-    }
-  }
-
-  msgUpdateValidatorDescription({
-    value
-  }: msgUpdateValidatorDescriptionParams): EncodeObject {
-    try {
-      return {
-        typeUrl: '/tendermint.spn.profile.MsgUpdateValidatorDescription',
-        value: MsgUpdateValidatorDescription.fromPartial(value)
-      }
-    } catch (e: any) {
-      throw new Error(
-        'TxClient:MsgUpdateValidatorDescription:Create Could not create message: ' +
           e.message
       )
     }
@@ -271,15 +269,17 @@ class Module extends Api<any> {
     }
   }
 
-  msgCreateCoordinator({ value }: msgCreateCoordinatorParams): EncodeObject {
+  msgUpdateValidatorDescription({
+    value
+  }: msgUpdateValidatorDescriptionParams): EncodeObject {
     try {
       return {
-        typeUrl: '/tendermint.spn.profile.MsgCreateCoordinator',
-        value: MsgCreateCoordinator.fromPartial(value)
+        typeUrl: '/tendermint.spn.profile.MsgUpdateValidatorDescription',
+        value: MsgUpdateValidatorDescription.fromPartial(value)
       }
     } catch (e: any) {
       throw new Error(
-        'TxClient:MsgCreateCoordinator:Create Could not create message: ' +
+        'TxClient:MsgUpdateValidatorDescription:Create Could not create message: ' +
           e.message
       )
     }

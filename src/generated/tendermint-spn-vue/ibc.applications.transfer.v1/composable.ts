@@ -38,6 +38,14 @@ function useModule({ $ignt }: Params): Response {
     queryParams
   } = $ignt.IbcApplicationsTransferV1
 
+  sendMsgTransfer = sendMsgTransfer.bind($ignt.IbcApplicationsTransferV1)
+
+  queryDenomTrace = queryDenomTrace.bind($ignt.IbcApplicationsTransferV1)
+
+  queryDenomTraces = queryDenomTraces.bind($ignt.IbcApplicationsTransferV1)
+
+  queryParams = queryParams.bind($ignt.IbcApplicationsTransferV1)
+
   return {
     $s,
 

@@ -23,6 +23,10 @@ function useModule({ $ignt }: Params): Response {
 
   let { sendMsgCreateVestingAccount } = $ignt.CosmosVestingV1Beta1
 
+  sendMsgCreateVestingAccount = sendMsgCreateVestingAccount.bind(
+    $ignt.CosmosVestingV1Beta1
+  )
+
   return {
     $s,
 

@@ -5,14 +5,14 @@ import { SigningStargateClient, DeliverTxResponse } from '@cosmjs/stargate'
 import { EncodeObject } from '@cosmjs/proto-signing'
 
 import { Api } from './rest'
-import { MsgBeginRedelegate } from './types/cosmos/staking/v1beta1/tx'
+import { MsgEditValidator } from './types/cosmos/staking/v1beta1/tx'
 import { MsgDelegate } from './types/cosmos/staking/v1beta1/tx'
 import { MsgCreateValidator } from './types/cosmos/staking/v1beta1/tx'
-import { MsgEditValidator } from './types/cosmos/staking/v1beta1/tx'
 import { MsgUndelegate } from './types/cosmos/staking/v1beta1/tx'
+import { MsgBeginRedelegate } from './types/cosmos/staking/v1beta1/tx'
 
-type sendMsgBeginRedelegateParams = {
-  value: MsgBeginRedelegate
+type sendMsgEditValidatorParams = {
+  value: MsgEditValidator
   fee?: StdFee
   memo?: string
 }
@@ -29,20 +29,20 @@ type sendMsgCreateValidatorParams = {
   memo?: string
 }
 
-type sendMsgEditValidatorParams = {
-  value: MsgEditValidator
-  fee?: StdFee
-  memo?: string
-}
-
 type sendMsgUndelegateParams = {
   value: MsgUndelegate
   fee?: StdFee
   memo?: string
 }
 
-type msgBeginRedelegateParams = {
+type sendMsgBeginRedelegateParams = {
   value: MsgBeginRedelegate
+  fee?: StdFee
+  memo?: string
+}
+
+type msgEditValidatorParams = {
+  value: MsgEditValidator
 }
 
 type msgDelegateParams = {
@@ -53,12 +53,12 @@ type msgCreateValidatorParams = {
   value: MsgCreateValidator
 }
 
-type msgEditValidatorParams = {
-  value: MsgEditValidator
-}
-
 type msgUndelegateParams = {
   value: MsgUndelegate
+}
+
+type msgBeginRedelegateParams = {
+  value: MsgBeginRedelegate
 }
 
 class Module extends Api<any> {
@@ -74,14 +74,14 @@ class Module extends Api<any> {
     this._address = address
   }
 
-  async sendMsgBeginRedelegate({
+  async sendMsgEditValidator({
     value,
     fee,
     memo
-  }: sendMsgBeginRedelegateParams): Promise<DeliverTxResponse> {
+  }: sendMsgEditValidatorParams): Promise<DeliverTxResponse> {
     try {
-      let msg = this.msgBeginRedelegate({
-        value: MsgBeginRedelegate.fromPartial(value)
+      let msg = this.msgEditValidator({
+        value: MsgEditValidator.fromPartial(value)
       })
       return await this._client.signAndBroadcast(
         this._address,
@@ -91,7 +91,7 @@ class Module extends Api<any> {
       )
     } catch (e: any) {
       throw new Error(
-        'TxClient:MsgBeginRedelegate:Send Could not broadcast Tx: ' + e.message
+        'TxClient:MsgEditValidator:Send Could not broadcast Tx: ' + e.message
       )
     }
   }
@@ -138,28 +138,6 @@ class Module extends Api<any> {
     }
   }
 
-  async sendMsgEditValidator({
-    value,
-    fee,
-    memo
-  }: sendMsgEditValidatorParams): Promise<DeliverTxResponse> {
-    try {
-      let msg = this.msgEditValidator({
-        value: MsgEditValidator.fromPartial(value)
-      })
-      return await this._client.signAndBroadcast(
-        this._address,
-        [msg],
-        fee ? fee : { amount: [], gas: '200000' },
-        memo
-      )
-    } catch (e: any) {
-      throw new Error(
-        'TxClient:MsgEditValidator:Send Could not broadcast Tx: ' + e.message
-      )
-    }
-  }
-
   async sendMsgUndelegate({
     value,
     fee,
@@ -180,15 +158,37 @@ class Module extends Api<any> {
     }
   }
 
-  msgBeginRedelegate({ value }: msgBeginRedelegateParams): EncodeObject {
+  async sendMsgBeginRedelegate({
+    value,
+    fee,
+    memo
+  }: sendMsgBeginRedelegateParams): Promise<DeliverTxResponse> {
+    try {
+      let msg = this.msgBeginRedelegate({
+        value: MsgBeginRedelegate.fromPartial(value)
+      })
+      return await this._client.signAndBroadcast(
+        this._address,
+        [msg],
+        fee ? fee : { amount: [], gas: '200000' },
+        memo
+      )
+    } catch (e: any) {
+      throw new Error(
+        'TxClient:MsgBeginRedelegate:Send Could not broadcast Tx: ' + e.message
+      )
+    }
+  }
+
+  msgEditValidator({ value }: msgEditValidatorParams): EncodeObject {
     try {
       return {
-        typeUrl: '/cosmos.staking.v1beta1.MsgBeginRedelegate',
-        value: MsgBeginRedelegate.fromPartial(value)
+        typeUrl: '/cosmos.staking.v1beta1.MsgEditValidator',
+        value: MsgEditValidator.fromPartial(value)
       }
     } catch (e: any) {
       throw new Error(
-        'TxClient:MsgBeginRedelegate:Create Could not create message: ' +
+        'TxClient:MsgEditValidator:Create Could not create message: ' +
           e.message
       )
     }
@@ -221,20 +221,6 @@ class Module extends Api<any> {
     }
   }
 
-  msgEditValidator({ value }: msgEditValidatorParams): EncodeObject {
-    try {
-      return {
-        typeUrl: '/cosmos.staking.v1beta1.MsgEditValidator',
-        value: MsgEditValidator.fromPartial(value)
-      }
-    } catch (e: any) {
-      throw new Error(
-        'TxClient:MsgEditValidator:Create Could not create message: ' +
-          e.message
-      )
-    }
-  }
-
   msgUndelegate({ value }: msgUndelegateParams): EncodeObject {
     try {
       return {
@@ -244,6 +230,20 @@ class Module extends Api<any> {
     } catch (e: any) {
       throw new Error(
         'TxClient:MsgUndelegate:Create Could not create message: ' + e.message
+      )
+    }
+  }
+
+  msgBeginRedelegate({ value }: msgBeginRedelegateParams): EncodeObject {
+    try {
+      return {
+        typeUrl: '/cosmos.staking.v1beta1.MsgBeginRedelegate',
+        value: MsgBeginRedelegate.fromPartial(value)
+      }
+    } catch (e: any) {
+      throw new Error(
+        'TxClient:MsgBeginRedelegate:Create Could not create message: ' +
+          e.message
       )
     }
   }

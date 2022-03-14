@@ -38,6 +38,14 @@ function useModule({ $ignt }: Params): Response {
     querySigningInfos
   } = $ignt.CosmosSlashingV1Beta1
 
+  sendMsgUnjail = sendMsgUnjail.bind($ignt.CosmosSlashingV1Beta1)
+
+  queryParams = queryParams.bind($ignt.CosmosSlashingV1Beta1)
+
+  querySigningInfo = querySigningInfo.bind($ignt.CosmosSlashingV1Beta1)
+
+  querySigningInfos = querySigningInfos.bind($ignt.CosmosSlashingV1Beta1)
+
   return {
     $s,
 

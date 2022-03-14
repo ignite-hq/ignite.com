@@ -57,6 +57,34 @@ function useModule({ $ignt }: Params): Response {
     queryMonitoringHistory
   } = $ignt.TendermintSpnMonitoringc
 
+  sendMsgCreateClient = sendMsgCreateClient.bind($ignt.TendermintSpnMonitoringc)
+
+  queryParams = queryParams.bind($ignt.TendermintSpnMonitoringc)
+
+  queryVerifiedClientIds = queryVerifiedClientIds.bind(
+    $ignt.TendermintSpnMonitoringc
+  )
+
+  queryProviderClientID = queryProviderClientID.bind(
+    $ignt.TendermintSpnMonitoringc
+  )
+
+  queryProviderClientIDAll = queryProviderClientIDAll.bind(
+    $ignt.TendermintSpnMonitoringc
+  )
+
+  queryLaunchIDFromChannelID = queryLaunchIDFromChannelID.bind(
+    $ignt.TendermintSpnMonitoringc
+  )
+
+  queryLaunchIDFromChannelIDAll = queryLaunchIDFromChannelIDAll.bind(
+    $ignt.TendermintSpnMonitoringc
+  )
+
+  queryMonitoringHistory = queryMonitoringHistory.bind(
+    $ignt.TendermintSpnMonitoringc
+  )
+
   return {
     $s,
 

@@ -5,68 +5,20 @@ import { SigningStargateClient, DeliverTxResponse } from '@cosmjs/stargate'
 import { EncodeObject } from '@cosmjs/proto-signing'
 
 import { Api } from './rest'
-import { MsgAddVestingOptions } from './types/campaign/tx'
-import { MsgUpdateTotalShares } from './types/campaign/tx'
-import { MsgEditCampaign } from './types/campaign/tx'
-import { MsgMintVouchers } from './types/campaign/tx'
-import { MsgAddShares } from './types/campaign/tx'
-import { MsgCreateCampaign } from './types/campaign/tx'
-import { MsgRedeemVouchers } from './types/campaign/tx'
-import { MsgUnredeemVouchers } from './types/campaign/tx'
-import { MsgBurnVouchers } from './types/campaign/tx'
-import { MsgInitializeMainnet } from './types/campaign/tx'
 import { MsgUpdateTotalSupply } from './types/campaign/tx'
+import { MsgInitializeMainnet } from './types/campaign/tx'
+import { MsgRedeemVouchers } from './types/campaign/tx'
+import { MsgEditCampaign } from './types/campaign/tx'
+import { MsgUnredeemVouchers } from './types/campaign/tx'
+import { MsgAddShares } from './types/campaign/tx'
+import { MsgBurnVouchers } from './types/campaign/tx'
+import { MsgUpdateTotalShares } from './types/campaign/tx'
+import { MsgAddVestingOptions } from './types/campaign/tx'
+import { MsgMintVouchers } from './types/campaign/tx'
+import { MsgCreateCampaign } from './types/campaign/tx'
 
-type sendMsgAddVestingOptionsParams = {
-  value: MsgAddVestingOptions
-  fee?: StdFee
-  memo?: string
-}
-
-type sendMsgUpdateTotalSharesParams = {
-  value: MsgUpdateTotalShares
-  fee?: StdFee
-  memo?: string
-}
-
-type sendMsgEditCampaignParams = {
-  value: MsgEditCampaign
-  fee?: StdFee
-  memo?: string
-}
-
-type sendMsgMintVouchersParams = {
-  value: MsgMintVouchers
-  fee?: StdFee
-  memo?: string
-}
-
-type sendMsgAddSharesParams = {
-  value: MsgAddShares
-  fee?: StdFee
-  memo?: string
-}
-
-type sendMsgCreateCampaignParams = {
-  value: MsgCreateCampaign
-  fee?: StdFee
-  memo?: string
-}
-
-type sendMsgRedeemVouchersParams = {
-  value: MsgRedeemVouchers
-  fee?: StdFee
-  memo?: string
-}
-
-type sendMsgUnredeemVouchersParams = {
-  value: MsgUnredeemVouchers
-  fee?: StdFee
-  memo?: string
-}
-
-type sendMsgBurnVouchersParams = {
-  value: MsgBurnVouchers
+type sendMsgUpdateTotalSupplyParams = {
+  value: MsgUpdateTotalSupply
   fee?: StdFee
   memo?: string
 }
@@ -77,54 +29,102 @@ type sendMsgInitializeMainnetParams = {
   memo?: string
 }
 
-type sendMsgUpdateTotalSupplyParams = {
-  value: MsgUpdateTotalSupply
+type sendMsgRedeemVouchersParams = {
+  value: MsgRedeemVouchers
   fee?: StdFee
   memo?: string
 }
 
-type msgAddVestingOptionsParams = {
-  value: MsgAddVestingOptions
-}
-
-type msgUpdateTotalSharesParams = {
-  value: MsgUpdateTotalShares
-}
-
-type msgEditCampaignParams = {
+type sendMsgEditCampaignParams = {
   value: MsgEditCampaign
+  fee?: StdFee
+  memo?: string
 }
 
-type msgMintVouchersParams = {
-  value: MsgMintVouchers
-}
-
-type msgAddSharesParams = {
-  value: MsgAddShares
-}
-
-type msgCreateCampaignParams = {
-  value: MsgCreateCampaign
-}
-
-type msgRedeemVouchersParams = {
-  value: MsgRedeemVouchers
-}
-
-type msgUnredeemVouchersParams = {
+type sendMsgUnredeemVouchersParams = {
   value: MsgUnredeemVouchers
+  fee?: StdFee
+  memo?: string
 }
 
-type msgBurnVouchersParams = {
+type sendMsgAddSharesParams = {
+  value: MsgAddShares
+  fee?: StdFee
+  memo?: string
+}
+
+type sendMsgBurnVouchersParams = {
   value: MsgBurnVouchers
+  fee?: StdFee
+  memo?: string
+}
+
+type sendMsgUpdateTotalSharesParams = {
+  value: MsgUpdateTotalShares
+  fee?: StdFee
+  memo?: string
+}
+
+type sendMsgAddVestingOptionsParams = {
+  value: MsgAddVestingOptions
+  fee?: StdFee
+  memo?: string
+}
+
+type sendMsgMintVouchersParams = {
+  value: MsgMintVouchers
+  fee?: StdFee
+  memo?: string
+}
+
+type sendMsgCreateCampaignParams = {
+  value: MsgCreateCampaign
+  fee?: StdFee
+  memo?: string
+}
+
+type msgUpdateTotalSupplyParams = {
+  value: MsgUpdateTotalSupply
 }
 
 type msgInitializeMainnetParams = {
   value: MsgInitializeMainnet
 }
 
-type msgUpdateTotalSupplyParams = {
-  value: MsgUpdateTotalSupply
+type msgRedeemVouchersParams = {
+  value: MsgRedeemVouchers
+}
+
+type msgEditCampaignParams = {
+  value: MsgEditCampaign
+}
+
+type msgUnredeemVouchersParams = {
+  value: MsgUnredeemVouchers
+}
+
+type msgAddSharesParams = {
+  value: MsgAddShares
+}
+
+type msgBurnVouchersParams = {
+  value: MsgBurnVouchers
+}
+
+type msgUpdateTotalSharesParams = {
+  value: MsgUpdateTotalShares
+}
+
+type msgAddVestingOptionsParams = {
+  value: MsgAddVestingOptions
+}
+
+type msgMintVouchersParams = {
+  value: MsgMintVouchers
+}
+
+type msgCreateCampaignParams = {
+  value: MsgCreateCampaign
 }
 
 class Module extends Api<any> {
@@ -140,14 +140,14 @@ class Module extends Api<any> {
     this._address = address
   }
 
-  async sendMsgAddVestingOptions({
+  async sendMsgUpdateTotalSupply({
     value,
     fee,
     memo
-  }: sendMsgAddVestingOptionsParams): Promise<DeliverTxResponse> {
+  }: sendMsgUpdateTotalSupplyParams): Promise<DeliverTxResponse> {
     try {
-      let msg = this.msgAddVestingOptions({
-        value: MsgAddVestingOptions.fromPartial(value)
+      let msg = this.msgUpdateTotalSupply({
+        value: MsgUpdateTotalSupply.fromPartial(value)
       })
       return await this._client.signAndBroadcast(
         this._address,
@@ -157,183 +157,8 @@ class Module extends Api<any> {
       )
     } catch (e: any) {
       throw new Error(
-        'TxClient:MsgAddVestingOptions:Send Could not broadcast Tx: ' +
+        'TxClient:MsgUpdateTotalSupply:Send Could not broadcast Tx: ' +
           e.message
-      )
-    }
-  }
-
-  async sendMsgUpdateTotalShares({
-    value,
-    fee,
-    memo
-  }: sendMsgUpdateTotalSharesParams): Promise<DeliverTxResponse> {
-    try {
-      let msg = this.msgUpdateTotalShares({
-        value: MsgUpdateTotalShares.fromPartial(value)
-      })
-      return await this._client.signAndBroadcast(
-        this._address,
-        [msg],
-        fee ? fee : { amount: [], gas: '200000' },
-        memo
-      )
-    } catch (e: any) {
-      throw new Error(
-        'TxClient:MsgUpdateTotalShares:Send Could not broadcast Tx: ' +
-          e.message
-      )
-    }
-  }
-
-  async sendMsgEditCampaign({
-    value,
-    fee,
-    memo
-  }: sendMsgEditCampaignParams): Promise<DeliverTxResponse> {
-    try {
-      let msg = this.msgEditCampaign({
-        value: MsgEditCampaign.fromPartial(value)
-      })
-      return await this._client.signAndBroadcast(
-        this._address,
-        [msg],
-        fee ? fee : { amount: [], gas: '200000' },
-        memo
-      )
-    } catch (e: any) {
-      throw new Error(
-        'TxClient:MsgEditCampaign:Send Could not broadcast Tx: ' + e.message
-      )
-    }
-  }
-
-  async sendMsgMintVouchers({
-    value,
-    fee,
-    memo
-  }: sendMsgMintVouchersParams): Promise<DeliverTxResponse> {
-    try {
-      let msg = this.msgMintVouchers({
-        value: MsgMintVouchers.fromPartial(value)
-      })
-      return await this._client.signAndBroadcast(
-        this._address,
-        [msg],
-        fee ? fee : { amount: [], gas: '200000' },
-        memo
-      )
-    } catch (e: any) {
-      throw new Error(
-        'TxClient:MsgMintVouchers:Send Could not broadcast Tx: ' + e.message
-      )
-    }
-  }
-
-  async sendMsgAddShares({
-    value,
-    fee,
-    memo
-  }: sendMsgAddSharesParams): Promise<DeliverTxResponse> {
-    try {
-      let msg = this.msgAddShares({ value: MsgAddShares.fromPartial(value) })
-      return await this._client.signAndBroadcast(
-        this._address,
-        [msg],
-        fee ? fee : { amount: [], gas: '200000' },
-        memo
-      )
-    } catch (e: any) {
-      throw new Error(
-        'TxClient:MsgAddShares:Send Could not broadcast Tx: ' + e.message
-      )
-    }
-  }
-
-  async sendMsgCreateCampaign({
-    value,
-    fee,
-    memo
-  }: sendMsgCreateCampaignParams): Promise<DeliverTxResponse> {
-    try {
-      let msg = this.msgCreateCampaign({
-        value: MsgCreateCampaign.fromPartial(value)
-      })
-      return await this._client.signAndBroadcast(
-        this._address,
-        [msg],
-        fee ? fee : { amount: [], gas: '200000' },
-        memo
-      )
-    } catch (e: any) {
-      throw new Error(
-        'TxClient:MsgCreateCampaign:Send Could not broadcast Tx: ' + e.message
-      )
-    }
-  }
-
-  async sendMsgRedeemVouchers({
-    value,
-    fee,
-    memo
-  }: sendMsgRedeemVouchersParams): Promise<DeliverTxResponse> {
-    try {
-      let msg = this.msgRedeemVouchers({
-        value: MsgRedeemVouchers.fromPartial(value)
-      })
-      return await this._client.signAndBroadcast(
-        this._address,
-        [msg],
-        fee ? fee : { amount: [], gas: '200000' },
-        memo
-      )
-    } catch (e: any) {
-      throw new Error(
-        'TxClient:MsgRedeemVouchers:Send Could not broadcast Tx: ' + e.message
-      )
-    }
-  }
-
-  async sendMsgUnredeemVouchers({
-    value,
-    fee,
-    memo
-  }: sendMsgUnredeemVouchersParams): Promise<DeliverTxResponse> {
-    try {
-      let msg = this.msgUnredeemVouchers({
-        value: MsgUnredeemVouchers.fromPartial(value)
-      })
-      return await this._client.signAndBroadcast(
-        this._address,
-        [msg],
-        fee ? fee : { amount: [], gas: '200000' },
-        memo
-      )
-    } catch (e: any) {
-      throw new Error(
-        'TxClient:MsgUnredeemVouchers:Send Could not broadcast Tx: ' + e.message
-      )
-    }
-  }
-
-  async sendMsgBurnVouchers({
-    value,
-    fee,
-    memo
-  }: sendMsgBurnVouchersParams): Promise<DeliverTxResponse> {
-    try {
-      let msg = this.msgBurnVouchers({
-        value: MsgBurnVouchers.fromPartial(value)
-      })
-      return await this._client.signAndBroadcast(
-        this._address,
-        [msg],
-        fee ? fee : { amount: [], gas: '200000' },
-        memo
-      )
-    } catch (e: any) {
-      throw new Error(
-        'TxClient:MsgBurnVouchers:Send Could not broadcast Tx: ' + e.message
       )
     }
   }
@@ -361,14 +186,14 @@ class Module extends Api<any> {
     }
   }
 
-  async sendMsgUpdateTotalSupply({
+  async sendMsgRedeemVouchers({
     value,
     fee,
     memo
-  }: sendMsgUpdateTotalSupplyParams): Promise<DeliverTxResponse> {
+  }: sendMsgRedeemVouchersParams): Promise<DeliverTxResponse> {
     try {
-      let msg = this.msgUpdateTotalSupply({
-        value: MsgUpdateTotalSupply.fromPartial(value)
+      let msg = this.msgRedeemVouchers({
+        value: MsgRedeemVouchers.fromPartial(value)
       })
       return await this._client.signAndBroadcast(
         this._address,
@@ -378,88 +203,210 @@ class Module extends Api<any> {
       )
     } catch (e: any) {
       throw new Error(
-        'TxClient:MsgUpdateTotalSupply:Send Could not broadcast Tx: ' +
-          e.message
+        'TxClient:MsgRedeemVouchers:Send Could not broadcast Tx: ' + e.message
       )
     }
   }
 
-  msgAddVestingOptions({ value }: msgAddVestingOptionsParams): EncodeObject {
+  async sendMsgEditCampaign({
+    value,
+    fee,
+    memo
+  }: sendMsgEditCampaignParams): Promise<DeliverTxResponse> {
     try {
-      return {
-        typeUrl: '/tendermint.spn.campaign.MsgAddVestingOptions',
-        value: MsgAddVestingOptions.fromPartial(value)
-      }
-    } catch (e: any) {
-      throw new Error(
-        'TxClient:MsgAddVestingOptions:Create Could not create message: ' +
-          e.message
-      )
-    }
-  }
-
-  msgUpdateTotalShares({ value }: msgUpdateTotalSharesParams): EncodeObject {
-    try {
-      return {
-        typeUrl: '/tendermint.spn.campaign.MsgUpdateTotalShares',
-        value: MsgUpdateTotalShares.fromPartial(value)
-      }
-    } catch (e: any) {
-      throw new Error(
-        'TxClient:MsgUpdateTotalShares:Create Could not create message: ' +
-          e.message
-      )
-    }
-  }
-
-  msgEditCampaign({ value }: msgEditCampaignParams): EncodeObject {
-    try {
-      return {
-        typeUrl: '/tendermint.spn.campaign.MsgEditCampaign',
+      let msg = this.msgEditCampaign({
         value: MsgEditCampaign.fromPartial(value)
-      }
+      })
+      return await this._client.signAndBroadcast(
+        this._address,
+        [msg],
+        fee ? fee : { amount: [], gas: '200000' },
+        memo
+      )
     } catch (e: any) {
       throw new Error(
-        'TxClient:MsgEditCampaign:Create Could not create message: ' + e.message
+        'TxClient:MsgEditCampaign:Send Could not broadcast Tx: ' + e.message
       )
     }
   }
 
-  msgMintVouchers({ value }: msgMintVouchersParams): EncodeObject {
+  async sendMsgUnredeemVouchers({
+    value,
+    fee,
+    memo
+  }: sendMsgUnredeemVouchersParams): Promise<DeliverTxResponse> {
     try {
-      return {
-        typeUrl: '/tendermint.spn.campaign.MsgMintVouchers',
+      let msg = this.msgUnredeemVouchers({
+        value: MsgUnredeemVouchers.fromPartial(value)
+      })
+      return await this._client.signAndBroadcast(
+        this._address,
+        [msg],
+        fee ? fee : { amount: [], gas: '200000' },
+        memo
+      )
+    } catch (e: any) {
+      throw new Error(
+        'TxClient:MsgUnredeemVouchers:Send Could not broadcast Tx: ' + e.message
+      )
+    }
+  }
+
+  async sendMsgAddShares({
+    value,
+    fee,
+    memo
+  }: sendMsgAddSharesParams): Promise<DeliverTxResponse> {
+    try {
+      let msg = this.msgAddShares({ value: MsgAddShares.fromPartial(value) })
+      return await this._client.signAndBroadcast(
+        this._address,
+        [msg],
+        fee ? fee : { amount: [], gas: '200000' },
+        memo
+      )
+    } catch (e: any) {
+      throw new Error(
+        'TxClient:MsgAddShares:Send Could not broadcast Tx: ' + e.message
+      )
+    }
+  }
+
+  async sendMsgBurnVouchers({
+    value,
+    fee,
+    memo
+  }: sendMsgBurnVouchersParams): Promise<DeliverTxResponse> {
+    try {
+      let msg = this.msgBurnVouchers({
+        value: MsgBurnVouchers.fromPartial(value)
+      })
+      return await this._client.signAndBroadcast(
+        this._address,
+        [msg],
+        fee ? fee : { amount: [], gas: '200000' },
+        memo
+      )
+    } catch (e: any) {
+      throw new Error(
+        'TxClient:MsgBurnVouchers:Send Could not broadcast Tx: ' + e.message
+      )
+    }
+  }
+
+  async sendMsgUpdateTotalShares({
+    value,
+    fee,
+    memo
+  }: sendMsgUpdateTotalSharesParams): Promise<DeliverTxResponse> {
+    try {
+      let msg = this.msgUpdateTotalShares({
+        value: MsgUpdateTotalShares.fromPartial(value)
+      })
+      return await this._client.signAndBroadcast(
+        this._address,
+        [msg],
+        fee ? fee : { amount: [], gas: '200000' },
+        memo
+      )
+    } catch (e: any) {
+      throw new Error(
+        'TxClient:MsgUpdateTotalShares:Send Could not broadcast Tx: ' +
+          e.message
+      )
+    }
+  }
+
+  async sendMsgAddVestingOptions({
+    value,
+    fee,
+    memo
+  }: sendMsgAddVestingOptionsParams): Promise<DeliverTxResponse> {
+    try {
+      let msg = this.msgAddVestingOptions({
+        value: MsgAddVestingOptions.fromPartial(value)
+      })
+      return await this._client.signAndBroadcast(
+        this._address,
+        [msg],
+        fee ? fee : { amount: [], gas: '200000' },
+        memo
+      )
+    } catch (e: any) {
+      throw new Error(
+        'TxClient:MsgAddVestingOptions:Send Could not broadcast Tx: ' +
+          e.message
+      )
+    }
+  }
+
+  async sendMsgMintVouchers({
+    value,
+    fee,
+    memo
+  }: sendMsgMintVouchersParams): Promise<DeliverTxResponse> {
+    try {
+      let msg = this.msgMintVouchers({
         value: MsgMintVouchers.fromPartial(value)
-      }
+      })
+      return await this._client.signAndBroadcast(
+        this._address,
+        [msg],
+        fee ? fee : { amount: [], gas: '200000' },
+        memo
+      )
     } catch (e: any) {
       throw new Error(
-        'TxClient:MsgMintVouchers:Create Could not create message: ' + e.message
+        'TxClient:MsgMintVouchers:Send Could not broadcast Tx: ' + e.message
       )
     }
   }
 
-  msgAddShares({ value }: msgAddSharesParams): EncodeObject {
+  async sendMsgCreateCampaign({
+    value,
+    fee,
+    memo
+  }: sendMsgCreateCampaignParams): Promise<DeliverTxResponse> {
     try {
-      return {
-        typeUrl: '/tendermint.spn.campaign.MsgAddShares',
-        value: MsgAddShares.fromPartial(value)
-      }
-    } catch (e: any) {
-      throw new Error(
-        'TxClient:MsgAddShares:Create Could not create message: ' + e.message
-      )
-    }
-  }
-
-  msgCreateCampaign({ value }: msgCreateCampaignParams): EncodeObject {
-    try {
-      return {
-        typeUrl: '/tendermint.spn.campaign.MsgCreateCampaign',
+      let msg = this.msgCreateCampaign({
         value: MsgCreateCampaign.fromPartial(value)
+      })
+      return await this._client.signAndBroadcast(
+        this._address,
+        [msg],
+        fee ? fee : { amount: [], gas: '200000' },
+        memo
+      )
+    } catch (e: any) {
+      throw new Error(
+        'TxClient:MsgCreateCampaign:Send Could not broadcast Tx: ' + e.message
+      )
+    }
+  }
+
+  msgUpdateTotalSupply({ value }: msgUpdateTotalSupplyParams): EncodeObject {
+    try {
+      return {
+        typeUrl: '/tendermint.spn.campaign.MsgUpdateTotalSupply',
+        value: MsgUpdateTotalSupply.fromPartial(value)
       }
     } catch (e: any) {
       throw new Error(
-        'TxClient:MsgCreateCampaign:Create Could not create message: ' +
+        'TxClient:MsgUpdateTotalSupply:Create Could not create message: ' +
+          e.message
+      )
+    }
+  }
+
+  msgInitializeMainnet({ value }: msgInitializeMainnetParams): EncodeObject {
+    try {
+      return {
+        typeUrl: '/tendermint.spn.campaign.MsgInitializeMainnet',
+        value: MsgInitializeMainnet.fromPartial(value)
+      }
+    } catch (e: any) {
+      throw new Error(
+        'TxClient:MsgInitializeMainnet:Create Could not create message: ' +
           e.message
       )
     }
@@ -479,6 +426,19 @@ class Module extends Api<any> {
     }
   }
 
+  msgEditCampaign({ value }: msgEditCampaignParams): EncodeObject {
+    try {
+      return {
+        typeUrl: '/tendermint.spn.campaign.MsgEditCampaign',
+        value: MsgEditCampaign.fromPartial(value)
+      }
+    } catch (e: any) {
+      throw new Error(
+        'TxClient:MsgEditCampaign:Create Could not create message: ' + e.message
+      )
+    }
+  }
+
   msgUnredeemVouchers({ value }: msgUnredeemVouchersParams): EncodeObject {
     try {
       return {
@@ -489,6 +449,19 @@ class Module extends Api<any> {
       throw new Error(
         'TxClient:MsgUnredeemVouchers:Create Could not create message: ' +
           e.message
+      )
+    }
+  }
+
+  msgAddShares({ value }: msgAddSharesParams): EncodeObject {
+    try {
+      return {
+        typeUrl: '/tendermint.spn.campaign.MsgAddShares',
+        value: MsgAddShares.fromPartial(value)
+      }
+    } catch (e: any) {
+      throw new Error(
+        'TxClient:MsgAddShares:Create Could not create message: ' + e.message
       )
     }
   }
@@ -506,29 +479,56 @@ class Module extends Api<any> {
     }
   }
 
-  msgInitializeMainnet({ value }: msgInitializeMainnetParams): EncodeObject {
+  msgUpdateTotalShares({ value }: msgUpdateTotalSharesParams): EncodeObject {
     try {
       return {
-        typeUrl: '/tendermint.spn.campaign.MsgInitializeMainnet',
-        value: MsgInitializeMainnet.fromPartial(value)
+        typeUrl: '/tendermint.spn.campaign.MsgUpdateTotalShares',
+        value: MsgUpdateTotalShares.fromPartial(value)
       }
     } catch (e: any) {
       throw new Error(
-        'TxClient:MsgInitializeMainnet:Create Could not create message: ' +
+        'TxClient:MsgUpdateTotalShares:Create Could not create message: ' +
           e.message
       )
     }
   }
 
-  msgUpdateTotalSupply({ value }: msgUpdateTotalSupplyParams): EncodeObject {
+  msgAddVestingOptions({ value }: msgAddVestingOptionsParams): EncodeObject {
     try {
       return {
-        typeUrl: '/tendermint.spn.campaign.MsgUpdateTotalSupply',
-        value: MsgUpdateTotalSupply.fromPartial(value)
+        typeUrl: '/tendermint.spn.campaign.MsgAddVestingOptions',
+        value: MsgAddVestingOptions.fromPartial(value)
       }
     } catch (e: any) {
       throw new Error(
-        'TxClient:MsgUpdateTotalSupply:Create Could not create message: ' +
+        'TxClient:MsgAddVestingOptions:Create Could not create message: ' +
+          e.message
+      )
+    }
+  }
+
+  msgMintVouchers({ value }: msgMintVouchersParams): EncodeObject {
+    try {
+      return {
+        typeUrl: '/tendermint.spn.campaign.MsgMintVouchers',
+        value: MsgMintVouchers.fromPartial(value)
+      }
+    } catch (e: any) {
+      throw new Error(
+        'TxClient:MsgMintVouchers:Create Could not create message: ' + e.message
+      )
+    }
+  }
+
+  msgCreateCampaign({ value }: msgCreateCampaignParams): EncodeObject {
+    try {
+      return {
+        typeUrl: '/tendermint.spn.campaign.MsgCreateCampaign',
+        value: MsgCreateCampaign.fromPartial(value)
+      }
+    } catch (e: any) {
+      throw new Error(
+        'TxClient:MsgCreateCampaign:Create Could not create message: ' +
           e.message
       )
     }

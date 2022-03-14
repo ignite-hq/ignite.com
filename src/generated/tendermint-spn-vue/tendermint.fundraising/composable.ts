@@ -6,14 +6,14 @@ import { usePiniaStore, PiniaState } from './'
 import { Ignite } from 'tendermint-spn-ts-client'
 import Module from 'tendermint-spn-ts-client/tendermint.fundraising/module'
 
-type SendMsgCancelAuctionType = typeof Module.prototype.sendMsgCancelAuction
-type SendMsgCreateEnglishAuctionType =
-  typeof Module.prototype.sendMsgCreateEnglishAuction
-type SendMsgAddAllowedBidderType =
-  typeof Module.prototype.sendMsgAddAllowedBidder
 type SendMsgCreateFixedPriceAuctionType =
   typeof Module.prototype.sendMsgCreateFixedPriceAuction
+type SendMsgCreateEnglishAuctionType =
+  typeof Module.prototype.sendMsgCreateEnglishAuction
+type SendMsgCancelAuctionType = typeof Module.prototype.sendMsgCancelAuction
 type SendMsgPlaceBidType = typeof Module.prototype.sendMsgPlaceBid
+type SendMsgAddAllowedBidderType =
+  typeof Module.prototype.sendMsgAddAllowedBidder
 
 type QueryParamsType = typeof Module.prototype.queryParams
 type QueryAuctionsType = typeof Module.prototype.queryAuctions
@@ -24,11 +24,11 @@ type QueryVestingsType = typeof Module.prototype.queryVestings
 
 type Response = {
   $s: Store<'tendermint.fundraising', PiniaState, {}, {}>
-  sendMsgCancelAuction: SendMsgCancelAuctionType
-  sendMsgCreateEnglishAuction: SendMsgCreateEnglishAuctionType
-  sendMsgAddAllowedBidder: SendMsgAddAllowedBidderType
   sendMsgCreateFixedPriceAuction: SendMsgCreateFixedPriceAuctionType
+  sendMsgCreateEnglishAuction: SendMsgCreateEnglishAuctionType
+  sendMsgCancelAuction: SendMsgCancelAuctionType
   sendMsgPlaceBid: SendMsgPlaceBidType
+  sendMsgAddAllowedBidder: SendMsgAddAllowedBidderType
 
   queryParams: QueryParamsType
   queryAuctions: QueryAuctionsType
@@ -46,15 +46,15 @@ function useModule({ $ignt }: Params): Response {
   let $s = usePiniaStore()
 
   let {
-    sendMsgCancelAuction,
+    sendMsgCreateFixedPriceAuction,
 
     sendMsgCreateEnglishAuction,
 
-    sendMsgAddAllowedBidder,
-
-    sendMsgCreateFixedPriceAuction,
+    sendMsgCancelAuction,
 
     sendMsgPlaceBid,
+
+    sendMsgAddAllowedBidder,
 
     queryParams,
 
@@ -69,18 +69,46 @@ function useModule({ $ignt }: Params): Response {
     queryVestings
   } = $ignt.TendermintFundraising
 
+  sendMsgCreateFixedPriceAuction = sendMsgCreateFixedPriceAuction.bind(
+    $ignt.TendermintFundraising
+  )
+
+  sendMsgCreateEnglishAuction = sendMsgCreateEnglishAuction.bind(
+    $ignt.TendermintFundraising
+  )
+
+  sendMsgCancelAuction = sendMsgCancelAuction.bind($ignt.TendermintFundraising)
+
+  sendMsgPlaceBid = sendMsgPlaceBid.bind($ignt.TendermintFundraising)
+
+  sendMsgAddAllowedBidder = sendMsgAddAllowedBidder.bind(
+    $ignt.TendermintFundraising
+  )
+
+  queryParams = queryParams.bind($ignt.TendermintFundraising)
+
+  queryAuctions = queryAuctions.bind($ignt.TendermintFundraising)
+
+  queryAuction = queryAuction.bind($ignt.TendermintFundraising)
+
+  queryBids = queryBids.bind($ignt.TendermintFundraising)
+
+  queryBid = queryBid.bind($ignt.TendermintFundraising)
+
+  queryVestings = queryVestings.bind($ignt.TendermintFundraising)
+
   return {
     $s,
 
-    sendMsgCancelAuction,
+    sendMsgCreateFixedPriceAuction,
 
     sendMsgCreateEnglishAuction,
 
-    sendMsgAddAllowedBidder,
-
-    sendMsgCreateFixedPriceAuction,
+    sendMsgCancelAuction,
 
     sendMsgPlaceBid,
+
+    sendMsgAddAllowedBidder,
 
     queryParams,
 

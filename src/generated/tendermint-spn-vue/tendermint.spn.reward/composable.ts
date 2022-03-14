@@ -38,6 +38,14 @@ function useModule({ $ignt }: Params): Response {
     queryRewardPoolAll
   } = $ignt.TendermintSpnReward
 
+  sendMsgSetRewards = sendMsgSetRewards.bind($ignt.TendermintSpnReward)
+
+  queryParams = queryParams.bind($ignt.TendermintSpnReward)
+
+  queryRewardPool = queryRewardPool.bind($ignt.TendermintSpnReward)
+
+  queryRewardPoolAll = queryRewardPoolAll.bind($ignt.TendermintSpnReward)
+
   return {
     $s,
 

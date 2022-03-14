@@ -38,6 +38,18 @@ function useModule({ $ignt }: Params): Response {
     queryAllowances
   } = $ignt.CosmosFeegrantV1Beta1
 
+  sendMsgGrantAllowance = sendMsgGrantAllowance.bind(
+    $ignt.CosmosFeegrantV1Beta1
+  )
+
+  sendMsgRevokeAllowance = sendMsgRevokeAllowance.bind(
+    $ignt.CosmosFeegrantV1Beta1
+  )
+
+  queryAllowance = queryAllowance.bind($ignt.CosmosFeegrantV1Beta1)
+
+  queryAllowances = queryAllowances.bind($ignt.CosmosFeegrantV1Beta1)
+
   return {
     $s,
 

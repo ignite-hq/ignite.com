@@ -70,6 +70,30 @@ function useModule({ $ignt }: Params): Response {
     queryTallyResult
   } = $ignt.CosmosGovV1Beta1
 
+  sendMsgSubmitProposal = sendMsgSubmitProposal.bind($ignt.CosmosGovV1Beta1)
+
+  sendMsgDeposit = sendMsgDeposit.bind($ignt.CosmosGovV1Beta1)
+
+  sendMsgVote = sendMsgVote.bind($ignt.CosmosGovV1Beta1)
+
+  sendMsgVoteWeighted = sendMsgVoteWeighted.bind($ignt.CosmosGovV1Beta1)
+
+  queryProposal = queryProposal.bind($ignt.CosmosGovV1Beta1)
+
+  queryProposals = queryProposals.bind($ignt.CosmosGovV1Beta1)
+
+  queryVote = queryVote.bind($ignt.CosmosGovV1Beta1)
+
+  queryVotes = queryVotes.bind($ignt.CosmosGovV1Beta1)
+
+  queryParams = queryParams.bind($ignt.CosmosGovV1Beta1)
+
+  queryDeposit = queryDeposit.bind($ignt.CosmosGovV1Beta1)
+
+  queryDeposits = queryDeposits.bind($ignt.CosmosGovV1Beta1)
+
+  queryTallyResult = queryTallyResult.bind($ignt.CosmosGovV1Beta1)
+
   return {
     $s,
 

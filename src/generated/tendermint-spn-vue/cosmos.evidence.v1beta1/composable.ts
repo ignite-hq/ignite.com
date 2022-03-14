@@ -34,6 +34,14 @@ function useModule({ $ignt }: Params): Response {
     queryAllEvidence
   } = $ignt.CosmosEvidenceV1Beta1
 
+  sendMsgSubmitEvidence = sendMsgSubmitEvidence.bind(
+    $ignt.CosmosEvidenceV1Beta1
+  )
+
+  queryEvidence = queryEvidence.bind($ignt.CosmosEvidenceV1Beta1)
+
+  queryAllEvidence = queryAllEvidence.bind($ignt.CosmosEvidenceV1Beta1)
+
   return {
     $s,
 

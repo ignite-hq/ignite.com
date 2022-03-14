@@ -6,8 +6,8 @@ import { usePiniaStore, PiniaState } from './'
 import { Ignite } from 'tendermint-spn-ts-client'
 import Module from 'tendermint-spn-ts-client/cosmos.bank.v1beta1/module'
 
-type SendMsgSendType = typeof Module.prototype.sendMsgSend
 type SendMsgMultiSendType = typeof Module.prototype.sendMsgMultiSend
+type SendMsgSendType = typeof Module.prototype.sendMsgSend
 
 type QueryBalanceType = typeof Module.prototype.queryBalance
 type QueryAllBalancesType = typeof Module.prototype.queryAllBalances
@@ -19,8 +19,8 @@ type QueryDenomsMetadataType = typeof Module.prototype.queryDenomsMetadata
 
 type Response = {
   $s: Store<'cosmos.bank.v1beta1', PiniaState, {}, {}>
-  sendMsgSend: SendMsgSendType
   sendMsgMultiSend: SendMsgMultiSendType
+  sendMsgSend: SendMsgSendType
 
   queryBalance: QueryBalanceType
   queryAllBalances: QueryAllBalancesType
@@ -39,9 +39,9 @@ function useModule({ $ignt }: Params): Response {
   let $s = usePiniaStore()
 
   let {
-    sendMsgSend,
-
     sendMsgMultiSend,
+
+    sendMsgSend,
 
     queryBalance,
 
@@ -58,12 +58,30 @@ function useModule({ $ignt }: Params): Response {
     queryDenomsMetadata
   } = $ignt.CosmosBankV1Beta1
 
+  sendMsgMultiSend = sendMsgMultiSend.bind($ignt.CosmosBankV1Beta1)
+
+  sendMsgSend = sendMsgSend.bind($ignt.CosmosBankV1Beta1)
+
+  queryBalance = queryBalance.bind($ignt.CosmosBankV1Beta1)
+
+  queryAllBalances = queryAllBalances.bind($ignt.CosmosBankV1Beta1)
+
+  queryTotalSupply = queryTotalSupply.bind($ignt.CosmosBankV1Beta1)
+
+  querySupplyOf = querySupplyOf.bind($ignt.CosmosBankV1Beta1)
+
+  queryParams = queryParams.bind($ignt.CosmosBankV1Beta1)
+
+  queryDenomMetadata = queryDenomMetadata.bind($ignt.CosmosBankV1Beta1)
+
+  queryDenomsMetadata = queryDenomsMetadata.bind($ignt.CosmosBankV1Beta1)
+
   return {
     $s,
 
-    sendMsgSend,
-
     sendMsgMultiSend,
+
+    sendMsgSend,
 
     queryBalance,
 

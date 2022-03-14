@@ -8,12 +8,12 @@ import Module from 'tendermint-spn-ts-client/cosmos.distribution.v1beta1/module'
 
 type SendMsgWithdrawDelegatorRewardType =
   typeof Module.prototype.sendMsgWithdrawDelegatorReward
+type SendMsgWithdrawValidatorCommissionType =
+  typeof Module.prototype.sendMsgWithdrawValidatorCommission
 type SendMsgSetWithdrawAddressType =
   typeof Module.prototype.sendMsgSetWithdrawAddress
 type SendMsgFundCommunityPoolType =
   typeof Module.prototype.sendMsgFundCommunityPool
-type SendMsgWithdrawValidatorCommissionType =
-  typeof Module.prototype.sendMsgWithdrawValidatorCommission
 
 type QueryParamsType = typeof Module.prototype.queryParams
 type QueryValidatorOutstandingRewardsType =
@@ -33,9 +33,9 @@ type QueryCommunityPoolType = typeof Module.prototype.queryCommunityPool
 type Response = {
   $s: Store<'cosmos.distribution.v1beta1', PiniaState, {}, {}>
   sendMsgWithdrawDelegatorReward: SendMsgWithdrawDelegatorRewardType
+  sendMsgWithdrawValidatorCommission: SendMsgWithdrawValidatorCommissionType
   sendMsgSetWithdrawAddress: SendMsgSetWithdrawAddressType
   sendMsgFundCommunityPool: SendMsgFundCommunityPoolType
-  sendMsgWithdrawValidatorCommission: SendMsgWithdrawValidatorCommissionType
 
   queryParams: QueryParamsType
   queryValidatorOutstandingRewards: QueryValidatorOutstandingRewardsType
@@ -58,11 +58,11 @@ function useModule({ $ignt }: Params): Response {
   let {
     sendMsgWithdrawDelegatorReward,
 
+    sendMsgWithdrawValidatorCommission,
+
     sendMsgSetWithdrawAddress,
 
     sendMsgFundCommunityPool,
-
-    sendMsgWithdrawValidatorCommission,
 
     queryParams,
 
@@ -83,16 +83,64 @@ function useModule({ $ignt }: Params): Response {
     queryCommunityPool
   } = $ignt.CosmosDistributionV1Beta1
 
+  sendMsgWithdrawDelegatorReward = sendMsgWithdrawDelegatorReward.bind(
+    $ignt.CosmosDistributionV1Beta1
+  )
+
+  sendMsgWithdrawValidatorCommission = sendMsgWithdrawValidatorCommission.bind(
+    $ignt.CosmosDistributionV1Beta1
+  )
+
+  sendMsgSetWithdrawAddress = sendMsgSetWithdrawAddress.bind(
+    $ignt.CosmosDistributionV1Beta1
+  )
+
+  sendMsgFundCommunityPool = sendMsgFundCommunityPool.bind(
+    $ignt.CosmosDistributionV1Beta1
+  )
+
+  queryParams = queryParams.bind($ignt.CosmosDistributionV1Beta1)
+
+  queryValidatorOutstandingRewards = queryValidatorOutstandingRewards.bind(
+    $ignt.CosmosDistributionV1Beta1
+  )
+
+  queryValidatorCommission = queryValidatorCommission.bind(
+    $ignt.CosmosDistributionV1Beta1
+  )
+
+  queryValidatorSlashes = queryValidatorSlashes.bind(
+    $ignt.CosmosDistributionV1Beta1
+  )
+
+  queryDelegationRewards = queryDelegationRewards.bind(
+    $ignt.CosmosDistributionV1Beta1
+  )
+
+  queryDelegationTotalRewards = queryDelegationTotalRewards.bind(
+    $ignt.CosmosDistributionV1Beta1
+  )
+
+  queryDelegatorValidators = queryDelegatorValidators.bind(
+    $ignt.CosmosDistributionV1Beta1
+  )
+
+  queryDelegatorWithdrawAddress = queryDelegatorWithdrawAddress.bind(
+    $ignt.CosmosDistributionV1Beta1
+  )
+
+  queryCommunityPool = queryCommunityPool.bind($ignt.CosmosDistributionV1Beta1)
+
   return {
     $s,
 
     sendMsgWithdrawDelegatorReward,
 
+    sendMsgWithdrawValidatorCommission,
+
     sendMsgSetWithdrawAddress,
 
     sendMsgFundCommunityPool,
-
-    sendMsgWithdrawValidatorCommission,
 
     queryParams,
 

@@ -6,21 +6,21 @@ import { usePiniaStore, PiniaState } from './'
 import { Ignite } from 'tendermint-spn-ts-client'
 import Module from 'tendermint-spn-ts-client/tendermint.spn.launch/module'
 
-type SendMsgSettleRequestType = typeof Module.prototype.sendMsgSettleRequest
-type SendMsgRequestAddVestingAccountType =
-  typeof Module.prototype.sendMsgRequestAddVestingAccount
-type SendMsgRequestRemoveValidatorType =
-  typeof Module.prototype.sendMsgRequestRemoveValidator
-type SendMsgTriggerLaunchType = typeof Module.prototype.sendMsgTriggerLaunch
-type SendMsgRevertLaunchType = typeof Module.prototype.sendMsgRevertLaunch
-type SendMsgCreateChainType = typeof Module.prototype.sendMsgCreateChain
-type SendMsgRequestAddValidatorType =
-  typeof Module.prototype.sendMsgRequestAddValidator
 type SendMsgRequestRemoveAccountType =
   typeof Module.prototype.sendMsgRequestRemoveAccount
 type SendMsgRequestAddAccountType =
   typeof Module.prototype.sendMsgRequestAddAccount
+type SendMsgRevertLaunchType = typeof Module.prototype.sendMsgRevertLaunch
+type SendMsgRequestAddVestingAccountType =
+  typeof Module.prototype.sendMsgRequestAddVestingAccount
+type SendMsgCreateChainType = typeof Module.prototype.sendMsgCreateChain
+type SendMsgTriggerLaunchType = typeof Module.prototype.sendMsgTriggerLaunch
+type SendMsgRequestRemoveValidatorType =
+  typeof Module.prototype.sendMsgRequestRemoveValidator
+type SendMsgSettleRequestType = typeof Module.prototype.sendMsgSettleRequest
 type SendMsgEditChainType = typeof Module.prototype.sendMsgEditChain
+type SendMsgRequestAddValidatorType =
+  typeof Module.prototype.sendMsgRequestAddValidator
 
 type QueryChainType = typeof Module.prototype.queryChain
 type QueryChainAllType = typeof Module.prototype.queryChainAll
@@ -37,16 +37,16 @@ type QueryParamsType = typeof Module.prototype.queryParams
 
 type Response = {
   $s: Store<'tendermint.spn.launch', PiniaState, {}, {}>
-  sendMsgSettleRequest: SendMsgSettleRequestType
-  sendMsgRequestAddVestingAccount: SendMsgRequestAddVestingAccountType
-  sendMsgRequestRemoveValidator: SendMsgRequestRemoveValidatorType
-  sendMsgTriggerLaunch: SendMsgTriggerLaunchType
-  sendMsgRevertLaunch: SendMsgRevertLaunchType
-  sendMsgCreateChain: SendMsgCreateChainType
-  sendMsgRequestAddValidator: SendMsgRequestAddValidatorType
   sendMsgRequestRemoveAccount: SendMsgRequestRemoveAccountType
   sendMsgRequestAddAccount: SendMsgRequestAddAccountType
+  sendMsgRevertLaunch: SendMsgRevertLaunchType
+  sendMsgRequestAddVestingAccount: SendMsgRequestAddVestingAccountType
+  sendMsgCreateChain: SendMsgCreateChainType
+  sendMsgTriggerLaunch: SendMsgTriggerLaunchType
+  sendMsgRequestRemoveValidator: SendMsgRequestRemoveValidatorType
+  sendMsgSettleRequest: SendMsgSettleRequestType
   sendMsgEditChain: SendMsgEditChainType
+  sendMsgRequestAddValidator: SendMsgRequestAddValidatorType
 
   queryChain: QueryChainType
   queryChainAll: QueryChainAllType
@@ -69,25 +69,25 @@ function useModule({ $ignt }: Params): Response {
   let $s = usePiniaStore()
 
   let {
-    sendMsgSettleRequest,
-
-    sendMsgRequestAddVestingAccount,
-
-    sendMsgRequestRemoveValidator,
-
-    sendMsgTriggerLaunch,
-
-    sendMsgRevertLaunch,
-
-    sendMsgCreateChain,
-
-    sendMsgRequestAddValidator,
-
     sendMsgRequestRemoveAccount,
 
     sendMsgRequestAddAccount,
 
+    sendMsgRevertLaunch,
+
+    sendMsgRequestAddVestingAccount,
+
+    sendMsgCreateChain,
+
+    sendMsgTriggerLaunch,
+
+    sendMsgRequestRemoveValidator,
+
+    sendMsgSettleRequest,
+
     sendMsgEditChain,
+
+    sendMsgRequestAddValidator,
 
     queryChain,
 
@@ -112,28 +112,86 @@ function useModule({ $ignt }: Params): Response {
     queryParams
   } = $ignt.TendermintSpnLaunch
 
+  sendMsgRequestRemoveAccount = sendMsgRequestRemoveAccount.bind(
+    $ignt.TendermintSpnLaunch
+  )
+
+  sendMsgRequestAddAccount = sendMsgRequestAddAccount.bind(
+    $ignt.TendermintSpnLaunch
+  )
+
+  sendMsgRevertLaunch = sendMsgRevertLaunch.bind($ignt.TendermintSpnLaunch)
+
+  sendMsgRequestAddVestingAccount = sendMsgRequestAddVestingAccount.bind(
+    $ignt.TendermintSpnLaunch
+  )
+
+  sendMsgCreateChain = sendMsgCreateChain.bind($ignt.TendermintSpnLaunch)
+
+  sendMsgTriggerLaunch = sendMsgTriggerLaunch.bind($ignt.TendermintSpnLaunch)
+
+  sendMsgRequestRemoveValidator = sendMsgRequestRemoveValidator.bind(
+    $ignt.TendermintSpnLaunch
+  )
+
+  sendMsgSettleRequest = sendMsgSettleRequest.bind($ignt.TendermintSpnLaunch)
+
+  sendMsgEditChain = sendMsgEditChain.bind($ignt.TendermintSpnLaunch)
+
+  sendMsgRequestAddValidator = sendMsgRequestAddValidator.bind(
+    $ignt.TendermintSpnLaunch
+  )
+
+  queryChain = queryChain.bind($ignt.TendermintSpnLaunch)
+
+  queryChainAll = queryChainAll.bind($ignt.TendermintSpnLaunch)
+
+  queryGenesisAccount = queryGenesisAccount.bind($ignt.TendermintSpnLaunch)
+
+  queryGenesisAccountAll = queryGenesisAccountAll.bind(
+    $ignt.TendermintSpnLaunch
+  )
+
+  queryVestingAccount = queryVestingAccount.bind($ignt.TendermintSpnLaunch)
+
+  queryVestingAccountAll = queryVestingAccountAll.bind(
+    $ignt.TendermintSpnLaunch
+  )
+
+  queryGenesisValidator = queryGenesisValidator.bind($ignt.TendermintSpnLaunch)
+
+  queryGenesisValidatorAll = queryGenesisValidatorAll.bind(
+    $ignt.TendermintSpnLaunch
+  )
+
+  queryRequest = queryRequest.bind($ignt.TendermintSpnLaunch)
+
+  queryRequestAll = queryRequestAll.bind($ignt.TendermintSpnLaunch)
+
+  queryParams = queryParams.bind($ignt.TendermintSpnLaunch)
+
   return {
     $s,
-
-    sendMsgSettleRequest,
-
-    sendMsgRequestAddVestingAccount,
-
-    sendMsgRequestRemoveValidator,
-
-    sendMsgTriggerLaunch,
-
-    sendMsgRevertLaunch,
-
-    sendMsgCreateChain,
-
-    sendMsgRequestAddValidator,
 
     sendMsgRequestRemoveAccount,
 
     sendMsgRequestAddAccount,
 
+    sendMsgRevertLaunch,
+
+    sendMsgRequestAddVestingAccount,
+
+    sendMsgCreateChain,
+
+    sendMsgTriggerLaunch,
+
+    sendMsgRequestRemoveValidator,
+
+    sendMsgSettleRequest,
+
     sendMsgEditChain,
+
+    sendMsgRequestAddValidator,
 
     queryChain,
 

@@ -6,11 +6,11 @@ import { usePiniaStore, PiniaState } from './'
 import { Ignite } from 'tendermint-spn-ts-client'
 import Module from 'tendermint-spn-ts-client/cosmos.staking.v1beta1/module'
 
-type SendMsgBeginRedelegateType = typeof Module.prototype.sendMsgBeginRedelegate
+type SendMsgEditValidatorType = typeof Module.prototype.sendMsgEditValidator
 type SendMsgDelegateType = typeof Module.prototype.sendMsgDelegate
 type SendMsgCreateValidatorType = typeof Module.prototype.sendMsgCreateValidator
-type SendMsgEditValidatorType = typeof Module.prototype.sendMsgEditValidator
 type SendMsgUndelegateType = typeof Module.prototype.sendMsgUndelegate
+type SendMsgBeginRedelegateType = typeof Module.prototype.sendMsgBeginRedelegate
 
 type QueryValidatorsType = typeof Module.prototype.queryValidators
 type QueryValidatorType = typeof Module.prototype.queryValidator
@@ -36,11 +36,11 @@ type QueryParamsType = typeof Module.prototype.queryParams
 
 type Response = {
   $s: Store<'cosmos.staking.v1beta1', PiniaState, {}, {}>
-  sendMsgBeginRedelegate: SendMsgBeginRedelegateType
+  sendMsgEditValidator: SendMsgEditValidatorType
   sendMsgDelegate: SendMsgDelegateType
   sendMsgCreateValidator: SendMsgCreateValidatorType
-  sendMsgEditValidator: SendMsgEditValidatorType
   sendMsgUndelegate: SendMsgUndelegateType
+  sendMsgBeginRedelegate: SendMsgBeginRedelegateType
 
   queryValidators: QueryValidatorsType
   queryValidator: QueryValidatorType
@@ -66,15 +66,15 @@ function useModule({ $ignt }: Params): Response {
   let $s = usePiniaStore()
 
   let {
-    sendMsgBeginRedelegate,
+    sendMsgEditValidator,
 
     sendMsgDelegate,
 
     sendMsgCreateValidator,
 
-    sendMsgEditValidator,
-
     sendMsgUndelegate,
+
+    sendMsgBeginRedelegate,
 
     queryValidators,
 
@@ -105,18 +105,74 @@ function useModule({ $ignt }: Params): Response {
     queryParams
   } = $ignt.CosmosStakingV1Beta1
 
+  sendMsgEditValidator = sendMsgEditValidator.bind($ignt.CosmosStakingV1Beta1)
+
+  sendMsgDelegate = sendMsgDelegate.bind($ignt.CosmosStakingV1Beta1)
+
+  sendMsgCreateValidator = sendMsgCreateValidator.bind(
+    $ignt.CosmosStakingV1Beta1
+  )
+
+  sendMsgUndelegate = sendMsgUndelegate.bind($ignt.CosmosStakingV1Beta1)
+
+  sendMsgBeginRedelegate = sendMsgBeginRedelegate.bind(
+    $ignt.CosmosStakingV1Beta1
+  )
+
+  queryValidators = queryValidators.bind($ignt.CosmosStakingV1Beta1)
+
+  queryValidator = queryValidator.bind($ignt.CosmosStakingV1Beta1)
+
+  queryValidatorDelegations = queryValidatorDelegations.bind(
+    $ignt.CosmosStakingV1Beta1
+  )
+
+  queryValidatorUnbondingDelegations = queryValidatorUnbondingDelegations.bind(
+    $ignt.CosmosStakingV1Beta1
+  )
+
+  queryDelegation = queryDelegation.bind($ignt.CosmosStakingV1Beta1)
+
+  queryUnbondingDelegation = queryUnbondingDelegation.bind(
+    $ignt.CosmosStakingV1Beta1
+  )
+
+  queryDelegatorDelegations = queryDelegatorDelegations.bind(
+    $ignt.CosmosStakingV1Beta1
+  )
+
+  queryDelegatorUnbondingDelegations = queryDelegatorUnbondingDelegations.bind(
+    $ignt.CosmosStakingV1Beta1
+  )
+
+  queryRedelegations = queryRedelegations.bind($ignt.CosmosStakingV1Beta1)
+
+  queryDelegatorValidators = queryDelegatorValidators.bind(
+    $ignt.CosmosStakingV1Beta1
+  )
+
+  queryDelegatorValidator = queryDelegatorValidator.bind(
+    $ignt.CosmosStakingV1Beta1
+  )
+
+  queryHistoricalInfo = queryHistoricalInfo.bind($ignt.CosmosStakingV1Beta1)
+
+  queryPool = queryPool.bind($ignt.CosmosStakingV1Beta1)
+
+  queryParams = queryParams.bind($ignt.CosmosStakingV1Beta1)
+
   return {
     $s,
 
-    sendMsgBeginRedelegate,
+    sendMsgEditValidator,
 
     sendMsgDelegate,
 
     sendMsgCreateValidator,
 
-    sendMsgEditValidator,
-
     sendMsgUndelegate,
+
+    sendMsgBeginRedelegate,
 
     queryValidators,
 

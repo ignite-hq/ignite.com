@@ -6,14 +6,14 @@ import { usePiniaStore, PiniaState } from './'
 import { Ignite } from 'tendermint-spn-ts-client'
 import Module from 'tendermint-spn-ts-client/tendermint.spn.profile/module'
 
-type SendMsgUpdateCoordinatorAddressType =
-  typeof Module.prototype.sendMsgUpdateCoordinatorAddress
-type SendMsgUpdateValidatorDescriptionType =
-  typeof Module.prototype.sendMsgUpdateValidatorDescription
-type SendMsgUpdateCoordinatorDescriptionType =
-  typeof Module.prototype.sendMsgUpdateCoordinatorDescription
 type SendMsgCreateCoordinatorType =
   typeof Module.prototype.sendMsgCreateCoordinator
+type SendMsgUpdateCoordinatorAddressType =
+  typeof Module.prototype.sendMsgUpdateCoordinatorAddress
+type SendMsgUpdateCoordinatorDescriptionType =
+  typeof Module.prototype.sendMsgUpdateCoordinatorDescription
+type SendMsgUpdateValidatorDescriptionType =
+  typeof Module.prototype.sendMsgUpdateValidatorDescription
 type SendMsgAddValidatorOperatorAddressType =
   typeof Module.prototype.sendMsgAddValidatorOperatorAddress
 type SendMsgDisableCoordinatorType =
@@ -30,10 +30,10 @@ type QueryCoordinatorByAddressType =
 
 type Response = {
   $s: Store<'tendermint.spn.profile', PiniaState, {}, {}>
-  sendMsgUpdateCoordinatorAddress: SendMsgUpdateCoordinatorAddressType
-  sendMsgUpdateValidatorDescription: SendMsgUpdateValidatorDescriptionType
-  sendMsgUpdateCoordinatorDescription: SendMsgUpdateCoordinatorDescriptionType
   sendMsgCreateCoordinator: SendMsgCreateCoordinatorType
+  sendMsgUpdateCoordinatorAddress: SendMsgUpdateCoordinatorAddressType
+  sendMsgUpdateCoordinatorDescription: SendMsgUpdateCoordinatorDescriptionType
+  sendMsgUpdateValidatorDescription: SendMsgUpdateValidatorDescriptionType
   sendMsgAddValidatorOperatorAddress: SendMsgAddValidatorOperatorAddressType
   sendMsgDisableCoordinator: SendMsgDisableCoordinatorType
 
@@ -53,13 +53,13 @@ function useModule({ $ignt }: Params): Response {
   let $s = usePiniaStore()
 
   let {
-    sendMsgUpdateCoordinatorAddress,
+    sendMsgCreateCoordinator,
 
-    sendMsgUpdateValidatorDescription,
+    sendMsgUpdateCoordinatorAddress,
 
     sendMsgUpdateCoordinatorDescription,
 
-    sendMsgCreateCoordinator,
+    sendMsgUpdateValidatorDescription,
 
     sendMsgAddValidatorOperatorAddress,
 
@@ -78,16 +78,55 @@ function useModule({ $ignt }: Params): Response {
     queryCoordinatorByAddress
   } = $ignt.TendermintSpnProfile
 
+  sendMsgCreateCoordinator = sendMsgCreateCoordinator.bind(
+    $ignt.TendermintSpnProfile
+  )
+
+  sendMsgUpdateCoordinatorAddress = sendMsgUpdateCoordinatorAddress.bind(
+    $ignt.TendermintSpnProfile
+  )
+
+  sendMsgUpdateCoordinatorDescription =
+    sendMsgUpdateCoordinatorDescription.bind($ignt.TendermintSpnProfile)
+
+  sendMsgUpdateValidatorDescription = sendMsgUpdateValidatorDescription.bind(
+    $ignt.TendermintSpnProfile
+  )
+
+  sendMsgAddValidatorOperatorAddress = sendMsgAddValidatorOperatorAddress.bind(
+    $ignt.TendermintSpnProfile
+  )
+
+  sendMsgDisableCoordinator = sendMsgDisableCoordinator.bind(
+    $ignt.TendermintSpnProfile
+  )
+
+  queryValidator = queryValidator.bind($ignt.TendermintSpnProfile)
+
+  queryValidatorAll = queryValidatorAll.bind($ignt.TendermintSpnProfile)
+
+  queryValidatorByOperatorAddress = queryValidatorByOperatorAddress.bind(
+    $ignt.TendermintSpnProfile
+  )
+
+  queryCoordinator = queryCoordinator.bind($ignt.TendermintSpnProfile)
+
+  queryCoordinatorAll = queryCoordinatorAll.bind($ignt.TendermintSpnProfile)
+
+  queryCoordinatorByAddress = queryCoordinatorByAddress.bind(
+    $ignt.TendermintSpnProfile
+  )
+
   return {
     $s,
 
-    sendMsgUpdateCoordinatorAddress,
+    sendMsgCreateCoordinator,
 
-    sendMsgUpdateValidatorDescription,
+    sendMsgUpdateCoordinatorAddress,
 
     sendMsgUpdateCoordinatorDescription,
 
-    sendMsgCreateCoordinator,
+    sendMsgUpdateValidatorDescription,
 
     sendMsgAddValidatorOperatorAddress,
 

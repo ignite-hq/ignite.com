@@ -22,6 +22,10 @@ function useModule({ $ignt }: Params): Response {
 
   let { sendMsgVerifyInvariant } = $ignt.CosmosCrisisV1Beta1
 
+  sendMsgVerifyInvariant = sendMsgVerifyInvariant.bind(
+    $ignt.CosmosCrisisV1Beta1
+  )
+
   return {
     $s,
 
