@@ -11,6 +11,13 @@ import CosmosCosmosSdkCosmosSlashingV1Beta1 from './cosmos/cosmos-sdk/cosmos.sla
 import CosmosCosmosSdkCosmosStakingV1Beta1 from './cosmos/cosmos-sdk/cosmos.staking.v1beta1'
 import CosmosCosmosSdkCosmosVestingV1Beta1 from './cosmos/cosmos-sdk/cosmos.vesting.v1beta1'
 import CosmosIbcGoIbcApplicationsTransferV1 from './cosmos/ibc-go/ibc.applications.transfer.v1'
+import CosmosIbcGoIbcApplicationsTransferV2 from './cosmos/ibc-go/ibc.applications.transfer.v2'
+import TendermintFundraisingTendermintFundraising from './tendermint/fundraising/tendermint.fundraising'
+import TendermintSpnTendermintSpnCampaign from './tendermint/spn/tendermint.spn.campaign'
+import TendermintSpnTendermintSpnLaunch from './tendermint/spn/tendermint.spn.launch'
+import TendermintSpnTendermintSpnMonitoringc from './tendermint/spn/tendermint.spn.monitoringc'
+import TendermintSpnTendermintSpnProfile from './tendermint/spn/tendermint.spn.profile'
+import TendermintSpnTendermintSpnReward from './tendermint/spn/tendermint.spn.reward'
 
 
 export default { 
@@ -25,9 +32,15 @@ export default {
   CosmosCosmosSdkCosmosStakingV1Beta1: load(CosmosCosmosSdkCosmosStakingV1Beta1, 'cosmos.staking.v1beta1'),
   CosmosCosmosSdkCosmosVestingV1Beta1: load(CosmosCosmosSdkCosmosVestingV1Beta1, 'cosmos.vesting.v1beta1'),
   CosmosIbcGoIbcApplicationsTransferV1: load(CosmosIbcGoIbcApplicationsTransferV1, 'ibc.applications.transfer.v1'),
+  CosmosIbcGoIbcApplicationsTransferV2: load(CosmosIbcGoIbcApplicationsTransferV2, 'ibc.applications.transfer.v2'),
+  TendermintFundraisingTendermintFundraising: load(TendermintFundraisingTendermintFundraising, 'tendermint.fundraising'),
+  TendermintSpnTendermintSpnCampaign: load(TendermintSpnTendermintSpnCampaign, 'tendermint.spn.campaign'),
+  TendermintSpnTendermintSpnLaunch: load(TendermintSpnTendermintSpnLaunch, 'tendermint.spn.launch'),
+  TendermintSpnTendermintSpnMonitoringc: load(TendermintSpnTendermintSpnMonitoringc, 'tendermint.spn.monitoringc'),
+  TendermintSpnTendermintSpnProfile: load(TendermintSpnTendermintSpnProfile, 'tendermint.spn.profile'),
+  TendermintSpnTendermintSpnReward: load(TendermintSpnTendermintSpnReward, 'tendermint.spn.reward'),
   
 }
-
 
 function load(mod, fullns) {
     return function init(store) {        

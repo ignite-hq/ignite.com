@@ -1,8 +1,8 @@
 {
-  "name": "ignite-ui",
+  "name": "@ignt/network",
   "version": "0.0.1",
-  "description": "Ignite UI",
-  "author": "Ignite, Inc <hello@ignt.com>",
+  "description": "A Vue 3 boilerplate project utilizing @starport/vue and @starport/vuex",
+  "author": "Tendermint, Inc <hello@tendermint.com>",
   "private": true,
   "scripts": {
     "dev": "vite",
@@ -13,15 +13,23 @@
     "@cosmjs/launchpad": "0.27.0",
     "@cosmjs/proto-signing": "0.27.0",
     "@cosmjs/stargate": "0.27.0",
-    "@starport/vue": "^0.2.1-alpha-46bced47f87733f2dd1e835cd15b172023d4b79d.0",
-    "@starport/vuex": "^0.2.1-alpha-46bced47f87733f2dd1e835cd15b172023d4b79d.0",
+    "@starport/vue": "^0.3.2",
+    "@starport/vuex": "^0.3.2",
     "buffer": "^6.0.3",
     "core-js": "^3.18.2",
+    "pinia": "^2.0.11",
+    "tendermint-spn-ts-client": "0.0.1",
+    "tendermint-spn-vue": "0.0.1",
     "vue": "^3.2.6",
     "vue-router": "^4.0.3",
     "vuex": "^4.0.2"
   },
+  "workspaces": [
+    "src/generated/tendermint-spn-ts-client",
+    "src/generated/tendermint-spn-vue"
+  ],
   "devDependencies": {
+    "@keplr-wallet/types": "^0.9.12",
     "@rollup/plugin-commonjs": "^21.0.1",
     "@rollup/plugin-dynamic-import-vars": "^1.4.1",
     "@rollup/plugin-node-resolve": "^13.1.1",

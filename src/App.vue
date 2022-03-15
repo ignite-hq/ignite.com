@@ -1,12 +1,14 @@
 <template>
   <div>
-    <SpTheme>
-      <SpNavbar
-        :links="navbarLinks"
-        :activeRoute="router.currentRoute.value.path"
-      />
-      <router-view />
-    </SpTheme>
+    <Suspense>
+      <SpTheme>
+        <SpNavbar
+          :links="navbarLinks"
+          :activeRoute="router.currentRoute.value.path"
+        />
+        <router-view v-if="$ignt" />
+      </SpTheme>
+    </Suspense>
   </div>
 </template>
 
@@ -15,11 +17,15 @@ import { computed, onBeforeMount } from 'vue'
 import { useStore } from 'vuex'
 import { SpTheme, SpNavbar } from '@starport/vue'
 import { useRouter } from 'vue-router'
+import useIgnite from './composables/useIgnite'
 
 export default {
   components: { SpTheme, SpNavbar },
 
   setup() {
+    // ignt
+    let { $ignt } = useIgnite()
+
     // store
     let $s = useStore()
 
@@ -27,7 +33,7 @@ export default {
     let router = useRouter()
 
     // state
-    let navbarLinks = [{ name: 'Home', url: '/' }]
+    let navbarLinks = []
 
     // computed
     let address = computed(() => $s.getters['common/wallet/address'])
@@ -38,6 +44,9 @@ export default {
     })
 
     return {
+      // ignt
+      $ignt,
+      // state,
       navbarLinks,
       // router
       router,

@@ -14,6 +14,12 @@ export default defineConfig({
   },
   plugins: [vue(), nodeResolve(), dynamicImport(), envCompatible()],
   optimizeDeps: {
-    include: ['gradient-avatar', 'crypto-js', 'axios', 'qrcode', '@cosmjs/encoding']
+    include: [
+      'gradient-avatar',
+      'crypto-js',
+      'axios',
+      'qrcode',
+      '@cosmjs/encoding'
+    ]
   }
 })
