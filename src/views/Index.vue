@@ -11,6 +11,8 @@ import { inject, Ref } from 'vue'
 
 import IgniteProjectList from '../components/IgniteProjectList.vue'
 
+import IgntProjectList from '../components/IgntProjectList.vue'
+
 export default {
   name: 'IndexView',
 
