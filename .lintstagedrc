@@ -1,8 +1,8 @@
 {
-  "*.+(js|ts|vue|tsx|jsx)": [
+  "*.+(js|ts|vue)": [
     "eslint"
   ],
-  "*.+(js|json|ts|tsx|vue|jsx)": [
+  "*.+(js|json|ts|vue)": [
     "pretty-quick --staged",
     "git add"
   ]
