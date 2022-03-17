@@ -1,7 +1,7 @@
 /* eslint-disable */
-import { Writer, Reader } from "protobufjs/minimal";
+import { Writer, Reader } from 'protobufjs/minimal'
 
-export const protobufPackage = "ibc.applications.transfer.v2";
+export const protobufPackage = 'ibc.applications.transfer.v2'
 
 /**
  * FungibleTokenPacketData defines a struct for the packet payload
@@ -10,138 +10,138 @@ export const protobufPackage = "ibc.applications.transfer.v2";
  */
 export interface FungibleTokenPacketData {
   /** the token denomination to be transferred */
-  denom: string;
+  denom: string
   /** the token amount to be transferred */
-  amount: string;
+  amount: string
   /** the sender address */
-  sender: string;
+  sender: string
   /** the recipient address on the destination chain */
-  receiver: string;
+  receiver: string
 }
 
 const baseFungibleTokenPacketData: object = {
-  denom: "",
-  amount: "",
-  sender: "",
-  receiver: "",
-};
+  denom: '',
+  amount: '',
+  sender: '',
+  receiver: ''
+}
 
 export const FungibleTokenPacketData = {
   encode(
     message: FungibleTokenPacketData,
     writer: Writer = Writer.create()
   ): Writer {
-    if (message.denom !== "") {
-      writer.uint32(10).string(message.denom);
+    if (message.denom !== '') {
+      writer.uint32(10).string(message.denom)
     }
-    if (message.amount !== "") {
-      writer.uint32(18).string(message.amount);
+    if (message.amount !== '') {
+      writer.uint32(18).string(message.amount)
     }
-    if (message.sender !== "") {
-      writer.uint32(26).string(message.sender);
+    if (message.sender !== '') {
+      writer.uint32(26).string(message.sender)
     }
-    if (message.receiver !== "") {
-      writer.uint32(34).string(message.receiver);
+    if (message.receiver !== '') {
+      writer.uint32(34).string(message.receiver)
     }
-    return writer;
+    return writer
   },
 
   decode(input: Reader | Uint8Array, length?: number): FungibleTokenPacketData {
-    const reader = input instanceof Uint8Array ? new Reader(input) : input;
-    let end = length === undefined ? reader.len : reader.pos + length;
+    const reader = input instanceof Uint8Array ? new Reader(input) : input
+    let end = length === undefined ? reader.len : reader.pos + length
     const message = {
-      ...baseFungibleTokenPacketData,
-    } as FungibleTokenPacketData;
+      ...baseFungibleTokenPacketData
+    } as FungibleTokenPacketData
     while (reader.pos < end) {
-      const tag = reader.uint32();
+      const tag = reader.uint32()
       switch (tag >>> 3) {
         case 1:
-          message.denom = reader.string();
-          break;
+          message.denom = reader.string()
+          break
         case 2:
-          message.amount = reader.string();
-          break;
+          message.amount = reader.string()
+          break
         case 3:
-          message.sender = reader.string();
-          break;
+          message.sender = reader.string()
+          break
         case 4:
-          message.receiver = reader.string();
-          break;
+          message.receiver = reader.string()
+          break
         default:
-          reader.skipType(tag & 7);
-          break;
+          reader.skipType(tag & 7)
+          break
       }
     }
-    return message;
+    return message
   },
 
   fromJSON(object: any): FungibleTokenPacketData {
     const message = {
-      ...baseFungibleTokenPacketData,
-    } as FungibleTokenPacketData;
+      ...baseFungibleTokenPacketData
+    } as FungibleTokenPacketData
     if (object.denom !== undefined && object.denom !== null) {
-      message.denom = String(object.denom);
+      message.denom = String(object.denom)
     } else {
-      message.denom = "";
+      message.denom = ''
     }
     if (object.amount !== undefined && object.amount !== null) {
-      message.amount = String(object.amount);
+      message.amount = String(object.amount)
     } else {
-      message.amount = "";
+      message.amount = ''
     }
     if (object.sender !== undefined && object.sender !== null) {
-      message.sender = String(object.sender);
+      message.sender = String(object.sender)
     } else {
-      message.sender = "";
+      message.sender = ''
     }
     if (object.receiver !== undefined && object.receiver !== null) {
-      message.receiver = String(object.receiver);
+      message.receiver = String(object.receiver)
     } else {
-      message.receiver = "";
+      message.receiver = ''
     }
-    return message;
+    return message
   },
 
   toJSON(message: FungibleTokenPacketData): unknown {
-    const obj: any = {};
-    message.denom !== undefined && (obj.denom = message.denom);
-    message.amount !== undefined && (obj.amount = message.amount);
-    message.sender !== undefined && (obj.sender = message.sender);
-    message.receiver !== undefined && (obj.receiver = message.receiver);
-    return obj;
+    const obj: any = {}
+    message.denom !== undefined && (obj.denom = message.denom)
+    message.amount !== undefined && (obj.amount = message.amount)
+    message.sender !== undefined && (obj.sender = message.sender)
+    message.receiver !== undefined && (obj.receiver = message.receiver)
+    return obj
   },
 
   fromPartial(
     object: DeepPartial<FungibleTokenPacketData>
   ): FungibleTokenPacketData {
     const message = {
-      ...baseFungibleTokenPacketData,
-    } as FungibleTokenPacketData;
+      ...baseFungibleTokenPacketData
+    } as FungibleTokenPacketData
     if (object.denom !== undefined && object.denom !== null) {
-      message.denom = object.denom;
+      message.denom = object.denom
     } else {
-      message.denom = "";
+      message.denom = ''
     }
     if (object.amount !== undefined && object.amount !== null) {
-      message.amount = object.amount;
+      message.amount = object.amount
     } else {
-      message.amount = "";
+      message.amount = ''
     }
     if (object.sender !== undefined && object.sender !== null) {
-      message.sender = object.sender;
+      message.sender = object.sender
     } else {
-      message.sender = "";
+      message.sender = ''
     }
     if (object.receiver !== undefined && object.receiver !== null) {
-      message.receiver = object.receiver;
+      message.receiver = object.receiver
     } else {
-      message.receiver = "";
+      message.receiver = ''
     }
-    return message;
-  },
-};
+    return message
+  }
+}
 
-type Builtin = Date | Function | Uint8Array | string | number | undefined;
+type Builtin = Date | Function | Uint8Array | string | number | undefined
 export type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Array<infer U>
@@ -150,4 +150,4 @@ export type DeepPartial<T> = T extends Builtin
   ? ReadonlyArray<DeepPartial<U>>
   : T extends {}
   ? { [K in keyof T]?: DeepPartial<T[K]> }
-  : Partial<T>;
+  : Partial<T>
