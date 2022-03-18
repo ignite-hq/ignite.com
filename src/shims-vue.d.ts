@@ -1,5 +1,13 @@
 /* eslint-disable */
+import { ComponentCustomProperties } from 'vue'
+
 import { Window as KeplrWindow, Keplr } from '@keplr-wallet/types'
+
+declare module '*.vue' {
+  import { defineComponent } from 'vue'
+  const Component: ReturnType<typeof defineComponent>
+  export default Component
+}
 
 declare global {
   interface KeplrIntereactionOptions {

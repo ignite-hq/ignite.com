@@ -1,0 +1,123 @@
+/* Title */
+.ignt-title {
+  font-weight: 600;
+  line-height: 127%;
+  letter-spacing: -0.02em;
+  &.xxs {
+    font-size: px2rem(13);
+  }
+  &.xs {
+    font-size: px2rem(16);
+  }
+  &.sm {
+    font-size: px2rem(21);
+  }
+  &.md {
+    font-size: px2rem(28);
+  }
+  &.lg {
+    font-size: px2rem(32);
+  }
+  &.xl {
+    font-size: px2rem(38);
+  }
+  &.xxl {
+    font-size: px2rem(51);
+  }
+  @media #{$breakpoint-large} {
+    &.xxs-l-up {
+      font-size: px2rem(13);
+    }
+    &.xs-l-up {
+      font-size: px2rem(16);
+    }
+    &.sm-l-up {
+      font-size: px2rem(21);
+    }
+    &.md-l-up {
+      font-size: px2rem(28);
+    }
+    &.lg-l-up {
+      font-size: px2rem(32);
+    }
+    &.xl-l-up {
+      font-size: px2rem(38);
+    }
+    &.xxl-l-up {
+      font-size: px2rem(51);
+    }
+  }
+}
+
+/* Content */
+.ignt-content {
+  font-weight: 400;
+  line-height: 153.8%;
+  letter-spacing: -0.007em;
+  &.xs {
+    font-size: px2rem(10);
+  }
+  &.sm {
+    font-size: px2rem(13);
+  }
+  &.md {
+    font-size: px2rem(16);
+  }
+  &.lg {
+    font-size: px2rem(21);
+  }
+  @media #{$breakpoint-large} {
+    &.sm-l-up {
+      font-size: px2rem(13);
+    }
+    &.md-l-up {
+      font-size: px2rem(16);
+    }
+    &.lg-l-up {
+      font-size: px2rem(21);
+    }
+  }
+}
+
+/* Label */
+.ignt-label {
+  font-weight: 500;
+  line-height: 153.8%;
+  letter-spacing: -0.007em;
+  &.xs {
+    font-size: px2rem(10);
+    line-height: 1;
+  }
+  &.sm {
+    font-size: px2rem(13);
+  }
+  &.md {
+    font-size: px2rem(16);
+  }
+  &.lg {
+    font-size: px2rem(21);
+  }
+  @media #{$breakpoint-large} {
+    &.sm-l-up {
+      font-size: px2rem(13);
+    }
+    &.md-l-up {
+      font-size: px2rem(16);
+    }
+    &.lg-l-up {
+      font-size: px2rem(21);
+    }
+  }
+}
+
+/* Badge */
+.ignt-badge {
+  display: inline-block;
+  padding: var(--spacing-1) var(--spacing-4);
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 100px;
+}
+
+.text-center {
+  text-align: center;
+}
