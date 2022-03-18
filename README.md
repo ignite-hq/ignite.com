@@ -43,7 +43,6 @@ let { $s } = useTendermintFundraisingModule({
 ## 🏗 WIP
 
 The generated code is on early alpha. This means a bunch of minors and couple of majors are yet to be solved. Some notes =
-
 - For now using the Pinia Store is not recommend.
 - The logic inside `Ignt.vue` will be moved to outside the repo.
 - The need to place the usage of Vue API inside a watch (as in `views/Index.vue`) is only temporary.
