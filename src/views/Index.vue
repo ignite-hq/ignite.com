@@ -7,12 +7,13 @@
 <script lang="ts">
 import { Ignite } from 'tendermint-spn-ts-client'
 import { useTendermintSpnLaunchModule } from 'tendermint-spn-vue'
-
-import { inject, watch, Ref } from 'vue'
+import { inject, Ref } from 'vue'
 
 import IgniteProjectList from '../components/IgniteProjectList.vue'
 
 export default {
+  name: 'IndexView',
+
   components: { IgniteProjectList },
 
   async setup() {

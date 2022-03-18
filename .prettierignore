@@ -3,6 +3,8 @@ build
 dist
 lib
 package-lock.json
+/src/generated
+/src/store
 
 .github
 .husky
