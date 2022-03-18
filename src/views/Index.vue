@@ -1,37 +1,12 @@
 <template>
   <div class="container">
-    <IgniteProjectList />
+    <IgniteProjectList :chains="allChains" />
   </div>
 </template>
 
-<script lang="ts">
-import { Ignite } from 'tendermint-spn-ts-client'
-import { useTendermintSpnLaunchModule } from 'tendermint-spn-vue'
-import { inject, Ref } from 'vue'
-
+<script lang="ts" setup>
 import IgniteProjectList from '../components/IgniteProjectList.vue'
+import useLaunchChains from '../composables/useLauchChains'
 
-import IgntProjectList from '../components/IgntProjectList.vue'
-
-export default {
-  name: 'IndexView',
-
-  components: { IgniteProjectList },
-
-  async setup() {
-    //
-    // USAGE EXAMPLES
-    //
-    // await queryChainAll()
-    //
-    // sendMsgRequestAddAccount({
-    //   value: {
-    //     address: 'spn1l9wuy2w80v3ntc38ede0zdn7vn0lhslfutqnka',
-    //     coins: [{ amount: '99999', denom: 'spn' }],
-    //     creator: 'spn1l9wuy2w80v3ntc38ede0zdn7vn0lhslfutqnka',
-    //     launchID: 1
-    //   }
-    // })
-  }
-}
+const { isLoading, allChains } = useLaunchChains()
 </script>
