@@ -24,7 +24,7 @@ export default defineComponent({
   transform-origin: 50% 50%;
   border-radius: 38% 42%;
   background-color: rgba(255, 255, 255, 0.05);
-  animation: spin 16s infinite linear;
+  animation: spin 32s infinite linear;
 }
 
 .wave::before {
@@ -34,7 +34,7 @@ export default defineComponent({
   transform-origin: 49% 51%;
   border-radius: 40% 38%;
   background-color: rgba(255,255,255,0.1);
-  animation: spin 13s infinite linear;
+  animation: spin 26s infinite linear;
 }
 
 .wave::after {
@@ -44,7 +44,7 @@ export default defineComponent({
   transform-origin: 51% 49%;
   border-radius: 48% 42%;
   background-color: rgba(255,255,255,0.16);
-  animation: spin 10s infinite linear;
+  animation: spin 20s infinite linear;
 }
 
 @keyframes spin {
