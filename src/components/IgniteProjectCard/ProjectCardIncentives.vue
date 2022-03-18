@@ -14,13 +14,8 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 
-import IgntProgressBar from '../IgntProgressBar.vue'
-import IgntLegend from '../IgntLegend.vue'
-
 export default defineComponent({
-  name: 'ProjectCardShareAllocation',
-
-  components: { IgntProgressBar, IgntLegend },
+  name: 'ProjectCardIncentives',
 
   setup(props) {}
 })

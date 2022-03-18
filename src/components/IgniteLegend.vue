@@ -14,7 +14,7 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'IgntLegend',
+  name: 'IgniteLegend',
 
   props: {
     items: {

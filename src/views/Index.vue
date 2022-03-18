@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <IgntProjectList />
+    <IgniteProjectList />
   </div>
 </template>
 
@@ -10,10 +10,10 @@ import { useTendermintSpnLaunchModule } from 'tendermint-spn-vue'
 
 import { inject, watch, Ref } from 'vue'
 
-import IgntProjectList from '../components/IgntProjectList.vue'
+import IgniteProjectList from '../components/IgniteProjectList.vue'
 
 export default {
-  components: { IgntProjectList },
+  components: { IgniteProjectList },
 
   async setup() {
     let $ignt = inject<Ref<Ignite>>('ignt')

@@ -23,7 +23,7 @@ import ProjectCardStatus from './ProjectCardStatus.vue'
 import ProjectCardInvest from './ProjectCardInvest.vue'
 
 export default defineComponent({
-  name: 'IgntProjectCard',
+  name: 'IgniteProjectCard',
 
   props: {
     project: {

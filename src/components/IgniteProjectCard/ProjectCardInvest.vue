@@ -5,19 +5,19 @@
       <div class="ignt-label sm ignt-title"><b>$1M</b> of <b>$2M</b></div>
     </div>
 
-    <IgntProgressBar :items="progressBar.items" :inverse="true" />
+    <IgniteProgressBar :items="progressBar.items" :inverse="true" />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
 
-import IgntProgressBar from '../IgntProgressBar.vue'
+import IgniteProgressBar from '../IgniteProgressBar.vue'
 
 export default defineComponent({
-  name: 'ProjectCardInvest',
+  name: 'ProjectCardIncentives',
 
-  components: { IgntProgressBar },
+  components: { IgniteProgressBar },
 
   setup(props) {
     const progressBar = {

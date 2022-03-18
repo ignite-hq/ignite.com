@@ -7,7 +7,7 @@
       :rtl="rtl"
     >
       <template #default="{ item }">
-        <IgntProjectCard :project="{}" :loading="item" />
+        <IgniteProjectCard :project="{}" :loading="item" />
       </template>
     </MasonryWall>
   </div>
@@ -17,12 +17,12 @@
 import { defineComponent } from 'vue'
 import MasonryWall from '@yeger/vue-masonry-wall'
 
-import IgntProjectCard from './IgntProjectCard/index.vue'
+import IgniteProjectCard from './IgniteProjectCard/index.vue'
 
 export default defineComponent({
-  name: 'IgntProjectList',
+  name: 'IgniteProjectList',
 
-  components: { MasonryWall, IgntProjectCard },
+  components: { MasonryWall, IgniteProjectCard },
 
   data() {
     return {

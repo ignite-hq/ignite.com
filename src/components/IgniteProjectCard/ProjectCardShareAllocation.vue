@@ -5,24 +5,24 @@
     </div>
 
     <div class="mb-6">
-      <IgntProgressBar :logo="progressBar.logo" :items="progressBar.items" class="mb-4" />
-      <IgntProgressBar :logo="progressBar.logo" :items="progressBar.items" />
+      <IgniteProgressBar :logo="progressBar.logo" :items="progressBar.items" class="mb-4" />
+      <IgniteProgressBar :logo="progressBar.logo" :items="progressBar.items" />
     </div>
 
-    <IgntLegend :items="legend" />
+    <IgniteLegend :items="legend" />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
 
-import IgntProgressBar from '../IgntProgressBar.vue'
-import IgntLegend from '../IgntLegend.vue'
+import IgniteProgressBar from '../IgniteProgressBar.vue'
+import IgniteLegend from '../IgniteLegend.vue'
 
 export default defineComponent({
   name: 'ProjectCardShareAllocation',
 
-  components: { IgntProgressBar, IgntLegend },
+  components: { IgniteProgressBar, IgniteLegend },
 
   setup(props) {
     const progressBar = {

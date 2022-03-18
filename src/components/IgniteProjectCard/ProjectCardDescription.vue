@@ -1,11 +1,11 @@
 <template>
   <div>
-    <IgntLoader v-if="loading" class="title-loading mx-auto mb-4" />
+    <IgniteLoader v-if="loading" class="title-loading mx-auto mb-4" />
     <div v-if="!loading" class="ignt-title sm md-l-up text-center mb-4">
       Ignition #1
     </div>
 
-    <IgntLoader v-if="loading" class="github-loading mx-auto" />
+    <IgniteLoader v-if="loading" class="github-loading mx-auto" />
     <div v-if="!loading" class="github mb-7">
       <IconGithub class="ignt-title mr-1" />
       <span class="ignt-label sm ignt-muted">fadeev</span>
@@ -22,7 +22,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 
-import IgntLoader from '../IgntLoader.vue'
+import IgniteLoader from '../IgniteLoader.vue'
 import IconGithub from '../icons/IconGithub.vue'
 
 export default defineComponent({
@@ -34,7 +34,7 @@ export default defineComponent({
     }
   },
 
-  components: { IgntLoader, IconGithub },
+  components: { IgniteLoader, IconGithub },
 
   setup(props) {
     const { loading } = props;

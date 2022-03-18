@@ -1,9 +1,9 @@
 <template>
   <div class="header" :class="loading && '_loading'">
     <div class="background">
-      <IgntBgWave />
+      <IgniteBgWave />
     </div>
-    <IgntLoader v-if="loading" class="logo" />
+    <IgniteLoader v-if="loading" class="logo" />
     <div v-if="!loading" class="logo" />
   </div>
 </template>
@@ -11,8 +11,8 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 
-import IgntBgWave from '../IgntBgWave.vue'
-import IgntLoader from '../IgntLoader.vue'
+import IgniteBgWave from '../IgniteBgWave.vue'
+import IgniteLoader from '../IgniteLoader.vue'
 
 export default defineComponent({
   name: 'ProjectCardHeader',
@@ -23,7 +23,7 @@ export default defineComponent({
     }
   },
 
-  components: { IgntBgWave, IgntLoader },
+  components: { IgniteBgWave, IgniteLoader },
 
   setup(props) {
     const { loading } = props;

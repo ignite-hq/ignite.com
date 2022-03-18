@@ -1,6 +1,6 @@
 <template>
   <div>
-    <IgntLoader v-if="loading" class="status-loading mx-auto" />
+    <IgniteLoader v-if="loading" class="status-loading mx-auto" />
     <div v-if="!loading" class="status">
       <div class="status__item">
         <IconStar class="ignt-primary mr-1" />
@@ -24,7 +24,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 
-import IgntLoader from '../IgntLoader.vue'
+import IgniteLoader from '../IgniteLoader.vue'
 import IconStar from '../icons/IconStar.vue'
 import IconPlane from '../icons/IconPlane.vue'
 import IconStage from '../icons/IconStage.vue'
@@ -38,7 +38,7 @@ export default defineComponent({
     }
   },
 
-  components: { IgntLoader, IconStar, IconPlane, IconStage },
+  components: { IgniteLoader, IconStar, IconPlane, IconStage },
 
   setup(props) {
     const { loading } = props;
