@@ -1,10 +1,11 @@
 /*
    UTILITIES
 */
+@use "sass:math";
 
 // pixels to rem
 $font-root-size: 16;
 @function px2rem($px) {
-  $remValue: ($px / $font-root-size) + rem; 
+  $remValue: math.div($px, $font-root-size) + rem; 
   @return $remValue;
 }
