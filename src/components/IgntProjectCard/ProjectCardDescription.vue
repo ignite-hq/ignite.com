@@ -2,15 +2,15 @@
   <div>
     <IgntLoader v-if="loading" class="title-loading mx-auto mb-4" />
     <div v-if="!loading" class="ignt-title sm md-l-up text-center mb-4">
-      Ignition #1
+      {{ project.genesisChainID }}
     </div>
 
     <IgntLoader v-if="loading" class="github-loading mx-auto" />
     <div v-if="!loading" class="github mb-7">
       <IconGithub class="ignt-title mr-1" />
-      <span class="ignt-label sm ignt-muted">fadeev</span>
+      <span class="ignt-label sm ignt-muted">{{ githubUser }}</span>
       <span class="ignt-label sm ignt-border mx-1">/</span>
-      <span class="ignt-label sm ignt-muted">ignition-1</span>
+      <span class="ignt-label sm ignt-muted">{{ githubRepo }}</span>
     </div>
 
     <div v-if="!loading" class="ignt-content sm md-l-up ignt-muted">
@@ -20,30 +20,29 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+export default {
+  name: 'ProjectCardDescription'
+}
+</script>
+
+<script lang="ts" setup>
+import { LaunchChain } from 'tendermint-spn-ts-client/tendermint.spn.launch/rest'
 
 import IgntLoader from '../IgntLoader.vue'
 import IconGithub from '../icons/IconGithub.vue'
+import { getPathname } from '../../utils/url'
 
-export default defineComponent({
-  name: 'ProjectCardDescription',
+interface Props {
+  loading: boolean
+  project: LaunchChain
+}
 
-  props: {
-    loading: {
-      type: Boolean
-    }
-  },
+const { project } = defineProps<Props>()
 
-  components: { IgntLoader, IconGithub },
-
-  setup(props) {
-    const { loading } = props;
-
-    return {
-      loading
-    }
-  }
-})
+const githubUrlPathname = getPathname(project.sourceURL)
+const splitPathname = githubUrlPathname.split('/')
+const githubUser = splitPathname[1] ?? ''
+const githubRepo = splitPathname[2] ?? ''
 </script>
 
 <style scoped lang="scss">

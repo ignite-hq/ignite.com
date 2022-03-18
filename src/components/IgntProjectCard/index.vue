@@ -2,7 +2,11 @@
   <div class="project-card">
     <ProjectCardHeader :loading="loading" />
     <div>
-      <ProjectCardDescription class="project-card__row" :loading="loading" />
+      <ProjectCardDescription
+        :project="project"
+        class="project-card__row"
+        :loading="loading"
+      />
       <ProjectCardShareAllocation v-if="!loading" class="project-card__row" />
       <ProjectCardIncentives v-if="!loading" class="project-card__row" />
       <ProjectCardStatus class="project-card__row" :loading="loading" />
@@ -13,7 +17,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+export default {
+  name: 'IgntProjectCard'
+}
+</script>
+
+<script lang="ts" setup>
+import { LaunchChain } from 'tendermint-spn-ts-client/tendermint.spn.launch/rest'
 
 import ProjectCardHeader from './ProjectCardHeader.vue'
 import ProjectCardDescription from './ProjectCardDescription.vue'
@@ -22,44 +32,19 @@ import ProjectCardIncentives from './ProjectCardIncentives.vue'
 import ProjectCardStatus from './ProjectCardStatus.vue'
 import ProjectCardInvest from './ProjectCardInvest.vue'
 
-export default defineComponent({
-  name: 'IgntProjectCard',
+interface Props {
+  loading: boolean
+  project: LaunchChain
+}
 
-  props: {
-    project: {
-      type: Object,
-      required: true
-    },
-    loading: {
-      type: Boolean
-    }
-  },
-
-  components: {
-    ProjectCardHeader,
-    ProjectCardDescription,
-    ProjectCardShareAllocation,
-    ProjectCardIncentives,
-    ProjectCardStatus,
-    ProjectCardInvest
-  },
-
-  setup(props) {
-    const { project, loading } = props;
-
-    return {
-      project,
-      loading
-    }
-  }
-})
+const { project } = defineProps<Props>()
 </script>
 
 <style scoped lang="scss">
 .project-card {
   overflow: hidden;
   border-radius: px2rem(20);
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 16px 32px 128px 8px rgba(0, 0, 0, 0.07);
 
   &__row {

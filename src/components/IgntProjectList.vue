@@ -1,40 +1,38 @@
 <template>
   <div class="project-list">
     <MasonryWall
-      :items="items"
+      :items="chains"
       :column-width="columnWidth"
       :gap="gap"
       :rtl="rtl"
     >
-      <template #default="{ item }">
-        <IgntProjectCard :project="{}" :loading="item" />
+      <template #default="{ item: project }">
+        <IgntProjectCard :project="project" :loading="!project" />
       </template>
     </MasonryWall>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+export default {
+  name: 'IgntProjectList'
+}
+</script>
+
+<script lang="ts" setup>
 import MasonryWall from '@yeger/vue-masonry-wall'
+import { LaunchChain } from 'tendermint-spn-ts-client/tendermint.spn.launch/rest'
 
 import IgntProjectCard from './IgntProjectCard/index.vue'
 
-export default defineComponent({
-  name: 'IgntProjectList',
+interface Props {
+  chains: LaunchChain[]
+}
 
-  components: { MasonryWall, IgntProjectCard },
-
-  data() {
-    return {
-      columnWidth: 330,
-      gap: 32,
-      items: [false, true, false, false, true],
-      rtl: false,
-    }
-  },
-
-  setup() {}
-})
+const { chains = [] } = defineProps<Props>()
+const columnWidth = 330
+const gap = 32
+const rtl = false
 </script>
 
 <style scoped lang="scss">
