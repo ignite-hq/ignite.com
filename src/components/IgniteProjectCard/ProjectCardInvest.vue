@@ -12,30 +12,22 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+export default {
+  name: 'ProjectCardIncentives'
+}
+</script>
 
+<script setup lang="ts">
 import IgniteProgressBar from '../IgniteProgressBar.vue'
 
-export default defineComponent({
-  name: 'ProjectCardIncentives',
-
-  components: { IgniteProgressBar },
-
-  setup(props) {
-    const progressBar = {
-      items: [
-        {
-          value: '50',
-          bgColor: 'bg-primary',
-        }
-      ]
+const progressBar = {
+  items: [
+    {
+      value: '50',
+      bgColor: 'bg-primary'
     }
-
-    return {
-      progressBar
-    }
-  }
-})
+  ]
+}
 </script>
 
 <style scoped lang="postcss"></style>

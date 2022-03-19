@@ -2,55 +2,41 @@
   <div class="project-card">
     <ProjectCardHeader :loading="loading" />
     <div>
-      <ProjectCardDescription :loading="loading" class="project-card__row" />
+      <ProjectCardDescription
+        :project="project"
+        class="project-card__row"
+        :loading="loading"
+      />
       <ProjectCardShareAllocation v-if="!loading" class="project-card__row" />
       <ProjectCardIncentives v-if="!loading" class="project-card__row" />
       <ProjectCardStatus :loading="loading" class="project-card__row" />
-
       <ProjectCardInvest v-if="!loading" class="project-card__row _gray" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+export default {
+  name: 'IgniteProjectCard'
+}
+</script>
 
-import ProjectCardHeader from './ProjectCardHeader.vue'
+<script lang="ts" setup>
+import { LaunchChain } from 'tendermint-spn-ts-client/tendermint.spn.launch/rest'
+import { PropType } from 'vue'
+
 import ProjectCardDescription from './ProjectCardDescription.vue'
-import ProjectCardShareAllocation from './ProjectCardShareAllocation.vue'
+import ProjectCardHeader from './ProjectCardHeader.vue'
 import ProjectCardIncentives from './ProjectCardIncentives.vue'
-import ProjectCardStatus from './ProjectCardStatus.vue'
 import ProjectCardInvest from './ProjectCardInvest.vue'
+import ProjectCardShareAllocation from './ProjectCardShareAllocation.vue'
+import ProjectCardStatus from './ProjectCardStatus.vue'
 
-export default defineComponent({
-  name: 'IgniteProjectCard',
-
-  props: {
-    project: {
-      type: Object,
-      required: true
-    },
-    loading: {
-      type: Boolean
-    }
-  },
-
-  components: {
-    ProjectCardHeader,
-    ProjectCardDescription,
-    ProjectCardShareAllocation,
-    ProjectCardIncentives,
-    ProjectCardStatus,
-    ProjectCardInvest
-  },
-
-  setup(props) {
-    const { project, loading } = props;
-
-    return {
-      project,
-      loading
-    }
+defineProps({
+  loading: Boolean,
+  project: {
+    type: Object as PropType<LaunchChain>,
+    default: () => ({})
   }
 })
 </script>

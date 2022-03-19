@@ -5,16 +5,26 @@
       v-if="!loading"
       class="ignt-title text-4 m:text-5 font-semibold text-center mb-4"
     >
-      Ignition #1
+      {{ campaignName }}
     </div>
 
     <IgniteLoader v-if="loading" class="github-loading mx-auto" />
-    <div v-if="!loading" class="flex items-center justify-center mb-7">
+    <a
+      v-if="!loading"
+      :href="project.sourceURL"
+      target="__blank"
+      rel="noreferrer noopener"
+      class="flex items-center justify-center mb-7"
+    >
       <IconGithub class="text-title mr-1" />
-      <span class="ignt-text font-medium text-2 text-muted">fadeev</span>
+      <span class="ignt-text font-medium text-2 text-muted">{{
+        githubUser
+      }}</span>
       <span class="ignt-text font-medium text-2 text-border mx-1">/</span>
-      <span class="ignt-text font-medium text-2 text-muted">ignition-1</span>
-    </div>
+      <span class="ignt-text font-medium text-2 text-muted">{{
+        githubRepo
+      }}</span>
+    </a>
 
     <div v-if="!loading" class="ignt-text text-2 m:text-3 text-muted">
       A blockchain built with the Cosmos SDK and launched on the Ignite Network.
@@ -23,29 +33,37 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+export default {
+  name: 'ProjectCardDescription'
+}
+</script>
 
-import IgniteLoader from '../IgniteLoader.vue'
+<script lang="ts" setup>
+import { LaunchChain } from 'tendermint-spn-ts-client/tendermint.spn.launch/rest'
+import { computed, PropType } from 'vue'
+
+import useCampaign from '../../composables/useCampaign'
+import { getPathname } from '../../utils/url'
 import IconGithub from '../icons/IconGithub.vue'
+import IgniteLoader from '../IgniteLoader.vue'
 
-export default defineComponent({
-  name: 'ProjectCardDescription',
+const props = defineProps({
+  loading: Boolean,
+  project: { type: Object as PropType<LaunchChain>, default: () => ({}) }
+})
 
-  props: {
-    loading: {
-      type: Boolean
-    }
-  },
+const { campaign } = useCampaign(Number(props.project?.campaignID))
 
-  components: { IgniteLoader, IconGithub },
+const githubUrlPathname = getPathname(props.project?.sourceURL ?? '')
+const splitPathname = githubUrlPathname.split('/')
+const githubUser = splitPathname[1] ?? ''
+const githubRepo = splitPathname[2] ?? ''
 
-  setup(props) {
-    const { loading } = props;
+const campaignName = computed(() => {
+  if (!campaign.value) return ''
+  if (props.project.isMainnet) return campaign.value?.campaignName
 
-    return {
-      loading
-    }
-  }
+  return `${campaign.value?.campaignName}-${campaign.value?.coordinatorID}`
 })
 </script>
 

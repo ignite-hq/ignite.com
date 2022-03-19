@@ -16,13 +16,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'ProjectCardIncentives',
-
-  setup(props) {}
-})
+export default {
+  name: 'ProjectCardIncentives'
+}
 </script>
 
 <style scoped lang="postcss">

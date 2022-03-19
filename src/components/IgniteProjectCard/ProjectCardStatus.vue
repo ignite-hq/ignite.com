@@ -22,31 +22,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+export default {
+  name: 'ProjectCardStatus'
+}
+</script>
 
-import IgniteLoader from '../IgniteLoader.vue'
-import IconStar from '../icons/IconStar.vue'
+<script setup lang="ts">
 import IconPlane from '../icons/IconPlane.vue'
 import IconStage from '../icons/IconStage.vue'
+import IconStar from '../icons/IconStar.vue'
+import IgniteLoader from '../IgniteLoader.vue'
 
-export default defineComponent({
-  name: 'ProjectCardStatus',
-
-  props: {
-    loading: {
-      type: Boolean
-    }
-  },
-
-  components: { IgniteLoader, IconStar, IconPlane, IconStage },
-
-  setup(props) {
-    const { loading } = props;
-
-    return {
-      loading
-    }
-  }
+defineProps({
+  loading: Boolean
 })
 </script>
 

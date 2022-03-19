@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <IgniteProjectList :chains="allChains" />
+    <IgniteProjectList :loading="isLoading" :chains="allChains" />
   </div>
 </template>
 

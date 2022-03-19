@@ -5,7 +5,11 @@
     </div>
 
     <div class="mb-6">
-      <IgniteProgressBar :logo="progressBar.logo" :items="progressBar.items" class="mb-4" />
+      <IgniteProgressBar
+        :logo="progressBar.logo"
+        :items="progressBar.items"
+        class="mb-4"
+      />
       <IgniteProgressBar :logo="progressBar.logo" :items="progressBar.items" />
     </div>
 
@@ -14,55 +18,46 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+export default {
+  name: 'ProjectCardShareAllocation'
+}
+</script>
 
-import IgniteProgressBar from '../IgniteProgressBar.vue'
+<script setup lang="ts">
 import IgniteLegend from '../IgniteLegend.vue'
+import IgniteProgressBar from '../IgniteProgressBar.vue'
 
-export default defineComponent({
-  name: 'ProjectCardShareAllocation',
-
-  components: { IgniteProgressBar, IgniteLegend },
-
-  setup(props) {
-    const progressBar = {
-      logo: '/logo.png',
-      items: [
-        {
-          value: '10',
-          bgColor: 'bg-secondary',
-          split: true,
-        },
-        {
-          value: '40',
-          bgColor: 'bg-primary',
-        },
-        {
-          value: '50'
-        }
-      ]
+const progressBar = {
+  logo: '/logo.png',
+  items: [
+    {
+      value: '10',
+      bgColor: 'bg-secondary',
+      split: true
+    },
+    {
+      value: '40',
+      bgColor: 'bg-primary'
+    },
+    {
+      value: '50'
     }
+  ]
+}
 
-    const legend = [
-      {
-        name: 'Past',
-        color: 'bg-secondary'
-      },
-      {
-        name: 'Current',
-        color: 'bg-primary'
-      },
-      {
-        name: 'Future'
-      }
-    ]
-
-    return {
-      progressBar,
-      legend
-    }
+const legend = [
+  {
+    name: 'Past',
+    color: 'bg-secondary'
+  },
+  {
+    name: 'Current',
+    color: 'bg-primary'
+  },
+  {
+    name: 'Future'
   }
-})
+]
 </script>
 
 <style scoped lang="postcss"></style>
