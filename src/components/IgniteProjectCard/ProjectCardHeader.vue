@@ -35,37 +35,37 @@ export default defineComponent({
 })
 </script>
 
-<style scoped lang="scss">
-.header {
-  position: relative;
-  height: 0;
-  padding-bottom: 50%;
-  background-color: var(--primary);
-  &._loading {
-    background-color: var(--gray-50);
-  }
-}
+<style scoped lang="postcss">
+/* // .header {
+//   position: relative;
+//   height: 0;
+//   padding-bottom: 50%;
+//   background-color: var(--primary);
+//   &._loading {
+//     background-color: var(--gray-50);
+//   }
+// }
 
-.background {
-  overflow: hidden;
-  position: absolute;
-  z-index: 2;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-}
+// .background {
+//   overflow: hidden;
+//   position: absolute;
+//   z-index: 2;
+//   top: 0;
+//   left: 0;
+//   bottom: 0;
+//   right: 0;
+// }
 
-.logo {
-  position: absolute;
-  z-index: 3;
-  bottom: 0;
-  left: 50%;
-  width: px2rem(80);
-  height: px2rem(80);
-  border-radius: px2rem(16);
-  background-color: var(--primary);
-  outline: px2rem(4) solid var(--white);
-  transform: translate(-50%, 50%);
-}
+// .logo {
+//   position: absolute;
+//   z-index: 3;
+//   bottom: 0;
+//   left: 50%;
+//   width: px2rem(80);
+//   height: px2rem(80);
+//   border-radius: px2rem(16);
+//   background-color: var(--primary);
+//   outline: px2rem(4) solid var(--white);
+//   transform: translate(-50%, 50%);
+// } */
 </style>

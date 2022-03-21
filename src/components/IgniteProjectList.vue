@@ -37,8 +37,4 @@ export default defineComponent({
 })
 </script>
 
-<style scoped lang="scss">
-.col {
-  margin-bottom: 32px;
-}
-</style>
+<style scoped lang="postcss"></style>

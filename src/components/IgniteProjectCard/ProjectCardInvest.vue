@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="title mb-7">
+    <div class="flex justify-between items-center mb-7">
       <div class="ignt-label sm ignt-muted">Invest</div>
       <div class="ignt-label sm ignt-title"><b>$1M</b> of <b>$2M</b></div>
     </div>
@@ -37,10 +37,4 @@ export default defineComponent({
 })
 </script>
 
-<style scoped lang="scss">
-.title {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-</style>
+<style scoped lang="postcss"></style>

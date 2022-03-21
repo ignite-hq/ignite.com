@@ -57,7 +57,7 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="postcss">
 body {
   margin: 0;
 }

@@ -1,20 +1,20 @@
 <template>
   <div>
     <IgniteLoader v-if="loading" class="status-loading mx-auto" />
-    <div v-if="!loading" class="status">
-      <div class="status__item">
+    <div v-if="!loading" class="status flex justify-center items-center">
+      <div class="status__item flex justify-center items-center">
         <IconStar class="ignt-primary mr-1" />
         <span class="ignt-label sm ignt-title">1</span>
       </div>
-      <div class="status__item">
+      <div class="status__item flex justify-center items-center">
         <IconPlane class="ignt-primary mr-1" />
         <span class="ignt-label sm ignt-title">100</span>
       </div>
-      <div class="status__item">
+      <div class="status__item flex justify-center items-center">
         <IconStage class="ignt-primary mr-1" />
         <span class="ignt-label sm ignt-title">30</span>
       </div>
-      <div class="status__item">
+      <div class="status__item flex justify-center items-center">
         <span class="ignt-badge ignt-label sm">testnet</span>
       </div>
     </div>
@@ -50,23 +50,17 @@ export default defineComponent({
 })
 </script>
 
-<style scoped lang="scss">
-.status {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-inline: px2rem(-8);
+<style scoped lang="postcss">
+/* // .status {
+//   margin-inline: -8px;
 
-  &__item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-inline: px2rem(8);
-  }
-}
+//   &__item {
+//     padding-inline: 8px;
+//   }
+// }
 
-.status-loading {
-  height: px2rem(28);
-  width: px2rem(180);
-}
+// .status-loading {
+//   height: 28px;
+//   width: 180px;
+// } */
 </style>

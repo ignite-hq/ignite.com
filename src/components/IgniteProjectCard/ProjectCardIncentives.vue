@@ -21,19 +21,19 @@ export default defineComponent({
 })
 </script>
 
-<style scoped lang="scss">
-.logo {
-  width: var(--spacing-6);
-  height: var(--spacing-6);
-  flex-shrink: 0;
-  border-radius: 100%;
-  background-color: var(--gray-50);
-  box-shadow: inset 0px 0px px2rem(4) var(--black-660);
-}
+<style scoped lang="postcss">
+/* // .logo {
+//   width: var(--spacing-6);
+//   height: var(--spacing-6);
+//   flex-shrink: 0;
+//   border-radius: 100%;
+//   background-color: var(--gray-50);
+//   box-shadow: inset 0px 0px px2rem(4) var(--black-660);
+// }
 
-.rewards {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+// .rewards {
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+// } */
 </style>

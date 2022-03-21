@@ -55,7 +55,7 @@ export default defineComponent({
 })
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="postcss">
 .project-card {
   overflow: hidden;
   border-radius: px2rem(20);

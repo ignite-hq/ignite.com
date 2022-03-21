@@ -33,23 +33,23 @@ export default defineComponent({
 })
 </script>
 
-<style scoped lang="scss">
-.ignt-legend {
-  display: flex;
-  justify-content: center;
-  margin-inline: px2rem(-8);
+<style scoped lang="postcss">
+/* // .ignt-legend {
+//   display: flex;
+//   justify-content: center;
+//   margin-inline: px2rem(-8);
 
-  &__item {
-    display: flex;
-    align-items: center;
-    padding-inline: px2rem(8);
-  }
+//   &__item {
+//     display: flex;
+//     align-items: center;
+//     padding-inline: px2rem(8);
+//   }
 
-  &__icon {
-    width: px2rem(8);
-    height: px2rem(8);
-    border-radius: 100%;
-    background: var(--black-50);
-  }
-}
+//   &__icon {
+//     width: px2rem(8);
+//     height: px2rem(8);
+//     border-radius: 100%;
+//     background: var(--black-50);
+//   }
+// } */
 </style>

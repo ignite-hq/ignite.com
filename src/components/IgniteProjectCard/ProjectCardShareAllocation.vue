@@ -66,23 +66,23 @@ export default defineComponent({
 })
 </script>
 
-<style scoped lang="scss">
-.title-loading {
-  width: px2rem(180);
-  height: px2rem(26);
-  @media #{$breakpoint-large} {
-    height: px2rem(36);
-  }
-}
+<style scoped lang="postcss">
+/* // .title-loading {
+//   width: px2rem(180);
+//   height: px2rem(26);
+//   @media #{$breakpoint-large} {
+//     height: px2rem(36);
+//   }
+// }
 
-.github {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+// .github {
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+// }
 
-.github-loading {
-  width: px2rem(150);
-  height: px2rem(24);
-}
+// .github-loading {
+//   width: px2rem(150);
+//   height: px2rem(24);
+// } */
 </style>

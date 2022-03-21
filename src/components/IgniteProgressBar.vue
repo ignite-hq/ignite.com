@@ -47,43 +47,43 @@ export default defineComponent({
 })
 </script>
 
-<style scoped lang="scss">
-.logo {
-  width: var(--spacing-6);
-  height: var(--spacing-6);
-  flex-shrink: 0;
-  border-radius: 100%;
-  background-color: var(--gray-50);
-  box-shadow: inset 0px 0px px2rem(4) var(--black-660);
-}
+<style scoped lang="postcss">
+/* // .logo {
+//   width: var(--spacing-6);
+//   height: var(--spacing-6);
+//   flex-shrink: 0;
+//   border-radius: 100%;
+//   background-color: var(--gray-50);
+//   box-shadow: inset 0px 0px px2rem(4) var(--black-660);
+// }
 
-.ignt-progress {
-  overflow: hidden;
-  position: relative;
-  display: flex;
-  width: 100%;
-  border-radius: px2rem(100);
-  background: var(--gray-50);
-  font-size: 0;
-  &._white {
-    background-color: var(--white);
-  }
+// .ignt-progress {
+//   overflow: hidden;
+//   position: relative;
+//   display: flex;
+//   width: 100%;
+//   border-radius: px2rem(100);
+//   background: var(--gray-50);
+//   font-size: 0;
+//   &._white {
+//     background-color: var(--white);
+//   }
 
-  &__container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+//   &__container {
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//   }
 
-  &__inner {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: px2rem(20);
-    border-radius: 0px px2rem px2rem 0px;
-    &._no-radius {
-      border-radius: 0;
-    }
-  }
-}
+//   &__inner {
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     height: px2rem(20);
+//     border-radius: 0px px2rem px2rem 0px;
+//     &._no-radius {
+//       border-radius: 0;
+//     }
+//   }
+// } */
 </style>
