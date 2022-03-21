@@ -1,4 +1,5 @@
 /* eslint-disable */
+
 import { Window as KeplrWindow, Keplr } from '@keplr-wallet/types'
 
 declare global {

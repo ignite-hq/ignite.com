@@ -24,6 +24,7 @@ import { useIgnite as useIgniteN } from 'tendermint-spn-vue'
 import { SpTheme, SpNavbar } from '@starport/vue'
 import { useRouter } from 'vue-router'
 import { Environment } from 'tendermint-spn-ts-client'
+import { NavbarLink } from '@starport/vue/src/components/SpNavbar/SpNavbar.vue'
 
 let env: Environment = {
   apiURL: process.env.VUE_APP_API_COSMOS,
@@ -41,7 +42,7 @@ useIgniteN(tsClientParams)
 let router = useRouter()
 
 // state
-let navbarLinks = []
+const navbarLinks: NavbarLink[] = []
 </script>
 
 <style scoped lang="postcss">

@@ -1,32 +1,32 @@
 <template>
   <div>
-    <IgniteLoader v-if="loading" class="title-loading mx-auto mb-4" />
+    <IgniteLoader v-if="isLoading" class="mx-auto mb-4 title-loading" />
     <div
-      v-if="!loading"
-      class="ignt-title text-4 m:text-5 font-semibold text-center mb-4"
+      v-if="!isLoading"
+      class="mb-4 font-semibold text-center ignt-title text-4 m:text-5"
     >
       {{ campaignName }}
     </div>
 
-    <IgniteLoader v-if="loading" class="github-loading mx-auto" />
+    <IgniteLoader v-if="isLoading" class="mx-auto github-loading" />
     <a
-      v-if="!loading"
+      v-if="!isLoading"
       :href="project.sourceURL"
       target="__blank"
       rel="noreferrer noopener"
       class="flex items-center justify-center mb-7"
     >
-      <IconGithub class="text-title mr-1" />
-      <span class="ignt-text font-medium text-2 text-muted">{{
+      <IconGithub class="mr-1 text-title" />
+      <span class="font-medium ignt-text text-2 text-muted">{{
         githubUser
       }}</span>
-      <span class="ignt-text font-medium text-2 text-border mx-1">/</span>
-      <span class="ignt-text font-medium text-2 text-muted">{{
+      <span class="mx-1 font-medium ignt-text text-2 text-border">/</span>
+      <span class="font-medium ignt-text text-2 text-muted">{{
         githubRepo
       }}</span>
     </a>
 
-    <div v-if="!loading" class="ignt-text text-2 m:text-3 text-muted">
+    <div v-if="!isLoading" class="ignt-text text-2 m:text-3 text-muted">
       A blockchain built with the Cosmos SDK and launched on the Ignite Network.
     </div>
   </div>
@@ -52,19 +52,24 @@ const props = defineProps({
   project: { type: Object as PropType<LaunchChain>, default: () => ({}) }
 })
 
-const { campaign } = useCampaign(Number(props.project?.campaignID))
-
+// variables
 const githubUrlPathname = getPathname(props.project?.sourceURL ?? '')
 const splitPathname = githubUrlPathname.split('/')
 const githubUser = splitPathname[1] ?? ''
 const githubRepo = splitPathname[2] ?? ''
 
+// composables
+const { campaign, isLoading: isLoadingCampaign } = useCampaign(
+  props.project?.campaignID ?? ''
+)
+
+// computed
 const campaignName = computed(() => {
   if (!campaign.value) return ''
-  if (props.project.isMainnet) return campaign.value?.campaignName
-
-  return `${campaign.value?.campaignName}-${campaign.value?.coordinatorID}`
+  return campaign.value?.campaignName
 })
+
+const isLoading = computed(() => props.loading || isLoadingCampaign?.value)
 </script>
 
 <style scoped lang="postcss">
