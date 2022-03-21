@@ -24,6 +24,7 @@ export default {
 </script>
 
 <script setup lang="ts">
+import { LegendItem, ProgressBarItem } from '../../utils/types'
 import IgniteLegend from '../IgniteLegend.vue'
 import IgniteProgressBar from '../IgniteProgressBar.vue'
 
@@ -42,10 +43,10 @@ const progressBar = {
     {
       value: '50'
     }
-  ]
+  ] as ProgressBarItem[]
 }
 
-const legend = [
+const legend: LegendItem[] = [
   {
     name: 'Past',
     color: 'bg-secondary'

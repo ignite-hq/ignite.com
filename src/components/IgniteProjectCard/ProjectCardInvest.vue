@@ -18,6 +18,7 @@ export default {
 </script>
 
 <script setup lang="ts">
+import { ProgressBarItem } from '../../utils/types'
 import IgniteProgressBar from '../IgniteProgressBar.vue'
 
 const progressBar = {
@@ -26,7 +27,7 @@ const progressBar = {
       value: '50',
       bgColor: 'bg-primary'
     }
-  ]
+  ] as ProgressBarItem[]
 }
 </script>
 
