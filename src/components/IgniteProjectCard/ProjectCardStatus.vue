@@ -1,14 +1,14 @@
 <template>
   <div>
-    <IgniteLoader v-if="loading" class="status-loading mx-auto" />
-    <div v-if="!loading" class="status">
+    <IgniteLoader v-if="isLoading" class="mx-auto status-loading" />
+    <div v-if="!isLoading" class="status">
       <div class="status__item">
         <IconStar class="icon" />
-        <span class="value ignt-text">1</span>
+        <span class="value ignt-text">{{ stargazersCount }}</span>
       </div>
       <div class="status__item">
         <IconPlane class="icon" />
-        <span class="value ignt-text">100</span>
+        <span class="value ignt-text">{{ requestsCount }}</span>
       </div>
       <div class="status__item">
         <IconStage class="icon" />
@@ -28,13 +28,52 @@ export default {
 </script>
 
 <script setup lang="ts">
+import { LaunchChain } from 'tendermint-spn-ts-client/tendermint.spn.launch/rest'
+import { computed, PropType } from 'vue'
+
+import useGitHubRepository from '../../composables/useGitHubRepository'
+import useRequests from '../../composables/useRequests'
+import { getPathname } from '../../utils/url'
 import IconPlane from '../icons/IconPlane.vue'
 import IconStage from '../icons/IconStage.vue'
 import IconStar from '../icons/IconStar.vue'
 import IgniteLoader from '../IgniteLoader.vue'
 
-defineProps({
-  loading: Boolean
+const props = defineProps({
+  loading: Boolean,
+  project: { type: Object as PropType<LaunchChain>, required: true }
+})
+
+// variables
+const githubUrlPathname = getPathname(props.project?.sourceURL ?? '')
+const splitPathname = githubUrlPathname.split('/')
+const githubUser = splitPathname[1] ?? ''
+const githubRepo = splitPathname[2] ?? ''
+
+// composable
+const { repository, isLoading: isGitHubRepositoryLoading } =
+  useGitHubRepository(githubUser, githubRepo)
+const { pagination, isLoading: areRequestsLoading } = useRequests(
+  props.project?.launchID ?? '',
+  {
+    'pagination.countTotal': true,
+    'pagination.limit': '0'
+  }
+)
+
+// computed
+const requestsCount = computed(() => {
+  return pagination.value?.total ?? 0
+})
+
+const stargazersCount = computed(() => {
+  return repository.value?.stargazers_count ?? 0
+})
+
+const isLoading = computed(() => {
+  return (
+    props.loading || isGitHubRepositoryLoading.value || areRequestsLoading.value
+  )
 })
 </script>
 

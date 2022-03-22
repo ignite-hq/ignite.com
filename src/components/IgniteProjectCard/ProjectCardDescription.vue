@@ -39,17 +39,18 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import { CampaignCampaign } from 'tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 import { LaunchChain } from 'tendermint-spn-ts-client/tendermint.spn.launch/rest'
 import { computed, PropType } from 'vue'
 
-import useCampaign from '../../composables/useCampaign'
 import { getPathname } from '../../utils/url'
 import IconGithub from '../icons/IconGithub.vue'
 import IgniteLoader from '../IgniteLoader.vue'
 
 const props = defineProps({
   loading: Boolean,
-  project: { type: Object as PropType<LaunchChain>, default: () => ({}) }
+  project: { type: Object as PropType<LaunchChain>, default: () => ({}) },
+  campaign: { type: Object as PropType<CampaignCampaign>, default: () => ({}) }
 })
 
 // variables
@@ -58,18 +59,13 @@ const splitPathname = githubUrlPathname.split('/')
 const githubUser = splitPathname[1] ?? ''
 const githubRepo = splitPathname[2] ?? ''
 
-// composables
-const { campaign, isLoading: isLoadingCampaign } = useCampaign(
-  props.project?.campaignID ?? ''
-)
-
 // computed
 const campaignName = computed(() => {
-  if (!campaign.value) return ''
-  return campaign.value?.campaignName
+  if (!props.campaign) return ''
+  return props.campaign.campaignName
 })
 
-const isLoading = computed(() => props.loading || isLoadingCampaign?.value)
+const isLoading = computed(() => props.loading)
 </script>
 
 <style scoped lang="postcss">

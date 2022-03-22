@@ -1,16 +1,22 @@
 <template>
   <div class="project-card">
-    <ProjectCardHeader :loading="loading" />
+    <ProjectCardHeader :loading="isLoading" />
     <div>
       <ProjectCardDescription
         :project="project"
+        :campaign="campaign"
         class="project-card__row"
-        :loading="loading"
+        :loading="isLoading"
       />
-      <ProjectCardShareAllocation v-if="!loading" class="project-card__row" />
-      <ProjectCardIncentives v-if="!loading" class="project-card__row" />
-      <ProjectCardStatus :loading="loading" class="project-card__row" />
-      <ProjectCardInvest v-if="!loading" class="project-card__row _gray" />
+      <ProjectCardShareAllocation v-if="!isLoading" class="project-card__row" />
+      <ProjectCardIncentives v-if="!isLoading" class="project-card__row" />
+      <ProjectCardStatus
+        class="project-card__row"
+        :project="project"
+        :loading="isLoading"
+      />
+
+      <ProjectCardInvest v-if="!isLoading" class="project-card__row _gray" />
     </div>
   </div>
 </template>
@@ -23,8 +29,9 @@ export default {
 
 <script lang="ts" setup>
 import { LaunchChain } from 'tendermint-spn-ts-client/tendermint.spn.launch/rest'
-import { PropType } from 'vue'
+import { computed, PropType } from 'vue'
 
+import useCampaign from '../../composables/useCampaign'
 import ProjectCardDescription from './ProjectCardDescription.vue'
 import ProjectCardHeader from './ProjectCardHeader.vue'
 import ProjectCardIncentives from './ProjectCardIncentives.vue'
@@ -32,13 +39,20 @@ import ProjectCardInvest from './ProjectCardInvest.vue'
 import ProjectCardShareAllocation from './ProjectCardShareAllocation.vue'
 import ProjectCardStatus from './ProjectCardStatus.vue'
 
-defineProps({
+const props = defineProps({
   loading: Boolean,
   project: {
     type: Object as PropType<LaunchChain>,
     default: () => ({})
   }
 })
+
+// composables
+const { campaign, isLoading: isLoadingCampaign } = useCampaign(
+  props.project?.campaignID ?? ''
+)
+
+const isLoading = computed(() => isLoadingCampaign.value || props.loading)
 </script>
 
 <style scoped lang="postcss">
