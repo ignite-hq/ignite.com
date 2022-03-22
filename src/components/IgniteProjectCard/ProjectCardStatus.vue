@@ -4,15 +4,15 @@
     <div v-if="!isLoading" class="status">
       <div class="status__item">
         <IconStar class="icon" />
-        <span class="value ignt-text">{{ stargazersCount }}</span>
+        <span class="value ignt-text">{{ stargazerCount }}</span>
       </div>
       <div class="status__item">
         <IconPlane class="icon" />
-        <span class="value ignt-text">{{ requestsCount }}</span>
+        <span class="value ignt-text">{{ requestCount }}</span>
       </div>
       <div class="status__item">
         <IconStage class="icon" />
-        <span class="value ignt-text">30</span>
+        <span class="value ignt-text">{{ validatorCount }}</span>
       </div>
       <div class="status__item">
         <span class="value ignt-text ignt-badge">testnet</span>
@@ -32,7 +32,7 @@ import { LaunchChain } from 'tendermint-spn-ts-client/tendermint.spn.launch/rest
 import { computed, PropType } from 'vue'
 
 import useGitHubRepository from '../../composables/useGitHubRepository'
-import useRequests from '../../composables/useRequests'
+import useRequests from '../../composables/useLaunchRequests'
 import { getPathname } from '../../utils/url'
 import IconPlane from '../icons/IconPlane.vue'
 import IconStage from '../icons/IconStage.vue'
@@ -53,26 +53,36 @@ const githubRepo = splitPathname[2] ?? ''
 // composable
 const { repository, isLoading: isGitHubRepositoryLoading } =
   useGitHubRepository(githubUser, githubRepo)
-const { pagination, isLoading: areRequestsLoading } = useRequests(
-  props.project?.launchID ?? '',
-  {
+const { pagination: requestsPagination, isLoading: areRequestsLoading } =
+  useRequests(props.project?.launchID ?? '', {
     'pagination.countTotal': true,
     'pagination.limit': '0'
-  }
-)
+  })
+const { pagination: validatorPagination, isLoading: areValidatorsLoading } =
+  useRequests(props.project?.launchID ?? '', {
+    'pagination.countTotal': true,
+    'pagination.limit': '0'
+  })
 
 // computed
-const requestsCount = computed(() => {
-  return pagination.value?.total ?? 0
+const requestCount = computed(() => {
+  return requestsPagination.value?.total ?? 0
 })
 
-const stargazersCount = computed(() => {
+const stargazerCount = computed(() => {
   return repository.value?.stargazers_count ?? 0
+})
+
+const validatorCount = computed(() => {
+  return validatorPagination.value?.total ?? 0
 })
 
 const isLoading = computed(() => {
   return (
-    props.loading || isGitHubRepositoryLoading.value || areRequestsLoading.value
+    props.loading ||
+    isGitHubRepositoryLoading.value ||
+    areRequestsLoading.value ||
+    areValidatorsLoading.value
   )
 })
 </script>

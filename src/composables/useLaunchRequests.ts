@@ -6,7 +6,7 @@ import { useQuery } from 'vue-query'
 import { PaginationParams } from '../utils/types'
 import useInjectedIgnite from './useInjectedIgnite'
 
-export default function useRequests(
+export default function useLaunchRequests(
   launchId: LaunchChain['launchID'],
   options?: PaginationParams
 ) {
@@ -15,7 +15,7 @@ export default function useRequests(
     $ignt: igniteClient.value
   })
   const { data, ...other } = useQuery(
-    ['requests', launchId],
+    ['launch', 'requests', launchId],
     () => queryRequestAll(launchId ?? '', options).then((r) => r.data),
     {
       enabled: Boolean(launchId)
