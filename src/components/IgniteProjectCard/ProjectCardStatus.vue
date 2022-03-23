@@ -31,9 +31,7 @@ export default {
 import { LaunchChain } from 'tendermint-spn-ts-client/tendermint.spn.launch/rest'
 import { computed, PropType } from 'vue'
 
-import useGitHubRepository from '../../composables/useGitHubRepository'
 import useRequests from '../../composables/useLaunchRequests'
-import { getPathname } from '../../utils/url'
 import IconPlane from '../icons/IconPlane.vue'
 import IconStage from '../icons/IconStage.vue'
 import IconStar from '../icons/IconStar.vue'
@@ -41,18 +39,11 @@ import IgniteLoader from '../IgniteLoader.vue'
 
 const props = defineProps({
   loading: Boolean,
-  project: { type: Object as PropType<LaunchChain>, required: true }
+  project: { type: Object as PropType<LaunchChain>, required: true },
+  stargazerCount: { type: Number, required: true }
 })
 
-// variables
-const githubUrlPathname = getPathname(props.project?.sourceURL ?? '')
-const splitPathname = githubUrlPathname.split('/')
-const githubUser = splitPathname[1] ?? ''
-const githubRepo = splitPathname[2] ?? ''
-
 // composable
-const { repository, isLoading: isGitHubRepositoryLoading } =
-  useGitHubRepository(githubUser, githubRepo)
 const { pagination: requestsPagination, isLoading: areRequestsLoading } =
   useRequests(props.project?.launchID ?? '', {
     'pagination.countTotal': true,
@@ -69,21 +60,12 @@ const requestCount = computed(() => {
   return requestsPagination.value?.total ?? 0
 })
 
-const stargazerCount = computed(() => {
-  return repository.value?.stargazers_count ?? 0
-})
-
 const validatorCount = computed(() => {
   return validatorPagination.value?.total ?? 0
 })
 
 const isLoading = computed(() => {
-  return (
-    props.loading ||
-    isGitHubRepositoryLoading.value ||
-    areRequestsLoading.value ||
-    areValidatorsLoading.value
-  )
+  return props.loading || areRequestsLoading.value || areValidatorsLoading.value
 })
 </script>
 

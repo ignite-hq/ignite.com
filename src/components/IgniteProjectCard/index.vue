@@ -3,10 +3,13 @@
     <ProjectCardHeader :loading="isLoading" />
     <div>
       <ProjectCardDescription
-        :project="project"
         :campaign="campaign"
-        class="project-card__row"
         :loading="isLoading"
+        :github-repo="githubRepo"
+        :github-user="githubUser"
+        :github-description="repository?.description ?? ''"
+        :source-url="project.sourceURL ?? ''"
+        class="project-card__row"
       />
       <ProjectCardShareAllocation
         v-if="showAllocation"
@@ -17,6 +20,7 @@
         class="project-card__row"
         :project="project"
         :loading="isLoading"
+        :stargazer-count="repository?.stargazers_count ?? 0"
       />
     </div>
   </div>
@@ -33,6 +37,8 @@ import { LaunchChain } from 'tendermint-spn-ts-client/tendermint.spn.launch/rest
 import { computed, PropType } from 'vue'
 
 import useCampaign from '../../composables/useCampaign'
+import useGitHubRepository from '../../composables/useGitHubRepository'
+import { getPathname } from '../../utils/url'
 import ProjectCardDescription from './ProjectCardDescription.vue'
 import ProjectCardHeader from './ProjectCardHeader.vue'
 import ProjectCardShareAllocation from './ProjectCardShareAllocation.vue'
@@ -46,14 +52,25 @@ const props = defineProps({
   }
 })
 
+// variables
+const githubUrlPathname = getPathname(props.project?.sourceURL ?? '')
+const splitPathname = githubUrlPathname.split('/')
+const githubUser = splitPathname[1] ?? ''
+const githubRepo = splitPathname[2] ?? ''
+
 // composables
 const { campaign, isLoading: isLoadingCampaign } = useCampaign(
   props.project?.campaignID ?? ''
 )
 
+const { repository, isLoading: isGitHubRepositoryLoading } =
+  useGitHubRepository(githubUser, githubRepo)
+
 // computed
 const isLoading = computed(function () {
-  return isLoadingCampaign.value || props.loading
+  return (
+    isLoadingCampaign.value || props.loading || isGitHubRepositoryLoading.value
+  )
 })
 
 const showAllocation = computed(function () {

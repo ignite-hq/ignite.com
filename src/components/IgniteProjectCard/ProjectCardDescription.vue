@@ -11,7 +11,7 @@
     <IgniteLoader v-if="isLoading" class="mx-auto github-loading" />
     <a
       v-if="!isLoading"
-      :href="project.sourceURL"
+      :href="sourceUrl"
       target="__blank"
       rel="noreferrer noopener"
       class="flex items-center justify-center mb-7"
@@ -27,7 +27,7 @@
     </a>
 
     <div v-if="!isLoading" class="ignt-text text-2 m:text-3 text-muted">
-      A blockchain built with the Cosmos SDK and launched on the Ignite Network.
+      {{ description }}
     </div>
   </div>
 </template>
@@ -40,24 +40,24 @@ export default {
 
 <script lang="ts" setup>
 import { CampaignCampaign } from 'tendermint-spn-ts-client/tendermint.spn.campaign/rest'
-import { LaunchChain } from 'tendermint-spn-ts-client/tendermint.spn.launch/rest'
 import { computed, PropType } from 'vue'
 
-import { getPathname } from '../../utils/url'
 import IconGithub from '../icons/IconGithub.vue'
 import IgniteLoader from '../IgniteLoader.vue'
 
+// props
 const props = defineProps({
   loading: Boolean,
-  project: { type: Object as PropType<LaunchChain>, default: () => ({}) },
+  githubUser: { type: String, required: true },
+  githubRepo: { type: String, required: true },
+  githubDescription: { type: String, required: true },
+  sourceUrl: { type: String, required: true },
   campaign: { type: Object as PropType<CampaignCampaign>, default: () => ({}) }
 })
 
 // variables
-const githubUrlPathname = getPathname(props.project?.sourceURL ?? '')
-const splitPathname = githubUrlPathname.split('/')
-const githubUser = splitPathname[1] ?? ''
-const githubRepo = splitPathname[2] ?? ''
+const defaultDescription =
+  'A blockchain built with the Cosmos SDK and launched on the Ignite Network.'
 
 // computed
 const campaignName = computed(() => {
@@ -66,6 +66,11 @@ const campaignName = computed(() => {
 })
 
 const isLoading = computed(() => props.loading)
+
+const description = computed(() => {
+  if (props.githubDescription.length > 0) return props.githubDescription
+  return defaultDescription
+})
 </script>
 
 <style scoped lang="postcss">

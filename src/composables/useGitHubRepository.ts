@@ -4,6 +4,7 @@ const GITHUB_API_URL = 'https://api.github.com'
 
 interface Repository {
   stargazers_count: number
+  description: string
 }
 
 const ONE_DAY = 1000 * 60 * 60 * 24
@@ -25,7 +26,8 @@ export default function useGitHubRepository(
     () => fetchRepository(organization, repoName),
     {
       cacheTime: ONE_DAY,
-      staleTime: ONE_DAY
+      staleTime: ONE_DAY,
+      enabled: Boolean(organization) && Boolean(repoName)
     }
   )
 
