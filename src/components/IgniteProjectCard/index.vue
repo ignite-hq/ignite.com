@@ -8,15 +8,16 @@
         class="project-card__row"
         :loading="isLoading"
       />
-      <ProjectCardShareAllocation v-if="!isLoading" class="project-card__row" />
-      <ProjectCardIncentives v-if="!isLoading" class="project-card__row" />
+      <ProjectCardShareAllocation
+        v-if="showAllocation"
+        class="project-card__row"
+        :campaign="campaign"
+      />
       <ProjectCardStatus
         class="project-card__row"
         :project="project"
         :loading="isLoading"
       />
-
-      <ProjectCardInvest v-if="!isLoading" class="project-card__row _gray" />
     </div>
   </div>
 </template>
@@ -34,8 +35,6 @@ import { computed, PropType } from 'vue'
 import useCampaign from '../../composables/useCampaign'
 import ProjectCardDescription from './ProjectCardDescription.vue'
 import ProjectCardHeader from './ProjectCardHeader.vue'
-import ProjectCardIncentives from './ProjectCardIncentives.vue'
-import ProjectCardInvest from './ProjectCardInvest.vue'
 import ProjectCardShareAllocation from './ProjectCardShareAllocation.vue'
 import ProjectCardStatus from './ProjectCardStatus.vue'
 
@@ -52,7 +51,14 @@ const { campaign, isLoading: isLoadingCampaign } = useCampaign(
   props.project?.campaignID ?? ''
 )
 
-const isLoading = computed(() => isLoadingCampaign.value || props.loading)
+// computed
+const isLoading = computed(function () {
+  return isLoadingCampaign.value || props.loading
+})
+
+const showAllocation = computed(function () {
+  return !isLoading.value && Boolean(campaign.value?.totalSupply?.length)
+})
 </script>
 
 <style scoped lang="postcss">
