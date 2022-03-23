@@ -5,9 +5,16 @@
   "author": "Tendermint, Inc <hello@tendermint.com>",
   "private": true,
   "scripts": {
+    "prepare": "husky install",
     "dev": "vite",
     "build": "vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "lint:check": "eslint --ext .js,.ts,.vue .",
+    "lint:format": "eslint --fix --ext .js,.ts,.vue .",
+    "prettify:check": "prettier --check .",
+    "prettify:format": "prettier --write .",
+    "code:check": "npm run lint:check && npm run prettify:check",
+    "code:format": "npm run lint:format && npm run prettify:format"
   },
   "dependencies": {
     "@cosmjs/launchpad": "0.27.0",
@@ -42,6 +49,18 @@
     "postcss-nesting": "^10.1.3",
     "postcss-preset-env": "^7.4.3",
     "tailwindcss": "^3.0.23",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.3.6",
+    "prettier": "^2.6.0",
+    "pretty-quick": "^3.1.3",
+    "@typescript-eslint/eslint-plugin": "^5.15.0",
+    "@typescript-eslint/parser": "^5.15.0",
+    "@vue/eslint-config-prettier": "^7.0.0",
+    "@vue/eslint-config-typescript": "^10.0.0",
+    "eslint": "^8.11.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
+    "eslint-plugin-vue": "^8.5.0",
     "vite": "^2.7.6",
     "vite-plugin-dynamic-import": "^0.1.1",
     "vite-plugin-env-compatible": "^1.1.1"
