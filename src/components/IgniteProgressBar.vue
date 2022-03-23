@@ -1,15 +1,20 @@
 <template>
   <div class="ignt-progress__container">
     <div v-if="logo" class="logo mr-3" />
-    <div class="ignt-progress" :class="inverse && '_white'">
+
+    <div class="ignt-progress" :class="inverse ? 'bg-white-1000' : 'bg-gray-50'">
       <div
         v-for="item in items"
         :key="item.name"
-        class="ignt-progress__inner text-center"
-        :class="item.split && '_no-radius'"
-        :style="{ 'width': item.value + '%', 'background-color': item.bgColor, 'color': item.color }"
+        class="ignt-progress__inner text-center h-[20px]"
+        :class="[
+          item.split && 'rounded-0',
+          item.bgColor && `bg-${item.bgColor}`,
+          item.bgColor === 'primary' && `text-white-1000`
+        ]"
+        :style="{ 'width': `${item.value}%`}"
       >
-        <span class="ignt-label xs">
+        <span class="ignt-text font-medium text-1">
           <b>{{ item.value }}%</b>
         </span>
       </div>
@@ -48,42 +53,19 @@ export default defineComponent({
 </script>
 
 <style scoped lang="postcss">
-/* // .logo {
-//   width: var(--spacing-6);
-//   height: var(--spacing-6);
-//   flex-shrink: 0;
-//   border-radius: 100%;
-//   background-color: var(--gray-50);
-//   box-shadow: inset 0px 0px px2rem(4) var(--black-660);
-// }
+.logo {
+  @apply relative shrink-0 rounded-circle bg-gray-50 w-6 h-6;
+}
 
-// .ignt-progress {
-//   overflow: hidden;
-//   position: relative;
-//   display: flex;
-//   width: 100%;
-//   border-radius: px2rem(100);
-//   background: var(--gray-50);
-//   font-size: 0;
-//   &._white {
-//     background-color: var(--white);
-//   }
+.ignt-progress {
+  @apply overflow-hidden relative flex w-full rounded-lg text-0;
 
-//   &__container {
-//     display: flex;
-//     align-items: center;
-//     justify-content: center;
-//   }
+  &__container {
+    @apply flex items-center justify-center;
+  }
 
-//   &__inner {
-//     display: flex;
-//     align-items: center;
-//     justify-content: center;
-//     height: px2rem(20);
-//     border-radius: 0px px2rem px2rem 0px;
-//     &._no-radius {
-//       border-radius: 0;
-//     }
-//   }
-// } */
+  &__inner {
+    @apply flex items-center justify-center rounded-r-lg;
+  }
+}
 </style>

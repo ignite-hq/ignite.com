@@ -36,36 +36,18 @@ export default defineComponent({
 </script>
 
 <style scoped lang="postcss">
-/* // .header {
-//   position: relative;
-//   height: 0;
-//   padding-bottom: 50%;
-//   background-color: var(--primary);
-//   &._loading {
-//     background-color: var(--gray-50);
-//   }
-// }
+.header {
+  @apply relative bg-primary;
+  padding-bottom: 50%;
+  &._loading {
+    @apply bg-gray-50;
+  }
+}
+.background {
+  @apply overflow-hidden absolute z-[2] inset-0;
+}
 
-// .background {
-//   overflow: hidden;
-//   position: absolute;
-//   z-index: 2;
-//   top: 0;
-//   left: 0;
-//   bottom: 0;
-//   right: 0;
-// }
-
-// .logo {
-//   position: absolute;
-//   z-index: 3;
-//   bottom: 0;
-//   left: 50%;
-//   width: px2rem(80);
-//   height: px2rem(80);
-//   border-radius: px2rem(16);
-//   background-color: var(--primary);
-//   outline: px2rem(4) solid var(--white);
-//   transform: translate(-50%, 50%);
-// } */
+.logo {
+  @apply absolute z-[3] bottom-0 left-center w-9.5 h-9.5 bg-primary rounded outline outline-4 outline-white-1000 translate-x-[-50%] translate-y-[50%];
+}
 </style>

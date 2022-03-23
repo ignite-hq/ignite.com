@@ -1,0 +1,16 @@
+@layer typography {
+  /* Title */
+  .ignt-title {
+    @apply tracking-tight leading-title;
+  }
+
+  /* Content */
+  .ignt-text {
+    @apply tracking-tighter leading-text;
+  }
+
+  /* Badge */
+  .ignt-badge {
+    @apply inline-block py-1 px-4 bg-gray-30 rounded-lg;
+  }
+}

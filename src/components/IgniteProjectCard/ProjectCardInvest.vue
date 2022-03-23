@@ -1,8 +1,10 @@
 <template>
   <div>
-    <div class="flex justify-between items-center mb-7">
-      <div class="ignt-label sm ignt-muted">Invest</div>
-      <div class="ignt-label sm ignt-title"><b>$1M</b> of <b>$2M</b></div>
+    <div class="flex justify-between items-center mb-7.5">
+      <div class="ignt-text font-medium text-2 text-muted">Invest</div>
+      <div class="ignt-text font-medium text-2 text-title">
+        <b>$1M</b> of <b>$2M</b>
+      </div>
     </div>
 
     <IgniteProgressBar :items="progressBar.items" :inverse="true" />
@@ -24,8 +26,7 @@ export default defineComponent({
       items: [
         {
           value: '50',
-          bgColor: '#3156FC',
-          color: '#fff'
+          bgColor: 'primary',
         }
       ]
     }

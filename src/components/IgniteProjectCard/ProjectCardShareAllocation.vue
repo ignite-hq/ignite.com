@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="mb-6 ignt-label sm text-center ignt-muted">
+    <div class="mb-6 ignt-text font-medium text-2 text-muted text-center">
       Share allocation
     </div>
 
@@ -30,13 +30,11 @@ export default defineComponent({
       items: [
         {
           value: '10',
-          bgColor: '#95DCFD',
-          split: true
+          bgColor: 'secondary',
         },
         {
           value: '40',
-          bgColor: '#3156FC',
-          color: '#fff'
+          bgColor: 'primary',
         },
         {
           value: '50'
@@ -47,11 +45,11 @@ export default defineComponent({
     const legend = [
       {
         name: 'Past',
-        color: '#95DCFD'
+        color: 'secondary'
       },
       {
         name: 'Current',
-        color: '#3156FC'
+        color: 'primary'
       },
       {
         name: 'Future'
