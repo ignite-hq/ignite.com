@@ -1,0 +1,9 @@
+{
+  "*.+(js|ts|vue)": [
+    "eslint"
+  ],
+  "*.+(js|json|ts|vue)": [
+    "pretty-quick --staged",
+    "git add"
+  ]
+}
