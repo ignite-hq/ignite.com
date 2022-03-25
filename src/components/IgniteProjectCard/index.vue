@@ -2,10 +2,10 @@
   <div class="project-card">
     <ProjectCardHeader :loading="loading" />
     <div>
-      <ProjectCardDescription class="project-card__row" :loading="loading" />
+      <ProjectCardDescription :loading="loading" class="project-card__row" />
       <ProjectCardShareAllocation v-if="!loading" class="project-card__row" />
       <ProjectCardIncentives v-if="!loading" class="project-card__row" />
-      <ProjectCardStatus class="project-card__row" :loading="loading" />
+      <ProjectCardStatus :loading="loading" class="project-card__row" />
 
       <ProjectCardInvest v-if="!loading" class="project-card__row _gray" />
     </div>
@@ -55,53 +55,19 @@ export default defineComponent({
 })
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="postcss">
 .project-card {
-  overflow: hidden;
-  border-radius: px2rem(20);
-  background: #FFFFFF;
+  @apply overflow-hidden bg-white-1000 rounded-md;
   box-shadow: 16px 32px 128px 8px rgba(0, 0, 0, 0.07);
 
   &__row {
-    padding: var(--spacing-7) var(--spacing-6);
-    border-top: 1px solid rgba(0, 0, 0, 0.07);
-    @media (min-width: 960px) {
-      padding-inline: px2rem(40);
-    }
+    @apply py-7 px-6 m:px-7.5 border-t border-gray-70;
     &:first-child {
-      padding-top: px2rem(52);
-      border-top: 0;
+      @apply pt-8.5 border-t-0;
     }
     &._gray {
-      padding-top: var(--spacing-6);
-      padding-bottom: px2rem(52);
-      border-top: 0;
-
-      background: var(--black-50);
+      @apply pt-6 pb-8.5 border-t-0 bg-gray-50;
     }
-  }
-  &__line {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 24px;
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-  &__item {
-    display: flex;
-    align-items: center;
-    padding-inline: 8px;
-    svg {
-      margin-right: 4px;
-    }
-  }
-  &__top-line {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 40px;
   }
 }
 </style>

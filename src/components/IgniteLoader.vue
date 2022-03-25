@@ -10,22 +10,18 @@ export default defineComponent({
 })
 </script>
 
-<style scoped lang="scss">
-$base-color: #f7f7f7;
-$animation-duration: 1.8s;
-$shine-color: #f0f0f0;
-
+<style scoped lang="postcss">
 .loading {
-  max-width: 180px;
-  min-height: 8px;
+  max-width: 11.25rem;
+  min-height: .5rem;
   background: linear-gradient(
     90deg,
-    $base-color 0px,
-    $shine-color 40px,
-    $base-color 80px
+    #f7f7f7 0px,
+    #f0f0f0 2.5rem,
+    #f7f7f7 5rem
   );
-  background-size: 600px;
-  animation: shine-lines $animation-duration infinite linear;
+  background-size: 37.5rem;
+  animation: shine-lines 1.8s infinite linear;
 }
 
 @keyframes shine-lines {

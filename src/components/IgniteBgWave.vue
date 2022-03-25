@@ -10,7 +10,7 @@ export default defineComponent({
 })
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="postcss">
 .wave,
 .wave::before,
 .wave::after {

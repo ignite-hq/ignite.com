@@ -17,9 +17,7 @@ export default defineConfig({
   },
   plugins: [vue(), nodeResolve(), dynamicImport(), envCompatible()],
   css: {
-    preprocessorOptions: {
-      scss: { additionalData: `@import "${pathSrc}/assets/styles/main.scss";` },
-    },
+    postcss: `${pathSrc}/postcss.config.js`,
   },
   optimizeDeps: {
     include: [
