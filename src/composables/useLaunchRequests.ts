@@ -4,13 +4,13 @@ import { computed } from 'vue'
 import { useQuery } from 'vue-query'
 
 import { PaginationParams } from '../utils/types'
-import useInjectedIgnite from './useInjectedIgnite'
+import useIgnite from './useIgnite'
 
 export default function useLaunchRequests(
   launchId: LaunchChain['launchID'],
   options?: PaginationParams
 ) {
-  const { igniteClient } = useInjectedIgnite()
+  const { igniteClient } = useIgnite()
   const { queryRequestAll } = useTendermintSpnLaunchModule({
     $ignt: igniteClient.value
   })

@@ -3,10 +3,10 @@ import { computed } from 'vue'
 import { useQuery } from 'vue-query'
 
 import { isNumeric } from '../utils/assertion'
-import useInjectedIgnite from './useInjectedIgnite'
+import useIgnite from './useIgnite'
 
 export default function useCampaign(campaignId: string) {
-  const { igniteClient } = useInjectedIgnite()
+  const { igniteClient } = useIgnite()
   const { queryCampaign } = useTendermintSpnCampaignModule({
     $ignt: igniteClient.value
   })
