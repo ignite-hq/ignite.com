@@ -26,7 +26,7 @@ export default defineComponent({
       items: [
         {
           value: '50',
-          bgColor: 'primary',
+          bgColor: 'bg-primary',
         }
       ]
     }

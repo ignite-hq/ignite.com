@@ -8,9 +8,9 @@
         :key="item.name"
         class="ignt-progress__inner text-center h-[20px]"
         :class="[
-          item.split && 'rounded-0',
-          item.bgColor && `bg-${item.bgColor}`,
-          item.bgColor === 'primary' && `text-white-1000`
+          item.split ? 'rounded-none' : 'rounded-r-lg',
+          item.bgColor,
+          item.bgColor === 'bg-primary' && `text-white-1000`
         ]"
         :style="{ 'width': `${item.value}%`}"
       >
@@ -65,7 +65,7 @@ export default defineComponent({
   }
 
   &__inner {
-    @apply flex items-center justify-center rounded-r-lg;
+    @apply flex items-center justify-center;
   }
 }
 </style>

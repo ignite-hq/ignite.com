@@ -30,11 +30,12 @@ export default defineComponent({
       items: [
         {
           value: '10',
-          bgColor: 'secondary',
+          bgColor: 'bg-secondary',
+          split: true,
         },
         {
           value: '40',
-          bgColor: 'primary',
+          bgColor: 'bg-primary',
         },
         {
           value: '50'
@@ -45,11 +46,11 @@ export default defineComponent({
     const legend = [
       {
         name: 'Past',
-        color: 'secondary'
+        color: 'bg-secondary'
       },
       {
         name: 'Current',
-        color: 'primary'
+        color: 'bg-primary'
       },
       {
         name: 'Future'
