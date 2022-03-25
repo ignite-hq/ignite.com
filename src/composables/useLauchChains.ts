@@ -2,12 +2,12 @@ import { useTendermintSpnLaunchModule } from 'tendermint-spn-vue'
 import { computed } from 'vue'
 import { useInfiniteQuery } from 'vue-query'
 
-import useInjectedIgnite from './useInjectedIgnite'
+import useIgnite from './useIgnite'
 
 const CHAINS_PER_PAGE = '20'
 
 export default function useLaunchChains() {
-  const { igniteClient } = useInjectedIgnite()
+  const { igniteClient } = useIgnite()
   const { queryChainAll } = useTendermintSpnLaunchModule({
     $ignt: igniteClient.value
   })
