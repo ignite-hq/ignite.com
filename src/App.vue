@@ -2,10 +2,7 @@
   <div>
     <Suspense>
       <SpTheme>
-        <SpNavbar
-          :links="navbarLinks"
-          :active-route="router.currentRoute.value.path"
-        />
+        <IgniteNavbar />
         <router-view />
       </SpTheme>
     </Suspense>
@@ -21,7 +18,7 @@ export default {
 <script lang="ts" setup>
 import { useIgnite } from '@ignt/vue'
 import { useIgnite as useIgniteN } from 'tendermint-spn-vue'
-import { SpTheme, SpNavbar } from '@starport/vue'
+import { SpTheme } from '@starport/vue'
 import { useRouter } from 'vue-router'
 import { Environment } from 'tendermint-spn-ts-client'
 import { NavbarLink } from '@starport/vue/src/components/SpNavbar/SpNavbar.vue'
@@ -37,12 +34,6 @@ let tsClientParams = {
 }
 useIgnite(tsClientParams)
 useIgniteN(tsClientParams)
-
-// router
-let router = useRouter()
-
-// state
-const navbarLinks: NavbarLink[] = []
 </script>
 
 <style scoped lang="postcss">
