@@ -77,32 +77,19 @@ const chains = computed<LaunchChain[]>(() => {
 
 <style scoped lang="postcss">
 .project-list {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  margin-bottom: 32px;
+  @apply flex flex-col items-center mb-7;
 }
 
 .masonry {
-  align-self: stretch;
+  @apply self-stretch;
 }
 
 .blur-box {
-  display: flex;
-  justify-content: center;
-
-  width: 100%;
-  background-color: #fff;
-  height: 6rem;
+  @apply flex justify-center w-full bg-white-1000 h-10 -mt-11 pt-4;
   box-shadow: 0 0 2000px 200px #fff;
-
-  margin-top: -8rem;
-  padding: 1rem 0;
 }
 
 .view-more-btn {
-  background-color: var(--primary);
-  border-color: var(--primary);
+  @apply bg-primary border-primary;
 }
 </style>

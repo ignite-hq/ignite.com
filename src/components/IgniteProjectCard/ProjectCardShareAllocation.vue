@@ -50,7 +50,8 @@ const totalSupply = computed(() => {
       },
       {
         value: '40',
-        bgColor: 'bg-primary'
+        bgColor: 'bg-primary',
+        split: true
       },
       {
         value: '50'
