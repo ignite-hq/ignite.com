@@ -1,7 +1,7 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 import { OfflineDirectSigner } from '@cosmjs/proto-signing'
 import { SigningStargateClient } from '@cosmjs/stargate'
-import { createIgnite, Ignite, registry, Environment } from '@ignt/client'
+import { createIgnite, Ignite, registry, Environment } from 'tendermint-spn-ts-client'
 import { reactive, Ref, toRefs, ToRefs } from 'vue'
 
 type State = {
