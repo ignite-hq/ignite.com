@@ -1,5 +1,5 @@
-import Module from './module'
-import { msgTypes } from './registry'
+import Module from './module';
+import { msgTypes } from './registry';
 
-export * from './types'
-export { Module, msgTypes }
+export * from "./types";
+export { Module, msgTypes };

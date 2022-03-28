@@ -1,36 +1,41 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
-import { Store } from 'pinia'
-import { usePiniaStore, PiniaState } from './'
+import { Ignite } from "@ignt/client";
+import Module from "@ignt/client/cosmos.vesting.v1beta1/module";
+		
+type SendMsgCreateVestingAccountType = typeof Module.prototype.sendMsgCreateVestingAccount
 
-import { Ignite } from 'tendermint-spn-ts-client'
-import Module from 'tendermint-spn-ts-client/cosmos.vesting.v1beta1/module'
 
-type SendMsgCreateVestingAccountType =
-  typeof Module.prototype.sendMsgCreateVestingAccount
 
 type Response = {
-  $s: Store<'cosmos.vesting.v1beta1', PiniaState, {}, {}>
-  sendMsgCreateVestingAccount: SendMsgCreateVestingAccountType
+  sendMsgCreateVestingAccount: SendMsgCreateVestingAccountType,
+  
+  
 }
 
 type Params = {
-  $ignt: Ignite
+  ignite: Ignite;
 }
 
-function useModule({ $ignt }: Params): Response {
-  let $s = usePiniaStore()
+function useModule({ ignite }: Params): Response {
+  let {
+	
+	sendMsgCreateVestingAccount,
+  
+  
+  } = ignite.CosmosVestingV1Beta1
 
-  let { sendMsgCreateVestingAccount } = $ignt.CosmosVestingV1Beta1
-
-  sendMsgCreateVestingAccount = sendMsgCreateVestingAccount.bind(
-    $ignt.CosmosVestingV1Beta1
-  )
+  
+  
+	sendMsgCreateVestingAccount = sendMsgCreateVestingAccount.bind(ignite.CosmosVestingV1Beta1)
+  
+  
 
   return {
-    $s,
-
-    sendMsgCreateVestingAccount
+  
+  sendMsgCreateVestingAccount,
+  
+  
   }
 }
 

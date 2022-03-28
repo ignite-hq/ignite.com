@@ -1,19 +1,13 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
-import { Store } from 'pinia'
-import { usePiniaStore, PiniaState } from './'
-
-import { Ignite } from 'tendermint-spn-ts-client'
-import Module from 'tendermint-spn-ts-client/tendermint.fundraising/module'
-
-type SendMsgCreateFixedPriceAuctionType =
-  typeof Module.prototype.sendMsgCreateFixedPriceAuction
-type SendMsgCreateEnglishAuctionType =
-  typeof Module.prototype.sendMsgCreateEnglishAuction
-type SendMsgCancelAuctionType = typeof Module.prototype.sendMsgCancelAuction
+import { Ignite } from "@ignt/client";
+import Module from "@ignt/client/tendermint.fundraising/module";
+		
+type SendMsgCreateEnglishAuctionType = typeof Module.prototype.sendMsgCreateEnglishAuction
+type SendMsgAddAllowedBidderType = typeof Module.prototype.sendMsgAddAllowedBidder
 type SendMsgPlaceBidType = typeof Module.prototype.sendMsgPlaceBid
-type SendMsgAddAllowedBidderType =
-  typeof Module.prototype.sendMsgAddAllowedBidder
+type SendMsgCreateFixedPriceAuctionType = typeof Module.prototype.sendMsgCreateFixedPriceAuction
+type SendMsgCancelAuctionType = typeof Module.prototype.sendMsgCancelAuction
 
 type QueryParamsType = typeof Module.prototype.queryParams
 type QueryAuctionsType = typeof Module.prototype.queryAuctions
@@ -22,105 +16,106 @@ type QueryBidsType = typeof Module.prototype.queryBids
 type QueryBidType = typeof Module.prototype.queryBid
 type QueryVestingsType = typeof Module.prototype.queryVestings
 
-type Response = {
-  $s: Store<'tendermint.fundraising', PiniaState, {}, {}>
-  sendMsgCreateFixedPriceAuction: SendMsgCreateFixedPriceAuctionType
-  sendMsgCreateEnglishAuction: SendMsgCreateEnglishAuctionType
-  sendMsgCancelAuction: SendMsgCancelAuctionType
-  sendMsgPlaceBid: SendMsgPlaceBidType
-  sendMsgAddAllowedBidder: SendMsgAddAllowedBidderType
 
+type Response = {
+  sendMsgCreateEnglishAuction: SendMsgCreateEnglishAuctionType,
+  sendMsgAddAllowedBidder: SendMsgAddAllowedBidderType,
+  sendMsgPlaceBid: SendMsgPlaceBidType,
+  sendMsgCreateFixedPriceAuction: SendMsgCreateFixedPriceAuctionType,
+  sendMsgCancelAuction: SendMsgCancelAuctionType,
+  
   queryParams: QueryParamsType
   queryAuctions: QueryAuctionsType
   queryAuction: QueryAuctionType
   queryBids: QueryBidsType
   queryBid: QueryBidType
   queryVestings: QueryVestingsType
+  
 }
 
 type Params = {
-  $ignt: Ignite
+  ignite: Ignite;
 }
 
-function useModule({ $ignt }: Params): Response {
-  let $s = usePiniaStore()
-
+function useModule({ ignite }: Params): Response {
   let {
-    sendMsgCreateFixedPriceAuction,
+	
+	sendMsgCreateEnglishAuction,
+  
+	sendMsgAddAllowedBidder,
+  
+	sendMsgPlaceBid,
+  
+	sendMsgCreateFixedPriceAuction,
+  
+	sendMsgCancelAuction,
+  
+  
+  queryParams,
+  
+  queryAuctions,
+  
+  queryAuction,
+  
+  queryBids,
+  
+  queryBid,
+  
+  queryVestings,
+  
+  } = ignite.TendermintFundraising
 
-    sendMsgCreateEnglishAuction,
-
-    sendMsgCancelAuction,
-
-    sendMsgPlaceBid,
-
-    sendMsgAddAllowedBidder,
-
-    queryParams,
-
-    queryAuctions,
-
-    queryAuction,
-
-    queryBids,
-
-    queryBid,
-
-    queryVestings
-  } = $ignt.TendermintFundraising
-
-  sendMsgCreateFixedPriceAuction = sendMsgCreateFixedPriceAuction.bind(
-    $ignt.TendermintFundraising
-  )
-
-  sendMsgCreateEnglishAuction = sendMsgCreateEnglishAuction.bind(
-    $ignt.TendermintFundraising
-  )
-
-  sendMsgCancelAuction = sendMsgCancelAuction.bind($ignt.TendermintFundraising)
-
-  sendMsgPlaceBid = sendMsgPlaceBid.bind($ignt.TendermintFundraising)
-
-  sendMsgAddAllowedBidder = sendMsgAddAllowedBidder.bind(
-    $ignt.TendermintFundraising
-  )
-
-  queryParams = queryParams.bind($ignt.TendermintFundraising)
-
-  queryAuctions = queryAuctions.bind($ignt.TendermintFundraising)
-
-  queryAuction = queryAuction.bind($ignt.TendermintFundraising)
-
-  queryBids = queryBids.bind($ignt.TendermintFundraising)
-
-  queryBid = queryBid.bind($ignt.TendermintFundraising)
-
-  queryVestings = queryVestings.bind($ignt.TendermintFundraising)
+  
+  
+	sendMsgCreateEnglishAuction = sendMsgCreateEnglishAuction.bind(ignite.TendermintFundraising)
+  
+	sendMsgAddAllowedBidder = sendMsgAddAllowedBidder.bind(ignite.TendermintFundraising)
+  
+	sendMsgPlaceBid = sendMsgPlaceBid.bind(ignite.TendermintFundraising)
+  
+	sendMsgCreateFixedPriceAuction = sendMsgCreateFixedPriceAuction.bind(ignite.TendermintFundraising)
+  
+	sendMsgCancelAuction = sendMsgCancelAuction.bind(ignite.TendermintFundraising)
+  
+  
+  queryParams = queryParams.bind(ignite.TendermintFundraising)
+  
+  queryAuctions = queryAuctions.bind(ignite.TendermintFundraising)
+  
+  queryAuction = queryAuction.bind(ignite.TendermintFundraising)
+  
+  queryBids = queryBids.bind(ignite.TendermintFundraising)
+  
+  queryBid = queryBid.bind(ignite.TendermintFundraising)
+  
+  queryVestings = queryVestings.bind(ignite.TendermintFundraising)
+  
 
   return {
-    $s,
-
-    sendMsgCreateFixedPriceAuction,
-
-    sendMsgCreateEnglishAuction,
-
-    sendMsgCancelAuction,
-
-    sendMsgPlaceBid,
-
-    sendMsgAddAllowedBidder,
-
-    queryParams,
-
-    queryAuctions,
-
-    queryAuction,
-
-    queryBids,
-
-    queryBid,
-
-    queryVestings
+  
+  sendMsgCreateEnglishAuction,
+  
+  sendMsgAddAllowedBidder,
+  
+  sendMsgPlaceBid,
+  
+  sendMsgCreateFixedPriceAuction,
+  
+  sendMsgCancelAuction,
+  
+  
+  queryParams,
+  
+  queryAuctions,
+  
+  queryAuction,
+  
+  queryBids,
+  
+  queryBid,
+  
+  queryVestings,
+  
   }
 }
 

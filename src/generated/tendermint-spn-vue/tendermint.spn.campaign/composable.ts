@@ -1,53 +1,44 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
-import { Store } from 'pinia'
-import { usePiniaStore, PiniaState } from './'
-
-import { Ignite } from 'tendermint-spn-ts-client'
-import Module from 'tendermint-spn-ts-client/tendermint.spn.campaign/module'
-
-type SendMsgUpdateTotalSupplyType =
-  typeof Module.prototype.sendMsgUpdateTotalSupply
-type SendMsgInitializeMainnetType =
-  typeof Module.prototype.sendMsgInitializeMainnet
-type SendMsgRedeemVouchersType = typeof Module.prototype.sendMsgRedeemVouchers
-type SendMsgEditCampaignType = typeof Module.prototype.sendMsgEditCampaign
-type SendMsgUnredeemVouchersType =
-  typeof Module.prototype.sendMsgUnredeemVouchers
-type SendMsgAddSharesType = typeof Module.prototype.sendMsgAddShares
+import { Ignite } from "@ignt/client";
+import Module from "@ignt/client/tendermint.spn.campaign/module";
+		
 type SendMsgBurnVouchersType = typeof Module.prototype.sendMsgBurnVouchers
-type SendMsgUpdateTotalSharesType =
-  typeof Module.prototype.sendMsgUpdateTotalShares
-type SendMsgAddVestingOptionsType =
-  typeof Module.prototype.sendMsgAddVestingOptions
-type SendMsgMintVouchersType = typeof Module.prototype.sendMsgMintVouchers
+type SendMsgAddSharesType = typeof Module.prototype.sendMsgAddShares
+type SendMsgRedeemVouchersType = typeof Module.prototype.sendMsgRedeemVouchers
+type SendMsgUnredeemVouchersType = typeof Module.prototype.sendMsgUnredeemVouchers
 type SendMsgCreateCampaignType = typeof Module.prototype.sendMsgCreateCampaign
+type SendMsgMintVouchersType = typeof Module.prototype.sendMsgMintVouchers
+type SendMsgInitializeMainnetType = typeof Module.prototype.sendMsgInitializeMainnet
+type SendMsgUpdateTotalSupplyType = typeof Module.prototype.sendMsgUpdateTotalSupply
+type SendMsgAddVestingOptionsType = typeof Module.prototype.sendMsgAddVestingOptions
+type SendMsgUpdateTotalSharesType = typeof Module.prototype.sendMsgUpdateTotalShares
+type SendMsgEditCampaignType = typeof Module.prototype.sendMsgEditCampaign
 
 type QueryCampaignType = typeof Module.prototype.queryCampaign
 type QueryCampaignAllType = typeof Module.prototype.queryCampaignAll
 type QueryCampaignChainsType = typeof Module.prototype.queryCampaignChains
 type QueryMainnetAccountType = typeof Module.prototype.queryMainnetAccount
 type QueryMainnetAccountAllType = typeof Module.prototype.queryMainnetAccountAll
-type QueryMainnetVestingAccountType =
-  typeof Module.prototype.queryMainnetVestingAccount
-type QueryMainnetVestingAccountAllType =
-  typeof Module.prototype.queryMainnetVestingAccountAll
+type QueryMainnetVestingAccountType = typeof Module.prototype.queryMainnetVestingAccount
+type QueryMainnetVestingAccountAllType = typeof Module.prototype.queryMainnetVestingAccountAll
 type QueryParamsType = typeof Module.prototype.queryParams
+type QueryTotalSharesType = typeof Module.prototype.queryTotalShares
+
 
 type Response = {
-  $s: Store<'tendermint.spn.campaign', PiniaState, {}, {}>
-  sendMsgUpdateTotalSupply: SendMsgUpdateTotalSupplyType
-  sendMsgInitializeMainnet: SendMsgInitializeMainnetType
-  sendMsgRedeemVouchers: SendMsgRedeemVouchersType
-  sendMsgEditCampaign: SendMsgEditCampaignType
-  sendMsgUnredeemVouchers: SendMsgUnredeemVouchersType
-  sendMsgAddShares: SendMsgAddSharesType
-  sendMsgBurnVouchers: SendMsgBurnVouchersType
-  sendMsgUpdateTotalShares: SendMsgUpdateTotalSharesType
-  sendMsgAddVestingOptions: SendMsgAddVestingOptionsType
-  sendMsgMintVouchers: SendMsgMintVouchersType
-  sendMsgCreateCampaign: SendMsgCreateCampaignType
-
+  sendMsgBurnVouchers: SendMsgBurnVouchersType,
+  sendMsgAddShares: SendMsgAddSharesType,
+  sendMsgRedeemVouchers: SendMsgRedeemVouchersType,
+  sendMsgUnredeemVouchers: SendMsgUnredeemVouchersType,
+  sendMsgCreateCampaign: SendMsgCreateCampaignType,
+  sendMsgMintVouchers: SendMsgMintVouchersType,
+  sendMsgInitializeMainnet: SendMsgInitializeMainnetType,
+  sendMsgUpdateTotalSupply: SendMsgUpdateTotalSupplyType,
+  sendMsgAddVestingOptions: SendMsgAddVestingOptionsType,
+  sendMsgUpdateTotalShares: SendMsgUpdateTotalSharesType,
+  sendMsgEditCampaign: SendMsgEditCampaignType,
+  
   queryCampaign: QueryCampaignType
   queryCampaignAll: QueryCampaignAllType
   queryCampaignChains: QueryCampaignChainsType
@@ -56,153 +47,147 @@ type Response = {
   queryMainnetVestingAccount: QueryMainnetVestingAccountType
   queryMainnetVestingAccountAll: QueryMainnetVestingAccountAllType
   queryParams: QueryParamsType
+  queryTotalShares: QueryTotalSharesType
+  
 }
 
 type Params = {
-  $ignt: Ignite
+  ignite: Ignite;
 }
 
-function useModule({ $ignt }: Params): Response {
-  let $s = usePiniaStore()
-
+function useModule({ ignite }: Params): Response {
   let {
-    sendMsgUpdateTotalSupply,
+	
+	sendMsgBurnVouchers,
+  
+	sendMsgAddShares,
+  
+	sendMsgRedeemVouchers,
+  
+	sendMsgUnredeemVouchers,
+  
+	sendMsgCreateCampaign,
+  
+	sendMsgMintVouchers,
+  
+	sendMsgInitializeMainnet,
+  
+	sendMsgUpdateTotalSupply,
+  
+	sendMsgAddVestingOptions,
+  
+	sendMsgUpdateTotalShares,
+  
+	sendMsgEditCampaign,
+  
+  
+  queryCampaign,
+  
+  queryCampaignAll,
+  
+  queryCampaignChains,
+  
+  queryMainnetAccount,
+  
+  queryMainnetAccountAll,
+  
+  queryMainnetVestingAccount,
+  
+  queryMainnetVestingAccountAll,
+  
+  queryParams,
+  
+  queryTotalShares,
+  
+  } = ignite.TendermintSpnCampaign
 
-    sendMsgInitializeMainnet,
-
-    sendMsgRedeemVouchers,
-
-    sendMsgEditCampaign,
-
-    sendMsgUnredeemVouchers,
-
-    sendMsgAddShares,
-
-    sendMsgBurnVouchers,
-
-    sendMsgUpdateTotalShares,
-
-    sendMsgAddVestingOptions,
-
-    sendMsgMintVouchers,
-
-    sendMsgCreateCampaign,
-
-    queryCampaign,
-
-    queryCampaignAll,
-
-    queryCampaignChains,
-
-    queryMainnetAccount,
-
-    queryMainnetAccountAll,
-
-    queryMainnetVestingAccount,
-
-    queryMainnetVestingAccountAll,
-
-    queryParams
-  } = $ignt.TendermintSpnCampaign
-
-  sendMsgUpdateTotalSupply = sendMsgUpdateTotalSupply.bind(
-    $ignt.TendermintSpnCampaign
-  )
-
-  sendMsgInitializeMainnet = sendMsgInitializeMainnet.bind(
-    $ignt.TendermintSpnCampaign
-  )
-
-  sendMsgRedeemVouchers = sendMsgRedeemVouchers.bind(
-    $ignt.TendermintSpnCampaign
-  )
-
-  sendMsgEditCampaign = sendMsgEditCampaign.bind($ignt.TendermintSpnCampaign)
-
-  sendMsgUnredeemVouchers = sendMsgUnredeemVouchers.bind(
-    $ignt.TendermintSpnCampaign
-  )
-
-  sendMsgAddShares = sendMsgAddShares.bind($ignt.TendermintSpnCampaign)
-
-  sendMsgBurnVouchers = sendMsgBurnVouchers.bind($ignt.TendermintSpnCampaign)
-
-  sendMsgUpdateTotalShares = sendMsgUpdateTotalShares.bind(
-    $ignt.TendermintSpnCampaign
-  )
-
-  sendMsgAddVestingOptions = sendMsgAddVestingOptions.bind(
-    $ignt.TendermintSpnCampaign
-  )
-
-  sendMsgMintVouchers = sendMsgMintVouchers.bind($ignt.TendermintSpnCampaign)
-
-  sendMsgCreateCampaign = sendMsgCreateCampaign.bind(
-    $ignt.TendermintSpnCampaign
-  )
-
-  queryCampaign = queryCampaign.bind($ignt.TendermintSpnCampaign)
-
-  queryCampaignAll = queryCampaignAll.bind($ignt.TendermintSpnCampaign)
-
-  queryCampaignChains = queryCampaignChains.bind($ignt.TendermintSpnCampaign)
-
-  queryMainnetAccount = queryMainnetAccount.bind($ignt.TendermintSpnCampaign)
-
-  queryMainnetAccountAll = queryMainnetAccountAll.bind(
-    $ignt.TendermintSpnCampaign
-  )
-
-  queryMainnetVestingAccount = queryMainnetVestingAccount.bind(
-    $ignt.TendermintSpnCampaign
-  )
-
-  queryMainnetVestingAccountAll = queryMainnetVestingAccountAll.bind(
-    $ignt.TendermintSpnCampaign
-  )
-
-  queryParams = queryParams.bind($ignt.TendermintSpnCampaign)
+  
+  
+	sendMsgBurnVouchers = sendMsgBurnVouchers.bind(ignite.TendermintSpnCampaign)
+  
+	sendMsgAddShares = sendMsgAddShares.bind(ignite.TendermintSpnCampaign)
+  
+	sendMsgRedeemVouchers = sendMsgRedeemVouchers.bind(ignite.TendermintSpnCampaign)
+  
+	sendMsgUnredeemVouchers = sendMsgUnredeemVouchers.bind(ignite.TendermintSpnCampaign)
+  
+	sendMsgCreateCampaign = sendMsgCreateCampaign.bind(ignite.TendermintSpnCampaign)
+  
+	sendMsgMintVouchers = sendMsgMintVouchers.bind(ignite.TendermintSpnCampaign)
+  
+	sendMsgInitializeMainnet = sendMsgInitializeMainnet.bind(ignite.TendermintSpnCampaign)
+  
+	sendMsgUpdateTotalSupply = sendMsgUpdateTotalSupply.bind(ignite.TendermintSpnCampaign)
+  
+	sendMsgAddVestingOptions = sendMsgAddVestingOptions.bind(ignite.TendermintSpnCampaign)
+  
+	sendMsgUpdateTotalShares = sendMsgUpdateTotalShares.bind(ignite.TendermintSpnCampaign)
+  
+	sendMsgEditCampaign = sendMsgEditCampaign.bind(ignite.TendermintSpnCampaign)
+  
+  
+  queryCampaign = queryCampaign.bind(ignite.TendermintSpnCampaign)
+  
+  queryCampaignAll = queryCampaignAll.bind(ignite.TendermintSpnCampaign)
+  
+  queryCampaignChains = queryCampaignChains.bind(ignite.TendermintSpnCampaign)
+  
+  queryMainnetAccount = queryMainnetAccount.bind(ignite.TendermintSpnCampaign)
+  
+  queryMainnetAccountAll = queryMainnetAccountAll.bind(ignite.TendermintSpnCampaign)
+  
+  queryMainnetVestingAccount = queryMainnetVestingAccount.bind(ignite.TendermintSpnCampaign)
+  
+  queryMainnetVestingAccountAll = queryMainnetVestingAccountAll.bind(ignite.TendermintSpnCampaign)
+  
+  queryParams = queryParams.bind(ignite.TendermintSpnCampaign)
+  
+  queryTotalShares = queryTotalShares.bind(ignite.TendermintSpnCampaign)
+  
 
   return {
-    $s,
-
-    sendMsgUpdateTotalSupply,
-
-    sendMsgInitializeMainnet,
-
-    sendMsgRedeemVouchers,
-
-    sendMsgEditCampaign,
-
-    sendMsgUnredeemVouchers,
-
-    sendMsgAddShares,
-
-    sendMsgBurnVouchers,
-
-    sendMsgUpdateTotalShares,
-
-    sendMsgAddVestingOptions,
-
-    sendMsgMintVouchers,
-
-    sendMsgCreateCampaign,
-
-    queryCampaign,
-
-    queryCampaignAll,
-
-    queryCampaignChains,
-
-    queryMainnetAccount,
-
-    queryMainnetAccountAll,
-
-    queryMainnetVestingAccount,
-
-    queryMainnetVestingAccountAll,
-
-    queryParams
+  
+  sendMsgBurnVouchers,
+  
+  sendMsgAddShares,
+  
+  sendMsgRedeemVouchers,
+  
+  sendMsgUnredeemVouchers,
+  
+  sendMsgCreateCampaign,
+  
+  sendMsgMintVouchers,
+  
+  sendMsgInitializeMainnet,
+  
+  sendMsgUpdateTotalSupply,
+  
+  sendMsgAddVestingOptions,
+  
+  sendMsgUpdateTotalShares,
+  
+  sendMsgEditCampaign,
+  
+  
+  queryCampaign,
+  
+  queryCampaignAll,
+  
+  queryCampaignChains,
+  
+  queryMainnetAccount,
+  
+  queryMainnetAccountAll,
+  
+  queryMainnetVestingAccount,
+  
+  queryMainnetVestingAccountAll,
+  
+  queryParams,
+  
+  queryTotalShares,
+  
   }
 }
 

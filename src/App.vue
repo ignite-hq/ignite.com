@@ -6,29 +6,38 @@
           :links="navbarLinks"
           :active-route="router.currentRoute.value.path"
         />
-        <router-view v-if="$ignt" />
+        <router-view v-if="ignite && Boolean(address)" />
       </SpTheme>
     </Suspense>
   </div>
 </template>
 
 <script lang="ts">
+import { useIgnite } from '@ignt/vue'
 import { SpNavbar, SpTheme } from '@starport/vue'
-import { computed, onBeforeMount } from 'vue'
+import { useAddress } from '@starport/vue/src/composables'
 import { useRouter } from 'vue-router'
-import { useStore } from 'vuex'
-
-import useIgnite from './composables/useIgnite'
 
 export default {
   components: { SpTheme, SpNavbar },
 
   setup() {
     // ignt
-    let { $ignt } = useIgnite()
+    const {
+      state: { ignite }
+    } = useIgnite({
+      env: {
+        apiURL: process.env.VUE_APP_API_COSMOS,
+        rpcURL: process.env.VUE_APP_API_TENDERMINT,
+        wsURL: process.env.VUE_APP_WS_TENDERMINT,
+        chainID: process.env.VUE_APP_CHAIN_ID,
+        chainName: process.env.VUE_APP_CHAIN_NAME,
+        prefix: process.env.VUE_APP_ADDRESS_PREFIX
+      },
+      autoConnectWS: true
+    })
 
-    // store
-    let $s = useStore()
+    const { address } = useAddress()
 
     // router
     let router = useRouter()
@@ -36,17 +45,9 @@ export default {
     // state
     let navbarLinks = []
 
-    // computed
-    let address = computed(() => $s.getters['common/wallet/address'])
-
-    // lh
-    onBeforeMount(async () => {
-      await $s.dispatch('common/env/init')
-    })
-
     return {
       // ignt
-      $ignt,
+      ignite,
       // state,
       navbarLinks,
       // router
