@@ -6,7 +6,7 @@
           :links="navbarLinks"
           :active-route="router.currentRoute.value.path"
         />
-        <router-view v-if="Boolean(address)" />
+        <router-view />
       </SpTheme>
     </Suspense>
   </div>
@@ -16,7 +16,6 @@
 import { useIgnite } from '@ignt/vue'
 import { useIgnite as useIgniteN } from 'tendermint-spn-vue'
 import { SpNavbar, SpTheme } from '@starport/vue'
-import { useAddress } from '@starport/vue/src/composables'
 import { useRouter } from 'vue-router'
 import { Environment } from 'tendermint-spn-ts-client'
 
@@ -28,10 +27,7 @@ export default {
     let env: Environment = {
       apiURL: process.env.VUE_APP_API_COSMOS,
       rpcURL: process.env.VUE_APP_API_TENDERMINT,
-      wsURL: process.env.VUE_APP_WS_TENDERMINT,
-      chainID: process.env.VUE_APP_CHAIN_ID,
-      chainName: process.env.VUE_APP_CHAIN_NAME,
-      prefix: process.env.VUE_APP_ADDRESS_PREFIX
+      wsURL: process.env.VUE_APP_WS_TENDERMINT
     }
     let tsClientParams = {
       env,
@@ -39,9 +35,6 @@ export default {
     }
     useIgnite(tsClientParams)
     useIgniteN(tsClientParams)
-
-    // composables
-    const { address } = useAddress()
 
     // router
     let router = useRouter()
@@ -53,9 +46,7 @@ export default {
       // state,
       navbarLinks,
       // router
-      router,
-      // computed
-      address
+      router
     }
   }
 }

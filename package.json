@@ -1,7 +1,7 @@
 {
   "name": "@ignt/network",
-  "description": "A Vue 3 boilerplate project utilizing @starport/vue and @starport/vuex",
-  "author": "Tendermint, Inc <hello@tendermint.com>",
+  "description": "Ignite Network Web App",
+  "author": "Ignite, Inc <hello@ignt.com>",
   "private": true,
   "scripts": {
     "prepare": "husky install",
@@ -28,8 +28,7 @@
     "tendermint-spn-ts-client": "0.0.1",
     "tendermint-spn-vue": "0.0.1",
     "vue": "^3.2.6",
-    "vue-router": "^4.0.3",
-    "vuex": "^4.0.2"
+    "vue-router": "^4.0.3"
   },
   "workspaces": [
     "src/generated/tendermint-spn-ts-client",
