@@ -3,10 +3,10 @@
 import { Ignite } from "@ignt/client";
 import Module from "@ignt/client/cosmos.distribution.v1beta1/module";
 		
-type SendMsgWithdrawValidatorCommissionType = typeof Module.prototype.sendMsgWithdrawValidatorCommission
-type SendMsgSetWithdrawAddressType = typeof Module.prototype.sendMsgSetWithdrawAddress
-type SendMsgFundCommunityPoolType = typeof Module.prototype.sendMsgFundCommunityPool
 type SendMsgWithdrawDelegatorRewardType = typeof Module.prototype.sendMsgWithdrawDelegatorReward
+type SendMsgSetWithdrawAddressType = typeof Module.prototype.sendMsgSetWithdrawAddress
+type SendMsgWithdrawValidatorCommissionType = typeof Module.prototype.sendMsgWithdrawValidatorCommission
+type SendMsgFundCommunityPoolType = typeof Module.prototype.sendMsgFundCommunityPool
 
 type QueryParamsType = typeof Module.prototype.queryParams
 type QueryValidatorOutstandingRewardsType = typeof Module.prototype.queryValidatorOutstandingRewards
@@ -20,10 +20,10 @@ type QueryCommunityPoolType = typeof Module.prototype.queryCommunityPool
 
 
 type Response = {
-  sendMsgWithdrawValidatorCommission: SendMsgWithdrawValidatorCommissionType,
-  sendMsgSetWithdrawAddress: SendMsgSetWithdrawAddressType,
-  sendMsgFundCommunityPool: SendMsgFundCommunityPoolType,
   sendMsgWithdrawDelegatorReward: SendMsgWithdrawDelegatorRewardType,
+  sendMsgSetWithdrawAddress: SendMsgSetWithdrawAddressType,
+  sendMsgWithdrawValidatorCommission: SendMsgWithdrawValidatorCommissionType,
+  sendMsgFundCommunityPool: SendMsgFundCommunityPoolType,
   
   queryParams: QueryParamsType
   queryValidatorOutstandingRewards: QueryValidatorOutstandingRewardsType
@@ -44,13 +44,13 @@ type Params = {
 function useModule({ ignite }: Params): Response {
   let {
 	
-	sendMsgWithdrawValidatorCommission,
+	sendMsgWithdrawDelegatorReward,
   
 	sendMsgSetWithdrawAddress,
   
-	sendMsgFundCommunityPool,
+	sendMsgWithdrawValidatorCommission,
   
-	sendMsgWithdrawDelegatorReward,
+	sendMsgFundCommunityPool,
   
   
   queryParams,
@@ -75,13 +75,13 @@ function useModule({ ignite }: Params): Response {
 
   
   
-	sendMsgWithdrawValidatorCommission = sendMsgWithdrawValidatorCommission.bind(ignite.CosmosDistributionV1Beta1)
+	sendMsgWithdrawDelegatorReward = sendMsgWithdrawDelegatorReward.bind(ignite.CosmosDistributionV1Beta1)
   
 	sendMsgSetWithdrawAddress = sendMsgSetWithdrawAddress.bind(ignite.CosmosDistributionV1Beta1)
   
-	sendMsgFundCommunityPool = sendMsgFundCommunityPool.bind(ignite.CosmosDistributionV1Beta1)
+	sendMsgWithdrawValidatorCommission = sendMsgWithdrawValidatorCommission.bind(ignite.CosmosDistributionV1Beta1)
   
-	sendMsgWithdrawDelegatorReward = sendMsgWithdrawDelegatorReward.bind(ignite.CosmosDistributionV1Beta1)
+	sendMsgFundCommunityPool = sendMsgFundCommunityPool.bind(ignite.CosmosDistributionV1Beta1)
   
   
   queryParams = queryParams.bind(ignite.CosmosDistributionV1Beta1)
@@ -105,13 +105,13 @@ function useModule({ ignite }: Params): Response {
 
   return {
   
-  sendMsgWithdrawValidatorCommission,
+  sendMsgWithdrawDelegatorReward,
   
   sendMsgSetWithdrawAddress,
   
-  sendMsgFundCommunityPool,
+  sendMsgWithdrawValidatorCommission,
   
-  sendMsgWithdrawDelegatorReward,
+  sendMsgFundCommunityPool,
   
   
   queryParams,

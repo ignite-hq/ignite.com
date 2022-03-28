@@ -3,10 +3,10 @@
 import { Ignite } from "@ignt/client";
 import Module from "@ignt/client/cosmos.gov.v1beta1/module";
 		
+type SendMsgSubmitProposalType = typeof Module.prototype.sendMsgSubmitProposal
 type SendMsgDepositType = typeof Module.prototype.sendMsgDeposit
 type SendMsgVoteType = typeof Module.prototype.sendMsgVote
 type SendMsgVoteWeightedType = typeof Module.prototype.sendMsgVoteWeighted
-type SendMsgSubmitProposalType = typeof Module.prototype.sendMsgSubmitProposal
 
 type QueryProposalType = typeof Module.prototype.queryProposal
 type QueryProposalsType = typeof Module.prototype.queryProposals
@@ -19,10 +19,10 @@ type QueryTallyResultType = typeof Module.prototype.queryTallyResult
 
 
 type Response = {
+  sendMsgSubmitProposal: SendMsgSubmitProposalType,
   sendMsgDeposit: SendMsgDepositType,
   sendMsgVote: SendMsgVoteType,
   sendMsgVoteWeighted: SendMsgVoteWeightedType,
-  sendMsgSubmitProposal: SendMsgSubmitProposalType,
   
   queryProposal: QueryProposalType
   queryProposals: QueryProposalsType
@@ -42,13 +42,13 @@ type Params = {
 function useModule({ ignite }: Params): Response {
   let {
 	
+	sendMsgSubmitProposal,
+  
 	sendMsgDeposit,
   
 	sendMsgVote,
   
 	sendMsgVoteWeighted,
-  
-	sendMsgSubmitProposal,
   
   
   queryProposal,
@@ -71,13 +71,13 @@ function useModule({ ignite }: Params): Response {
 
   
   
+	sendMsgSubmitProposal = sendMsgSubmitProposal.bind(ignite.CosmosGovV1Beta1)
+  
 	sendMsgDeposit = sendMsgDeposit.bind(ignite.CosmosGovV1Beta1)
   
 	sendMsgVote = sendMsgVote.bind(ignite.CosmosGovV1Beta1)
   
 	sendMsgVoteWeighted = sendMsgVoteWeighted.bind(ignite.CosmosGovV1Beta1)
-  
-	sendMsgSubmitProposal = sendMsgSubmitProposal.bind(ignite.CosmosGovV1Beta1)
   
   
   queryProposal = queryProposal.bind(ignite.CosmosGovV1Beta1)
@@ -99,13 +99,13 @@ function useModule({ ignite }: Params): Response {
 
   return {
   
+  sendMsgSubmitProposal,
+  
   sendMsgDeposit,
   
   sendMsgVote,
   
   sendMsgVoteWeighted,
-  
-  sendMsgSubmitProposal,
   
   
   queryProposal,

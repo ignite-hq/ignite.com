@@ -35,6 +35,16 @@ export interface CampaignCampaignChains {
   chains?: string[];
 }
 
+export interface CampaignCampaignSummary {
+  campaign?: CampaignCampaign;
+  hasMostRecentChain?: boolean;
+  mostRecentChain?: CampaignMostRecentChain;
+  incentivized?: boolean;
+  rewards?: V1Beta1Coin[];
+  rewardsDistributed?: boolean;
+  previousRewards?: V1Beta1Coin[];
+}
+
 export interface CampaignMainnetAccount {
   /** @format uint64 */
   campaignID?: string;
@@ -47,6 +57,20 @@ export interface CampaignMainnetVestingAccount {
   campaignID?: string;
   address?: string;
   vestingOptions?: CampaignShareVestingOptions;
+}
+
+export interface CampaignMostRecentChain {
+  /** @format uint64 */
+  launchID?: string;
+  launchTriggered?: boolean;
+  sourceURL?: string;
+  sourceHash?: string;
+
+  /** @format uint64 */
+  requestNb?: string;
+
+  /** @format uint64 */
+  validatorNb?: string;
 }
 
 export type CampaignMsgAddSharesResponse = object;
@@ -128,6 +152,25 @@ export interface CampaignQueryAllMainnetVestingAccountResponse {
    *  }
    */
   pagination?: V1Beta1PageResponse;
+}
+
+export interface CampaignQueryCampaignSummariesResponse {
+  campaignSummaries?: CampaignCampaignSummary[];
+
+  /**
+   * PageResponse is to be embedded in gRPC response messages where the
+   * corresponding request message has used PageRequest.
+   *
+   *  message SomeResponse {
+   *          repeated Bar results = 1;
+   *          PageResponse page = 2;
+   *  }
+   */
+  pagination?: V1Beta1PageResponse;
+}
+
+export interface CampaignQueryCampaignSummaryResponse {
+  campaignSummary?: CampaignCampaignSummary;
 }
 
 export interface CampaignQueryGetCampaignChainsResponse {
@@ -510,6 +553,48 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   queryCampaignChains = (campaignID: string, params: RequestParams = {}) =>
     this.request<CampaignQueryGetCampaignChainsResponse, RpcStatus>({
       path: `/tendermint/spn/campaign/campaign_chains/${campaignID}`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryCampaignSummaries
+   * @summary Queries a list of campaign summaries
+   * @request GET:/tendermint/spn/campaign/campaign_summary
+   */
+  queryCampaignSummaries = (
+    query?: {
+      "pagination.key"?: string;
+      "pagination.offset"?: string;
+      "pagination.limit"?: string;
+      "pagination.count_total"?: boolean;
+      "pagination.reverse"?: boolean;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<CampaignQueryCampaignSummariesResponse, RpcStatus>({
+      path: `/tendermint/spn/campaign/campaign_summary`,
+      method: "GET",
+      query: query,
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryCampaignSummary
+   * @summary Queries a campaign summary
+   * @request GET:/tendermint/spn/campaign/campaign_summary/{campaignID}
+   */
+  queryCampaignSummary = (campaignID: string, params: RequestParams = {}) =>
+    this.request<CampaignQueryCampaignSummaryResponse, RpcStatus>({
+      path: `/tendermint/spn/campaign/campaign_summary/${campaignID}`,
       method: "GET",
       format: "json",
       ...params,

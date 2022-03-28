@@ -5,12 +5,18 @@ import { SigningStargateClient, DeliverTxResponse } from "@cosmjs/stargate";
 import { EncodeObject } from "@cosmjs/proto-signing";
 
 import { Api } from "./rest";
+import { MsgSubmitProposal } from "./types/cosmos/gov/v1beta1/tx";
 import { MsgDeposit } from "./types/cosmos/gov/v1beta1/tx";
 import { MsgVote } from "./types/cosmos/gov/v1beta1/tx";
 import { MsgVoteWeighted } from "./types/cosmos/gov/v1beta1/tx";
-import { MsgSubmitProposal } from "./types/cosmos/gov/v1beta1/tx";
 
 
+
+type sendMsgSubmitProposalParams = {
+  value: MsgSubmitProposal,
+  fee?: StdFee,
+  memo?: string
+};
 
 type sendMsgDepositParams = {
   value: MsgDeposit,
@@ -30,12 +36,10 @@ type sendMsgVoteWeightedParams = {
   memo?: string
 };
 
-type sendMsgSubmitProposalParams = {
-  value: MsgSubmitProposal,
-  fee?: StdFee,
-  memo?: string
-};
 
+type msgSubmitProposalParams = {
+  value: MsgSubmitProposal,
+};
 
 type msgDepositParams = {
   value: MsgDeposit,
@@ -47,10 +51,6 @@ type msgVoteParams = {
 
 type msgVoteWeightedParams = {
   value: MsgVoteWeighted,
-};
-
-type msgSubmitProposalParams = {
-  value: MsgSubmitProposal,
 };
 
 
@@ -69,6 +69,21 @@ class Module extends Api<any> {
 		this._addr = _addr;
 	}
 
+	
+	async sendMsgSubmitProposal({ value, fee, memo }: sendMsgSubmitProposalParams): Promise<DeliverTxResponse> {
+		if (!this._client) {
+		    throw new Error('TxClient:sendMsgSubmitProposal: Unable to sign Tx. Signer is not present.')
+		}
+		if (!this._addr) {
+            throw new Error('TxClient:sendMsgSubmitProposal: Unable to sign Tx. Address is not present.')
+        }
+		try {
+			let msg = this.msgSubmitProposal({ value: MsgSubmitProposal.fromPartial(value) })
+			return await this._client.signAndBroadcast(this._addr, [msg], fee ? fee : { amount: [], gas: '200000' }, memo)
+		} catch (e: any) {
+			throw new Error('TxClient:sendMsgSubmitProposal: Could not broadcast Tx: '+ e.message)
+		}
+	}
 	
 	async sendMsgDeposit({ value, fee, memo }: sendMsgDepositParams): Promise<DeliverTxResponse> {
 		if (!this._client) {
@@ -115,21 +130,14 @@ class Module extends Api<any> {
 		}
 	}
 	
-	async sendMsgSubmitProposal({ value, fee, memo }: sendMsgSubmitProposalParams): Promise<DeliverTxResponse> {
-		if (!this._client) {
-		    throw new Error('TxClient:sendMsgSubmitProposal: Unable to sign Tx. Signer is not present.')
-		}
-		if (!this._addr) {
-            throw new Error('TxClient:sendMsgSubmitProposal: Unable to sign Tx. Address is not present.')
-        }
+	
+	msgSubmitProposal({ value }: msgSubmitProposalParams): EncodeObject {
 		try {
-			let msg = this.msgSubmitProposal({ value: MsgSubmitProposal.fromPartial(value) })
-			return await this._client.signAndBroadcast(this._addr, [msg], fee ? fee : { amount: [], gas: '200000' }, memo)
+			return { typeUrl: "/cosmos.gov.v1beta1.MsgSubmitProposal", value: MsgSubmitProposal.fromPartial( value ) }  
 		} catch (e: any) {
-			throw new Error('TxClient:sendMsgSubmitProposal: Could not broadcast Tx: '+ e.message)
+			throw new Error('TxClient:MsgSubmitProposal: Could not create message: ' + e.message)
 		}
 	}
-	
 	
 	msgDeposit({ value }: msgDepositParams): EncodeObject {
 		try {
@@ -152,14 +160,6 @@ class Module extends Api<any> {
 			return { typeUrl: "/cosmos.gov.v1beta1.MsgVoteWeighted", value: MsgVoteWeighted.fromPartial( value ) }  
 		} catch (e: any) {
 			throw new Error('TxClient:MsgVoteWeighted: Could not create message: ' + e.message)
-		}
-	}
-	
-	msgSubmitProposal({ value }: msgSubmitProposalParams): EncodeObject {
-		try {
-			return { typeUrl: "/cosmos.gov.v1beta1.MsgSubmitProposal", value: MsgSubmitProposal.fromPartial( value ) }  
-		} catch (e: any) {
-			throw new Error('TxClient:MsgSubmitProposal: Could not create message: ' + e.message)
 		}
 	}
 	

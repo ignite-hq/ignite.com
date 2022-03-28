@@ -3,8 +3,8 @@
 import { Ignite } from "@ignt/client";
 import Module from "@ignt/client/cosmos.bank.v1beta1/module";
 		
-type SendMsgMultiSendType = typeof Module.prototype.sendMsgMultiSend
 type SendMsgSendType = typeof Module.prototype.sendMsgSend
+type SendMsgMultiSendType = typeof Module.prototype.sendMsgMultiSend
 
 type QueryBalanceType = typeof Module.prototype.queryBalance
 type QueryAllBalancesType = typeof Module.prototype.queryAllBalances
@@ -16,8 +16,8 @@ type QueryDenomsMetadataType = typeof Module.prototype.queryDenomsMetadata
 
 
 type Response = {
-  sendMsgMultiSend: SendMsgMultiSendType,
   sendMsgSend: SendMsgSendType,
+  sendMsgMultiSend: SendMsgMultiSendType,
   
   queryBalance: QueryBalanceType
   queryAllBalances: QueryAllBalancesType
@@ -36,9 +36,9 @@ type Params = {
 function useModule({ ignite }: Params): Response {
   let {
 	
-	sendMsgMultiSend,
-  
 	sendMsgSend,
+  
+	sendMsgMultiSend,
   
   
   queryBalance,
@@ -59,9 +59,9 @@ function useModule({ ignite }: Params): Response {
 
   
   
-	sendMsgMultiSend = sendMsgMultiSend.bind(ignite.CosmosBankV1Beta1)
-  
 	sendMsgSend = sendMsgSend.bind(ignite.CosmosBankV1Beta1)
+  
+	sendMsgMultiSend = sendMsgMultiSend.bind(ignite.CosmosBankV1Beta1)
   
   
   queryBalance = queryBalance.bind(ignite.CosmosBankV1Beta1)
@@ -81,9 +81,9 @@ function useModule({ ignite }: Params): Response {
 
   return {
   
-  sendMsgMultiSend,
-  
   sendMsgSend,
+  
+  sendMsgMultiSend,
   
   
   queryBalance,

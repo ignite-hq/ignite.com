@@ -3,11 +3,11 @@
 import { Ignite } from "@ignt/client";
 import Module from "@ignt/client/tendermint.fundraising/module";
 		
-type SendMsgCreateEnglishAuctionType = typeof Module.prototype.sendMsgCreateEnglishAuction
 type SendMsgAddAllowedBidderType = typeof Module.prototype.sendMsgAddAllowedBidder
-type SendMsgPlaceBidType = typeof Module.prototype.sendMsgPlaceBid
 type SendMsgCreateFixedPriceAuctionType = typeof Module.prototype.sendMsgCreateFixedPriceAuction
 type SendMsgCancelAuctionType = typeof Module.prototype.sendMsgCancelAuction
+type SendMsgPlaceBidType = typeof Module.prototype.sendMsgPlaceBid
+type SendMsgCreateEnglishAuctionType = typeof Module.prototype.sendMsgCreateEnglishAuction
 
 type QueryParamsType = typeof Module.prototype.queryParams
 type QueryAuctionsType = typeof Module.prototype.queryAuctions
@@ -18,11 +18,11 @@ type QueryVestingsType = typeof Module.prototype.queryVestings
 
 
 type Response = {
-  sendMsgCreateEnglishAuction: SendMsgCreateEnglishAuctionType,
   sendMsgAddAllowedBidder: SendMsgAddAllowedBidderType,
-  sendMsgPlaceBid: SendMsgPlaceBidType,
   sendMsgCreateFixedPriceAuction: SendMsgCreateFixedPriceAuctionType,
   sendMsgCancelAuction: SendMsgCancelAuctionType,
+  sendMsgPlaceBid: SendMsgPlaceBidType,
+  sendMsgCreateEnglishAuction: SendMsgCreateEnglishAuctionType,
   
   queryParams: QueryParamsType
   queryAuctions: QueryAuctionsType
@@ -40,15 +40,15 @@ type Params = {
 function useModule({ ignite }: Params): Response {
   let {
 	
-	sendMsgCreateEnglishAuction,
-  
 	sendMsgAddAllowedBidder,
-  
-	sendMsgPlaceBid,
   
 	sendMsgCreateFixedPriceAuction,
   
 	sendMsgCancelAuction,
+  
+	sendMsgPlaceBid,
+  
+	sendMsgCreateEnglishAuction,
   
   
   queryParams,
@@ -67,15 +67,15 @@ function useModule({ ignite }: Params): Response {
 
   
   
-	sendMsgCreateEnglishAuction = sendMsgCreateEnglishAuction.bind(ignite.TendermintFundraising)
-  
 	sendMsgAddAllowedBidder = sendMsgAddAllowedBidder.bind(ignite.TendermintFundraising)
-  
-	sendMsgPlaceBid = sendMsgPlaceBid.bind(ignite.TendermintFundraising)
   
 	sendMsgCreateFixedPriceAuction = sendMsgCreateFixedPriceAuction.bind(ignite.TendermintFundraising)
   
 	sendMsgCancelAuction = sendMsgCancelAuction.bind(ignite.TendermintFundraising)
+  
+	sendMsgPlaceBid = sendMsgPlaceBid.bind(ignite.TendermintFundraising)
+  
+	sendMsgCreateEnglishAuction = sendMsgCreateEnglishAuction.bind(ignite.TendermintFundraising)
   
   
   queryParams = queryParams.bind(ignite.TendermintFundraising)
@@ -93,15 +93,15 @@ function useModule({ ignite }: Params): Response {
 
   return {
   
-  sendMsgCreateEnglishAuction,
-  
   sendMsgAddAllowedBidder,
-  
-  sendMsgPlaceBid,
   
   sendMsgCreateFixedPriceAuction,
   
   sendMsgCancelAuction,
+  
+  sendMsgPlaceBid,
+  
+  sendMsgCreateEnglishAuction,
   
   
   queryParams,

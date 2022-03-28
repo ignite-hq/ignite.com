@@ -3,11 +3,11 @@
 import { Ignite } from "@ignt/client";
 import Module from "@ignt/client/cosmos.staking.v1beta1/module";
 		
-type SendMsgDelegateType = typeof Module.prototype.sendMsgDelegate
 type SendMsgEditValidatorType = typeof Module.prototype.sendMsgEditValidator
+type SendMsgDelegateType = typeof Module.prototype.sendMsgDelegate
 type SendMsgBeginRedelegateType = typeof Module.prototype.sendMsgBeginRedelegate
-type SendMsgCreateValidatorType = typeof Module.prototype.sendMsgCreateValidator
 type SendMsgUndelegateType = typeof Module.prototype.sendMsgUndelegate
+type SendMsgCreateValidatorType = typeof Module.prototype.sendMsgCreateValidator
 
 type QueryValidatorsType = typeof Module.prototype.queryValidators
 type QueryValidatorType = typeof Module.prototype.queryValidator
@@ -26,11 +26,11 @@ type QueryParamsType = typeof Module.prototype.queryParams
 
 
 type Response = {
-  sendMsgDelegate: SendMsgDelegateType,
   sendMsgEditValidator: SendMsgEditValidatorType,
+  sendMsgDelegate: SendMsgDelegateType,
   sendMsgBeginRedelegate: SendMsgBeginRedelegateType,
-  sendMsgCreateValidator: SendMsgCreateValidatorType,
   sendMsgUndelegate: SendMsgUndelegateType,
+  sendMsgCreateValidator: SendMsgCreateValidatorType,
   
   queryValidators: QueryValidatorsType
   queryValidator: QueryValidatorType
@@ -56,15 +56,15 @@ type Params = {
 function useModule({ ignite }: Params): Response {
   let {
 	
-	sendMsgDelegate,
-  
 	sendMsgEditValidator,
+  
+	sendMsgDelegate,
   
 	sendMsgBeginRedelegate,
   
-	sendMsgCreateValidator,
-  
 	sendMsgUndelegate,
+  
+	sendMsgCreateValidator,
   
   
   queryValidators,
@@ -99,15 +99,15 @@ function useModule({ ignite }: Params): Response {
 
   
   
-	sendMsgDelegate = sendMsgDelegate.bind(ignite.CosmosStakingV1Beta1)
-  
 	sendMsgEditValidator = sendMsgEditValidator.bind(ignite.CosmosStakingV1Beta1)
+  
+	sendMsgDelegate = sendMsgDelegate.bind(ignite.CosmosStakingV1Beta1)
   
 	sendMsgBeginRedelegate = sendMsgBeginRedelegate.bind(ignite.CosmosStakingV1Beta1)
   
-	sendMsgCreateValidator = sendMsgCreateValidator.bind(ignite.CosmosStakingV1Beta1)
-  
 	sendMsgUndelegate = sendMsgUndelegate.bind(ignite.CosmosStakingV1Beta1)
+  
+	sendMsgCreateValidator = sendMsgCreateValidator.bind(ignite.CosmosStakingV1Beta1)
   
   
   queryValidators = queryValidators.bind(ignite.CosmosStakingV1Beta1)
@@ -141,15 +141,15 @@ function useModule({ ignite }: Params): Response {
 
   return {
   
-  sendMsgDelegate,
-  
   sendMsgEditValidator,
+  
+  sendMsgDelegate,
   
   sendMsgBeginRedelegate,
   
-  sendMsgCreateValidator,
-  
   sendMsgUndelegate,
+  
+  sendMsgCreateValidator,
   
   
   queryValidators,

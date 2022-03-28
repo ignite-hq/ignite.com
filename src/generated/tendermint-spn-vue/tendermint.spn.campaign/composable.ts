@@ -3,17 +3,17 @@
 import { Ignite } from "@ignt/client";
 import Module from "@ignt/client/tendermint.spn.campaign/module";
 		
-type SendMsgBurnVouchersType = typeof Module.prototype.sendMsgBurnVouchers
-type SendMsgAddSharesType = typeof Module.prototype.sendMsgAddShares
-type SendMsgRedeemVouchersType = typeof Module.prototype.sendMsgRedeemVouchers
-type SendMsgUnredeemVouchersType = typeof Module.prototype.sendMsgUnredeemVouchers
-type SendMsgCreateCampaignType = typeof Module.prototype.sendMsgCreateCampaign
-type SendMsgMintVouchersType = typeof Module.prototype.sendMsgMintVouchers
 type SendMsgInitializeMainnetType = typeof Module.prototype.sendMsgInitializeMainnet
-type SendMsgUpdateTotalSupplyType = typeof Module.prototype.sendMsgUpdateTotalSupply
-type SendMsgAddVestingOptionsType = typeof Module.prototype.sendMsgAddVestingOptions
-type SendMsgUpdateTotalSharesType = typeof Module.prototype.sendMsgUpdateTotalShares
+type SendMsgRedeemVouchersType = typeof Module.prototype.sendMsgRedeemVouchers
 type SendMsgEditCampaignType = typeof Module.prototype.sendMsgEditCampaign
+type SendMsgCreateCampaignType = typeof Module.prototype.sendMsgCreateCampaign
+type SendMsgAddSharesType = typeof Module.prototype.sendMsgAddShares
+type SendMsgUpdateTotalSupplyType = typeof Module.prototype.sendMsgUpdateTotalSupply
+type SendMsgBurnVouchersType = typeof Module.prototype.sendMsgBurnVouchers
+type SendMsgMintVouchersType = typeof Module.prototype.sendMsgMintVouchers
+type SendMsgAddVestingOptionsType = typeof Module.prototype.sendMsgAddVestingOptions
+type SendMsgUnredeemVouchersType = typeof Module.prototype.sendMsgUnredeemVouchers
+type SendMsgUpdateTotalSharesType = typeof Module.prototype.sendMsgUpdateTotalShares
 
 type QueryCampaignType = typeof Module.prototype.queryCampaign
 type QueryCampaignAllType = typeof Module.prototype.queryCampaignAll
@@ -22,22 +22,24 @@ type QueryMainnetAccountType = typeof Module.prototype.queryMainnetAccount
 type QueryMainnetAccountAllType = typeof Module.prototype.queryMainnetAccountAll
 type QueryMainnetVestingAccountType = typeof Module.prototype.queryMainnetVestingAccount
 type QueryMainnetVestingAccountAllType = typeof Module.prototype.queryMainnetVestingAccountAll
+type QueryCampaignSummaryType = typeof Module.prototype.queryCampaignSummary
+type QueryCampaignSummariesType = typeof Module.prototype.queryCampaignSummaries
 type QueryParamsType = typeof Module.prototype.queryParams
 type QueryTotalSharesType = typeof Module.prototype.queryTotalShares
 
 
 type Response = {
-  sendMsgBurnVouchers: SendMsgBurnVouchersType,
-  sendMsgAddShares: SendMsgAddSharesType,
-  sendMsgRedeemVouchers: SendMsgRedeemVouchersType,
-  sendMsgUnredeemVouchers: SendMsgUnredeemVouchersType,
-  sendMsgCreateCampaign: SendMsgCreateCampaignType,
-  sendMsgMintVouchers: SendMsgMintVouchersType,
   sendMsgInitializeMainnet: SendMsgInitializeMainnetType,
-  sendMsgUpdateTotalSupply: SendMsgUpdateTotalSupplyType,
-  sendMsgAddVestingOptions: SendMsgAddVestingOptionsType,
-  sendMsgUpdateTotalShares: SendMsgUpdateTotalSharesType,
+  sendMsgRedeemVouchers: SendMsgRedeemVouchersType,
   sendMsgEditCampaign: SendMsgEditCampaignType,
+  sendMsgCreateCampaign: SendMsgCreateCampaignType,
+  sendMsgAddShares: SendMsgAddSharesType,
+  sendMsgUpdateTotalSupply: SendMsgUpdateTotalSupplyType,
+  sendMsgBurnVouchers: SendMsgBurnVouchersType,
+  sendMsgMintVouchers: SendMsgMintVouchersType,
+  sendMsgAddVestingOptions: SendMsgAddVestingOptionsType,
+  sendMsgUnredeemVouchers: SendMsgUnredeemVouchersType,
+  sendMsgUpdateTotalShares: SendMsgUpdateTotalSharesType,
   
   queryCampaign: QueryCampaignType
   queryCampaignAll: QueryCampaignAllType
@@ -46,6 +48,8 @@ type Response = {
   queryMainnetAccountAll: QueryMainnetAccountAllType
   queryMainnetVestingAccount: QueryMainnetVestingAccountType
   queryMainnetVestingAccountAll: QueryMainnetVestingAccountAllType
+  queryCampaignSummary: QueryCampaignSummaryType
+  queryCampaignSummaries: QueryCampaignSummariesType
   queryParams: QueryParamsType
   queryTotalShares: QueryTotalSharesType
   
@@ -58,27 +62,27 @@ type Params = {
 function useModule({ ignite }: Params): Response {
   let {
 	
-	sendMsgBurnVouchers,
-  
-	sendMsgAddShares,
+	sendMsgInitializeMainnet,
   
 	sendMsgRedeemVouchers,
   
-	sendMsgUnredeemVouchers,
+	sendMsgEditCampaign,
   
 	sendMsgCreateCampaign,
   
-	sendMsgMintVouchers,
-  
-	sendMsgInitializeMainnet,
+	sendMsgAddShares,
   
 	sendMsgUpdateTotalSupply,
   
+	sendMsgBurnVouchers,
+  
+	sendMsgMintVouchers,
+  
 	sendMsgAddVestingOptions,
   
-	sendMsgUpdateTotalShares,
+	sendMsgUnredeemVouchers,
   
-	sendMsgEditCampaign,
+	sendMsgUpdateTotalShares,
   
   
   queryCampaign,
@@ -95,6 +99,10 @@ function useModule({ ignite }: Params): Response {
   
   queryMainnetVestingAccountAll,
   
+  queryCampaignSummary,
+  
+  queryCampaignSummaries,
+  
   queryParams,
   
   queryTotalShares,
@@ -103,27 +111,27 @@ function useModule({ ignite }: Params): Response {
 
   
   
-	sendMsgBurnVouchers = sendMsgBurnVouchers.bind(ignite.TendermintSpnCampaign)
-  
-	sendMsgAddShares = sendMsgAddShares.bind(ignite.TendermintSpnCampaign)
+	sendMsgInitializeMainnet = sendMsgInitializeMainnet.bind(ignite.TendermintSpnCampaign)
   
 	sendMsgRedeemVouchers = sendMsgRedeemVouchers.bind(ignite.TendermintSpnCampaign)
   
-	sendMsgUnredeemVouchers = sendMsgUnredeemVouchers.bind(ignite.TendermintSpnCampaign)
+	sendMsgEditCampaign = sendMsgEditCampaign.bind(ignite.TendermintSpnCampaign)
   
 	sendMsgCreateCampaign = sendMsgCreateCampaign.bind(ignite.TendermintSpnCampaign)
   
-	sendMsgMintVouchers = sendMsgMintVouchers.bind(ignite.TendermintSpnCampaign)
-  
-	sendMsgInitializeMainnet = sendMsgInitializeMainnet.bind(ignite.TendermintSpnCampaign)
+	sendMsgAddShares = sendMsgAddShares.bind(ignite.TendermintSpnCampaign)
   
 	sendMsgUpdateTotalSupply = sendMsgUpdateTotalSupply.bind(ignite.TendermintSpnCampaign)
   
+	sendMsgBurnVouchers = sendMsgBurnVouchers.bind(ignite.TendermintSpnCampaign)
+  
+	sendMsgMintVouchers = sendMsgMintVouchers.bind(ignite.TendermintSpnCampaign)
+  
 	sendMsgAddVestingOptions = sendMsgAddVestingOptions.bind(ignite.TendermintSpnCampaign)
   
-	sendMsgUpdateTotalShares = sendMsgUpdateTotalShares.bind(ignite.TendermintSpnCampaign)
+	sendMsgUnredeemVouchers = sendMsgUnredeemVouchers.bind(ignite.TendermintSpnCampaign)
   
-	sendMsgEditCampaign = sendMsgEditCampaign.bind(ignite.TendermintSpnCampaign)
+	sendMsgUpdateTotalShares = sendMsgUpdateTotalShares.bind(ignite.TendermintSpnCampaign)
   
   
   queryCampaign = queryCampaign.bind(ignite.TendermintSpnCampaign)
@@ -140,6 +148,10 @@ function useModule({ ignite }: Params): Response {
   
   queryMainnetVestingAccountAll = queryMainnetVestingAccountAll.bind(ignite.TendermintSpnCampaign)
   
+  queryCampaignSummary = queryCampaignSummary.bind(ignite.TendermintSpnCampaign)
+  
+  queryCampaignSummaries = queryCampaignSummaries.bind(ignite.TendermintSpnCampaign)
+  
   queryParams = queryParams.bind(ignite.TendermintSpnCampaign)
   
   queryTotalShares = queryTotalShares.bind(ignite.TendermintSpnCampaign)
@@ -147,27 +159,27 @@ function useModule({ ignite }: Params): Response {
 
   return {
   
-  sendMsgBurnVouchers,
-  
-  sendMsgAddShares,
+  sendMsgInitializeMainnet,
   
   sendMsgRedeemVouchers,
   
-  sendMsgUnredeemVouchers,
+  sendMsgEditCampaign,
   
   sendMsgCreateCampaign,
   
-  sendMsgMintVouchers,
-  
-  sendMsgInitializeMainnet,
+  sendMsgAddShares,
   
   sendMsgUpdateTotalSupply,
   
+  sendMsgBurnVouchers,
+  
+  sendMsgMintVouchers,
+  
   sendMsgAddVestingOptions,
   
-  sendMsgUpdateTotalShares,
+  sendMsgUnredeemVouchers,
   
-  sendMsgEditCampaign,
+  sendMsgUpdateTotalShares,
   
   
   queryCampaign,
@@ -183,6 +195,10 @@ function useModule({ ignite }: Params): Response {
   queryMainnetVestingAccount,
   
   queryMainnetVestingAccountAll,
+  
+  queryCampaignSummary,
+  
+  queryCampaignSummaries,
   
   queryParams,
   

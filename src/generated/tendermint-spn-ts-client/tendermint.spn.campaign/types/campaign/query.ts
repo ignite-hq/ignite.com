@@ -9,6 +9,7 @@ import {
 import { CampaignChains } from "../campaign/campaign_chains";
 import { MainnetAccount } from "../campaign/mainnet_account";
 import { MainnetVestingAccount } from "../campaign/mainnet_vesting_account";
+import { CampaignSummary } from "../campaign/campaign_summary";
 import { Params } from "../campaign/params";
 
 export const protobufPackage = "tendermint.spn.campaign";
@@ -73,6 +74,23 @@ export interface QueryAllMainnetVestingAccountRequest {
 
 export interface QueryAllMainnetVestingAccountResponse {
   mainnetVestingAccount: MainnetVestingAccount[];
+  pagination: PageResponse | undefined;
+}
+
+export interface QueryCampaignSummaryRequest {
+  campaignID: number;
+}
+
+export interface QueryCampaignSummaryResponse {
+  campaignSummary: CampaignSummary | undefined;
+}
+
+export interface QueryCampaignSummariesRequest {
+  pagination: PageRequest | undefined;
+}
+
+export interface QueryCampaignSummariesResponse {
+  campaignSummaries: CampaignSummary[];
   pagination: PageResponse | undefined;
 }
 
@@ -1286,6 +1304,344 @@ export const QueryAllMainnetVestingAccountResponse = {
   },
 };
 
+const baseQueryCampaignSummaryRequest: object = { campaignID: 0 };
+
+export const QueryCampaignSummaryRequest = {
+  encode(
+    message: QueryCampaignSummaryRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.campaignID !== 0) {
+      writer.uint32(8).uint64(message.campaignID);
+    }
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryCampaignSummaryRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryCampaignSummaryRequest,
+    } as QueryCampaignSummaryRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.campaignID = longToNumber(reader.uint64() as Long);
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryCampaignSummaryRequest {
+    const message = {
+      ...baseQueryCampaignSummaryRequest,
+    } as QueryCampaignSummaryRequest;
+    if (object.campaignID !== undefined && object.campaignID !== null) {
+      message.campaignID = Number(object.campaignID);
+    } else {
+      message.campaignID = 0;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryCampaignSummaryRequest): unknown {
+    const obj: any = {};
+    message.campaignID !== undefined && (obj.campaignID = message.campaignID);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryCampaignSummaryRequest>
+  ): QueryCampaignSummaryRequest {
+    const message = {
+      ...baseQueryCampaignSummaryRequest,
+    } as QueryCampaignSummaryRequest;
+    if (object.campaignID !== undefined && object.campaignID !== null) {
+      message.campaignID = object.campaignID;
+    } else {
+      message.campaignID = 0;
+    }
+    return message;
+  },
+};
+
+const baseQueryCampaignSummaryResponse: object = {};
+
+export const QueryCampaignSummaryResponse = {
+  encode(
+    message: QueryCampaignSummaryResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.campaignSummary !== undefined) {
+      CampaignSummary.encode(
+        message.campaignSummary,
+        writer.uint32(10).fork()
+      ).ldelim();
+    }
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryCampaignSummaryResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryCampaignSummaryResponse,
+    } as QueryCampaignSummaryResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.campaignSummary = CampaignSummary.decode(
+            reader,
+            reader.uint32()
+          );
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryCampaignSummaryResponse {
+    const message = {
+      ...baseQueryCampaignSummaryResponse,
+    } as QueryCampaignSummaryResponse;
+    if (
+      object.campaignSummary !== undefined &&
+      object.campaignSummary !== null
+    ) {
+      message.campaignSummary = CampaignSummary.fromJSON(
+        object.campaignSummary
+      );
+    } else {
+      message.campaignSummary = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryCampaignSummaryResponse): unknown {
+    const obj: any = {};
+    message.campaignSummary !== undefined &&
+      (obj.campaignSummary = message.campaignSummary
+        ? CampaignSummary.toJSON(message.campaignSummary)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryCampaignSummaryResponse>
+  ): QueryCampaignSummaryResponse {
+    const message = {
+      ...baseQueryCampaignSummaryResponse,
+    } as QueryCampaignSummaryResponse;
+    if (
+      object.campaignSummary !== undefined &&
+      object.campaignSummary !== null
+    ) {
+      message.campaignSummary = CampaignSummary.fromPartial(
+        object.campaignSummary
+      );
+    } else {
+      message.campaignSummary = undefined;
+    }
+    return message;
+  },
+};
+
+const baseQueryCampaignSummariesRequest: object = {};
+
+export const QueryCampaignSummariesRequest = {
+  encode(
+    message: QueryCampaignSummariesRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.pagination !== undefined) {
+      PageRequest.encode(message.pagination, writer.uint32(18).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryCampaignSummariesRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryCampaignSummariesRequest,
+    } as QueryCampaignSummariesRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 2:
+          message.pagination = PageRequest.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryCampaignSummariesRequest {
+    const message = {
+      ...baseQueryCampaignSummariesRequest,
+    } as QueryCampaignSummariesRequest;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryCampaignSummariesRequest): unknown {
+    const obj: any = {};
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageRequest.toJSON(message.pagination)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryCampaignSummariesRequest>
+  ): QueryCampaignSummariesRequest {
+    const message = {
+      ...baseQueryCampaignSummariesRequest,
+    } as QueryCampaignSummariesRequest;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+};
+
+const baseQueryCampaignSummariesResponse: object = {};
+
+export const QueryCampaignSummariesResponse = {
+  encode(
+    message: QueryCampaignSummariesResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    for (const v of message.campaignSummaries) {
+      CampaignSummary.encode(v!, writer.uint32(10).fork()).ldelim();
+    }
+    if (message.pagination !== undefined) {
+      PageResponse.encode(
+        message.pagination,
+        writer.uint32(18).fork()
+      ).ldelim();
+    }
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryCampaignSummariesResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryCampaignSummariesResponse,
+    } as QueryCampaignSummariesResponse;
+    message.campaignSummaries = [];
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.campaignSummaries.push(
+            CampaignSummary.decode(reader, reader.uint32())
+          );
+          break;
+        case 2:
+          message.pagination = PageResponse.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryCampaignSummariesResponse {
+    const message = {
+      ...baseQueryCampaignSummariesResponse,
+    } as QueryCampaignSummariesResponse;
+    message.campaignSummaries = [];
+    if (
+      object.campaignSummaries !== undefined &&
+      object.campaignSummaries !== null
+    ) {
+      for (const e of object.campaignSummaries) {
+        message.campaignSummaries.push(CampaignSummary.fromJSON(e));
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryCampaignSummariesResponse): unknown {
+    const obj: any = {};
+    if (message.campaignSummaries) {
+      obj.campaignSummaries = message.campaignSummaries.map((e) =>
+        e ? CampaignSummary.toJSON(e) : undefined
+      );
+    } else {
+      obj.campaignSummaries = [];
+    }
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageResponse.toJSON(message.pagination)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryCampaignSummariesResponse>
+  ): QueryCampaignSummariesResponse {
+    const message = {
+      ...baseQueryCampaignSummariesResponse,
+    } as QueryCampaignSummariesResponse;
+    message.campaignSummaries = [];
+    if (
+      object.campaignSummaries !== undefined &&
+      object.campaignSummaries !== null
+    ) {
+      for (const e of object.campaignSummaries) {
+        message.campaignSummaries.push(CampaignSummary.fromPartial(e));
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+};
+
 const baseQueryParamsRequest: object = {};
 
 export const QueryParamsRequest = {
@@ -1527,6 +1883,14 @@ export interface Query {
   MainnetVestingAccountAll(
     request: QueryAllMainnetVestingAccountRequest
   ): Promise<QueryAllMainnetVestingAccountResponse>;
+  /** Queries a campaign summary */
+  CampaignSummary(
+    request: QueryCampaignSummaryRequest
+  ): Promise<QueryCampaignSummaryResponse>;
+  /** Queries a list of campaign summaries */
+  CampaignSummaries(
+    request: QueryCampaignSummariesRequest
+  ): Promise<QueryCampaignSummariesResponse>;
   /** Parameters queries the parameters of the module. */
   Params(request: QueryParamsRequest): Promise<QueryParamsResponse>;
   /** Queries the TotalShares value */
@@ -1635,6 +1999,34 @@ export class QueryClientImpl implements Query {
     );
     return promise.then((data) =>
       QueryAllMainnetVestingAccountResponse.decode(new Reader(data))
+    );
+  }
+
+  CampaignSummary(
+    request: QueryCampaignSummaryRequest
+  ): Promise<QueryCampaignSummaryResponse> {
+    const data = QueryCampaignSummaryRequest.encode(request).finish();
+    const promise = this.rpc.request(
+      "tendermint.spn.campaign.Query",
+      "CampaignSummary",
+      data
+    );
+    return promise.then((data) =>
+      QueryCampaignSummaryResponse.decode(new Reader(data))
+    );
+  }
+
+  CampaignSummaries(
+    request: QueryCampaignSummariesRequest
+  ): Promise<QueryCampaignSummariesResponse> {
+    const data = QueryCampaignSummariesRequest.encode(request).finish();
+    const promise = this.rpc.request(
+      "tendermint.spn.campaign.Query",
+      "CampaignSummaries",
+      data
+    );
+    return promise.then((data) =>
+      QueryCampaignSummariesResponse.decode(new Reader(data))
     );
   }
 

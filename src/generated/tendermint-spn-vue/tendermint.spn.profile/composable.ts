@@ -3,12 +3,12 @@
 import { Ignite } from "@ignt/client";
 import Module from "@ignt/client/tendermint.spn.profile/module";
 		
-type SendMsgAddValidatorOperatorAddressType = typeof Module.prototype.sendMsgAddValidatorOperatorAddress
-type SendMsgCreateCoordinatorType = typeof Module.prototype.sendMsgCreateCoordinator
-type SendMsgUpdateCoordinatorAddressType = typeof Module.prototype.sendMsgUpdateCoordinatorAddress
 type SendMsgUpdateValidatorDescriptionType = typeof Module.prototype.sendMsgUpdateValidatorDescription
+type SendMsgAddValidatorOperatorAddressType = typeof Module.prototype.sendMsgAddValidatorOperatorAddress
 type SendMsgDisableCoordinatorType = typeof Module.prototype.sendMsgDisableCoordinator
 type SendMsgUpdateCoordinatorDescriptionType = typeof Module.prototype.sendMsgUpdateCoordinatorDescription
+type SendMsgCreateCoordinatorType = typeof Module.prototype.sendMsgCreateCoordinator
+type SendMsgUpdateCoordinatorAddressType = typeof Module.prototype.sendMsgUpdateCoordinatorAddress
 
 type QueryValidatorType = typeof Module.prototype.queryValidator
 type QueryValidatorAllType = typeof Module.prototype.queryValidatorAll
@@ -19,12 +19,12 @@ type QueryCoordinatorByAddressType = typeof Module.prototype.queryCoordinatorByA
 
 
 type Response = {
-  sendMsgAddValidatorOperatorAddress: SendMsgAddValidatorOperatorAddressType,
-  sendMsgCreateCoordinator: SendMsgCreateCoordinatorType,
-  sendMsgUpdateCoordinatorAddress: SendMsgUpdateCoordinatorAddressType,
   sendMsgUpdateValidatorDescription: SendMsgUpdateValidatorDescriptionType,
+  sendMsgAddValidatorOperatorAddress: SendMsgAddValidatorOperatorAddressType,
   sendMsgDisableCoordinator: SendMsgDisableCoordinatorType,
   sendMsgUpdateCoordinatorDescription: SendMsgUpdateCoordinatorDescriptionType,
+  sendMsgCreateCoordinator: SendMsgCreateCoordinatorType,
+  sendMsgUpdateCoordinatorAddress: SendMsgUpdateCoordinatorAddressType,
   
   queryValidator: QueryValidatorType
   queryValidatorAll: QueryValidatorAllType
@@ -42,17 +42,17 @@ type Params = {
 function useModule({ ignite }: Params): Response {
   let {
 	
-	sendMsgAddValidatorOperatorAddress,
-  
-	sendMsgCreateCoordinator,
-  
-	sendMsgUpdateCoordinatorAddress,
-  
 	sendMsgUpdateValidatorDescription,
+  
+	sendMsgAddValidatorOperatorAddress,
   
 	sendMsgDisableCoordinator,
   
 	sendMsgUpdateCoordinatorDescription,
+  
+	sendMsgCreateCoordinator,
+  
+	sendMsgUpdateCoordinatorAddress,
   
   
   queryValidator,
@@ -71,17 +71,17 @@ function useModule({ ignite }: Params): Response {
 
   
   
-	sendMsgAddValidatorOperatorAddress = sendMsgAddValidatorOperatorAddress.bind(ignite.TendermintSpnProfile)
-  
-	sendMsgCreateCoordinator = sendMsgCreateCoordinator.bind(ignite.TendermintSpnProfile)
-  
-	sendMsgUpdateCoordinatorAddress = sendMsgUpdateCoordinatorAddress.bind(ignite.TendermintSpnProfile)
-  
 	sendMsgUpdateValidatorDescription = sendMsgUpdateValidatorDescription.bind(ignite.TendermintSpnProfile)
+  
+	sendMsgAddValidatorOperatorAddress = sendMsgAddValidatorOperatorAddress.bind(ignite.TendermintSpnProfile)
   
 	sendMsgDisableCoordinator = sendMsgDisableCoordinator.bind(ignite.TendermintSpnProfile)
   
 	sendMsgUpdateCoordinatorDescription = sendMsgUpdateCoordinatorDescription.bind(ignite.TendermintSpnProfile)
+  
+	sendMsgCreateCoordinator = sendMsgCreateCoordinator.bind(ignite.TendermintSpnProfile)
+  
+	sendMsgUpdateCoordinatorAddress = sendMsgUpdateCoordinatorAddress.bind(ignite.TendermintSpnProfile)
   
   
   queryValidator = queryValidator.bind(ignite.TendermintSpnProfile)
@@ -99,17 +99,17 @@ function useModule({ ignite }: Params): Response {
 
   return {
   
-  sendMsgAddValidatorOperatorAddress,
-  
-  sendMsgCreateCoordinator,
-  
-  sendMsgUpdateCoordinatorAddress,
-  
   sendMsgUpdateValidatorDescription,
+  
+  sendMsgAddValidatorOperatorAddress,
   
   sendMsgDisableCoordinator,
   
   sendMsgUpdateCoordinatorDescription,
+  
+  sendMsgCreateCoordinator,
+  
+  sendMsgUpdateCoordinatorAddress,
   
   
   queryValidator,

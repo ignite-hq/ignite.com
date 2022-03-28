@@ -3,17 +3,17 @@
 import { Ignite } from "@ignt/client";
 import Module from "@ignt/client/tendermint.spn.launch/module";
 		
-type SendMsgSettleRequestType = typeof Module.prototype.sendMsgSettleRequest
-type SendMsgRequestAddVestingAccountType = typeof Module.prototype.sendMsgRequestAddVestingAccount
-type SendMsgUpdateLaunchInformationType = typeof Module.prototype.sendMsgUpdateLaunchInformation
-type SendMsgRequestAddAccountType = typeof Module.prototype.sendMsgRequestAddAccount
-type SendMsgRequestRemoveAccountType = typeof Module.prototype.sendMsgRequestRemoveAccount
-type SendMsgRequestAddValidatorType = typeof Module.prototype.sendMsgRequestAddValidator
 type SendMsgRevertLaunchType = typeof Module.prototype.sendMsgRevertLaunch
+type SendMsgRequestAddValidatorType = typeof Module.prototype.sendMsgRequestAddValidator
 type SendMsgRequestRemoveValidatorType = typeof Module.prototype.sendMsgRequestRemoveValidator
 type SendMsgCreateChainType = typeof Module.prototype.sendMsgCreateChain
+type SendMsgRequestAddAccountType = typeof Module.prototype.sendMsgRequestAddAccount
 type SendMsgTriggerLaunchType = typeof Module.prototype.sendMsgTriggerLaunch
+type SendMsgRequestRemoveAccountType = typeof Module.prototype.sendMsgRequestRemoveAccount
+type SendMsgRequestAddVestingAccountType = typeof Module.prototype.sendMsgRequestAddVestingAccount
+type SendMsgUpdateLaunchInformationType = typeof Module.prototype.sendMsgUpdateLaunchInformation
 type SendMsgEditChainType = typeof Module.prototype.sendMsgEditChain
+type SendMsgSettleRequestType = typeof Module.prototype.sendMsgSettleRequest
 
 type QueryChainType = typeof Module.prototype.queryChain
 type QueryChainAllType = typeof Module.prototype.queryChainAll
@@ -29,17 +29,17 @@ type QueryParamsType = typeof Module.prototype.queryParams
 
 
 type Response = {
-  sendMsgSettleRequest: SendMsgSettleRequestType,
-  sendMsgRequestAddVestingAccount: SendMsgRequestAddVestingAccountType,
-  sendMsgUpdateLaunchInformation: SendMsgUpdateLaunchInformationType,
-  sendMsgRequestAddAccount: SendMsgRequestAddAccountType,
-  sendMsgRequestRemoveAccount: SendMsgRequestRemoveAccountType,
-  sendMsgRequestAddValidator: SendMsgRequestAddValidatorType,
   sendMsgRevertLaunch: SendMsgRevertLaunchType,
+  sendMsgRequestAddValidator: SendMsgRequestAddValidatorType,
   sendMsgRequestRemoveValidator: SendMsgRequestRemoveValidatorType,
   sendMsgCreateChain: SendMsgCreateChainType,
+  sendMsgRequestAddAccount: SendMsgRequestAddAccountType,
   sendMsgTriggerLaunch: SendMsgTriggerLaunchType,
+  sendMsgRequestRemoveAccount: SendMsgRequestRemoveAccountType,
+  sendMsgRequestAddVestingAccount: SendMsgRequestAddVestingAccountType,
+  sendMsgUpdateLaunchInformation: SendMsgUpdateLaunchInformationType,
   sendMsgEditChain: SendMsgEditChainType,
+  sendMsgSettleRequest: SendMsgSettleRequestType,
   
   queryChain: QueryChainType
   queryChainAll: QueryChainAllType
@@ -62,27 +62,27 @@ type Params = {
 function useModule({ ignite }: Params): Response {
   let {
 	
-	sendMsgSettleRequest,
-  
-	sendMsgRequestAddVestingAccount,
-  
-	sendMsgUpdateLaunchInformation,
-  
-	sendMsgRequestAddAccount,
-  
-	sendMsgRequestRemoveAccount,
+	sendMsgRevertLaunch,
   
 	sendMsgRequestAddValidator,
-  
-	sendMsgRevertLaunch,
   
 	sendMsgRequestRemoveValidator,
   
 	sendMsgCreateChain,
   
+	sendMsgRequestAddAccount,
+  
 	sendMsgTriggerLaunch,
   
+	sendMsgRequestRemoveAccount,
+  
+	sendMsgRequestAddVestingAccount,
+  
+	sendMsgUpdateLaunchInformation,
+  
 	sendMsgEditChain,
+  
+	sendMsgSettleRequest,
   
   
   queryChain,
@@ -111,27 +111,27 @@ function useModule({ ignite }: Params): Response {
 
   
   
-	sendMsgSettleRequest = sendMsgSettleRequest.bind(ignite.TendermintSpnLaunch)
-  
-	sendMsgRequestAddVestingAccount = sendMsgRequestAddVestingAccount.bind(ignite.TendermintSpnLaunch)
-  
-	sendMsgUpdateLaunchInformation = sendMsgUpdateLaunchInformation.bind(ignite.TendermintSpnLaunch)
-  
-	sendMsgRequestAddAccount = sendMsgRequestAddAccount.bind(ignite.TendermintSpnLaunch)
-  
-	sendMsgRequestRemoveAccount = sendMsgRequestRemoveAccount.bind(ignite.TendermintSpnLaunch)
+	sendMsgRevertLaunch = sendMsgRevertLaunch.bind(ignite.TendermintSpnLaunch)
   
 	sendMsgRequestAddValidator = sendMsgRequestAddValidator.bind(ignite.TendermintSpnLaunch)
-  
-	sendMsgRevertLaunch = sendMsgRevertLaunch.bind(ignite.TendermintSpnLaunch)
   
 	sendMsgRequestRemoveValidator = sendMsgRequestRemoveValidator.bind(ignite.TendermintSpnLaunch)
   
 	sendMsgCreateChain = sendMsgCreateChain.bind(ignite.TendermintSpnLaunch)
   
+	sendMsgRequestAddAccount = sendMsgRequestAddAccount.bind(ignite.TendermintSpnLaunch)
+  
 	sendMsgTriggerLaunch = sendMsgTriggerLaunch.bind(ignite.TendermintSpnLaunch)
   
+	sendMsgRequestRemoveAccount = sendMsgRequestRemoveAccount.bind(ignite.TendermintSpnLaunch)
+  
+	sendMsgRequestAddVestingAccount = sendMsgRequestAddVestingAccount.bind(ignite.TendermintSpnLaunch)
+  
+	sendMsgUpdateLaunchInformation = sendMsgUpdateLaunchInformation.bind(ignite.TendermintSpnLaunch)
+  
 	sendMsgEditChain = sendMsgEditChain.bind(ignite.TendermintSpnLaunch)
+  
+	sendMsgSettleRequest = sendMsgSettleRequest.bind(ignite.TendermintSpnLaunch)
   
   
   queryChain = queryChain.bind(ignite.TendermintSpnLaunch)
@@ -159,27 +159,27 @@ function useModule({ ignite }: Params): Response {
 
   return {
   
-  sendMsgSettleRequest,
-  
-  sendMsgRequestAddVestingAccount,
-  
-  sendMsgUpdateLaunchInformation,
-  
-  sendMsgRequestAddAccount,
-  
-  sendMsgRequestRemoveAccount,
+  sendMsgRevertLaunch,
   
   sendMsgRequestAddValidator,
-  
-  sendMsgRevertLaunch,
   
   sendMsgRequestRemoveValidator,
   
   sendMsgCreateChain,
   
+  sendMsgRequestAddAccount,
+  
   sendMsgTriggerLaunch,
   
+  sendMsgRequestRemoveAccount,
+  
+  sendMsgRequestAddVestingAccount,
+  
+  sendMsgUpdateLaunchInformation,
+  
   sendMsgEditChain,
+  
+  sendMsgSettleRequest,
   
   
   queryChain,
