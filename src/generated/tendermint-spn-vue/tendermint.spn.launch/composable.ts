@@ -1,7 +1,7 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
-import { Ignite } from "@ignt/client";
-import Module from "@ignt/client/tendermint.spn.launch/module";
+import { Ignite } from "tendermint-spn-ts-client";
+import Module from "tendermint-spn-ts-client/tendermint.spn.launch/module";
 		
 type SendMsgRevertLaunchType = typeof Module.prototype.sendMsgRevertLaunch
 type SendMsgRequestAddValidatorType = typeof Module.prototype.sendMsgRequestAddValidator

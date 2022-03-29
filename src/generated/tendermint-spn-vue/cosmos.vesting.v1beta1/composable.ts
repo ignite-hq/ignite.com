@@ -1,7 +1,7 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
-import { Ignite } from "@ignt/client";
-import Module from "@ignt/client/cosmos.vesting.v1beta1/module";
+import { Ignite } from "tendermint-spn-ts-client";
+import Module from "tendermint-spn-ts-client/cosmos.vesting.v1beta1/module";
 		
 type SendMsgCreateVestingAccountType = typeof Module.prototype.sendMsgCreateVestingAccount
 

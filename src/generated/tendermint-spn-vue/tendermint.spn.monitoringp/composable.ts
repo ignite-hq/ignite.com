@@ -1,7 +1,7 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
-import { Ignite } from "@ignt/client";
-import Module from "@ignt/client/tendermint.spn.monitoringp/module";
+import { Ignite } from "tendermint-spn-ts-client";
+import Module from "tendermint-spn-ts-client/tendermint.spn.monitoringp/module";
 		
 
 type QueryParamsType = typeof Module.prototype.queryParams

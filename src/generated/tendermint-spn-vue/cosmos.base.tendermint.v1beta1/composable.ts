@@ -1,7 +1,7 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
-import { Ignite } from "@ignt/client";
-import Module from "@ignt/client/cosmos.base.tendermint.v1beta1/module";
+import { Ignite } from "tendermint-spn-ts-client";
+import Module from "tendermint-spn-ts-client/cosmos.base.tendermint.v1beta1/module";
 		
 
 type ServiceGetNodeInfoType = typeof Module.prototype.serviceGetNodeInfo
@@ -44,8 +44,6 @@ function useModule({ ignite }: Params): Response {
   serviceGetValidatorSetByHeight,
   
   } = ignite.CosmosBaseTendermintV1Beta1
-
-  
   
   
   serviceGetNodeInfo = serviceGetNodeInfo.bind(ignite.CosmosBaseTendermintV1Beta1)
