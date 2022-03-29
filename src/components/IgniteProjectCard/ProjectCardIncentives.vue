@@ -15,7 +15,10 @@
         {{ incentive.total }} {{ firstIncentiveDenom?.toUpperCase() }}
       </div>
     </div>
-    <div class="text-center ignt-text text-2 text-muted">
+    <div
+      v-if="pastIncentive.total > 0"
+      class="text-center ignt-text text-2 text-muted"
+    >
       Past incentives: {{ pastIncentive.total }}
       {{ firstPastIncentiveDenom?.toUpperCase() }}
     </div>
@@ -91,9 +94,3 @@ const firstPastIncentiveDenom = computed(() => {
   return pastIncentive.value.denoms[0]
 })
 </script>
-
-<style scoped lang="postcss">
-.logo {
-  @apply w-6 h-6 shrink-0 bg-gray-50 rounded-circle;
-}
-</style>

@@ -105,5 +105,3 @@ const totalSupply = computed(() => {
   })
 })
 </script>
-
-<style scoped lang="postcss"></style>

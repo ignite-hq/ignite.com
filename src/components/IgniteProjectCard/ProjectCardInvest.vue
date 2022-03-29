@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="flex justify-between items-center mb-7.5">
-      <div class="ignt-text font-medium text-2 text-muted">Invest</div>
-      <div class="ignt-text font-medium text-2 text-title">
+      <div class="font-medium ignt-text text-2 text-muted">Invest</div>
+      <div class="font-medium ignt-text text-2 text-title">
         <b>$1M</b> of <b>$2M</b>
       </div>
     </div>
@@ -30,5 +30,3 @@ const progressBar = {
   ] as ProgressBarItem[]
 }
 </script>
-
-<style scoped lang="postcss"></style>
