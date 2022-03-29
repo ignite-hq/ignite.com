@@ -98,61 +98,6 @@ const showIncentives = computed(function () {
     hasAtLeastOneIncentive
   )
 })
-
-const mockCampaignSummary: CampaignCampaignSummary = {
-  campaign: {
-    allocatedShares: [
-      {
-        amount: '50000',
-        denom: 's/orbit'
-      }
-    ],
-    campaignID: '1',
-    campaignName: 'orbit',
-    coordinatorID: '1',
-    dynamicShares: false,
-    mainnetID: '0',
-    mainnetInitialized: false,
-    totalShares: [],
-    totalSupply: [
-      {
-        amount: '1000000',
-        denom: 'orbit'
-      }
-    ]
-  },
-  hasMostRecentChain: true,
-  incentivized: true,
-  mostRecentChain: {
-    launchID: '3',
-    launchTriggered: false,
-    requestNb: '0',
-    sourceHash: '0xaaa',
-    sourceURL: 'orbit.com',
-    validatorNb: '0'
-  },
-  previousRewards: [
-    {
-      amount: '40',
-      denom: 'uspn'
-    },
-    {
-      amount: '10000',
-      denom: 'v/1/orbit'
-    }
-  ],
-  rewards: [
-    {
-      amount: '40',
-      denom: 'uspn'
-    },
-    {
-      amount: '40000',
-      denom: 'v/1/orbit'
-    }
-  ],
-  rewardsDistributed: false
-}
 </script>
 
 <style scoped lang="postcss">
