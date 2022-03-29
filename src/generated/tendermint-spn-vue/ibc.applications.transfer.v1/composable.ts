@@ -1,61 +1,65 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
-import { Store } from 'pinia'
-import { usePiniaStore, PiniaState } from './'
-
-import { Ignite } from 'tendermint-spn-ts-client'
-import Module from 'tendermint-spn-ts-client/ibc.applications.transfer.v1/module'
-
+import { Ignite } from "tendermint-spn-ts-client";
+import Module from "tendermint-spn-ts-client/ibc.applications.transfer.v1/module";
+		
 type SendMsgTransferType = typeof Module.prototype.sendMsgTransfer
 
 type QueryDenomTraceType = typeof Module.prototype.queryDenomTrace
 type QueryDenomTracesType = typeof Module.prototype.queryDenomTraces
 type QueryParamsType = typeof Module.prototype.queryParams
 
-type Response = {
-  $s: Store<'ibc.applications.transfer.v1', PiniaState, {}, {}>
-  sendMsgTransfer: SendMsgTransferType
 
+type Response = {
+  sendMsgTransfer: SendMsgTransferType,
+  
   queryDenomTrace: QueryDenomTraceType
   queryDenomTraces: QueryDenomTracesType
   queryParams: QueryParamsType
+  
 }
 
 type Params = {
-  $ignt: Ignite
+  ignite: Ignite;
 }
 
-function useModule({ $ignt }: Params): Response {
-  let $s = usePiniaStore()
-
+function useModule({ ignite }: Params): Response {
   let {
-    sendMsgTransfer,
+	
+	sendMsgTransfer,
+  
+  
+  queryDenomTrace,
+  
+  queryDenomTraces,
+  
+  queryParams,
+  
+  } = ignite.IbcApplicationsTransferV1
 
-    queryDenomTrace,
-
-    queryDenomTraces,
-
-    queryParams
-  } = $ignt.IbcApplicationsTransferV1
-
-  sendMsgTransfer = sendMsgTransfer.bind($ignt.IbcApplicationsTransferV1)
-
-  queryDenomTrace = queryDenomTrace.bind($ignt.IbcApplicationsTransferV1)
-
-  queryDenomTraces = queryDenomTraces.bind($ignt.IbcApplicationsTransferV1)
-
-  queryParams = queryParams.bind($ignt.IbcApplicationsTransferV1)
+  
+  
+	sendMsgTransfer = sendMsgTransfer.bind(ignite.IbcApplicationsTransferV1)
+  
+  
+  queryDenomTrace = queryDenomTrace.bind(ignite.IbcApplicationsTransferV1)
+  
+  queryDenomTraces = queryDenomTraces.bind(ignite.IbcApplicationsTransferV1)
+  
+  queryParams = queryParams.bind(ignite.IbcApplicationsTransferV1)
+  
 
   return {
-    $s,
-
-    sendMsgTransfer,
-
-    queryDenomTrace,
-
-    queryDenomTraces,
-
-    queryParams
+  
+  sendMsgTransfer,
+  
+  
+  queryDenomTrace,
+  
+  queryDenomTraces,
+  
+  queryParams,
+  
   }
 }
 

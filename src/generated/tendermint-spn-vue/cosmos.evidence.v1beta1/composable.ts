@@ -1,55 +1,57 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
-import { Store } from 'pinia'
-import { usePiniaStore, PiniaState } from './'
-
-import { Ignite } from 'tendermint-spn-ts-client'
-import Module from 'tendermint-spn-ts-client/cosmos.evidence.v1beta1/module'
-
+import { Ignite } from "tendermint-spn-ts-client";
+import Module from "tendermint-spn-ts-client/cosmos.evidence.v1beta1/module";
+		
 type SendMsgSubmitEvidenceType = typeof Module.prototype.sendMsgSubmitEvidence
 
 type QueryEvidenceType = typeof Module.prototype.queryEvidence
 type QueryAllEvidenceType = typeof Module.prototype.queryAllEvidence
 
-type Response = {
-  $s: Store<'cosmos.evidence.v1beta1', PiniaState, {}, {}>
-  sendMsgSubmitEvidence: SendMsgSubmitEvidenceType
 
+type Response = {
+  sendMsgSubmitEvidence: SendMsgSubmitEvidenceType,
+  
   queryEvidence: QueryEvidenceType
   queryAllEvidence: QueryAllEvidenceType
+  
 }
 
 type Params = {
-  $ignt: Ignite
+  ignite: Ignite;
 }
 
-function useModule({ $ignt }: Params): Response {
-  let $s = usePiniaStore()
-
+function useModule({ ignite }: Params): Response {
   let {
-    sendMsgSubmitEvidence,
+	
+	sendMsgSubmitEvidence,
+  
+  
+  queryEvidence,
+  
+  queryAllEvidence,
+  
+  } = ignite.CosmosEvidenceV1Beta1
 
-    queryEvidence,
-
-    queryAllEvidence
-  } = $ignt.CosmosEvidenceV1Beta1
-
-  sendMsgSubmitEvidence = sendMsgSubmitEvidence.bind(
-    $ignt.CosmosEvidenceV1Beta1
-  )
-
-  queryEvidence = queryEvidence.bind($ignt.CosmosEvidenceV1Beta1)
-
-  queryAllEvidence = queryAllEvidence.bind($ignt.CosmosEvidenceV1Beta1)
+  
+  
+	sendMsgSubmitEvidence = sendMsgSubmitEvidence.bind(ignite.CosmosEvidenceV1Beta1)
+  
+  
+  queryEvidence = queryEvidence.bind(ignite.CosmosEvidenceV1Beta1)
+  
+  queryAllEvidence = queryAllEvidence.bind(ignite.CosmosEvidenceV1Beta1)
+  
 
   return {
-    $s,
-
-    sendMsgSubmitEvidence,
-
-    queryEvidence,
-
-    queryAllEvidence
+  
+  sendMsgSubmitEvidence,
+  
+  
+  queryEvidence,
+  
+  queryAllEvidence,
+  
   }
 }
 

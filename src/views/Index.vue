@@ -17,13 +17,6 @@ export default {
   components: { IgniteProjectList },
 
   async setup() {
-    let $ignt = inject<Ref<Ignite>>('ignt')
-
-    let { queryChainAll, sendMsgRequestAddAccount } =
-      useTendermintSpnLaunchModule({
-        $ignt: $ignt.value
-      })
-
     //
     // USAGE EXAMPLES
     //

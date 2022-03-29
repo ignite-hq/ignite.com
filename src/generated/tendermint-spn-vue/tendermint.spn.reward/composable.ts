@@ -1,61 +1,65 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
-import { Store } from 'pinia'
-import { usePiniaStore, PiniaState } from './'
-
-import { Ignite } from 'tendermint-spn-ts-client'
-import Module from 'tendermint-spn-ts-client/tendermint.spn.reward/module'
-
+import { Ignite } from "tendermint-spn-ts-client";
+import Module from "tendermint-spn-ts-client/tendermint.spn.reward/module";
+		
 type SendMsgSetRewardsType = typeof Module.prototype.sendMsgSetRewards
 
 type QueryParamsType = typeof Module.prototype.queryParams
 type QueryRewardPoolType = typeof Module.prototype.queryRewardPool
 type QueryRewardPoolAllType = typeof Module.prototype.queryRewardPoolAll
 
-type Response = {
-  $s: Store<'tendermint.spn.reward', PiniaState, {}, {}>
-  sendMsgSetRewards: SendMsgSetRewardsType
 
+type Response = {
+  sendMsgSetRewards: SendMsgSetRewardsType,
+  
   queryParams: QueryParamsType
   queryRewardPool: QueryRewardPoolType
   queryRewardPoolAll: QueryRewardPoolAllType
+  
 }
 
 type Params = {
-  $ignt: Ignite
+  ignite: Ignite;
 }
 
-function useModule({ $ignt }: Params): Response {
-  let $s = usePiniaStore()
-
+function useModule({ ignite }: Params): Response {
   let {
-    sendMsgSetRewards,
+	
+	sendMsgSetRewards,
+  
+  
+  queryParams,
+  
+  queryRewardPool,
+  
+  queryRewardPoolAll,
+  
+  } = ignite.TendermintSpnReward
 
-    queryParams,
-
-    queryRewardPool,
-
-    queryRewardPoolAll
-  } = $ignt.TendermintSpnReward
-
-  sendMsgSetRewards = sendMsgSetRewards.bind($ignt.TendermintSpnReward)
-
-  queryParams = queryParams.bind($ignt.TendermintSpnReward)
-
-  queryRewardPool = queryRewardPool.bind($ignt.TendermintSpnReward)
-
-  queryRewardPoolAll = queryRewardPoolAll.bind($ignt.TendermintSpnReward)
+  
+  
+	sendMsgSetRewards = sendMsgSetRewards.bind(ignite.TendermintSpnReward)
+  
+  
+  queryParams = queryParams.bind(ignite.TendermintSpnReward)
+  
+  queryRewardPool = queryRewardPool.bind(ignite.TendermintSpnReward)
+  
+  queryRewardPoolAll = queryRewardPoolAll.bind(ignite.TendermintSpnReward)
+  
 
   return {
-    $s,
-
-    sendMsgSetRewards,
-
-    queryParams,
-
-    queryRewardPool,
-
-    queryRewardPoolAll
+  
+  sendMsgSetRewards,
+  
+  
+  queryParams,
+  
+  queryRewardPool,
+  
+  queryRewardPoolAll,
+  
   }
 }
 

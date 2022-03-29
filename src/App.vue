@@ -6,29 +6,35 @@
           :links="navbarLinks"
           :active-route="router.currentRoute.value.path"
         />
-        <router-view v-if="$ignt" />
+        <router-view />
       </SpTheme>
     </Suspense>
   </div>
 </template>
 
 <script lang="ts">
+import { useIgnite } from '@ignt/vue'
+import { useIgnite as useIgniteN } from 'tendermint-spn-vue'
 import { SpNavbar, SpTheme } from '@starport/vue'
-import { computed, onBeforeMount } from 'vue'
 import { useRouter } from 'vue-router'
-import { useStore } from 'vuex'
-
-import useIgnite from './composables/useIgnite'
+import { Environment } from 'tendermint-spn-ts-client'
 
 export default {
   components: { SpTheme, SpNavbar },
 
   setup() {
     // ignt
-    let { $ignt } = useIgnite()
-
-    // store
-    let $s = useStore()
+    let env: Environment = {
+      apiURL: process.env.VUE_APP_API_COSMOS,
+      rpcURL: process.env.VUE_APP_API_TENDERMINT,
+      wsURL: process.env.VUE_APP_WS_TENDERMINT
+    }
+    let tsClientParams = {
+      env,
+      autoConnectWS: true
+    }
+    useIgnite(tsClientParams)
+    useIgniteN(tsClientParams)
 
     // router
     let router = useRouter()
@@ -36,23 +42,11 @@ export default {
     // state
     let navbarLinks = []
 
-    // computed
-    let address = computed(() => $s.getters['common/wallet/address'])
-
-    // lh
-    onBeforeMount(async () => {
-      await $s.dispatch('common/env/init')
-    })
-
     return {
-      // ignt
-      $ignt,
       // state,
       navbarLinks,
       // router
-      router,
-      // computed
-      address
+      router
     }
   }
 }
