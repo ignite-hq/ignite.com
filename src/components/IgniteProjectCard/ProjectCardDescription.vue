@@ -10,8 +10,8 @@
 
     <IgniteLoader v-if="isLoading" class="mx-auto github-loading" />
     <a
-      v-if="!isLoading"
-      :href="sourceUrl"
+      v-if="showGitHubRepository"
+      :href="githubUrl"
       target="__blank"
       rel="noreferrer noopener"
       class="flex items-center justify-center mb-7"
@@ -42,22 +42,22 @@ export default {
 import { CampaignCampaign } from 'tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 import { computed, PropType } from 'vue'
 
+import { getUserAndRepositoryFromUrl } from '../../utils/github'
 import IconGithub from '../icons/IconGithub.vue'
 import IgniteLoader from '../IgniteLoader.vue'
 
 // props
 const props = defineProps({
   loading: Boolean,
-  githubUser: { type: String, required: true },
-  githubRepo: { type: String, required: true },
   githubDescription: { type: String, required: true },
-  sourceUrl: { type: String, required: true },
+  githubUrl: { type: String, required: true },
   campaign: { type: Object as PropType<CampaignCampaign>, default: () => ({}) }
 })
 
 // variables
 const defaultDescription =
   'A blockchain built with the Cosmos SDK and launched on the Ignite Network.'
+const { githubRepo, githubUser } = getUserAndRepositoryFromUrl(props.githubUrl)
 
 // computed
 const campaignName = computed(() => {
@@ -70,6 +70,10 @@ const isLoading = computed(() => props.loading)
 const description = computed(() => {
   if (props.githubDescription.length > 0) return props.githubDescription
   return defaultDescription
+})
+
+const showGitHubRepository = computed(() => {
+  return props.githubUrl?.length > 0 && !isLoading.value
 })
 </script>
 

@@ -28,10 +28,8 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { LaunchChain } from 'tendermint-spn-ts-client/tendermint.spn.launch/rest'
-import { computed, PropType } from 'vue'
+import { computed } from 'vue'
 
-import useRequests from '../../composables/useLaunchRequests'
 import IconPlane from '../icons/IconPlane.vue'
 import IconStage from '../icons/IconStage.vue'
 import IconStar from '../icons/IconStar.vue'
@@ -39,33 +37,13 @@ import IgniteLoader from '../IgniteLoader.vue'
 
 const props = defineProps({
   loading: Boolean,
-  project: { type: Object as PropType<LaunchChain>, required: true },
-  stargazerCount: { type: Number, required: true }
-})
-
-// composable
-const { pagination: requestsPagination, isLoading: areRequestsLoading } =
-  useRequests(props.project?.launchID ?? '', {
-    'pagination.countTotal': true,
-    'pagination.limit': '0'
-  })
-const { pagination: validatorPagination, isLoading: areValidatorsLoading } =
-  useRequests(props.project?.launchID ?? '', {
-    'pagination.countTotal': true,
-    'pagination.limit': '0'
-  })
-
-// computed
-const requestCount = computed(() => {
-  return requestsPagination.value?.total ?? 0
-})
-
-const validatorCount = computed(() => {
-  return validatorPagination.value?.total ?? 0
+  requestCount: { type: String, required: true },
+  validatorCount: { type: String, required: true },
+  stargazerCount: { type: String, required: true }
 })
 
 const isLoading = computed(() => {
-  return props.loading || areRequestsLoading.value || areValidatorsLoading.value
+  return props.loading
 })
 </script>
 

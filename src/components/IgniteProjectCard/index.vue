@@ -3,24 +3,28 @@
     <ProjectCardHeader :loading="isLoading" />
     <div>
       <ProjectCardDescription
-        :campaign="campaign"
+        :campaign="campaignSummary.campaign"
         :loading="isLoading"
-        :github-repo="githubRepo"
-        :github-user="githubUser"
+        :github-url="githubUrl"
         :github-description="repository?.description ?? ''"
-        :source-url="project.sourceURL ?? ''"
         class="project-card__row"
       />
       <ProjectCardShareAllocation
         v-if="showAllocation"
         class="project-card__row"
-        :campaign="campaign"
+        :campaign-summary="campaignSummary"
+      />
+      <ProjectCardIncentives
+        v-if="showIncentives"
+        class="project-card__row"
+        :campaign-summary="campaignSummary"
       />
       <ProjectCardStatus
         class="project-card__row"
-        :project="project"
         :loading="isLoading"
-        :stargazer-count="repository?.stargazers_count ?? 0"
+        :validator-count="campaignSummary.mostRecentChain?.validatorNb ?? '0'"
+        :request-count="campaignSummary.mostRecentChain?.requestNb ?? '0'"
+        :stargazer-count="repository?.stargazers_count?.toString() ?? '0'"
       />
     </div>
   </div>
@@ -33,49 +37,122 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { LaunchChain } from 'tendermint-spn-ts-client/tendermint.spn.launch/rest'
+import { CampaignCampaignSummary } from 'tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 import { computed, PropType } from 'vue'
 
-import useCampaign from '../../composables/useCampaign'
 import useGitHubRepository from '../../composables/useGitHubRepository'
-import { getPathname } from '../../utils/url'
+import { getUserAndRepositoryFromUrl } from '../../utils/github'
 import ProjectCardDescription from './ProjectCardDescription.vue'
 import ProjectCardHeader from './ProjectCardHeader.vue'
+import ProjectCardIncentives from './ProjectCardIncentives.vue'
 import ProjectCardShareAllocation from './ProjectCardShareAllocation.vue'
 import ProjectCardStatus from './ProjectCardStatus.vue'
 
 const props = defineProps({
   loading: Boolean,
-  project: {
-    type: Object as PropType<LaunchChain>,
+  campaignSummary: {
+    type: Object as PropType<CampaignCampaignSummary>,
     default: () => ({})
   }
 })
 
 // variables
-const githubUrlPathname = getPathname(props.project?.sourceURL ?? '')
-const splitPathname = githubUrlPathname.split('/')
-const githubUser = splitPathname[1] ?? ''
-const githubRepo = splitPathname[2] ?? ''
+const githubUrl = props.campaignSummary?.mostRecentChain?.sourceURL ?? ''
+const { githubUser, githubRepo } = getUserAndRepositoryFromUrl(githubUrl)
 
 // composables
-const { campaign, isLoading: isLoadingCampaign } = useCampaign(
-  props.project?.campaignID ?? ''
-)
-
 const { repository, isLoading: isGitHubRepositoryLoading } =
   useGitHubRepository(githubUser, githubRepo)
 
 // computed
 const isLoading = computed(function () {
-  return (
-    isLoadingCampaign.value || props.loading || isGitHubRepositoryLoading.value
-  )
+  return props.loading || isGitHubRepositoryLoading.value
 })
 
 const showAllocation = computed(function () {
-  return !isLoading.value && Boolean(campaign.value?.totalSupply?.length)
+  const campaignSummary = props.campaignSummary
+  const hasAtLeastOneShare = campaignSummary?.rewards?.some((supply) => {
+    const campaignId = campaignSummary.campaign?.campaignID
+    const isShare = supply.denom?.startsWith(`v/${campaignId}`)
+    return isShare
+  })
+
+  return (
+    !isLoading.value &&
+    props.campaignSummary?.incentivized &&
+    hasAtLeastOneShare
+  )
 })
+
+const showIncentives = computed(function () {
+  const campaignSummary = props.campaignSummary
+  const hasAtLeastOneIncentive = campaignSummary?.rewards?.some((supply) => {
+    const campaignId = campaignSummary.campaign?.campaignID
+    const isIncentive = !supply.denom?.startsWith(`v/${campaignId}`)
+    return isIncentive
+  })
+
+  return (
+    !isLoading.value &&
+    props.campaignSummary?.incentivized &&
+    hasAtLeastOneIncentive
+  )
+})
+
+const mockCampaignSummary: CampaignCampaignSummary = {
+  campaign: {
+    allocatedShares: [
+      {
+        amount: '50000',
+        denom: 's/orbit'
+      }
+    ],
+    campaignID: '1',
+    campaignName: 'orbit',
+    coordinatorID: '1',
+    dynamicShares: false,
+    mainnetID: '0',
+    mainnetInitialized: false,
+    totalShares: [],
+    totalSupply: [
+      {
+        amount: '1000000',
+        denom: 'orbit'
+      }
+    ]
+  },
+  hasMostRecentChain: true,
+  incentivized: true,
+  mostRecentChain: {
+    launchID: '3',
+    launchTriggered: false,
+    requestNb: '0',
+    sourceHash: '0xaaa',
+    sourceURL: 'orbit.com',
+    validatorNb: '0'
+  },
+  previousRewards: [
+    {
+      amount: '40',
+      denom: 'uspn'
+    },
+    {
+      amount: '10000',
+      denom: 'v/1/orbit'
+    }
+  ],
+  rewards: [
+    {
+      amount: '40',
+      denom: 'uspn'
+    },
+    {
+      amount: '40000',
+      denom: 'v/1/orbit'
+    }
+  ],
+  rewardsDistributed: false
+}
 </script>
 
 <style scoped lang="postcss">

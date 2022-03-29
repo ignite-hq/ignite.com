@@ -2,13 +2,16 @@
   <div class="project-list">
     <div class="masonry">
       <MasonryWall
-        :items="chains"
+        :items="campaignSummaries"
         :column-width="columnWidth"
         :gap="gap"
         :rtl="rtl"
       >
-        <template #default="{ item: project }">
-          <IgniteProjectCard :project="project" :loading="project?.loading" />
+        <template #default="{ item: campaignSummary }">
+          <IgniteProjectCard
+            :campaign-summary="campaignSummary"
+            :loading="campaignSummary?.loading"
+          />
         </template>
       </MasonryWall>
     </div>
@@ -31,12 +34,12 @@ export default {
 import SpButton from '@starport/vue/src/components/SpButton/SpButton.vue'
 import MasonryWall from '@yeger/vue-masonry-wall'
 import {
-  LaunchChain,
-  LaunchQueryAllChainResponse
-} from 'tendermint-spn-ts-client/tendermint.spn.launch/rest'
+  CampaignCampaignSummary,
+  CampaignQueryCampaignSummariesResponse
+} from 'tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 import { computed } from 'vue'
 
-import useLaunchChains from '../composables/useLauchChains'
+import useCampaignSummaries from '../composables/useCampaignSummaries'
 import IgniteProjectCard from './IgniteProjectCard/index.vue'
 
 // variables
@@ -46,32 +49,35 @@ const rtl = false
 const skeletons = new Array(6).fill({ loading: true })
 
 // composables
-const { isLoading, allChains, fetchNextPage, hasNextPage, isFetchingNextPage } =
-  useLaunchChains()
+const {
+  isLoading,
+  allCampaignSummaries,
+  fetchNextPage,
+  hasNextPage,
+  isFetchingNextPage
+} = useCampaignSummaries()
 
 // methods
-function filterCampaignlessChains(chains: LaunchChain[] = []): LaunchChain[] {
-  return chains.filter(({ hasCampaign }) => hasCampaign)
-}
-
-function mergePages(pages: LaunchQueryAllChainResponse[] = []): LaunchChain[] {
+function mergePages(
+  pages: CampaignQueryCampaignSummariesResponse[] = []
+): CampaignCampaignSummary[] {
   return pages.reduce(
-    (acc, page) => [...acc, ...(page?.chain ?? [])],
-    [] as LaunchChain[]
+    (acc, page) => [...acc, ...(page?.campaignSummaries ?? [])],
+    [] as CampaignCampaignSummary[]
   )
 }
 
 // computed
-const chains = computed<LaunchChain[]>(() => {
+const campaignSummaries = computed<CampaignCampaignSummary[]>(() => {
   if (isLoading.value) {
     return skeletons
   }
 
   if (isFetchingNextPage.value) {
-    return [...mergePages(allChains.value?.pages), ...skeletons]
+    return [...mergePages(allCampaignSummaries.value?.pages), ...skeletons]
   }
 
-  return filterCampaignlessChains(mergePages(allChains.value?.pages))
+  return mergePages(allCampaignSummaries.value?.pages)
 })
 </script>
 

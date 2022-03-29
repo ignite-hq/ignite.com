@@ -17,16 +17,16 @@ export default {
 
 <script lang="ts" setup>
 import { useIgnite } from '@ignt/vue'
-import { useIgnite as useIgniteN } from 'tendermint-spn-vue'
 import { SpTheme } from '@starport/vue'
-import { useRouter } from 'vue-router'
 import { Environment } from 'tendermint-spn-ts-client'
-import { NavbarLink } from '@starport/vue/src/components/SpNavbar/SpNavbar.vue'
+import { useIgnite as useIgniteN } from 'tendermint-spn-vue'
+
+import IgniteNavbar from './components/IgniteNavbar.vue'
 
 let env: Environment = {
-  apiURL: process.env.VUE_APP_API_COSMOS,
-  rpcURL: process.env.VUE_APP_API_TENDERMINT,
-  wsURL: process.env.VUE_APP_WS_TENDERMINT
+  apiURL: process.env.VUE_APP_API_COSMOS ?? '',
+  rpcURL: process.env.VUE_APP_API_TENDERMINT ?? '',
+  wsURL: process.env.VUE_APP_WS_TENDERMINT ?? ''
 }
 let tsClientParams = {
   env,

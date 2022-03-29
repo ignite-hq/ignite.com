@@ -25,7 +25,7 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { CampaignCampaign } from 'tendermint-spn-ts-client/tendermint.spn.campaign/rest'
+import { CampaignCampaignSummary } from 'tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 import { computed, PropType } from 'vue'
 
 import { LegendItem, ProgressBarItem } from '../../utils/types'
@@ -33,33 +33,15 @@ import IgniteLegend from '../IgniteLegend.vue'
 import IgniteProgressBar from '../IgniteProgressBar.vue'
 
 const props = defineProps({
-  campaign: {
-    type: Object as PropType<CampaignCampaign>,
+  campaignSummary: {
+    type: Object as PropType<CampaignCampaignSummary>,
     default: () => ({})
   }
 })
 
-const totalSupply = computed(() => {
-  return props.campaign.totalSupply?.map((supply) => ({
-    ...supply,
-    items: [
-      {
-        value: '10',
-        bgColor: 'bg-secondary',
-        split: true
-      },
-      {
-        value: '40',
-        bgColor: 'bg-primary',
-        split: true
-      },
-      {
-        value: '50'
-      }
-    ] as ProgressBarItem[]
-  }))
-})
+console.log(props)
 
+// variables
 const legend: LegendItem[] = [
   {
     name: 'Past',
@@ -73,6 +55,55 @@ const legend: LegendItem[] = [
     name: 'Future'
   }
 ]
+
+// methods
+function getVouchersFromRewards(
+  rewards: CampaignCampaignSummary['rewards'] = []
+) {
+  return rewards.filter((coin) => {
+    const campaignId = props.campaignSummary.campaign?.campaignID
+    const isShare = coin.denom?.startsWith(`v/${campaignId}`)
+    return isShare
+  })
+}
+
+// computed
+const totalSupply = computed(() => {
+  const filteredRewards = getVouchersFromRewards(props.campaignSummary.rewards)
+  return filteredRewards.map((coin) => {
+    const denom = coin.denom?.split('/')[2] ?? ''
+
+    const TOTAL_SUPPLY = 100_000
+
+    const pastCoin = props.campaignSummary.campaign?.allocatedShares?.find(
+      (coin) => coin.denom === `s/${denom}`
+    )
+    const pastCoinPercentage = (Number(pastCoin?.amount) / TOTAL_SUPPLY) * 100
+
+    const currentValue = (Number(coin.amount) / TOTAL_SUPPLY) * 100
+    const pastValue = Math.abs(currentValue - pastCoinPercentage)
+    const futureValue = Math.abs(currentValue + pastValue - 100)
+
+    return {
+      ...coin,
+      denom,
+      items: [
+        {
+          value: pastValue.toString(),
+          bgColor: 'bg-secondary',
+          split: true
+        },
+        {
+          value: currentValue.toString(),
+          bgColor: 'bg-primary'
+        },
+        {
+          value: futureValue.toString()
+        }
+      ] as ProgressBarItem[]
+    }
+  })
+})
 </script>
 
 <style scoped lang="postcss"></style>
