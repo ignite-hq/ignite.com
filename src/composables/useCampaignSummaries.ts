@@ -22,7 +22,6 @@ export default function useCampaignSummaries() {
     },
     {
       getNextPageParam: (lastPage) => {
-        // @ts-ignore
         return lastPage.pagination?.next_key
       }
     }
