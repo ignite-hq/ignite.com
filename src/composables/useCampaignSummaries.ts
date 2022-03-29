@@ -13,7 +13,7 @@ export default function useCampaignSummaries() {
   })
 
   const { data, ...other } = useInfiniteQuery(
-    ['campaign', 'summaries'],
+    ['campaigns', 'summaries'],
     ({ pageParam }) => {
       return queryCampaignSummaries({
         'pagination.limit': CAMPAIGNS_PER_PAGE,
