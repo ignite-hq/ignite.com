@@ -6,7 +6,7 @@
       :denom="denom"
       :title="denom"
       size="small"
-      class="mr-3 logo"
+      class="mr-3"
     />
 
     <div
@@ -58,10 +58,6 @@ export default defineComponent({
 </script>
 
 <style scoped lang="postcss">
-.logo {
-  @apply relative shrink-0 rounded-circle bg-gray-50 w-6 h-6;
-}
-
 .ignt-progress {
   @apply overflow-hidden relative flex w-full rounded-lg text-0;
 
