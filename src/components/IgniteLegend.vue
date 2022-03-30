@@ -11,23 +11,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
+
+import { LegendItem } from '../utils/types'
 
 export default defineComponent({
   name: 'IgniteLegend',
 
   props: {
     items: {
-      type: Array,
+      type: Array as PropType<LegendItem[]>,
       required: true
-    }
-  },
-
-  setup(props) {
-    const { items } = props;
-
-    return {
-      items
     }
   }
 })

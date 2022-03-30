@@ -1,57 +1,102 @@
 <template>
   <div class="project-card">
-    <ProjectCardHeader :loading="loading" />
+    <ProjectCardHeader :loading="isLoading" />
     <div>
-      <ProjectCardDescription :loading="loading" class="project-card__row" />
-      <ProjectCardShareAllocation v-if="!loading" class="project-card__row" />
-      <ProjectCardIncentives v-if="!loading" class="project-card__row" />
-      <ProjectCardStatus :loading="loading" class="project-card__row" />
-
-      <ProjectCardInvest v-if="!loading" class="project-card__row _gray" />
+      <ProjectCardDescription
+        :campaign="campaignSummary.campaign"
+        :loading="isLoading"
+        :github-url="githubUrl"
+        :github-description="repository?.description ?? ''"
+        class="project-card__row"
+      />
+      <ProjectCardShareAllocation
+        v-if="showAllocation"
+        class="project-card__row"
+        :campaign-summary="campaignSummary"
+      />
+      <ProjectCardIncentives
+        v-if="showIncentives"
+        class="project-card__row"
+        :campaign-summary="campaignSummary"
+      />
+      <ProjectCardStatus
+        class="project-card__row"
+        :loading="isLoading"
+        :validator-count="campaignSummary.mostRecentChain?.validatorNb ?? '0'"
+        :request-count="campaignSummary.mostRecentChain?.requestNb ?? '0'"
+        :stargazer-count="repository?.stargazers_count?.toString() ?? '0'"
+      />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+export default {
+  name: 'IgniteProjectCard'
+}
+</script>
 
-import ProjectCardHeader from './ProjectCardHeader.vue'
+<script lang="ts" setup>
+import { CampaignCampaignSummary } from 'tendermint-spn-ts-client/tendermint.spn.campaign/rest'
+import { computed, PropType } from 'vue'
+
+import useGitHubRepository from '../../composables/useGitHubRepository'
+import { getUserAndRepositoryFromUrl } from '../../utils/github'
 import ProjectCardDescription from './ProjectCardDescription.vue'
-import ProjectCardShareAllocation from './ProjectCardShareAllocation.vue'
+import ProjectCardHeader from './ProjectCardHeader.vue'
 import ProjectCardIncentives from './ProjectCardIncentives.vue'
+import ProjectCardShareAllocation from './ProjectCardShareAllocation.vue'
 import ProjectCardStatus from './ProjectCardStatus.vue'
-import ProjectCardInvest from './ProjectCardInvest.vue'
 
-export default defineComponent({
-  name: 'IgniteProjectCard',
-
-  props: {
-    project: {
-      type: Object,
-      required: true
-    },
-    loading: {
-      type: Boolean
-    }
-  },
-
-  components: {
-    ProjectCardHeader,
-    ProjectCardDescription,
-    ProjectCardShareAllocation,
-    ProjectCardIncentives,
-    ProjectCardStatus,
-    ProjectCardInvest
-  },
-
-  setup(props) {
-    const { project, loading } = props;
-
-    return {
-      project,
-      loading
-    }
+const props = defineProps({
+  loading: Boolean,
+  campaignSummary: {
+    type: Object as PropType<CampaignCampaignSummary>,
+    default: () => ({})
   }
+})
+
+// variables
+const githubUrl = props.campaignSummary?.mostRecentChain?.sourceURL ?? ''
+const { githubUser, githubRepo } = getUserAndRepositoryFromUrl(githubUrl)
+
+// composables
+const { repository, isLoading: isGitHubRepositoryLoading } =
+  useGitHubRepository(githubUser, githubRepo)
+
+// computed
+const isLoading = computed(function () {
+  return props.loading || isGitHubRepositoryLoading.value
+})
+
+const showAllocation = computed(function () {
+  const campaignSummary = props.campaignSummary
+  const hasAtLeastOneShare = campaignSummary?.rewards?.some((supply) => {
+    const campaignId = campaignSummary.campaign?.campaignID
+    const isShare = supply.denom?.startsWith(`v/${campaignId}`)
+    return isShare
+  })
+
+  return (
+    !isLoading.value &&
+    props.campaignSummary?.incentivized &&
+    hasAtLeastOneShare
+  )
+})
+
+const showIncentives = computed(function () {
+  const campaignSummary = props.campaignSummary
+  const hasAtLeastOneIncentive = campaignSummary?.rewards?.some((supply) => {
+    const campaignId = campaignSummary.campaign?.campaignID
+    const isIncentive = !supply.denom?.startsWith(`v/${campaignId}`)
+    return isIncentive
+  })
+
+  return (
+    !isLoading.value &&
+    props.campaignSummary?.incentivized &&
+    hasAtLeastOneIncentive
+  )
 })
 </script>
 

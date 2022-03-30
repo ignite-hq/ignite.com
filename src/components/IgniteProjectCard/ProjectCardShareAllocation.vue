@@ -1,12 +1,17 @@
 <template>
   <div>
-    <div class="mb-6 ignt-text font-medium text-2 text-muted text-center">
+    <div class="mb-6 font-medium text-center ignt-text text-2 text-muted">
       Share allocation
     </div>
 
     <div class="mb-6">
-      <IgniteProgressBar :logo="progressBar.logo" :items="progressBar.items" class="mb-4" />
-      <IgniteProgressBar :logo="progressBar.logo" :items="progressBar.items" />
+      <IgniteProgressBar
+        v-for="share in totalSupply"
+        :key="share.denom"
+        :denom="share.denom"
+        :items="share.items"
+        class="mb-4"
+      />
     </div>
 
     <IgniteLegend :items="legend" />
@@ -14,55 +19,89 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
-import IgniteProgressBar from '../IgniteProgressBar.vue'
-import IgniteLegend from '../IgniteLegend.vue'
-
-export default defineComponent({
-  name: 'ProjectCardShareAllocation',
-
-  components: { IgniteProgressBar, IgniteLegend },
-
-  setup(props) {
-    const progressBar = {
-      logo: '/logo.png',
-      items: [
-        {
-          value: '10',
-          bgColor: 'bg-secondary',
-          split: true,
-        },
-        {
-          value: '40',
-          bgColor: 'bg-primary',
-        },
-        {
-          value: '50'
-        }
-      ]
-    }
-
-    const legend = [
-      {
-        name: 'Past',
-        color: 'bg-secondary'
-      },
-      {
-        name: 'Current',
-        color: 'bg-primary'
-      },
-      {
-        name: 'Future'
-      }
-    ]
-
-    return {
-      progressBar,
-      legend
-    }
-  }
-})
+export default {
+  name: 'ProjectCardShareAllocation'
+}
 </script>
 
-<style scoped lang="postcss"></style>
+<script setup lang="ts">
+import { CampaignCampaignSummary } from 'tendermint-spn-ts-client/tendermint.spn.campaign/rest'
+import { computed, PropType } from 'vue'
+
+import { LegendItem, ProgressBarItem } from '../../utils/types'
+import IgniteLegend from '../IgniteLegend.vue'
+import IgniteProgressBar from '../IgniteProgressBar.vue'
+
+const props = defineProps({
+  campaignSummary: {
+    type: Object as PropType<CampaignCampaignSummary>,
+    default: () => ({})
+  }
+})
+
+console.log(props)
+
+// variables
+const legend: LegendItem[] = [
+  {
+    name: 'Past',
+    color: 'bg-secondary'
+  },
+  {
+    name: 'Current',
+    color: 'bg-primary'
+  },
+  {
+    name: 'Future'
+  }
+]
+
+// methods
+function getVouchersFromRewards(
+  rewards: CampaignCampaignSummary['rewards'] = []
+) {
+  return rewards.filter((coin) => {
+    const campaignId = props.campaignSummary.campaign?.campaignID
+    const isShare = coin.denom?.startsWith(`v/${campaignId}`)
+    return isShare
+  })
+}
+
+// computed
+const totalSupply = computed(() => {
+  const filteredRewards = getVouchersFromRewards(props.campaignSummary.rewards)
+  return filteredRewards.map((coin) => {
+    const denom = coin.denom?.split('/')[2] ?? ''
+
+    const TOTAL_SUPPLY = 100_000
+
+    const pastCoin = props.campaignSummary.campaign?.allocatedShares?.find(
+      (coin) => coin.denom === `s/${denom}`
+    )
+    const pastCoinPercentage = (Number(pastCoin?.amount) / TOTAL_SUPPLY) * 100
+
+    const currentValue = (Number(coin.amount) / TOTAL_SUPPLY) * 100
+    const pastValue = Math.abs(currentValue - pastCoinPercentage)
+    const futureValue = Math.abs(currentValue + pastValue - 100)
+
+    return {
+      ...coin,
+      denom,
+      items: [
+        {
+          value: pastValue.toString(),
+          bgColor: 'bg-secondary',
+          split: true
+        },
+        {
+          value: currentValue.toString(),
+          bgColor: 'bg-primary'
+        },
+        {
+          value: futureValue.toString()
+        }
+      ] as ProgressBarItem[]
+    }
+  })
+})
+</script>

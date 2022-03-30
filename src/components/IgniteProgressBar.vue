@@ -1,8 +1,18 @@
 <template>
   <div class="ignt-progress__container">
-    <div v-if="logo" class="logo mr-3" />
+    <SpDenom
+      v-if="denom"
+      modifier="avatar"
+      :denom="denom"
+      :title="denom"
+      size="small"
+      class="mr-3"
+    />
 
-    <div class="ignt-progress" :class="inverse ? 'bg-white-1000' : 'bg-gray-50'">
+    <div
+      class="ignt-progress"
+      :class="inverse ? 'bg-white-1000' : 'bg-gray-50'"
+    >
       <div
         v-for="item in items"
         :key="item.name"
@@ -12,9 +22,9 @@
           item.bgColor,
           item.bgColor === 'bg-primary' && `text-white-1000`
         ]"
-        :style="{ 'width': `${item.value}%`}"
+        :style="{ width: `${item.value}%` }"
       >
-        <span class="ignt-text font-medium text-1">
+        <span class="font-medium ignt-text text-1">
           <b>{{ item.value }}%</b>
         </span>
       </div>
@@ -23,40 +33,31 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import SpDenom from '@starport/vue/src/components/SpDenom/SpDenom.vue'
+import { defineComponent, PropType } from 'vue'
+
+import { ProgressBarItem } from '../utils/types'
 
 export default defineComponent({
   name: 'IgniteProgressBar',
-
+  components: { SpDenom },
   props: {
     inverse: {
       type: Boolean
     },
     items: {
-      type: Array,
+      type: Array as PropType<ProgressBarItem[]>,
       required: true
     },
-    logo: {
-      type: String
-    },
-  },
-
-  setup(props) {
-    const { items, logo } = props;
-
-    return {
-      items,
-      logo
+    denom: {
+      type: String,
+      default: ''
     }
   }
 })
 </script>
 
 <style scoped lang="postcss">
-.logo {
-  @apply relative shrink-0 rounded-circle bg-gray-50 w-6 h-6;
-}
-
 .ignt-progress {
   @apply overflow-hidden relative flex w-full rounded-lg text-0;
 
