@@ -1,10 +1,7 @@
 <template>
   <div class="ignt-legend">
     <div v-for="item in items" :key="item.name" class="ignt-legend__item">
-      <div
-        class="ignt-legend__icon mr-1"
-        :class="item.color || 'bg-gray-50'"
-      />
+      <div class="ignt-legend__icon mr-1" :class="item.color || 'bg-gray-50'" />
       <span class="ignt-text text-2 text-muted">{{ item.name }}</span>
     </div>
   </div>

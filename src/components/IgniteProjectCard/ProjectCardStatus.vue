@@ -1,6 +1,7 @@
 <template>
   <div>
     <IgniteLoader v-if="isLoading" class="mx-auto status-loading" />
+    <!-- <IgniteProjectStatus v-if="!loading" class="justify-center" /> -->
     <div v-if="!isLoading" class="status">
       <div class="status__item">
         <IconStar class="icon" />
@@ -48,22 +49,6 @@ const isLoading = computed(() => {
 </script>
 
 <style scoped lang="postcss">
-.status {
-  @apply flex justify-center items-center -mx-3;
-
-  &__item {
-    @apply flex justify-center items-center px-3;
-  }
-}
-
-.icon {
-  @apply w-5 h-5 text-primary mr-1;
-}
-
-.value {
-  @apply font-medium text-2;
-}
-
 .status-loading {
   height: 1.75rem;
   width: 11.25rem;

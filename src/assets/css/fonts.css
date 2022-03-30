@@ -1,0 +1,17 @@
+@font-face {
+  font-family: 'Termina';
+  font-style: normal;
+  font-stretch: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/termina/termina-demi-web.eot'); /* IE9*/
+  src: url('/fonts/termina/termina-demi-web.eot?#iefix')
+      format('embedded-opentype'),
+    /* IE6-IE8 */ url('/fonts/termina/termina-demi-web.woff2') format('woff2'),
+    /* chrome、firefox */ url('/fonts/termina/termina-demi-web.woff')
+      format('woff'),
+    /* chrome、firefox */ url('/fonts/termina/termina-demi-web.ttf')
+      format('truetype'),
+    /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+      url('/fonts/termina/termina-demi-web.svg#Termina W00 Demi') format('svg'); /* iOS 4.1- */
+}

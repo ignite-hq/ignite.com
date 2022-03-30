@@ -25,6 +25,7 @@
         githubRepo
       }}</span>
     </a>
+    <!-- <IgniteGithub v-if="!loading" class="justify-center mb-7" /> -->
 
     <div v-if="!isLoading" class="ignt-text text-2 m:text-3 text-muted">
       {{ description }}
@@ -44,6 +45,7 @@ import { computed, PropType } from 'vue'
 
 import { getUserAndRepositoryFromUrl } from '../../utils/github'
 import IconGithub from '../icons/IconGithub.vue'
+// import IgniteGithub from '../IgniteGithub.vue'
 import IgniteLoader from '../IgniteLoader.vue'
 
 // props
