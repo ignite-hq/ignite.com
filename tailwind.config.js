@@ -67,6 +67,9 @@ module.exports = {
       lineHeight: {
         title: '127%',
         text: '153.8%'
+      },
+      borderRadius: {
+        button: '8px'
       }
     },
     letterSpacing: {
@@ -74,6 +77,7 @@ module.exports = {
       tight: '-.02em',
       normal: '0'
     },
+
     screens: {
       // mobile first -> (min-width:xxx)
       xs: `${pxToRem(320)}rem`,
