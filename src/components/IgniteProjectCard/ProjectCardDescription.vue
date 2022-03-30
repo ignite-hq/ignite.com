@@ -9,12 +9,7 @@
     </div>
 
     <IgniteLoader v-if="loading" class="github-loading mx-auto" />
-    <div v-if="!loading" class="flex items-center justify-center mb-7">
-      <IconGithub class="text-title mr-1" />
-      <span class="ignt-text font-medium text-2 text-muted">fadeev</span>
-      <span class="ignt-text font-medium text-2 text-border mx-1">/</span>
-      <span class="ignt-text font-medium text-2 text-muted">ignition-1</span>
-    </div>
+    <IgniteGithub v-if="!loading" class="justify-center mb-7" />
 
     <div v-if="!loading" class="ignt-text text-2 m:text-3 text-muted">
       A blockchain built with the Cosmos SDK and launched on the Ignite Network.
@@ -22,29 +17,13 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-
+<script lang="ts" setup>
+import IgniteGithub from '../IgniteGithub.vue'
 import IgniteLoader from '../IgniteLoader.vue'
-import IconGithub from '../icons/IconGithub.vue'
 
-export default defineComponent({
-  name: 'ProjectCardDescription',
-
-  props: {
-    loading: {
-      type: Boolean
-    }
-  },
-
-  components: { IgniteLoader, IconGithub },
-
-  setup(props) {
-    const { loading } = props;
-
-    return {
-      loading
-    }
+defineProps({
+  loading: {
+    type: Boolean
   }
 })
 </script>

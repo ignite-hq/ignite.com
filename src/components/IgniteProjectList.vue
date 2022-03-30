@@ -14,8 +14,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
 import MasonryWall from '@yeger/vue-masonry-wall'
+import { defineComponent } from 'vue'
 
 import IgniteProjectCard from './IgniteProjectCard/index.vue'
 
@@ -29,11 +29,9 @@ export default defineComponent({
       columnWidth: 330,
       gap: 32,
       items: [false, true, false, false, true],
-      rtl: false,
+      rtl: false
     }
-  },
-
-  setup() {}
+  }
 })
 </script>
 

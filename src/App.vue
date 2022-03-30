@@ -6,7 +6,8 @@
           :links="navbarLinks"
           :active-route="router.currentRoute.value.path"
         />
-        <router-view v-if="$ignt" />
+        <!-- <router-view v-if="$ignt" /> -->
+        <router-view />
       </SpTheme>
     </Suspense>
   </div>

@@ -12,45 +12,21 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-import ProjectCardHeader from './ProjectCardHeader.vue'
+<script lang="ts" setup>
 import ProjectCardDescription from './ProjectCardDescription.vue'
-import ProjectCardShareAllocation from './ProjectCardShareAllocation.vue'
+import ProjectCardHeader from './ProjectCardHeader.vue'
 import ProjectCardIncentives from './ProjectCardIncentives.vue'
-import ProjectCardStatus from './ProjectCardStatus.vue'
 import ProjectCardInvest from './ProjectCardInvest.vue'
+import ProjectCardShareAllocation from './ProjectCardShareAllocation.vue'
+import ProjectCardStatus from './ProjectCardStatus.vue'
 
-export default defineComponent({
-  name: 'IgniteProjectCard',
-
-  props: {
-    project: {
-      type: Object,
-      required: true
-    },
-    loading: {
-      type: Boolean
-    }
+defineProps({
+  project: {
+    type: Object,
+    required: true
   },
-
-  components: {
-    ProjectCardHeader,
-    ProjectCardDescription,
-    ProjectCardShareAllocation,
-    ProjectCardIncentives,
-    ProjectCardStatus,
-    ProjectCardInvest
-  },
-
-  setup(props) {
-    const { project, loading } = props;
-
-    return {
-      project,
-      loading
-    }
+  loading: {
+    type: Boolean
   }
 })
 </script>

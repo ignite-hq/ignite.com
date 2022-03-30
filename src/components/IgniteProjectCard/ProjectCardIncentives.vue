@@ -5,9 +5,7 @@
     </div>
     <div class="flex items-center justify-center mb-6">
       <div class="logo mr-3" />
-      <div class="text-center ignt-title text-5 font-semibold">
-        $40,000
-      </div>
+      <div class="text-center ignt-title text-5 font-semibold">$40,000</div>
     </div>
     <div class="text-center ignt-text text-2 text-muted">
       Past incentives: $20,000
@@ -19,9 +17,7 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'ProjectCardIncentives',
-
-  setup(props) {}
+  name: 'ProjectCardIncentives'
 })
 </script>
 

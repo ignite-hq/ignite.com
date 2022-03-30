@@ -8,29 +8,13 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-
+<script lang="ts" setup>
 import IgniteBgWave from '../IgniteBgWave.vue'
 import IgniteLoader from '../IgniteLoader.vue'
 
-export default defineComponent({
-  name: 'ProjectCardHeader',
-
-  props: {
-    loading: {
-      type: Boolean
-    }
-  },
-
-  components: { IgniteBgWave, IgniteLoader },
-
-  setup(props) {
-    const { loading } = props;
-
-    return {
-      loading
-    }
+defineProps({
+  loading: {
+    type: Boolean
   }
 })
 </script>

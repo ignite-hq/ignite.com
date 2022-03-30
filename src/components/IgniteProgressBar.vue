@@ -2,7 +2,10 @@
   <div class="ignt-progress__container">
     <div v-if="logo" class="logo mr-3" />
 
-    <div class="ignt-progress" :class="inverse ? 'bg-white-1000' : 'bg-gray-50'">
+    <div
+      class="ignt-progress"
+      :class="inverse ? 'bg-white-1000' : 'bg-gray-50'"
+    >
       <div
         v-for="item in items"
         :key="item.name"
@@ -12,7 +15,7 @@
           item.bgColor,
           item.bgColor === 'bg-primary' && `text-white-1000`
         ]"
-        :style="{ 'width': `${item.value}%`}"
+        :style="{ width: `${item.value}%` }"
       >
         <span class="ignt-text font-medium text-1">
           <b>{{ item.value }}%</b>
@@ -22,32 +25,17 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'IgniteProgressBar',
-
-  props: {
-    inverse: {
-      type: Boolean
-    },
-    items: {
-      type: Array,
-      required: true
-    },
-    logo: {
-      type: String
-    },
+<script lang="ts" setup>
+defineProps({
+  inverse: {
+    type: Boolean
   },
-
-  setup(props) {
-    const { items, logo } = props;
-
-    return {
-      items,
-      logo
-    }
+  items: {
+    type: Array,
+    required: true
+  },
+  logo: {
+    type: String
   }
 })
 </script>

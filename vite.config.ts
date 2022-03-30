@@ -1,12 +1,12 @@
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import vue from '@vitejs/plugin-vue'
 import { Buffer } from 'buffer'
+import path from 'path'
 import { defineConfig } from 'vite'
 import { dynamicImport } from 'vite-plugin-dynamic-import'
 import envCompatible from 'vite-plugin-env-compatible'
-import path from "path";
 
-const pathSrc = path.resolve(__dirname, "./src");
+const pathSrc = path.resolve(__dirname, './src')
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -17,7 +17,7 @@ export default defineConfig({
   },
   plugins: [vue(), nodeResolve(), dynamicImport(), envCompatible()],
   css: {
-    postcss: `${pathSrc}/postcss.config.js`,
+    postcss: `${pathSrc}/postcss.config.js`
   },
   optimizeDeps: {
     include: [

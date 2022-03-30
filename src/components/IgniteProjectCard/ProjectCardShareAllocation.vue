@@ -5,7 +5,11 @@
     </div>
 
     <div class="mb-6">
-      <IgniteProgressBar :logo="progressBar.logo" :items="progressBar.items" class="mb-4" />
+      <IgniteProgressBar
+        :logo="progressBar.logo"
+        :items="progressBar.items"
+        class="mb-4"
+      />
       <IgniteProgressBar :logo="progressBar.logo" :items="progressBar.items" />
     </div>
 
@@ -16,8 +20,8 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 
-import IgniteProgressBar from '../IgniteProgressBar.vue'
 import IgniteLegend from '../IgniteLegend.vue'
+import IgniteProgressBar from '../IgniteProgressBar.vue'
 
 export default defineComponent({
   name: 'ProjectCardShareAllocation',
@@ -31,11 +35,11 @@ export default defineComponent({
         {
           value: '10',
           bgColor: 'bg-secondary',
-          split: true,
+          split: true
         },
         {
           value: '40',
-          bgColor: 'bg-primary',
+          bgColor: 'bg-primary'
         },
         {
           value: '50'
