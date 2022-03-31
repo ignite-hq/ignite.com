@@ -10,8 +10,12 @@
           <div class="m:col-span-6 l:col-span-4 xl:col-span-3 px-0">
             <div class="m:flex">
               <div
-                class="shrink-0 rounded-md bg-primary w-9.5 h-9.5 mb-6 m:mb-0 m:mr-7"
-              ></div>
+                class="relative shrink-0 rounded-md bg-primary w-9.5 h-9.5 mb-6 m:mb-0 m:mr-7"
+              >
+                <div class="overflow-hidden absolute z-[2] inset-0">
+                  <IgniteBgWave />
+                </div>
+              </div>
               <div class="max-w-lg">
                 <div
                   class="mb-6 ignt-title text-7 m:text-8 font-semibold font-title"
@@ -19,8 +23,15 @@
                   Project Name
                 </div>
                 <div class="l:flex item-center mb-7">
-                  <IgniteGithub class="mb-5 l:mb-0 l:mr-7" />
-                  <IgniteProjectStatus />
+                  <IgniteGithub
+                    :github-url="githubUrl"
+                    class="mb-5 l:mb-0 l:mr-7 text-3"
+                  />
+                  <IgniteProjectStatus
+                    stargazer-count="1"
+                    request-count="100"
+                    validator-count="30"
+                  />
                 </div>
                 <div class="ignt-text text-2 m:text-3 text-muted">
                   NFT game powered by Unreal Engine hosted on Akash and built on
@@ -75,6 +86,7 @@ export default defineComponent({
 
   data() {
     return {
+      githubUrl: 'https://github.com/allinbits/ignite-ui',
       navigation: [
         {
           link: '/project',

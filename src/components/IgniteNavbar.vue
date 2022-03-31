@@ -1,5 +1,9 @@
 <template>
-  <SpNavbar :links="navbarLinks" :active-route="router.currentRoute.value.path">
+  <SpNavbar
+    :links="navbarLinks"
+    :active-route="router.currentRoute.value.path"
+    class="mb-0 shadow-border"
+  >
     <template #logo>
       <router-link :to="'/'" alt="Home" title="Home">
         <IconIgnite />

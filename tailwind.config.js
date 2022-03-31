@@ -58,6 +58,7 @@ module.exports = {
     },
     extend: {
       boxShadow: {
+        border: '0px 0.5px 0px #CBCBCB',
         border_double: '0px -0.5px 0px #CBCBCB, 0px 0.5px 0px #CBCBCB'
       },
       inset: {

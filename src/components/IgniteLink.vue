@@ -1,7 +1,14 @@
 <template>
-  <a v-if="isExternalLink" v-bind="$attrs" :href="to" target="_blank">
+  <a
+    v-if="isExternalLink"
+    v-bind="$attrs"
+    :href="to"
+    target="_blank"
+    class="transition-colors ease-in-out duration-250"
+  >
     <slot />
   </a>
+
   <router-link
     v-else
     v-slot="{ isActive, href, navigate }"
