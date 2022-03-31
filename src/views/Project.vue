@@ -14,8 +14,8 @@
 </template>
 
 <script lang="ts">
+import IgniteProjectCards from '../components/IgniteProjectCards/index.vue'
 import IgniteProjectHeader from '../components/IgniteProjectHeader.vue'
-import IgniteProjectCards from '../components/IgniteProjectCards.vue'
 
 export default {
   name: 'ProjectView',

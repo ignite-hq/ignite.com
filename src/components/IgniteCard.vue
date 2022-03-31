@@ -1,6 +1,6 @@
 <template>
   <div
-    class="pt-7.5 m:pt-8.5 px-5 sm:px-7 m:px-9.5 pb-7.5 rounded h-[100%] bg-white-1000"
+    class="pt-8 m:pt-9 px-5 sm:px-7 m:px-8 pb-7.5 rounded h-[100%] bg-white-1000"
     :class="shadow ? 'shadow-max' : ['border', 'border-border']"
   >
     <slot />

@@ -11,7 +11,6 @@
       variant === 'primary' && [
         'ignt-text',
         'rounded-sm',
-        'min-w-[12.3rem]',
         'font-medium',
         'bg-primary',
         'py-5',
