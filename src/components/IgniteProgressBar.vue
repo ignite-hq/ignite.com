@@ -16,15 +16,16 @@
       <div
         v-for="item in items"
         :key="item.name"
-        class="ignt-progress__inner text-center h-[20px]"
+        class="ignt-progress__inner text-center"
         :class="[
+          label ? 'h-[20px]' : 'h-[16px]',
           item.split ? 'rounded-none' : 'rounded-r-lg',
           item.bgColor,
           item.bgColor === 'bg-primary' && `text-white-1000`
         ]"
         :style="{ width: `${item.value}%` }"
       >
-        <span class="font-medium ignt-text text-1">
+        <span v-if="label" class="font-medium ignt-text text-1">
           <b>{{ item.value }}%</b>
         </span>
       </div>
@@ -44,6 +45,10 @@ export default defineComponent({
   props: {
     inverse: {
       type: Boolean
+    },
+    label: {
+      type: Boolean,
+      default: true
     },
     items: {
       type: Array as PropType<ProgressBarItem[]>,

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="container-full xl:container px-6">
+    <div class="container-full container px-5 sm:px-5.5 l:px-7">
       <div class="py-7.5">
         <IgniteBreadcrumbs />
       </div>
@@ -49,7 +49,7 @@
     </div>
 
     <div class="py-6 shadow-border_double">
-      <div class="container-full xl:container px-6">
+      <div class="container-full container px-5 sm:px-5.5 l:px-7">
         <IgniteProjectNav :items="navigation" />
       </div>
     </div>

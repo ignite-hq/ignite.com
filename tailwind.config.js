@@ -6,7 +6,8 @@ module.exports = {
   theme: {
     borderRadius: {
       none: '0',
-      sm: `${pxToRem(4)}rem`,
+      xs: `${pxToRem(4)}rem`,
+      sm: `${pxToRem(10)}rem`,
       DEFAULT: `${pxToRem(16)}rem`,
       md: `${pxToRem(20)}rem`,
       lg: `${pxToRem(100)}rem`,
@@ -42,6 +43,9 @@ module.exports = {
       linkHover: 'rgba(0, 0, 0, 0.667)',
       border: 'rgba(0, 0, 0, 0.07)'
     },
+    container: {
+      center: true
+    },
     fontFamily: {
       title: ['Termina', 'sans-serif']
     },
@@ -59,7 +63,8 @@ module.exports = {
     extend: {
       boxShadow: {
         border: '0px 0.5px 0px #CBCBCB',
-        border_double: '0px -0.5px 0px #CBCBCB, 0px 0.5px 0px #CBCBCB'
+        border_double: '0px -0.5px 0px #CBCBCB, 0px 0.5px 0px #CBCBCB',
+        max: '16px 32px 128px 8px rgba(0, 0, 0, 0.07)'
       },
       inset: {
         center: '50%'
@@ -100,6 +105,7 @@ module.exports = {
       9: '4rem',
       9.5: '5rem',
       10: '6rem',
+      10.5: `${pxToRem(104)}rem`,
       11: '8rem',
       12: '12rem'
     }

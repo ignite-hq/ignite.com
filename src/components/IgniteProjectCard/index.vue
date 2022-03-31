@@ -102,8 +102,7 @@ const showIncentives = computed(function () {
 
 <style scoped lang="postcss">
 .project-card {
-  @apply overflow-hidden bg-white-1000 rounded-md;
-  box-shadow: 16px 32px 128px 8px rgba(0, 0, 0, 0.07);
+  @apply overflow-hidden bg-white-1000 rounded-md shadow-max;
 
   &__row {
     @apply py-7 px-6 m:px-7.5 border-t border-gray-70;
