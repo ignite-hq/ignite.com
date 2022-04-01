@@ -5,7 +5,7 @@
       {{ selectedRequests.length > 1 ? 'Requests' : 'Request' }} selected
     </p>
 
-    <div class="space-x-5">
+    <div class="space-x-6">
       <button><IconAccept /></button>
       <button><IconDeny /></button>
     </div>
@@ -34,6 +34,6 @@ defineProps({
 .selected-requests {
   @apply flex items-center space-x-7 absolute bottom-10 bg-white-1000 py-7 px-8 rounded-md left-1/2 transform -translate-x-1/2;
 
-  box-shadow: 0px 7px 29px 0px rgba(0, 0, 0, 0.14);
+  box-shadow: 40px 64px 128px -8px rgba(0, 0, 0, 0.14);
 }
 </style>

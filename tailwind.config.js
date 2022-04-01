@@ -70,7 +70,7 @@ module.exports = {
         text: '153.8%'
       },
       borderRadius: {
-        button: '8px'
+        '2sm': '8px'
       }
     },
     letterSpacing: {

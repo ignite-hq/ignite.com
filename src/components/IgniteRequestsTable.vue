@@ -25,12 +25,15 @@
           <IgniteCheckbox />
         </div>
         <div role="cell" class="flex-1 responses-table-cell">
-          Add validator to Testnet 0
+          <IgniteRequestsActionIcon /> <span>Add validator to Testnet 0</span>
         </div>
         <div role="cell" class="flex-1 responses-table-cell">
           Request to validate
         </div>
-        <div role="cell" class="flex-1 responses-table-cell">Jane Doe</div>
+        <div role="cell" class="flex-1 responses-table-cell">
+          <div class="profile-placeholder" />
+          <span>Jane Doe</span>
+        </div>
       </div>
 
       <div role="row" class="responses-table-row">
@@ -38,12 +41,15 @@
           <IgniteCheckbox />
         </div>
         <div role="cell" class="flex-1 responses-table-cell">
-          Add validator to Testnet 0
+          <IgniteRequestsActionIcon /> <span>Add validator to Testnet 0</span>
         </div>
         <div role="cell" class="flex-1 responses-table-cell">
           Request to validate
         </div>
-        <div role="cell" class="flex-1 responses-table-cell">Jane Doe</div>
+        <div role="cell" class="flex-1 responses-table-cell">
+          <div class="profile-placeholder" />
+          <span>Jane Doe</span>
+        </div>
       </div>
     </div>
   </div>
@@ -57,6 +63,7 @@ export default {
 
 <script lang="ts" setup>
 import IgniteCheckbox from './IgniteCheckbox.vue'
+import IgniteRequestsActionIcon from './IgniteRequestsActionIcon.vue'
 </script>
 
 <style scoped lang="postcss">
@@ -69,7 +76,7 @@ import IgniteCheckbox from './IgniteCheckbox.vue'
 }
 
 .responses-table-column-cell {
-  @apply border-b font-medium px-4 pl-8 py-6 text-left border-gray-70;
+  @apply border-b font-medium px-4 pl-8 py-6 text-left border-gray-70 text-muted;
 }
 
 .responses-table-body {
@@ -81,6 +88,10 @@ import IgniteCheckbox from './IgniteCheckbox.vue'
 }
 
 .responses-table-cell {
-  @apply p-4 pl-8 py-6 overflow-hidden;
+  @apply p-4 pl-8 py-6 overflow-hidden flex items-center space-x-4;
+}
+
+.profile-placeholder {
+  @apply h-7.5 w-7.5 rounded-circle bg-secondary;
 }
 </style>

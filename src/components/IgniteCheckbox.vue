@@ -1,5 +1,5 @@
 <template>
-  <label class="relative flex items-center justify-center">
+  <label class="relative flex items-center justify-center cursor-pointer">
     <input v-bind="$attrs" type="checkbox" class="ignite-checkbox" />
     <div class="ignite-check"><IconCheck /></div>
     <span class="sr-only">Select request</span>
@@ -18,7 +18,7 @@ import IconCheck from './icons/IconCheck.vue'
 
 <style scoped lang="postcss">
 .ignite-checkbox {
-  @apply w-6 h-6 m-0 grid place-content-center border-2 border-current appearance-none rounded-[6px] border-checkbox;
+  @apply w-6 h-6 m-0 grid place-content-center border-2 border-current appearance-none rounded-[6px] border-checkbox cursor-pointer;
 
   &:checked {
     @apply bg-gray-0 border-gray-0;
