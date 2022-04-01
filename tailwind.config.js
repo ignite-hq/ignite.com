@@ -40,7 +40,8 @@ module.exports = {
       inactive: 'rgba(0, 0, 0, 0.33)',
       link: '#000',
       linkHover: 'rgba(0, 0, 0, 0.667)',
-      border: 'rgba(0, 0, 0, 0.07)'
+      border: 'rgba(0, 0, 0, 0.07)',
+      checkbox: '#C4C4C4'
     },
     fontFamily: {
       title: ['Termina', 'sans-serif']
