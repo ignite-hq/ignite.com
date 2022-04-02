@@ -29,14 +29,14 @@ export default defineComponent({
 
 <style scoped lang="postcss">
 .ignite-legend {
-  @apply flex justify-center -mx-3;
+  @apply -mx-3 flex justify-center;
 
   &__item {
     @apply flex items-center px-3;
   }
 
   &__icon {
-    @apply w-3 h-3 rounded-circle;
+    @apply h-3 w-3 rounded-circle;
   }
 }
 </style>

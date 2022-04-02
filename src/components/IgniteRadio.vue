@@ -21,10 +21,10 @@ export default {
 
 <style scoped lang="postcss">
 .ignite-radio {
-  @apply w-6 h-6 appearance-none border-2 border-radio rounded-circle m-0 cursor-pointer;
+  @apply m-0 h-6 w-6 cursor-pointer appearance-none rounded-circle border-2 border-radio;
 
   &:checked {
-    @apply bg-gray-0 border-gray-0;
+    @apply border-gray-0 bg-gray-0;
 
     & + .ignite-circle {
       @apply visible scale-100;
@@ -33,6 +33,6 @@ export default {
 }
 
 .ignite-circle {
-  @apply absolute invisible bg-white-1000 rounded-circle scale-0 transition-transform duration-100 ease-in-out w-3 h-3 cursor-pointer;
+  @apply invisible absolute h-3 w-3 scale-0 cursor-pointer rounded-circle bg-white-1000 transition-transform duration-100 ease-in-out;
 }
 </style>

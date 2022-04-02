@@ -10,6 +10,6 @@ export default {
 
 <style scoped lang="postcss">
 .ignite-textarea {
-  @apply border border-gray-70 rounded-2sm resize-none p-5;
+  @apply resize-none rounded-2sm border border-gray-70 p-5;
 }
 </style>

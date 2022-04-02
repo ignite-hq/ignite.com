@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div class="mb-6 font-medium text-center ignite-text text-2 text-muted">
+    <div class="ignite-text mb-6 text-center text-2 font-medium text-muted">
       Incentives
     </div>
-    <div class="flex items-center justify-center mb-6">
+    <div class="mb-6 flex items-center justify-center">
       <SpDenom
         v-if="firstIncentiveDenom"
         modifier="avatar"
@@ -11,13 +11,13 @@
         :title="firstIncentiveDenom"
         class="mr-3"
       />
-      <div class="font-semibold text-center ignite-title text-5">
+      <div class="ignite-title text-center text-5 font-semibold">
         {{ incentive.total }} {{ firstIncentiveDenom?.toUpperCase() }}
       </div>
     </div>
     <div
       v-if="pastIncentive.total > 0"
-      class="text-center ignite-text text-2 text-muted"
+      class="ignite-text text-center text-2 text-muted"
     >
       Past incentives: {{ pastIncentive.total }}
       {{ firstPastIncentiveDenom?.toUpperCase() }}

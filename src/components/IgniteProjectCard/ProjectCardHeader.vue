@@ -32,10 +32,10 @@ defineProps({
   }
 }
 .background {
-  @apply overflow-hidden absolute z-[2] inset-0;
+  @apply absolute inset-0 z-[2] overflow-hidden;
 }
 
 .logo {
-  @apply absolute z-[3] bottom-0 left-center w-9.5 h-9.5 bg-primary rounded outline outline-4 outline-white-1000 translate-x-[-50%] translate-y-[50%];
+  @apply absolute bottom-0 left-center z-[3] h-9.5 w-9.5 translate-x-[-50%] translate-y-[50%] rounded bg-primary outline outline-4 outline-white-1000;
 }
 </style>

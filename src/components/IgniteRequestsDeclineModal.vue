@@ -4,14 +4,14 @@
       <div class="flex flex-col items-center space-y-4">
         <IconWarning />
         <h1 class="text-5">Confirm decline</h1>
-        <p class="leading-normal text-center text-muted text-3">
+        <p class="text-center text-3 leading-normal text-muted">
           Select the reason for<br />declining the request
         </p>
       </div>
     </template>
 
     <template #body>
-      <div class="flex flex-col items-start mt-6 space-y-6 text-3">
+      <div class="mt-6 flex flex-col items-start space-y-6 text-3">
         <IgniteRadio name="reason"> Too many tokens requested </IgniteRadio>
         <IgniteRadio name="reason">
           Not currently distributing tokens
@@ -25,7 +25,7 @@
           placeholder="Please provide a reason"
           class="w-full"
         />
-        <p class="self-end text-gray-660 text-2">97 Characters remaining</p>
+        <p class="self-end text-2 text-gray-660">97 Characters remaining</p>
       </div>
     </template>
   </SpModal>
@@ -44,3 +44,5 @@ import IconWarning from './icons/IconWarning.vue'
 import IgniteRadio from './IgniteRadio.vue'
 import IgniteTextArea from './IgniteTextArea.vue'
 </script>
+
+<style scoped lang="postcss"></style>

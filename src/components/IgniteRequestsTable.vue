@@ -6,13 +6,13 @@
         <div role="columnheader" class="responses-table-column-cell">
           <IgniteCheckbox />
         </div>
-        <div role="columnheader" class="flex-1 responses-table-column-cell">
+        <div role="columnheader" class="responses-table-column-cell flex-1">
           Action
         </div>
-        <div role="columnheader" class="flex-1 responses-table-column-cell">
+        <div role="columnheader" class="responses-table-column-cell flex-1">
           Type
         </div>
-        <div role="columnheader" class="flex-1 responses-table-column-cell">
+        <div role="columnheader" class="responses-table-column-cell flex-1">
           Requestor
         </div>
       </div>
@@ -24,13 +24,13 @@
         <div role="cell" class="responses-table-cell">
           <IgniteCheckbox />
         </div>
-        <div role="cell" class="flex-1 responses-table-cell">
+        <div role="cell" class="responses-table-cell flex-1">
           <IgniteRequestsActionIcon /> <span>Add validator to Testnet 0</span>
         </div>
-        <div role="cell" class="flex-1 responses-table-cell">
+        <div role="cell" class="responses-table-cell flex-1">
           Request to validate
         </div>
-        <div role="cell" class="flex-1 responses-table-cell">
+        <div role="cell" class="responses-table-cell flex-1">
           <div class="profile-placeholder" />
           <span>Jane Doe</span>
         </div>
@@ -40,13 +40,13 @@
         <div role="cell" class="responses-table-cell">
           <IgniteCheckbox />
         </div>
-        <div role="cell" class="flex-1 responses-table-cell">
+        <div role="cell" class="responses-table-cell flex-1">
           <IgniteRequestsActionIcon /> <span>Add validator to Testnet 0</span>
         </div>
-        <div role="cell" class="flex-1 responses-table-cell">
+        <div role="cell" class="responses-table-cell flex-1">
           Request to validate
         </div>
-        <div role="cell" class="flex-1 responses-table-cell">
+        <div role="cell" class="responses-table-cell flex-1">
           <div class="profile-placeholder" />
           <span>Jane Doe</span>
         </div>
@@ -68,7 +68,7 @@ import IgniteRequestsActionIcon from './IgniteRequestsActionIcon.vue'
 
 <style scoped lang="postcss">
 .responses-table {
-  @apply w-full mt-7;
+  @apply mt-7 w-full;
 }
 
 .responses-table-header {
@@ -76,19 +76,19 @@ import IgniteRequestsActionIcon from './IgniteRequestsActionIcon.vue'
 }
 
 .responses-table-column-cell {
-  @apply border-b font-medium px-4 pl-8 py-6 text-left border-gray-70 text-muted;
+  @apply border-b border-gray-70 px-4 py-6 pl-8 text-left font-medium text-muted;
 }
 
 .responses-table-body {
-  @apply space-y-3 mt-4;
+  @apply mt-4 space-y-3;
 }
 
 .responses-table-row {
-  @apply relative py-2 hover:bg-[#F9F9F9] rounded-[16px] flex;
+  @apply relative flex rounded-[16px] py-2 hover:bg-[#F9F9F9];
 }
 
 .responses-table-cell {
-  @apply p-4 pl-8 py-6 overflow-hidden flex items-center space-x-4;
+  @apply flex items-center space-x-4 overflow-hidden p-4 py-6 pl-8;
 }
 
 .profile-placeholder {

@@ -1,5 +1,5 @@
 <template>
-  <div class="p-3 rounded-2sm bg-gray-30">
+  <div class="rounded-2sm bg-gray-30 p-3">
     <IconStage />
   </div>
 </template>

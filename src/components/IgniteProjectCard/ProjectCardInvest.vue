@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="flex justify-between items-center mb-7.5">
-      <div class="font-medium ignite-text text-2 text-muted">Invest</div>
-      <div class="font-medium ignite-text text-2 text-title">
+    <div class="mb-7.5 flex items-center justify-between">
+      <div class="ignite-text text-2 font-medium text-muted">Invest</div>
+      <div class="ignite-text text-2 font-medium text-title">
         <b>$1M</b> of <b>$2M</b>
       </div>
     </div>

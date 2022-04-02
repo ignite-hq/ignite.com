@@ -26,6 +26,6 @@ import IconSort from './icons/IconSort.vue'
 
 <style scoped lang="postcss">
 .requests-dropdown-button {
-  @apply flex space-x-2 border border-border p-4 rounded-2sm hover:bg-gray-30;
+  @apply flex space-x-2 rounded-2sm border border-border p-4 hover:bg-gray-30;
 }
 </style>

@@ -23,10 +23,10 @@ import IconCheck from './icons/IconCheck.vue'
 
 <style scoped lang="postcss">
 .ignite-checkbox {
-  @apply w-6 h-6 m-0 border-2 border-current appearance-none rounded-[6px] border-checkbox cursor-pointer;
+  @apply m-0 h-6 w-6 cursor-pointer appearance-none rounded-[6px] border-2 border-current border-checkbox;
 
   &:checked {
-    @apply bg-gray-0 border-gray-0;
+    @apply border-gray-0 bg-gray-0;
 
     & + .ignite-check {
       @apply visible scale-100;
@@ -35,6 +35,6 @@ import IconCheck from './icons/IconCheck.vue'
 }
 
 .ignite-check {
-  @apply absolute invisible bg-gray-0 scale-0 transition-transform duration-100 ease-in-out cursor-pointer;
+  @apply invisible absolute scale-0 cursor-pointer bg-gray-0 transition-transform duration-100 ease-in-out;
 }
 </style>

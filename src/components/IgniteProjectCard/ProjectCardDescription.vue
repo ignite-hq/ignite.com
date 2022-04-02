@@ -1,21 +1,21 @@
 <template>
   <div>
-    <IgniteLoader v-if="isLoading" class="mx-auto mb-4 title-loading" />
+    <IgniteLoader v-if="isLoading" class="title-loading mx-auto mb-4" />
     <div
       v-if="!isLoading"
-      class="mb-4 font-semibold text-center ignite-title text-4 m:text-5"
+      class="ignite-title mb-4 text-center text-4 font-semibold m:text-5"
     >
       {{ campaignName }}
     </div>
 
-    <IgniteLoader v-if="isLoading" class="mx-auto github-loading" />
+    <IgniteLoader v-if="isLoading" class="github-loading mx-auto" />
     <IgniteGithubRepoLink
       v-if="showGitHubRepository"
       :github-url="githubUrl"
-      class="justify-center mb-7 text-2"
+      class="mb-7 justify-center text-2"
     />
 
-    <div v-if="!isLoading" class="ignite-text text-2 m:text-3 text-muted">
+    <div v-if="!isLoading" class="ignite-text text-2 text-muted m:text-3">
       {{ description }}
     </div>
   </div>
