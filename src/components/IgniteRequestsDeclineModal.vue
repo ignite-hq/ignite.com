@@ -11,15 +11,21 @@
     </template>
 
     <template #body>
-      <div class="flex flex-col items-start mt-6 space-y-5 text-3">
-        <IgniteRadio name="pizza"> Too many tokens requested </IgniteRadio>
-        <IgniteRadio name="pizza">
+      <div class="flex flex-col items-start mt-6 space-y-6 text-3">
+        <IgniteRadio name="reason"> Too many tokens requested </IgniteRadio>
+        <IgniteRadio name="reason">
           Not currently distributing tokens
         </IgniteRadio>
-        <IgniteRadio name="pizza">
+        <IgniteRadio name="reason">
           No longer accepting token requests
         </IgniteRadio>
-        <IgniteRadio name="pizza"> Other</IgniteRadio>
+        <IgniteRadio name="reason"> Other</IgniteRadio>
+        <IgniteTextArea
+          rows="4"
+          placeholder="Please provide a reason"
+          class="w-full"
+        />
+        <p class="self-end text-gray-660 text-2">97 Characters remaining</p>
       </div>
     </template>
   </SpModal>
@@ -36,4 +42,5 @@ import { SpModal } from '@starport/vue'
 
 import IconWarning from './icons/IconWarning.vue'
 import IgniteRadio from './IgniteRadio.vue'
+import IgniteTextArea from './IgniteTextArea.vue'
 </script>
