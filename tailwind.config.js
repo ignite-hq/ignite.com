@@ -72,6 +72,9 @@ module.exports = {
       },
       borderRadius: {
         '2sm': '8px'
+      },
+      boxShadow: {
+        dropdown: '-67px 75px 111px 48px rgba(0, 0, 0, 0.09)'
       }
     },
     letterSpacing: {

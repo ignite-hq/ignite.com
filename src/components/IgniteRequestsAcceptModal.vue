@@ -3,30 +3,15 @@
     <template #header>
       <div class="flex flex-col items-center space-y-4">
         <IconWarning />
-        <h1 class="text-5">Confirm decline</h1>
+        <h1 class="text-5">Confirm acceptance</h1>
         <p class="text-center text-3 leading-normal text-muted">
-          Select the reason for<br />declining the request
+          Grant <span class="font-semibold">000,000,000 ATOM</span>
         </p>
       </div>
     </template>
 
     <template #body>
-      <div class="mt-7 flex flex-col items-start space-y-6 text-3">
-        <IgniteRadio name="reason">Too many tokens requested</IgniteRadio>
-        <IgniteRadio name="reason">
-          Not currently distributing tokens
-        </IgniteRadio>
-        <IgniteRadio name="reason">
-          No longer accepting token requests
-        </IgniteRadio>
-        <IgniteRadio name="reason"> Other</IgniteRadio>
-        <IgniteTextArea
-          rows="4"
-          placeholder="Please provide a reason"
-          class="w-full"
-        />
-        <p class="self-end text-2 text-gray-660">97 Characters remaining</p>
-      </div>
+      <div></div>
     </template>
 
     <template #footer>
@@ -45,7 +30,7 @@
 
 <script lang="ts">
 export default {
-  name: 'IgniteRequestsDeclineModal'
+  name: 'IgniteRequestsAcceptModal'
 }
 </script>
 
@@ -53,8 +38,6 @@ export default {
 import { SpButton, SpModal } from '@starport/vue'
 
 import IconWarning from './icons/IconWarning.vue'
-import IgniteRadio from './IgniteRadio.vue'
-import IgniteTextArea from './IgniteTextArea.vue'
 
 interface Emits {
   (e: 'close'): void

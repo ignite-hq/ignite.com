@@ -6,10 +6,30 @@
     </p>
 
     <div class="space-x-6">
-      <button><IconAccept /></button>
-      <button><IconDeny /></button>
+      <button
+        aria-label="Accept requests"
+        @click="() => (isAcceptModalOpen = true)"
+      >
+        <IconAccept />
+      </button>
+      <button
+        aria-label="Deny requests"
+        @click="() => (isDeclineModalOpen = true)"
+      >
+        <IconDeny />
+      </button>
     </div>
   </div>
+
+  <IgniteRequestsDeclineModal
+    :visible="isDeclineModalOpen"
+    @close="() => (isDeclineModalOpen = false)"
+  />
+
+  <IgniteRequestsAcceptModal
+    :visible="isAcceptModalOpen"
+    @close="() => (isAcceptModalOpen = false)"
+  />
 </template>
 
 <script lang="ts">
@@ -19,6 +39,10 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import { ref } from 'vue'
+
+import IgniteRequestsAcceptModal from '../components/IgniteRequestsAcceptModal.vue'
+import IgniteRequestsDeclineModal from '../components/IgniteRequestsDeclineModal.vue'
 import IconAccept from './icons/IconAccept.vue'
 import IconDeny from './icons/IconDeny.vue'
 
@@ -28,6 +52,10 @@ defineProps({
     default: () => []
   }
 })
+
+// state
+const isDeclineModalOpen = ref(false)
+const isAcceptModalOpen = ref(false)
 </script>
 
 <style scoped lang="postcss">
