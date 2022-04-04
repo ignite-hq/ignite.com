@@ -18,7 +18,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import IconCheck from './icons/IconCheck.vue'
+import IconCheck from './icons/IconCheckMark.vue'
 </script>
 
 <style scoped lang="postcss">

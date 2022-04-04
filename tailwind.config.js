@@ -74,7 +74,7 @@ module.exports = {
         '2sm': '8px'
       },
       boxShadow: {
-        dropdown: '-67px 75px 111px 48px rgba(0, 0, 0, 0.09)'
+        dropdown: '-112px 73px 191px 59px rgba(0, 0, 0, 0.09)'
       }
     },
     letterSpacing: {
