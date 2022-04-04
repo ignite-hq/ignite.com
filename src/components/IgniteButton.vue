@@ -10,15 +10,15 @@
       ],
       variant === 'primary' && [
         'ignt-text',
-        'rounded-sm',
         'font-medium',
         'bg-primary',
-        'py-5',
-        'px-5',
-        'sm:px-8.5',
         'text-white-1000',
         'hover:bg-primary/80'
-      ]
+      ],
+      variant !== 'default' &&
+        size === 'md' && ['rounded-sm', 'py-5', 'px-5', 'sm:px-8.5', 'text-3'],
+      variant !== 'default' &&
+        size === 'sm' && ['rounded-xs', 'py-3', 'px-5', 'text-2']
     ]"
   >
     <slot />
@@ -31,6 +31,11 @@ defineProps({
     // default, primary
     type: String,
     default: 'default'
+  },
+  size: {
+    // sm, md
+    type: String,
+    default: 'md'
   }
 })
 </script>

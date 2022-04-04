@@ -6,7 +6,8 @@ module.exports = {
   theme: {
     borderRadius: {
       none: '0',
-      xs: `${pxToRem(4)}rem`,
+      xxs: `${pxToRem(4)}rem`,
+      xs: `${pxToRem(8)}rem`,
       sm: `${pxToRem(10)}rem`,
       DEFAULT: `${pxToRem(16)}rem`,
       md: `${pxToRem(20)}rem`,
@@ -85,7 +86,7 @@ module.exports = {
       sm: `${pxToRem(576)}rem`,
       m: `${pxToRem(768)}rem`,
       l: `${pxToRem(1024)}rem`,
-      xl: `${pxToRem(1440)}rem`
+      xl: `${pxToRem(1380)}rem`
     },
     spacing: {
       auto: 'auto',
