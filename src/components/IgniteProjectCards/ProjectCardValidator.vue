@@ -1,7 +1,7 @@
 <template>
   <IgniteCard
     :shadow="true"
-    class="flex justify-between flex-col"
+    class="flex justify-between flex-col pt-8 m:pt-9 px-5 sm:px-7 m:px-8 pb-7.5"
     :class="
       isWide && [
         'l:flex-row',

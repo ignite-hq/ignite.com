@@ -7,7 +7,7 @@
     <!-- <IgniteProjectRoadmap class="mt-8 m:mt-10.5" /> -->
     <!-- <IgniteProjectTokenomics class="mt-8 m:mt-10.5" /> -->
     <!-- <IgniteProjectSchedule class="mt-8 m:mt-10.5" /> -->
-    <!-- <IgniteProjectTeam class="mt-8 m:mt-10.5" /> -->
+    <IgniteProjectTeam class="mt-8 m:mt-11" />
     <!-- <IgniteProjectLinks class="mt-8 m:mt-10.5" /> -->
     <div class="mt-8 m:mt-10.5"></div>
   </div>
@@ -24,4 +24,5 @@ import IgniteProjectCards from '../components/IgniteProjectCards/index.vue'
 import IgniteProjectDescription from '../components/IgniteProjectDescription.vue'
 import IgniteProjectHeader from '../components/IgniteProjectHeader.vue'
 import IgniteWhitepaper from '../components/IgniteWhitepaper.vue'
+import IgniteProjectTeam from '../components/IgniteProjectTeam/index.vue'
 </script>

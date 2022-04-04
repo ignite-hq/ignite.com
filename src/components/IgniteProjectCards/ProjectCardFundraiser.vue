@@ -1,7 +1,7 @@
 <template>
   <IgniteCard
     :shadow="true"
-    class="flex flex-col justify-between gap-9"
+    class="flex flex-col justify-between gap-9 pt-8 m:pt-9 px-5 sm:px-7 m:px-8 pb-7.5"
     :class="isWide && 'sm:flex-row'"
   >
     <div v-if="!isOngoing" class="w-[100%]">
