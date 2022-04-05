@@ -34,8 +34,4 @@ const {
 
 ## 🏗 WIP
 
-The generated code is on early alpha. This means a bunch of minor and couple of major issues are yet to be solved. Some notes =
-
-- The logic inside `Ignt.vue` will be moved outside the repo.
-- The need to place the usage of Vue API inside a watch (as in `views/Index.vue`) is only temporary.
-- The need for having both `src/store/generated` and `src/generated` is only temporary.
+The generated code is on early alpha. This means a bunch of minor and couple of major issues are yet to be solved.
