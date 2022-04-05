@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="mb-6 font-medium text-center ignt-text text-2 text-muted">
+    <div class="mb-6 font-medium text-center ignite-text text-2 text-muted">
       Share allocation
     </div>
 
@@ -10,7 +10,7 @@
         :key="share.denom"
         :denom="share.denom"
         :items="share.items"
-        class="mb-4"
+        class="mb-4 last:mb-0"
       />
     </div>
 
