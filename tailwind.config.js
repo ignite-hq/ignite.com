@@ -42,7 +42,8 @@ module.exports = {
       linkHover: 'rgba(0, 0, 0, 0.667)',
       border: 'rgba(0, 0, 0, 0.07)',
       checkbox: '#C4C4C4',
-      radio: '#C4C4C4'
+      radio: '#C4C4C4',
+      error: '#D80228'
     },
     fontFamily: {
       title: ['Termina', 'sans-serif']
