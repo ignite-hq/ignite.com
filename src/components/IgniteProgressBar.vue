@@ -1,5 +1,5 @@
 <template>
-  <div class="ignt-progress__container">
+  <div class="ignite-progress__container">
     <SpDenom
       v-if="denom"
       modifier="avatar"
@@ -10,13 +10,13 @@
     />
 
     <div
-      class="ignt-progress"
+      class="ignite-progress"
       :class="inverse ? 'bg-white-1000' : 'bg-gray-50'"
     >
       <div
         v-for="item in items"
         :key="item.name"
-        class="ignt-progress__inner text-center h-[20px]"
+        class="ignite-progress__inner text-center h-[20px]"
         :class="[
           item.split ? 'rounded-none' : 'rounded-r-lg',
           item.bgColor,
@@ -24,7 +24,7 @@
         ]"
         :style="{ width: `${item.value}%` }"
       >
-        <span class="font-medium ignt-text text-1">
+        <span class="font-medium ignite-text text-1">
           <b>{{ item.value }}%</b>
         </span>
       </div>
@@ -58,7 +58,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="postcss">
-.ignt-progress {
+.ignite-progress {
   @apply overflow-hidden relative flex w-full rounded-lg text-0;
 
   &__container {

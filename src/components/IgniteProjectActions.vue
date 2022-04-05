@@ -1,18 +1,18 @@
 <template>
   <ul class="">
-    <li class="ignt-text text-3 mb-6 m:mb-7">
+    <li class="ignite-text text-3 mb-6 m:mb-7">
       <IgniteButton>
         <IconStage class="text-title mr-3" />
         <span>Validate</span>
       </IgniteButton>
     </li>
-    <li class="ignt-text text-3 mb-6 m:mb-7">
+    <li class="ignite-text text-3 mb-6 m:mb-7">
       <IgniteButton>
         <IconStack class="text-title mr-3" />
         <span>Request tokens</span>
       </IgniteButton>
     </li>
-    <li class="ignt-text text-3">
+    <li class="ignite-text text-3">
       <IgniteLink
         to="https://"
         class="flex items-center text-primary hover:text-title"

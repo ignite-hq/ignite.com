@@ -4,9 +4,9 @@
     class="flex items-center text-muted hover:text-title"
   >
     <IconGithub class="mr-1 text-title" />
-    <span class="font-medium ignt-text">{{ githubUser }}</span>
-    <span class="mx-1 font-medium ignt-text text-inactive">/</span>
-    <span class="font-medium ignt-text">{{ githubRepo }}</span>
+    <span class="font-medium ignite-text">{{ githubUser }}</span>
+    <span class="mx-1 font-medium ignite-text text-inactive">/</span>
+    <span class="font-medium ignite-text">{{ githubRepo }}</span>
   </IgniteLink>
 </template>
 
@@ -14,7 +14,7 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'IgniteGithub'
+  name: 'IgniteGithubRepoLink'
 })
 </script>
 

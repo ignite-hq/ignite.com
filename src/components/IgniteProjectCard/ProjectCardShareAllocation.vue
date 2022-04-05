@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="mb-6 font-medium text-center ignt-text text-2 text-muted">
+    <div class="mb-6 font-medium text-center ignite-text text-2 text-muted">
       Share allocation
     </div>
 

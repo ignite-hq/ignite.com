@@ -1,6 +1,6 @@
 <template>
-  <ul class="ignt-breadcrumbs flex items-center">
-    <li class="ignt-breadcrumbs__item ignt-text text-2">
+  <ul class="ignite-breadcrumbs flex items-center">
+    <li class="ignite-breadcrumbs__item ignite-text text-2">
       <IgniteLink
         to="/"
         inactive-class="text-muted hover:text-title"
@@ -9,7 +9,7 @@
         Explore
       </IgniteLink>
     </li>
-    <li class="ignt-breadcrumbs__item ignt-text text-2">
+    <li class="ignite-breadcrumbs__item ignite-text text-2">
       <IgniteLink
         to="/project"
         inactive-class="text-muted hover:text-title"
@@ -34,7 +34,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="postcss">
-.ignt-breadcrumbs {
+.ignite-breadcrumbs {
   &__item {
     @apply flex items-center justify-center;
 

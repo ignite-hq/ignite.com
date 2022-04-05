@@ -18,12 +18,12 @@
               </div>
               <div class="max-w-lg">
                 <div
-                  class="mb-6 ignt-title text-7 m:text-8 font-semibold font-title"
+                  class="mb-6 ignite-title text-7 m:text-8 font-semibold font-title"
                 >
                   Project Name
                 </div>
                 <div class="l:flex item-center mb-7">
-                  <IgniteGithub
+                  <IgniteGithubRepoLink
                     :github-url="githubUrl"
                     class="mb-5 l:mb-0 l:mr-7 text-3"
                   />
@@ -33,7 +33,7 @@
                     validator-count="30"
                   />
                 </div>
-                <div class="ignt-text text-2 m:text-3 text-muted">
+                <div class="ignite-text text-2 m:text-3 text-muted">
                   NFT game powered by Unreal Engine hosted on Akash and built on
                   top of Cosmos. From the creators of Passage3D.
                 </div>
@@ -67,7 +67,7 @@ import { defineComponent } from 'vue'
 
 import IgniteBgWave from './IgniteBgWave.vue'
 import IgniteBreadcrumbs from './IgniteBreadcrumbs.vue'
-import IgniteGithub from './IgniteGithub.vue'
+import IgniteGithubRepoLink from './IgniteGithubRepoLink.vue'
 import IgniteProjectActions from './IgniteProjectActions.vue'
 import IgniteProjectNav from './IgniteProjectNav.vue'
 import IgniteProjectStatus from './IgniteProjectStatus.vue'
@@ -77,7 +77,7 @@ export default defineComponent({
 
   components: {
     IgniteBreadcrumbs,
-    IgniteGithub,
+    IgniteGithubRepoLink,
     IgniteProjectStatus,
     IgniteProjectNav,
     IgniteProjectActions,

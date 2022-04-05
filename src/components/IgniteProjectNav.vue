@@ -3,7 +3,7 @@
     <li
       v-for="item in items"
       :key="item.link"
-      class="ignt-text text-3 mb-6 last:m-0 sm:mb-0 sm:mr-7"
+      class="ignite-text text-3 mb-6 last:m-0 sm:mb-0 sm:mr-7"
     >
       <IgniteLink
         :to="item.link"

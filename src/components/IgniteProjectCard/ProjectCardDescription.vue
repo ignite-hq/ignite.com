@@ -3,19 +3,19 @@
     <IgniteLoader v-if="isLoading" class="mx-auto mb-4 title-loading" />
     <div
       v-if="!isLoading"
-      class="mb-4 font-semibold text-center ignt-title text-4 m:text-5"
+      class="mb-4 font-semibold text-center ignite-title text-4 m:text-5"
     >
       {{ campaignName }}
     </div>
 
     <IgniteLoader v-if="isLoading" class="mx-auto github-loading" />
-    <IgniteGithub
+    <IgniteGithubRepoLink
       v-if="showGitHubRepository"
       :github-url="githubUrl"
       class="justify-center mb-7 text-2"
     />
 
-    <div v-if="!isLoading" class="ignt-text text-2 m:text-3 text-muted">
+    <div v-if="!isLoading" class="ignite-text text-2 m:text-3 text-muted">
       {{ description }}
     </div>
   </div>
@@ -31,7 +31,7 @@ export default {
 import { CampaignCampaign } from 'tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 import { computed, PropType } from 'vue'
 
-import IgniteGithub from '../IgniteGithub.vue'
+import IgniteGithubRepoLink from '../IgniteGithubRepoLink.vue'
 import IgniteLoader from '../IgniteLoader.vue'
 
 // props
