@@ -13,8 +13,6 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { computed } from 'vue'
-
 interface Emits {
   (e: 'update:modelValue', value: string): void
 }
@@ -23,11 +21,11 @@ interface Props {
   modelValue: string
 }
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   modelValue: ''
 })
 
-const emit = defineEmits<Emits>()
+defineEmits<Emits>()
 </script>
 
 <style scoped lang="postcss">
