@@ -1,14 +1,31 @@
 <template>
   <IgniteLink
     :to="item.link"
-    class="block h-[100%] text-primary hover:text-title"
+    class="block l:h-[100%] text-primary hover:text-title"
   >
     <IgniteCard
-      class="relative flex flex-col justify-between"
+      class="relative flex flex-col justify-between overflow-hidden"
       :class="[
-        size === 'sm' && ['px-9', 'py-8.5'],
-        size === 'md' && ['px-8.5', 'pt-9'],
-        size === 'lg' && ['p-6', 'pb-0', 'm:px-10', 'm:py-9']
+        size === 'sm' && ['p-6', 'pb-0', 'm:p-7', 'l:py-8.5', 'xl:px-9'],
+        size === 'md' && [
+          'p-6',
+          'pb-0',
+          'm:p-7',
+          'm:pb-0',
+          'l:pb-0',
+          'l:py-8.5',
+          'xl:px-8.5',
+          'xl:pt-9'
+        ],
+        size === 'lg' && [
+          'p-6',
+          'pb-0',
+          'm:p-7',
+          'l:px-9',
+          'l:py-8.5',
+          'xl:px-10',
+          'xl:py-9'
+        ]
       ]"
     >
       <div>
@@ -31,17 +48,13 @@
         </div>
         <div
           class="flex items-center ignt-text font-medium text-3"
-          :class="size === 'lg' ? 'mt-6' : 'mt-7'"
+          :class="size === 'lg' ? 'mt-6' : ['mt-5', 'm:mt-7']"
         >
           <component :is="socialIcon" class="mr-4" />
           <span>{{ item.cta }}</span>
         </div>
       </div>
-      <component
-        :is="socialGraphic"
-        :size="size"
-        :class="[size === 'md' && 'mt-8']"
-      />
+      <component :is="socialGraphic" :size="size" />
     </IgniteCard>
   </IgniteLink>
 </template>
@@ -55,13 +68,11 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import IgniteCard from '../IgniteCard.vue'
-import IgniteLink from '../IgniteLink.vue'
-
 import IconDiscord from '../icons/IconDiscord.vue'
 import IconTelegram from '../icons/IconTelegram.vue'
 import IconTwitter from '../icons/IconTwitter.vue'
-
+import IgniteCard from '../IgniteCard.vue'
+import IgniteLink from '../IgniteLink.vue'
 import GraphicDiscord from './GraphicDiscord.vue'
 import GraphicTelegram from './GraphicTelegram.vue'
 import GraphicTwitter from './GraphicTwitter.vue'

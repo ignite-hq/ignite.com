@@ -21,8 +21,8 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import IgniteCard from '../IgniteCard.vue'
 import IgniteBgWave from '../IgniteBgWave.vue'
+import IgniteCard from '../IgniteCard.vue'
 
 defineProps({
   member: {

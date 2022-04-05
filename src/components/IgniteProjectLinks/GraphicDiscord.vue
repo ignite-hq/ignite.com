@@ -1,7 +1,7 @@
 <template>
   <svg
     v-if="size === 'sm'"
-    class="absolute bottom-0 right-5"
+    class="w-[100%] h-auto m:w-auto mt-6 m:mt-0 m:absolute m:bottom-0 m:right-5 l:right-auto l:left-[19rem] xl:left-auto xl:right-5"
     width="255"
     height="157"
     viewBox="0 0 255 157"
@@ -221,7 +221,7 @@
     viewBox="0 0 504 236"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    class="w-[100%]"
+    class="w-auto mx-auto max-w-[100%] xl:w-[100%] h-auto mt-6 m:mt-8"
   >
     <path d="M120 16H384V236H120V16Z" fill="#18171D" />
     <rect
@@ -542,7 +542,7 @@
 
   <svg
     v-if="size === 'lg'"
-    class="mt-5 m:mt-0 m:absolute m:bottom-0 m:right-[33.33%] m:translate-x-[50%] m:max-w-[50%] xl:max-w-none xl:h-[85%] xl:w-auto"
+    class="mt-5 m:mt-0 m:absolute m:bottom-0 m:right-6 l:right-[33.33%] l:translate-x-[50%] m:max-w-[50%] xl:max-w-none xl:h-[85%] xl:w-auto"
     viewBox="0 0 504 195"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"

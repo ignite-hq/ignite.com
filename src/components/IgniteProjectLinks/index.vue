@@ -67,27 +67,27 @@ export default defineComponent({
         //   cta: 'Follow us',
         //   link: 'https://twitter.com/'
         // },
-        // {
-        //   title: 'Join our Discord',
-        //   description:
-        //     'Looking to get involved? Join our Discord for development help and tips.',
-        //   cta: 'Join our Discord',
-        //   link: 'https://discord.com/'
-        // },
-        // {
-        //   title: 'Chat on Telegram',
-        //   description:
-        //     'Have questions about the project? Reach out and say hello.',
-        //   cta: 'Say hello',
-        //   link: 'https://t.me/'
-        // },
         {
           title: 'Join our Discord',
           description:
             'Looking to get involved? Join our Discord for development help and tips.',
           cta: 'Join our Discord',
           link: 'https://discord.com/'
+        },
+        {
+          title: 'Chat on Telegram',
+          description:
+            'Have questions about the project? Reach out and say hello.',
+          cta: 'Say hello',
+          link: 'https://t.me/'
         }
+        // {
+        //   title: 'Join our Discord',
+        //   description:
+        //     'Looking to get involved? Join our Discord for development help and tips.',
+        //   cta: 'Join our Discord',
+        //   link: 'https://discord.com/'
+        // }
       ]
     }
   }

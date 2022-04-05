@@ -23,8 +23,7 @@ export default {
 import IgniteProjectCards from '../components/IgniteProjectCards/index.vue'
 import IgniteProjectDescription from '../components/IgniteProjectDescription.vue'
 import IgniteProjectHeader from '../components/IgniteProjectHeader.vue'
-import IgniteWhitepaper from '../components/IgniteWhitepaper.vue'
-
-import IgniteProjectTeam from '../components/IgniteProjectTeam/index.vue'
 import IgniteProjectLinks from '../components/IgniteProjectLinks/index.vue'
+import IgniteProjectTeam from '../components/IgniteProjectTeam/index.vue'
+import IgniteWhitepaper from '../components/IgniteWhitepaper.vue'
 </script>
