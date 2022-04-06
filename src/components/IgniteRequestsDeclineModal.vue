@@ -1,15 +1,13 @@
 <template>
-  <SpModal>
-    <template #header>
+  <IgniteModal @close="$emit('close')">
+    <template #title>
       <div class="flex flex-col items-center space-y-4">
-        <IconWarning />
+        <IconWarning aria-hidden />
         <IgniteHeading class="text-5">Confirm decline</IgniteHeading>
       </div>
     </template>
 
-    <template #body><span></span></template>
-
-    <template #footer>
+    <template #body>
       <div class="mt-7 flex w-full space-x-4">
         <IgniteButton
           class="flex-1"
@@ -29,7 +27,7 @@
         </IgniteButton>
       </div>
     </template>
-  </SpModal>
+  </IgniteModal>
 </template>
 
 <script lang="ts">
@@ -39,11 +37,10 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { SpModal } from '@starport/vue'
-
 import IconWarning from './icons/IconWarning.vue'
 import IgniteButton from './IgniteButton.vue'
 import IgniteHeading from './IgniteHeading.vue'
+import IgniteModal from './IgniteModal.vue'
 
 interface Emits {
   (e: 'close'): void
