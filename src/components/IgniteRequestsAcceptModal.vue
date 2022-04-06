@@ -17,12 +17,18 @@
       <div class="mt-7 flex space-x-4">
         <IgniteButton
           class="flex-1"
-          variant="modal-cancel"
+          variant="text"
+          color="text-gray-0"
           @click="$emit('close')"
         >
           Cancel
         </IgniteButton>
-        <IgniteButton variant="primary" type="submit" class="flex-1">
+        <IgniteButton
+          variant="primary"
+          color="primary"
+          type="submit"
+          class="flex-1"
+        >
           Confirm
         </IgniteButton>
       </div>
