@@ -21,6 +21,7 @@ export default {
 import { computed } from 'vue'
 
 import IgniteLoader from '../IgniteLoader.vue'
+import IgniteProjectStatus from '../IgniteProjectStatus.vue'
 
 const props = defineProps({
   loading: Boolean,

@@ -20,35 +20,24 @@
 
     <!-- Body -->
     <div role="rowgroup" class="responses-table-body">
-      <div role="row" class="responses-table-row">
+      <div
+        v-for="row in mockRows"
+        :key="row.id"
+        role="row"
+        class="responses-table-row"
+      >
         <div role="cell" class="responses-table-cell">
           <IgniteCheckbox />
         </div>
         <div role="cell" class="responses-table-cell flex-1">
-          <IgniteRequestsActionIcon /> <span>Add validator to Testnet 0</span>
+          <IgniteRequestsActionIcon /> <span>{{ row.action }}</span>
         </div>
         <div role="cell" class="responses-table-cell flex-1">
-          Request to validate
-        </div>
-        <div role="cell" class="responses-table-cell flex-1">
-          <div class="profile-placeholder" />
-          <span>Jane Doe</span>
-        </div>
-      </div>
-
-      <div role="row" class="responses-table-row">
-        <div role="cell" class="responses-table-cell">
-          <IgniteCheckbox />
-        </div>
-        <div role="cell" class="responses-table-cell flex-1">
-          <IgniteRequestsActionIcon /> <span>Add validator to Testnet 0</span>
-        </div>
-        <div role="cell" class="responses-table-cell flex-1">
-          Request to validate
+          {{ row.type }}
         </div>
         <div role="cell" class="responses-table-cell flex-1">
           <div class="profile-placeholder" />
-          <span>Jane Doe</span>
+          <span>{{ row.requestor }}</span>
         </div>
       </div>
     </div>
@@ -64,6 +53,21 @@ export default {
 <script lang="ts" setup>
 import IgniteCheckbox from './IgniteCheckbox.vue'
 import IgniteRequestsActionIcon from './IgniteRequestsActionIcon.vue'
+
+const mockRows = [
+  {
+    id: 1,
+    action: 'Add validator to Testnet 0',
+    type: 'Request to validate',
+    requestor: 'Jane Doe'
+  },
+  {
+    id: 2,
+    action: 'Add validator to Testnet 1',
+    type: 'Request to validate',
+    requestor: 'Jane Doe'
+  }
+]
 </script>
 
 <style scoped lang="postcss">

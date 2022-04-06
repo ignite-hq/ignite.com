@@ -17,8 +17,11 @@
     </div>
 
     <div v-if="hasNextPage && !isFetchingNextPage" class="blur-box">
-      <SpButton class="view-more-btn" @click="() => fetchNextPage()"
-        >View More</SpButton
+      <IgniteButton
+        variant="primary"
+        class="view-more-btn"
+        @click="() => fetchNextPage()"
+        >View More</IgniteButton
       >
     </div>
   </div>
@@ -31,7 +34,6 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import SpButton from '@starport/vue/src/components/SpButton/SpButton.vue'
 import MasonryWall from '@yeger/vue-masonry-wall'
 import {
   CampaignCampaignSummary,
@@ -40,6 +42,7 @@ import {
 import { computed } from 'vue'
 
 import useCampaignSummaries from '../composables/useCampaignSummaries'
+import IgniteButton from './IgniteButton.vue'
 import IgniteProjectCard from './IgniteProjectCard/index.vue'
 
 // variables
