@@ -5,7 +5,9 @@
         class="ignite-legend__icon mr-1"
         :class="item.color || 'bg-gray-50'"
       />
-      <span class="ignite-text text-2 text-muted">{{ item.name }}</span>
+      <IgniteText as="span" class="text-2 text-muted">{{
+        item.name
+      }}</IgniteText>
     </div>
   </div>
 </template>
@@ -14,10 +16,11 @@
 import { defineComponent, PropType } from 'vue'
 
 import { LegendItem } from '../utils/types'
+import IgniteText from './IgniteText.vue'
 
 export default defineComponent({
   name: 'IgniteLegend',
-
+  components: { IgniteText },
   props: {
     items: {
       type: Array as PropType<LegendItem[]>,

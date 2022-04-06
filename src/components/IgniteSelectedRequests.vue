@@ -1,9 +1,9 @@
 <template>
   <div v-if="selectedRequests.length > 0" class="selected-requests">
-    <p class="text-4">
+    <IgniteText class="text-4">
       <strong>{{ selectedRequests.length }}</strong>
       {{ selectedRequests.length > 1 ? 'Requests' : 'Request' }} selected
-    </p>
+    </IgniteText>
 
     <div class="space-x-6">
       <button
@@ -45,6 +45,7 @@ import IgniteRequestsAcceptModal from '../components/IgniteRequestsAcceptModal.v
 import IgniteRequestsDeclineModal from '../components/IgniteRequestsDeclineModal.vue'
 import IconAccept from './icons/IconAccept.vue'
 import IconDeny from './icons/IconDeny.vue'
+import IgniteText from './IgniteText.vue'
 
 defineProps({
   selectedRequests: {

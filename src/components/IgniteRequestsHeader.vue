@@ -1,6 +1,6 @@
 <template>
   <header class="flex items-center justify-between">
-    <h1>Requests</h1>
+    <IgniteHeading class="font-title">Requests</IgniteHeading>
 
     <div class="flex space-x-4">
       <Listbox v-slot="{ open }" v-model="selectedPageFilter">
@@ -96,6 +96,7 @@ import { ref } from 'vue'
 import IconCheck from './icons/IconCheckMarkThin.vue'
 import IconFilter from './icons/IconFilter.vue'
 import IconSort from './icons/IconSort.vue'
+import IgniteHeading from './IgniteHeading.vue'
 
 const pageFilters = [
   { id: 1, name: 'Pending requests', displayName: 'Pending' },

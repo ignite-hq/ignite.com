@@ -3,7 +3,7 @@
     <template #header>
       <div class="flex flex-col items-center space-y-4">
         <IconWarning />
-        <h1 class="text-5">Confirm decline</h1>
+        <IgniteHeading class="text-5">Confirm decline</IgniteHeading>
       </div>
     </template>
 
@@ -43,6 +43,7 @@ import { SpModal } from '@starport/vue'
 
 import IconWarning from './icons/IconWarning.vue'
 import IgniteButton from './IgniteButton.vue'
+import IgniteHeading from './IgniteHeading.vue'
 
 interface Emits {
   (e: 'close'): void

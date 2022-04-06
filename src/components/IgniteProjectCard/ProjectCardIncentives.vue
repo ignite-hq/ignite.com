@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="ignite-text mb-6 text-center text-2 font-medium text-muted">
+    <IgniteText class="mb-6 text-center text-2 font-medium text-muted">
       Incentives
-    </div>
+    </IgniteText>
     <div class="mb-6 flex items-center justify-center">
       <SpDenom
         v-if="firstIncentiveDenom"
@@ -11,17 +11,17 @@
         :title="firstIncentiveDenom"
         class="mr-3"
       />
-      <div class="ignite-title text-center text-5 font-semibold">
+      <IgniteHeading class="text-center text-5 font-semibold">
         {{ incentive.total }} {{ firstIncentiveDenom?.toUpperCase() }}
-      </div>
+      </IgniteHeading>
     </div>
-    <div
+    <IgniteText
       v-if="pastIncentive.total > 0"
-      class="ignite-text text-center text-2 text-muted"
+      class="text-center text-2 text-muted"
     >
       Past incentives: {{ pastIncentive.total }}
       {{ firstPastIncentiveDenom?.toUpperCase() }}
-    </div>
+    </IgniteText>
   </div>
 </template>
 
@@ -35,6 +35,9 @@ export default {
 import SpDenom from '@starport/vue/src/components/SpDenom/SpDenom.vue'
 import { CampaignCampaignSummary } from 'tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 import { computed, PropType } from 'vue'
+
+import IgniteHeading from '../IgniteHeading.vue'
+import IgniteText from '../IgniteText.vue'
 
 const props = defineProps({
   campaignSummary: {
