@@ -62,7 +62,7 @@
 
       <LayoutSpacer size="md" />
       <div>
-        <div class="flex flex-wrap">
+        <div class="flex flex-wrap justify-center">
           <ValidatorCard
             v-for="validator in [...Array(8).keys()]"
             :key="validator"
@@ -100,17 +100,29 @@
         </div>
       </div>
 
+      {{ campaign }}
+      {{ chain }}
+      {{ genesisValidatorAll }}
+      {{ stakingValidatorsAll }}
+
       <LayoutSpacer size="lg" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
+import { useRoute } from 'vue-router'
 import IgntTypography from '../components/atoms/IgntTypography.vue'
 import LayoutSpacer from '../components/atoms/LayoutSpacer.vue'
 import ValidatorCard from '../components/validators/ValidatorCard.vue'
 import defaultBanner from '../assets/svg/defaultBanner.svg'
+import { CampaignCampaignSummary } from 'tendermint-spn-ts-client/tendermint.spn.campaign/rest'
+import useCampaignSummaries from '../composables/useCampaignSummaries'
+import useCampaign from '../composables/useCampaign'
+import useChain from '../composables/useChain'
+import useGenesisValidatorAll from '../composables/useGenesisValidatorAll'
+import useStakingValidatorAll from '../composables/useStakingValidatorAll'
 
 export default defineComponent({
   components: {
@@ -119,7 +131,45 @@ export default defineComponent({
     ValidatorCard
   },
   setup() {
+    const route = useRoute()
+    const campaignID = route.params.campaignID.toString() || '0'
+    const launchID = route.params.launchID.toString() || '0'
+
+    const { campaignData } = useCampaign(campaignID)
+    const { chainData } = useChain(campaignID)
+    const { genesisValidatorAllData } = useGenesisValidatorAll(campaignID)
+    const { stakingValidatorsAllData } = useStakingValidatorAll()
+
+    /*const campaignSummaries = computed<CampaignCampaignSummary[]>(() => {
+      return mergePages(allCampaignSummaries.value?.pages)
+    })*/
+
+    const campaign = computed<CampaignCampaignSummary>(() => {
+      console.log(campaignData.value?.pages)
+      return campaignData.value?.pages
+    })
+
+    const chain = computed<any>(() => {
+      console.log(chainData.value)
+      return chainData.value
+    })
+
+    const genesisValidatorAll = computed<any[]>(() => {
+      console.log(genesisValidatorAllData.value?.pages)
+      return genesisValidatorAllData.value?.pages
+    })
+
+    const stakingValidatorsAll = computed<any[]>(() => {
+      console.log(stakingValidatorsAllData.value?.pages)
+      return stakingValidatorsAllData.value?.pages
+    })
+
     return {
+      campaign,
+      chain,
+      genesisValidatorAll,
+      stakingValidatorsAll,
+
       IgntTypography,
       LayoutSpacer,
       defaultBanner
