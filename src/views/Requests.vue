@@ -7,7 +7,13 @@
 </template>
 
 <script lang="ts" setup>
-import IgniteRequestsHeader from '../components/IgniteRequestsHeader.vue'
-import IgniteRequestsTable from '../components/IgniteRequestsTable.vue'
-import IgniteSelectedRequests from '../components/IgniteSelectedRequests.vue'
+import { useRoute } from 'vue-router'
+
+import IgniteRequestsHeader from '~/components/IgniteRequestsHeader.vue'
+import IgniteRequestsTable from '~/components/IgniteRequestsTable.vue'
+import IgniteSelectedRequests from '~/components/IgniteSelectedRequests.vue'
+import useLaunchRequests from '~/composables/useLaunchRequests'
+
+const { params } = useRoute()
+const { requests } = useLaunchRequests(params.launchId.toString())
 </script>
