@@ -1,383 +1,381 @@
 /* eslint-disable */
-import { Writer, Reader } from "protobufjs/minimal";
+import { Writer, Reader } from 'protobufjs/minimal'
 
-export const protobufPackage = "tendermint.spn.profile";
+export const protobufPackage = 'tendermint.spn.profile'
 
 export interface Validator {
-  address: string;
-  operatorAddresses: string[];
-  description: ValidatorDescription | undefined;
+  address: string
+  operatorAddresses: string[]
+  description: ValidatorDescription | undefined
 }
 
 export interface ValidatorDescription {
-  identity: string;
-  moniker: string;
-  website: string;
-  securityContact: string;
-  details: string;
+  identity: string
+  moniker: string
+  website: string
+  securityContact: string
+  details: string
 }
 
 export interface ValidatorByOperatorAddress {
-  operatorAddress: string;
-  validatorAddress: string;
+  operatorAddress: string
+  validatorAddress: string
 }
 
-const baseValidator: object = { address: "", operatorAddresses: "" };
+const baseValidator: object = { address: '', operatorAddresses: '' }
 
 export const Validator = {
   encode(message: Validator, writer: Writer = Writer.create()): Writer {
-    if (message.address !== "") {
-      writer.uint32(10).string(message.address);
+    if (message.address !== '') {
+      writer.uint32(10).string(message.address)
     }
     for (const v of message.operatorAddresses) {
-      writer.uint32(18).string(v!);
+      writer.uint32(18).string(v!)
     }
     if (message.description !== undefined) {
       ValidatorDescription.encode(
         message.description,
         writer.uint32(26).fork()
-      ).ldelim();
+      ).ldelim()
     }
-    return writer;
+    return writer
   },
 
   decode(input: Reader | Uint8Array, length?: number): Validator {
-    const reader = input instanceof Uint8Array ? new Reader(input) : input;
-    let end = length === undefined ? reader.len : reader.pos + length;
-    const message = { ...baseValidator } as Validator;
-    message.operatorAddresses = [];
+    const reader = input instanceof Uint8Array ? new Reader(input) : input
+    let end = length === undefined ? reader.len : reader.pos + length
+    const message = { ...baseValidator } as Validator
+    message.operatorAddresses = []
     while (reader.pos < end) {
-      const tag = reader.uint32();
+      const tag = reader.uint32()
       switch (tag >>> 3) {
         case 1:
-          message.address = reader.string();
-          break;
+          message.address = reader.string()
+          break
         case 2:
-          message.operatorAddresses.push(reader.string());
-          break;
+          message.operatorAddresses.push(reader.string())
+          break
         case 3:
           message.description = ValidatorDescription.decode(
             reader,
             reader.uint32()
-          );
-          break;
+          )
+          break
         default:
-          reader.skipType(tag & 7);
-          break;
+          reader.skipType(tag & 7)
+          break
       }
     }
-    return message;
+    return message
   },
 
   fromJSON(object: any): Validator {
-    const message = { ...baseValidator } as Validator;
-    message.operatorAddresses = [];
+    const message = { ...baseValidator } as Validator
+    message.operatorAddresses = []
     if (object.address !== undefined && object.address !== null) {
-      message.address = String(object.address);
+      message.address = String(object.address)
     } else {
-      message.address = "";
+      message.address = ''
     }
     if (
       object.operatorAddresses !== undefined &&
       object.operatorAddresses !== null
     ) {
       for (const e of object.operatorAddresses) {
-        message.operatorAddresses.push(String(e));
+        message.operatorAddresses.push(String(e))
       }
     }
     if (object.description !== undefined && object.description !== null) {
-      message.description = ValidatorDescription.fromJSON(object.description);
+      message.description = ValidatorDescription.fromJSON(object.description)
     } else {
-      message.description = undefined;
+      message.description = undefined
     }
-    return message;
+    return message
   },
 
   toJSON(message: Validator): unknown {
-    const obj: any = {};
-    message.address !== undefined && (obj.address = message.address);
+    const obj: any = {}
+    message.address !== undefined && (obj.address = message.address)
     if (message.operatorAddresses) {
-      obj.operatorAddresses = message.operatorAddresses.map((e) => e);
+      obj.operatorAddresses = message.operatorAddresses.map((e) => e)
     } else {
-      obj.operatorAddresses = [];
+      obj.operatorAddresses = []
     }
     message.description !== undefined &&
       (obj.description = message.description
         ? ValidatorDescription.toJSON(message.description)
-        : undefined);
-    return obj;
+        : undefined)
+    return obj
   },
 
   fromPartial(object: DeepPartial<Validator>): Validator {
-    const message = { ...baseValidator } as Validator;
-    message.operatorAddresses = [];
+    const message = { ...baseValidator } as Validator
+    message.operatorAddresses = []
     if (object.address !== undefined && object.address !== null) {
-      message.address = object.address;
+      message.address = object.address
     } else {
-      message.address = "";
+      message.address = ''
     }
     if (
       object.operatorAddresses !== undefined &&
       object.operatorAddresses !== null
     ) {
       for (const e of object.operatorAddresses) {
-        message.operatorAddresses.push(e);
+        message.operatorAddresses.push(e)
       }
     }
     if (object.description !== undefined && object.description !== null) {
-      message.description = ValidatorDescription.fromPartial(
-        object.description
-      );
+      message.description = ValidatorDescription.fromPartial(object.description)
     } else {
-      message.description = undefined;
+      message.description = undefined
     }
-    return message;
-  },
-};
+    return message
+  }
+}
 
 const baseValidatorDescription: object = {
-  identity: "",
-  moniker: "",
-  website: "",
-  securityContact: "",
-  details: "",
-};
+  identity: '',
+  moniker: '',
+  website: '',
+  securityContact: '',
+  details: ''
+}
 
 export const ValidatorDescription = {
   encode(
     message: ValidatorDescription,
     writer: Writer = Writer.create()
   ): Writer {
-    if (message.identity !== "") {
-      writer.uint32(10).string(message.identity);
+    if (message.identity !== '') {
+      writer.uint32(10).string(message.identity)
     }
-    if (message.moniker !== "") {
-      writer.uint32(18).string(message.moniker);
+    if (message.moniker !== '') {
+      writer.uint32(18).string(message.moniker)
     }
-    if (message.website !== "") {
-      writer.uint32(26).string(message.website);
+    if (message.website !== '') {
+      writer.uint32(26).string(message.website)
     }
-    if (message.securityContact !== "") {
-      writer.uint32(34).string(message.securityContact);
+    if (message.securityContact !== '') {
+      writer.uint32(34).string(message.securityContact)
     }
-    if (message.details !== "") {
-      writer.uint32(42).string(message.details);
+    if (message.details !== '') {
+      writer.uint32(42).string(message.details)
     }
-    return writer;
+    return writer
   },
 
   decode(input: Reader | Uint8Array, length?: number): ValidatorDescription {
-    const reader = input instanceof Uint8Array ? new Reader(input) : input;
-    let end = length === undefined ? reader.len : reader.pos + length;
-    const message = { ...baseValidatorDescription } as ValidatorDescription;
+    const reader = input instanceof Uint8Array ? new Reader(input) : input
+    let end = length === undefined ? reader.len : reader.pos + length
+    const message = { ...baseValidatorDescription } as ValidatorDescription
     while (reader.pos < end) {
-      const tag = reader.uint32();
+      const tag = reader.uint32()
       switch (tag >>> 3) {
         case 1:
-          message.identity = reader.string();
-          break;
+          message.identity = reader.string()
+          break
         case 2:
-          message.moniker = reader.string();
-          break;
+          message.moniker = reader.string()
+          break
         case 3:
-          message.website = reader.string();
-          break;
+          message.website = reader.string()
+          break
         case 4:
-          message.securityContact = reader.string();
-          break;
+          message.securityContact = reader.string()
+          break
         case 5:
-          message.details = reader.string();
-          break;
+          message.details = reader.string()
+          break
         default:
-          reader.skipType(tag & 7);
-          break;
+          reader.skipType(tag & 7)
+          break
       }
     }
-    return message;
+    return message
   },
 
   fromJSON(object: any): ValidatorDescription {
-    const message = { ...baseValidatorDescription } as ValidatorDescription;
+    const message = { ...baseValidatorDescription } as ValidatorDescription
     if (object.identity !== undefined && object.identity !== null) {
-      message.identity = String(object.identity);
+      message.identity = String(object.identity)
     } else {
-      message.identity = "";
+      message.identity = ''
     }
     if (object.moniker !== undefined && object.moniker !== null) {
-      message.moniker = String(object.moniker);
+      message.moniker = String(object.moniker)
     } else {
-      message.moniker = "";
+      message.moniker = ''
     }
     if (object.website !== undefined && object.website !== null) {
-      message.website = String(object.website);
+      message.website = String(object.website)
     } else {
-      message.website = "";
+      message.website = ''
     }
     if (
       object.securityContact !== undefined &&
       object.securityContact !== null
     ) {
-      message.securityContact = String(object.securityContact);
+      message.securityContact = String(object.securityContact)
     } else {
-      message.securityContact = "";
+      message.securityContact = ''
     }
     if (object.details !== undefined && object.details !== null) {
-      message.details = String(object.details);
+      message.details = String(object.details)
     } else {
-      message.details = "";
+      message.details = ''
     }
-    return message;
+    return message
   },
 
   toJSON(message: ValidatorDescription): unknown {
-    const obj: any = {};
-    message.identity !== undefined && (obj.identity = message.identity);
-    message.moniker !== undefined && (obj.moniker = message.moniker);
-    message.website !== undefined && (obj.website = message.website);
+    const obj: any = {}
+    message.identity !== undefined && (obj.identity = message.identity)
+    message.moniker !== undefined && (obj.moniker = message.moniker)
+    message.website !== undefined && (obj.website = message.website)
     message.securityContact !== undefined &&
-      (obj.securityContact = message.securityContact);
-    message.details !== undefined && (obj.details = message.details);
-    return obj;
+      (obj.securityContact = message.securityContact)
+    message.details !== undefined && (obj.details = message.details)
+    return obj
   },
 
   fromPartial(object: DeepPartial<ValidatorDescription>): ValidatorDescription {
-    const message = { ...baseValidatorDescription } as ValidatorDescription;
+    const message = { ...baseValidatorDescription } as ValidatorDescription
     if (object.identity !== undefined && object.identity !== null) {
-      message.identity = object.identity;
+      message.identity = object.identity
     } else {
-      message.identity = "";
+      message.identity = ''
     }
     if (object.moniker !== undefined && object.moniker !== null) {
-      message.moniker = object.moniker;
+      message.moniker = object.moniker
     } else {
-      message.moniker = "";
+      message.moniker = ''
     }
     if (object.website !== undefined && object.website !== null) {
-      message.website = object.website;
+      message.website = object.website
     } else {
-      message.website = "";
+      message.website = ''
     }
     if (
       object.securityContact !== undefined &&
       object.securityContact !== null
     ) {
-      message.securityContact = object.securityContact;
+      message.securityContact = object.securityContact
     } else {
-      message.securityContact = "";
+      message.securityContact = ''
     }
     if (object.details !== undefined && object.details !== null) {
-      message.details = object.details;
+      message.details = object.details
     } else {
-      message.details = "";
+      message.details = ''
     }
-    return message;
-  },
-};
+    return message
+  }
+}
 
 const baseValidatorByOperatorAddress: object = {
-  operatorAddress: "",
-  validatorAddress: "",
-};
+  operatorAddress: '',
+  validatorAddress: ''
+}
 
 export const ValidatorByOperatorAddress = {
   encode(
     message: ValidatorByOperatorAddress,
     writer: Writer = Writer.create()
   ): Writer {
-    if (message.operatorAddress !== "") {
-      writer.uint32(10).string(message.operatorAddress);
+    if (message.operatorAddress !== '') {
+      writer.uint32(10).string(message.operatorAddress)
     }
-    if (message.validatorAddress !== "") {
-      writer.uint32(18).string(message.validatorAddress);
+    if (message.validatorAddress !== '') {
+      writer.uint32(18).string(message.validatorAddress)
     }
-    return writer;
+    return writer
   },
 
   decode(
     input: Reader | Uint8Array,
     length?: number
   ): ValidatorByOperatorAddress {
-    const reader = input instanceof Uint8Array ? new Reader(input) : input;
-    let end = length === undefined ? reader.len : reader.pos + length;
+    const reader = input instanceof Uint8Array ? new Reader(input) : input
+    let end = length === undefined ? reader.len : reader.pos + length
     const message = {
-      ...baseValidatorByOperatorAddress,
-    } as ValidatorByOperatorAddress;
+      ...baseValidatorByOperatorAddress
+    } as ValidatorByOperatorAddress
     while (reader.pos < end) {
-      const tag = reader.uint32();
+      const tag = reader.uint32()
       switch (tag >>> 3) {
         case 1:
-          message.operatorAddress = reader.string();
-          break;
+          message.operatorAddress = reader.string()
+          break
         case 2:
-          message.validatorAddress = reader.string();
-          break;
+          message.validatorAddress = reader.string()
+          break
         default:
-          reader.skipType(tag & 7);
-          break;
+          reader.skipType(tag & 7)
+          break
       }
     }
-    return message;
+    return message
   },
 
   fromJSON(object: any): ValidatorByOperatorAddress {
     const message = {
-      ...baseValidatorByOperatorAddress,
-    } as ValidatorByOperatorAddress;
+      ...baseValidatorByOperatorAddress
+    } as ValidatorByOperatorAddress
     if (
       object.operatorAddress !== undefined &&
       object.operatorAddress !== null
     ) {
-      message.operatorAddress = String(object.operatorAddress);
+      message.operatorAddress = String(object.operatorAddress)
     } else {
-      message.operatorAddress = "";
+      message.operatorAddress = ''
     }
     if (
       object.validatorAddress !== undefined &&
       object.validatorAddress !== null
     ) {
-      message.validatorAddress = String(object.validatorAddress);
+      message.validatorAddress = String(object.validatorAddress)
     } else {
-      message.validatorAddress = "";
+      message.validatorAddress = ''
     }
-    return message;
+    return message
   },
 
   toJSON(message: ValidatorByOperatorAddress): unknown {
-    const obj: any = {};
+    const obj: any = {}
     message.operatorAddress !== undefined &&
-      (obj.operatorAddress = message.operatorAddress);
+      (obj.operatorAddress = message.operatorAddress)
     message.validatorAddress !== undefined &&
-      (obj.validatorAddress = message.validatorAddress);
-    return obj;
+      (obj.validatorAddress = message.validatorAddress)
+    return obj
   },
 
   fromPartial(
     object: DeepPartial<ValidatorByOperatorAddress>
   ): ValidatorByOperatorAddress {
     const message = {
-      ...baseValidatorByOperatorAddress,
-    } as ValidatorByOperatorAddress;
+      ...baseValidatorByOperatorAddress
+    } as ValidatorByOperatorAddress
     if (
       object.operatorAddress !== undefined &&
       object.operatorAddress !== null
     ) {
-      message.operatorAddress = object.operatorAddress;
+      message.operatorAddress = object.operatorAddress
     } else {
-      message.operatorAddress = "";
+      message.operatorAddress = ''
     }
     if (
       object.validatorAddress !== undefined &&
       object.validatorAddress !== null
     ) {
-      message.validatorAddress = object.validatorAddress;
+      message.validatorAddress = object.validatorAddress
     } else {
-      message.validatorAddress = "";
+      message.validatorAddress = ''
     }
-    return message;
-  },
-};
+    return message
+  }
+}
 
-type Builtin = Date | Function | Uint8Array | string | number | undefined;
+type Builtin = Date | Function | Uint8Array | string | number | undefined
 export type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Array<infer U>
@@ -386,4 +384,4 @@ export type DeepPartial<T> = T extends Builtin
   ? ReadonlyArray<DeepPartial<U>>
   : T extends {}
   ? { [K in keyof T]?: DeepPartial<T[K]> }
-  : Partial<T>;
+  : Partial<T>
