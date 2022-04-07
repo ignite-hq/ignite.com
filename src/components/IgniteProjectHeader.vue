@@ -28,6 +28,8 @@
                     class="mb-5 l:mb-0 l:mr-7 text-3"
                   />
                   <IgniteProjectStatus
+                    campaign-id="0"
+                    launch-id="0"
                     stargazer-count="1"
                     request-count="100"
                     validator-count="30"

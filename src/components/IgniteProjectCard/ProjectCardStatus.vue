@@ -3,6 +3,8 @@
     <IgniteLoader v-if="isLoading" class="mx-auto status-loading" />
     <IgniteProjectStatus
       v-if="!isLoading"
+      :launch-id="launchId"
+      :campaign-id="campaignId"
       :stargazer-count="stargazerCount"
       :request-count="requestCount"
       :validator-count="validatorCount"
@@ -21,9 +23,12 @@ export default {
 import { computed } from 'vue'
 
 import IgniteLoader from '../IgniteLoader.vue'
+import IgniteProjectStatus from '../IgniteProjectStatus.vue'
 
 const props = defineProps({
   loading: Boolean,
+  campaignId: { type: String, required: true },
+  launchId: { type: String, required: true },
   requestCount: { type: String, required: true },
   validatorCount: { type: String, required: true },
   stargazerCount: { type: String, required: true }
