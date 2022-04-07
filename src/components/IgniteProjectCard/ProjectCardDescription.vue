@@ -3,30 +3,19 @@
     <IgniteLoader v-if="isLoading" class="mx-auto mb-4 title-loading" />
     <div
       v-if="!isLoading"
-      class="mb-4 font-semibold text-center ignt-title text-4 m:text-5"
+      class="mb-4 font-semibold text-center ignite-title text-4 m:text-5"
     >
       {{ campaignName }}
     </div>
 
     <IgniteLoader v-if="isLoading" class="mx-auto github-loading" />
-    <a
+    <IgniteGithubRepoLink
       v-if="showGitHubRepository"
-      :href="githubUrl"
-      target="__blank"
-      rel="noreferrer noopener"
-      class="flex items-center justify-center mb-7"
-    >
-      <IconGithub class="mr-1 text-title" />
-      <span class="font-medium ignt-text text-2 text-muted">{{
-        githubUser
-      }}</span>
-      <span class="mx-1 font-medium ignt-text text-2 text-border">/</span>
-      <span class="font-medium ignt-text text-2 text-muted">{{
-        githubRepo
-      }}</span>
-    </a>
+      :github-url="githubUrl"
+      class="justify-center mb-7 text-2"
+    />
 
-    <div v-if="!isLoading" class="ignt-text text-2 m:text-3 text-muted">
+    <div v-if="!isLoading" class="ignite-text text-2 m:text-3 text-muted">
       {{ description }}
     </div>
   </div>
@@ -42,8 +31,7 @@ export default {
 import { CampaignCampaign } from 'tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 import { computed, PropType } from 'vue'
 
-import { getUserAndRepositoryFromUrl } from '../../utils/github'
-import IconGithub from '../icons/IconGithub.vue'
+import IgniteGithubRepoLink from '../IgniteGithubRepoLink.vue'
 import IgniteLoader from '../IgniteLoader.vue'
 
 // props
@@ -57,7 +45,6 @@ const props = defineProps({
 // variables
 const defaultDescription =
   'A blockchain built with the Cosmos SDK and launched on the Ignite Network.'
-const { githubRepo, githubUser } = getUserAndRepositoryFromUrl(props.githubUrl)
 
 // computed
 const campaignName = computed(() => {

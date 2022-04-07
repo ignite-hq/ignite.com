@@ -1,13 +1,13 @@
 /* eslint-disable */
-export const protobufPackage = "tendermint.spn.monitoringp";
+export const protobufPackage = 'tendermint.spn.monitoringp'
 
 /** Msg defines the Msg service. */
 export interface Msg {}
 
 export class MsgClientImpl implements Msg {
-  private readonly rpc: Rpc;
+  private readonly rpc: Rpc
   constructor(rpc: Rpc) {
-    this.rpc = rpc;
+    this.rpc = rpc
   }
 }
 
@@ -16,5 +16,5 @@ interface Rpc {
     service: string,
     method: string,
     data: Uint8Array
-  ): Promise<Uint8Array>;
+  ): Promise<Uint8Array>
 }

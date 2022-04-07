@@ -5,6 +5,7 @@ import path from 'path'
 import { defineConfig } from 'vite'
 import { dynamicImport } from 'vite-plugin-dynamic-import'
 import envCompatible from 'vite-plugin-env-compatible'
+import { VitePWA } from 'vite-plugin-pwa'
 
 const pathSrc = path.resolve(__dirname, './src')
 
@@ -15,7 +16,7 @@ export default defineConfig({
       Buffer: Buffer
     }
   },
-  plugins: [vue(), nodeResolve(), dynamicImport(), envCompatible()],
+  plugins: [vue(), nodeResolve(), dynamicImport(), envCompatible(), VitePWA()],
   css: {
     postcss: `${pathSrc}/postcss.config.js`
   },
