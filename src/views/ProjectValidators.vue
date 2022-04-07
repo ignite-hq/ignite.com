@@ -191,7 +191,6 @@ export default defineComponent({
     })
 
     const genesisValidatorsAll = computed<LaunchGenesisValidator[]>(() => {
-      console.log(genesisValidatorAllData.value)
       return mergePages(genesisValidatorAllData.value?.pages)
     })
 

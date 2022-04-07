@@ -3,7 +3,11 @@
     class="flex text-left justify-start flex-col border border-gray-70 rounded mx-2 mb-6 p-5"
     style="width: 292px"
   >
-    <img :src="validatorAvatar" style="width: 80px" class="mb-6" />
+    <img
+      :src="validatorAvatar"
+      style="width: 80px; height: 80px"
+      class="mb-6"
+    />
 
     <span class="text-4 font-bold mb-4">
       {{ validatorData.details.body?.messages[0]?.description?.moniker || '-' }}
@@ -21,7 +25,7 @@
         href="#"
         class="text-2 inline-block text-primary hover:brightness-90 active:brightness-75 hover:underline"
       >
-        2 other projects
+        0 other projects
       </a>
     </div>
   </div>
