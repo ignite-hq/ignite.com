@@ -5,11 +5,11 @@
 </template>
 
 <script lang="ts">
-import IgniteProjectHeader from '../components/IgniteProjectHeader.vue'
-
 export default {
-  name: 'ProjectView',
-
-  components: { IgniteProjectHeader }
+  name: 'ProjectView'
 }
+</script>
+
+<script lang="ts" setup>
+import IgniteProjectHeader from '../components/IgniteProjectHeader.vue'
 </script>

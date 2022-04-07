@@ -1,9 +1,9 @@
 <template>
-  <ul class="sm:flex items-center">
+  <ul class="items-center sm:flex">
     <li
       v-for="item in items"
       :key="item.link"
-      class="ignite-text text-3 mb-6 last:m-0 sm:mb-0 sm:mr-7"
+      class="ignite-text mb-6 text-3 last:m-0 sm:mb-0 sm:mr-7"
     >
       <IgniteLink
         :to="item.link"
@@ -18,12 +18,20 @@
 </template>
 
 <script lang="ts" setup>
+import { PropType } from 'vue'
+
 import IgniteLink from './IgniteLink.vue'
+
+interface NavLink {
+  title: string
+  link: string
+}
 
 defineProps({
   items: {
-    type: Array,
-    requred: true
+    type: Array as PropType<NavLink[]>,
+    requred: true,
+    default: () => []
   }
 })
 </script>

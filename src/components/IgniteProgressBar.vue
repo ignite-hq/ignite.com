@@ -16,15 +16,10 @@
       <div
         v-for="item in items"
         :key="item.name"
-        class="ignite-progress__inner text-center h-[20px]"
-        :class="[
-          item.split ? 'rounded-none' : 'rounded-r-lg',
-          item.bgColor,
-          item.bgColor === 'bg-primary' && `text-white-1000`
-        ]"
+        :class="[item.bgColor]"
         :style="{ width: `${item.value}%` }"
       >
-        <span class="font-medium ignite-text text-1">
+        <span class="ignite-text text-1 font-medium">
           <b>{{ item.value }}%</b>
         </span>
       </div>
@@ -59,7 +54,7 @@ export default defineComponent({
 
 <style scoped lang="postcss">
 .ignite-progress {
-  @apply overflow-hidden relative flex w-full rounded-lg text-0;
+  @apply relative flex w-full overflow-hidden rounded-lg text-0;
 
   &__container {
     @apply flex items-center justify-center;
