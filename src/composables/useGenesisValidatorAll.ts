@@ -4,7 +4,7 @@ import { useInfiniteQuery } from 'vue-query'
 
 const VALIDATORS_PER_PAGE = '20'
 
-export default function useCampaignSummaries(launchId: string) {
+export default function useGenesisValidatorsAll(launchId: string) {
   const {
     state: { ignite }
   } = useIgnite()

@@ -1,7 +1,9 @@
 <template>
   <div>
-    <div>
-      <img :src="defaultBanner" />
+    <div class="relative w-100 bg-primary" style="height: 20rem">
+      <div class="overflow-hidden absolute z-[2] inset-0">
+        <IgniteBgWave />
+      </div>
     </div>
     <div class="container text-center">
       <LayoutSpacer size="lg" />
@@ -15,8 +17,8 @@
         class="mx-auto"
         style="max-width: 30rem"
       >
-        Participation incentives for validating transactions on the {Project
-        Name} network
+        Participation incentives for validating transactions on the
+        {{ campaignSummary?.campaign?.campaignName }} network
       </IgntTypography>
 
       <LayoutSpacer size="md" />
@@ -25,22 +27,18 @@
         <div
           class="flex justify-center flex-col border border-gray-70 rounded w-full m-4 p-5"
         >
-          <IgntTypography modifier="content" size="md">
-            Incentives
-          </IgntTypography>
-          <LayoutSpacer size="xs" />
-          <span class="text-8 font-bold tracking-tight"> $000,000,000 </span>
-          <LayoutSpacer size="xs" />
-          <IgntTypography modifier="content" size="sm">
-            Previous incentives: $0,000,000
-          </IgntTypography>
+          <ProjectCardIncentives
+            v-if="campaignSummary"
+            :campaign-summary="campaignSummary"
+          />
         </div>
         <div
           class="flex justify-center flex-col border border-gray-70 rounded w-full m-4 p-5"
         >
-          <IgntTypography modifier="content" size="md">
-            Share allocation
-          </IgntTypography>
+          <ProjectCardShareAllocation
+            v-if="campaignSummary"
+            :campaign-summary="campaignSummary"
+          />
         </div>
       </div>
 
@@ -56,26 +54,32 @@
         class="mx-auto"
         style="max-width: 30rem"
       >
-        Active validators verifying transactions to secure the {Project Name}
-        network
+        Active validators verifying transactions to secure the
+        {{ campaignSummary?.campaign?.campaignName }} network
       </IgntTypography>
 
       <LayoutSpacer size="md" />
       <div>
         <div class="flex flex-wrap justify-center">
           <ValidatorCard
-            v-for="validator in [...Array(8).keys()]"
+            v-for="validator in genesisValidatorsAll"
             :key="validator"
-          >
-            {{ validator }}
-          </ValidatorCard>
+            :validator="validator"
+          />
         </div>
-        <LayoutSpacer size="sm" />
-        <button
-          class="bg-primary py-4 px-6 text-2 text-bg hover:brightness-90 active:brightness-75 rounded-sm transition duration-200"
-        >
-          View more
-        </button>
+        <div v-if="hasNextPage">
+          <LayoutSpacer size="sm" />
+          <button
+            class="bg-primary py-4 px-6 text-2 text-bg disabled:bg-inactive disabled:brightness-100 hover:brightness-90 active:brightness-75 rounded-sm transition duration-200"
+            :disabled="isFetchingNextPage"
+            @click="fetchNextPage"
+          >
+            View more
+          </button>
+        </div>
+        <div v-if="!isLoading && genesisValidatorsAll.length === 0">
+          <span>- No validators yet -</span>
+        </div>
       </div>
 
       <LayoutSpacer size="lg" />
@@ -100,32 +104,38 @@
         </div>
       </div>
 
-      {{ campaign }}
-      {{ chain }}
-      {{ genesisValidatorAll }}
-      {{ stakingValidatorsAll }}
-
       <LayoutSpacer size="lg" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue'
+import { computed, defineComponent, onBeforeMount } from 'vue'
 import { useRoute } from 'vue-router'
+import IgniteBgWave from '../components/IgniteBgWave.vue'
 import IgntTypography from '../components/atoms/IgntTypography.vue'
 import LayoutSpacer from '../components/atoms/LayoutSpacer.vue'
 import ValidatorCard from '../components/validators/ValidatorCard.vue'
 import defaultBanner from '../assets/svg/defaultBanner.svg'
 import { CampaignCampaignSummary } from 'tendermint-spn-ts-client/tendermint.spn.campaign/rest'
-import useCampaignSummaries from '../composables/useCampaignSummaries'
-import useCampaign from '../composables/useCampaign'
+import { Validator } from 'tendermint-spn-ts-client/cosmos.staking.v1beta1'
+import {
+  LaunchChain,
+  LaunchGenesisValidator,
+  LaunchQueryGetGenesisValidatorResponse
+} from 'tendermint-spn-ts-client/tendermint.spn.launch/rest'
+import useCampaignSummary from '../composables/useCampaignSummary'
 import useChain from '../composables/useChain'
 import useGenesisValidatorAll from '../composables/useGenesisValidatorAll'
 import useStakingValidatorAll from '../composables/useStakingValidatorAll'
+import ProjectCardIncentives from '../components/IgniteProjectCard/ProjectCardIncentives.vue'
+import ProjectCardShareAllocation from '../components/IgniteProjectCard/ProjectCardShareAllocation.vue'
 
 export default defineComponent({
   components: {
+    ProjectCardIncentives,
+    ProjectCardShareAllocation,
+    IgniteBgWave,
     IgntTypography,
     LayoutSpacer,
     ValidatorCard
@@ -135,40 +145,66 @@ export default defineComponent({
     const campaignID = route.params.campaignID.toString() || '0'
     const launchID = route.params.launchID.toString() || '0'
 
-    const { campaignData } = useCampaign(campaignID)
+    // methods
+    function mergePages(
+      pages: LaunchQueryGetGenesisValidatorResponse[] = []
+    ): LaunchGenesisValidator[] {
+      return pages.reduce(
+        (acc, page) => [...acc, ...(page?.genesisValidator ?? [])],
+        [] as LaunchGenesisValidator[]
+      )
+    }
+
+    // composables
+    const { campaignSummaryData } = useCampaignSummary(campaignID)
     const { chainData } = useChain(campaignID)
-    const { genesisValidatorAllData } = useGenesisValidatorAll(campaignID)
+    const {
+      isLoading,
+      fetchNextPage,
+      hasNextPage,
+      isFetchingNextPage,
+      genesisValidatorAllData
+    } = useGenesisValidatorAll(campaignID)
     const { stakingValidatorsAllData } = useStakingValidatorAll()
 
-    /*const campaignSummaries = computed<CampaignCampaignSummary[]>(() => {
-      return mergePages(allCampaignSummaries.value?.pages)
+    /*onBeforeMount(async () => {
+      // Cosmos Hub:
+      const res = await fetch('https://api.cosmos.network/cosmos/staking/v1beta1/validators')
+      console.log(res.json())
     })*/
 
-    const campaign = computed<CampaignCampaignSummary>(() => {
-      console.log(campaignData.value?.pages)
-      return campaignData.value?.pages
+    // computed
+    const campaignSummary = computed<CampaignCampaignSummary>(() => {
+      return (
+        campaignSummaryData.value?.campaignSummary ||
+        ({} as CampaignCampaignSummary)
+      )
     })
 
-    const chain = computed<any>(() => {
-      console.log(chainData.value)
+    const chain = computed<LaunchChain>(() => {
       return chainData.value
     })
 
-    const genesisValidatorAll = computed<any[]>(() => {
-      console.log(genesisValidatorAllData.value?.pages)
-      return genesisValidatorAllData.value?.pages
-    })
-
-    const stakingValidatorsAll = computed<any[]>(() => {
-      console.log(stakingValidatorsAllData.value?.pages)
+    const stakingValidatorsAll = computed<Validator[]>(() => {
+      // Ignite chain validators
       return stakingValidatorsAllData.value?.pages
     })
 
+    const genesisValidatorsAll = computed<LaunchGenesisValidator[]>(() => {
+      console.log(genesisValidatorAllData.value)
+      return mergePages(genesisValidatorAllData.value?.pages)
+    })
+
     return {
-      campaign,
+      campaignSummary,
       chain,
-      genesisValidatorAll,
+      genesisValidatorsAll,
       stakingValidatorsAll,
+
+      isLoading,
+      fetchNextPage,
+      hasNextPage,
+      isFetchingNextPage,
 
       IgntTypography,
       LayoutSpacer,
