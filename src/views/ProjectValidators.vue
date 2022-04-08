@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="relative w-100 bg-primary" style="height: 20rem">
-      <div class="overflow-hidden absolute z-[2] inset-0">
+    <div class="w-100 relative bg-primary" style="height: 20rem">
+      <div class="absolute inset-0 z-[2] overflow-hidden">
         <IgniteBgWave />
       </div>
     </div>
@@ -10,22 +10,19 @@
       <IgntTypography modifier="highlight" size="md">
         Validator incentives
       </IgntTypography>
+      <!--<IgniteHeading class="text-center text-7 font-bold">
+        Validator incentives
+      </IgniteHeading>-->
       <LayoutSpacer size="xs" />
-      <IgntTypography
-        modifier="content"
-        size="md"
-        class="mx-auto"
-        style="max-width: 30rem"
-      >
+      <IgniteText class="mx-auto" style="max-width: 30rem">
         Participation incentives for validating transactions on the
         {{ campaignSummary?.campaign?.campaignName }} network
-      </IgntTypography>
-
+      </IgniteText>
       <LayoutSpacer size="md" />
 
       <div class="flex flex-col m:flex-row">
         <div
-          class="flex justify-center flex-col border border-gray-70 rounded w-full m-4 p-5"
+          class="m-4 flex w-full flex-col justify-center rounded border border-gray-70 p-5"
         >
           <ProjectCardIncentives
             v-if="campaignSummary"
@@ -33,7 +30,7 @@
           />
         </div>
         <div
-          class="flex justify-center flex-col border border-gray-70 rounded w-full m-4 p-5"
+          class="m-4 flex w-full flex-col justify-center rounded border border-gray-70 p-5"
         >
           <ProjectCardShareAllocation
             v-if="campaignSummary"
@@ -48,15 +45,10 @@
         Validators
       </IgntTypography>
       <LayoutSpacer size="xs" />
-      <IgntTypography
-        modifier="content"
-        size="md"
-        class="mx-auto"
-        style="max-width: 30rem"
-      >
+      <IgniteText class="mx-auto" style="max-width: 30rem">
         Active validators verifying transactions to secure the
         {{ campaignSummary?.campaign?.campaignName }} network
-      </IgntTypography>
+      </IgniteText>
 
       <LayoutSpacer size="md" />
       <div>
@@ -70,7 +62,7 @@
         <div v-if="hasNextPage">
           <LayoutSpacer size="sm" />
           <button
-            class="bg-primary py-4 px-6 text-2 text-bg disabled:bg-inactive disabled:brightness-100 hover:brightness-90 active:brightness-75 rounded-sm transition duration-200"
+            class="rounded-sm bg-primary py-4 px-6 text-2 text-bg transition duration-200 hover:brightness-90 active:brightness-75 disabled:bg-inactive disabled:brightness-100"
             :disabled="isFetchingNextPage"
             @click="fetchNextPage"
           >
@@ -85,19 +77,19 @@
       <LayoutSpacer size="lg" />
 
       <div
-        class="flex justify-start flex-col text-left shadow rounded w-full my-4 mx-auto p-8 max-w-5xl"
+        class="my-4 mx-auto flex w-full max-w-5xl flex-col justify-start rounded p-8 text-left shadow"
       >
         <IgntTypography modifier="highlight" size="md">
           Become a validator
         </IgntTypography>
         <LayoutSpacer size="xs" />
-        <IgntTypography modifier="content" size="md">
+        <IgniteText>
           Help secure blockchain projects and be rewarded for your participation
-        </IgntTypography>
+        </IgniteText>
         <LayoutSpacer size="sm" />
         <div>
           <button
-            class="bg-primary py-4 px-6 text-2 text-bg hover:brightness-90 active:brightness-75 rounded-sm transition duration-200"
+            class="rounded-sm bg-primary py-4 px-6 text-2 text-bg transition duration-200 hover:brightness-90 active:brightness-75"
           >
             Learn more
           </button>
@@ -116,6 +108,8 @@ import IgniteBgWave from '../components/IgniteBgWave.vue'
 import IgntTypography from '../components/atoms/IgntTypography.vue'
 import LayoutSpacer from '../components/atoms/LayoutSpacer.vue'
 import ValidatorCard from '../components/validators/ValidatorCard.vue'
+import IgniteText from '../components/IgniteText.vue'
+// import IgniteHeading from '../components/IgniteHeading.vue'
 import defaultBanner from '../assets/svg/defaultBanner.svg'
 import { CampaignCampaignSummary } from 'tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 import { Validator } from 'tendermint-spn-ts-client/cosmos.staking.v1beta1'
@@ -135,6 +129,8 @@ export default defineComponent({
   components: {
     ProjectCardIncentives,
     ProjectCardShareAllocation,
+    IgniteText,
+    // IgniteHeading,
     IgniteBgWave,
     IgntTypography,
     LayoutSpacer,
@@ -157,14 +153,14 @@ export default defineComponent({
 
     // composables
     const { campaignSummaryData } = useCampaignSummary(campaignID)
-    const { chainData } = useChain(campaignID)
+    const { chainData } = useChain(launchID)
     const {
       isLoading,
       fetchNextPage,
       hasNextPage,
       isFetchingNextPage,
       genesisValidatorAllData
-    } = useGenesisValidatorAll(campaignID)
+    } = useGenesisValidatorAll(launchID)
     const { stakingValidatorsAllData } = useStakingValidatorAll()
 
     /*onBeforeMount(async () => {
