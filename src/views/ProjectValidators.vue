@@ -7,12 +7,12 @@
     </div>
     <div class="container text-center">
       <LayoutSpacer size="lg" />
-      <IgntTypography modifier="highlight" size="md">
+      <IgniteHeading
+        modifier="brand-font"
+        class="text-center text-7 font-normal"
+      >
         Validator incentives
-      </IgntTypography>
-      <!--<IgniteHeading class="text-center text-7 font-bold">
-        Validator incentives
-      </IgniteHeading>-->
+      </IgniteHeading>
       <LayoutSpacer size="xs" />
       <IgniteText class="mx-auto" style="max-width: 30rem">
         Participation incentives for validating transactions on the
@@ -41,9 +41,12 @@
 
       <LayoutSpacer size="lg" />
 
-      <IgntTypography modifier="highlight" size="md">
+      <IgniteHeading
+        modifier="brand-font"
+        class="text-center text-7 font-normal"
+      >
         Validators
-      </IgntTypography>
+      </IgniteHeading>
       <LayoutSpacer size="xs" />
       <IgniteText class="mx-auto" style="max-width: 30rem">
         Active validators verifying transactions to secure the
@@ -79,9 +82,9 @@
       <div
         class="my-4 mx-auto flex w-full max-w-5xl flex-col justify-start rounded p-8 text-left shadow"
       >
-        <IgntTypography modifier="highlight" size="md">
+        <IgniteHeading modifier="brand-font" class="text-7 font-normal">
           Become a validator
-        </IgntTypography>
+        </IgniteHeading>
         <LayoutSpacer size="xs" />
         <IgniteText>
           Help secure blockchain projects and be rewarded for your participation
@@ -105,11 +108,10 @@
 import { computed, defineComponent, onBeforeMount } from 'vue'
 import { useRoute } from 'vue-router'
 import IgniteBgWave from '../components/IgniteBgWave.vue'
-import IgntTypography from '../components/atoms/IgntTypography.vue'
 import LayoutSpacer from '../components/atoms/LayoutSpacer.vue'
 import ValidatorCard from '../components/validators/ValidatorCard.vue'
 import IgniteText from '../components/IgniteText.vue'
-// import IgniteHeading from '../components/IgniteHeading.vue'
+import IgniteHeading from '../components/IgniteHeading.vue'
 import defaultBanner from '../assets/svg/defaultBanner.svg'
 import { CampaignCampaignSummary } from 'tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 import { Validator } from 'tendermint-spn-ts-client/cosmos.staking.v1beta1'
@@ -130,9 +132,8 @@ export default defineComponent({
     ProjectCardIncentives,
     ProjectCardShareAllocation,
     IgniteText,
-    // IgniteHeading,
+    IgniteHeading,
     IgniteBgWave,
-    IgntTypography,
     LayoutSpacer,
     ValidatorCard
   },
@@ -199,11 +200,7 @@ export default defineComponent({
       isLoading,
       fetchNextPage,
       hasNextPage,
-      isFetchingNextPage,
-
-      IgntTypography,
-      LayoutSpacer,
-      defaultBanner
+      isFetchingNextPage
     }
   }
 })
