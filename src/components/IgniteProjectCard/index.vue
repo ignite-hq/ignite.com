@@ -104,16 +104,16 @@ const showIncentives = computed(function () {
 
 <style scoped lang="postcss">
 .project-card {
-  @apply overflow-hidden bg-white-1000 rounded-md;
+  @apply overflow-hidden rounded-md bg-white-1000;
   box-shadow: 16px 32px 128px 8px rgba(0, 0, 0, 0.07);
 
   &__row {
-    @apply py-7 px-6 m:px-7.5 border-t border-gray-70;
+    @apply border-t border-gray-70 py-7 px-6 m:px-7.5;
     &:first-child {
-      @apply pt-8.5 border-t-0;
+      @apply border-t-0 pt-8.5;
     }
     &._gray {
-      @apply pt-6 pb-8.5 border-t-0 bg-gray-50;
+      @apply border-t-0 bg-gray-50 pt-6 pb-8.5;
     }
   }
 }

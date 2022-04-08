@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="mb-6 font-medium text-center ignite-text text-2 text-muted">
+    <IgniteText class="mb-6 text-center text-2 font-medium text-muted">
       Share allocation
-    </div>
+    </IgniteText>
 
     <div class="mb-6">
       <IgniteProgressBar
@@ -31,6 +31,7 @@ import { computed, PropType } from 'vue'
 import { LegendItem, ProgressBarItem } from '../../utils/types'
 import IgniteLegend from '../IgniteLegend.vue'
 import IgniteProgressBar from '../IgniteProgressBar.vue'
+import IgniteText from '../IgniteText.vue'
 
 const props = defineProps({
   campaignSummary: {

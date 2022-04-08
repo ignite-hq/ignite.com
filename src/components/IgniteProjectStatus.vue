@@ -2,22 +2,22 @@
   <div class="status">
     <div class="status__item">
       <IconStar class="icon" />
-      <span class="ignite-text">{{ stargazerCount }}</span>
+      <IgniteText as="span">{{ stargazerCount }}</IgniteText>
     </div>
     <div class="status__item">
       <IconPlane class="icon" />
-      <span class="ignite-text">{{ requestCount }}</span>
+      <IgniteText as="span">{{ requestCount }}</IgniteText>
     </div>
     <router-link
       :to="{ path: `/${campaignId}/${launchId}/validators` }"
       title="Validators"
-      class="status__item cursor-pointer hover:opacity-80 active:opacity-70 select-none"
+      class="status__item cursor-pointer select-none hover:opacity-80 active:opacity-70"
     >
       <IconStage class="icon" />
-      <span class="ignite-text">{{ validatorCount }}</span>
+      <IgniteText as="span">{{ validatorCount }}</IgniteText>
     </router-link>
     <div class="status__item">
-      <span class="ignite-text ignite-badge">testnet</span>
+      <IgniteText as="span" class="ignite-badge">testnet</IgniteText>
     </div>
   </div>
 </template>
@@ -34,6 +34,7 @@ export default defineComponent({
 import IconPlane from './icons/IconPlane.vue'
 import IconStage from './icons/IconStage.vue'
 import IconStar from './icons/IconStar.vue'
+import IgniteText from './IgniteText.vue'
 
 defineProps({
   campaignId: { type: String, required: true },
@@ -46,14 +47,14 @@ defineProps({
 
 <style scoped lang="postcss">
 .status {
-  @apply flex items-center -mx-3 font-medium text-2;
+  @apply -mx-3 flex items-center text-2 font-medium;
 
   &__item {
-    @apply flex justify-center items-center px-3;
+    @apply flex items-center justify-center px-3;
   }
 }
 
 .icon {
-  @apply w-5 h-5 text-primary mr-1;
+  @apply mr-1 h-5 w-5 text-primary;
 }
 </style>

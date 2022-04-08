@@ -1,6 +1,6 @@
 <template>
   <div>
-    <IgniteLoader v-if="isLoading" class="mx-auto status-loading" />
+    <IgniteLoader v-if="isLoading" class="status-loading mx-auto" />
     <IgniteProjectStatus
       v-if="!isLoading"
       :launch-id="launchId"
