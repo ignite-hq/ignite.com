@@ -2,18 +2,12 @@
   <div class="container">
     <IgniteRequestsHeader />
     <IgniteRequestsTable />
-    <IgniteSelectedRequests :selected-requests="new Array(3).fill(undefined)" />
+    <IgniteSelectedRequests />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { useRoute } from 'vue-router'
-
-import IgniteRequestsHeader from '~/components/IgniteRequestsHeader.vue'
-import IgniteRequestsTable from '~/components/IgniteRequestsTable.vue'
-import IgniteSelectedRequests from '~/components/IgniteSelectedRequests.vue'
-import useLaunchRequests from '~/composables/useLaunchRequests'
-
-const { params } = useRoute()
-const { requests } = useLaunchRequests(params.launchId.toString())
+import IgniteRequestsHeader from '~/components/requests/IgniteRequestsHeader.vue'
+import IgniteRequestsTable from '~/components/requests/IgniteRequestsTable.vue'
+import IgniteSelectedRequests from '~/components/requests/IgniteSelectedRequests.vue'
 </script>

@@ -1,8 +1,8 @@
 <template>
-  <div v-if="selectedRequests.length > 0" class="selected-requests">
+  <div v-if="store.selectedRequests.length > 0" class="selected-requests">
     <IgniteText class="text-4">
-      <strong>{{ selectedRequests.length }}</strong>
-      {{ selectedRequests.length > 1 ? 'Requests' : 'Request' }} selected
+      <strong>{{ store.selectedRequests.length }}</strong>
+      {{ store.selectedRequests.length > 1 ? 'Requests' : 'Request' }} selected
     </IgniteText>
 
     <div class="space-x-6">
@@ -41,18 +41,15 @@ export default {
 <script lang="ts" setup>
 import { ref } from 'vue'
 
-import IgniteRequestsAcceptModal from '../components/IgniteRequestsAcceptModal.vue'
-import IgniteRequestsDeclineModal from '../components/IgniteRequestsDeclineModal.vue'
-import IconAccept from './icons/IconAccept.vue'
-import IconDeny from './icons/IconDeny.vue'
-import IgniteText from './IgniteText.vue'
+import IconAccept from '~/components/icons/IconAccept.vue'
+import IconDeny from '~/components/icons/IconDeny.vue'
+import IgniteText from '~/components/IgniteText.vue'
+import { useRequestsStore } from '~/stores/requests-store'
 
-defineProps({
-  selectedRequests: {
-    type: Array,
-    default: () => []
-  }
-})
+import IgniteRequestsAcceptModal from './IgniteRequestsAcceptModal.vue'
+import IgniteRequestsDeclineModal from './IgniteRequestsDeclineModal.vue'
+
+const store = useRequestsStore()
 
 // state
 const isDeclineModalOpen = ref(false)

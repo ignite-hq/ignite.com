@@ -21,8 +21,8 @@
     <!-- Body -->
     <div role="rowgroup" class="responses-table-body">
       <div
-        v-for="row in mockRows"
-        :key="row.id"
+        v-for="row in launchRequests"
+        :key="row.launchID"
         role="row"
         class="responses-table-row"
       >
@@ -30,14 +30,14 @@
           <IgniteCheckbox />
         </div>
         <div role="cell" class="responses-table-cell flex-1">
-          <IgniteRequestsActionIcon /> <span>{{ row.action }}</span>
+          <IgniteRequestsActionIcon /> <span>{{ row.launchID }}</span>
         </div>
         <div role="cell" class="responses-table-cell flex-1">
-          {{ row.type }}
+          {{ row.requestID }}
         </div>
         <div role="cell" class="responses-table-cell flex-1">
           <div class="profile-placeholder" />
-          <span>{{ row.requestor }}</span>
+          <span>{{ row.creator }}</span>
         </div>
       </div>
     </div>
@@ -51,23 +51,32 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import IgniteCheckbox from './IgniteCheckbox.vue'
-import IgniteRequestsActionIcon from './IgniteRequestsActionIcon.vue'
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 
-const mockRows = [
-  {
-    id: 1,
-    action: 'Add validator to Testnet 0',
-    type: 'Request to validate',
-    requestor: 'Jane Doe'
-  },
-  {
-    id: 2,
-    action: 'Add validator to Testnet 1',
-    type: 'Request to validate',
-    requestor: 'Jane Doe'
-  }
-]
+import IgniteCheckbox from '~/components/IgniteCheckbox.vue'
+import IgniteRequestsActionIcon from '~/components/requests/IgniteRequestsActionIcon.vue'
+import useLaunchRequests from '~/composables/useLaunchRequests'
+import {
+  LaunchQueryAllRequestResponse,
+  LaunchRequest
+} from '~/generated/tendermint-spn-ts-client/tendermint.spn.launch/rest'
+
+const { params } = useRoute()
+const { requests } = useLaunchRequests(params.launchId.toString())
+
+function mergePages(
+  pages: LaunchQueryAllRequestResponse[] = []
+): LaunchRequest[] {
+  return pages.reduce(
+    (acc, page) => [...acc, ...(page?.request ?? [])],
+    [] as LaunchRequest[]
+  )
+}
+
+const launchRequests = computed(() => {
+  return mergePages(requests.value?.pages)
+})
 </script>
 
 <style scoped lang="postcss">

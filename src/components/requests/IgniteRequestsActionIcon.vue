@@ -11,5 +11,5 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import IconStage from './icons/IconStage.vue'
+import IconStage from '~/components/icons/IconStage.vue'
 </script>

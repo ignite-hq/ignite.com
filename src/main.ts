@@ -1,6 +1,7 @@
 import './assets/css/main.css'
 
 import MasonryWall from '@yeger/vue-masonry-wall'
+import { createPinia } from 'pinia'
 import { createApp } from 'vue'
 import { VueQueryPlugin, VueQueryPluginOptions } from 'vue-query'
 import { useIgnite as useIgniteN } from 'tendermint-spn-vue'
@@ -43,6 +44,7 @@ const vueQueryPluginOptions: VueQueryPluginOptions = {
 
 app
   .use(VueQueryPlugin, vueQueryPluginOptions)
+  .use(createPinia())
   .use(router)
   .use(MasonryWall)
   .mount('#app')

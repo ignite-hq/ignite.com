@@ -2,13 +2,17 @@
   <IgniteModal @close="$emit('close')">
     <template #title>
       <div class="flex flex-col items-center space-y-4">
-        <IconWarning aria-hidden />
-        <IgniteHeading class="text-5">Confirm decline</IgniteHeading>
+        <IconWarning />
+        <IgniteHeading class="text-5">Confirm acceptance</IgniteHeading>
       </div>
     </template>
 
     <template #body>
-      <div class="mt-7 flex w-full space-x-4">
+      <IgniteText class="text-center text-3 leading-normal text-muted">
+        Grant <span class="font-semibold">000,000,000 ATOM</span>
+      </IgniteText>
+
+      <div class="mt-7 flex space-x-4">
         <IgniteButton
           class="flex-1"
           variant="text"
@@ -32,15 +36,16 @@
 
 <script lang="ts">
 export default {
-  name: 'IgniteRequestsDeclineModal'
+  name: 'IgniteRequestsAcceptModal'
 }
 </script>
 
 <script lang="ts" setup>
-import IconWarning from './icons/IconWarning.vue'
-import IgniteButton from './IgniteButton.vue'
-import IgniteHeading from './IgniteHeading.vue'
-import IgniteModal from './IgniteModal.vue'
+import IconWarning from '~/components/icons/IconWarning.vue'
+import IgniteButton from '~/components/IgniteButton.vue'
+import IgniteHeading from '~/components/IgniteHeading.vue'
+import IgniteModal from '~/components/IgniteModal.vue'
+import IgniteText from '~/components/IgniteText.vue'
 
 interface Emits {
   (e: 'close'): void
