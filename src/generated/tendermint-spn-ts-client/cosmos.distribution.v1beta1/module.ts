@@ -5,22 +5,10 @@ import { SigningStargateClient, DeliverTxResponse } from '@cosmjs/stargate'
 import { EncodeObject } from '@cosmjs/proto-signing'
 
 import { Api } from './rest'
-import { MsgWithdrawDelegatorReward } from './types/cosmos/distribution/v1beta1/tx'
-import { MsgSetWithdrawAddress } from './types/cosmos/distribution/v1beta1/tx'
 import { MsgWithdrawValidatorCommission } from './types/cosmos/distribution/v1beta1/tx'
 import { MsgFundCommunityPool } from './types/cosmos/distribution/v1beta1/tx'
-
-type sendMsgWithdrawDelegatorRewardParams = {
-  value: MsgWithdrawDelegatorReward
-  fee?: StdFee
-  memo?: string
-}
-
-type sendMsgSetWithdrawAddressParams = {
-  value: MsgSetWithdrawAddress
-  fee?: StdFee
-  memo?: string
-}
+import { MsgWithdrawDelegatorReward } from './types/cosmos/distribution/v1beta1/tx'
+import { MsgSetWithdrawAddress } from './types/cosmos/distribution/v1beta1/tx'
 
 type sendMsgWithdrawValidatorCommissionParams = {
   value: MsgWithdrawValidatorCommission
@@ -34,12 +22,16 @@ type sendMsgFundCommunityPoolParams = {
   memo?: string
 }
 
-type msgWithdrawDelegatorRewardParams = {
+type sendMsgWithdrawDelegatorRewardParams = {
   value: MsgWithdrawDelegatorReward
+  fee?: StdFee
+  memo?: string
 }
 
-type msgSetWithdrawAddressParams = {
+type sendMsgSetWithdrawAddressParams = {
   value: MsgSetWithdrawAddress
+  fee?: StdFee
+  memo?: string
 }
 
 type msgWithdrawValidatorCommissionParams = {
@@ -48,6 +40,14 @@ type msgWithdrawValidatorCommissionParams = {
 
 type msgFundCommunityPoolParams = {
   value: MsgFundCommunityPool
+}
+
+type msgWithdrawDelegatorRewardParams = {
+  value: MsgWithdrawDelegatorReward
+}
+
+type msgSetWithdrawAddressParams = {
+  value: MsgSetWithdrawAddress
 }
 
 class Module extends Api<any> {
@@ -65,70 +65,9 @@ class Module extends Api<any> {
     this._addr = _addr
   }
 
-  async sendMsgWithdrawDelegatorReward({
-    value,
-    fee,
-    memo
-  }: sendMsgWithdrawDelegatorRewardParams): Promise<DeliverTxResponse> {
-    if (!this._client) {
-      throw new Error(
-        'TxClient:sendMsgWithdrawDelegatorReward: Unable to sign Tx. Signer is not present.'
-      )
-    }
-    if (!this._addr) {
-      throw new Error(
-        'TxClient:sendMsgWithdrawDelegatorReward: Unable to sign Tx. Address is not present.'
-      )
-    }
-    try {
-      let msg = this.msgWithdrawDelegatorReward({
-        value: MsgWithdrawDelegatorReward.fromPartial(value)
-      })
-      return await this._client.signAndBroadcast(
-        this._addr,
-        [msg],
-        fee ? fee : { amount: [], gas: '200000' },
-        memo
-      )
-    } catch (e: any) {
-      throw new Error(
-        'TxClient:sendMsgWithdrawDelegatorReward: Could not broadcast Tx: ' +
-          e.message
-      )
-    }
-  }
-
-  async sendMsgSetWithdrawAddress({
-    value,
-    fee,
-    memo
-  }: sendMsgSetWithdrawAddressParams): Promise<DeliverTxResponse> {
-    if (!this._client) {
-      throw new Error(
-        'TxClient:sendMsgSetWithdrawAddress: Unable to sign Tx. Signer is not present.'
-      )
-    }
-    if (!this._addr) {
-      throw new Error(
-        'TxClient:sendMsgSetWithdrawAddress: Unable to sign Tx. Address is not present.'
-      )
-    }
-    try {
-      let msg = this.msgSetWithdrawAddress({
-        value: MsgSetWithdrawAddress.fromPartial(value)
-      })
-      return await this._client.signAndBroadcast(
-        this._addr,
-        [msg],
-        fee ? fee : { amount: [], gas: '200000' },
-        memo
-      )
-    } catch (e: any) {
-      throw new Error(
-        'TxClient:sendMsgSetWithdrawAddress: Could not broadcast Tx: ' +
-          e.message
-      )
-    }
+  public noSigner() {
+    this._client = undefined
+    this._addr = undefined
   }
 
   async sendMsgWithdrawValidatorCommission({
@@ -197,31 +136,68 @@ class Module extends Api<any> {
     }
   }
 
-  msgWithdrawDelegatorReward({
-    value
-  }: msgWithdrawDelegatorRewardParams): EncodeObject {
+  async sendMsgWithdrawDelegatorReward({
+    value,
+    fee,
+    memo
+  }: sendMsgWithdrawDelegatorRewardParams): Promise<DeliverTxResponse> {
+    if (!this._client) {
+      throw new Error(
+        'TxClient:sendMsgWithdrawDelegatorReward: Unable to sign Tx. Signer is not present.'
+      )
+    }
+    if (!this._addr) {
+      throw new Error(
+        'TxClient:sendMsgWithdrawDelegatorReward: Unable to sign Tx. Address is not present.'
+      )
+    }
     try {
-      return {
-        typeUrl: '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
+      let msg = this.msgWithdrawDelegatorReward({
         value: MsgWithdrawDelegatorReward.fromPartial(value)
-      }
+      })
+      return await this._client.signAndBroadcast(
+        this._addr,
+        [msg],
+        fee ? fee : { amount: [], gas: '200000' },
+        memo
+      )
     } catch (e: any) {
       throw new Error(
-        'TxClient:MsgWithdrawDelegatorReward: Could not create message: ' +
+        'TxClient:sendMsgWithdrawDelegatorReward: Could not broadcast Tx: ' +
           e.message
       )
     }
   }
 
-  msgSetWithdrawAddress({ value }: msgSetWithdrawAddressParams): EncodeObject {
+  async sendMsgSetWithdrawAddress({
+    value,
+    fee,
+    memo
+  }: sendMsgSetWithdrawAddressParams): Promise<DeliverTxResponse> {
+    if (!this._client) {
+      throw new Error(
+        'TxClient:sendMsgSetWithdrawAddress: Unable to sign Tx. Signer is not present.'
+      )
+    }
+    if (!this._addr) {
+      throw new Error(
+        'TxClient:sendMsgSetWithdrawAddress: Unable to sign Tx. Address is not present.'
+      )
+    }
     try {
-      return {
-        typeUrl: '/cosmos.distribution.v1beta1.MsgSetWithdrawAddress',
+      let msg = this.msgSetWithdrawAddress({
         value: MsgSetWithdrawAddress.fromPartial(value)
-      }
+      })
+      return await this._client.signAndBroadcast(
+        this._addr,
+        [msg],
+        fee ? fee : { amount: [], gas: '200000' },
+        memo
+      )
     } catch (e: any) {
       throw new Error(
-        'TxClient:MsgSetWithdrawAddress: Could not create message: ' + e.message
+        'TxClient:sendMsgSetWithdrawAddress: Could not broadcast Tx: ' +
+          e.message
       )
     }
   }
@@ -251,6 +227,35 @@ class Module extends Api<any> {
     } catch (e: any) {
       throw new Error(
         'TxClient:MsgFundCommunityPool: Could not create message: ' + e.message
+      )
+    }
+  }
+
+  msgWithdrawDelegatorReward({
+    value
+  }: msgWithdrawDelegatorRewardParams): EncodeObject {
+    try {
+      return {
+        typeUrl: '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
+        value: MsgWithdrawDelegatorReward.fromPartial(value)
+      }
+    } catch (e: any) {
+      throw new Error(
+        'TxClient:MsgWithdrawDelegatorReward: Could not create message: ' +
+          e.message
+      )
+    }
+  }
+
+  msgSetWithdrawAddress({ value }: msgSetWithdrawAddressParams): EncodeObject {
+    try {
+      return {
+        typeUrl: '/cosmos.distribution.v1beta1.MsgSetWithdrawAddress',
+        value: MsgSetWithdrawAddress.fromPartial(value)
+      }
+    } catch (e: any) {
+      throw new Error(
+        'TxClient:MsgSetWithdrawAddress: Could not create message: ' + e.message
       )
     }
   }

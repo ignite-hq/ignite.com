@@ -1,7 +1,8 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
-import { Ignite } from 'tendermint-spn-ts-client'
-import Module from 'tendermint-spn-ts-client/ibc.core.channel.v1/module'
+import Module from '../../tendermint-spn-ts-client/ibc.core.channel.v1/module'
+import useIgnite from '../useIgnite'
+import { unref } from 'vue'
 
 type QueryChannelType = typeof Module.prototype.queryChannel
 type QueryChannelsType = typeof Module.prototype.queryChannels
@@ -39,11 +40,10 @@ type Response = {
   queryNextSequenceReceive: QueryNextSequenceReceiveType
 }
 
-type Params = {
-  ignite: Ignite
-}
+function useModule(): Response {
+  // ignite
+  let { ignite } = useIgnite()
 
-function useModule({ ignite }: Params): Response {
   let {
     queryChannel,
 
@@ -70,44 +70,44 @@ function useModule({ ignite }: Params): Response {
     queryUnreceivedAcks,
 
     queryNextSequenceReceive
-  } = ignite.IbcCoreChannelV1
+  } = unref(ignite.ibcCoreChannelV1)
 
-  queryChannel = queryChannel.bind(ignite.IbcCoreChannelV1)
+  queryChannel = queryChannel.bind(ignite.ibcCoreChannelV1)
 
-  queryChannels = queryChannels.bind(ignite.IbcCoreChannelV1)
+  queryChannels = queryChannels.bind(ignite.ibcCoreChannelV1)
 
   queryConnectionChannels = queryConnectionChannels.bind(
-    ignite.IbcCoreChannelV1
+    ignite.ibcCoreChannelV1
   )
 
   queryChannelClientState = queryChannelClientState.bind(
-    ignite.IbcCoreChannelV1
+    ignite.ibcCoreChannelV1
   )
 
   queryChannelConsensusState = queryChannelConsensusState.bind(
-    ignite.IbcCoreChannelV1
+    ignite.ibcCoreChannelV1
   )
 
-  queryPacketCommitment = queryPacketCommitment.bind(ignite.IbcCoreChannelV1)
+  queryPacketCommitment = queryPacketCommitment.bind(ignite.ibcCoreChannelV1)
 
-  queryPacketCommitments = queryPacketCommitments.bind(ignite.IbcCoreChannelV1)
+  queryPacketCommitments = queryPacketCommitments.bind(ignite.ibcCoreChannelV1)
 
-  queryPacketReceipt = queryPacketReceipt.bind(ignite.IbcCoreChannelV1)
+  queryPacketReceipt = queryPacketReceipt.bind(ignite.ibcCoreChannelV1)
 
   queryPacketAcknowledgement = queryPacketAcknowledgement.bind(
-    ignite.IbcCoreChannelV1
+    ignite.ibcCoreChannelV1
   )
 
   queryPacketAcknowledgements = queryPacketAcknowledgements.bind(
-    ignite.IbcCoreChannelV1
+    ignite.ibcCoreChannelV1
   )
 
-  queryUnreceivedPackets = queryUnreceivedPackets.bind(ignite.IbcCoreChannelV1)
+  queryUnreceivedPackets = queryUnreceivedPackets.bind(ignite.ibcCoreChannelV1)
 
-  queryUnreceivedAcks = queryUnreceivedAcks.bind(ignite.IbcCoreChannelV1)
+  queryUnreceivedAcks = queryUnreceivedAcks.bind(ignite.ibcCoreChannelV1)
 
   queryNextSequenceReceive = queryNextSequenceReceive.bind(
-    ignite.IbcCoreChannelV1
+    ignite.ibcCoreChannelV1
   )
 
   return {

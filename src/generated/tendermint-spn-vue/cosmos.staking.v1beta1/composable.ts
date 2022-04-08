@@ -1,13 +1,14 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
-import { Ignite } from 'tendermint-spn-ts-client'
-import Module from 'tendermint-spn-ts-client/cosmos.staking.v1beta1/module'
+import Module from '../../tendermint-spn-ts-client/cosmos.staking.v1beta1/module'
+import useIgnite from '../useIgnite'
+import { unref } from 'vue'
 
-type SendMsgEditValidatorType = typeof Module.prototype.sendMsgEditValidator
 type SendMsgDelegateType = typeof Module.prototype.sendMsgDelegate
 type SendMsgBeginRedelegateType = typeof Module.prototype.sendMsgBeginRedelegate
-type SendMsgUndelegateType = typeof Module.prototype.sendMsgUndelegate
+type SendMsgEditValidatorType = typeof Module.prototype.sendMsgEditValidator
 type SendMsgCreateValidatorType = typeof Module.prototype.sendMsgCreateValidator
+type SendMsgUndelegateType = typeof Module.prototype.sendMsgUndelegate
 
 type QueryValidatorsType = typeof Module.prototype.queryValidators
 type QueryValidatorType = typeof Module.prototype.queryValidator
@@ -32,11 +33,11 @@ type QueryPoolType = typeof Module.prototype.queryPool
 type QueryParamsType = typeof Module.prototype.queryParams
 
 type Response = {
-  sendMsgEditValidator: SendMsgEditValidatorType
   sendMsgDelegate: SendMsgDelegateType
   sendMsgBeginRedelegate: SendMsgBeginRedelegateType
-  sendMsgUndelegate: SendMsgUndelegateType
+  sendMsgEditValidator: SendMsgEditValidatorType
   sendMsgCreateValidator: SendMsgCreateValidatorType
+  sendMsgUndelegate: SendMsgUndelegateType
 
   queryValidators: QueryValidatorsType
   queryValidator: QueryValidatorType
@@ -54,21 +55,20 @@ type Response = {
   queryParams: QueryParamsType
 }
 
-type Params = {
-  ignite: Ignite
-}
+function useModule(): Response {
+  // ignite
+  let { ignite } = useIgnite()
 
-function useModule({ ignite }: Params): Response {
   let {
-    sendMsgEditValidator,
-
     sendMsgDelegate,
 
     sendMsgBeginRedelegate,
 
-    sendMsgUndelegate,
+    sendMsgEditValidator,
 
     sendMsgCreateValidator,
+
+    sendMsgUndelegate,
 
     queryValidators,
 
@@ -97,74 +97,74 @@ function useModule({ ignite }: Params): Response {
     queryPool,
 
     queryParams
-  } = ignite.CosmosStakingV1Beta1
+  } = unref(ignite.cosmosStakingV1Beta1)
 
-  sendMsgEditValidator = sendMsgEditValidator.bind(ignite.CosmosStakingV1Beta1)
-
-  sendMsgDelegate = sendMsgDelegate.bind(ignite.CosmosStakingV1Beta1)
+  sendMsgDelegate = sendMsgDelegate.bind(ignite.cosmosStakingV1Beta1)
 
   sendMsgBeginRedelegate = sendMsgBeginRedelegate.bind(
-    ignite.CosmosStakingV1Beta1
+    ignite.cosmosStakingV1Beta1
   )
 
-  sendMsgUndelegate = sendMsgUndelegate.bind(ignite.CosmosStakingV1Beta1)
+  sendMsgEditValidator = sendMsgEditValidator.bind(ignite.cosmosStakingV1Beta1)
 
   sendMsgCreateValidator = sendMsgCreateValidator.bind(
-    ignite.CosmosStakingV1Beta1
+    ignite.cosmosStakingV1Beta1
   )
 
-  queryValidators = queryValidators.bind(ignite.CosmosStakingV1Beta1)
+  sendMsgUndelegate = sendMsgUndelegate.bind(ignite.cosmosStakingV1Beta1)
 
-  queryValidator = queryValidator.bind(ignite.CosmosStakingV1Beta1)
+  queryValidators = queryValidators.bind(ignite.cosmosStakingV1Beta1)
+
+  queryValidator = queryValidator.bind(ignite.cosmosStakingV1Beta1)
 
   queryValidatorDelegations = queryValidatorDelegations.bind(
-    ignite.CosmosStakingV1Beta1
+    ignite.cosmosStakingV1Beta1
   )
 
   queryValidatorUnbondingDelegations = queryValidatorUnbondingDelegations.bind(
-    ignite.CosmosStakingV1Beta1
+    ignite.cosmosStakingV1Beta1
   )
 
-  queryDelegation = queryDelegation.bind(ignite.CosmosStakingV1Beta1)
+  queryDelegation = queryDelegation.bind(ignite.cosmosStakingV1Beta1)
 
   queryUnbondingDelegation = queryUnbondingDelegation.bind(
-    ignite.CosmosStakingV1Beta1
+    ignite.cosmosStakingV1Beta1
   )
 
   queryDelegatorDelegations = queryDelegatorDelegations.bind(
-    ignite.CosmosStakingV1Beta1
+    ignite.cosmosStakingV1Beta1
   )
 
   queryDelegatorUnbondingDelegations = queryDelegatorUnbondingDelegations.bind(
-    ignite.CosmosStakingV1Beta1
+    ignite.cosmosStakingV1Beta1
   )
 
-  queryRedelegations = queryRedelegations.bind(ignite.CosmosStakingV1Beta1)
+  queryRedelegations = queryRedelegations.bind(ignite.cosmosStakingV1Beta1)
 
   queryDelegatorValidators = queryDelegatorValidators.bind(
-    ignite.CosmosStakingV1Beta1
+    ignite.cosmosStakingV1Beta1
   )
 
   queryDelegatorValidator = queryDelegatorValidator.bind(
-    ignite.CosmosStakingV1Beta1
+    ignite.cosmosStakingV1Beta1
   )
 
-  queryHistoricalInfo = queryHistoricalInfo.bind(ignite.CosmosStakingV1Beta1)
+  queryHistoricalInfo = queryHistoricalInfo.bind(ignite.cosmosStakingV1Beta1)
 
-  queryPool = queryPool.bind(ignite.CosmosStakingV1Beta1)
+  queryPool = queryPool.bind(ignite.cosmosStakingV1Beta1)
 
-  queryParams = queryParams.bind(ignite.CosmosStakingV1Beta1)
+  queryParams = queryParams.bind(ignite.cosmosStakingV1Beta1)
 
   return {
-    sendMsgEditValidator,
-
     sendMsgDelegate,
 
     sendMsgBeginRedelegate,
 
-    sendMsgUndelegate,
+    sendMsgEditValidator,
 
     sendMsgCreateValidator,
+
+    sendMsgUndelegate,
 
     queryValidators,
 

@@ -99,7 +99,6 @@ export interface QueryParamsRequest {}
 
 /** QueryParamsResponse is response type for the Query/Params RPC method. */
 export interface QueryParamsResponse {
-  /** params holds all the parameters of this module. */
   params: Params | undefined
 }
 
@@ -1870,7 +1869,7 @@ export interface Query {
   CampaignSummaries(
     request: QueryCampaignSummariesRequest
   ): Promise<QueryCampaignSummariesResponse>
-  /** Parameters queries the parameters of the module. */
+  /** Params queries the parameters of the module. */
   Params(request: QueryParamsRequest): Promise<QueryParamsResponse>
   /** Queries the TotalShares value */
   TotalShares(

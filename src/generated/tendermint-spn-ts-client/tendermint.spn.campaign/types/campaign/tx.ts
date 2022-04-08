@@ -34,14 +34,6 @@ export interface MsgUpdateTotalSupply {
 
 export interface MsgUpdateTotalSupplyResponse {}
 
-export interface MsgUpdateTotalShares {
-  coordinator: string
-  campaignID: number
-  totalShares: Coin[]
-}
-
-export interface MsgUpdateTotalSharesResponse {}
-
 export interface MsgInitializeMainnet {
   coordinator: string
   campaignID: number
@@ -603,159 +595,6 @@ export const MsgUpdateTotalSupplyResponse = {
     const message = {
       ...baseMsgUpdateTotalSupplyResponse
     } as MsgUpdateTotalSupplyResponse
-    return message
-  }
-}
-
-const baseMsgUpdateTotalShares: object = { coordinator: '', campaignID: 0 }
-
-export const MsgUpdateTotalShares = {
-  encode(
-    message: MsgUpdateTotalShares,
-    writer: Writer = Writer.create()
-  ): Writer {
-    if (message.coordinator !== '') {
-      writer.uint32(10).string(message.coordinator)
-    }
-    if (message.campaignID !== 0) {
-      writer.uint32(16).uint64(message.campaignID)
-    }
-    for (const v of message.totalShares) {
-      Coin.encode(v!, writer.uint32(26).fork()).ldelim()
-    }
-    return writer
-  },
-
-  decode(input: Reader | Uint8Array, length?: number): MsgUpdateTotalShares {
-    const reader = input instanceof Uint8Array ? new Reader(input) : input
-    let end = length === undefined ? reader.len : reader.pos + length
-    const message = { ...baseMsgUpdateTotalShares } as MsgUpdateTotalShares
-    message.totalShares = []
-    while (reader.pos < end) {
-      const tag = reader.uint32()
-      switch (tag >>> 3) {
-        case 1:
-          message.coordinator = reader.string()
-          break
-        case 2:
-          message.campaignID = longToNumber(reader.uint64() as Long)
-          break
-        case 3:
-          message.totalShares.push(Coin.decode(reader, reader.uint32()))
-          break
-        default:
-          reader.skipType(tag & 7)
-          break
-      }
-    }
-    return message
-  },
-
-  fromJSON(object: any): MsgUpdateTotalShares {
-    const message = { ...baseMsgUpdateTotalShares } as MsgUpdateTotalShares
-    message.totalShares = []
-    if (object.coordinator !== undefined && object.coordinator !== null) {
-      message.coordinator = String(object.coordinator)
-    } else {
-      message.coordinator = ''
-    }
-    if (object.campaignID !== undefined && object.campaignID !== null) {
-      message.campaignID = Number(object.campaignID)
-    } else {
-      message.campaignID = 0
-    }
-    if (object.totalShares !== undefined && object.totalShares !== null) {
-      for (const e of object.totalShares) {
-        message.totalShares.push(Coin.fromJSON(e))
-      }
-    }
-    return message
-  },
-
-  toJSON(message: MsgUpdateTotalShares): unknown {
-    const obj: any = {}
-    message.coordinator !== undefined && (obj.coordinator = message.coordinator)
-    message.campaignID !== undefined && (obj.campaignID = message.campaignID)
-    if (message.totalShares) {
-      obj.totalShares = message.totalShares.map((e) =>
-        e ? Coin.toJSON(e) : undefined
-      )
-    } else {
-      obj.totalShares = []
-    }
-    return obj
-  },
-
-  fromPartial(object: DeepPartial<MsgUpdateTotalShares>): MsgUpdateTotalShares {
-    const message = { ...baseMsgUpdateTotalShares } as MsgUpdateTotalShares
-    message.totalShares = []
-    if (object.coordinator !== undefined && object.coordinator !== null) {
-      message.coordinator = object.coordinator
-    } else {
-      message.coordinator = ''
-    }
-    if (object.campaignID !== undefined && object.campaignID !== null) {
-      message.campaignID = object.campaignID
-    } else {
-      message.campaignID = 0
-    }
-    if (object.totalShares !== undefined && object.totalShares !== null) {
-      for (const e of object.totalShares) {
-        message.totalShares.push(Coin.fromPartial(e))
-      }
-    }
-    return message
-  }
-}
-
-const baseMsgUpdateTotalSharesResponse: object = {}
-
-export const MsgUpdateTotalSharesResponse = {
-  encode(
-    _: MsgUpdateTotalSharesResponse,
-    writer: Writer = Writer.create()
-  ): Writer {
-    return writer
-  },
-
-  decode(
-    input: Reader | Uint8Array,
-    length?: number
-  ): MsgUpdateTotalSharesResponse {
-    const reader = input instanceof Uint8Array ? new Reader(input) : input
-    let end = length === undefined ? reader.len : reader.pos + length
-    const message = {
-      ...baseMsgUpdateTotalSharesResponse
-    } as MsgUpdateTotalSharesResponse
-    while (reader.pos < end) {
-      const tag = reader.uint32()
-      switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7)
-          break
-      }
-    }
-    return message
-  },
-
-  fromJSON(_: any): MsgUpdateTotalSharesResponse {
-    const message = {
-      ...baseMsgUpdateTotalSharesResponse
-    } as MsgUpdateTotalSharesResponse
-    return message
-  },
-
-  toJSON(_: MsgUpdateTotalSharesResponse): unknown {
-    const obj: any = {}
-    return obj
-  },
-
-  fromPartial(
-    _: DeepPartial<MsgUpdateTotalSharesResponse>
-  ): MsgUpdateTotalSharesResponse {
-    const message = {
-      ...baseMsgUpdateTotalSharesResponse
-    } as MsgUpdateTotalSharesResponse
     return message
   }
 }
@@ -1910,9 +1749,6 @@ export interface Msg {
   UpdateTotalSupply(
     request: MsgUpdateTotalSupply
   ): Promise<MsgUpdateTotalSupplyResponse>
-  UpdateTotalShares(
-    request: MsgUpdateTotalShares
-  ): Promise<MsgUpdateTotalSharesResponse>
   InitializeMainnet(
     request: MsgInitializeMainnet
   ): Promise<MsgInitializeMainnetResponse>
@@ -1971,20 +1807,6 @@ export class MsgClientImpl implements Msg {
     )
     return promise.then((data) =>
       MsgUpdateTotalSupplyResponse.decode(new Reader(data))
-    )
-  }
-
-  UpdateTotalShares(
-    request: MsgUpdateTotalShares
-  ): Promise<MsgUpdateTotalSharesResponse> {
-    const data = MsgUpdateTotalShares.encode(request).finish()
-    const promise = this.rpc.request(
-      'tendermint.spn.campaign.Msg',
-      'UpdateTotalShares',
-      data
-    )
-    return promise.then((data) =>
-      MsgUpdateTotalSharesResponse.decode(new Reader(data))
     )
   }
 

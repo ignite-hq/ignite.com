@@ -11,7 +11,7 @@ export interface GenesisState {
   params: Params | undefined
   /**
    * auctions define the auction interface for genesis state; the module
-   * supports FixedPriceAuction or EnglishAuction
+   * supports FixedPriceAuction or BatchAuction
    */
   auctions: Any[]
   /** bids defines the bid records used for genesis state */

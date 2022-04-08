@@ -17,9 +17,7 @@ The two packages, `tendermint-spn-ts-client` and `tendermint-spn-vue`, inside `s
 ```ts
 import { useTendermintFundraisingModule } from 'tendermint-spn-vue'
 
-const { queryActions } = useTendermintFundraisingModule({
-  ignite: ignite.value
-})
+const { queryActions } = useTendermintFundraising()
 ```
 
 ### To get the `igniteClient` instance, do =
@@ -27,9 +25,38 @@ const { queryActions } = useTendermintFundraisingModule({
 ```ts
 import { useIgnite } from 'tendermint-spn-ts-client'
 
-const {
-  state: { ignite }
-} = useIgnite()
+const { ignite } = useIgnite()
+```
+
+### To sign in/out, do =
+
+```ts
+const { signIn, signOut } = useIgnite()
+```
+
+### To use the keplr plugin, do =
+
+```ts
+ignite.keplr // see suggestions
+```
+
+### To attach a custom plugin, do =
+
+```ts
+import { _use, createIgnite } from 'tendermint-spn-ts-client'
+
+function plugBlockEx(): { blockex: {} } {
+  return {
+    blockex: {} // implementation of the plugin goes here
+  }
+}
+
+let ignite = _use({
+  ...createIgnite(),
+  ...plugBlockEx()
+})
+
+ignite.blockex // blockex is fully typed
 ```
 
 ## 🏗 WIP

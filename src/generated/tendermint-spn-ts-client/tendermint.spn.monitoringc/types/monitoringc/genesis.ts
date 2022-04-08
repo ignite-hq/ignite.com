@@ -1,50 +1,50 @@
 /* eslint-disable */
-import { Params } from '../monitoringc/params'
 import { VerifiedClientID } from '../monitoringc/verified_client_id'
 import { ProviderClientID } from '../monitoringc/provider_client_id'
 import { LaunchIDFromVerifiedClientID } from '../monitoringc/launch_id_from_verified_client_id'
 import { LaunchIDFromChannelID } from '../monitoringc/launch_id_from_channel_id'
 import { MonitoringHistory } from '../monitoringc/monitoring_history'
+import { Params } from '../monitoringc/params'
 import { Writer, Reader } from 'protobufjs/minimal'
 
 export const protobufPackage = 'tendermint.spn.monitoringc'
 
 /** GenesisState defines the monitoringc module's genesis state. */
 export interface GenesisState {
-  params: Params | undefined
   port_id: string
   verifiedClientIDList: VerifiedClientID[]
   providerClientIDList: ProviderClientID[]
   launchIDFromVerifiedClientIDList: LaunchIDFromVerifiedClientID[]
   launchIDFromChannelIDList: LaunchIDFromChannelID[]
-  /** this line is used by starport scaffolding # genesis/proto/state */
   monitoringHistoryList: MonitoringHistory[]
+  /** this line is used by starport scaffolding # genesis/proto/state */
+  params: Params | undefined
 }
 
 const baseGenesisState: object = { port_id: '' }
 
 export const GenesisState = {
   encode(message: GenesisState, writer: Writer = Writer.create()): Writer {
-    if (message.params !== undefined) {
-      Params.encode(message.params, writer.uint32(10).fork()).ldelim()
-    }
     if (message.port_id !== '') {
-      writer.uint32(18).string(message.port_id)
+      writer.uint32(10).string(message.port_id)
     }
     for (const v of message.verifiedClientIDList) {
-      VerifiedClientID.encode(v!, writer.uint32(26).fork()).ldelim()
+      VerifiedClientID.encode(v!, writer.uint32(18).fork()).ldelim()
     }
     for (const v of message.providerClientIDList) {
-      ProviderClientID.encode(v!, writer.uint32(34).fork()).ldelim()
+      ProviderClientID.encode(v!, writer.uint32(26).fork()).ldelim()
     }
     for (const v of message.launchIDFromVerifiedClientIDList) {
-      LaunchIDFromVerifiedClientID.encode(v!, writer.uint32(42).fork()).ldelim()
+      LaunchIDFromVerifiedClientID.encode(v!, writer.uint32(34).fork()).ldelim()
     }
     for (const v of message.launchIDFromChannelIDList) {
-      LaunchIDFromChannelID.encode(v!, writer.uint32(50).fork()).ldelim()
+      LaunchIDFromChannelID.encode(v!, writer.uint32(42).fork()).ldelim()
     }
     for (const v of message.monitoringHistoryList) {
-      MonitoringHistory.encode(v!, writer.uint32(58).fork()).ldelim()
+      MonitoringHistory.encode(v!, writer.uint32(50).fork()).ldelim()
+    }
+    if (message.params !== undefined) {
+      Params.encode(message.params, writer.uint32(58).fork()).ldelim()
     }
     return writer
   },
@@ -62,35 +62,35 @@ export const GenesisState = {
       const tag = reader.uint32()
       switch (tag >>> 3) {
         case 1:
-          message.params = Params.decode(reader, reader.uint32())
-          break
-        case 2:
           message.port_id = reader.string()
           break
-        case 3:
+        case 2:
           message.verifiedClientIDList.push(
             VerifiedClientID.decode(reader, reader.uint32())
           )
           break
-        case 4:
+        case 3:
           message.providerClientIDList.push(
             ProviderClientID.decode(reader, reader.uint32())
           )
           break
-        case 5:
+        case 4:
           message.launchIDFromVerifiedClientIDList.push(
             LaunchIDFromVerifiedClientID.decode(reader, reader.uint32())
           )
           break
-        case 6:
+        case 5:
           message.launchIDFromChannelIDList.push(
             LaunchIDFromChannelID.decode(reader, reader.uint32())
           )
           break
-        case 7:
+        case 6:
           message.monitoringHistoryList.push(
             MonitoringHistory.decode(reader, reader.uint32())
           )
+          break
+        case 7:
+          message.params = Params.decode(reader, reader.uint32())
           break
         default:
           reader.skipType(tag & 7)
@@ -107,11 +107,6 @@ export const GenesisState = {
     message.launchIDFromVerifiedClientIDList = []
     message.launchIDFromChannelIDList = []
     message.monitoringHistoryList = []
-    if (object.params !== undefined && object.params !== null) {
-      message.params = Params.fromJSON(object.params)
-    } else {
-      message.params = undefined
-    }
     if (object.port_id !== undefined && object.port_id !== null) {
       message.port_id = String(object.port_id)
     } else {
@@ -161,13 +156,16 @@ export const GenesisState = {
         message.monitoringHistoryList.push(MonitoringHistory.fromJSON(e))
       }
     }
+    if (object.params !== undefined && object.params !== null) {
+      message.params = Params.fromJSON(object.params)
+    } else {
+      message.params = undefined
+    }
     return message
   },
 
   toJSON(message: GenesisState): unknown {
     const obj: any = {}
-    message.params !== undefined &&
-      (obj.params = message.params ? Params.toJSON(message.params) : undefined)
     message.port_id !== undefined && (obj.port_id = message.port_id)
     if (message.verifiedClientIDList) {
       obj.verifiedClientIDList = message.verifiedClientIDList.map((e) =>
@@ -205,6 +203,8 @@ export const GenesisState = {
     } else {
       obj.monitoringHistoryList = []
     }
+    message.params !== undefined &&
+      (obj.params = message.params ? Params.toJSON(message.params) : undefined)
     return obj
   },
 
@@ -215,11 +215,6 @@ export const GenesisState = {
     message.launchIDFromVerifiedClientIDList = []
     message.launchIDFromChannelIDList = []
     message.monitoringHistoryList = []
-    if (object.params !== undefined && object.params !== null) {
-      message.params = Params.fromPartial(object.params)
-    } else {
-      message.params = undefined
-    }
     if (object.port_id !== undefined && object.port_id !== null) {
       message.port_id = object.port_id
     } else {
@@ -268,6 +263,11 @@ export const GenesisState = {
       for (const e of object.monitoringHistoryList) {
         message.monitoringHistoryList.push(MonitoringHistory.fromPartial(e))
       }
+    }
+    if (object.params !== undefined && object.params !== null) {
+      message.params = Params.fromPartial(object.params)
+    } else {
+      message.params = undefined
     }
     return message
   }

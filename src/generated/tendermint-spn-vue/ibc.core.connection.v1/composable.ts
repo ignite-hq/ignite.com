@@ -1,7 +1,8 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
-import { Ignite } from 'tendermint-spn-ts-client'
-import Module from 'tendermint-spn-ts-client/ibc.core.connection.v1/module'
+import Module from '../../tendermint-spn-ts-client/ibc.core.connection.v1/module'
+import useIgnite from '../useIgnite'
+import { unref } from 'vue'
 
 type QueryConnectionType = typeof Module.prototype.queryConnection
 type QueryConnectionsType = typeof Module.prototype.queryConnections
@@ -19,11 +20,10 @@ type Response = {
   queryConnectionConsensusState: QueryConnectionConsensusStateType
 }
 
-type Params = {
-  ignite: Ignite
-}
+function useModule(): Response {
+  // ignite
+  let { ignite } = useIgnite()
 
-function useModule({ ignite }: Params): Response {
   let {
     queryConnection,
 
@@ -34,22 +34,22 @@ function useModule({ ignite }: Params): Response {
     queryConnectionClientState,
 
     queryConnectionConsensusState
-  } = ignite.IbcCoreConnectionV1
+  } = unref(ignite.ibcCoreConnectionV1)
 
-  queryConnection = queryConnection.bind(ignite.IbcCoreConnectionV1)
+  queryConnection = queryConnection.bind(ignite.ibcCoreConnectionV1)
 
-  queryConnections = queryConnections.bind(ignite.IbcCoreConnectionV1)
+  queryConnections = queryConnections.bind(ignite.ibcCoreConnectionV1)
 
   queryClientConnections = queryClientConnections.bind(
-    ignite.IbcCoreConnectionV1
+    ignite.ibcCoreConnectionV1
   )
 
   queryConnectionClientState = queryConnectionClientState.bind(
-    ignite.IbcCoreConnectionV1
+    ignite.ibcCoreConnectionV1
   )
 
   queryConnectionConsensusState = queryConnectionConsensusState.bind(
-    ignite.IbcCoreConnectionV1
+    ignite.ibcCoreConnectionV1
   )
 
   return {
