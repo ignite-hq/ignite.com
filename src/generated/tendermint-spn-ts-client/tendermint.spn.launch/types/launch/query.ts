@@ -112,7 +112,6 @@ export interface QueryParamsRequest {}
 
 /** QueryParamsResponse is response type for the Query/Params RPC method. */
 export interface QueryParamsResponse {
-  /** params holds all the parameters of this module. */
   params: Params | undefined
 }
 
@@ -1913,7 +1912,7 @@ export interface Query {
   Request(request: QueryGetRequestRequest): Promise<QueryGetRequestResponse>
   /** Queries a list of request for a chain. */
   RequestAll(request: QueryAllRequestRequest): Promise<QueryAllRequestResponse>
-  /** Parameters queries the parameters of the module. */
+  /** Params queries the parameters of the module. */
   Params(request: QueryParamsRequest): Promise<QueryParamsResponse>
 }
 

@@ -54,7 +54,7 @@ export interface MonitoringpQueryGetMonitoringInfoResponse {
  * QueryParamsResponse is response type for the Query/Params RPC method.
  */
 export interface MonitoringpQueryParamsResponse {
-  /** params holds all the parameters of this module. */
+  /** Params defines the parameters for the module. */
   params?: MonitoringpParams
 }
 
@@ -375,7 +375,7 @@ export class Api<
    *
    * @tags Query
    * @name QueryParams
-   * @summary Parameters queries the parameters of the module.
+   * @summary Params queries the parameters of the module.
    * @request GET:/tendermint/spn/monitoringp/params
    */
   queryParams = (params: RequestParams = {}) =>

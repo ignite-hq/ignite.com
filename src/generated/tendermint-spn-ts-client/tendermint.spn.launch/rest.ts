@@ -14,6 +14,13 @@ export interface PeerHTTPTunnel {
   address?: string
 }
 
+export interface GooglerpcStatus {
+  /** @format int32 */
+  code?: number
+  message?: string
+  details?: ProtobufAny[]
+}
+
 export interface LaunchAccountRemoval {
   address?: string
 }
@@ -266,7 +273,7 @@ export interface LaunchQueryGetVestingAccountResponse {
  * QueryParamsResponse is response type for the Query/Params RPC method.
  */
 export interface LaunchQueryParamsResponse {
-  /** params holds all the parameters of this module. */
+  /** Params defines the parameters for the staking module. */
   params?: LaunchParams
 }
 
@@ -281,6 +288,7 @@ export interface LaunchRequest {
   /** @format int64 */
   createdAt?: string
   content?: LaunchRequestContent
+  status?: LaunchRequestStatus
 }
 
 export interface LaunchRequestContent {
@@ -289,6 +297,12 @@ export interface LaunchRequestContent {
   genesisValidator?: LaunchGenesisValidator
   accountRemoval?: LaunchAccountRemoval
   validatorRemoval?: LaunchValidatorRemoval
+}
+
+export enum LaunchRequestStatus {
+  PENDING = 'PENDING',
+  APPROVED = 'APPROVED',
+  REJECTED = 'REJECTED'
 }
 
 export interface LaunchValidatorRemoval {
@@ -308,13 +322,6 @@ export interface LaunchVestingOptions {
 
 export interface ProtobufAny {
   '@type'?: string
-}
-
-export interface RpcStatus {
-  /** @format int32 */
-  code?: number
-  message?: string
-  details?: ProtobufAny[]
 }
 
 /**
@@ -641,7 +648,7 @@ export class Api<
     },
     params: RequestParams = {}
   ) =>
-    this.request<LaunchQueryAllChainResponse, RpcStatus>({
+    this.request<LaunchQueryAllChainResponse, GooglerpcStatus>({
       path: `/tendermint/spn/launch/chain`,
       method: 'GET',
       query: query,
@@ -658,7 +665,7 @@ export class Api<
    * @request GET:/tendermint/spn/launch/chain/{launchID}
    */
   queryChain = (launchID: string, params: RequestParams = {}) =>
-    this.request<LaunchQueryGetChainResponse, RpcStatus>({
+    this.request<LaunchQueryGetChainResponse, GooglerpcStatus>({
       path: `/tendermint/spn/launch/chain/${launchID}`,
       method: 'GET',
       format: 'json',
@@ -684,7 +691,7 @@ export class Api<
     },
     params: RequestParams = {}
   ) =>
-    this.request<LaunchQueryAllGenesisAccountResponse, RpcStatus>({
+    this.request<LaunchQueryAllGenesisAccountResponse, GooglerpcStatus>({
       path: `/tendermint/spn/launch/genesis_account/${launchID}`,
       method: 'GET',
       query: query,
@@ -705,7 +712,7 @@ export class Api<
     address: string,
     params: RequestParams = {}
   ) =>
-    this.request<LaunchQueryGetGenesisAccountResponse, RpcStatus>({
+    this.request<LaunchQueryGetGenesisAccountResponse, GooglerpcStatus>({
       path: `/tendermint/spn/launch/genesis_account/${launchID}/${address}`,
       method: 'GET',
       format: 'json',
@@ -731,7 +738,7 @@ export class Api<
     },
     params: RequestParams = {}
   ) =>
-    this.request<LaunchQueryAllGenesisValidatorResponse, RpcStatus>({
+    this.request<LaunchQueryAllGenesisValidatorResponse, GooglerpcStatus>({
       path: `/tendermint/spn/launch/genesis_validator/${launchID}`,
       method: 'GET',
       query: query,
@@ -752,7 +759,7 @@ export class Api<
     address: string,
     params: RequestParams = {}
   ) =>
-    this.request<LaunchQueryGetGenesisValidatorResponse, RpcStatus>({
+    this.request<LaunchQueryGetGenesisValidatorResponse, GooglerpcStatus>({
       path: `/tendermint/spn/launch/genesis_validator/${launchID}/${address}`,
       method: 'GET',
       format: 'json',
@@ -764,11 +771,11 @@ export class Api<
    *
    * @tags Query
    * @name QueryParams
-   * @summary Parameters queries the parameters of the module.
+   * @summary Params queries the parameters of the module.
    * @request GET:/tendermint/spn/launch/params
    */
   queryParams = (params: RequestParams = {}) =>
-    this.request<LaunchQueryParamsResponse, RpcStatus>({
+    this.request<LaunchQueryParamsResponse, GooglerpcStatus>({
       path: `/tendermint/spn/launch/params`,
       method: 'GET',
       format: 'json',
@@ -794,7 +801,7 @@ export class Api<
     },
     params: RequestParams = {}
   ) =>
-    this.request<LaunchQueryAllRequestResponse, RpcStatus>({
+    this.request<LaunchQueryAllRequestResponse, GooglerpcStatus>({
       path: `/tendermint/spn/launch/request/${launchID}`,
       method: 'GET',
       query: query,
@@ -815,7 +822,7 @@ export class Api<
     requestID: string,
     params: RequestParams = {}
   ) =>
-    this.request<LaunchQueryGetRequestResponse, RpcStatus>({
+    this.request<LaunchQueryGetRequestResponse, GooglerpcStatus>({
       path: `/tendermint/spn/launch/request/${launchID}/${requestID}`,
       method: 'GET',
       format: 'json',
@@ -841,7 +848,7 @@ export class Api<
     },
     params: RequestParams = {}
   ) =>
-    this.request<LaunchQueryAllVestingAccountResponse, RpcStatus>({
+    this.request<LaunchQueryAllVestingAccountResponse, GooglerpcStatus>({
       path: `/tendermint/spn/launch/vesting_account/${launchID}`,
       method: 'GET',
       query: query,
@@ -862,7 +869,7 @@ export class Api<
     address: string,
     params: RequestParams = {}
   ) =>
-    this.request<LaunchQueryGetVestingAccountResponse, RpcStatus>({
+    this.request<LaunchQueryGetVestingAccountResponse, GooglerpcStatus>({
       path: `/tendermint/spn/launch/vesting_account/${launchID}/${address}`,
       method: 'GET',
       format: 'json',

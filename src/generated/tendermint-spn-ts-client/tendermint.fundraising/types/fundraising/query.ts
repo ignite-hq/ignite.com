@@ -48,7 +48,7 @@ export interface QueryAuctionResponse {
 export interface QueryBidsRequest {
   auction_id: number
   bidder: string
-  eligible: string
+  is_matched: string
   pagination: PageRequest | undefined
 }
 
@@ -63,7 +63,7 @@ export interface QueryBidsResponse {
 /** QueryBidRequest is the request type for the Query/Sequence RPC method. */
 export interface QueryBidRequest {
   auction_id: number
-  sequence: number
+  bid_id: number
 }
 
 /** QueryBidResponse is response type for the Query/Sequence RPC method. */
@@ -484,7 +484,7 @@ export const QueryAuctionResponse = {
 const baseQueryBidsRequest: object = {
   auction_id: 0,
   bidder: '',
-  eligible: ''
+  is_matched: ''
 }
 
 export const QueryBidsRequest = {
@@ -495,8 +495,8 @@ export const QueryBidsRequest = {
     if (message.bidder !== '') {
       writer.uint32(18).string(message.bidder)
     }
-    if (message.eligible !== '') {
-      writer.uint32(26).string(message.eligible)
+    if (message.is_matched !== '') {
+      writer.uint32(26).string(message.is_matched)
     }
     if (message.pagination !== undefined) {
       PageRequest.encode(message.pagination, writer.uint32(34).fork()).ldelim()
@@ -518,7 +518,7 @@ export const QueryBidsRequest = {
           message.bidder = reader.string()
           break
         case 3:
-          message.eligible = reader.string()
+          message.is_matched = reader.string()
           break
         case 4:
           message.pagination = PageRequest.decode(reader, reader.uint32())
@@ -543,10 +543,10 @@ export const QueryBidsRequest = {
     } else {
       message.bidder = ''
     }
-    if (object.eligible !== undefined && object.eligible !== null) {
-      message.eligible = String(object.eligible)
+    if (object.is_matched !== undefined && object.is_matched !== null) {
+      message.is_matched = String(object.is_matched)
     } else {
-      message.eligible = ''
+      message.is_matched = ''
     }
     if (object.pagination !== undefined && object.pagination !== null) {
       message.pagination = PageRequest.fromJSON(object.pagination)
@@ -560,7 +560,7 @@ export const QueryBidsRequest = {
     const obj: any = {}
     message.auction_id !== undefined && (obj.auction_id = message.auction_id)
     message.bidder !== undefined && (obj.bidder = message.bidder)
-    message.eligible !== undefined && (obj.eligible = message.eligible)
+    message.is_matched !== undefined && (obj.is_matched = message.is_matched)
     message.pagination !== undefined &&
       (obj.pagination = message.pagination
         ? PageRequest.toJSON(message.pagination)
@@ -580,10 +580,10 @@ export const QueryBidsRequest = {
     } else {
       message.bidder = ''
     }
-    if (object.eligible !== undefined && object.eligible !== null) {
-      message.eligible = object.eligible
+    if (object.is_matched !== undefined && object.is_matched !== null) {
+      message.is_matched = object.is_matched
     } else {
-      message.eligible = ''
+      message.is_matched = ''
     }
     if (object.pagination !== undefined && object.pagination !== null) {
       message.pagination = PageRequest.fromPartial(object.pagination)
@@ -676,15 +676,15 @@ export const QueryBidsResponse = {
   }
 }
 
-const baseQueryBidRequest: object = { auction_id: 0, sequence: 0 }
+const baseQueryBidRequest: object = { auction_id: 0, bid_id: 0 }
 
 export const QueryBidRequest = {
   encode(message: QueryBidRequest, writer: Writer = Writer.create()): Writer {
     if (message.auction_id !== 0) {
       writer.uint32(8).uint64(message.auction_id)
     }
-    if (message.sequence !== 0) {
-      writer.uint32(16).uint64(message.sequence)
+    if (message.bid_id !== 0) {
+      writer.uint32(16).uint64(message.bid_id)
     }
     return writer
   },
@@ -700,7 +700,7 @@ export const QueryBidRequest = {
           message.auction_id = longToNumber(reader.uint64() as Long)
           break
         case 2:
-          message.sequence = longToNumber(reader.uint64() as Long)
+          message.bid_id = longToNumber(reader.uint64() as Long)
           break
         default:
           reader.skipType(tag & 7)
@@ -717,10 +717,10 @@ export const QueryBidRequest = {
     } else {
       message.auction_id = 0
     }
-    if (object.sequence !== undefined && object.sequence !== null) {
-      message.sequence = Number(object.sequence)
+    if (object.bid_id !== undefined && object.bid_id !== null) {
+      message.bid_id = Number(object.bid_id)
     } else {
-      message.sequence = 0
+      message.bid_id = 0
     }
     return message
   },
@@ -728,7 +728,7 @@ export const QueryBidRequest = {
   toJSON(message: QueryBidRequest): unknown {
     const obj: any = {}
     message.auction_id !== undefined && (obj.auction_id = message.auction_id)
-    message.sequence !== undefined && (obj.sequence = message.sequence)
+    message.bid_id !== undefined && (obj.bid_id = message.bid_id)
     return obj
   },
 
@@ -739,10 +739,10 @@ export const QueryBidRequest = {
     } else {
       message.auction_id = 0
     }
-    if (object.sequence !== undefined && object.sequence !== null) {
-      message.sequence = object.sequence
+    if (object.bid_id !== undefined && object.bid_id !== null) {
+      message.bid_id = object.bid_id
     } else {
-      message.sequence = 0
+      message.bid_id = 0
     }
     return message
   }
@@ -941,7 +941,7 @@ export interface Query {
   Auction(request: QueryAuctionRequest): Promise<QueryAuctionResponse>
   /** Bids returns all bids. */
   Bids(request: QueryBidsRequest): Promise<QueryBidsResponse>
-  /** Bid returns the specific bid from the auction id and sequence. */
+  /** Bid returns the specific bid from the auction id and bid id. */
   Bid(request: QueryBidRequest): Promise<QueryBidResponse>
   /** Vestings returns all vestings for the auction. */
   Vestings(request: QueryVestingsRequest): Promise<QueryVestingsResponse>

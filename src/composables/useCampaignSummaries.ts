@@ -1,16 +1,11 @@
-import { useIgnite, useTendermintSpnCampaignModule } from 'tendermint-spn-vue'
+import { useTendermintSpnCampaign } from 'tendermint-spn-vue'
 import { computed } from 'vue'
 import { useInfiniteQuery } from 'vue-query'
 
 const CAMPAIGNS_PER_PAGE = '20'
 
 export default function useCampaignSummaries() {
-  const {
-    state: { ignite }
-  } = useIgnite()
-  const { queryCampaignSummaries } = useTendermintSpnCampaignModule({
-    ignite: ignite.value
-  })
+  const { queryCampaignSummaries } = useTendermintSpnCampaign()
 
   const { data, ...other } = useInfiniteQuery(
     ['campaigns', 'summaries'],

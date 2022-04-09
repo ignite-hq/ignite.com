@@ -1,7 +1,8 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
-import { Ignite } from 'tendermint-spn-ts-client'
-import Module from 'tendermint-spn-ts-client/cosmos.evidence.v1beta1/module'
+import Module from '../../tendermint-spn-ts-client/cosmos.evidence.v1beta1/module'
+import useIgnite from '../useIgnite'
+import { unref } from 'vue'
 
 type SendMsgSubmitEvidenceType = typeof Module.prototype.sendMsgSubmitEvidence
 
@@ -15,26 +16,25 @@ type Response = {
   queryAllEvidence: QueryAllEvidenceType
 }
 
-type Params = {
-  ignite: Ignite
-}
+function useModule(): Response {
+  // ignite
+  let { ignite } = useIgnite()
 
-function useModule({ ignite }: Params): Response {
   let {
     sendMsgSubmitEvidence,
 
     queryEvidence,
 
     queryAllEvidence
-  } = ignite.CosmosEvidenceV1Beta1
+  } = unref(ignite.cosmosEvidenceV1Beta1)
 
   sendMsgSubmitEvidence = sendMsgSubmitEvidence.bind(
-    ignite.CosmosEvidenceV1Beta1
+    ignite.cosmosEvidenceV1Beta1
   )
 
-  queryEvidence = queryEvidence.bind(ignite.CosmosEvidenceV1Beta1)
+  queryEvidence = queryEvidence.bind(ignite.cosmosEvidenceV1Beta1)
 
-  queryAllEvidence = queryAllEvidence.bind(ignite.CosmosEvidenceV1Beta1)
+  queryAllEvidence = queryAllEvidence.bind(ignite.cosmosEvidenceV1Beta1)
 
   return {
     sendMsgSubmitEvidence,

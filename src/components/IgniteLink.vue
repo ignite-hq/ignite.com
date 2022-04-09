@@ -4,7 +4,7 @@
     v-bind="$attrs"
     :href="to"
     target="_blank"
-    class="transition-colors ease-in-out duration-250"
+    class="duration-250 transition-colors ease-in-out"
   >
     <slot />
   </a>
@@ -19,7 +19,7 @@
       v-bind="$attrs"
       :href="href"
       :class="isActive ? activeClass : inactiveClass"
-      class="transition-colors ease-in-out duration-250"
+      class="duration-250 transition-colors ease-in-out"
       @click="navigate"
     >
       <slot />

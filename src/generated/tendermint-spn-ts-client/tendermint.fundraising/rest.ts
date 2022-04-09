@@ -23,23 +23,49 @@ export interface FundraisingAllowedBidder {
 export interface FundraisingBid {
   /** @format uint64 */
   auction_id?: string
+  bidder?: string
 
   /** @format uint64 */
-  sequence?: string
-  bidder?: string
+  id?: string
+
+  /**
+   * BidType enumerates the valid types of a bid.
+   *
+   *  - BID_TYPE_UNSPECIFIED: BID_TYPE_UNSPECIFIED defines the default bid type
+   *  - BID_TYPE_FIXED_PRICE: BID_TYPE_FIXED_PRICE defines a bid type for a fixed price auction type
+   *  - BID_TYPE_BATCH_WORTH: BID_TYPE_BATCH_WORTH defines a bid type for How-Much-Worth-to-Buy of a
+   * batch auction
+   *  - BID_TYPE_BATCH_MANY: BID_TYPE_BATCH_MANY defines a bid type for How-Many-Coins-to-Buy of a batch
+   * auction
+   */
+  type?: FundraisingBidType
   price?: string
 
   /**
-   * Coin defines a token with a denomination and an amount.
-   *
-   * NOTE: The amount field is an Int which implements the custom method
-   * signatures required by gogoproto.
+   * coin specifies the amount of coin that the bidder bids
+   * for a fixed price auction, the denom is of the paying coin.
+   * for a batch auction of how-much-worth, the denom is of the paying coin.
+   * for a batch auction of how-many-coins, the denom is of the selling coin.
    */
   coin?: V1Beta1Coin
+  is_matched?: boolean
+}
 
-  /** @format uint64 */
-  height?: string
-  eligible?: boolean
+/**
+* BidType enumerates the valid types of a bid.
+
+ - BID_TYPE_UNSPECIFIED: BID_TYPE_UNSPECIFIED defines the default bid type
+ - BID_TYPE_FIXED_PRICE: BID_TYPE_FIXED_PRICE defines a bid type for a fixed price auction type
+ - BID_TYPE_BATCH_WORTH: BID_TYPE_BATCH_WORTH defines a bid type for How-Much-Worth-to-Buy of a
+batch auction
+ - BID_TYPE_BATCH_MANY: BID_TYPE_BATCH_MANY defines a bid type for How-Many-Coins-to-Buy of a batch
+auction
+*/
+export enum FundraisingBidType {
+  BID_TYPE_UNSPECIFIED = 'BID_TYPE_UNSPECIFIED',
+  BID_TYPE_FIXED_PRICE = 'BID_TYPE_FIXED_PRICE',
+  BID_TYPE_BATCH_WORTH = 'BID_TYPE_BATCH_WORTH',
+  BID_TYPE_BATCH_MANY = 'BID_TYPE_BATCH_MANY'
 }
 
 export type FundraisingMsgAddAllowedBidderResponse = object
@@ -51,16 +77,21 @@ response type.
 export type FundraisingMsgCancelAuctionResponse = object
 
 /**
-* MsgCreateEnglishAuctionResponse defines the
-Msg/MsgCreateEnglishAuctionResponse response type.
+* MsgCreateBatchAuctionResponse defines the
+Msg/MsgCreateBatchAuctionResponse response type.
 */
-export type FundraisingMsgCreateEnglishAuctionResponse = object
+export type FundraisingMsgCreateBatchAuctionResponse = object
 
 /**
 * MsgCreateFixedPriceAuctionResponse defines the
 Msg/MsgCreateFixedPriceAuctionResponse response type.
 */
 export type FundraisingMsgCreateFixedPriceAuctionResponse = object
+
+/**
+ * MsgModifyBidResponse defines the Msg/MsgModifyBidResponse response type.
+ */
+export type FundraisingMsgModifyBidResponse = object
 
 /**
  * MsgPlaceBidResponse defines the Msg/MsgPlaceBidResponse response type.
@@ -79,7 +110,6 @@ export interface FundraisingParams {
    * @format int64
    */
   extended_period?: number
-  fee_collector_address?: string
 }
 
 /**
@@ -748,7 +778,7 @@ export class Api<
     auction_id: string,
     query?: {
       bidder?: string
-      eligible?: string
+      is_matched?: string
       'pagination.key'?: string
       'pagination.offset'?: string
       'pagination.limit'?: string
@@ -770,16 +800,12 @@ export class Api<
    *
    * @tags Query
    * @name QueryBid
-   * @summary Bid returns the specific bid from the auction id and sequence.
-   * @request GET:/cosmos/fundraising/v1beta1/auctions/{auction_id}/bids/{sequence}
+   * @summary Bid returns the specific bid from the auction id and bid id.
+   * @request GET:/cosmos/fundraising/v1beta1/auctions/{auction_id}/bids/{bid_id}
    */
-  queryBid = (
-    auction_id: string,
-    sequence: string,
-    params: RequestParams = {}
-  ) =>
+  queryBid = (auction_id: string, bid_id: string, params: RequestParams = {}) =>
     this.request<FundraisingQueryBidResponse, RpcStatus>({
-      path: `/cosmos/fundraising/v1beta1/auctions/${auction_id}/bids/${sequence}`,
+      path: `/cosmos/fundraising/v1beta1/auctions/${auction_id}/bids/${bid_id}`,
       method: 'GET',
       format: 'json',
       ...params

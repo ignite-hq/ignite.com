@@ -1,9 +1,15 @@
 /* eslint-disable */
+import {
+  BidType,
+  VestingSchedule,
+  AllowedBidder,
+  bidTypeFromJSON,
+  bidTypeToJSON
+} from '../fundraising/fundraising'
 import { Reader, util, configure, Writer } from 'protobufjs/minimal'
 import { Timestamp } from '../google/protobuf/timestamp'
 import * as Long from 'long'
 import { Coin } from '../cosmos/base/v1beta1/coin'
-import { VestingSchedule, AllowedBidder } from '../fundraising/fundraising'
 
 export const protobufPackage = 'tendermint.fundraising'
 
@@ -38,17 +44,19 @@ export interface MsgCreateFixedPriceAuction {
 export interface MsgCreateFixedPriceAuctionResponse {}
 
 /**
- * MsgCreateEnglishAuction defines a SDK message for creating an english
+ * MsgCreateBatchAuction defines a SDK message for creating an batch
  * auction.
  *
  * See:
  * https://github.com/tendermint/fundraising/tree/main/x/fundraising/spec/04_messages.md
  */
-export interface MsgCreateEnglishAuction {
+export interface MsgCreateBatchAuction {
   /** auctioneer specifies the bech32-encoded address that creates the auction */
   auctioneer: string
   /** start_price specifies the starting price of the auction */
   start_price: string
+  /** min_bid_price specifies the minibum bid price */
+  min_bid_price: string
   /** selling_coin specifies the selling coin for the auction */
   selling_coin: Coin | undefined
   /**
@@ -58,13 +66,16 @@ export interface MsgCreateEnglishAuction {
   paying_coin_denom: string
   /** vesting_schedules specifies the vesting schedules for the auction */
   vesting_schedules: VestingSchedule[]
-  /** maximum_bid_price specifies the maximum bid price for the auction */
-  maximum_bid_price: string
   /**
-   * extend_rate specifies the rate that decides if the auction needs another
-   * round
+   * maximum_extended_round specifies the maximum number of extended rounds for
+   * the auction
    */
-  extend_rate: string
+  max_extended_round: number
+  /**
+   * extended_round_rate specifies the rate that decides if the auction needs
+   * another round
+   */
+  extended_round_rate: string
   /** start_time specifies the start time of the plan */
   start_time: Date | undefined
   /** end_time specifies the end time of the plan */
@@ -72,10 +83,10 @@ export interface MsgCreateEnglishAuction {
 }
 
 /**
- * MsgCreateEnglishAuctionResponse defines the
- * Msg/MsgCreateEnglishAuctionResponse response type.
+ * MsgCreateBatchAuctionResponse defines the
+ * Msg/MsgCreateBatchAuctionResponse response type.
  */
-export interface MsgCreateEnglishAuctionResponse {}
+export interface MsgCreateBatchAuctionResponse {}
 
 /**
  * MsgCancelAuction defines a SDK message for cancelling the auction.
@@ -104,17 +115,52 @@ export interface MsgPlaceBid {
   /** bidder specifies the bech32-encoded address that bids for the auction */
   bidder: string
   /**
+   * type specifies the bid type; type 1 is fixed price, 2 is how-much-worth, 3
+   * is how-many-coins
+   */
+  bid_type: BidType
+  /**
    * price specifies the bid price.
    * The bid price must be the start price for fixed price auction whereas
-   * the bide price can only be increasd for english auction
+   * the bide price can be any value that the bidder places.
    */
   price: string
-  /** coin specifies the paying amount of coin that the bidder bids */
+  /**
+   * coin specifies the paying amount of coin or the selling amount that the
+   * bidder bids
+   */
   coin: Coin | undefined
 }
 
 /** MsgPlaceBidResponse defines the Msg/MsgPlaceBidResponse response type. */
 export interface MsgPlaceBidResponse {}
+
+/**
+ * MsgModifyBid defines a SDK message for modifying an existing bid for the
+ * auction.
+ */
+export interface MsgModifyBid {
+  /** auction_id specifies the auction id */
+  auction_id: number
+  /** bidder specifies the bech32-encoded address that bids for the auction */
+  bidder: string
+  /** bid_id specifies the bid id */
+  bid_id: number
+  /**
+   * price specifies the bid price.
+   * the bide price must be above or equal to the original value that the bidder
+   * placed.
+   */
+  price: string
+  /**
+   * coin specifies the paying amount of coin or the selling amount that the
+   * bidder bids
+   */
+  coin: Coin | undefined
+}
+
+/** MsgModifyBidResponse defines the Msg/MsgModifyBidResponse response type. */
+export interface MsgModifyBidResponse {}
 
 /**
  * MsgAddAllowedBidder defines a SDK message for adding an allowed bidder to the
@@ -402,17 +448,18 @@ export const MsgCreateFixedPriceAuctionResponse = {
   }
 }
 
-const baseMsgCreateEnglishAuction: object = {
+const baseMsgCreateBatchAuction: object = {
   auctioneer: '',
   start_price: '',
+  min_bid_price: '',
   paying_coin_denom: '',
-  maximum_bid_price: '',
-  extend_rate: ''
+  max_extended_round: 0,
+  extended_round_rate: ''
 }
 
-export const MsgCreateEnglishAuction = {
+export const MsgCreateBatchAuction = {
   encode(
-    message: MsgCreateEnglishAuction,
+    message: MsgCreateBatchAuction,
     writer: Writer = Writer.create()
   ): Writer {
     if (message.auctioneer !== '') {
@@ -421,42 +468,43 @@ export const MsgCreateEnglishAuction = {
     if (message.start_price !== '') {
       writer.uint32(18).string(message.start_price)
     }
+    if (message.min_bid_price !== '') {
+      writer.uint32(26).string(message.min_bid_price)
+    }
     if (message.selling_coin !== undefined) {
-      Coin.encode(message.selling_coin, writer.uint32(26).fork()).ldelim()
+      Coin.encode(message.selling_coin, writer.uint32(34).fork()).ldelim()
     }
     if (message.paying_coin_denom !== '') {
-      writer.uint32(34).string(message.paying_coin_denom)
+      writer.uint32(42).string(message.paying_coin_denom)
     }
     for (const v of message.vesting_schedules) {
-      VestingSchedule.encode(v!, writer.uint32(42).fork()).ldelim()
+      VestingSchedule.encode(v!, writer.uint32(50).fork()).ldelim()
     }
-    if (message.maximum_bid_price !== '') {
-      writer.uint32(50).string(message.maximum_bid_price)
+    if (message.max_extended_round !== 0) {
+      writer.uint32(56).uint32(message.max_extended_round)
     }
-    if (message.extend_rate !== '') {
-      writer.uint32(58).string(message.extend_rate)
+    if (message.extended_round_rate !== '') {
+      writer.uint32(66).string(message.extended_round_rate)
     }
     if (message.start_time !== undefined) {
       Timestamp.encode(
         toTimestamp(message.start_time),
-        writer.uint32(66).fork()
+        writer.uint32(74).fork()
       ).ldelim()
     }
     if (message.end_time !== undefined) {
       Timestamp.encode(
         toTimestamp(message.end_time),
-        writer.uint32(74).fork()
+        writer.uint32(82).fork()
       ).ldelim()
     }
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): MsgCreateEnglishAuction {
+  decode(input: Reader | Uint8Array, length?: number): MsgCreateBatchAuction {
     const reader = input instanceof Uint8Array ? new Reader(input) : input
     let end = length === undefined ? reader.len : reader.pos + length
-    const message = {
-      ...baseMsgCreateEnglishAuction
-    } as MsgCreateEnglishAuction
+    const message = { ...baseMsgCreateBatchAuction } as MsgCreateBatchAuction
     message.vesting_schedules = []
     while (reader.pos < end) {
       const tag = reader.uint32()
@@ -468,28 +516,31 @@ export const MsgCreateEnglishAuction = {
           message.start_price = reader.string()
           break
         case 3:
-          message.selling_coin = Coin.decode(reader, reader.uint32())
+          message.min_bid_price = reader.string()
           break
         case 4:
-          message.paying_coin_denom = reader.string()
+          message.selling_coin = Coin.decode(reader, reader.uint32())
           break
         case 5:
+          message.paying_coin_denom = reader.string()
+          break
+        case 6:
           message.vesting_schedules.push(
             VestingSchedule.decode(reader, reader.uint32())
           )
           break
-        case 6:
-          message.maximum_bid_price = reader.string()
-          break
         case 7:
-          message.extend_rate = reader.string()
+          message.max_extended_round = reader.uint32()
           break
         case 8:
+          message.extended_round_rate = reader.string()
+          break
+        case 9:
           message.start_time = fromTimestamp(
             Timestamp.decode(reader, reader.uint32())
           )
           break
-        case 9:
+        case 10:
           message.end_time = fromTimestamp(
             Timestamp.decode(reader, reader.uint32())
           )
@@ -502,10 +553,8 @@ export const MsgCreateEnglishAuction = {
     return message
   },
 
-  fromJSON(object: any): MsgCreateEnglishAuction {
-    const message = {
-      ...baseMsgCreateEnglishAuction
-    } as MsgCreateEnglishAuction
+  fromJSON(object: any): MsgCreateBatchAuction {
+    const message = { ...baseMsgCreateBatchAuction } as MsgCreateBatchAuction
     message.vesting_schedules = []
     if (object.auctioneer !== undefined && object.auctioneer !== null) {
       message.auctioneer = String(object.auctioneer)
@@ -516,6 +565,11 @@ export const MsgCreateEnglishAuction = {
       message.start_price = String(object.start_price)
     } else {
       message.start_price = ''
+    }
+    if (object.min_bid_price !== undefined && object.min_bid_price !== null) {
+      message.min_bid_price = String(object.min_bid_price)
+    } else {
+      message.min_bid_price = ''
     }
     if (object.selling_coin !== undefined && object.selling_coin !== null) {
       message.selling_coin = Coin.fromJSON(object.selling_coin)
@@ -539,17 +593,20 @@ export const MsgCreateEnglishAuction = {
       }
     }
     if (
-      object.maximum_bid_price !== undefined &&
-      object.maximum_bid_price !== null
+      object.max_extended_round !== undefined &&
+      object.max_extended_round !== null
     ) {
-      message.maximum_bid_price = String(object.maximum_bid_price)
+      message.max_extended_round = Number(object.max_extended_round)
     } else {
-      message.maximum_bid_price = ''
+      message.max_extended_round = 0
     }
-    if (object.extend_rate !== undefined && object.extend_rate !== null) {
-      message.extend_rate = String(object.extend_rate)
+    if (
+      object.extended_round_rate !== undefined &&
+      object.extended_round_rate !== null
+    ) {
+      message.extended_round_rate = String(object.extended_round_rate)
     } else {
-      message.extend_rate = ''
+      message.extended_round_rate = ''
     }
     if (object.start_time !== undefined && object.start_time !== null) {
       message.start_time = fromJsonTimestamp(object.start_time)
@@ -564,10 +621,12 @@ export const MsgCreateEnglishAuction = {
     return message
   },
 
-  toJSON(message: MsgCreateEnglishAuction): unknown {
+  toJSON(message: MsgCreateBatchAuction): unknown {
     const obj: any = {}
     message.auctioneer !== undefined && (obj.auctioneer = message.auctioneer)
     message.start_price !== undefined && (obj.start_price = message.start_price)
+    message.min_bid_price !== undefined &&
+      (obj.min_bid_price = message.min_bid_price)
     message.selling_coin !== undefined &&
       (obj.selling_coin = message.selling_coin
         ? Coin.toJSON(message.selling_coin)
@@ -581,9 +640,10 @@ export const MsgCreateEnglishAuction = {
     } else {
       obj.vesting_schedules = []
     }
-    message.maximum_bid_price !== undefined &&
-      (obj.maximum_bid_price = message.maximum_bid_price)
-    message.extend_rate !== undefined && (obj.extend_rate = message.extend_rate)
+    message.max_extended_round !== undefined &&
+      (obj.max_extended_round = message.max_extended_round)
+    message.extended_round_rate !== undefined &&
+      (obj.extended_round_rate = message.extended_round_rate)
     message.start_time !== undefined &&
       (obj.start_time =
         message.start_time !== undefined
@@ -596,11 +656,9 @@ export const MsgCreateEnglishAuction = {
   },
 
   fromPartial(
-    object: DeepPartial<MsgCreateEnglishAuction>
-  ): MsgCreateEnglishAuction {
-    const message = {
-      ...baseMsgCreateEnglishAuction
-    } as MsgCreateEnglishAuction
+    object: DeepPartial<MsgCreateBatchAuction>
+  ): MsgCreateBatchAuction {
+    const message = { ...baseMsgCreateBatchAuction } as MsgCreateBatchAuction
     message.vesting_schedules = []
     if (object.auctioneer !== undefined && object.auctioneer !== null) {
       message.auctioneer = object.auctioneer
@@ -611,6 +669,11 @@ export const MsgCreateEnglishAuction = {
       message.start_price = object.start_price
     } else {
       message.start_price = ''
+    }
+    if (object.min_bid_price !== undefined && object.min_bid_price !== null) {
+      message.min_bid_price = object.min_bid_price
+    } else {
+      message.min_bid_price = ''
     }
     if (object.selling_coin !== undefined && object.selling_coin !== null) {
       message.selling_coin = Coin.fromPartial(object.selling_coin)
@@ -634,17 +697,20 @@ export const MsgCreateEnglishAuction = {
       }
     }
     if (
-      object.maximum_bid_price !== undefined &&
-      object.maximum_bid_price !== null
+      object.max_extended_round !== undefined &&
+      object.max_extended_round !== null
     ) {
-      message.maximum_bid_price = object.maximum_bid_price
+      message.max_extended_round = object.max_extended_round
     } else {
-      message.maximum_bid_price = ''
+      message.max_extended_round = 0
     }
-    if (object.extend_rate !== undefined && object.extend_rate !== null) {
-      message.extend_rate = object.extend_rate
+    if (
+      object.extended_round_rate !== undefined &&
+      object.extended_round_rate !== null
+    ) {
+      message.extended_round_rate = object.extended_round_rate
     } else {
-      message.extend_rate = ''
+      message.extended_round_rate = ''
     }
     if (object.start_time !== undefined && object.start_time !== null) {
       message.start_time = object.start_time
@@ -660,11 +726,11 @@ export const MsgCreateEnglishAuction = {
   }
 }
 
-const baseMsgCreateEnglishAuctionResponse: object = {}
+const baseMsgCreateBatchAuctionResponse: object = {}
 
-export const MsgCreateEnglishAuctionResponse = {
+export const MsgCreateBatchAuctionResponse = {
   encode(
-    _: MsgCreateEnglishAuctionResponse,
+    _: MsgCreateBatchAuctionResponse,
     writer: Writer = Writer.create()
   ): Writer {
     return writer
@@ -673,12 +739,12 @@ export const MsgCreateEnglishAuctionResponse = {
   decode(
     input: Reader | Uint8Array,
     length?: number
-  ): MsgCreateEnglishAuctionResponse {
+  ): MsgCreateBatchAuctionResponse {
     const reader = input instanceof Uint8Array ? new Reader(input) : input
     let end = length === undefined ? reader.len : reader.pos + length
     const message = {
-      ...baseMsgCreateEnglishAuctionResponse
-    } as MsgCreateEnglishAuctionResponse
+      ...baseMsgCreateBatchAuctionResponse
+    } as MsgCreateBatchAuctionResponse
     while (reader.pos < end) {
       const tag = reader.uint32()
       switch (tag >>> 3) {
@@ -690,24 +756,24 @@ export const MsgCreateEnglishAuctionResponse = {
     return message
   },
 
-  fromJSON(_: any): MsgCreateEnglishAuctionResponse {
+  fromJSON(_: any): MsgCreateBatchAuctionResponse {
     const message = {
-      ...baseMsgCreateEnglishAuctionResponse
-    } as MsgCreateEnglishAuctionResponse
+      ...baseMsgCreateBatchAuctionResponse
+    } as MsgCreateBatchAuctionResponse
     return message
   },
 
-  toJSON(_: MsgCreateEnglishAuctionResponse): unknown {
+  toJSON(_: MsgCreateBatchAuctionResponse): unknown {
     const obj: any = {}
     return obj
   },
 
   fromPartial(
-    _: DeepPartial<MsgCreateEnglishAuctionResponse>
-  ): MsgCreateEnglishAuctionResponse {
+    _: DeepPartial<MsgCreateBatchAuctionResponse>
+  ): MsgCreateBatchAuctionResponse {
     const message = {
-      ...baseMsgCreateEnglishAuctionResponse
-    } as MsgCreateEnglishAuctionResponse
+      ...baseMsgCreateBatchAuctionResponse
+    } as MsgCreateBatchAuctionResponse
     return message
   }
 }
@@ -836,7 +902,12 @@ export const MsgCancelAuctionResponse = {
   }
 }
 
-const baseMsgPlaceBid: object = { auction_id: 0, bidder: '', price: '' }
+const baseMsgPlaceBid: object = {
+  auction_id: 0,
+  bidder: '',
+  bid_type: 0,
+  price: ''
+}
 
 export const MsgPlaceBid = {
   encode(message: MsgPlaceBid, writer: Writer = Writer.create()): Writer {
@@ -846,11 +917,14 @@ export const MsgPlaceBid = {
     if (message.bidder !== '') {
       writer.uint32(18).string(message.bidder)
     }
+    if (message.bid_type !== 0) {
+      writer.uint32(24).int32(message.bid_type)
+    }
     if (message.price !== '') {
-      writer.uint32(26).string(message.price)
+      writer.uint32(34).string(message.price)
     }
     if (message.coin !== undefined) {
-      Coin.encode(message.coin, writer.uint32(34).fork()).ldelim()
+      Coin.encode(message.coin, writer.uint32(42).fork()).ldelim()
     }
     return writer
   },
@@ -869,9 +943,12 @@ export const MsgPlaceBid = {
           message.bidder = reader.string()
           break
         case 3:
-          message.price = reader.string()
+          message.bid_type = reader.int32() as any
           break
         case 4:
+          message.price = reader.string()
+          break
+        case 5:
           message.coin = Coin.decode(reader, reader.uint32())
           break
         default:
@@ -894,6 +971,11 @@ export const MsgPlaceBid = {
     } else {
       message.bidder = ''
     }
+    if (object.bid_type !== undefined && object.bid_type !== null) {
+      message.bid_type = bidTypeFromJSON(object.bid_type)
+    } else {
+      message.bid_type = 0
+    }
     if (object.price !== undefined && object.price !== null) {
       message.price = String(object.price)
     } else {
@@ -911,6 +993,8 @@ export const MsgPlaceBid = {
     const obj: any = {}
     message.auction_id !== undefined && (obj.auction_id = message.auction_id)
     message.bidder !== undefined && (obj.bidder = message.bidder)
+    message.bid_type !== undefined &&
+      (obj.bid_type = bidTypeToJSON(message.bid_type))
     message.price !== undefined && (obj.price = message.price)
     message.coin !== undefined &&
       (obj.coin = message.coin ? Coin.toJSON(message.coin) : undefined)
@@ -928,6 +1012,11 @@ export const MsgPlaceBid = {
       message.bidder = object.bidder
     } else {
       message.bidder = ''
+    }
+    if (object.bid_type !== undefined && object.bid_type !== null) {
+      message.bid_type = object.bid_type
+    } else {
+      message.bid_type = 0
     }
     if (object.price !== undefined && object.price !== null) {
       message.price = object.price
@@ -977,6 +1066,173 @@ export const MsgPlaceBidResponse = {
 
   fromPartial(_: DeepPartial<MsgPlaceBidResponse>): MsgPlaceBidResponse {
     const message = { ...baseMsgPlaceBidResponse } as MsgPlaceBidResponse
+    return message
+  }
+}
+
+const baseMsgModifyBid: object = {
+  auction_id: 0,
+  bidder: '',
+  bid_id: 0,
+  price: ''
+}
+
+export const MsgModifyBid = {
+  encode(message: MsgModifyBid, writer: Writer = Writer.create()): Writer {
+    if (message.auction_id !== 0) {
+      writer.uint32(8).uint64(message.auction_id)
+    }
+    if (message.bidder !== '') {
+      writer.uint32(18).string(message.bidder)
+    }
+    if (message.bid_id !== 0) {
+      writer.uint32(24).uint64(message.bid_id)
+    }
+    if (message.price !== '') {
+      writer.uint32(34).string(message.price)
+    }
+    if (message.coin !== undefined) {
+      Coin.encode(message.coin, writer.uint32(42).fork()).ldelim()
+    }
+    return writer
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgModifyBid {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input
+    let end = length === undefined ? reader.len : reader.pos + length
+    const message = { ...baseMsgModifyBid } as MsgModifyBid
+    while (reader.pos < end) {
+      const tag = reader.uint32()
+      switch (tag >>> 3) {
+        case 1:
+          message.auction_id = longToNumber(reader.uint64() as Long)
+          break
+        case 2:
+          message.bidder = reader.string()
+          break
+        case 3:
+          message.bid_id = longToNumber(reader.uint64() as Long)
+          break
+        case 4:
+          message.price = reader.string()
+          break
+        case 5:
+          message.coin = Coin.decode(reader, reader.uint32())
+          break
+        default:
+          reader.skipType(tag & 7)
+          break
+      }
+    }
+    return message
+  },
+
+  fromJSON(object: any): MsgModifyBid {
+    const message = { ...baseMsgModifyBid } as MsgModifyBid
+    if (object.auction_id !== undefined && object.auction_id !== null) {
+      message.auction_id = Number(object.auction_id)
+    } else {
+      message.auction_id = 0
+    }
+    if (object.bidder !== undefined && object.bidder !== null) {
+      message.bidder = String(object.bidder)
+    } else {
+      message.bidder = ''
+    }
+    if (object.bid_id !== undefined && object.bid_id !== null) {
+      message.bid_id = Number(object.bid_id)
+    } else {
+      message.bid_id = 0
+    }
+    if (object.price !== undefined && object.price !== null) {
+      message.price = String(object.price)
+    } else {
+      message.price = ''
+    }
+    if (object.coin !== undefined && object.coin !== null) {
+      message.coin = Coin.fromJSON(object.coin)
+    } else {
+      message.coin = undefined
+    }
+    return message
+  },
+
+  toJSON(message: MsgModifyBid): unknown {
+    const obj: any = {}
+    message.auction_id !== undefined && (obj.auction_id = message.auction_id)
+    message.bidder !== undefined && (obj.bidder = message.bidder)
+    message.bid_id !== undefined && (obj.bid_id = message.bid_id)
+    message.price !== undefined && (obj.price = message.price)
+    message.coin !== undefined &&
+      (obj.coin = message.coin ? Coin.toJSON(message.coin) : undefined)
+    return obj
+  },
+
+  fromPartial(object: DeepPartial<MsgModifyBid>): MsgModifyBid {
+    const message = { ...baseMsgModifyBid } as MsgModifyBid
+    if (object.auction_id !== undefined && object.auction_id !== null) {
+      message.auction_id = object.auction_id
+    } else {
+      message.auction_id = 0
+    }
+    if (object.bidder !== undefined && object.bidder !== null) {
+      message.bidder = object.bidder
+    } else {
+      message.bidder = ''
+    }
+    if (object.bid_id !== undefined && object.bid_id !== null) {
+      message.bid_id = object.bid_id
+    } else {
+      message.bid_id = 0
+    }
+    if (object.price !== undefined && object.price !== null) {
+      message.price = object.price
+    } else {
+      message.price = ''
+    }
+    if (object.coin !== undefined && object.coin !== null) {
+      message.coin = Coin.fromPartial(object.coin)
+    } else {
+      message.coin = undefined
+    }
+    return message
+  }
+}
+
+const baseMsgModifyBidResponse: object = {}
+
+export const MsgModifyBidResponse = {
+  encode(_: MsgModifyBidResponse, writer: Writer = Writer.create()): Writer {
+    return writer
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgModifyBidResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input
+    let end = length === undefined ? reader.len : reader.pos + length
+    const message = { ...baseMsgModifyBidResponse } as MsgModifyBidResponse
+    while (reader.pos < end) {
+      const tag = reader.uint32()
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7)
+          break
+      }
+    }
+    return message
+  },
+
+  fromJSON(_: any): MsgModifyBidResponse {
+    const message = { ...baseMsgModifyBidResponse } as MsgModifyBidResponse
+    return message
+  },
+
+  toJSON(_: MsgModifyBidResponse): unknown {
+    const obj: any = {}
+    return obj
+  },
+
+  fromPartial(_: DeepPartial<MsgModifyBidResponse>): MsgModifyBidResponse {
+    const message = { ...baseMsgModifyBidResponse } as MsgModifyBidResponse
     return message
   }
 }
@@ -1117,20 +1373,22 @@ export const MsgAddAllowedBidderResponse = {
 /** Msg defines the Msg service. */
 export interface Msg {
   /**
-   * CreateFixedPriceAuction defines a method to create a FixedPrice auction
-   * message.
+   * this line is used by Starport scaffolding # proto/tx/rpc
+   * Submit a create fixed price auction message.
    */
   CreateFixedPriceAuction(
     request: MsgCreateFixedPriceAuction
   ): Promise<MsgCreateFixedPriceAuctionResponse>
-  /** CreateEnglishAuction defines a method to create an English auction message */
-  CreateEnglishAuction(
-    request: MsgCreateEnglishAuction
-  ): Promise<MsgCreateEnglishAuctionResponse>
+  /** Submit a create batch auction message. */
+  CreateBatchAuction(
+    request: MsgCreateBatchAuction
+  ): Promise<MsgCreateBatchAuctionResponse>
   /** CancelAuction defines a method to cancel the auction message. */
   CancelAuction(request: MsgCancelAuction): Promise<MsgCancelAuctionResponse>
   /** PlaceBid defines a method to place a bid message. */
   PlaceBid(request: MsgPlaceBid): Promise<MsgPlaceBidResponse>
+  /** ModifyBid defines a method to modify the bid message. */
+  ModifyBid(request: MsgModifyBid): Promise<MsgModifyBidResponse>
   /**
    * AddAllowedBidder defines a method sto add a single allowed bidder message.
    * This is for the testing purpose and it must not be used in mainnet.
@@ -1159,17 +1417,17 @@ export class MsgClientImpl implements Msg {
     )
   }
 
-  CreateEnglishAuction(
-    request: MsgCreateEnglishAuction
-  ): Promise<MsgCreateEnglishAuctionResponse> {
-    const data = MsgCreateEnglishAuction.encode(request).finish()
+  CreateBatchAuction(
+    request: MsgCreateBatchAuction
+  ): Promise<MsgCreateBatchAuctionResponse> {
+    const data = MsgCreateBatchAuction.encode(request).finish()
     const promise = this.rpc.request(
       'tendermint.fundraising.Msg',
-      'CreateEnglishAuction',
+      'CreateBatchAuction',
       data
     )
     return promise.then((data) =>
-      MsgCreateEnglishAuctionResponse.decode(new Reader(data))
+      MsgCreateBatchAuctionResponse.decode(new Reader(data))
     )
   }
 
@@ -1193,6 +1451,16 @@ export class MsgClientImpl implements Msg {
       data
     )
     return promise.then((data) => MsgPlaceBidResponse.decode(new Reader(data)))
+  }
+
+  ModifyBid(request: MsgModifyBid): Promise<MsgModifyBidResponse> {
+    const data = MsgModifyBid.encode(request).finish()
+    const promise = this.rpc.request(
+      'tendermint.fundraising.Msg',
+      'ModifyBid',
+      data
+    )
+    return promise.then((data) => MsgModifyBidResponse.decode(new Reader(data)))
   }
 
   AddAllowedBidder(

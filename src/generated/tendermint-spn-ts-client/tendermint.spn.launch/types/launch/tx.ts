@@ -1,10 +1,10 @@
 /* eslint-disable */
 import { Reader, util, configure, Writer } from 'protobufjs/minimal'
 import * as Long from 'long'
+import { InitialGenesis } from '../launch/chain'
 import { Coin } from '../cosmos/base/v1beta1/coin'
 import { VestingOptions } from '../launch/vesting_account'
 import { Peer } from '../launch/genesis_validator'
-import { InitialGenesis } from '../launch/chain'
 
 export const protobufPackage = 'tendermint.spn.launch'
 
@@ -33,6 +33,17 @@ export interface MsgEditChain {
 }
 
 export interface MsgEditChainResponse {}
+
+export interface MsgUpdateLaunchInformation {
+  coordinator: string
+  launchID: number
+  genesisChainID: string
+  sourceURL: string
+  sourceHash: string
+  initialGenesis: InitialGenesis | undefined
+}
+
+export interface MsgUpdateLaunchInformationResponse {}
 
 export interface MsgRequestAddAccount {
   creator: string
@@ -118,17 +129,6 @@ export interface MsgRevertLaunch {
 }
 
 export interface MsgRevertLaunchResponse {}
-
-export interface MsgUpdateLaunchInformation {
-  coordinator: string
-  launchID: number
-  genesisChainID: string
-  sourceURL: string
-  sourceHash: string
-  initialGenesis: InitialGenesis | undefined
-}
-
-export interface MsgUpdateLaunchInformationResponse {}
 
 const baseMsgCreateChain: object = {
   coordinator: '',
@@ -556,6 +556,228 @@ export const MsgEditChainResponse = {
 
   fromPartial(_: DeepPartial<MsgEditChainResponse>): MsgEditChainResponse {
     const message = { ...baseMsgEditChainResponse } as MsgEditChainResponse
+    return message
+  }
+}
+
+const baseMsgUpdateLaunchInformation: object = {
+  coordinator: '',
+  launchID: 0,
+  genesisChainID: '',
+  sourceURL: '',
+  sourceHash: ''
+}
+
+export const MsgUpdateLaunchInformation = {
+  encode(
+    message: MsgUpdateLaunchInformation,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.coordinator !== '') {
+      writer.uint32(10).string(message.coordinator)
+    }
+    if (message.launchID !== 0) {
+      writer.uint32(16).uint64(message.launchID)
+    }
+    if (message.genesisChainID !== '') {
+      writer.uint32(26).string(message.genesisChainID)
+    }
+    if (message.sourceURL !== '') {
+      writer.uint32(34).string(message.sourceURL)
+    }
+    if (message.sourceHash !== '') {
+      writer.uint32(42).string(message.sourceHash)
+    }
+    if (message.initialGenesis !== undefined) {
+      InitialGenesis.encode(
+        message.initialGenesis,
+        writer.uint32(50).fork()
+      ).ldelim()
+    }
+    return writer
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): MsgUpdateLaunchInformation {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input
+    let end = length === undefined ? reader.len : reader.pos + length
+    const message = {
+      ...baseMsgUpdateLaunchInformation
+    } as MsgUpdateLaunchInformation
+    while (reader.pos < end) {
+      const tag = reader.uint32()
+      switch (tag >>> 3) {
+        case 1:
+          message.coordinator = reader.string()
+          break
+        case 2:
+          message.launchID = longToNumber(reader.uint64() as Long)
+          break
+        case 3:
+          message.genesisChainID = reader.string()
+          break
+        case 4:
+          message.sourceURL = reader.string()
+          break
+        case 5:
+          message.sourceHash = reader.string()
+          break
+        case 6:
+          message.initialGenesis = InitialGenesis.decode(
+            reader,
+            reader.uint32()
+          )
+          break
+        default:
+          reader.skipType(tag & 7)
+          break
+      }
+    }
+    return message
+  },
+
+  fromJSON(object: any): MsgUpdateLaunchInformation {
+    const message = {
+      ...baseMsgUpdateLaunchInformation
+    } as MsgUpdateLaunchInformation
+    if (object.coordinator !== undefined && object.coordinator !== null) {
+      message.coordinator = String(object.coordinator)
+    } else {
+      message.coordinator = ''
+    }
+    if (object.launchID !== undefined && object.launchID !== null) {
+      message.launchID = Number(object.launchID)
+    } else {
+      message.launchID = 0
+    }
+    if (object.genesisChainID !== undefined && object.genesisChainID !== null) {
+      message.genesisChainID = String(object.genesisChainID)
+    } else {
+      message.genesisChainID = ''
+    }
+    if (object.sourceURL !== undefined && object.sourceURL !== null) {
+      message.sourceURL = String(object.sourceURL)
+    } else {
+      message.sourceURL = ''
+    }
+    if (object.sourceHash !== undefined && object.sourceHash !== null) {
+      message.sourceHash = String(object.sourceHash)
+    } else {
+      message.sourceHash = ''
+    }
+    if (object.initialGenesis !== undefined && object.initialGenesis !== null) {
+      message.initialGenesis = InitialGenesis.fromJSON(object.initialGenesis)
+    } else {
+      message.initialGenesis = undefined
+    }
+    return message
+  },
+
+  toJSON(message: MsgUpdateLaunchInformation): unknown {
+    const obj: any = {}
+    message.coordinator !== undefined && (obj.coordinator = message.coordinator)
+    message.launchID !== undefined && (obj.launchID = message.launchID)
+    message.genesisChainID !== undefined &&
+      (obj.genesisChainID = message.genesisChainID)
+    message.sourceURL !== undefined && (obj.sourceURL = message.sourceURL)
+    message.sourceHash !== undefined && (obj.sourceHash = message.sourceHash)
+    message.initialGenesis !== undefined &&
+      (obj.initialGenesis = message.initialGenesis
+        ? InitialGenesis.toJSON(message.initialGenesis)
+        : undefined)
+    return obj
+  },
+
+  fromPartial(
+    object: DeepPartial<MsgUpdateLaunchInformation>
+  ): MsgUpdateLaunchInformation {
+    const message = {
+      ...baseMsgUpdateLaunchInformation
+    } as MsgUpdateLaunchInformation
+    if (object.coordinator !== undefined && object.coordinator !== null) {
+      message.coordinator = object.coordinator
+    } else {
+      message.coordinator = ''
+    }
+    if (object.launchID !== undefined && object.launchID !== null) {
+      message.launchID = object.launchID
+    } else {
+      message.launchID = 0
+    }
+    if (object.genesisChainID !== undefined && object.genesisChainID !== null) {
+      message.genesisChainID = object.genesisChainID
+    } else {
+      message.genesisChainID = ''
+    }
+    if (object.sourceURL !== undefined && object.sourceURL !== null) {
+      message.sourceURL = object.sourceURL
+    } else {
+      message.sourceURL = ''
+    }
+    if (object.sourceHash !== undefined && object.sourceHash !== null) {
+      message.sourceHash = object.sourceHash
+    } else {
+      message.sourceHash = ''
+    }
+    if (object.initialGenesis !== undefined && object.initialGenesis !== null) {
+      message.initialGenesis = InitialGenesis.fromPartial(object.initialGenesis)
+    } else {
+      message.initialGenesis = undefined
+    }
+    return message
+  }
+}
+
+const baseMsgUpdateLaunchInformationResponse: object = {}
+
+export const MsgUpdateLaunchInformationResponse = {
+  encode(
+    _: MsgUpdateLaunchInformationResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    return writer
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): MsgUpdateLaunchInformationResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input
+    let end = length === undefined ? reader.len : reader.pos + length
+    const message = {
+      ...baseMsgUpdateLaunchInformationResponse
+    } as MsgUpdateLaunchInformationResponse
+    while (reader.pos < end) {
+      const tag = reader.uint32()
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7)
+          break
+      }
+    }
+    return message
+  },
+
+  fromJSON(_: any): MsgUpdateLaunchInformationResponse {
+    const message = {
+      ...baseMsgUpdateLaunchInformationResponse
+    } as MsgUpdateLaunchInformationResponse
+    return message
+  },
+
+  toJSON(_: MsgUpdateLaunchInformationResponse): unknown {
+    const obj: any = {}
+    return obj
+  },
+
+  fromPartial(
+    _: DeepPartial<MsgUpdateLaunchInformationResponse>
+  ): MsgUpdateLaunchInformationResponse {
+    const message = {
+      ...baseMsgUpdateLaunchInformationResponse
+    } as MsgUpdateLaunchInformationResponse
     return message
   }
 }
@@ -2074,236 +2296,14 @@ export const MsgRevertLaunchResponse = {
   }
 }
 
-const baseMsgUpdateLaunchInformation: object = {
-  coordinator: '',
-  launchID: 0,
-  genesisChainID: '',
-  sourceURL: '',
-  sourceHash: ''
-}
-
-export const MsgUpdateLaunchInformation = {
-  encode(
-    message: MsgUpdateLaunchInformation,
-    writer: Writer = Writer.create()
-  ): Writer {
-    if (message.coordinator !== '') {
-      writer.uint32(10).string(message.coordinator)
-    }
-    if (message.launchID !== 0) {
-      writer.uint32(16).uint64(message.launchID)
-    }
-    if (message.genesisChainID !== '') {
-      writer.uint32(26).string(message.genesisChainID)
-    }
-    if (message.sourceURL !== '') {
-      writer.uint32(34).string(message.sourceURL)
-    }
-    if (message.sourceHash !== '') {
-      writer.uint32(42).string(message.sourceHash)
-    }
-    if (message.initialGenesis !== undefined) {
-      InitialGenesis.encode(
-        message.initialGenesis,
-        writer.uint32(50).fork()
-      ).ldelim()
-    }
-    return writer
-  },
-
-  decode(
-    input: Reader | Uint8Array,
-    length?: number
-  ): MsgUpdateLaunchInformation {
-    const reader = input instanceof Uint8Array ? new Reader(input) : input
-    let end = length === undefined ? reader.len : reader.pos + length
-    const message = {
-      ...baseMsgUpdateLaunchInformation
-    } as MsgUpdateLaunchInformation
-    while (reader.pos < end) {
-      const tag = reader.uint32()
-      switch (tag >>> 3) {
-        case 1:
-          message.coordinator = reader.string()
-          break
-        case 2:
-          message.launchID = longToNumber(reader.uint64() as Long)
-          break
-        case 3:
-          message.genesisChainID = reader.string()
-          break
-        case 4:
-          message.sourceURL = reader.string()
-          break
-        case 5:
-          message.sourceHash = reader.string()
-          break
-        case 6:
-          message.initialGenesis = InitialGenesis.decode(
-            reader,
-            reader.uint32()
-          )
-          break
-        default:
-          reader.skipType(tag & 7)
-          break
-      }
-    }
-    return message
-  },
-
-  fromJSON(object: any): MsgUpdateLaunchInformation {
-    const message = {
-      ...baseMsgUpdateLaunchInformation
-    } as MsgUpdateLaunchInformation
-    if (object.coordinator !== undefined && object.coordinator !== null) {
-      message.coordinator = String(object.coordinator)
-    } else {
-      message.coordinator = ''
-    }
-    if (object.launchID !== undefined && object.launchID !== null) {
-      message.launchID = Number(object.launchID)
-    } else {
-      message.launchID = 0
-    }
-    if (object.genesisChainID !== undefined && object.genesisChainID !== null) {
-      message.genesisChainID = String(object.genesisChainID)
-    } else {
-      message.genesisChainID = ''
-    }
-    if (object.sourceURL !== undefined && object.sourceURL !== null) {
-      message.sourceURL = String(object.sourceURL)
-    } else {
-      message.sourceURL = ''
-    }
-    if (object.sourceHash !== undefined && object.sourceHash !== null) {
-      message.sourceHash = String(object.sourceHash)
-    } else {
-      message.sourceHash = ''
-    }
-    if (object.initialGenesis !== undefined && object.initialGenesis !== null) {
-      message.initialGenesis = InitialGenesis.fromJSON(object.initialGenesis)
-    } else {
-      message.initialGenesis = undefined
-    }
-    return message
-  },
-
-  toJSON(message: MsgUpdateLaunchInformation): unknown {
-    const obj: any = {}
-    message.coordinator !== undefined && (obj.coordinator = message.coordinator)
-    message.launchID !== undefined && (obj.launchID = message.launchID)
-    message.genesisChainID !== undefined &&
-      (obj.genesisChainID = message.genesisChainID)
-    message.sourceURL !== undefined && (obj.sourceURL = message.sourceURL)
-    message.sourceHash !== undefined && (obj.sourceHash = message.sourceHash)
-    message.initialGenesis !== undefined &&
-      (obj.initialGenesis = message.initialGenesis
-        ? InitialGenesis.toJSON(message.initialGenesis)
-        : undefined)
-    return obj
-  },
-
-  fromPartial(
-    object: DeepPartial<MsgUpdateLaunchInformation>
-  ): MsgUpdateLaunchInformation {
-    const message = {
-      ...baseMsgUpdateLaunchInformation
-    } as MsgUpdateLaunchInformation
-    if (object.coordinator !== undefined && object.coordinator !== null) {
-      message.coordinator = object.coordinator
-    } else {
-      message.coordinator = ''
-    }
-    if (object.launchID !== undefined && object.launchID !== null) {
-      message.launchID = object.launchID
-    } else {
-      message.launchID = 0
-    }
-    if (object.genesisChainID !== undefined && object.genesisChainID !== null) {
-      message.genesisChainID = object.genesisChainID
-    } else {
-      message.genesisChainID = ''
-    }
-    if (object.sourceURL !== undefined && object.sourceURL !== null) {
-      message.sourceURL = object.sourceURL
-    } else {
-      message.sourceURL = ''
-    }
-    if (object.sourceHash !== undefined && object.sourceHash !== null) {
-      message.sourceHash = object.sourceHash
-    } else {
-      message.sourceHash = ''
-    }
-    if (object.initialGenesis !== undefined && object.initialGenesis !== null) {
-      message.initialGenesis = InitialGenesis.fromPartial(object.initialGenesis)
-    } else {
-      message.initialGenesis = undefined
-    }
-    return message
-  }
-}
-
-const baseMsgUpdateLaunchInformationResponse: object = {}
-
-export const MsgUpdateLaunchInformationResponse = {
-  encode(
-    _: MsgUpdateLaunchInformationResponse,
-    writer: Writer = Writer.create()
-  ): Writer {
-    return writer
-  },
-
-  decode(
-    input: Reader | Uint8Array,
-    length?: number
-  ): MsgUpdateLaunchInformationResponse {
-    const reader = input instanceof Uint8Array ? new Reader(input) : input
-    let end = length === undefined ? reader.len : reader.pos + length
-    const message = {
-      ...baseMsgUpdateLaunchInformationResponse
-    } as MsgUpdateLaunchInformationResponse
-    while (reader.pos < end) {
-      const tag = reader.uint32()
-      switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7)
-          break
-      }
-    }
-    return message
-  },
-
-  fromJSON(_: any): MsgUpdateLaunchInformationResponse {
-    const message = {
-      ...baseMsgUpdateLaunchInformationResponse
-    } as MsgUpdateLaunchInformationResponse
-    return message
-  },
-
-  toJSON(_: MsgUpdateLaunchInformationResponse): unknown {
-    const obj: any = {}
-    return obj
-  },
-
-  fromPartial(
-    _: DeepPartial<MsgUpdateLaunchInformationResponse>
-  ): MsgUpdateLaunchInformationResponse {
-    const message = {
-      ...baseMsgUpdateLaunchInformationResponse
-    } as MsgUpdateLaunchInformationResponse
-    return message
-  }
-}
-
 /** Msg defines the Msg service. */
 export interface Msg {
   /** this line is used by starport scaffolding # proto/tx/rpc */
+  CreateChain(request: MsgCreateChain): Promise<MsgCreateChainResponse>
+  EditChain(request: MsgEditChain): Promise<MsgEditChainResponse>
   UpdateLaunchInformation(
     request: MsgUpdateLaunchInformation
   ): Promise<MsgUpdateLaunchInformationResponse>
-  CreateChain(request: MsgCreateChain): Promise<MsgCreateChainResponse>
-  EditChain(request: MsgEditChain): Promise<MsgEditChainResponse>
   RequestAddAccount(
     request: MsgRequestAddAccount
   ): Promise<MsgRequestAddAccountResponse>
@@ -2329,20 +2329,6 @@ export class MsgClientImpl implements Msg {
   constructor(rpc: Rpc) {
     this.rpc = rpc
   }
-  UpdateLaunchInformation(
-    request: MsgUpdateLaunchInformation
-  ): Promise<MsgUpdateLaunchInformationResponse> {
-    const data = MsgUpdateLaunchInformation.encode(request).finish()
-    const promise = this.rpc.request(
-      'tendermint.spn.launch.Msg',
-      'UpdateLaunchInformation',
-      data
-    )
-    return promise.then((data) =>
-      MsgUpdateLaunchInformationResponse.decode(new Reader(data))
-    )
-  }
-
   CreateChain(request: MsgCreateChain): Promise<MsgCreateChainResponse> {
     const data = MsgCreateChain.encode(request).finish()
     const promise = this.rpc.request(
@@ -2363,6 +2349,20 @@ export class MsgClientImpl implements Msg {
       data
     )
     return promise.then((data) => MsgEditChainResponse.decode(new Reader(data)))
+  }
+
+  UpdateLaunchInformation(
+    request: MsgUpdateLaunchInformation
+  ): Promise<MsgUpdateLaunchInformationResponse> {
+    const data = MsgUpdateLaunchInformation.encode(request).finish()
+    const promise = this.rpc.request(
+      'tendermint.spn.launch.Msg',
+      'UpdateLaunchInformation',
+      data
+    )
+    return promise.then((data) =>
+      MsgUpdateLaunchInformationResponse.decode(new Reader(data))
+    )
   }
 
   RequestAddAccount(
