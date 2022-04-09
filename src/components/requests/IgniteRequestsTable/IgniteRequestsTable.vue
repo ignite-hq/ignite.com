@@ -42,9 +42,11 @@
         </div>
 
         <!-- Requestor -->
-        <div role="cell" class="responses-table-cell flex-1">
-          <div class="profile-placeholder" />
-          <span>{{ request.creator }}</span>
+        <div role="cell" class="responses-table-cell flex-1 font-semibold">
+          <IgniteProfileIcon :address="request.creator" />
+          <span>{{
+            request.creator ? getShortAddress(request.creator) : 'Unknown'
+          }}</span>
         </div>
       </div>
     </div>
@@ -62,14 +64,16 @@ import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 
 import IgniteCheckbox from '~/components/IgniteCheckbox.vue'
+import IgniteProfileIcon from '~/components/IgniteProfileIcon.vue'
 import useLaunchRequests from '~/composables/useLaunchRequests'
 import {
   LaunchQueryAllRequestResponse,
   LaunchRequest
 } from '~/generated/tendermint-spn-ts-client/tendermint.spn.launch/rest'
+import { getShortAddress } from '~/utils/address'
 
 import IgniteRequestsAction from '../IgniteRequestsAction.vue'
-import { getActionIcon, getHumanizedAction, getHumanizedType } from './utils'
+import { getHumanizedType } from './utils'
 
 // composables
 const { params } = useRoute()
@@ -116,9 +120,5 @@ const launchRequests = computed(() => {
 
 .responses-table-cell {
   @apply flex items-center space-x-4 overflow-hidden p-4 py-6 pl-8;
-}
-
-.profile-placeholder {
-  @apply h-7.5 w-7.5 rounded-circle bg-secondary;
 }
 </style>
