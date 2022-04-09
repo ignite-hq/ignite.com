@@ -21,23 +21,30 @@
     <!-- Body -->
     <div role="rowgroup" class="responses-table-body">
       <div
-        v-for="row in launchRequests"
-        :key="row.launchID"
+        v-for="request in launchRequests"
+        :key="request.launchID"
         role="row"
         class="responses-table-row"
       >
+        <!-- Checkbox -->
         <div role="cell" class="responses-table-cell">
           <IgniteCheckbox />
         </div>
+
+        <!-- Action -->
         <div role="cell" class="responses-table-cell flex-1">
-          <IgniteRequestsActionIcon /> <span>{{ row.launchID }}</span>
+          <IgniteRequestsAction :request="request" />
         </div>
+
+        <!-- Type -->
         <div role="cell" class="responses-table-cell flex-1">
-          {{ row.requestID }}
+          {{ getHumanizedType(request.content) }}
         </div>
+
+        <!-- Requestor -->
         <div role="cell" class="responses-table-cell flex-1">
           <div class="profile-placeholder" />
-          <span>{{ row.creator }}</span>
+          <span>{{ request.creator }}</span>
         </div>
       </div>
     </div>
@@ -55,16 +62,20 @@ import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 
 import IgniteCheckbox from '~/components/IgniteCheckbox.vue'
-import IgniteRequestsActionIcon from '~/components/requests/IgniteRequestsActionIcon.vue'
 import useLaunchRequests from '~/composables/useLaunchRequests'
 import {
   LaunchQueryAllRequestResponse,
   LaunchRequest
 } from '~/generated/tendermint-spn-ts-client/tendermint.spn.launch/rest'
 
+import IgniteRequestsAction from '../IgniteRequestsAction.vue'
+import { getActionIcon, getHumanizedAction, getHumanizedType } from './utils'
+
+// composables
 const { params } = useRoute()
 const { requests } = useLaunchRequests(params.launchId.toString())
 
+// methods
 function mergePages(
   pages: LaunchQueryAllRequestResponse[] = []
 ): LaunchRequest[] {
@@ -74,8 +85,11 @@ function mergePages(
   )
 }
 
+// computed
 const launchRequests = computed(() => {
-  return mergePages(requests.value?.pages)
+  return mergePages(requests.value?.pages).filter(({ content }) =>
+    Boolean(content)
+  )
 })
 </script>
 
