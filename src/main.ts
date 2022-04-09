@@ -1,6 +1,7 @@
 import './assets/css/main.css'
 
 import MasonryWall from '@yeger/vue-masonry-wall'
+import HighchartsVue from 'highcharts-vue'
 import { createApp } from 'vue'
 import { VueQueryPlugin, VueQueryPluginOptions } from 'vue-query'
 
@@ -23,4 +24,5 @@ app
   .use(VueQueryPlugin, vueQueryPluginOptions)
   .use(router)
   .use(MasonryWall)
+  .use(HighchartsVue)
   .mount('#app')

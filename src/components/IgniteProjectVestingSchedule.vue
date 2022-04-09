@@ -81,37 +81,37 @@ export default defineComponent({
     return {
       schedule: [
         {
-          category: 'Category 1',
+          category: 'Marketing',
           allocation: '00.0%',
           duration: '00 Months',
           dates: 'Feb 1, 2022 - Nov 1, 2022'
         },
         {
-          category: 'Category 2',
+          category: 'Fundraiser',
           allocation: '00%',
           duration: '1 Day',
           dates: 'March 26, 2022'
         },
         {
-          category: 'Category 3',
+          category: 'Airdrop',
           allocation: '0%',
           duration: '1 Month',
           dates: 'July 1, 2022 - July 31, 2022'
         },
         {
-          category: 'Category long name 4',
+          category: 'Community Pool',
           allocation: '00%',
           duration: '1 Year',
           dates: 'May 15, 2022 - May 15, 2023'
         },
         {
-          category: 'Category 5',
+          category: 'Public Sale',
           allocation: '00.0%',
           duration: '00 Months',
           dates: 'July 1, 2022 - Dec 1, 2023'
         },
         {
-          category: 'Category 6',
+          category: 'Core Team',
           allocation: '00%',
           duration: '0 Years',
           dates: 'September 22, 2022 - September 22, 2028'
