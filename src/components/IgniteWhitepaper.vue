@@ -3,7 +3,7 @@
     <div
       class="relative pt-7 pb-0 m:pt-8 l:py-8.5 px-5 sm:px-7 m:px-9 xl:px-10 rounded h-[100%] bg-white-1000 border border-border"
     >
-      <div class="ignt-title font-title text-4 m:text-5 font-semibold">
+      <div class="ignite-title font-title text-4 m:text-5 font-semibold">
         Whitepaper
       </div>
       <div class="mt-3 text-muted text-2">

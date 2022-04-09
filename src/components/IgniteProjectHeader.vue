@@ -18,7 +18,7 @@
               </div>
               <div class="max-w-lg">
                 <div
-                  class="mb-6 ignt-title text-7 m:text-8 font-semibold font-title"
+                  class="mb-6 ignite-title text-7 m:text-8 font-semibold font-title"
                 >
                   Project Name
                 </div>
@@ -33,7 +33,7 @@
                     validator-count="30"
                   />
                 </div>
-                <div class="ignt-text text-2 m:text-3 text-muted">
+                <div class="ignite-text text-2 m:text-3 text-muted">
                   NFT game powered by Unreal Engine hosted on Akash and built on
                   top of Cosmos. From the creators of Passage3D.
                 </div>

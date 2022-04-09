@@ -12,7 +12,7 @@
     "
   >
     <div
-      class="ignt-title font-semibold text-title font-title text-center text-3"
+      class="ignite-title font-semibold text-title font-title text-center text-3"
       :class="isWide ? ['l:text-7', 'l:max-w-sm', 'l:text-left'] : ['m:text-4']"
     >
       Validator Incentives
@@ -32,17 +32,19 @@
       <div class="">
         <div class="flex items-center justify-center">
           <SpDenom modifier="avatar" denom="denom" title="denom" class="mr-3" />
-          <div class="ignt-title font-title text-5 m:text-6">000%</div>
+          <div class="ignite-title font-title text-5 m:text-6">000%</div>
         </div>
-        <div class="mt-5 ignt-text text-muted text-center">Chain Vouchers</div>
+        <div class="mt-5 ignite-text text-muted text-center">
+          Chain Vouchers
+        </div>
       </div>
       <div class="my-3 sm:my-0 sm:mx-6 text-5 text-inactive text-center">+</div>
       <div class="">
         <div class="flex items-center justify-center">
           <SpDenom modifier="avatar" denom="denom" title="denom" class="mr-3" />
-          <div class="ignt-title font-title text-5 m:text-6">00M UST</div>
+          <div class="ignite-title font-title text-5 m:text-6">00M UST</div>
         </div>
-        <div class="mt-5 ignt-text text-muted text-center">
+        <div class="mt-5 ignite-text text-muted text-center">
           Testnet Incentives
         </div>
       </div>

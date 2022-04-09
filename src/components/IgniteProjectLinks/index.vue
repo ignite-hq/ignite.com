@@ -1,6 +1,6 @@
 <template>
   <div class="container-full container px-5 sm:px-5.5 l:px-7">
-    <div class="ignt-title font-title text-center text-5 m:text-7">
+    <div class="ignite-title font-title text-center text-5 m:text-7">
       Join the community
     </div>
 
@@ -61,12 +61,12 @@ export default defineComponent({
   data() {
     return {
       social: [
-        // {
-        //   title: 'Follow us on Twitter',
-        //   description: 'Keep up to date with the latest project developments.',
-        //   cta: 'Follow us',
-        //   link: 'https://twitter.com/'
-        // },
+        {
+          title: 'Follow us on Twitter',
+          description: 'Keep up to date with the latest project developments.',
+          cta: 'Follow us',
+          link: 'https://twitter.com/'
+        },
         {
           title: 'Join our Discord',
           description:
@@ -81,13 +81,6 @@ export default defineComponent({
           cta: 'Say hello',
           link: 'https://t.me/'
         }
-        // {
-        //   title: 'Join our Discord',
-        //   description:
-        //     'Looking to get involved? Join our Discord for development help and tips.',
-        //   cta: 'Join our Discord',
-        //   link: 'https://discord.com/'
-        // }
       ]
     }
   }

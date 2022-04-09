@@ -1,6 +1,6 @@
 <template>
   <div class="container-full container px-5 sm:px-5.5 l:px-7">
-    <div class="ignt-title font-title text-center text-5 m:text-7">Team</div>
+    <div class="ignite-title font-title text-center text-5 m:text-7">Team</div>
 
     <div class="mt-6 m:mt-9 flex justify-center flex-wrap -m-4 m:-m-5">
       <div
@@ -27,12 +27,6 @@ export default defineComponent({
           name: 'Member Name',
           company: 'Title',
           title: 'Co-founder & CEO',
-          info: 'Bio lorem consequat efficitur iaculis. Nam eu tincidunt nunc. Cras sit amet pulvinar tortor, a porta purususi. Orci varius natoque penatibus...'
-        },
-        {
-          name: 'Member Name',
-          company: 'Title',
-          title: 'Co-founder & CTO',
           info: 'Bio lorem consequat efficitur iaculis. Nam eu tincidunt nunc. Cras sit amet pulvinar tortor, a porta purususi. Orci varius natoque penatibus...'
         },
         {

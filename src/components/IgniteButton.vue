@@ -4,12 +4,12 @@
     class="inline-flex items-center justify-center transition-colors ease-in-out duration-250"
     :class="[
       variant === 'default' && [
-        'ignt-text',
+        'ignite-text',
         'text-primary',
         'hover:text-title'
       ],
       variant === 'primary' && [
-        'ignt-text',
+        'ignite-text',
         'font-medium',
         'bg-primary',
         'text-white-1000',

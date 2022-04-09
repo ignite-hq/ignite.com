@@ -30,13 +30,13 @@
     >
       <div>
         <div
-          class="ignt-title text-title font-semibold font-title"
+          class="ignite-title text-title font-semibold font-title"
           :class="size === 'lg' ? ['text-4', 'm:text-5'] : ['text-4']"
         >
           {{ item.title }}
         </div>
         <div
-          class="ignt-text text-muted text-2"
+          class="ignite-text text-muted text-2"
           :class="[
             size === 'sm' && 'max-w-[15rem]',
             size === 'md' && 'max-w-[22rem]',
@@ -47,7 +47,7 @@
           {{ item.description }}
         </div>
         <div
-          class="flex items-center ignt-text font-medium text-3"
+          class="flex items-center ignite-text font-medium text-3"
           :class="size === 'lg' ? 'mt-6' : ['mt-5', 'm:mt-7']"
         >
           <component :is="socialIcon" class="mr-4" />

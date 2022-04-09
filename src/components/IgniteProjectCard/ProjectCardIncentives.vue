@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="mb-6 font-medium text-center ignt-text text-2 text-muted">
+    <div class="mb-6 font-medium text-center ignite-text text-2 text-muted">
       Incentives
     </div>
     <div class="flex items-center justify-center mb-6">
@@ -11,13 +11,13 @@
         :title="firstIncentiveDenom"
         class="mr-3"
       />
-      <div class="font-semibold text-center ignt-title text-5">
+      <div class="font-semibold text-center ignite-title text-5">
         {{ incentive.total }} {{ firstIncentiveDenom?.toUpperCase() }}
       </div>
     </div>
     <div
       v-if="pastIncentive.total > 0"
-      class="text-center ignt-text text-2 text-muted"
+      class="text-center ignite-text text-2 text-muted"
     >
       Past incentives: {{ pastIncentive.total }}
       {{ firstPastIncentiveDenom?.toUpperCase() }}

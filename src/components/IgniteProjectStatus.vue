@@ -2,18 +2,18 @@
   <div class="status">
     <div class="status__item">
       <IconStar class="icon" />
-      <span class="ignt-text">{{ stargazerCount }}</span>
+      <span class="ignite-text">{{ stargazerCount }}</span>
     </div>
     <div class="status__item">
       <IconPlane class="icon" />
-      <span class="ignt-text">{{ requestCount }}</span>
+      <span class="ignite-text">{{ requestCount }}</span>
     </div>
     <div class="status__item">
       <IconStage class="icon" />
-      <span class="ignt-text">{{ validatorCount }}</span>
+      <span class="ignite-text">{{ validatorCount }}</span>
     </div>
     <div class="status__item">
-      <span class="ignt-text ignt-badge">testnet</span>
+      <span class="ignite-text ignite-badge">testnet</span>
     </div>
   </div>
 </template>

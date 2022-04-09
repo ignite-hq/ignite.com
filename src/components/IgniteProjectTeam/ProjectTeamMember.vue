@@ -3,12 +3,12 @@
     <div class="overflow-hidden relative rounded-circle w-9.5 h-9.5 bg-primary">
       <IgniteBgWave />
     </div>
-    <div class="mt-6 ignt-title font-semibold text-4">{{ member.name }}</div>
-    <div class="mt-5 ignt-text text-muted text-2">{{ member.company }}</div>
-    <div class="mt-1 ignt-text text-title font-medium text-2">
+    <div class="mt-6 ignite-title font-semibold text-4">{{ member.name }}</div>
+    <div class="mt-5 ignite-text text-muted text-2">{{ member.company }}</div>
+    <div class="mt-1 ignite-text text-title font-medium text-2">
       {{ member.title }}
     </div>
-    <div class="mt-5 ignt-text text-muted text-3">{{ member.info }}</div>
+    <div class="mt-5 ignite-text text-muted text-3">{{ member.info }}</div>
   </IgniteCard>
 </template>
 
