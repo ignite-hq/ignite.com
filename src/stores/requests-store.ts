@@ -13,7 +13,7 @@ export const pageSorts = [
 
 export const useRequestsStore = defineStore('RequestsStore', {
   state: () => ({
-    selectedRequests: [],
+    selectedRequests: [] as string[],
     selectedPageFilter: pageFilters[0],
     selectedPageSort: pageSorts[0]
   })

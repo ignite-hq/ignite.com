@@ -4,7 +4,7 @@
     <div role="rowgroup">
       <div role="row" class="responses-table-header">
         <div role="columnheader" class="responses-table-column-cell">
-          <IgniteCheckbox />
+          <IgniteCheckbox @input="selectAll" />
         </div>
         <div role="columnheader" class="responses-table-column-cell flex-1">
           Action
@@ -21,14 +21,17 @@
     <!-- Body -->
     <div role="rowgroup" class="responses-table-body">
       <div
-        v-for="request in launchRequests"
+        v-for="(request, index) in launchRequests"
         :key="request.launchID"
         role="row"
         class="responses-table-row"
       >
         <!-- Checkbox -->
         <div role="cell" class="responses-table-cell">
-          <IgniteCheckbox />
+          <IgniteCheckbox
+            v-model="store.selectedRequests"
+            :value="index.toString()"
+          />
         </div>
 
         <!-- Action -->
@@ -70,10 +73,14 @@ import {
   LaunchQueryAllRequestResponse,
   LaunchRequest
 } from '~/generated/tendermint-spn-ts-client/tendermint.spn.launch/rest'
+import { useRequestsStore } from '~/stores/requests-store'
 import { getShortAddress } from '~/utils/address'
 
 import IgniteRequestsAction from '../IgniteRequestsAction.vue'
 import { getHumanizedType } from './utils'
+
+// store
+const store = useRequestsStore()
 
 // composables
 const { params } = useRoute()
@@ -87,6 +94,16 @@ function mergePages(
     (acc, page) => [...acc, ...(page?.request ?? [])],
     [] as LaunchRequest[]
   )
+}
+
+function selectAll() {
+  if (store.selectedRequests.length === launchRequests.value.length) {
+    store.selectedRequests = []
+  } else {
+    store.selectedRequests = launchRequests.value.map((_, index) =>
+      index.toString()
+    )
+  }
 }
 
 // computed

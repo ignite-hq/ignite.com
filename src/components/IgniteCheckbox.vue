@@ -1,7 +1,12 @@
 <template>
   <label class="relative flex items-center">
     <span class="relative flex items-center justify-center">
-      <input v-bind="$attrs" type="checkbox" class="ignite-checkbox" />
+      <input
+        :checked="isChecked"
+        type="checkbox"
+        class="ignite-checkbox"
+        @change="onChange"
+      />
       <div class="ignite-check"><IconCheck /></div>
     </span>
 
@@ -18,7 +23,53 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import { computed } from 'vue'
+
 import IconCheck from './icons/IconCheckMark.vue'
+
+interface Emits {
+  (e: 'update:modelValue', value: boolean | any[]): void
+}
+
+interface Props {
+  value: string
+  modelValue: string | string[]
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  value: undefined,
+  modelValue: ''
+})
+
+const emit = defineEmits<Emits>()
+
+// methods
+function onChange(event: Event) {
+  const isChecked = (event.target as HTMLInputElement).checked
+  const modelValue = props.modelValue
+  const value = props.value
+
+  if (Array.isArray(modelValue)) {
+    const newValue = [...modelValue]
+    if (isChecked) {
+      newValue.push(value)
+    } else {
+      newValue.splice(newValue.indexOf(value), 1)
+    }
+    emit('update:modelValue', newValue)
+  } else {
+    emit('update:modelValue', isChecked)
+  }
+}
+
+// computed
+const isChecked = computed(() => {
+  if (Array.isArray(props.modelValue)) {
+    return props.modelValue.includes(props.value)
+  }
+
+  return props.value === props.modelValue
+})
 </script>
 
 <style scoped lang="postcss">

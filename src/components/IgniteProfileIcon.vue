@@ -32,7 +32,7 @@ function getAvatar() {
   @apply h-7 w-7 overflow-hidden rounded-circle;
 }
 
-.avatar > svg {
+.ignite-avatar > svg {
   @apply h-7 w-7;
 }
 </style>
