@@ -15,7 +15,7 @@ The two packages, `tendermint-spn-ts-client` and `tendermint-spn-vue`, inside `s
 ### To make use of the Vue Api, do =
 
 ```ts
-import { useTendermintFundraisingModule } from 'tendermint-spn-vue'
+import { useTendermintFundraising } from 'tendermint-spn-vue'
 
 const { queryActions } = useTendermintFundraising()
 ```
@@ -37,7 +37,7 @@ const { signIn, signOut } = useIgnite()
 ### To use the keplr plugin, do =
 
 ```ts
-ignite.keplr // see suggestions
+ignite.keplr // fully typed
 ```
 
 ### To attach a custom plugin, do =
