@@ -13,6 +13,45 @@ export interface Request {
   creator: string
   createdAt: number
   content: RequestContent | undefined
+  status: Request_Status
+}
+
+export enum Request_Status {
+  PENDING = 0,
+  APPROVED = 1,
+  REJECTED = 2,
+  UNRECOGNIZED = -1
+}
+
+export function request_StatusFromJSON(object: any): Request_Status {
+  switch (object) {
+    case 0:
+    case 'PENDING':
+      return Request_Status.PENDING
+    case 1:
+    case 'APPROVED':
+      return Request_Status.APPROVED
+    case 2:
+    case 'REJECTED':
+      return Request_Status.REJECTED
+    case -1:
+    case 'UNRECOGNIZED':
+    default:
+      return Request_Status.UNRECOGNIZED
+  }
+}
+
+export function request_StatusToJSON(object: Request_Status): string {
+  switch (object) {
+    case Request_Status.PENDING:
+      return 'PENDING'
+    case Request_Status.APPROVED:
+      return 'APPROVED'
+    case Request_Status.REJECTED:
+      return 'REJECTED'
+    default:
+      return 'UNKNOWN'
+  }
 }
 
 export interface RequestContent {
@@ -35,7 +74,8 @@ const baseRequest: object = {
   launchID: 0,
   requestID: 0,
   creator: '',
-  createdAt: 0
+  createdAt: 0,
+  status: 0
 }
 
 export const Request = {
@@ -54,6 +94,9 @@ export const Request = {
     }
     if (message.content !== undefined) {
       RequestContent.encode(message.content, writer.uint32(42).fork()).ldelim()
+    }
+    if (message.status !== 0) {
+      writer.uint32(48).int32(message.status)
     }
     return writer
   },
@@ -79,6 +122,9 @@ export const Request = {
           break
         case 5:
           message.content = RequestContent.decode(reader, reader.uint32())
+          break
+        case 6:
+          message.status = reader.int32() as any
           break
         default:
           reader.skipType(tag & 7)
@@ -115,6 +161,11 @@ export const Request = {
     } else {
       message.content = undefined
     }
+    if (object.status !== undefined && object.status !== null) {
+      message.status = request_StatusFromJSON(object.status)
+    } else {
+      message.status = 0
+    }
     return message
   },
 
@@ -128,6 +179,8 @@ export const Request = {
       (obj.content = message.content
         ? RequestContent.toJSON(message.content)
         : undefined)
+    message.status !== undefined &&
+      (obj.status = request_StatusToJSON(message.status))
     return obj
   },
 
@@ -157,6 +210,11 @@ export const Request = {
       message.content = RequestContent.fromPartial(object.content)
     } else {
       message.content = undefined
+    }
+    if (object.status !== undefined && object.status !== null) {
+      message.status = object.status
+    } else {
+      message.status = 0
     }
     return message
   }

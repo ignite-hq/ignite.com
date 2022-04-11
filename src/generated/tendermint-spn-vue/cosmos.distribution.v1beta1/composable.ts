@@ -1,16 +1,17 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
-import { Ignite } from 'tendermint-spn-ts-client'
-import Module from 'tendermint-spn-ts-client/cosmos.distribution.v1beta1/module'
+import Module from '../../tendermint-spn-ts-client/cosmos.distribution.v1beta1/module'
+import useIgnite from '../useIgnite'
+import { unref } from 'vue'
 
-type SendMsgWithdrawDelegatorRewardType =
-  typeof Module.prototype.sendMsgWithdrawDelegatorReward
-type SendMsgSetWithdrawAddressType =
-  typeof Module.prototype.sendMsgSetWithdrawAddress
 type SendMsgWithdrawValidatorCommissionType =
   typeof Module.prototype.sendMsgWithdrawValidatorCommission
 type SendMsgFundCommunityPoolType =
   typeof Module.prototype.sendMsgFundCommunityPool
+type SendMsgWithdrawDelegatorRewardType =
+  typeof Module.prototype.sendMsgWithdrawDelegatorReward
+type SendMsgSetWithdrawAddressType =
+  typeof Module.prototype.sendMsgSetWithdrawAddress
 
 type QueryParamsType = typeof Module.prototype.queryParams
 type QueryValidatorOutstandingRewardsType =
@@ -28,10 +29,10 @@ type QueryDelegatorWithdrawAddressType =
 type QueryCommunityPoolType = typeof Module.prototype.queryCommunityPool
 
 type Response = {
-  sendMsgWithdrawDelegatorReward: SendMsgWithdrawDelegatorRewardType
-  sendMsgSetWithdrawAddress: SendMsgSetWithdrawAddressType
   sendMsgWithdrawValidatorCommission: SendMsgWithdrawValidatorCommissionType
   sendMsgFundCommunityPool: SendMsgFundCommunityPoolType
+  sendMsgWithdrawDelegatorReward: SendMsgWithdrawDelegatorRewardType
+  sendMsgSetWithdrawAddress: SendMsgSetWithdrawAddressType
 
   queryParams: QueryParamsType
   queryValidatorOutstandingRewards: QueryValidatorOutstandingRewardsType
@@ -44,19 +45,18 @@ type Response = {
   queryCommunityPool: QueryCommunityPoolType
 }
 
-type Params = {
-  ignite: Ignite
-}
+function useModule(): Response {
+  // ignite
+  let { ignite } = useIgnite()
 
-function useModule({ ignite }: Params): Response {
   let {
-    sendMsgWithdrawDelegatorReward,
-
-    sendMsgSetWithdrawAddress,
-
     sendMsgWithdrawValidatorCommission,
 
     sendMsgFundCommunityPool,
+
+    sendMsgWithdrawDelegatorReward,
+
+    sendMsgSetWithdrawAddress,
 
     queryParams,
 
@@ -75,64 +75,64 @@ function useModule({ ignite }: Params): Response {
     queryDelegatorWithdrawAddress,
 
     queryCommunityPool
-  } = ignite.CosmosDistributionV1Beta1
-
-  sendMsgWithdrawDelegatorReward = sendMsgWithdrawDelegatorReward.bind(
-    ignite.CosmosDistributionV1Beta1
-  )
-
-  sendMsgSetWithdrawAddress = sendMsgSetWithdrawAddress.bind(
-    ignite.CosmosDistributionV1Beta1
-  )
+  } = unref(ignite.cosmosDistributionV1Beta1)
 
   sendMsgWithdrawValidatorCommission = sendMsgWithdrawValidatorCommission.bind(
-    ignite.CosmosDistributionV1Beta1
+    ignite.cosmosDistributionV1Beta1
   )
 
   sendMsgFundCommunityPool = sendMsgFundCommunityPool.bind(
-    ignite.CosmosDistributionV1Beta1
+    ignite.cosmosDistributionV1Beta1
   )
 
-  queryParams = queryParams.bind(ignite.CosmosDistributionV1Beta1)
+  sendMsgWithdrawDelegatorReward = sendMsgWithdrawDelegatorReward.bind(
+    ignite.cosmosDistributionV1Beta1
+  )
+
+  sendMsgSetWithdrawAddress = sendMsgSetWithdrawAddress.bind(
+    ignite.cosmosDistributionV1Beta1
+  )
+
+  queryParams = queryParams.bind(ignite.cosmosDistributionV1Beta1)
 
   queryValidatorOutstandingRewards = queryValidatorOutstandingRewards.bind(
-    ignite.CosmosDistributionV1Beta1
+    ignite.cosmosDistributionV1Beta1
   )
 
   queryValidatorCommission = queryValidatorCommission.bind(
-    ignite.CosmosDistributionV1Beta1
+    ignite.cosmosDistributionV1Beta1
   )
 
   queryValidatorSlashes = queryValidatorSlashes.bind(
-    ignite.CosmosDistributionV1Beta1
+    ignite.cosmosDistributionV1Beta1
   )
 
   queryDelegationRewards = queryDelegationRewards.bind(
-    ignite.CosmosDistributionV1Beta1
+    ignite.cosmosDistributionV1Beta1
   )
 
   queryDelegationTotalRewards = queryDelegationTotalRewards.bind(
-    ignite.CosmosDistributionV1Beta1
+    ignite.cosmosDistributionV1Beta1
   )
 
   queryDelegatorValidators = queryDelegatorValidators.bind(
-    ignite.CosmosDistributionV1Beta1
+    ignite.cosmosDistributionV1Beta1
   )
 
   queryDelegatorWithdrawAddress = queryDelegatorWithdrawAddress.bind(
-    ignite.CosmosDistributionV1Beta1
+    ignite.cosmosDistributionV1Beta1
   )
 
-  queryCommunityPool = queryCommunityPool.bind(ignite.CosmosDistributionV1Beta1)
+  queryCommunityPool = queryCommunityPool.bind(ignite.cosmosDistributionV1Beta1)
 
   return {
-    sendMsgWithdrawDelegatorReward,
-
-    sendMsgSetWithdrawAddress,
-
     sendMsgWithdrawValidatorCommission,
 
     sendMsgFundCommunityPool,
+
+    sendMsgWithdrawDelegatorReward,
+
+    sendMsgSetWithdrawAddress,
 
     queryParams,
 

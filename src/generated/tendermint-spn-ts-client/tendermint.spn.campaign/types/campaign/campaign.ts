@@ -13,8 +13,6 @@ export interface Campaign {
   mainnetInitialized: boolean
   totalSupply: Coin[]
   allocatedShares: Coin[]
-  dynamicShares: boolean
-  totalShares: Coin[]
   metadata: Uint8Array
 }
 
@@ -23,8 +21,7 @@ const baseCampaign: object = {
   campaignName: '',
   coordinatorID: 0,
   mainnetID: 0,
-  mainnetInitialized: false,
-  dynamicShares: false
+  mainnetInitialized: false
 }
 
 export const Campaign = {
@@ -50,14 +47,8 @@ export const Campaign = {
     for (const v of message.allocatedShares) {
       Coin.encode(v!, writer.uint32(58).fork()).ldelim()
     }
-    if (message.dynamicShares === true) {
-      writer.uint32(64).bool(message.dynamicShares)
-    }
-    for (const v of message.totalShares) {
-      Coin.encode(v!, writer.uint32(74).fork()).ldelim()
-    }
     if (message.metadata.length !== 0) {
-      writer.uint32(82).bytes(message.metadata)
+      writer.uint32(66).bytes(message.metadata)
     }
     return writer
   },
@@ -68,7 +59,6 @@ export const Campaign = {
     const message = { ...baseCampaign } as Campaign
     message.totalSupply = []
     message.allocatedShares = []
-    message.totalShares = []
     while (reader.pos < end) {
       const tag = reader.uint32()
       switch (tag >>> 3) {
@@ -94,12 +84,6 @@ export const Campaign = {
           message.allocatedShares.push(Coin.decode(reader, reader.uint32()))
           break
         case 8:
-          message.dynamicShares = reader.bool()
-          break
-        case 9:
-          message.totalShares.push(Coin.decode(reader, reader.uint32()))
-          break
-        case 10:
           message.metadata = reader.bytes()
           break
         default:
@@ -114,7 +98,6 @@ export const Campaign = {
     const message = { ...baseCampaign } as Campaign
     message.totalSupply = []
     message.allocatedShares = []
-    message.totalShares = []
     if (object.campaignID !== undefined && object.campaignID !== null) {
       message.campaignID = Number(object.campaignID)
     } else {
@@ -156,16 +139,6 @@ export const Campaign = {
         message.allocatedShares.push(Coin.fromJSON(e))
       }
     }
-    if (object.dynamicShares !== undefined && object.dynamicShares !== null) {
-      message.dynamicShares = Boolean(object.dynamicShares)
-    } else {
-      message.dynamicShares = false
-    }
-    if (object.totalShares !== undefined && object.totalShares !== null) {
-      for (const e of object.totalShares) {
-        message.totalShares.push(Coin.fromJSON(e))
-      }
-    }
     if (object.metadata !== undefined && object.metadata !== null) {
       message.metadata = bytesFromBase64(object.metadata)
     }
@@ -196,15 +169,6 @@ export const Campaign = {
     } else {
       obj.allocatedShares = []
     }
-    message.dynamicShares !== undefined &&
-      (obj.dynamicShares = message.dynamicShares)
-    if (message.totalShares) {
-      obj.totalShares = message.totalShares.map((e) =>
-        e ? Coin.toJSON(e) : undefined
-      )
-    } else {
-      obj.totalShares = []
-    }
     message.metadata !== undefined &&
       (obj.metadata = base64FromBytes(
         message.metadata !== undefined ? message.metadata : new Uint8Array()
@@ -216,7 +180,6 @@ export const Campaign = {
     const message = { ...baseCampaign } as Campaign
     message.totalSupply = []
     message.allocatedShares = []
-    message.totalShares = []
     if (object.campaignID !== undefined && object.campaignID !== null) {
       message.campaignID = object.campaignID
     } else {
@@ -256,16 +219,6 @@ export const Campaign = {
     ) {
       for (const e of object.allocatedShares) {
         message.allocatedShares.push(Coin.fromPartial(e))
-      }
-    }
-    if (object.dynamicShares !== undefined && object.dynamicShares !== null) {
-      message.dynamicShares = object.dynamicShares
-    } else {
-      message.dynamicShares = false
-    }
-    if (object.totalShares !== undefined && object.totalShares !== null) {
-      for (const e of object.totalShares) {
-        message.totalShares.push(Coin.fromPartial(e))
       }
     }
     if (object.metadata !== undefined && object.metadata !== null) {

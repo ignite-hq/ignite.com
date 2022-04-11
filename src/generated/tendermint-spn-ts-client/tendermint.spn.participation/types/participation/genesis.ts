@@ -1,31 +1,31 @@
 /* eslint-disable */
-import { Params } from '../participation/params'
 import { UsedAllocations } from '../participation/used_allocations'
 import { AuctionUsedAllocations } from '../participation/auction_used_allocations'
+import { Params } from '../participation/params'
 import { Writer, Reader } from 'protobufjs/minimal'
 
 export const protobufPackage = 'tendermint.spn.participation'
 
 /** GenesisState defines the participation module's genesis state. */
 export interface GenesisState {
-  params: Params | undefined
   usedAllocationsList: UsedAllocations[]
-  /** this line is used by starport scaffolding # genesis/proto/state */
   auctionUsedAllocationsList: AuctionUsedAllocations[]
+  /** this line is used by starport scaffolding # genesis/proto/state */
+  params: Params | undefined
 }
 
 const baseGenesisState: object = {}
 
 export const GenesisState = {
   encode(message: GenesisState, writer: Writer = Writer.create()): Writer {
-    if (message.params !== undefined) {
-      Params.encode(message.params, writer.uint32(10).fork()).ldelim()
-    }
     for (const v of message.usedAllocationsList) {
-      UsedAllocations.encode(v!, writer.uint32(18).fork()).ldelim()
+      UsedAllocations.encode(v!, writer.uint32(10).fork()).ldelim()
     }
     for (const v of message.auctionUsedAllocationsList) {
-      AuctionUsedAllocations.encode(v!, writer.uint32(26).fork()).ldelim()
+      AuctionUsedAllocations.encode(v!, writer.uint32(18).fork()).ldelim()
+    }
+    if (message.params !== undefined) {
+      Params.encode(message.params, writer.uint32(26).fork()).ldelim()
     }
     return writer
   },
@@ -40,17 +40,17 @@ export const GenesisState = {
       const tag = reader.uint32()
       switch (tag >>> 3) {
         case 1:
-          message.params = Params.decode(reader, reader.uint32())
-          break
-        case 2:
           message.usedAllocationsList.push(
             UsedAllocations.decode(reader, reader.uint32())
           )
           break
-        case 3:
+        case 2:
           message.auctionUsedAllocationsList.push(
             AuctionUsedAllocations.decode(reader, reader.uint32())
           )
+          break
+        case 3:
+          message.params = Params.decode(reader, reader.uint32())
           break
         default:
           reader.skipType(tag & 7)
@@ -64,11 +64,6 @@ export const GenesisState = {
     const message = { ...baseGenesisState } as GenesisState
     message.usedAllocationsList = []
     message.auctionUsedAllocationsList = []
-    if (object.params !== undefined && object.params !== null) {
-      message.params = Params.fromJSON(object.params)
-    } else {
-      message.params = undefined
-    }
     if (
       object.usedAllocationsList !== undefined &&
       object.usedAllocationsList !== null
@@ -87,13 +82,16 @@ export const GenesisState = {
         )
       }
     }
+    if (object.params !== undefined && object.params !== null) {
+      message.params = Params.fromJSON(object.params)
+    } else {
+      message.params = undefined
+    }
     return message
   },
 
   toJSON(message: GenesisState): unknown {
     const obj: any = {}
-    message.params !== undefined &&
-      (obj.params = message.params ? Params.toJSON(message.params) : undefined)
     if (message.usedAllocationsList) {
       obj.usedAllocationsList = message.usedAllocationsList.map((e) =>
         e ? UsedAllocations.toJSON(e) : undefined
@@ -108,6 +106,8 @@ export const GenesisState = {
     } else {
       obj.auctionUsedAllocationsList = []
     }
+    message.params !== undefined &&
+      (obj.params = message.params ? Params.toJSON(message.params) : undefined)
     return obj
   },
 
@@ -115,11 +115,6 @@ export const GenesisState = {
     const message = { ...baseGenesisState } as GenesisState
     message.usedAllocationsList = []
     message.auctionUsedAllocationsList = []
-    if (object.params !== undefined && object.params !== null) {
-      message.params = Params.fromPartial(object.params)
-    } else {
-      message.params = undefined
-    }
     if (
       object.usedAllocationsList !== undefined &&
       object.usedAllocationsList !== null
@@ -137,6 +132,11 @@ export const GenesisState = {
           AuctionUsedAllocations.fromPartial(e)
         )
       }
+    }
+    if (object.params !== undefined && object.params !== null) {
+      message.params = Params.fromPartial(object.params)
+    } else {
+      message.params = undefined
     }
     return message
   }

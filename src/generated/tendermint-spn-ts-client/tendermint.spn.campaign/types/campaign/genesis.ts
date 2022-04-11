@@ -16,11 +16,12 @@ export interface GenesisState {
   campaignChainsList: CampaignChains[]
   mainnetAccountList: MainnetAccount[]
   mainnetVestingAccountList: MainnetVestingAccount[]
+  totalShares: number
   /** this line is used by starport scaffolding # genesis/proto/state */
   params: Params | undefined
 }
 
-const baseGenesisState: object = { campaignCounter: 0 }
+const baseGenesisState: object = { campaignCounter: 0, totalShares: 0 }
 
 export const GenesisState = {
   encode(message: GenesisState, writer: Writer = Writer.create()): Writer {
@@ -39,8 +40,11 @@ export const GenesisState = {
     for (const v of message.mainnetVestingAccountList) {
       MainnetVestingAccount.encode(v!, writer.uint32(42).fork()).ldelim()
     }
+    if (message.totalShares !== 0) {
+      writer.uint32(48).uint64(message.totalShares)
+    }
     if (message.params !== undefined) {
-      Params.encode(message.params, writer.uint32(50).fork()).ldelim()
+      Params.encode(message.params, writer.uint32(58).fork()).ldelim()
     }
     return writer
   },
@@ -78,6 +82,9 @@ export const GenesisState = {
           )
           break
         case 6:
+          message.totalShares = longToNumber(reader.uint64() as Long)
+          break
+        case 7:
           message.params = Params.decode(reader, reader.uint32())
           break
         default:
@@ -133,6 +140,11 @@ export const GenesisState = {
         )
       }
     }
+    if (object.totalShares !== undefined && object.totalShares !== null) {
+      message.totalShares = Number(object.totalShares)
+    } else {
+      message.totalShares = 0
+    }
     if (object.params !== undefined && object.params !== null) {
       message.params = Params.fromJSON(object.params)
     } else {
@@ -173,6 +185,7 @@ export const GenesisState = {
     } else {
       obj.mainnetVestingAccountList = []
     }
+    message.totalShares !== undefined && (obj.totalShares = message.totalShares)
     message.params !== undefined &&
       (obj.params = message.params ? Params.toJSON(message.params) : undefined)
     return obj
@@ -222,6 +235,11 @@ export const GenesisState = {
           MainnetVestingAccount.fromPartial(e)
         )
       }
+    }
+    if (object.totalShares !== undefined && object.totalShares !== null) {
+      message.totalShares = object.totalShares
+    } else {
+      message.totalShares = 0
     }
     if (object.params !== undefined && object.params !== null) {
       message.params = Params.fromPartial(object.params)

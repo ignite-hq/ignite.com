@@ -1,7 +1,8 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
-import { Ignite } from 'tendermint-spn-ts-client'
-import Module from 'tendermint-spn-ts-client/cosmos.auth.v1beta1/module'
+import Module from '../../tendermint-spn-ts-client/cosmos.auth.v1beta1/module'
+import useIgnite from '../useIgnite'
+import { unref } from 'vue'
 
 type QueryAccountsType = typeof Module.prototype.queryAccounts
 type QueryAccountType = typeof Module.prototype.queryAccount
@@ -13,24 +14,23 @@ type Response = {
   queryParams: QueryParamsType
 }
 
-type Params = {
-  ignite: Ignite
-}
+function useModule(): Response {
+  // ignite
+  let { ignite } = useIgnite()
 
-function useModule({ ignite }: Params): Response {
   let {
     queryAccounts,
 
     queryAccount,
 
     queryParams
-  } = ignite.CosmosAuthV1Beta1
+  } = unref(ignite.cosmosAuthV1Beta1)
 
-  queryAccounts = queryAccounts.bind(ignite.CosmosAuthV1Beta1)
+  queryAccounts = queryAccounts.bind(ignite.cosmosAuthV1Beta1)
 
-  queryAccount = queryAccount.bind(ignite.CosmosAuthV1Beta1)
+  queryAccount = queryAccount.bind(ignite.cosmosAuthV1Beta1)
 
-  queryParams = queryParams.bind(ignite.CosmosAuthV1Beta1)
+  queryParams = queryParams.bind(ignite.cosmosAuthV1Beta1)
 
   return {
     queryAccounts,

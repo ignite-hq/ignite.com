@@ -5,17 +5,11 @@ import { SigningStargateClient, DeliverTxResponse } from '@cosmjs/stargate'
 import { EncodeObject } from '@cosmjs/proto-signing'
 
 import { Api } from './rest'
-import { MsgEditValidator } from './types/cosmos/staking/v1beta1/tx'
 import { MsgDelegate } from './types/cosmos/staking/v1beta1/tx'
 import { MsgBeginRedelegate } from './types/cosmos/staking/v1beta1/tx'
-import { MsgUndelegate } from './types/cosmos/staking/v1beta1/tx'
+import { MsgEditValidator } from './types/cosmos/staking/v1beta1/tx'
 import { MsgCreateValidator } from './types/cosmos/staking/v1beta1/tx'
-
-type sendMsgEditValidatorParams = {
-  value: MsgEditValidator
-  fee?: StdFee
-  memo?: string
-}
+import { MsgUndelegate } from './types/cosmos/staking/v1beta1/tx'
 
 type sendMsgDelegateParams = {
   value: MsgDelegate
@@ -29,8 +23,8 @@ type sendMsgBeginRedelegateParams = {
   memo?: string
 }
 
-type sendMsgUndelegateParams = {
-  value: MsgUndelegate
+type sendMsgEditValidatorParams = {
+  value: MsgEditValidator
   fee?: StdFee
   memo?: string
 }
@@ -41,8 +35,10 @@ type sendMsgCreateValidatorParams = {
   memo?: string
 }
 
-type msgEditValidatorParams = {
-  value: MsgEditValidator
+type sendMsgUndelegateParams = {
+  value: MsgUndelegate
+  fee?: StdFee
+  memo?: string
 }
 
 type msgDelegateParams = {
@@ -53,12 +49,16 @@ type msgBeginRedelegateParams = {
   value: MsgBeginRedelegate
 }
 
-type msgUndelegateParams = {
-  value: MsgUndelegate
+type msgEditValidatorParams = {
+  value: MsgEditValidator
 }
 
 type msgCreateValidatorParams = {
   value: MsgCreateValidator
+}
+
+type msgUndelegateParams = {
+  value: MsgUndelegate
 }
 
 class Module extends Api<any> {
@@ -76,36 +76,9 @@ class Module extends Api<any> {
     this._addr = _addr
   }
 
-  async sendMsgEditValidator({
-    value,
-    fee,
-    memo
-  }: sendMsgEditValidatorParams): Promise<DeliverTxResponse> {
-    if (!this._client) {
-      throw new Error(
-        'TxClient:sendMsgEditValidator: Unable to sign Tx. Signer is not present.'
-      )
-    }
-    if (!this._addr) {
-      throw new Error(
-        'TxClient:sendMsgEditValidator: Unable to sign Tx. Address is not present.'
-      )
-    }
-    try {
-      let msg = this.msgEditValidator({
-        value: MsgEditValidator.fromPartial(value)
-      })
-      return await this._client.signAndBroadcast(
-        this._addr,
-        [msg],
-        fee ? fee : { amount: [], gas: '200000' },
-        memo
-      )
-    } catch (e: any) {
-      throw new Error(
-        'TxClient:sendMsgEditValidator: Could not broadcast Tx: ' + e.message
-      )
-    }
+  public noSigner() {
+    this._client = undefined
+    this._addr = undefined
   }
 
   async sendMsgDelegate({
@@ -170,23 +143,25 @@ class Module extends Api<any> {
     }
   }
 
-  async sendMsgUndelegate({
+  async sendMsgEditValidator({
     value,
     fee,
     memo
-  }: sendMsgUndelegateParams): Promise<DeliverTxResponse> {
+  }: sendMsgEditValidatorParams): Promise<DeliverTxResponse> {
     if (!this._client) {
       throw new Error(
-        'TxClient:sendMsgUndelegate: Unable to sign Tx. Signer is not present.'
+        'TxClient:sendMsgEditValidator: Unable to sign Tx. Signer is not present.'
       )
     }
     if (!this._addr) {
       throw new Error(
-        'TxClient:sendMsgUndelegate: Unable to sign Tx. Address is not present.'
+        'TxClient:sendMsgEditValidator: Unable to sign Tx. Address is not present.'
       )
     }
     try {
-      let msg = this.msgUndelegate({ value: MsgUndelegate.fromPartial(value) })
+      let msg = this.msgEditValidator({
+        value: MsgEditValidator.fromPartial(value)
+      })
       return await this._client.signAndBroadcast(
         this._addr,
         [msg],
@@ -195,7 +170,7 @@ class Module extends Api<any> {
       )
     } catch (e: any) {
       throw new Error(
-        'TxClient:sendMsgUndelegate: Could not broadcast Tx: ' + e.message
+        'TxClient:sendMsgEditValidator: Could not broadcast Tx: ' + e.message
       )
     }
   }
@@ -232,15 +207,32 @@ class Module extends Api<any> {
     }
   }
 
-  msgEditValidator({ value }: msgEditValidatorParams): EncodeObject {
+  async sendMsgUndelegate({
+    value,
+    fee,
+    memo
+  }: sendMsgUndelegateParams): Promise<DeliverTxResponse> {
+    if (!this._client) {
+      throw new Error(
+        'TxClient:sendMsgUndelegate: Unable to sign Tx. Signer is not present.'
+      )
+    }
+    if (!this._addr) {
+      throw new Error(
+        'TxClient:sendMsgUndelegate: Unable to sign Tx. Address is not present.'
+      )
+    }
     try {
-      return {
-        typeUrl: '/cosmos.staking.v1beta1.MsgEditValidator',
-        value: MsgEditValidator.fromPartial(value)
-      }
+      let msg = this.msgUndelegate({ value: MsgUndelegate.fromPartial(value) })
+      return await this._client.signAndBroadcast(
+        this._addr,
+        [msg],
+        fee ? fee : { amount: [], gas: '200000' },
+        memo
+      )
     } catch (e: any) {
       throw new Error(
-        'TxClient:MsgEditValidator: Could not create message: ' + e.message
+        'TxClient:sendMsgUndelegate: Could not broadcast Tx: ' + e.message
       )
     }
   }
@@ -271,15 +263,15 @@ class Module extends Api<any> {
     }
   }
 
-  msgUndelegate({ value }: msgUndelegateParams): EncodeObject {
+  msgEditValidator({ value }: msgEditValidatorParams): EncodeObject {
     try {
       return {
-        typeUrl: '/cosmos.staking.v1beta1.MsgUndelegate',
-        value: MsgUndelegate.fromPartial(value)
+        typeUrl: '/cosmos.staking.v1beta1.MsgEditValidator',
+        value: MsgEditValidator.fromPartial(value)
       }
     } catch (e: any) {
       throw new Error(
-        'TxClient:MsgUndelegate: Could not create message: ' + e.message
+        'TxClient:MsgEditValidator: Could not create message: ' + e.message
       )
     }
   }
@@ -293,6 +285,19 @@ class Module extends Api<any> {
     } catch (e: any) {
       throw new Error(
         'TxClient:MsgCreateValidator: Could not create message: ' + e.message
+      )
+    }
+  }
+
+  msgUndelegate({ value }: msgUndelegateParams): EncodeObject {
+    try {
+      return {
+        typeUrl: '/cosmos.staking.v1beta1.MsgUndelegate',
+        value: MsgUndelegate.fromPartial(value)
+      }
+    } catch (e: any) {
+      throw new Error(
+        'TxClient:MsgUndelegate: Could not create message: ' + e.message
       )
     }
   }

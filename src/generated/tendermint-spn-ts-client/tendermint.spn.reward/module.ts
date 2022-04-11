@@ -32,6 +32,11 @@ class Module extends Api<any> {
     this._addr = _addr
   }
 
+  public noSigner() {
+    this._client = undefined
+    this._addr = undefined
+  }
+
   async sendMsgSetRewards({
     value,
     fee,

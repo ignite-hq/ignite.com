@@ -19,7 +19,6 @@ export default {
 import { useIgnite } from '@ignt/vue'
 import { SpTheme } from '@starport/vue'
 import { Environment } from 'tendermint-spn-ts-client'
-import { useIgnite as useIgniteN } from 'tendermint-spn-vue'
 
 import IgniteNavbar from './components/IgniteNavbar.vue'
 
@@ -33,7 +32,6 @@ let tsClientParams = {
   autoConnectWS: true
 }
 useIgnite(tsClientParams)
-useIgniteN(tsClientParams)
 </script>
 
 <style scoped lang="postcss">

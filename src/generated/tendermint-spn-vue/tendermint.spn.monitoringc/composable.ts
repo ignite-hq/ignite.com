@@ -1,11 +1,11 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
-import { Ignite } from 'tendermint-spn-ts-client'
-import Module from 'tendermint-spn-ts-client/tendermint.spn.monitoringc/module'
+import Module from '../../tendermint-spn-ts-client/tendermint.spn.monitoringc/module'
+import useIgnite from '../useIgnite'
+import { unref } from 'vue'
 
 type SendMsgCreateClientType = typeof Module.prototype.sendMsgCreateClient
 
-type QueryParamsType = typeof Module.prototype.queryParams
 type QueryVerifiedClientIdsType = typeof Module.prototype.queryVerifiedClientIds
 type QueryProviderClientIDType = typeof Module.prototype.queryProviderClientID
 type QueryProviderClientIDAllType =
@@ -15,28 +15,26 @@ type QueryLaunchIDFromChannelIDType =
 type QueryLaunchIDFromChannelIDAllType =
   typeof Module.prototype.queryLaunchIDFromChannelIDAll
 type QueryMonitoringHistoryType = typeof Module.prototype.queryMonitoringHistory
+type QueryParamsType = typeof Module.prototype.queryParams
 
 type Response = {
   sendMsgCreateClient: SendMsgCreateClientType
 
-  queryParams: QueryParamsType
   queryVerifiedClientIds: QueryVerifiedClientIdsType
   queryProviderClientID: QueryProviderClientIDType
   queryProviderClientIDAll: QueryProviderClientIDAllType
   queryLaunchIDFromChannelID: QueryLaunchIDFromChannelIDType
   queryLaunchIDFromChannelIDAll: QueryLaunchIDFromChannelIDAllType
   queryMonitoringHistory: QueryMonitoringHistoryType
+  queryParams: QueryParamsType
 }
 
-type Params = {
-  ignite: Ignite
-}
+function useModule(): Response {
+  // ignite
+  let { ignite } = useIgnite()
 
-function useModule({ ignite }: Params): Response {
   let {
     sendMsgCreateClient,
-
-    queryParams,
 
     queryVerifiedClientIds,
 
@@ -48,44 +46,44 @@ function useModule({ ignite }: Params): Response {
 
     queryLaunchIDFromChannelIDAll,
 
-    queryMonitoringHistory
-  } = ignite.TendermintSpnMonitoringc
+    queryMonitoringHistory,
+
+    queryParams
+  } = unref(ignite.tendermintSpnMonitoringc)
 
   sendMsgCreateClient = sendMsgCreateClient.bind(
-    ignite.TendermintSpnMonitoringc
+    ignite.tendermintSpnMonitoringc
   )
 
-  queryParams = queryParams.bind(ignite.TendermintSpnMonitoringc)
-
   queryVerifiedClientIds = queryVerifiedClientIds.bind(
-    ignite.TendermintSpnMonitoringc
+    ignite.tendermintSpnMonitoringc
   )
 
   queryProviderClientID = queryProviderClientID.bind(
-    ignite.TendermintSpnMonitoringc
+    ignite.tendermintSpnMonitoringc
   )
 
   queryProviderClientIDAll = queryProviderClientIDAll.bind(
-    ignite.TendermintSpnMonitoringc
+    ignite.tendermintSpnMonitoringc
   )
 
   queryLaunchIDFromChannelID = queryLaunchIDFromChannelID.bind(
-    ignite.TendermintSpnMonitoringc
+    ignite.tendermintSpnMonitoringc
   )
 
   queryLaunchIDFromChannelIDAll = queryLaunchIDFromChannelIDAll.bind(
-    ignite.TendermintSpnMonitoringc
+    ignite.tendermintSpnMonitoringc
   )
 
   queryMonitoringHistory = queryMonitoringHistory.bind(
-    ignite.TendermintSpnMonitoringc
+    ignite.tendermintSpnMonitoringc
   )
+
+  queryParams = queryParams.bind(ignite.tendermintSpnMonitoringc)
 
   return {
     sendMsgCreateClient,
 
-    queryParams,
-
     queryVerifiedClientIds,
 
     queryProviderClientID,
@@ -96,7 +94,9 @@ function useModule({ ignite }: Params): Response {
 
     queryLaunchIDFromChannelIDAll,
 
-    queryMonitoringHistory
+    queryMonitoringHistory,
+
+    queryParams
   }
 }
 

@@ -22,8 +22,6 @@ export interface CampaignCampaign {
   mainnetInitialized?: boolean
   totalSupply?: V1Beta1Coin[]
   allocatedShares?: V1Beta1Coin[]
-  dynamicShares?: boolean
-  totalShares?: V1Beta1Coin[]
 
   /** @format byte */
   metadata?: string
@@ -96,8 +94,6 @@ export type CampaignMsgMintVouchersResponse = object
 export type CampaignMsgRedeemVouchersResponse = object
 
 export type CampaignMsgUnredeemVouchersResponse = object
-
-export type CampaignMsgUpdateTotalSharesResponse = object
 
 export type CampaignMsgUpdateTotalSupplyResponse = object
 
@@ -193,7 +189,7 @@ export interface CampaignQueryGetMainnetVestingAccountResponse {
  * QueryParamsResponse is response type for the Query/Params RPC method.
  */
 export interface CampaignQueryParamsResponse {
-  /** params holds all the parameters of this module. */
+  /** Params defines the set of params for the campaign module. */
   params?: CampaignParams
 }
 
@@ -735,7 +731,7 @@ export class Api<
    *
    * @tags Query
    * @name QueryParams
-   * @summary Parameters queries the parameters of the module.
+   * @summary Params queries the parameters of the module.
    * @request GET:/tendermint/spn/campaign/params
    */
   queryParams = (params: RequestParams = {}) =>

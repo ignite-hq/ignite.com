@@ -1,7 +1,8 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
-import { Ignite } from 'tendermint-spn-ts-client'
-import Module from 'tendermint-spn-ts-client/cosmos.slashing.v1beta1/module'
+import Module from '../../tendermint-spn-ts-client/cosmos.slashing.v1beta1/module'
+import useIgnite from '../useIgnite'
+import { unref } from 'vue'
 
 type SendMsgUnjailType = typeof Module.prototype.sendMsgUnjail
 
@@ -17,11 +18,10 @@ type Response = {
   querySigningInfos: QuerySigningInfosType
 }
 
-type Params = {
-  ignite: Ignite
-}
+function useModule(): Response {
+  // ignite
+  let { ignite } = useIgnite()
 
-function useModule({ ignite }: Params): Response {
   let {
     sendMsgUnjail,
 
@@ -30,15 +30,15 @@ function useModule({ ignite }: Params): Response {
     querySigningInfo,
 
     querySigningInfos
-  } = ignite.CosmosSlashingV1Beta1
+  } = unref(ignite.cosmosSlashingV1Beta1)
 
-  sendMsgUnjail = sendMsgUnjail.bind(ignite.CosmosSlashingV1Beta1)
+  sendMsgUnjail = sendMsgUnjail.bind(ignite.cosmosSlashingV1Beta1)
 
-  queryParams = queryParams.bind(ignite.CosmosSlashingV1Beta1)
+  queryParams = queryParams.bind(ignite.cosmosSlashingV1Beta1)
 
-  querySigningInfo = querySigningInfo.bind(ignite.CosmosSlashingV1Beta1)
+  querySigningInfo = querySigningInfo.bind(ignite.cosmosSlashingV1Beta1)
 
-  querySigningInfos = querySigningInfos.bind(ignite.CosmosSlashingV1Beta1)
+  querySigningInfos = querySigningInfos.bind(ignite.cosmosSlashingV1Beta1)
 
   return {
     sendMsgUnjail,

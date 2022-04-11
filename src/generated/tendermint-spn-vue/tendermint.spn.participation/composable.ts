@@ -1,13 +1,13 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
-import { Ignite } from 'tendermint-spn-ts-client'
-import Module from 'tendermint-spn-ts-client/tendermint.spn.participation/module'
+import Module from '../../tendermint-spn-ts-client/tendermint.spn.participation/module'
+import useIgnite from '../useIgnite'
+import { unref } from 'vue'
 
 type SendMsgWithdrawAllocationsType =
   typeof Module.prototype.sendMsgWithdrawAllocations
 type SendMsgParticipateType = typeof Module.prototype.sendMsgParticipate
 
-type QueryParamsType = typeof Module.prototype.queryParams
 type QueryUsedAllocationsType = typeof Module.prototype.queryUsedAllocations
 type QueryUsedAllocationsAllType =
   typeof Module.prototype.queryUsedAllocationsAll
@@ -18,31 +18,29 @@ type QueryAuctionUsedAllocationsAllType =
 type QueryTotalAllocationsType = typeof Module.prototype.queryTotalAllocations
 type QueryAvailableAllocationsType =
   typeof Module.prototype.queryAvailableAllocations
+type QueryParamsType = typeof Module.prototype.queryParams
 
 type Response = {
   sendMsgWithdrawAllocations: SendMsgWithdrawAllocationsType
   sendMsgParticipate: SendMsgParticipateType
 
-  queryParams: QueryParamsType
   queryUsedAllocations: QueryUsedAllocationsType
   queryUsedAllocationsAll: QueryUsedAllocationsAllType
   queryAuctionUsedAllocations: QueryAuctionUsedAllocationsType
   queryAuctionUsedAllocationsAll: QueryAuctionUsedAllocationsAllType
   queryTotalAllocations: QueryTotalAllocationsType
   queryAvailableAllocations: QueryAvailableAllocationsType
+  queryParams: QueryParamsType
 }
 
-type Params = {
-  ignite: Ignite
-}
+function useModule(): Response {
+  // ignite
+  let { ignite } = useIgnite()
 
-function useModule({ ignite }: Params): Response {
   let {
     sendMsgWithdrawAllocations,
 
     sendMsgParticipate,
-
-    queryParams,
 
     queryUsedAllocations,
 
@@ -54,50 +52,50 @@ function useModule({ ignite }: Params): Response {
 
     queryTotalAllocations,
 
-    queryAvailableAllocations
-  } = ignite.TendermintSpnParticipation
+    queryAvailableAllocations,
+
+    queryParams
+  } = unref(ignite.tendermintSpnParticipation)
 
   sendMsgWithdrawAllocations = sendMsgWithdrawAllocations.bind(
-    ignite.TendermintSpnParticipation
+    ignite.tendermintSpnParticipation
   )
 
   sendMsgParticipate = sendMsgParticipate.bind(
-    ignite.TendermintSpnParticipation
+    ignite.tendermintSpnParticipation
   )
 
-  queryParams = queryParams.bind(ignite.TendermintSpnParticipation)
-
   queryUsedAllocations = queryUsedAllocations.bind(
-    ignite.TendermintSpnParticipation
+    ignite.tendermintSpnParticipation
   )
 
   queryUsedAllocationsAll = queryUsedAllocationsAll.bind(
-    ignite.TendermintSpnParticipation
+    ignite.tendermintSpnParticipation
   )
 
   queryAuctionUsedAllocations = queryAuctionUsedAllocations.bind(
-    ignite.TendermintSpnParticipation
+    ignite.tendermintSpnParticipation
   )
 
   queryAuctionUsedAllocationsAll = queryAuctionUsedAllocationsAll.bind(
-    ignite.TendermintSpnParticipation
+    ignite.tendermintSpnParticipation
   )
 
   queryTotalAllocations = queryTotalAllocations.bind(
-    ignite.TendermintSpnParticipation
+    ignite.tendermintSpnParticipation
   )
 
   queryAvailableAllocations = queryAvailableAllocations.bind(
-    ignite.TendermintSpnParticipation
+    ignite.tendermintSpnParticipation
   )
+
+  queryParams = queryParams.bind(ignite.tendermintSpnParticipation)
 
   return {
     sendMsgWithdrawAllocations,
 
     sendMsgParticipate,
 
-    queryParams,
-
     queryUsedAllocations,
 
     queryUsedAllocationsAll,
@@ -108,7 +106,9 @@ function useModule({ ignite }: Params): Response {
 
     queryTotalAllocations,
 
-    queryAvailableAllocations
+    queryAvailableAllocations,
+
+    queryParams
   }
 }
 

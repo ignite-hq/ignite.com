@@ -52,7 +52,7 @@ export interface RewardQueryGetRewardPoolResponse {
  * QueryParamsResponse is response type for the Query/Params RPC method.
  */
 export interface RewardQueryParamsResponse {
-  /** params holds all the parameters of this module. */
+  /** Params defines the parameters for the module. */
   params?: RewardParams
 }
 
@@ -389,7 +389,7 @@ export class Api<
    *
    * @tags Query
    * @name QueryParams
-   * @summary Parameters queries the parameters of the module.
+   * @summary Params queries the parameters of the module.
    * @request GET:/tendermint/spn/reward/params
    */
   queryParams = (params: RequestParams = {}) =>

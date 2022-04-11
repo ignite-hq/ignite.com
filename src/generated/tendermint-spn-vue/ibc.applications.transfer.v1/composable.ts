@@ -1,7 +1,8 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
-import { Ignite } from 'tendermint-spn-ts-client'
-import Module from 'tendermint-spn-ts-client/ibc.applications.transfer.v1/module'
+import Module from '../../tendermint-spn-ts-client/ibc.applications.transfer.v1/module'
+import useIgnite from '../useIgnite'
+import { unref } from 'vue'
 
 type SendMsgTransferType = typeof Module.prototype.sendMsgTransfer
 
@@ -17,11 +18,10 @@ type Response = {
   queryParams: QueryParamsType
 }
 
-type Params = {
-  ignite: Ignite
-}
+function useModule(): Response {
+  // ignite
+  let { ignite } = useIgnite()
 
-function useModule({ ignite }: Params): Response {
   let {
     sendMsgTransfer,
 
@@ -30,15 +30,15 @@ function useModule({ ignite }: Params): Response {
     queryDenomTraces,
 
     queryParams
-  } = ignite.IbcApplicationsTransferV1
+  } = unref(ignite.ibcApplicationsTransferV1)
 
-  sendMsgTransfer = sendMsgTransfer.bind(ignite.IbcApplicationsTransferV1)
+  sendMsgTransfer = sendMsgTransfer.bind(ignite.ibcApplicationsTransferV1)
 
-  queryDenomTrace = queryDenomTrace.bind(ignite.IbcApplicationsTransferV1)
+  queryDenomTrace = queryDenomTrace.bind(ignite.ibcApplicationsTransferV1)
 
-  queryDenomTraces = queryDenomTraces.bind(ignite.IbcApplicationsTransferV1)
+  queryDenomTraces = queryDenomTraces.bind(ignite.ibcApplicationsTransferV1)
 
-  queryParams = queryParams.bind(ignite.IbcApplicationsTransferV1)
+  queryParams = queryParams.bind(ignite.ibcApplicationsTransferV1)
 
   return {
     sendMsgTransfer,
