@@ -11,106 +11,102 @@
 
 export interface CampaignCampaign {
   /** @format uint64 */
-  campaignID?: string;
-  campaignName?: string;
+  campaignID?: string
+  campaignName?: string
 
   /** @format uint64 */
-  coordinatorID?: string;
+  coordinatorID?: string
 
   /** @format uint64 */
-  mainnetID?: string;
-  mainnetInitialized?: boolean;
-  totalSupply?: V1Beta1Coin[];
-  allocatedShares?: V1Beta1Coin[];
-  dynamicShares?: boolean;
-  totalShares?: V1Beta1Coin[];
+  mainnetID?: string
+  mainnetInitialized?: boolean
+  totalSupply?: V1Beta1Coin[]
+  allocatedShares?: V1Beta1Coin[]
 
   /** @format byte */
-  metadata?: string;
+  metadata?: string
 }
 
 export interface CampaignCampaignChains {
   /** @format uint64 */
-  campaignID?: string;
-  chains?: string[];
+  campaignID?: string
+  chains?: string[]
 }
 
 export interface CampaignCampaignSummary {
-  campaign?: CampaignCampaign;
-  hasMostRecentChain?: boolean;
-  mostRecentChain?: CampaignMostRecentChain;
-  incentivized?: boolean;
-  rewards?: V1Beta1Coin[];
-  rewardsDistributed?: boolean;
-  previousRewards?: V1Beta1Coin[];
+  campaign?: CampaignCampaign
+  hasMostRecentChain?: boolean
+  mostRecentChain?: CampaignMostRecentChain
+  incentivized?: boolean
+  rewards?: V1Beta1Coin[]
+  rewardsDistributed?: boolean
+  previousRewards?: V1Beta1Coin[]
 }
 
 export interface CampaignMainnetAccount {
   /** @format uint64 */
-  campaignID?: string;
-  address?: string;
-  shares?: V1Beta1Coin[];
+  campaignID?: string
+  address?: string
+  shares?: V1Beta1Coin[]
 }
 
 export interface CampaignMainnetVestingAccount {
   /** @format uint64 */
-  campaignID?: string;
-  address?: string;
-  vestingOptions?: CampaignShareVestingOptions;
+  campaignID?: string
+  address?: string
+  vestingOptions?: CampaignShareVestingOptions
 }
 
 export interface CampaignMostRecentChain {
   /** @format uint64 */
-  launchID?: string;
-  launchTriggered?: boolean;
-  sourceURL?: string;
-  sourceHash?: string;
+  launchID?: string
+  launchTriggered?: boolean
+  sourceURL?: string
+  sourceHash?: string
 
   /** @format uint64 */
-  requestNb?: string;
+  requestNb?: string
 
   /** @format uint64 */
-  validatorNb?: string;
+  validatorNb?: string
 }
 
-export type CampaignMsgAddSharesResponse = object;
+export type CampaignMsgAddSharesResponse = object
 
-export type CampaignMsgAddVestingOptionsResponse = object;
+export type CampaignMsgAddVestingOptionsResponse = object
 
-export type CampaignMsgBurnVouchersResponse = object;
+export type CampaignMsgBurnVouchersResponse = object
 
 export interface CampaignMsgCreateCampaignResponse {
   /** @format uint64 */
-  campaignID?: string;
+  campaignID?: string
 }
 
-export type CampaignMsgEditCampaignResponse = object;
+export type CampaignMsgEditCampaignResponse = object
 
 export interface CampaignMsgInitializeMainnetResponse {
   /** @format uint64 */
-  mainnetID?: string;
+  mainnetID?: string
 }
 
-export type CampaignMsgMintVouchersResponse = object;
+export type CampaignMsgMintVouchersResponse = object
 
-export type CampaignMsgRedeemVouchersResponse = object;
+export type CampaignMsgRedeemVouchersResponse = object
 
-export type CampaignMsgUnredeemVouchersResponse = object;
+export type CampaignMsgUnredeemVouchersResponse = object
 
-export type CampaignMsgUpdateTotalSharesResponse = object;
-
-export type CampaignMsgUpdateTotalSupplyResponse = object;
+export type CampaignMsgUpdateTotalSupplyResponse = object
 
 /**
  * Params defines the set of params for the campaign module.
  */
 export interface CampaignParams {
-  totalSupplyRange?: CampaignTotalSupplyRange;
-  campaignCreationFee?: V1Beta1Coin[];
+  totalSupplyRange?: CampaignTotalSupplyRange
+  campaignCreationFee?: V1Beta1Coin[]
 }
 
 export interface CampaignQueryAllCampaignResponse {
-  campaign?: CampaignCampaign[];
+  campaign?: CampaignCampaign[]
 
   /**
    * PageResponse is to be embedded in gRPC response messages where the
@@ -121,11 +117,11 @@ export interface CampaignQueryAllCampaignResponse {
    *          PageResponse page = 2;
    *  }
    */
-  pagination?: V1Beta1PageResponse;
+  pagination?: V1Beta1PageResponse
 }
 
 export interface CampaignQueryAllMainnetAccountResponse {
-  mainnetAccount?: CampaignMainnetAccount[];
+  mainnetAccount?: CampaignMainnetAccount[]
 
   /**
    * PageResponse is to be embedded in gRPC response messages where the
@@ -136,11 +132,11 @@ export interface CampaignQueryAllMainnetAccountResponse {
    *          PageResponse page = 2;
    *  }
    */
-  pagination?: V1Beta1PageResponse;
+  pagination?: V1Beta1PageResponse
 }
 
 export interface CampaignQueryAllMainnetVestingAccountResponse {
-  mainnetVestingAccount?: CampaignMainnetVestingAccount[];
+  mainnetVestingAccount?: CampaignMainnetVestingAccount[]
 
   /**
    * PageResponse is to be embedded in gRPC response messages where the
@@ -151,11 +147,11 @@ export interface CampaignQueryAllMainnetVestingAccountResponse {
    *          PageResponse page = 2;
    *  }
    */
-  pagination?: V1Beta1PageResponse;
+  pagination?: V1Beta1PageResponse
 }
 
 export interface CampaignQueryCampaignSummariesResponse {
-  campaignSummaries?: CampaignCampaignSummary[];
+  campaignSummaries?: CampaignCampaignSummary[]
 
   /**
    * PageResponse is to be embedded in gRPC response messages where the
@@ -166,68 +162,68 @@ export interface CampaignQueryCampaignSummariesResponse {
    *          PageResponse page = 2;
    *  }
    */
-  pagination?: V1Beta1PageResponse;
+  pagination?: V1Beta1PageResponse
 }
 
 export interface CampaignQueryCampaignSummaryResponse {
-  campaignSummary?: CampaignCampaignSummary;
+  campaignSummary?: CampaignCampaignSummary
 }
 
 export interface CampaignQueryGetCampaignChainsResponse {
-  campaignChains?: CampaignCampaignChains;
+  campaignChains?: CampaignCampaignChains
 }
 
 export interface CampaignQueryGetCampaignResponse {
-  campaign?: CampaignCampaign;
+  campaign?: CampaignCampaign
 }
 
 export interface CampaignQueryGetMainnetAccountResponse {
-  mainnetAccount?: CampaignMainnetAccount;
+  mainnetAccount?: CampaignMainnetAccount
 }
 
 export interface CampaignQueryGetMainnetVestingAccountResponse {
-  mainnetVestingAccount?: CampaignMainnetVestingAccount;
+  mainnetVestingAccount?: CampaignMainnetVestingAccount
 }
 
 /**
  * QueryParamsResponse is response type for the Query/Params RPC method.
  */
 export interface CampaignQueryParamsResponse {
-  /** params holds all the parameters of this module. */
-  params?: CampaignParams;
+  /** Params defines the set of params for the campaign module. */
+  params?: CampaignParams
 }
 
 export interface CampaignQueryTotalSharesResponse {
   /** @format uint64 */
-  totalShares?: string;
+  totalShares?: string
 }
 
 export interface CampaignShareDelayedVesting {
-  totalShares?: V1Beta1Coin[];
-  vesting?: V1Beta1Coin[];
+  totalShares?: V1Beta1Coin[]
+  vesting?: V1Beta1Coin[]
 
   /** @format int64 */
-  endTime?: string;
+  endTime?: string
 }
 
 export interface CampaignShareVestingOptions {
-  delayedVesting?: CampaignShareDelayedVesting;
+  delayedVesting?: CampaignShareDelayedVesting
 }
 
 export interface CampaignTotalSupplyRange {
-  minTotalSupply?: string;
-  maxTotalSupply?: string;
+  minTotalSupply?: string
+  maxTotalSupply?: string
 }
 
 export interface ProtobufAny {
-  "@type"?: string;
+  '@type'?: string
 }
 
 export interface RpcStatus {
   /** @format int32 */
-  code?: number;
-  message?: string;
-  details?: ProtobufAny[];
+  code?: number
+  message?: string
+  details?: ProtobufAny[]
 }
 
 /**
@@ -237,8 +233,8 @@ NOTE: The amount field is an Int which implements the custom method
 signatures required by gogoproto.
 */
 export interface V1Beta1Coin {
-  denom?: string;
-  amount?: string;
+  denom?: string
+  amount?: string
 }
 
 /**
@@ -254,7 +250,7 @@ export interface V1Beta1PageRequest {
    * should be set.
    * @format byte
    */
-  key?: string;
+  key?: string
 
   /**
    * offset is a numeric offset that can be used when key is unavailable.
@@ -262,14 +258,14 @@ export interface V1Beta1PageRequest {
    * be set.
    * @format uint64
    */
-  offset?: string;
+  offset?: string
 
   /**
    * limit is the total number of results to be returned in the result page.
    * If left empty it will default to a value to be set by each app.
    * @format uint64
    */
-  limit?: string;
+  limit?: string
 
   /**
    * count_total is set to true  to indicate that the result set should include
@@ -277,14 +273,14 @@ export interface V1Beta1PageRequest {
    * count_total is only respected when offset is used. It is ignored when key
    * is set.
    */
-  count_total?: boolean;
+  count_total?: boolean
 
   /**
    * reverse is set to true if results are to be returned in the descending order.
    *
    * Since: cosmos-sdk 0.43
    */
-  reverse?: boolean;
+  reverse?: boolean
 }
 
 /**
@@ -298,115 +294,133 @@ corresponding request message has used PageRequest.
 */
 export interface V1Beta1PageResponse {
   /** @format byte */
-  next_key?: string;
+  next_key?: string
 
   /** @format uint64 */
-  total?: string;
+  total?: string
 }
 
-export type QueryParamsType = Record<string | number, any>;
-export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
+export type QueryParamsType = Record<string | number, any>
+export type ResponseFormat = keyof Omit<Body, 'body' | 'bodyUsed'>
 
-export interface FullRequestParams extends Omit<RequestInit, "body"> {
+export interface FullRequestParams extends Omit<RequestInit, 'body'> {
   /** set parameter to `true` for call `securityWorker` for this request */
-  secure?: boolean;
+  secure?: boolean
   /** request path */
-  path: string;
+  path: string
   /** content type of request body */
-  type?: ContentType;
+  type?: ContentType
   /** query params */
-  query?: QueryParamsType;
+  query?: QueryParamsType
   /** format of response (i.e. response.json() -> format: "json") */
-  format?: keyof Omit<Body, "body" | "bodyUsed">;
+  format?: keyof Omit<Body, 'body' | 'bodyUsed'>
   /** request body */
-  body?: unknown;
+  body?: unknown
   /** base url */
-  baseUrl?: string;
+  baseUrl?: string
   /** request cancellation token */
-  cancelToken?: CancelToken;
+  cancelToken?: CancelToken
 }
 
-export type RequestParams = Omit<FullRequestParams, "body" | "method" | "query" | "path">;
+export type RequestParams = Omit<
+  FullRequestParams,
+  'body' | 'method' | 'query' | 'path'
+>
 
 export interface ApiConfig<SecurityDataType = unknown> {
-  baseUrl?: string;
-  baseApiParams?: Omit<RequestParams, "baseUrl" | "cancelToken" | "signal">;
-  securityWorker?: (securityData: SecurityDataType) => RequestParams | void;
+  baseUrl?: string
+  baseApiParams?: Omit<RequestParams, 'baseUrl' | 'cancelToken' | 'signal'>
+  securityWorker?: (securityData: SecurityDataType) => RequestParams | void
 }
 
-export interface HttpResponse<D extends unknown, E extends unknown = unknown> extends Response {
-  data: D;
-  error: E;
+export interface HttpResponse<D extends unknown, E extends unknown = unknown>
+  extends Response {
+  data: D
+  error: E
 }
 
-type CancelToken = Symbol | string | number;
+type CancelToken = Symbol | string | number
 
 export enum ContentType {
-  Json = "application/json",
-  FormData = "multipart/form-data",
-  UrlEncoded = "application/x-www-form-urlencoded",
+  Json = 'application/json',
+  FormData = 'multipart/form-data',
+  UrlEncoded = 'application/x-www-form-urlencoded'
 }
 
 export class HttpClient<SecurityDataType = unknown> {
-  public baseUrl: string = "";
-  private securityData: SecurityDataType = null as any;
-  private securityWorker: null | ApiConfig<SecurityDataType>["securityWorker"] = null;
-  private abortControllers = new Map<CancelToken, AbortController>();
+  public baseUrl: string = ''
+  private securityData: SecurityDataType = null as any
+  private securityWorker: null | ApiConfig<SecurityDataType>['securityWorker'] =
+    null
+  private abortControllers = new Map<CancelToken, AbortController>()
 
   private baseApiParams: RequestParams = {
-    credentials: "same-origin",
+    credentials: 'same-origin',
     headers: {},
-    redirect: "follow",
-    referrerPolicy: "no-referrer",
-  };
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer'
+  }
 
   constructor(apiConfig: ApiConfig<SecurityDataType> = {}) {
-    Object.assign(this, apiConfig);
+    Object.assign(this, apiConfig)
   }
 
   public setSecurityData = (data: SecurityDataType) => {
-    this.securityData = data;
-  };
+    this.securityData = data
+  }
 
   private addQueryParam(query: QueryParamsType, key: string) {
-    const value = query[key];
+    const value = query[key]
 
     return (
       encodeURIComponent(key) +
-      "=" +
-      encodeURIComponent(Array.isArray(value) ? value.join(",") : typeof value === "number" ? value : `${value}`)
-    );
+      '=' +
+      encodeURIComponent(
+        Array.isArray(value)
+          ? value.join(',')
+          : typeof value === 'number'
+          ? value
+          : `${value}`
+      )
+    )
   }
 
   protected toQueryString(rawQuery?: QueryParamsType): string {
-    const query = rawQuery || {};
-    const keys = Object.keys(query).filter((key) => "undefined" !== typeof query[key]);
+    const query = rawQuery || {}
+    const keys = Object.keys(query).filter(
+      (key) => 'undefined' !== typeof query[key]
+    )
     return keys
       .map((key) =>
-        typeof query[key] === "object" && !Array.isArray(query[key])
+        typeof query[key] === 'object' && !Array.isArray(query[key])
           ? this.toQueryString(query[key] as QueryParamsType)
-          : this.addQueryParam(query, key),
+          : this.addQueryParam(query, key)
       )
-      .join("&");
+      .join('&')
   }
 
   protected addQueryParams(rawQuery?: QueryParamsType): string {
-    const queryString = this.toQueryString(rawQuery);
-    return queryString ? `?${queryString}` : "";
+    const queryString = this.toQueryString(rawQuery)
+    return queryString ? `?${queryString}` : ''
   }
 
   private contentFormatters: Record<ContentType, (input: any) => any> = {
     [ContentType.Json]: (input: any) =>
-      input !== null && (typeof input === "object" || typeof input === "string") ? JSON.stringify(input) : input,
+      input !== null && (typeof input === 'object' || typeof input === 'string')
+        ? JSON.stringify(input)
+        : input,
     [ContentType.FormData]: (input: any) =>
       Object.keys(input || {}).reduce((data, key) => {
-        data.append(key, input[key]);
-        return data;
+        data.append(key, input[key])
+        return data
       }, new FormData()),
-    [ContentType.UrlEncoded]: (input: any) => this.toQueryString(input),
-  };
+    [ContentType.UrlEncoded]: (input: any) => this.toQueryString(input)
+  }
 
-  private mergeRequestParams(params1: RequestParams, params2?: RequestParams): RequestParams {
+  private mergeRequestParams(
+    params1: RequestParams,
+    params2?: RequestParams
+  ): RequestParams {
     return {
       ...this.baseApiParams,
       ...params1,
@@ -414,33 +428,35 @@ export class HttpClient<SecurityDataType = unknown> {
       headers: {
         ...(this.baseApiParams.headers || {}),
         ...(params1.headers || {}),
-        ...((params2 && params2.headers) || {}),
-      },
-    };
+        ...((params2 && params2.headers) || {})
+      }
+    }
   }
 
-  private createAbortSignal = (cancelToken: CancelToken): AbortSignal | undefined => {
+  private createAbortSignal = (
+    cancelToken: CancelToken
+  ): AbortSignal | undefined => {
     if (this.abortControllers.has(cancelToken)) {
-      const abortController = this.abortControllers.get(cancelToken);
+      const abortController = this.abortControllers.get(cancelToken)
       if (abortController) {
-        return abortController.signal;
+        return abortController.signal
       }
-      return void 0;
+      return void 0
     }
 
-    const abortController = new AbortController();
-    this.abortControllers.set(cancelToken, abortController);
-    return abortController.signal;
-  };
+    const abortController = new AbortController()
+    this.abortControllers.set(cancelToken, abortController)
+    return abortController.signal
+  }
 
   public abortRequest = (cancelToken: CancelToken) => {
-    const abortController = this.abortControllers.get(cancelToken);
+    const abortController = this.abortControllers.get(cancelToken)
 
     if (abortController) {
-      abortController.abort();
-      this.abortControllers.delete(cancelToken);
+      abortController.abort()
+      this.abortControllers.delete(cancelToken)
     }
-  };
+  }
 
   public request = <T = any, E = any>({
     body,
@@ -448,58 +464,74 @@ export class HttpClient<SecurityDataType = unknown> {
     path,
     type,
     query,
-    format = "json",
+    format = 'json',
     baseUrl,
     cancelToken,
     ...params
   }: FullRequestParams): Promise<HttpResponse<T, E>> => {
-    const secureParams = (secure && this.securityWorker && this.securityWorker(this.securityData)) || {};
-    const requestParams = this.mergeRequestParams(params, secureParams);
-    const queryString = query && this.toQueryString(query);
-    const payloadFormatter = this.contentFormatters[type || ContentType.Json];
+    const secureParams =
+      (secure &&
+        this.securityWorker &&
+        this.securityWorker(this.securityData)) ||
+      {}
+    const requestParams = this.mergeRequestParams(params, secureParams)
+    const queryString = query && this.toQueryString(query)
+    const payloadFormatter = this.contentFormatters[type || ContentType.Json]
 
-    return fetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
-      ...requestParams,
-      headers: {
-        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
-        ...(requestParams.headers || {}),
-      },
-      signal: cancelToken ? this.createAbortSignal(cancelToken) : void 0,
-      body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
-    }).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = (null as unknown) as T;
-      r.error = (null as unknown) as E;
+    return fetch(
+      `${baseUrl || this.baseUrl || ''}${path}${
+        queryString ? `?${queryString}` : ''
+      }`,
+      {
+        ...requestParams,
+        headers: {
+          ...(type && type !== ContentType.FormData
+            ? { 'Content-Type': type }
+            : {}),
+          ...(requestParams.headers || {})
+        },
+        signal: cancelToken ? this.createAbortSignal(cancelToken) : void 0,
+        body:
+          typeof body === 'undefined' || body === null
+            ? null
+            : payloadFormatter(body)
+      }
+    ).then(async (response) => {
+      const r = response as HttpResponse<T, E>
+      r.data = null as unknown as T
+      r.error = null as unknown as E
 
       const data = await response[format]()
         .then((data) => {
           if (r.ok) {
-            r.data = data;
+            r.data = data
           } else {
-            r.error = data;
+            r.error = data
           }
-          return r;
+          return r
         })
         .catch((e) => {
-          r.error = e;
-          return r;
-        });
+          r.error = e
+          return r
+        })
 
       if (cancelToken) {
-        this.abortControllers.delete(cancelToken);
+        this.abortControllers.delete(cancelToken)
       }
 
-      if (!response.ok) throw data;
-      return data;
-    });
-  };
+      if (!response.ok) throw data
+      return data
+    })
+  }
 }
 
 /**
  * @title campaign/campaign.proto
  * @version version not set
  */
-export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
+export class Api<
+  SecurityDataType extends unknown
+> extends HttpClient<SecurityDataType> {
   /**
    * No description
    *
@@ -510,21 +542,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    */
   queryCampaignAll = (
     query?: {
-      "pagination.key"?: string;
-      "pagination.offset"?: string;
-      "pagination.limit"?: string;
-      "pagination.count_total"?: boolean;
-      "pagination.reverse"?: boolean;
+      'pagination.key'?: string
+      'pagination.offset'?: string
+      'pagination.limit'?: string
+      'pagination.count_total'?: boolean
+      'pagination.reverse'?: boolean
     },
-    params: RequestParams = {},
+    params: RequestParams = {}
   ) =>
     this.request<CampaignQueryAllCampaignResponse, RpcStatus>({
       path: `/tendermint/spn/campaign/campaign`,
-      method: "GET",
+      method: 'GET',
       query: query,
-      format: "json",
-      ...params,
-    });
+      format: 'json',
+      ...params
+    })
 
   /**
    * No description
@@ -537,10 +569,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   queryCampaign = (campaignID: string, params: RequestParams = {}) =>
     this.request<CampaignQueryGetCampaignResponse, RpcStatus>({
       path: `/tendermint/spn/campaign/campaign/${campaignID}`,
-      method: "GET",
-      format: "json",
-      ...params,
-    });
+      method: 'GET',
+      format: 'json',
+      ...params
+    })
 
   /**
    * No description
@@ -553,10 +585,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   queryCampaignChains = (campaignID: string, params: RequestParams = {}) =>
     this.request<CampaignQueryGetCampaignChainsResponse, RpcStatus>({
       path: `/tendermint/spn/campaign/campaign_chains/${campaignID}`,
-      method: "GET",
-      format: "json",
-      ...params,
-    });
+      method: 'GET',
+      format: 'json',
+      ...params
+    })
 
   /**
    * No description
@@ -568,21 +600,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    */
   queryCampaignSummaries = (
     query?: {
-      "pagination.key"?: string;
-      "pagination.offset"?: string;
-      "pagination.limit"?: string;
-      "pagination.count_total"?: boolean;
-      "pagination.reverse"?: boolean;
+      'pagination.key'?: string
+      'pagination.offset'?: string
+      'pagination.limit'?: string
+      'pagination.count_total'?: boolean
+      'pagination.reverse'?: boolean
     },
-    params: RequestParams = {},
+    params: RequestParams = {}
   ) =>
     this.request<CampaignQueryCampaignSummariesResponse, RpcStatus>({
       path: `/tendermint/spn/campaign/campaign_summary`,
-      method: "GET",
+      method: 'GET',
       query: query,
-      format: "json",
-      ...params,
-    });
+      format: 'json',
+      ...params
+    })
 
   /**
    * No description
@@ -595,10 +627,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   queryCampaignSummary = (campaignID: string, params: RequestParams = {}) =>
     this.request<CampaignQueryCampaignSummaryResponse, RpcStatus>({
       path: `/tendermint/spn/campaign/campaign_summary/${campaignID}`,
-      method: "GET",
-      format: "json",
-      ...params,
-    });
+      method: 'GET',
+      format: 'json',
+      ...params
+    })
 
   /**
    * No description
@@ -610,22 +642,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    */
   queryMainnetAccountAll = (
     query?: {
-      campaignID?: string;
-      "pagination.key"?: string;
-      "pagination.offset"?: string;
-      "pagination.limit"?: string;
-      "pagination.count_total"?: boolean;
-      "pagination.reverse"?: boolean;
+      campaignID?: string
+      'pagination.key'?: string
+      'pagination.offset'?: string
+      'pagination.limit'?: string
+      'pagination.count_total'?: boolean
+      'pagination.reverse'?: boolean
     },
-    params: RequestParams = {},
+    params: RequestParams = {}
   ) =>
     this.request<CampaignQueryAllMainnetAccountResponse, RpcStatus>({
       path: `/tendermint/spn/campaign/mainnet_account`,
-      method: "GET",
+      method: 'GET',
       query: query,
-      format: "json",
-      ...params,
-    });
+      format: 'json',
+      ...params
+    })
 
   /**
    * No description
@@ -635,13 +667,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    * @summary Queries a mainnetAccount by index.
    * @request GET:/tendermint/spn/campaign/mainnet_account/{campaignID}/{address}
    */
-  queryMainnetAccount = (campaignID: string, address: string, params: RequestParams = {}) =>
+  queryMainnetAccount = (
+    campaignID: string,
+    address: string,
+    params: RequestParams = {}
+  ) =>
     this.request<CampaignQueryGetMainnetAccountResponse, RpcStatus>({
       path: `/tendermint/spn/campaign/mainnet_account/${campaignID}/${address}`,
-      method: "GET",
-      format: "json",
-      ...params,
-    });
+      method: 'GET',
+      format: 'json',
+      ...params
+    })
 
   /**
    * No description
@@ -653,22 +689,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    */
   queryMainnetVestingAccountAll = (
     query?: {
-      campaignID?: string;
-      "pagination.key"?: string;
-      "pagination.offset"?: string;
-      "pagination.limit"?: string;
-      "pagination.count_total"?: boolean;
-      "pagination.reverse"?: boolean;
+      campaignID?: string
+      'pagination.key'?: string
+      'pagination.offset'?: string
+      'pagination.limit'?: string
+      'pagination.count_total'?: boolean
+      'pagination.reverse'?: boolean
     },
-    params: RequestParams = {},
+    params: RequestParams = {}
   ) =>
     this.request<CampaignQueryAllMainnetVestingAccountResponse, RpcStatus>({
       path: `/tendermint/spn/campaign/mainnet_vesting_account`,
-      method: "GET",
+      method: 'GET',
       query: query,
-      format: "json",
-      ...params,
-    });
+      format: 'json',
+      ...params
+    })
 
   /**
    * No description
@@ -678,29 +714,33 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    * @summary Queries a mainnetVestingAccount by index.
    * @request GET:/tendermint/spn/campaign/mainnet_vesting_account/{campaignID}/{address}
    */
-  queryMainnetVestingAccount = (campaignID: string, address: string, params: RequestParams = {}) =>
+  queryMainnetVestingAccount = (
+    campaignID: string,
+    address: string,
+    params: RequestParams = {}
+  ) =>
     this.request<CampaignQueryGetMainnetVestingAccountResponse, RpcStatus>({
       path: `/tendermint/spn/campaign/mainnet_vesting_account/${campaignID}/${address}`,
-      method: "GET",
-      format: "json",
-      ...params,
-    });
+      method: 'GET',
+      format: 'json',
+      ...params
+    })
 
   /**
    * No description
    *
    * @tags Query
    * @name QueryParams
-   * @summary Parameters queries the parameters of the module.
+   * @summary Params queries the parameters of the module.
    * @request GET:/tendermint/spn/campaign/params
    */
   queryParams = (params: RequestParams = {}) =>
     this.request<CampaignQueryParamsResponse, RpcStatus>({
       path: `/tendermint/spn/campaign/params`,
-      method: "GET",
-      format: "json",
-      ...params,
-    });
+      method: 'GET',
+      format: 'json',
+      ...params
+    })
 
   /**
    * No description
@@ -713,8 +753,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   queryTotalShares = (params: RequestParams = {}) =>
     this.request<CampaignQueryTotalSharesResponse, RpcStatus>({
       path: `/tendermint/spn/campaign/total_shares`,
-      method: "GET",
-      format: "json",
-      ...params,
-    });
+      method: 'GET',
+      format: 'json',
+      ...params
+    })
 }

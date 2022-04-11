@@ -1,65 +1,53 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
-import { Ignite } from "tendermint-spn-ts-client";
-import Module from "tendermint-spn-ts-client/tendermint.spn.reward/module";
-		
+import Module from '../../tendermint-spn-ts-client/tendermint.spn.reward/module'
+import useIgnite from '../useIgnite'
+import { unref } from 'vue'
+
 type SendMsgSetRewardsType = typeof Module.prototype.sendMsgSetRewards
 
-type QueryParamsType = typeof Module.prototype.queryParams
 type QueryRewardPoolType = typeof Module.prototype.queryRewardPool
 type QueryRewardPoolAllType = typeof Module.prototype.queryRewardPoolAll
-
+type QueryParamsType = typeof Module.prototype.queryParams
 
 type Response = {
-  sendMsgSetRewards: SendMsgSetRewardsType,
-  
-  queryParams: QueryParamsType
+  sendMsgSetRewards: SendMsgSetRewardsType
+
   queryRewardPool: QueryRewardPoolType
   queryRewardPoolAll: QueryRewardPoolAllType
-  
+  queryParams: QueryParamsType
 }
 
-type Params = {
-  ignite: Ignite;
-}
+function useModule(): Response {
+  // ignite
+  let { ignite } = useIgnite()
 
-function useModule({ ignite }: Params): Response {
   let {
-	
-	sendMsgSetRewards,
-  
-  
-  queryParams,
-  
-  queryRewardPool,
-  
-  queryRewardPoolAll,
-  
-  } = ignite.TendermintSpnReward
+    sendMsgSetRewards,
 
-  
-  
-	sendMsgSetRewards = sendMsgSetRewards.bind(ignite.TendermintSpnReward)
-  
-  
-  queryParams = queryParams.bind(ignite.TendermintSpnReward)
-  
-  queryRewardPool = queryRewardPool.bind(ignite.TendermintSpnReward)
-  
-  queryRewardPoolAll = queryRewardPoolAll.bind(ignite.TendermintSpnReward)
-  
+    queryRewardPool,
+
+    queryRewardPoolAll,
+
+    queryParams
+  } = unref(ignite.tendermintSpnReward)
+
+  sendMsgSetRewards = sendMsgSetRewards.bind(ignite.tendermintSpnReward)
+
+  queryRewardPool = queryRewardPool.bind(ignite.tendermintSpnReward)
+
+  queryRewardPoolAll = queryRewardPoolAll.bind(ignite.tendermintSpnReward)
+
+  queryParams = queryParams.bind(ignite.tendermintSpnReward)
 
   return {
-  
-  sendMsgSetRewards,
-  
-  
-  queryParams,
-  
-  queryRewardPool,
-  
-  queryRewardPoolAll,
-  
+    sendMsgSetRewards,
+
+    queryRewardPool,
+
+    queryRewardPoolAll,
+
+    queryParams
   }
 }
 

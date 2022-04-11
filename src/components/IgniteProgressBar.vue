@@ -25,7 +25,7 @@
         ]"
         :style="{ width: `${item.value}%` }"
       >
-        <span v-if="label" class="font-medium ignite-text text-1">
+        <span v-if="label" class="ignite-text text-1 font-medium">
           <b>{{ item.value }}%</b>
         </span>
       </div>
@@ -64,7 +64,7 @@ export default defineComponent({
 
 <style scoped lang="postcss">
 .ignite-progress {
-  @apply overflow-hidden relative flex w-full rounded-lg text-0;
+  @apply relative flex w-full overflow-hidden rounded-lg text-0;
 
   &__container {
     @apply flex items-center justify-center;

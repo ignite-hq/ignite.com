@@ -1,65 +1,58 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
-import { Ignite } from "tendermint-spn-ts-client";
-import Module from "tendermint-spn-ts-client/tendermint.spn.monitoringp/module";
-		
+import Module from '../../tendermint-spn-ts-client/tendermint.spn.monitoringp/module'
+import useIgnite from '../useIgnite'
+import { unref } from 'vue'
 
-type QueryParamsType = typeof Module.prototype.queryParams
 type QueryConsumerClientIDType = typeof Module.prototype.queryConsumerClientID
-type QueryConnectionChannelIDType = typeof Module.prototype.queryConnectionChannelID
+type QueryConnectionChannelIDType =
+  typeof Module.prototype.queryConnectionChannelID
 type QueryMonitoringInfoType = typeof Module.prototype.queryMonitoringInfo
-
+type QueryParamsType = typeof Module.prototype.queryParams
 
 type Response = {
-  
-  queryParams: QueryParamsType
   queryConsumerClientID: QueryConsumerClientIDType
   queryConnectionChannelID: QueryConnectionChannelIDType
   queryMonitoringInfo: QueryMonitoringInfoType
-  
+  queryParams: QueryParamsType
 }
 
-type Params = {
-  ignite: Ignite;
-}
+function useModule(): Response {
+  // ignite
+  let { ignite } = useIgnite()
 
-function useModule({ ignite }: Params): Response {
   let {
-	
-  
-  queryParams,
-  
-  queryConsumerClientID,
-  
-  queryConnectionChannelID,
-  
-  queryMonitoringInfo,
-  
-  } = ignite.TendermintSpnMonitoringp
+    queryConsumerClientID,
 
-  
-  
-  
-  queryParams = queryParams.bind(ignite.TendermintSpnMonitoringp)
-  
-  queryConsumerClientID = queryConsumerClientID.bind(ignite.TendermintSpnMonitoringp)
-  
-  queryConnectionChannelID = queryConnectionChannelID.bind(ignite.TendermintSpnMonitoringp)
-  
-  queryMonitoringInfo = queryMonitoringInfo.bind(ignite.TendermintSpnMonitoringp)
-  
+    queryConnectionChannelID,
+
+    queryMonitoringInfo,
+
+    queryParams
+  } = unref(ignite.tendermintSpnMonitoringp)
+
+  queryConsumerClientID = queryConsumerClientID.bind(
+    ignite.tendermintSpnMonitoringp
+  )
+
+  queryConnectionChannelID = queryConnectionChannelID.bind(
+    ignite.tendermintSpnMonitoringp
+  )
+
+  queryMonitoringInfo = queryMonitoringInfo.bind(
+    ignite.tendermintSpnMonitoringp
+  )
+
+  queryParams = queryParams.bind(ignite.tendermintSpnMonitoringp)
 
   return {
-  
-  
-  queryParams,
-  
-  queryConsumerClientID,
-  
-  queryConnectionChannelID,
-  
-  queryMonitoringInfo,
-  
+    queryConsumerClientID,
+
+    queryConnectionChannelID,
+
+    queryMonitoringInfo,
+
+    queryParams
   }
 }
 

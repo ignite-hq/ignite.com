@@ -15,8 +15,8 @@ ResponseBeginBlock, ResponseEndBlock, ResponseCheckTx and ResponseDeliverTx.
 Later, transactions may be queried using these events.
 */
 export interface AbciEvent {
-  type?: string;
-  attributes?: AbciEventAttribute[];
+  type?: string
+  attributes?: AbciEventAttribute[]
 }
 
 /**
@@ -24,11 +24,11 @@ export interface AbciEvent {
  */
 export interface AbciEventAttribute {
   /** @format byte */
-  key?: string;
+  key?: string
 
   /** @format byte */
-  value?: string;
-  index?: boolean;
+  value?: string
+  index?: boolean
 }
 
 /**
@@ -40,16 +40,24 @@ export interface Abciv1Beta1Result {
    * length prefixed in order to separate data from multiple message executions.
    * @format byte
    */
-  data?: string;
+  data?: string
 
   /** Log contains the log information from message or handler execution. */
-  log?: string;
+  log?: string
 
   /**
    * Events contains a slice of Event objects that were emitted during message
    * or handler execution.
    */
-  events?: AbciEvent[];
+  events?: AbciEvent[]
+}
+
+export interface CryptoPublicKey {
+  /** @format byte */
+  ed25519?: string
+
+  /** @format byte */
+  secp256k1?: string
 }
 
 /**
@@ -166,14 +174,264 @@ export interface ProtobufAny {
    * Schemes other than `http`, `https` (or the empty scheme) might be
    * used with implementation specific semantics.
    */
-  "@type"?: string;
+  '@type'?: string
 }
 
 export interface RpcStatus {
   /** @format int32 */
-  code?: number;
-  message?: string;
-  details?: ProtobufAny[];
+  code?: number
+  message?: string
+  details?: ProtobufAny[]
+}
+
+export interface TenderminttypesData {
+  /**
+   * Txs that will be applied by state @ block.Height+1.
+   * NOTE: not all txs here are valid.  We're just agreeing on the order first.
+   * This means that block.AppHash does not include these txs.
+   */
+  txs?: string[]
+}
+
+export interface TenderminttypesEvidence {
+  /** DuplicateVoteEvidence contains evidence of a validator signed two conflicting votes. */
+  duplicate_vote_evidence?: TypesDuplicateVoteEvidence
+
+  /** LightClientAttackEvidence contains evidence of a set of validators attempting to mislead a light client. */
+  light_client_attack_evidence?: TypesLightClientAttackEvidence
+}
+
+export interface TenderminttypesValidator {
+  /** @format byte */
+  address?: string
+  pub_key?: CryptoPublicKey
+
+  /** @format int64 */
+  voting_power?: string
+
+  /** @format int64 */
+  proposer_priority?: string
+}
+
+export interface TypesBlock {
+  /** Header defines the structure of a Tendermint block header. */
+  header?: TypesHeader
+  data?: TenderminttypesData
+  evidence?: TypesEvidenceList
+
+  /** Commit contains the evidence that a block was committed by a set of validators. */
+  last_commit?: TypesCommit
+}
+
+export interface TypesBlockID {
+  /** @format byte */
+  hash?: string
+  part_set_header?: TypesPartSetHeader
+}
+
+export enum TypesBlockIDFlag {
+  BLOCK_ID_FLAG_UNKNOWN = 'BLOCK_ID_FLAG_UNKNOWN',
+  BLOCK_ID_FLAG_ABSENT = 'BLOCK_ID_FLAG_ABSENT',
+  BLOCK_ID_FLAG_COMMIT = 'BLOCK_ID_FLAG_COMMIT',
+  BLOCK_ID_FLAG_NIL = 'BLOCK_ID_FLAG_NIL'
+}
+
+/**
+ * Commit contains the evidence that a block was committed by a set of validators.
+ */
+export interface TypesCommit {
+  /** @format int64 */
+  height?: string
+
+  /** @format int32 */
+  round?: number
+  block_id?: TypesBlockID
+  signatures?: TypesCommitSig[]
+}
+
+/**
+ * CommitSig is a part of the Vote included in a Commit.
+ */
+export interface TypesCommitSig {
+  block_id_flag?: TypesBlockIDFlag
+
+  /** @format byte */
+  validator_address?: string
+
+  /** @format date-time */
+  timestamp?: string
+
+  /** @format byte */
+  signature?: string
+}
+
+/**
+ * DuplicateVoteEvidence contains evidence of a validator signed two conflicting votes.
+ */
+export interface TypesDuplicateVoteEvidence {
+  /**
+   * Vote represents a prevote, precommit, or commit vote from validators for
+   * consensus.
+   */
+  vote_a?: TypesVote
+
+  /**
+   * Vote represents a prevote, precommit, or commit vote from validators for
+   * consensus.
+   */
+  vote_b?: TypesVote
+
+  /** @format int64 */
+  total_voting_power?: string
+
+  /** @format int64 */
+  validator_power?: string
+
+  /** @format date-time */
+  timestamp?: string
+}
+
+export interface TypesEvidenceList {
+  evidence?: TenderminttypesEvidence[]
+}
+
+/**
+ * Header defines the structure of a Tendermint block header.
+ */
+export interface TypesHeader {
+  /**
+   * Consensus captures the consensus rules for processing a block in the blockchain,
+   * including all blockchain data structures and the rules of the application's
+   * state transition machine.
+   */
+  version?: VersionConsensus
+  chain_id?: string
+
+  /** @format int64 */
+  height?: string
+
+  /** @format date-time */
+  time?: string
+  last_block_id?: TypesBlockID
+
+  /** @format byte */
+  last_commit_hash?: string
+
+  /** @format byte */
+  data_hash?: string
+
+  /** @format byte */
+  validators_hash?: string
+
+  /** @format byte */
+  next_validators_hash?: string
+
+  /** @format byte */
+  consensus_hash?: string
+
+  /** @format byte */
+  app_hash?: string
+
+  /** @format byte */
+  last_results_hash?: string
+
+  /** @format byte */
+  evidence_hash?: string
+
+  /** @format byte */
+  proposer_address?: string
+}
+
+export interface TypesLightBlock {
+  signed_header?: TypesSignedHeader
+  validator_set?: TypesValidatorSet
+}
+
+/**
+ * LightClientAttackEvidence contains evidence of a set of validators attempting to mislead a light client.
+ */
+export interface TypesLightClientAttackEvidence {
+  conflicting_block?: TypesLightBlock
+
+  /** @format int64 */
+  common_height?: string
+  byzantine_validators?: TenderminttypesValidator[]
+
+  /** @format int64 */
+  total_voting_power?: string
+
+  /** @format date-time */
+  timestamp?: string
+}
+
+export interface TypesPartSetHeader {
+  /** @format int64 */
+  total?: number
+
+  /** @format byte */
+  hash?: string
+}
+
+export interface TypesSignedHeader {
+  /** Header defines the structure of a Tendermint block header. */
+  header?: TypesHeader
+
+  /** Commit contains the evidence that a block was committed by a set of validators. */
+  commit?: TypesCommit
+}
+
+/**
+* SignedMsgType is a type of signed message in the consensus.
+
+ - SIGNED_MSG_TYPE_PREVOTE: Votes
+ - SIGNED_MSG_TYPE_PROPOSAL: Proposals
+*/
+export enum TypesSignedMsgType {
+  SIGNED_MSG_TYPE_UNKNOWN = 'SIGNED_MSG_TYPE_UNKNOWN',
+  SIGNED_MSG_TYPE_PREVOTE = 'SIGNED_MSG_TYPE_PREVOTE',
+  SIGNED_MSG_TYPE_PRECOMMIT = 'SIGNED_MSG_TYPE_PRECOMMIT',
+  SIGNED_MSG_TYPE_PROPOSAL = 'SIGNED_MSG_TYPE_PROPOSAL'
+}
+
+export interface TypesValidatorSet {
+  validators?: TenderminttypesValidator[]
+  proposer?: TenderminttypesValidator
+
+  /** @format int64 */
+  total_voting_power?: string
+}
+
+/**
+* Vote represents a prevote, precommit, or commit vote from validators for
+consensus.
+*/
+export interface TypesVote {
+  /**
+   * SignedMsgType is a type of signed message in the consensus.
+   *
+   *  - SIGNED_MSG_TYPE_PREVOTE: Votes
+   *  - SIGNED_MSG_TYPE_PROPOSAL: Proposals
+   */
+  type?: TypesSignedMsgType
+
+  /** @format int64 */
+  height?: string
+
+  /** @format int32 */
+  round?: number
+  block_id?: TypesBlockID
+
+  /** @format date-time */
+  timestamp?: string
+
+  /** @format byte */
+  validator_address?: string
+
+  /** @format int32 */
+  validator_index?: number
+
+  /** @format byte */
+  signature?: string
 }
 
 /**
@@ -181,14 +439,14 @@ export interface RpcStatus {
  */
 export interface V1Beta1ABCIMessageLog {
   /** @format int64 */
-  msg_index?: number;
-  log?: string;
+  msg_index?: number
+  log?: string
 
   /**
    * Events contains a slice of Event objects that were emitted during some
    * execution.
    */
-  events?: V1Beta1StringEvent[];
+  events?: V1Beta1StringEvent[]
 }
 
 /**
@@ -196,8 +454,8 @@ export interface V1Beta1ABCIMessageLog {
 strings instead of raw bytes.
 */
 export interface V1Beta1Attribute {
-  key?: string;
-  value?: string;
+  key?: string
+  value?: string
 }
 
 /**
@@ -211,7 +469,7 @@ export interface V1Beta1AuthInfo {
    * messages. The first element is the primary signer and the one which pays
    * the fee.
    */
-  signer_infos?: V1Beta1SignerInfo[];
+  signer_infos?: V1Beta1SignerInfo[]
 
   /**
    * Fee is the fee and gas limit for the transaction. The first signer is the
@@ -219,7 +477,7 @@ export interface V1Beta1AuthInfo {
    * based on the cost of evaluating the body and doing signature verification
    * of the signers. This can be estimated via simulation.
    */
-  fee?: V1Beta1Fee;
+  fee?: V1Beta1Fee
 }
 
 /**
@@ -234,10 +492,10 @@ a CheckTx execution response only.
 immediately.
 */
 export enum V1Beta1BroadcastMode {
-  BROADCAST_MODE_UNSPECIFIED = "BROADCAST_MODE_UNSPECIFIED",
-  BROADCAST_MODE_BLOCK = "BROADCAST_MODE_BLOCK",
-  BROADCAST_MODE_SYNC = "BROADCAST_MODE_SYNC",
-  BROADCAST_MODE_ASYNC = "BROADCAST_MODE_ASYNC",
+  BROADCAST_MODE_UNSPECIFIED = 'BROADCAST_MODE_UNSPECIFIED',
+  BROADCAST_MODE_BLOCK = 'BROADCAST_MODE_BLOCK',
+  BROADCAST_MODE_SYNC = 'BROADCAST_MODE_SYNC',
+  BROADCAST_MODE_ASYNC = 'BROADCAST_MODE_ASYNC'
 }
 
 /**
@@ -249,7 +507,7 @@ export interface V1Beta1BroadcastTxRequest {
    * tx_bytes is the raw transaction.
    * @format byte
    */
-  tx_bytes?: string;
+  tx_bytes?: string
 
   /**
    * BroadcastMode specifies the broadcast mode for the TxService.Broadcast RPC method.
@@ -262,7 +520,7 @@ export interface V1Beta1BroadcastTxRequest {
    *  - BROADCAST_MODE_ASYNC: BROADCAST_MODE_ASYNC defines a tx broadcasting mode where the client returns
    * immediately.
    */
-  mode?: V1Beta1BroadcastMode;
+  mode?: V1Beta1BroadcastMode
 }
 
 /**
@@ -271,7 +529,7 @@ Service.BroadcastTx method.
 */
 export interface V1Beta1BroadcastTxResponse {
   /** tx_response is the queried TxResponses. */
-  tx_response?: V1Beta1TxResponse;
+  tx_response?: V1Beta1TxResponse
 }
 
 /**
@@ -281,8 +539,8 @@ NOTE: The amount field is an Int which implements the custom method
 signatures required by gogoproto.
 */
 export interface V1Beta1Coin {
-  denom?: string;
-  amount?: string;
+  denom?: string
+  amount?: string
 }
 
 /**
@@ -293,10 +551,10 @@ This is not thread safe, and is not intended for concurrent usage.
 */
 export interface V1Beta1CompactBitArray {
   /** @format int64 */
-  extra_bits_stored?: number;
+  extra_bits_stored?: number
 
   /** @format byte */
-  elems?: string;
+  elems?: string
 }
 
 /**
@@ -305,18 +563,18 @@ gas to be used by the transaction. The ratio yields an effective "gasprice",
 which must be above some miminum to be accepted into the mempool.
 */
 export interface V1Beta1Fee {
-  amount?: V1Beta1Coin[];
+  amount?: V1Beta1Coin[]
 
   /** @format uint64 */
-  gas_limit?: string;
+  gas_limit?: string
 
   /**
    * if unset, the first signer is responsible for paying the fees. If set, the specified account must pay the fees.
    * the payer must be a tx signer (and thus have signed this field in AuthInfo).
    * setting this field does *not* change the ordering of required signers for the transaction.
    */
-  payer?: string;
-  granter?: string;
+  payer?: string
+  granter?: string
 }
 
 /**
@@ -327,13 +585,28 @@ export interface V1Beta1GasInfo {
    * GasWanted is the maximum units of work we allow this tx to perform.
    * @format uint64
    */
-  gas_wanted?: string;
+  gas_wanted?: string
 
   /**
    * GasUsed is the amount of gas actually consumed.
    * @format uint64
    */
-  gas_used?: string;
+  gas_used?: string
+}
+
+/**
+* GetBlockWithTxsResponse is the response type for the Service.GetBlockWithTxs method.
+
+Since: cosmos-sdk 0.45.2
+*/
+export interface V1Beta1GetBlockWithTxsResponse {
+  /** txs are the transactions in the block. */
+  txs?: V1Beta1Tx[]
+  block_id?: TypesBlockID
+  block?: TypesBlock
+
+  /** pagination defines a pagination for the response. */
+  pagination?: V1Beta1PageResponse
 }
 
 /**
@@ -341,10 +614,10 @@ export interface V1Beta1GasInfo {
  */
 export interface V1Beta1GetTxResponse {
   /** tx is the queried transaction. */
-  tx?: V1Beta1Tx;
+  tx?: V1Beta1Tx
 
   /** tx_response is the queried TxResponses. */
-  tx_response?: V1Beta1TxResponse;
+  tx_response?: V1Beta1TxResponse
 }
 
 /**
@@ -353,21 +626,21 @@ RPC method.
 */
 export interface V1Beta1GetTxsEventResponse {
   /** txs is the list of queried transactions. */
-  txs?: V1Beta1Tx[];
+  txs?: V1Beta1Tx[]
 
   /** tx_responses is the list of queried TxResponses. */
-  tx_responses?: V1Beta1TxResponse[];
+  tx_responses?: V1Beta1TxResponse[]
 
-  /** pagination defines an pagination for the response. */
-  pagination?: V1Beta1PageResponse;
+  /** pagination defines a pagination for the response. */
+  pagination?: V1Beta1PageResponse
 }
 
 /**
  * ModeInfo describes the signing mode of a single or nested multisig signer.
  */
 export interface V1Beta1ModeInfo {
-  single?: V1Beta1ModeInfoSingle;
-  multi?: V1Beta1ModeInfoMulti;
+  single?: V1Beta1ModeInfoSingle
+  multi?: V1Beta1ModeInfoMulti
 }
 
 export interface V1Beta1ModeInfoMulti {
@@ -377,8 +650,8 @@ export interface V1Beta1ModeInfoMulti {
    * space after proto encoding.
    * This is not thread safe, and is not intended for concurrent usage.
    */
-  bitarray?: V1Beta1CompactBitArray;
-  mode_infos?: V1Beta1ModeInfo[];
+  bitarray?: V1Beta1CompactBitArray
+  mode_infos?: V1Beta1ModeInfo[]
 }
 
 export interface V1Beta1ModeInfoSingle {
@@ -394,8 +667,18 @@ export interface V1Beta1ModeInfoSingle {
    * from SIGN_MODE_DIRECT
    *  - SIGN_MODE_LEGACY_AMINO_JSON: SIGN_MODE_LEGACY_AMINO_JSON is a backwards compatibility mode which uses
    * Amino JSON and will be removed in the future
+   *  - SIGN_MODE_EIP_191: SIGN_MODE_EIP_191 specifies the sign mode for EIP 191 signing on the Cosmos
+   * SDK. Ref: https://eips.ethereum.org/EIPS/eip-191
+   *
+   * Currently, SIGN_MODE_EIP_191 is registered as a SignMode enum variant,
+   * but is not implemented on the SDK by default. To enable EIP-191, you need
+   * to pass a custom `TxConfig` that has an implementation of
+   * `SignModeHandler` for EIP-191. The SDK may decide to fully support
+   * EIP-191 in the future.
+   *
+   * Since: cosmos-sdk 0.45.2
    */
-  mode?: V1Beta1SignMode;
+  mode?: V1Beta1SignMode
 }
 
 /**
@@ -404,9 +687,9 @@ export interface V1Beta1ModeInfoSingle {
  - ORDER_BY_DESC: ORDER_BY_DESC defines descending order
 */
 export enum V1Beta1OrderBy {
-  ORDER_BY_UNSPECIFIED = "ORDER_BY_UNSPECIFIED",
-  ORDER_BY_ASC = "ORDER_BY_ASC",
-  ORDER_BY_DESC = "ORDER_BY_DESC",
+  ORDER_BY_UNSPECIFIED = 'ORDER_BY_UNSPECIFIED',
+  ORDER_BY_ASC = 'ORDER_BY_ASC',
+  ORDER_BY_DESC = 'ORDER_BY_DESC'
 }
 
 /**
@@ -422,7 +705,7 @@ export interface V1Beta1PageRequest {
    * should be set.
    * @format byte
    */
-  key?: string;
+  key?: string
 
   /**
    * offset is a numeric offset that can be used when key is unavailable.
@@ -430,14 +713,14 @@ export interface V1Beta1PageRequest {
    * be set.
    * @format uint64
    */
-  offset?: string;
+  offset?: string
 
   /**
    * limit is the total number of results to be returned in the result page.
    * If left empty it will default to a value to be set by each app.
    * @format uint64
    */
-  limit?: string;
+  limit?: string
 
   /**
    * count_total is set to true  to indicate that the result set should include
@@ -445,14 +728,14 @@ export interface V1Beta1PageRequest {
    * count_total is only respected when offset is used. It is ignored when key
    * is set.
    */
-  count_total?: boolean;
+  count_total?: boolean
 
   /**
    * reverse is set to true if results are to be returned in the descending order.
    *
    * Since: cosmos-sdk 0.43
    */
-  reverse?: boolean;
+  reverse?: boolean
 }
 
 /**
@@ -466,10 +749,10 @@ corresponding request message has used PageRequest.
 */
 export interface V1Beta1PageResponse {
   /** @format byte */
-  next_key?: string;
+  next_key?: string
 
   /** @format uint64 */
-  total?: string;
+  total?: string
 }
 
 /**
@@ -484,12 +767,23 @@ human-readable textual representation on top of the binary representation
 from SIGN_MODE_DIRECT
  - SIGN_MODE_LEGACY_AMINO_JSON: SIGN_MODE_LEGACY_AMINO_JSON is a backwards compatibility mode which uses
 Amino JSON and will be removed in the future
+ - SIGN_MODE_EIP_191: SIGN_MODE_EIP_191 specifies the sign mode for EIP 191 signing on the Cosmos
+SDK. Ref: https://eips.ethereum.org/EIPS/eip-191
+
+Currently, SIGN_MODE_EIP_191 is registered as a SignMode enum variant,
+but is not implemented on the SDK by default. To enable EIP-191, you need
+to pass a custom `TxConfig` that has an implementation of
+`SignModeHandler` for EIP-191. The SDK may decide to fully support
+EIP-191 in the future.
+
+Since: cosmos-sdk 0.45.2
 */
 export enum V1Beta1SignMode {
-  SIGN_MODE_UNSPECIFIED = "SIGN_MODE_UNSPECIFIED",
-  SIGN_MODE_DIRECT = "SIGN_MODE_DIRECT",
-  SIGN_MODE_TEXTUAL = "SIGN_MODE_TEXTUAL",
-  SIGN_MODE_LEGACY_AMINO_JSON = "SIGN_MODE_LEGACY_AMINO_JSON",
+  SIGN_MODE_UNSPECIFIED = 'SIGN_MODE_UNSPECIFIED',
+  SIGN_MODE_DIRECT = 'SIGN_MODE_DIRECT',
+  SIGN_MODE_TEXTUAL = 'SIGN_MODE_TEXTUAL',
+  SIGN_MODE_LEGACY_AMINO_JSON = 'SIGN_MODE_LEGACY_AMINO_JSON',
+  SIGNMODEEIP191 = 'SIGN_MODE_EIP_191'
 }
 
 /**
@@ -502,10 +796,10 @@ export interface V1Beta1SignerInfo {
    * that already exist in state. If unset, the verifier can use the required \
    * signer address for this position and lookup the public key.
    */
-  public_key?: ProtobufAny;
+  public_key?: ProtobufAny
 
   /** ModeInfo describes the signing mode of a single or nested multisig signer. */
-  mode_info?: V1Beta1ModeInfo;
+  mode_info?: V1Beta1ModeInfo
 
   /**
    * sequence is the sequence of the account, which describes the
@@ -513,7 +807,7 @@ export interface V1Beta1SignerInfo {
    * prevent replay attacks.
    * @format uint64
    */
-  sequence?: string;
+  sequence?: string
 }
 
 /**
@@ -525,7 +819,7 @@ export interface V1Beta1SimulateRequest {
    * tx is the transaction to simulate.
    * Deprecated. Send raw tx bytes instead.
    */
-  tx?: V1Beta1Tx;
+  tx?: V1Beta1Tx
 
   /**
    * tx_bytes is the raw transaction.
@@ -533,7 +827,7 @@ export interface V1Beta1SimulateRequest {
    * Since: cosmos-sdk 0.43
    * @format byte
    */
-  tx_bytes?: string;
+  tx_bytes?: string
 }
 
 /**
@@ -542,10 +836,10 @@ Service.SimulateRPC method.
 */
 export interface V1Beta1SimulateResponse {
   /** gas_info is the information about gas used in the simulation. */
-  gas_info?: V1Beta1GasInfo;
+  gas_info?: V1Beta1GasInfo
 
   /** result is the result of the simulation. */
-  result?: Abciv1Beta1Result;
+  result?: Abciv1Beta1Result
 }
 
 /**
@@ -553,8 +847,8 @@ export interface V1Beta1SimulateResponse {
 contain key/value pairs that are strings instead of raw bytes.
 */
 export interface V1Beta1StringEvent {
-  type?: string;
-  attributes?: V1Beta1Attribute[];
+  type?: string
+  attributes?: V1Beta1Attribute[]
 }
 
 /**
@@ -562,20 +856,20 @@ export interface V1Beta1StringEvent {
  */
 export interface V1Beta1Tx {
   /** TxBody is the body of a transaction that all signers sign over. */
-  body?: V1Beta1TxBody;
+  body?: V1Beta1TxBody
 
   /**
    * AuthInfo describes the fee and signer modes that are used to sign a
    * transaction.
    */
-  auth_info?: V1Beta1AuthInfo;
+  auth_info?: V1Beta1AuthInfo
 
   /**
    * signatures is a list of signatures that matches the length and order of
    * AuthInfo's signer_infos to allow connecting signature meta information like
    * public key and signing mode by position.
    */
-  signatures?: string[];
+  signatures?: string[]
 }
 
 /**
@@ -591,19 +885,19 @@ export interface V1Beta1TxBody {
    * is referred to as the primary signer and pays the fee for the whole
    * transaction.
    */
-  messages?: ProtobufAny[];
+  messages?: ProtobufAny[]
 
   /**
    * memo is any arbitrary note/comment to be added to the transaction.
    * WARNING: in clients, any publicly exposed text should not be called memo,
    * but should be called `note` instead (see https://github.com/cosmos/cosmos-sdk/issues/9122).
    */
-  memo?: string;
+  memo?: string
 
   /** @format uint64 */
-  timeout_height?: string;
-  extension_options?: ProtobufAny[];
-  non_critical_extension_options?: ProtobufAny[];
+  timeout_height?: string
+  extension_options?: ProtobufAny[]
+  non_critical_extension_options?: ProtobufAny[]
 }
 
 /**
@@ -612,54 +906,54 @@ tags are stringified and the log is JSON decoded.
 */
 export interface V1Beta1TxResponse {
   /** @format int64 */
-  height?: string;
+  height?: string
 
   /** The transaction hash. */
-  txhash?: string;
-  codespace?: string;
+  txhash?: string
+  codespace?: string
 
   /**
    * Response code.
    * @format int64
    */
-  code?: number;
+  code?: number
 
   /** Result bytes, if any. */
-  data?: string;
+  data?: string
 
   /**
    * The output of the application's logger (raw string). May be
    * non-deterministic.
    */
-  raw_log?: string;
+  raw_log?: string
 
   /** The output of the application's logger (typed). May be non-deterministic. */
-  logs?: V1Beta1ABCIMessageLog[];
+  logs?: V1Beta1ABCIMessageLog[]
 
   /** Additional information. May be non-deterministic. */
-  info?: string;
+  info?: string
 
   /**
    * Amount of gas requested for transaction.
    * @format int64
    */
-  gas_wanted?: string;
+  gas_wanted?: string
 
   /**
    * Amount of gas consumed by transaction.
    * @format int64
    */
-  gas_used?: string;
+  gas_used?: string
 
   /** The request transaction bytes. */
-  tx?: ProtobufAny;
+  tx?: ProtobufAny
 
   /**
    * Time of the previous block. For heights > 1, it's the weighted median of
    * the timestamps of the valid votes in the block.LastCommit. For height == 1,
    * it's genesis time.
    */
-  timestamp?: string;
+  timestamp?: string
 
   /**
    * Events defines all the events emitted by processing a transaction. Note,
@@ -669,112 +963,143 @@ export interface V1Beta1TxResponse {
    *
    * Since: cosmos-sdk 0.42.11, 0.44.5, 0.45
    */
-  events?: AbciEvent[];
+  events?: AbciEvent[]
 }
 
-export type QueryParamsType = Record<string | number, any>;
-export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
+/**
+* Consensus captures the consensus rules for processing a block in the blockchain,
+including all blockchain data structures and the rules of the application's
+state transition machine.
+*/
+export interface VersionConsensus {
+  /** @format uint64 */
+  block?: string
 
-export interface FullRequestParams extends Omit<RequestInit, "body"> {
+  /** @format uint64 */
+  app?: string
+}
+
+export type QueryParamsType = Record<string | number, any>
+export type ResponseFormat = keyof Omit<Body, 'body' | 'bodyUsed'>
+
+export interface FullRequestParams extends Omit<RequestInit, 'body'> {
   /** set parameter to `true` for call `securityWorker` for this request */
-  secure?: boolean;
+  secure?: boolean
   /** request path */
-  path: string;
+  path: string
   /** content type of request body */
-  type?: ContentType;
+  type?: ContentType
   /** query params */
-  query?: QueryParamsType;
+  query?: QueryParamsType
   /** format of response (i.e. response.json() -> format: "json") */
-  format?: keyof Omit<Body, "body" | "bodyUsed">;
+  format?: keyof Omit<Body, 'body' | 'bodyUsed'>
   /** request body */
-  body?: unknown;
+  body?: unknown
   /** base url */
-  baseUrl?: string;
+  baseUrl?: string
   /** request cancellation token */
-  cancelToken?: CancelToken;
+  cancelToken?: CancelToken
 }
 
-export type RequestParams = Omit<FullRequestParams, "body" | "method" | "query" | "path">;
+export type RequestParams = Omit<
+  FullRequestParams,
+  'body' | 'method' | 'query' | 'path'
+>
 
 export interface ApiConfig<SecurityDataType = unknown> {
-  baseUrl?: string;
-  baseApiParams?: Omit<RequestParams, "baseUrl" | "cancelToken" | "signal">;
-  securityWorker?: (securityData: SecurityDataType) => RequestParams | void;
+  baseUrl?: string
+  baseApiParams?: Omit<RequestParams, 'baseUrl' | 'cancelToken' | 'signal'>
+  securityWorker?: (securityData: SecurityDataType) => RequestParams | void
 }
 
-export interface HttpResponse<D extends unknown, E extends unknown = unknown> extends Response {
-  data: D;
-  error: E;
+export interface HttpResponse<D extends unknown, E extends unknown = unknown>
+  extends Response {
+  data: D
+  error: E
 }
 
-type CancelToken = Symbol | string | number;
+type CancelToken = Symbol | string | number
 
 export enum ContentType {
-  Json = "application/json",
-  FormData = "multipart/form-data",
-  UrlEncoded = "application/x-www-form-urlencoded",
+  Json = 'application/json',
+  FormData = 'multipart/form-data',
+  UrlEncoded = 'application/x-www-form-urlencoded'
 }
 
 export class HttpClient<SecurityDataType = unknown> {
-  public baseUrl: string = "";
-  private securityData: SecurityDataType = null as any;
-  private securityWorker: null | ApiConfig<SecurityDataType>["securityWorker"] = null;
-  private abortControllers = new Map<CancelToken, AbortController>();
+  public baseUrl: string = ''
+  private securityData: SecurityDataType = null as any
+  private securityWorker: null | ApiConfig<SecurityDataType>['securityWorker'] =
+    null
+  private abortControllers = new Map<CancelToken, AbortController>()
 
   private baseApiParams: RequestParams = {
-    credentials: "same-origin",
+    credentials: 'same-origin',
     headers: {},
-    redirect: "follow",
-    referrerPolicy: "no-referrer",
-  };
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer'
+  }
 
   constructor(apiConfig: ApiConfig<SecurityDataType> = {}) {
-    Object.assign(this, apiConfig);
+    Object.assign(this, apiConfig)
   }
 
   public setSecurityData = (data: SecurityDataType) => {
-    this.securityData = data;
-  };
+    this.securityData = data
+  }
 
   private addQueryParam(query: QueryParamsType, key: string) {
-    const value = query[key];
+    const value = query[key]
 
     return (
       encodeURIComponent(key) +
-      "=" +
-      encodeURIComponent(Array.isArray(value) ? value.join(",") : typeof value === "number" ? value : `${value}`)
-    );
+      '=' +
+      encodeURIComponent(
+        Array.isArray(value)
+          ? value.join(',')
+          : typeof value === 'number'
+          ? value
+          : `${value}`
+      )
+    )
   }
 
   protected toQueryString(rawQuery?: QueryParamsType): string {
-    const query = rawQuery || {};
-    const keys = Object.keys(query).filter((key) => "undefined" !== typeof query[key]);
+    const query = rawQuery || {}
+    const keys = Object.keys(query).filter(
+      (key) => 'undefined' !== typeof query[key]
+    )
     return keys
       .map((key) =>
-        typeof query[key] === "object" && !Array.isArray(query[key])
+        typeof query[key] === 'object' && !Array.isArray(query[key])
           ? this.toQueryString(query[key] as QueryParamsType)
-          : this.addQueryParam(query, key),
+          : this.addQueryParam(query, key)
       )
-      .join("&");
+      .join('&')
   }
 
   protected addQueryParams(rawQuery?: QueryParamsType): string {
-    const queryString = this.toQueryString(rawQuery);
-    return queryString ? `?${queryString}` : "";
+    const queryString = this.toQueryString(rawQuery)
+    return queryString ? `?${queryString}` : ''
   }
 
   private contentFormatters: Record<ContentType, (input: any) => any> = {
     [ContentType.Json]: (input: any) =>
-      input !== null && (typeof input === "object" || typeof input === "string") ? JSON.stringify(input) : input,
+      input !== null && (typeof input === 'object' || typeof input === 'string')
+        ? JSON.stringify(input)
+        : input,
     [ContentType.FormData]: (input: any) =>
       Object.keys(input || {}).reduce((data, key) => {
-        data.append(key, input[key]);
-        return data;
+        data.append(key, input[key])
+        return data
       }, new FormData()),
-    [ContentType.UrlEncoded]: (input: any) => this.toQueryString(input),
-  };
+    [ContentType.UrlEncoded]: (input: any) => this.toQueryString(input)
+  }
 
-  private mergeRequestParams(params1: RequestParams, params2?: RequestParams): RequestParams {
+  private mergeRequestParams(
+    params1: RequestParams,
+    params2?: RequestParams
+  ): RequestParams {
     return {
       ...this.baseApiParams,
       ...params1,
@@ -782,33 +1107,35 @@ export class HttpClient<SecurityDataType = unknown> {
       headers: {
         ...(this.baseApiParams.headers || {}),
         ...(params1.headers || {}),
-        ...((params2 && params2.headers) || {}),
-      },
-    };
+        ...((params2 && params2.headers) || {})
+      }
+    }
   }
 
-  private createAbortSignal = (cancelToken: CancelToken): AbortSignal | undefined => {
+  private createAbortSignal = (
+    cancelToken: CancelToken
+  ): AbortSignal | undefined => {
     if (this.abortControllers.has(cancelToken)) {
-      const abortController = this.abortControllers.get(cancelToken);
+      const abortController = this.abortControllers.get(cancelToken)
       if (abortController) {
-        return abortController.signal;
+        return abortController.signal
       }
-      return void 0;
+      return void 0
     }
 
-    const abortController = new AbortController();
-    this.abortControllers.set(cancelToken, abortController);
-    return abortController.signal;
-  };
+    const abortController = new AbortController()
+    this.abortControllers.set(cancelToken, abortController)
+    return abortController.signal
+  }
 
   public abortRequest = (cancelToken: CancelToken) => {
-    const abortController = this.abortControllers.get(cancelToken);
+    const abortController = this.abortControllers.get(cancelToken)
 
     if (abortController) {
-      abortController.abort();
-      this.abortControllers.delete(cancelToken);
+      abortController.abort()
+      this.abortControllers.delete(cancelToken)
     }
-  };
+  }
 
   public request = <T = any, E = any>({
     body,
@@ -816,58 +1143,74 @@ export class HttpClient<SecurityDataType = unknown> {
     path,
     type,
     query,
-    format = "json",
+    format = 'json',
     baseUrl,
     cancelToken,
     ...params
   }: FullRequestParams): Promise<HttpResponse<T, E>> => {
-    const secureParams = (secure && this.securityWorker && this.securityWorker(this.securityData)) || {};
-    const requestParams = this.mergeRequestParams(params, secureParams);
-    const queryString = query && this.toQueryString(query);
-    const payloadFormatter = this.contentFormatters[type || ContentType.Json];
+    const secureParams =
+      (secure &&
+        this.securityWorker &&
+        this.securityWorker(this.securityData)) ||
+      {}
+    const requestParams = this.mergeRequestParams(params, secureParams)
+    const queryString = query && this.toQueryString(query)
+    const payloadFormatter = this.contentFormatters[type || ContentType.Json]
 
-    return fetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
-      ...requestParams,
-      headers: {
-        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
-        ...(requestParams.headers || {}),
-      },
-      signal: cancelToken ? this.createAbortSignal(cancelToken) : void 0,
-      body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
-    }).then(async (response) => {
-      const r = response as HttpResponse<T, E>;
-      r.data = (null as unknown) as T;
-      r.error = (null as unknown) as E;
+    return fetch(
+      `${baseUrl || this.baseUrl || ''}${path}${
+        queryString ? `?${queryString}` : ''
+      }`,
+      {
+        ...requestParams,
+        headers: {
+          ...(type && type !== ContentType.FormData
+            ? { 'Content-Type': type }
+            : {}),
+          ...(requestParams.headers || {})
+        },
+        signal: cancelToken ? this.createAbortSignal(cancelToken) : void 0,
+        body:
+          typeof body === 'undefined' || body === null
+            ? null
+            : payloadFormatter(body)
+      }
+    ).then(async (response) => {
+      const r = response as HttpResponse<T, E>
+      r.data = null as unknown as T
+      r.error = null as unknown as E
 
       const data = await response[format]()
         .then((data) => {
           if (r.ok) {
-            r.data = data;
+            r.data = data
           } else {
-            r.error = data;
+            r.error = data
           }
-          return r;
+          return r
         })
         .catch((e) => {
-          r.error = e;
-          return r;
-        });
+          r.error = e
+          return r
+        })
 
       if (cancelToken) {
-        this.abortControllers.delete(cancelToken);
+        this.abortControllers.delete(cancelToken)
       }
 
-      if (!response.ok) throw data;
-      return data;
-    });
-  };
+      if (!response.ok) throw data
+      return data
+    })
+  }
 }
 
 /**
  * @title cosmos/tx/v1beta1/service.proto
  * @version version not set
  */
-export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
+export class Api<
+  SecurityDataType extends unknown
+> extends HttpClient<SecurityDataType> {
   /**
    * No description
    *
@@ -876,15 +1219,18 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    * @summary Simulate simulates executing a transaction for estimating gas usage.
    * @request POST:/cosmos/tx/v1beta1/simulate
    */
-  serviceSimulate = (body: V1Beta1SimulateRequest, params: RequestParams = {}) =>
+  serviceSimulate = (
+    body: V1Beta1SimulateRequest,
+    params: RequestParams = {}
+  ) =>
     this.request<V1Beta1SimulateResponse, RpcStatus>({
       path: `/cosmos/tx/v1beta1/simulate`,
-      method: "POST",
+      method: 'POST',
       body: body,
       type: ContentType.Json,
-      format: "json",
-      ...params,
-    });
+      format: 'json',
+      ...params
+    })
 
   /**
    * No description
@@ -896,23 +1242,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    */
   serviceGetTxsEvent = (
     query?: {
-      events?: string[];
-      "pagination.key"?: string;
-      "pagination.offset"?: string;
-      "pagination.limit"?: string;
-      "pagination.count_total"?: boolean;
-      "pagination.reverse"?: boolean;
-      order_by?: "ORDER_BY_UNSPECIFIED" | "ORDER_BY_ASC" | "ORDER_BY_DESC";
+      events?: string[]
+      'pagination.key'?: string
+      'pagination.offset'?: string
+      'pagination.limit'?: string
+      'pagination.count_total'?: boolean
+      'pagination.reverse'?: boolean
+      order_by?: 'ORDER_BY_UNSPECIFIED' | 'ORDER_BY_ASC' | 'ORDER_BY_DESC'
     },
-    params: RequestParams = {},
+    params: RequestParams = {}
   ) =>
     this.request<V1Beta1GetTxsEventResponse, RpcStatus>({
       path: `/cosmos/tx/v1beta1/txs`,
-      method: "GET",
+      method: 'GET',
       query: query,
-      format: "json",
-      ...params,
-    });
+      format: 'json',
+      ...params
+    })
 
   /**
    * No description
@@ -922,15 +1268,45 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    * @summary BroadcastTx broadcast transaction.
    * @request POST:/cosmos/tx/v1beta1/txs
    */
-  serviceBroadcastTx = (body: V1Beta1BroadcastTxRequest, params: RequestParams = {}) =>
+  serviceBroadcastTx = (
+    body: V1Beta1BroadcastTxRequest,
+    params: RequestParams = {}
+  ) =>
     this.request<V1Beta1BroadcastTxResponse, RpcStatus>({
       path: `/cosmos/tx/v1beta1/txs`,
-      method: "POST",
+      method: 'POST',
       body: body,
       type: ContentType.Json,
-      format: "json",
-      ...params,
-    });
+      format: 'json',
+      ...params
+    })
+
+  /**
+   * @description Since: cosmos-sdk 0.45.2
+   *
+   * @tags Service
+   * @name ServiceGetBlockWithTxs
+   * @summary GetBlockWithTxs fetches a block with decoded txs.
+   * @request GET:/cosmos/tx/v1beta1/txs/block/{height}
+   */
+  serviceGetBlockWithTxs = (
+    height: string,
+    query?: {
+      'pagination.key'?: string
+      'pagination.offset'?: string
+      'pagination.limit'?: string
+      'pagination.count_total'?: boolean
+      'pagination.reverse'?: boolean
+    },
+    params: RequestParams = {}
+  ) =>
+    this.request<V1Beta1GetBlockWithTxsResponse, RpcStatus>({
+      path: `/cosmos/tx/v1beta1/txs/block/${height}`,
+      method: 'GET',
+      query: query,
+      format: 'json',
+      ...params
+    })
 
   /**
    * No description
@@ -943,8 +1319,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   serviceGetTx = (hash: string, params: RequestParams = {}) =>
     this.request<V1Beta1GetTxResponse, RpcStatus>({
       path: `/cosmos/tx/v1beta1/txs/${hash}`,
-      method: "GET",
-      format: "json",
-      ...params,
-    });
+      method: 'GET',
+      format: 'json',
+      ...params
+    })
 }

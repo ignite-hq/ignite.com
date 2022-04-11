@@ -1,6 +1,6 @@
 <template>
   <div>
-    <IgniteLoader v-if="isLoading" class="mx-auto status-loading" />
+    <IgniteLoader v-if="isLoading" class="status-loading mx-auto" />
     <IgniteProjectStatus
       v-if="!isLoading"
       :stargazer-count="stargazerCount"
@@ -21,6 +21,7 @@ export default {
 import { computed } from 'vue'
 
 import IgniteLoader from '../IgniteLoader.vue'
+import IgniteProjectStatus from '../IgniteProjectStatus.vue'
 
 const props = defineProps({
   loading: Boolean,

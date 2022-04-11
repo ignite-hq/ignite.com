@@ -1,41 +1,27 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
-import { Ignite } from "tendermint-spn-ts-client";
-import Module from "tendermint-spn-ts-client/cosmos.crisis.v1beta1/module";
-		
+import Module from '../../tendermint-spn-ts-client/cosmos.crisis.v1beta1/module'
+import useIgnite from '../useIgnite'
+import { unref } from 'vue'
+
 type SendMsgVerifyInvariantType = typeof Module.prototype.sendMsgVerifyInvariant
 
-
-
 type Response = {
-  sendMsgVerifyInvariant: SendMsgVerifyInvariantType,
-  
-  
+  sendMsgVerifyInvariant: SendMsgVerifyInvariantType
 }
 
-type Params = {
-  ignite: Ignite;
-}
+function useModule(): Response {
+  // ignite
+  let { ignite } = useIgnite()
 
-function useModule({ ignite }: Params): Response {
-  let {
-	
-	sendMsgVerifyInvariant,
-  
-  
-  } = ignite.CosmosCrisisV1Beta1
+  let { sendMsgVerifyInvariant } = unref(ignite.cosmosCrisisV1Beta1)
 
-  
-  
-	sendMsgVerifyInvariant = sendMsgVerifyInvariant.bind(ignite.CosmosCrisisV1Beta1)
-  
-  
+  sendMsgVerifyInvariant = sendMsgVerifyInvariant.bind(
+    ignite.cosmosCrisisV1Beta1
+  )
 
   return {
-  
-  sendMsgVerifyInvariant,
-  
-  
+    sendMsgVerifyInvariant
   }
 }
 

@@ -15,11 +15,9 @@ The two packages, `tendermint-spn-ts-client` and `tendermint-spn-vue`, inside `s
 ### To make use of the Vue Api, do =
 
 ```ts
-import { useTendermintFundraisingModule } from 'tendermint-spn-vue'
+import { useTendermintFundraising } from 'tendermint-spn-vue'
 
-const { queryActions } = useTendermintFundraisingModule({
-  ignite: ignite.value
-})
+const { queryActions } = useTendermintFundraising()
 ```
 
 ### To get the `igniteClient` instance, do =
@@ -27,15 +25,40 @@ const { queryActions } = useTendermintFundraisingModule({
 ```ts
 import { useIgnite } from 'tendermint-spn-ts-client'
 
-const {
-  state: { ignite }
-} = useIgnite()
+const { ignite } = useIgnite()
+```
+
+### To sign in/out, do =
+
+```ts
+const { signIn, signOut } = useIgnite()
+```
+
+### To use the keplr plugin, do =
+
+```ts
+ignite.keplr // fully typed
+```
+
+### To attach a custom plugin, do =
+
+```ts
+import { _use, createIgnite } from 'tendermint-spn-ts-client'
+
+function plugBlockEx(): { blockex: {} } {
+  return {
+    blockex: {} // implementation of the plugin goes here
+  }
+}
+
+let ignite = _use({
+  ...createIgnite(),
+  ...plugBlockEx()
+})
+
+ignite.blockex // blockex is fully typed
 ```
 
 ## 🏗 WIP
 
-The generated code is on early alpha. This means a bunch of minor and couple of major issues are yet to be solved. Some notes =
-
-- The logic inside `Ignt.vue` will be moved outside the repo.
-- The need to place the usage of Vue API inside a watch (as in `views/Index.vue`) is only temporary.
-- The need for having both `src/store/generated` and `src/generated` is only temporary.
+The generated code is on early alpha. This means a bunch of minor and couple of major issues are yet to be solved.

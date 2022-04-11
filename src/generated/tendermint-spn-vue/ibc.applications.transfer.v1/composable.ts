@@ -1,65 +1,53 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
-import { Ignite } from "tendermint-spn-ts-client";
-import Module from "tendermint-spn-ts-client/ibc.applications.transfer.v1/module";
-		
+import Module from '../../tendermint-spn-ts-client/ibc.applications.transfer.v1/module'
+import useIgnite from '../useIgnite'
+import { unref } from 'vue'
+
 type SendMsgTransferType = typeof Module.prototype.sendMsgTransfer
 
 type QueryDenomTraceType = typeof Module.prototype.queryDenomTrace
 type QueryDenomTracesType = typeof Module.prototype.queryDenomTraces
 type QueryParamsType = typeof Module.prototype.queryParams
 
-
 type Response = {
-  sendMsgTransfer: SendMsgTransferType,
-  
+  sendMsgTransfer: SendMsgTransferType
+
   queryDenomTrace: QueryDenomTraceType
   queryDenomTraces: QueryDenomTracesType
   queryParams: QueryParamsType
-  
 }
 
-type Params = {
-  ignite: Ignite;
-}
+function useModule(): Response {
+  // ignite
+  let { ignite } = useIgnite()
 
-function useModule({ ignite }: Params): Response {
   let {
-	
-	sendMsgTransfer,
-  
-  
-  queryDenomTrace,
-  
-  queryDenomTraces,
-  
-  queryParams,
-  
-  } = ignite.IbcApplicationsTransferV1
+    sendMsgTransfer,
 
-  
-  
-	sendMsgTransfer = sendMsgTransfer.bind(ignite.IbcApplicationsTransferV1)
-  
-  
-  queryDenomTrace = queryDenomTrace.bind(ignite.IbcApplicationsTransferV1)
-  
-  queryDenomTraces = queryDenomTraces.bind(ignite.IbcApplicationsTransferV1)
-  
-  queryParams = queryParams.bind(ignite.IbcApplicationsTransferV1)
-  
+    queryDenomTrace,
+
+    queryDenomTraces,
+
+    queryParams
+  } = unref(ignite.ibcApplicationsTransferV1)
+
+  sendMsgTransfer = sendMsgTransfer.bind(ignite.ibcApplicationsTransferV1)
+
+  queryDenomTrace = queryDenomTrace.bind(ignite.ibcApplicationsTransferV1)
+
+  queryDenomTraces = queryDenomTraces.bind(ignite.ibcApplicationsTransferV1)
+
+  queryParams = queryParams.bind(ignite.ibcApplicationsTransferV1)
 
   return {
-  
-  sendMsgTransfer,
-  
-  
-  queryDenomTrace,
-  
-  queryDenomTraces,
-  
-  queryParams,
-  
+    sendMsgTransfer,
+
+    queryDenomTrace,
+
+    queryDenomTraces,
+
+    queryParams
   }
 }
 

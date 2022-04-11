@@ -42,7 +42,10 @@ module.exports = {
       inactive: 'rgba(0, 0, 0, 0.33)',
       link: '#000',
       linkHover: 'rgba(0, 0, 0, 0.667)',
-      border: 'rgba(0, 0, 0, 0.07)'
+      border: 'rgba(0, 0, 0, 0.07)',
+      checkbox: '#C4C4C4',
+      radio: '#C4C4C4',
+      error: '#D80228'
     },
     container: {
       center: true
@@ -73,6 +76,13 @@ module.exports = {
       lineHeight: {
         title: '127%',
         text: '153.8%'
+      },
+      borderRadius: {
+        '2sm': '8px',
+        '3sm': '10px'
+      },
+      boxShadow: {
+        dropdown: '-112px 73px 191px 59px rgba(0, 0, 0, 0.09)'
       }
     },
     letterSpacing: {
@@ -80,6 +90,7 @@ module.exports = {
       tight: '-.02em',
       normal: '0'
     },
+
     screens: {
       // mobile first -> (min-width:xxx)
       xs: `${pxToRem(320)}rem`,

@@ -1,14 +1,14 @@
 <template>
   <ul class="">
-    <li class="ignite-text text-3 mb-6 m:mb-7">
+    <li class="ignite-text mb-6 text-3 m:mb-7">
       <IgniteButton>
-        <IconStage class="text-title mr-3" />
+        <IconStage class="mr-3 text-title" />
         <span>Validate</span>
       </IgniteButton>
     </li>
-    <li class="ignite-text text-3 mb-6 m:mb-7">
+    <li class="ignite-text mb-6 text-3 m:mb-7">
       <IgniteButton>
-        <IconStack class="text-title mr-3" />
+        <IconStack class="mr-3 text-title" />
         <span>Request tokens</span>
       </IgniteButton>
     </li>
@@ -17,7 +17,7 @@
         to="https://"
         class="flex items-center text-primary hover:text-title"
       >
-        <IconLink class="text-title mr-3" />
+        <IconLink class="mr-3 text-title" />
         <span>Project website</span>
       </IgniteLink>
     </li>

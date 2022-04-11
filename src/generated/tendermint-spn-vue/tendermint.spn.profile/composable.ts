@@ -1,129 +1,140 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
-import { Ignite } from "tendermint-spn-ts-client";
-import Module from "tendermint-spn-ts-client/tendermint.spn.profile/module";
-		
-type SendMsgUpdateValidatorDescriptionType = typeof Module.prototype.sendMsgUpdateValidatorDescription
-type SendMsgAddValidatorOperatorAddressType = typeof Module.prototype.sendMsgAddValidatorOperatorAddress
-type SendMsgDisableCoordinatorType = typeof Module.prototype.sendMsgDisableCoordinator
-type SendMsgUpdateCoordinatorDescriptionType = typeof Module.prototype.sendMsgUpdateCoordinatorDescription
-type SendMsgCreateCoordinatorType = typeof Module.prototype.sendMsgCreateCoordinator
-type SendMsgUpdateCoordinatorAddressType = typeof Module.prototype.sendMsgUpdateCoordinatorAddress
+import Module from '../../tendermint-spn-ts-client/tendermint.spn.profile/module'
+import useIgnite from '../useIgnite'
+import { unref } from 'vue'
+
+type SendMsgUpdateCoordinatorAddressType =
+  typeof Module.prototype.sendMsgUpdateCoordinatorAddress
+type SendMsgCreateCoordinatorType =
+  typeof Module.prototype.sendMsgCreateCoordinator
+type SendMsgUpdateValidatorDescriptionType =
+  typeof Module.prototype.sendMsgUpdateValidatorDescription
+type SendMsgAddValidatorOperatorAddressType =
+  typeof Module.prototype.sendMsgAddValidatorOperatorAddress
+type SendMsgDisableCoordinatorType =
+  typeof Module.prototype.sendMsgDisableCoordinator
+type SendMsgUpdateCoordinatorDescriptionType =
+  typeof Module.prototype.sendMsgUpdateCoordinatorDescription
 
 type QueryValidatorType = typeof Module.prototype.queryValidator
 type QueryValidatorAllType = typeof Module.prototype.queryValidatorAll
-type QueryValidatorByOperatorAddressType = typeof Module.prototype.queryValidatorByOperatorAddress
+type QueryValidatorByOperatorAddressType =
+  typeof Module.prototype.queryValidatorByOperatorAddress
 type QueryCoordinatorType = typeof Module.prototype.queryCoordinator
 type QueryCoordinatorAllType = typeof Module.prototype.queryCoordinatorAll
-type QueryCoordinatorByAddressType = typeof Module.prototype.queryCoordinatorByAddress
-
+type QueryCoordinatorByAddressType =
+  typeof Module.prototype.queryCoordinatorByAddress
 
 type Response = {
-  sendMsgUpdateValidatorDescription: SendMsgUpdateValidatorDescriptionType,
-  sendMsgAddValidatorOperatorAddress: SendMsgAddValidatorOperatorAddressType,
-  sendMsgDisableCoordinator: SendMsgDisableCoordinatorType,
-  sendMsgUpdateCoordinatorDescription: SendMsgUpdateCoordinatorDescriptionType,
-  sendMsgCreateCoordinator: SendMsgCreateCoordinatorType,
-  sendMsgUpdateCoordinatorAddress: SendMsgUpdateCoordinatorAddressType,
-  
+  sendMsgUpdateCoordinatorAddress: SendMsgUpdateCoordinatorAddressType
+  sendMsgCreateCoordinator: SendMsgCreateCoordinatorType
+  sendMsgUpdateValidatorDescription: SendMsgUpdateValidatorDescriptionType
+  sendMsgAddValidatorOperatorAddress: SendMsgAddValidatorOperatorAddressType
+  sendMsgDisableCoordinator: SendMsgDisableCoordinatorType
+  sendMsgUpdateCoordinatorDescription: SendMsgUpdateCoordinatorDescriptionType
+
   queryValidator: QueryValidatorType
   queryValidatorAll: QueryValidatorAllType
   queryValidatorByOperatorAddress: QueryValidatorByOperatorAddressType
   queryCoordinator: QueryCoordinatorType
   queryCoordinatorAll: QueryCoordinatorAllType
   queryCoordinatorByAddress: QueryCoordinatorByAddressType
-  
 }
 
-type Params = {
-  ignite: Ignite;
-}
+function useModule(): Response {
+  // ignite
+  let { ignite } = useIgnite()
 
-function useModule({ ignite }: Params): Response {
   let {
-	
-	sendMsgUpdateValidatorDescription,
-  
-	sendMsgAddValidatorOperatorAddress,
-  
-	sendMsgDisableCoordinator,
-  
-	sendMsgUpdateCoordinatorDescription,
-  
-	sendMsgCreateCoordinator,
-  
-	sendMsgUpdateCoordinatorAddress,
-  
-  
-  queryValidator,
-  
-  queryValidatorAll,
-  
-  queryValidatorByOperatorAddress,
-  
-  queryCoordinator,
-  
-  queryCoordinatorAll,
-  
-  queryCoordinatorByAddress,
-  
-  } = ignite.TendermintSpnProfile
+    sendMsgUpdateCoordinatorAddress,
 
-  
-  
-	sendMsgUpdateValidatorDescription = sendMsgUpdateValidatorDescription.bind(ignite.TendermintSpnProfile)
-  
-	sendMsgAddValidatorOperatorAddress = sendMsgAddValidatorOperatorAddress.bind(ignite.TendermintSpnProfile)
-  
-	sendMsgDisableCoordinator = sendMsgDisableCoordinator.bind(ignite.TendermintSpnProfile)
-  
-	sendMsgUpdateCoordinatorDescription = sendMsgUpdateCoordinatorDescription.bind(ignite.TendermintSpnProfile)
-  
-	sendMsgCreateCoordinator = sendMsgCreateCoordinator.bind(ignite.TendermintSpnProfile)
-  
-	sendMsgUpdateCoordinatorAddress = sendMsgUpdateCoordinatorAddress.bind(ignite.TendermintSpnProfile)
-  
-  
-  queryValidator = queryValidator.bind(ignite.TendermintSpnProfile)
-  
-  queryValidatorAll = queryValidatorAll.bind(ignite.TendermintSpnProfile)
-  
-  queryValidatorByOperatorAddress = queryValidatorByOperatorAddress.bind(ignite.TendermintSpnProfile)
-  
-  queryCoordinator = queryCoordinator.bind(ignite.TendermintSpnProfile)
-  
-  queryCoordinatorAll = queryCoordinatorAll.bind(ignite.TendermintSpnProfile)
-  
-  queryCoordinatorByAddress = queryCoordinatorByAddress.bind(ignite.TendermintSpnProfile)
-  
+    sendMsgCreateCoordinator,
+
+    sendMsgUpdateValidatorDescription,
+
+    sendMsgAddValidatorOperatorAddress,
+
+    sendMsgDisableCoordinator,
+
+    sendMsgUpdateCoordinatorDescription,
+
+    queryValidator,
+
+    queryValidatorAll,
+
+    queryValidatorByOperatorAddress,
+
+    queryCoordinator,
+
+    queryCoordinatorAll,
+
+    queryCoordinatorByAddress
+  } = unref(ignite.tendermintSpnProfile)
+
+  sendMsgUpdateCoordinatorAddress = sendMsgUpdateCoordinatorAddress.bind(
+    ignite.tendermintSpnProfile
+  )
+
+  sendMsgCreateCoordinator = sendMsgCreateCoordinator.bind(
+    ignite.tendermintSpnProfile
+  )
+
+  sendMsgUpdateValidatorDescription = sendMsgUpdateValidatorDescription.bind(
+    ignite.tendermintSpnProfile
+  )
+
+  sendMsgAddValidatorOperatorAddress = sendMsgAddValidatorOperatorAddress.bind(
+    ignite.tendermintSpnProfile
+  )
+
+  sendMsgDisableCoordinator = sendMsgDisableCoordinator.bind(
+    ignite.tendermintSpnProfile
+  )
+
+  sendMsgUpdateCoordinatorDescription =
+    sendMsgUpdateCoordinatorDescription.bind(ignite.tendermintSpnProfile)
+
+  queryValidator = queryValidator.bind(ignite.tendermintSpnProfile)
+
+  queryValidatorAll = queryValidatorAll.bind(ignite.tendermintSpnProfile)
+
+  queryValidatorByOperatorAddress = queryValidatorByOperatorAddress.bind(
+    ignite.tendermintSpnProfile
+  )
+
+  queryCoordinator = queryCoordinator.bind(ignite.tendermintSpnProfile)
+
+  queryCoordinatorAll = queryCoordinatorAll.bind(ignite.tendermintSpnProfile)
+
+  queryCoordinatorByAddress = queryCoordinatorByAddress.bind(
+    ignite.tendermintSpnProfile
+  )
 
   return {
-  
-  sendMsgUpdateValidatorDescription,
-  
-  sendMsgAddValidatorOperatorAddress,
-  
-  sendMsgDisableCoordinator,
-  
-  sendMsgUpdateCoordinatorDescription,
-  
-  sendMsgCreateCoordinator,
-  
-  sendMsgUpdateCoordinatorAddress,
-  
-  
-  queryValidator,
-  
-  queryValidatorAll,
-  
-  queryValidatorByOperatorAddress,
-  
-  queryCoordinator,
-  
-  queryCoordinatorAll,
-  
-  queryCoordinatorByAddress,
-  
+    sendMsgUpdateCoordinatorAddress,
+
+    sendMsgCreateCoordinator,
+
+    sendMsgUpdateValidatorDescription,
+
+    sendMsgAddValidatorOperatorAddress,
+
+    sendMsgDisableCoordinator,
+
+    sendMsgUpdateCoordinatorDescription,
+
+    queryValidator,
+
+    queryValidatorAll,
+
+    queryValidatorByOperatorAddress,
+
+    queryCoordinator,
+
+    queryCoordinatorAll,
+
+    queryCoordinatorByAddress
   }
 }
 

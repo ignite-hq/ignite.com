@@ -1,13 +1,18 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
-import { Ignite } from "tendermint-spn-ts-client";
-import Module from "tendermint-spn-ts-client/tendermint.fundraising/module";
-		
-type SendMsgAddAllowedBidderType = typeof Module.prototype.sendMsgAddAllowedBidder
-type SendMsgCreateFixedPriceAuctionType = typeof Module.prototype.sendMsgCreateFixedPriceAuction
-type SendMsgCancelAuctionType = typeof Module.prototype.sendMsgCancelAuction
+import Module from '../../tendermint-spn-ts-client/tendermint.fundraising/module'
+import useIgnite from '../useIgnite'
+import { unref } from 'vue'
+
+type SendMsgCreateBatchAuctionType =
+  typeof Module.prototype.sendMsgCreateBatchAuction
+type SendMsgCreateFixedPriceAuctionType =
+  typeof Module.prototype.sendMsgCreateFixedPriceAuction
+type SendMsgAddAllowedBidderType =
+  typeof Module.prototype.sendMsgAddAllowedBidder
 type SendMsgPlaceBidType = typeof Module.prototype.sendMsgPlaceBid
-type SendMsgCreateEnglishAuctionType = typeof Module.prototype.sendMsgCreateEnglishAuction
+type SendMsgCancelAuctionType = typeof Module.prototype.sendMsgCancelAuction
+type SendMsgModifyBidType = typeof Module.prototype.sendMsgModifyBid
 
 type QueryParamsType = typeof Module.prototype.queryParams
 type QueryAuctionsType = typeof Module.prototype.queryAuctions
@@ -16,106 +21,106 @@ type QueryBidsType = typeof Module.prototype.queryBids
 type QueryBidType = typeof Module.prototype.queryBid
 type QueryVestingsType = typeof Module.prototype.queryVestings
 
-
 type Response = {
-  sendMsgAddAllowedBidder: SendMsgAddAllowedBidderType,
-  sendMsgCreateFixedPriceAuction: SendMsgCreateFixedPriceAuctionType,
-  sendMsgCancelAuction: SendMsgCancelAuctionType,
-  sendMsgPlaceBid: SendMsgPlaceBidType,
-  sendMsgCreateEnglishAuction: SendMsgCreateEnglishAuctionType,
-  
+  sendMsgCreateBatchAuction: SendMsgCreateBatchAuctionType
+  sendMsgCreateFixedPriceAuction: SendMsgCreateFixedPriceAuctionType
+  sendMsgAddAllowedBidder: SendMsgAddAllowedBidderType
+  sendMsgPlaceBid: SendMsgPlaceBidType
+  sendMsgCancelAuction: SendMsgCancelAuctionType
+  sendMsgModifyBid: SendMsgModifyBidType
+
   queryParams: QueryParamsType
   queryAuctions: QueryAuctionsType
   queryAuction: QueryAuctionType
   queryBids: QueryBidsType
   queryBid: QueryBidType
   queryVestings: QueryVestingsType
-  
 }
 
-type Params = {
-  ignite: Ignite;
-}
+function useModule(): Response {
+  // ignite
+  let { ignite } = useIgnite()
 
-function useModule({ ignite }: Params): Response {
   let {
-	
-	sendMsgAddAllowedBidder,
-  
-	sendMsgCreateFixedPriceAuction,
-  
-	sendMsgCancelAuction,
-  
-	sendMsgPlaceBid,
-  
-	sendMsgCreateEnglishAuction,
-  
-  
-  queryParams,
-  
-  queryAuctions,
-  
-  queryAuction,
-  
-  queryBids,
-  
-  queryBid,
-  
-  queryVestings,
-  
-  } = ignite.TendermintFundraising
+    sendMsgCreateBatchAuction,
 
-  
-  
-	sendMsgAddAllowedBidder = sendMsgAddAllowedBidder.bind(ignite.TendermintFundraising)
-  
-	sendMsgCreateFixedPriceAuction = sendMsgCreateFixedPriceAuction.bind(ignite.TendermintFundraising)
-  
-	sendMsgCancelAuction = sendMsgCancelAuction.bind(ignite.TendermintFundraising)
-  
-	sendMsgPlaceBid = sendMsgPlaceBid.bind(ignite.TendermintFundraising)
-  
-	sendMsgCreateEnglishAuction = sendMsgCreateEnglishAuction.bind(ignite.TendermintFundraising)
-  
-  
-  queryParams = queryParams.bind(ignite.TendermintFundraising)
-  
-  queryAuctions = queryAuctions.bind(ignite.TendermintFundraising)
-  
-  queryAuction = queryAuction.bind(ignite.TendermintFundraising)
-  
-  queryBids = queryBids.bind(ignite.TendermintFundraising)
-  
-  queryBid = queryBid.bind(ignite.TendermintFundraising)
-  
-  queryVestings = queryVestings.bind(ignite.TendermintFundraising)
-  
+    sendMsgCreateFixedPriceAuction,
+
+    sendMsgAddAllowedBidder,
+
+    sendMsgPlaceBid,
+
+    sendMsgCancelAuction,
+
+    sendMsgModifyBid,
+
+    queryParams,
+
+    queryAuctions,
+
+    queryAuction,
+
+    queryBids,
+
+    queryBid,
+
+    queryVestings
+  } = unref(ignite.tendermintFundraising)
+
+  sendMsgCreateBatchAuction = sendMsgCreateBatchAuction.bind(
+    ignite.tendermintFundraising
+  )
+
+  sendMsgCreateFixedPriceAuction = sendMsgCreateFixedPriceAuction.bind(
+    ignite.tendermintFundraising
+  )
+
+  sendMsgAddAllowedBidder = sendMsgAddAllowedBidder.bind(
+    ignite.tendermintFundraising
+  )
+
+  sendMsgPlaceBid = sendMsgPlaceBid.bind(ignite.tendermintFundraising)
+
+  sendMsgCancelAuction = sendMsgCancelAuction.bind(ignite.tendermintFundraising)
+
+  sendMsgModifyBid = sendMsgModifyBid.bind(ignite.tendermintFundraising)
+
+  queryParams = queryParams.bind(ignite.tendermintFundraising)
+
+  queryAuctions = queryAuctions.bind(ignite.tendermintFundraising)
+
+  queryAuction = queryAuction.bind(ignite.tendermintFundraising)
+
+  queryBids = queryBids.bind(ignite.tendermintFundraising)
+
+  queryBid = queryBid.bind(ignite.tendermintFundraising)
+
+  queryVestings = queryVestings.bind(ignite.tendermintFundraising)
 
   return {
-  
-  sendMsgAddAllowedBidder,
-  
-  sendMsgCreateFixedPriceAuction,
-  
-  sendMsgCancelAuction,
-  
-  sendMsgPlaceBid,
-  
-  sendMsgCreateEnglishAuction,
-  
-  
-  queryParams,
-  
-  queryAuctions,
-  
-  queryAuction,
-  
-  queryBids,
-  
-  queryBid,
-  
-  queryVestings,
-  
+    sendMsgCreateBatchAuction,
+
+    sendMsgCreateFixedPriceAuction,
+
+    sendMsgAddAllowedBidder,
+
+    sendMsgPlaceBid,
+
+    sendMsgCancelAuction,
+
+    sendMsgModifyBid,
+
+    queryParams,
+
+    queryAuctions,
+
+    queryAuction,
+
+    queryBids,
+
+    queryBid,
+
+    queryVestings
   }
 }
 

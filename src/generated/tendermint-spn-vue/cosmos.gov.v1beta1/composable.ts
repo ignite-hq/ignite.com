@@ -1,12 +1,13 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
-import { Ignite } from "tendermint-spn-ts-client";
-import Module from "tendermint-spn-ts-client/cosmos.gov.v1beta1/module";
-		
-type SendMsgSubmitProposalType = typeof Module.prototype.sendMsgSubmitProposal
+import Module from '../../tendermint-spn-ts-client/cosmos.gov.v1beta1/module'
+import useIgnite from '../useIgnite'
+import { unref } from 'vue'
+
+type SendMsgVoteWeightedType = typeof Module.prototype.sendMsgVoteWeighted
 type SendMsgDepositType = typeof Module.prototype.sendMsgDeposit
 type SendMsgVoteType = typeof Module.prototype.sendMsgVote
-type SendMsgVoteWeightedType = typeof Module.prototype.sendMsgVoteWeighted
+type SendMsgSubmitProposalType = typeof Module.prototype.sendMsgSubmitProposal
 
 type QueryProposalType = typeof Module.prototype.queryProposal
 type QueryProposalsType = typeof Module.prototype.queryProposals
@@ -17,13 +18,12 @@ type QueryDepositType = typeof Module.prototype.queryDeposit
 type QueryDepositsType = typeof Module.prototype.queryDeposits
 type QueryTallyResultType = typeof Module.prototype.queryTallyResult
 
-
 type Response = {
-  sendMsgSubmitProposal: SendMsgSubmitProposalType,
-  sendMsgDeposit: SendMsgDepositType,
-  sendMsgVote: SendMsgVoteType,
-  sendMsgVoteWeighted: SendMsgVoteWeightedType,
-  
+  sendMsgVoteWeighted: SendMsgVoteWeightedType
+  sendMsgDeposit: SendMsgDepositType
+  sendMsgVote: SendMsgVoteType
+  sendMsgSubmitProposal: SendMsgSubmitProposalType
+
   queryProposal: QueryProposalType
   queryProposals: QueryProposalsType
   queryVote: QueryVoteType
@@ -32,98 +32,86 @@ type Response = {
   queryDeposit: QueryDepositType
   queryDeposits: QueryDepositsType
   queryTallyResult: QueryTallyResultType
-  
 }
 
-type Params = {
-  ignite: Ignite;
-}
+function useModule(): Response {
+  // ignite
+  let { ignite } = useIgnite()
 
-function useModule({ ignite }: Params): Response {
   let {
-	
-	sendMsgSubmitProposal,
-  
-	sendMsgDeposit,
-  
-	sendMsgVote,
-  
-	sendMsgVoteWeighted,
-  
-  
-  queryProposal,
-  
-  queryProposals,
-  
-  queryVote,
-  
-  queryVotes,
-  
-  queryParams,
-  
-  queryDeposit,
-  
-  queryDeposits,
-  
-  queryTallyResult,
-  
-  } = ignite.CosmosGovV1Beta1
+    sendMsgVoteWeighted,
 
-  
-  
-	sendMsgSubmitProposal = sendMsgSubmitProposal.bind(ignite.CosmosGovV1Beta1)
-  
-	sendMsgDeposit = sendMsgDeposit.bind(ignite.CosmosGovV1Beta1)
-  
-	sendMsgVote = sendMsgVote.bind(ignite.CosmosGovV1Beta1)
-  
-	sendMsgVoteWeighted = sendMsgVoteWeighted.bind(ignite.CosmosGovV1Beta1)
-  
-  
-  queryProposal = queryProposal.bind(ignite.CosmosGovV1Beta1)
-  
-  queryProposals = queryProposals.bind(ignite.CosmosGovV1Beta1)
-  
-  queryVote = queryVote.bind(ignite.CosmosGovV1Beta1)
-  
-  queryVotes = queryVotes.bind(ignite.CosmosGovV1Beta1)
-  
-  queryParams = queryParams.bind(ignite.CosmosGovV1Beta1)
-  
-  queryDeposit = queryDeposit.bind(ignite.CosmosGovV1Beta1)
-  
-  queryDeposits = queryDeposits.bind(ignite.CosmosGovV1Beta1)
-  
-  queryTallyResult = queryTallyResult.bind(ignite.CosmosGovV1Beta1)
-  
+    sendMsgDeposit,
+
+    sendMsgVote,
+
+    sendMsgSubmitProposal,
+
+    queryProposal,
+
+    queryProposals,
+
+    queryVote,
+
+    queryVotes,
+
+    queryParams,
+
+    queryDeposit,
+
+    queryDeposits,
+
+    queryTallyResult
+  } = unref(ignite.cosmosGovV1Beta1)
+
+  sendMsgVoteWeighted = sendMsgVoteWeighted.bind(ignite.cosmosGovV1Beta1)
+
+  sendMsgDeposit = sendMsgDeposit.bind(ignite.cosmosGovV1Beta1)
+
+  sendMsgVote = sendMsgVote.bind(ignite.cosmosGovV1Beta1)
+
+  sendMsgSubmitProposal = sendMsgSubmitProposal.bind(ignite.cosmosGovV1Beta1)
+
+  queryProposal = queryProposal.bind(ignite.cosmosGovV1Beta1)
+
+  queryProposals = queryProposals.bind(ignite.cosmosGovV1Beta1)
+
+  queryVote = queryVote.bind(ignite.cosmosGovV1Beta1)
+
+  queryVotes = queryVotes.bind(ignite.cosmosGovV1Beta1)
+
+  queryParams = queryParams.bind(ignite.cosmosGovV1Beta1)
+
+  queryDeposit = queryDeposit.bind(ignite.cosmosGovV1Beta1)
+
+  queryDeposits = queryDeposits.bind(ignite.cosmosGovV1Beta1)
+
+  queryTallyResult = queryTallyResult.bind(ignite.cosmosGovV1Beta1)
 
   return {
-  
-  sendMsgSubmitProposal,
-  
-  sendMsgDeposit,
-  
-  sendMsgVote,
-  
-  sendMsgVoteWeighted,
-  
-  
-  queryProposal,
-  
-  queryProposals,
-  
-  queryVote,
-  
-  queryVotes,
-  
-  queryParams,
-  
-  queryDeposit,
-  
-  queryDeposits,
-  
-  queryTallyResult,
-  
+    sendMsgVoteWeighted,
+
+    sendMsgDeposit,
+
+    sendMsgVote,
+
+    sendMsgSubmitProposal,
+
+    queryProposal,
+
+    queryProposals,
+
+    queryVote,
+
+    queryVotes,
+
+    queryParams,
+
+    queryDeposit,
+
+    queryDeposits,
+
+    queryTallyResult
   }
 }
 

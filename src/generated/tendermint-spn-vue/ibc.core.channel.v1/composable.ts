@@ -1,26 +1,30 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
-import { Ignite } from "tendermint-spn-ts-client";
-import Module from "tendermint-spn-ts-client/ibc.core.channel.v1/module";
-		
+import Module from '../../tendermint-spn-ts-client/ibc.core.channel.v1/module'
+import useIgnite from '../useIgnite'
+import { unref } from 'vue'
 
 type QueryChannelType = typeof Module.prototype.queryChannel
 type QueryChannelsType = typeof Module.prototype.queryChannels
-type QueryConnectionChannelsType = typeof Module.prototype.queryConnectionChannels
-type QueryChannelClientStateType = typeof Module.prototype.queryChannelClientState
-type QueryChannelConsensusStateType = typeof Module.prototype.queryChannelConsensusState
+type QueryConnectionChannelsType =
+  typeof Module.prototype.queryConnectionChannels
+type QueryChannelClientStateType =
+  typeof Module.prototype.queryChannelClientState
+type QueryChannelConsensusStateType =
+  typeof Module.prototype.queryChannelConsensusState
 type QueryPacketCommitmentType = typeof Module.prototype.queryPacketCommitment
 type QueryPacketCommitmentsType = typeof Module.prototype.queryPacketCommitments
 type QueryPacketReceiptType = typeof Module.prototype.queryPacketReceipt
-type QueryPacketAcknowledgementType = typeof Module.prototype.queryPacketAcknowledgement
-type QueryPacketAcknowledgementsType = typeof Module.prototype.queryPacketAcknowledgements
+type QueryPacketAcknowledgementType =
+  typeof Module.prototype.queryPacketAcknowledgement
+type QueryPacketAcknowledgementsType =
+  typeof Module.prototype.queryPacketAcknowledgements
 type QueryUnreceivedPacketsType = typeof Module.prototype.queryUnreceivedPackets
 type QueryUnreceivedAcksType = typeof Module.prototype.queryUnreceivedAcks
-type QueryNextSequenceReceiveType = typeof Module.prototype.queryNextSequenceReceive
-
+type QueryNextSequenceReceiveType =
+  typeof Module.prototype.queryNextSequenceReceive
 
 type Response = {
-  
   queryChannel: QueryChannelType
   queryChannels: QueryChannelsType
   queryConnectionChannels: QueryConnectionChannelsType
@@ -34,104 +38,104 @@ type Response = {
   queryUnreceivedPackets: QueryUnreceivedPacketsType
   queryUnreceivedAcks: QueryUnreceivedAcksType
   queryNextSequenceReceive: QueryNextSequenceReceiveType
-  
 }
 
-type Params = {
-  ignite: Ignite;
-}
+function useModule(): Response {
+  // ignite
+  let { ignite } = useIgnite()
 
-function useModule({ ignite }: Params): Response {
   let {
-	
-  
-  queryChannel,
-  
-  queryChannels,
-  
-  queryConnectionChannels,
-  
-  queryChannelClientState,
-  
-  queryChannelConsensusState,
-  
-  queryPacketCommitment,
-  
-  queryPacketCommitments,
-  
-  queryPacketReceipt,
-  
-  queryPacketAcknowledgement,
-  
-  queryPacketAcknowledgements,
-  
-  queryUnreceivedPackets,
-  
-  queryUnreceivedAcks,
-  
-  queryNextSequenceReceive,
-  
-  } = ignite.IbcCoreChannelV1
+    queryChannel,
 
-  
-  
-  
-  queryChannel = queryChannel.bind(ignite.IbcCoreChannelV1)
-  
-  queryChannels = queryChannels.bind(ignite.IbcCoreChannelV1)
-  
-  queryConnectionChannels = queryConnectionChannels.bind(ignite.IbcCoreChannelV1)
-  
-  queryChannelClientState = queryChannelClientState.bind(ignite.IbcCoreChannelV1)
-  
-  queryChannelConsensusState = queryChannelConsensusState.bind(ignite.IbcCoreChannelV1)
-  
-  queryPacketCommitment = queryPacketCommitment.bind(ignite.IbcCoreChannelV1)
-  
-  queryPacketCommitments = queryPacketCommitments.bind(ignite.IbcCoreChannelV1)
-  
-  queryPacketReceipt = queryPacketReceipt.bind(ignite.IbcCoreChannelV1)
-  
-  queryPacketAcknowledgement = queryPacketAcknowledgement.bind(ignite.IbcCoreChannelV1)
-  
-  queryPacketAcknowledgements = queryPacketAcknowledgements.bind(ignite.IbcCoreChannelV1)
-  
-  queryUnreceivedPackets = queryUnreceivedPackets.bind(ignite.IbcCoreChannelV1)
-  
-  queryUnreceivedAcks = queryUnreceivedAcks.bind(ignite.IbcCoreChannelV1)
-  
-  queryNextSequenceReceive = queryNextSequenceReceive.bind(ignite.IbcCoreChannelV1)
-  
+    queryChannels,
+
+    queryConnectionChannels,
+
+    queryChannelClientState,
+
+    queryChannelConsensusState,
+
+    queryPacketCommitment,
+
+    queryPacketCommitments,
+
+    queryPacketReceipt,
+
+    queryPacketAcknowledgement,
+
+    queryPacketAcknowledgements,
+
+    queryUnreceivedPackets,
+
+    queryUnreceivedAcks,
+
+    queryNextSequenceReceive
+  } = unref(ignite.ibcCoreChannelV1)
+
+  queryChannel = queryChannel.bind(ignite.ibcCoreChannelV1)
+
+  queryChannels = queryChannels.bind(ignite.ibcCoreChannelV1)
+
+  queryConnectionChannels = queryConnectionChannels.bind(
+    ignite.ibcCoreChannelV1
+  )
+
+  queryChannelClientState = queryChannelClientState.bind(
+    ignite.ibcCoreChannelV1
+  )
+
+  queryChannelConsensusState = queryChannelConsensusState.bind(
+    ignite.ibcCoreChannelV1
+  )
+
+  queryPacketCommitment = queryPacketCommitment.bind(ignite.ibcCoreChannelV1)
+
+  queryPacketCommitments = queryPacketCommitments.bind(ignite.ibcCoreChannelV1)
+
+  queryPacketReceipt = queryPacketReceipt.bind(ignite.ibcCoreChannelV1)
+
+  queryPacketAcknowledgement = queryPacketAcknowledgement.bind(
+    ignite.ibcCoreChannelV1
+  )
+
+  queryPacketAcknowledgements = queryPacketAcknowledgements.bind(
+    ignite.ibcCoreChannelV1
+  )
+
+  queryUnreceivedPackets = queryUnreceivedPackets.bind(ignite.ibcCoreChannelV1)
+
+  queryUnreceivedAcks = queryUnreceivedAcks.bind(ignite.ibcCoreChannelV1)
+
+  queryNextSequenceReceive = queryNextSequenceReceive.bind(
+    ignite.ibcCoreChannelV1
+  )
 
   return {
-  
-  
-  queryChannel,
-  
-  queryChannels,
-  
-  queryConnectionChannels,
-  
-  queryChannelClientState,
-  
-  queryChannelConsensusState,
-  
-  queryPacketCommitment,
-  
-  queryPacketCommitments,
-  
-  queryPacketReceipt,
-  
-  queryPacketAcknowledgement,
-  
-  queryPacketAcknowledgements,
-  
-  queryUnreceivedPackets,
-  
-  queryUnreceivedAcks,
-  
-  queryNextSequenceReceive,
-  
+    queryChannel,
+
+    queryChannels,
+
+    queryConnectionChannels,
+
+    queryChannelClientState,
+
+    queryChannelConsensusState,
+
+    queryPacketCommitment,
+
+    queryPacketCommitments,
+
+    queryPacketReceipt,
+
+    queryPacketAcknowledgement,
+
+    queryPacketAcknowledgements,
+
+    queryUnreceivedPackets,
+
+    queryUnreceivedAcks,
+
+    queryNextSequenceReceive
   }
 }
 

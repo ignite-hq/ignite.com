@@ -17,8 +17,11 @@
     </div>
 
     <div v-if="hasNextPage && !isFetchingNextPage" class="blur-box">
-      <SpButton class="view-more-btn" @click="() => fetchNextPage()"
-        >View More</SpButton
+      <IgniteButton
+        variant="primary"
+        class="view-more-btn"
+        @click="() => fetchNextPage()"
+        >View More</IgniteButton
       >
     </div>
   </div>
@@ -31,7 +34,6 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import SpButton from '@starport/vue/src/components/SpButton/SpButton.vue'
 import MasonryWall from '@yeger/vue-masonry-wall'
 import {
   CampaignCampaignSummary,
@@ -40,6 +42,7 @@ import {
 import { computed } from 'vue'
 
 import useCampaignSummaries from '../composables/useCampaignSummaries'
+import IgniteButton from './IgniteButton.vue'
 import IgniteProjectCard from './IgniteProjectCard/index.vue'
 
 // variables
@@ -83,7 +86,7 @@ const campaignSummaries = computed<CampaignCampaignSummary[]>(() => {
 
 <style scoped lang="postcss">
 .project-list {
-  @apply flex flex-col items-center mb-7;
+  @apply mb-7 flex flex-col items-center;
 }
 
 .masonry {
@@ -91,11 +94,11 @@ const campaignSummaries = computed<CampaignCampaignSummary[]>(() => {
 }
 
 .blur-box {
-  @apply flex justify-center w-full bg-white-1000 h-10 -mt-11 pt-4;
+  @apply -mt-11 flex h-10 w-full justify-center bg-white-1000 pt-4;
   box-shadow: 0 0 2000px 200px #fff;
 }
 
 .view-more-btn {
-  @apply bg-primary border-primary;
+  @apply border-primary bg-primary;
 }
 </style>
