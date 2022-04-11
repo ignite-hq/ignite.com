@@ -4,7 +4,7 @@ import { useInfiniteQuery } from 'vue-query'
 
 const VALIDATORS_PER_PAGE = '20'
 
-export default function useGenesisValidatorsAll(launchId: string) {
+export default function useGenesisValidatorsAll(launchID: string) {
   const {
     state: { ignite }
   } = useIgnite()
@@ -15,7 +15,7 @@ export default function useGenesisValidatorsAll(launchId: string) {
   const { data, ...other } = useInfiniteQuery(
     ['address'],
     ({ pageParam }) => {
-      return queryGenesisValidatorAll(launchId, {
+      return queryGenesisValidatorAll(launchID, {
         'pagination.limit': VALIDATORS_PER_PAGE,
         'pagination.key': pageParam
       }).then((r) => r.data)

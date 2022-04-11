@@ -28,8 +28,8 @@
                     class="mb-5 text-3 l:mb-0 l:mr-7"
                   />
                   <IgniteProjectStatus
-                    campaign-id="0"
-                    launch-id="0"
+                    campaignID="0"
+                    launchID="0"
                     stargazer-count="1"
                     request-count="100"
                     validator-count="30"
@@ -52,10 +52,7 @@
 
     <div class="shadow-border_double py-6">
       <div class="container-full px-6 xl:container">
-        <IgniteProjectNav
-          :items="navigation"
-          :activeTab="tab"
-        />
+        <IgniteProjectNav :items="navigation" :activeTab="tab" />
       </div>
     </div>
 
@@ -86,7 +83,7 @@ import { reactive } from 'vue'
 
 const props = defineProps({
   projectID: String,
-  activeTab: String,
+  activeTab: String
 })
 
 const githubUrl = 'https://github.com/allinbits/ignite-ui'

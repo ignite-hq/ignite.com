@@ -2,7 +2,7 @@ import { useIgnite, useTendermintSpnCampaignModule } from 'tendermint-spn-vue'
 import { computed } from 'vue'
 import { useQuery } from 'vue-query'
 
-export default function useCampaignSummary(campaignId: string) {
+export default function useCampaignSummary(campaignID: string) {
   const {
     state: { ignite }
   } = useIgnite()
@@ -11,7 +11,7 @@ export default function useCampaignSummary(campaignId: string) {
   })
 
   const { data, ...other } = useQuery(['campaignID'], () => {
-    return queryCampaignSummary(campaignId).then((r) => r.data)
+    return queryCampaignSummary(campaignID).then((r) => r.data)
   })
 
   const campaignSummaryData = computed(() => {

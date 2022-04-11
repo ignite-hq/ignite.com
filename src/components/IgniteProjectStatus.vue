@@ -8,10 +8,15 @@
       <IconPlane class="icon" />
       <IgniteText as="span">{{ requestCount }}</IgniteText>
     </div>
-    <div class="status__item">
+    <router-link
+      :to="{ path: `/projects/${campaignID}/validators` }"
+      v-on:click.stop
+      title="Validators"
+      class="status__item cursor-pointer select-none hover:opacity-80 active:opacity-70"
+    >
       <IconStage class="icon" />
       <IgniteText as="span">{{ validatorCount }}</IgniteText>
-    </div>
+    </router-link>
     <div class="status__item">
       <IgniteText as="span" class="ignite-badge">testnet</IgniteText>
     </div>
@@ -33,8 +38,8 @@ import IconStar from './icons/IconStar.vue'
 import IgniteText from './IgniteText.vue'
 
 defineProps({
-  campaignId: { type: String, required: true },
-  launchId: { type: String, required: true },
+  campaignID: { type: String, required: true },
+  launchID: { type: String, required: true },
   requestCount: { type: String, required: true },
   validatorCount: { type: String, required: true },
   stargazerCount: { type: String, required: true }

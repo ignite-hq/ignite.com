@@ -24,7 +24,17 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineComponent, ref, toRef, reactive, toRefs, watch, onBeforeMount } from 'vue'
+import {
+  computed,
+  watchEffect,
+  defineComponent,
+  ref,
+  toRef,
+  reactive,
+  toRefs,
+  watch,
+  onBeforeMount
+} from 'vue'
 import LayoutSpacer from '../../atoms/LayoutSpacer.vue'
 import ValidatorCard from './ValidatorCard.vue'
 import IgniteText from '../../IgniteText.vue'
@@ -38,9 +48,8 @@ import {
 import useChain from '../../../composables/useChain'
 import useGenesisValidatorAll from '../../../composables/useGenesisValidatorAll'
 
-
 const props = defineProps({
-  launchID: String,
+  launchID: String
 })
 
 // methods
@@ -62,7 +71,6 @@ const {
   isFetchingNextPage,
   genesisValidatorAllData
 } = useGenesisValidatorAll(props.launchID)
-
 
 /*
 const { stakingValidatorsAllData } = useStakingValidatorAll()

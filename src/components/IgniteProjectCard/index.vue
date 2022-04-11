@@ -1,6 +1,8 @@
 <template>
   <router-link
-    :to="{ path: `/projects/${campaignSummary.campaign?.campaignID ?? '0'}/overview` }"
+    :to="{
+      path: `/projects/${campaignSummary.campaign?.campaignID ?? '0'}/overview`
+    }"
     :class="isLoading ? 'cursor-pointer' : ''"
   >
     <div class="project-card">
@@ -26,8 +28,8 @@
         <ProjectCardStatus
           class="project-card__row"
           :loading="isLoading"
-          :launch-id="campaignSummary.mostRecentChain?.launchID ?? '0'"
-          :campaign-id="campaignSummary.campaign?.campaignID ?? '0'"
+          :launchID="campaignSummary.mostRecentChain?.launchID ?? '0'"
+          :campaignID="campaignSummary.campaign?.campaignID ?? '0'"
           :validator-count="campaignSummary.mostRecentChain?.validatorNb ?? '0'"
           :request-count="campaignSummary.mostRecentChain?.requestNb ?? '0'"
           :stargazer-count="repository?.stargazers_count?.toString() ?? '0'"
@@ -79,8 +81,8 @@ const isLoading = computed(function () {
 const showAllocation = computed(function () {
   const campaignSummary = props.campaignSummary
   const hasAtLeastOneShare = campaignSummary?.rewards?.some((supply) => {
-    const campaignId = campaignSummary.campaign?.campaignID
-    const isShare = supply.denom?.startsWith(`v/${campaignId}`)
+    const campaignID = campaignSummary.campaign?.campaignID
+    const isShare = supply.denom?.startsWith(`v/${campaignID}`)
     return isShare
   })
 
@@ -94,8 +96,8 @@ const showAllocation = computed(function () {
 const showIncentives = computed(function () {
   const campaignSummary = props.campaignSummary
   const hasAtLeastOneIncentive = campaignSummary?.rewards?.some((supply) => {
-    const campaignId = campaignSummary.campaign?.campaignID
-    const isIncentive = !supply.denom?.startsWith(`v/${campaignId}`)
+    const campaignID = campaignSummary.campaign?.campaignID
+    const isIncentive = !supply.denom?.startsWith(`v/${campaignID}`)
     return isIncentive
   })
 

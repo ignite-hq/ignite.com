@@ -62,8 +62,8 @@ function getVouchersFromRewards(
   rewards: CampaignCampaignSummary['rewards'] = []
 ) {
   return rewards.filter((coin) => {
-    const campaignId = props.campaignSummary.campaign?.campaignID
-    const isShare = coin.denom?.startsWith(`v/${campaignId}`)
+    const campaignID = props.campaignSummary.campaign?.campaignID
+    const isShare = coin.denom?.startsWith(`v/${campaignID}`)
     return isShare
   })
 }
