@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex text-left justify-start flex-col border border-gray-70 rounded mx-2 mb-6 p-5"
+    class="mx-2 mb-6 flex flex-col justify-start rounded border border-gray-70 p-5 text-left"
     style="width: 292px"
   >
     <img
@@ -9,21 +9,23 @@
       class="mb-6"
     />
 
-    <span class="text-4 font-bold mb-4">
+    <IgniteText class="mb-4 text-4 font-bold">
       {{ validatorData.details.body?.messages[0]?.description?.moniker || '-' }}
-    </span>
-    <span class="text-2 text-muted leading-5 break-words">
+    </IgniteText>
+    <IgniteText class="break-words text-2 leading-5 text-muted">
       {{ validatorData.details.body?.messages[0]?.description?.details || '-' }}
-    </span>
+    </IgniteText>
 
     <LayoutSpacer size="sm" />
 
     <div class="mb-2 w-full border-b border-gray-70" />
-    <span class="text-2 text-muted leading-5 mb-1"> Also validates </span>
+    <IgniteText class="mb-1 text-2 leading-5 text-muted">
+      Also validates
+    </IgniteText>
     <div>
       <a
         href="#"
-        class="text-2 inline-block text-primary hover:brightness-90 active:brightness-75 hover:underline"
+        class="inline-block text-2 text-primary hover:underline hover:brightness-90 active:brightness-75"
       >
         0 other projects
       </a>
@@ -31,35 +33,25 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { computed, defineComponent, PropType } from 'vue'
 import LayoutSpacer from '../../atoms/LayoutSpacer.vue'
 import validatorAvatar from '../../../assets/svg/validatorAvatar.svg'
 import { Validator } from 'tendermint-spn-ts-client/cosmos.staking.v1beta1'
 import { LaunchGenesisValidator } from 'tendermint-spn-ts-client/tendermint.spn.launch/rest'
+import IgniteText from '../../IgniteText.vue'
 
-export default defineComponent({
-  components: {
-    LayoutSpacer
-  },
-  props: {
-    validator: {
-      type: Object as PropType<Validator>,
-      required: true
-    }
-  },
-  setup(props) {
-    const validatorData = computed<LaunchGenesisValidator>(() => {
-      return {
-        ...props.validator,
-        details: JSON.parse(atob(props.validator.genTx))
-      }
-    })
+const props = defineProps({
+  validator: {
+    type: Object as PropType<Validator>,
+    required: true
+  }
+})
 
-    return {
-      validatorData,
-      validatorAvatar
-    }
+const validatorData = computed<LaunchGenesisValidator>(() => {
+  return {
+    ...props.validator,
+    details: JSON.parse(atob(props.validator.genTx))
   }
 })
 </script>

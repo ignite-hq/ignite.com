@@ -15,10 +15,3 @@
     /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
       url('/fonts/termina/termina-demi-web.svg#Termina W00 Demi') format('svg'); /* iOS 4.1- */
 }
-
-.brand-font {
-    font-family: 'Termina', serif;
-    line-height: 100%;
-    letter-spacing: -0.03em;
-    font-feature-settings: 'zero' on;
-}

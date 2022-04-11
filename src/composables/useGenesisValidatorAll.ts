@@ -13,7 +13,7 @@ export default function useGenesisValidatorsAll(launchID: ref<string>) {
   })
 
   const { data, ...other } = useInfiniteQuery(
-    ['address', launchID],
+    ['validators', launchID],
     ({ pageParam }) => {
       return queryGenesisValidatorAll(launchID.value, {
         'pagination.limit': VALIDATORS_PER_PAGE,

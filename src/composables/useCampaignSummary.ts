@@ -10,7 +10,7 @@ export default function useCampaignSummary(campaignID: string) {
     ignite: ignite.value
   })
 
-  const { data, ...other } = useQuery(['campaignID'], () => {
+  const { data, ...other } = useQuery(['campaigns', campaignID], () => {
     return queryCampaignSummary(campaignID).then((r) => r.data)
   })
 

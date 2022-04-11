@@ -10,7 +10,7 @@ export default function useChain(launchID: ref<string>) {
     ignite: ignite.value
   })
 
-  const { data, ...other } = useQuery(['launchID', launchID], () => {
+  const { data, ...other } = useQuery(['launches', launchID], () => {
     return queryChain(launchID.value).then((r) => r.data)
   })
 
