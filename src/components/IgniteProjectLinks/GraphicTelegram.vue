@@ -25,7 +25,7 @@
 
   <svg
     v-if="size === 'md'"
-    class="max-w-[100%] h-auto my-5 mx-auto m:my-7"
+    class="max-w-full h-auto my-5 mx-auto m:my-7"
     width="424"
     height="221"
     viewBox="0 0 424 221"
@@ -50,7 +50,7 @@
 
   <svg
     v-if="size === 'lg'"
-    class="my-5 m:my-0 w-[100%] h-auto m:absolute m:top-[50%] m:translate-y-[-50%] m:right-6 l:right-[30%] l:translate-x-[50%] m:max-w-[40%] l:max-w-[45%] xl:max-w-[31rem] xl:h-[80%] xl:w-auto"
+    class="my-5 m:my-0 w-full h-auto m:absolute m:top-[50%] m:translate-y-[-50%] m:right-6 l:right-[30%] l:translate-x-[50%] m:max-w-[40%] l:max-w-[45%] xl:max-w-[31rem] xl:h-[80%] xl:w-auto"
     width="491"
     height="156"
     viewBox="0 0 491 156"

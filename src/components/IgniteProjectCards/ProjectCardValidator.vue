@@ -18,7 +18,7 @@
       Validator Incentives
     </div>
     <div
-      class="sm:flex justify-center w-[100%] mt-8"
+      class="sm:flex justify-center w-full mt-8"
       :class="
         isWide && [
           'xl:mt-0',

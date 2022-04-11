@@ -4,7 +4,7 @@
     class="flex flex-col justify-between gap-9 pt-8 m:pt-9 px-5 sm:px-7 m:px-8 pb-7.5"
     :class="isWide && 'sm:flex-row'"
   >
-    <div v-if="!isOngoing" class="w-[100%]">
+    <div v-if="!isOngoing" class="w-full">
       <IgniteProgressBar :items="progressBar.items" :label="false" />
       <div class="mt-6 ignite-title font-semibold font-title text-5 m:text-7">
         300,000 UST
@@ -13,13 +13,13 @@
         raised of 3,000,000 UST
       </div>
     </div>
-    <div v-else class="w-[100%]" :class="isWide && 'xl:flex'">
+    <div v-else class="w-full" :class="isWide && 'xl:flex'">
       <div
         class="ignite-title font-semibold font-title text-5 m:text-7 mr-8 max-w-sm"
       >
         Registration open now
       </div>
-      <div class="mt-6 w-[100%]" :class="isWide && 'xl:mt-2'">
+      <div class="mt-6 w-full" :class="isWide && 'xl:mt-2'">
         <div
           class="ignite-text text-muted text-3"
           :class="isWide && 'max-w-md'"

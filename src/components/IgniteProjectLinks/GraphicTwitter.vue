@@ -37,7 +37,7 @@
 
   <svg
     v-if="size === 'md'"
-    class="w-[100%] h-auto mt-6 mb-4 m:mb-6"
+    class="w-full h-auto mt-6 mb-4 m:mb-6"
     width="496"
     height="234"
     viewBox="0 0 496 234"
@@ -135,7 +135,7 @@
 
   <svg
     v-if="size === 'lg'"
-    class="mt-5 m:mt-0 w-[100%] h-auto m:absolute m:bottom-0 m:right-6 l:right-[30%] l:translate-x-[50%] m:max-w-[40%] l:max-w-[45%] xl:max-w-[31rem] xl:h-[80%] xl:w-auto"
+    class="mt-5 m:mt-0 w-full h-auto m:absolute m:bottom-0 m:right-6 l:right-[30%] l:translate-x-[50%] m:max-w-[40%] l:max-w-[45%] xl:max-w-[31rem] xl:h-[80%] xl:w-auto"
     width="496"
     height="195"
     viewBox="0 0 496 195"

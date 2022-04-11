@@ -211,7 +211,7 @@ export default defineComponent({
   video,
   img,
   iframe {
-    @apply mb-6 m:mb-7 l:mb-8 w-[100%] rounded mt-7 m:mt-8 l:mt-9.5;
+    @apply mb-6 m:mb-7 l:mb-8 w-full rounded mt-7 m:mt-8 l:mt-9.5;
     + h3 {
       @apply mt-0;
     }

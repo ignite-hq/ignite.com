@@ -6,7 +6,7 @@
       <div
         v-for="member in members"
         :key="`${member.name}_${member.title}`"
-        class="flex-none w-[100%] m:w-[50%] xl:w-[25%] p-4 m:p-5"
+        class="flex-none w-full m:w-[50%] xl:w-[25%] p-4 m:p-5"
       >
         <ProjectTeamMember :member="member" />
       </div>

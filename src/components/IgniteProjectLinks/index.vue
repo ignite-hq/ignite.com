@@ -6,8 +6,8 @@
 
     <div class="mt-6 m:mt-9 flex justify-center flex-wrap -m-4 m:-m-5">
       <div
-        class="flex-none w-[100%] l:w-[50%] p-4 m:p-5"
-        :class="social.length === 1 && 'l:w-[100%]'"
+        class="flex-none w-full l:w-[50%] p-4 m:p-5"
+        :class="social.length === 1 && 'l:w-full'"
       >
         <div
           v-for="(item, key) in social"
@@ -29,7 +29,7 @@
       </div>
       <div
         v-if="social.length > 1"
-        class="flex-none w-[100%] l:w-[50%] p-4 m:p-5"
+        class="flex-none w-full l:w-[50%] p-4 m:p-5"
       >
         <div
           v-for="(item, key) in social"

@@ -15,7 +15,7 @@
           class="pb-5 m:pb-6 border-b border-border igntite-title text-muted text-2 m:text-3 font-semibold"
         >
           <div class="flex -mx-5">
-            <div class="px-5 w-[100%]">
+            <div class="px-5 w-full">
               <div class="pl-[2.25rem] m:pl-[3rem] l:pl-[4.25rem]">
                 Category
               </div>
@@ -26,7 +26,7 @@
             <div class="hidden m:block px-5 shrink-0 w-[11.5rem] text-center">
               Duration
             </div>
-            <div class="hidden m:block px-5 w-[100%]">Dates</div>
+            <div class="hidden m:block px-5 w-full">Dates</div>
           </div>
         </div>
 
@@ -40,7 +40,7 @@
             <div
               class="flex items-center flex-wrap m:flex-nowrap -mx-5 igntite-text text-2 m:text-3"
             >
-              <div class="flex items-center px-5 w-[100%]">
+              <div class="flex items-center px-5 w-full">
                 <div
                   class="inline-flex justify-center items-center shrink-0 w-[1.75rem] m:w-[2rem] h-[1.75rem] m:h-[2rem] l:ml-[1.25rem] mr-3 m:mr-5 rounded-xs bg-gray-30 font-semibold text-1 m:text-2"
                 >
@@ -49,18 +49,18 @@
                 <div class="font-semibold">{{ item.category }}</div>
               </div>
               <div
-                class="px-5 mt-4 m:mt-0 m:shrink-0 w-[100%] m:w-[11.5rem] m:text-center text-muted"
+                class="px-5 mt-4 m:mt-0 m:shrink-0 w-full m:w-[11.5rem] m:text-center text-muted"
               >
                 <strong class="inline-block m:hidden mr-1">Allocation:</strong>
                 <span>{{ item.allocation }}</span>
               </div>
               <div
-                class="px-5 mt-4 m:mt-0 m:shrink-0 w-[100%] m:w-[11.5rem] m:text-center text-muted"
+                class="px-5 mt-4 m:mt-0 m:shrink-0 w-full m:w-[11.5rem] m:text-center text-muted"
               >
                 <strong class="inline-block m:hidden mr-1">Duration:</strong>
                 <span>{{ item.duration }}</span>
               </div>
-              <div class="px-5 mt-4 m:mt-0 w-[100%] text-muted">
+              <div class="px-5 mt-4 m:mt-0 w-full text-muted">
                 <strong class="inline-block m:hidden mr-1">Dates:</strong>
                 <span>{{ item.dates }}</span>
               </div>
