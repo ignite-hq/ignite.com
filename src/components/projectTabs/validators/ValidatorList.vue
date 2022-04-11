@@ -63,14 +63,14 @@ function mergePages(
 }
 
 // composables
-const { chainData } = useChain(props.launchID)
+const { chainData } = useChain(toRef(props, 'launchID'))
 const {
   isLoading,
   fetchNextPage,
   hasNextPage,
   isFetchingNextPage,
   genesisValidatorAllData
-} = useGenesisValidatorAll(props.launchID)
+} = useGenesisValidatorAll(toRef(props, 'launchID'))
 
 /*
 const { stakingValidatorsAllData } = useStakingValidatorAll()

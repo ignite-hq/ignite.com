@@ -1,10 +1,10 @@
 import { useIgnite, useTendermintSpnLaunchModule } from 'tendermint-spn-vue'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useInfiniteQuery } from 'vue-query'
 
 const VALIDATORS_PER_PAGE = '20'
 
-export default function useGenesisValidatorsAll(launchID: string) {
+export default function useGenesisValidatorsAll(launchID: ref<string>) {
   const {
     state: { ignite }
   } = useIgnite()
@@ -13,9 +13,9 @@ export default function useGenesisValidatorsAll(launchID: string) {
   })
 
   const { data, ...other } = useInfiniteQuery(
-    ['address'],
+    ['address', launchID],
     ({ pageParam }) => {
-      return queryGenesisValidatorAll(launchID, {
+      return queryGenesisValidatorAll(launchID.value, {
         'pagination.limit': VALIDATORS_PER_PAGE,
         'pagination.key': pageParam
       }).then((r) => r.data)
@@ -27,9 +27,5 @@ export default function useGenesisValidatorsAll(launchID: string) {
     }
   )
 
-  const genesisValidatorAllData = computed(() => {
-    return data.value
-  })
-
-  return { genesisValidatorAllData, ...other }
+  return { genesisValidatorAllData: data, ...other }
 }

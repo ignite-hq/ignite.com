@@ -1,8 +1,8 @@
 import { useIgnite, useTendermintSpnLaunchModule } from 'tendermint-spn-vue'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useQuery } from 'vue-query'
 
-export default function useChain(launchID: string) {
+export default function useChain(launchID: ref<string>) {
   const {
     state: { ignite }
   } = useIgnite()
@@ -10,13 +10,9 @@ export default function useChain(launchID: string) {
     ignite: ignite.value
   })
 
-  const { data, ...other } = useQuery(['launchID'], () => {
-    return queryChain(launchID).then((r) => r.data)
+  const { data, ...other } = useQuery(['launchID', launchID], () => {
+    return queryChain(launchID.value).then((r) => r.data)
   })
 
-  const chainData = computed(() => {
-    return data.value
-  })
-
-  return { chainData, ...other }
+  return { chainData: data, ...other }
 }
