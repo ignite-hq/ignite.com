@@ -1,16 +1,12 @@
-import { useIgnite, useTendermintSpnLaunchModule } from 'tendermint-spn-vue'
+import { useIgnite, useTendermintSpnLaunch } from 'tendermint-spn-vue'
 import { computed, ref } from 'vue'
 import { useInfiniteQuery } from 'vue-query'
 
 const VALIDATORS_PER_PAGE = '20'
 
 export default function useGenesisValidatorsAll(launchID: ref<string>) {
-  const {
-    state: { ignite }
-  } = useIgnite()
-  const { queryGenesisValidatorAll } = useTendermintSpnLaunchModule({
-    ignite: ignite.value
-  })
+  const { ignite } = useIgnite()
+  const { queryGenesisValidatorAll } = useTendermintSpnLaunch()
 
   const { data, ...other } = useInfiniteQuery(
     ['validators', launchID],

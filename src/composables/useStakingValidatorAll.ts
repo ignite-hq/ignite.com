@@ -1,16 +1,12 @@
-import { useIgnite, useCosmosStakingV1Beta1Module } from 'tendermint-spn-vue'
+import { useIgnite, useCosmosStakingV1Beta1 } from 'tendermint-spn-vue'
 import { computed } from 'vue'
 import { useInfiniteQuery } from 'vue-query'
 
 const VALIDATORS_PER_PAGE = '20'
 
 export default function useAllStakingValidators() {
-  const {
-    state: { ignite }
-  } = useIgnite()
-  const { queryValidators } = useCosmosStakingV1Beta1Module({
-    ignite: ignite.value
-  })
+  const { ignite } = useIgnite()
+  const { queryValidators } = useCosmosStakingV1Beta1()
 
   const { data, ...other } = useInfiniteQuery(
     ['staking-validators'],

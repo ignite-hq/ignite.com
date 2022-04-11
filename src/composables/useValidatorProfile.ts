@@ -1,14 +1,10 @@
-import { useIgnite, useTendermintSpnProfileModule } from 'tendermint-spn-vue'
+import { useIgnite, useTendermintSpnProfile } from 'tendermint-spn-vue'
 import { computed } from 'vue'
 import { useQuery } from 'vue-query'
 
 export default function useValidatorProfile(operatorAddress: string) {
-  const {
-    state: { ignite }
-  } = useIgnite()
-  const { queryValidator } = useTendermintSpnProfileModule({
-    ignite: ignite.value
-  })
+  const { ignite } = useIgnite()
+  const { queryValidator } = useTendermintSpnProfile()
 
   const { data, ...other } = useQuery(
     ['validators', 'profile', operatorAddress],
