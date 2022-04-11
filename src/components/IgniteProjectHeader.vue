@@ -52,7 +52,10 @@
 
     <div class="shadow-border_double py-6">
       <div class="container-full px-6 xl:container">
-        <IgniteProjectNav :items="navigation" />
+        <IgniteProjectNav
+          :items="navigation"
+          :activeTab="tab"
+        />
       </div>
     </div>
 
@@ -79,26 +82,32 @@ import IgniteProjectActions from './IgniteProjectActions.vue'
 import IgniteProjectNav from './IgniteProjectNav.vue'
 import IgniteProjectStatus from './IgniteProjectStatus.vue'
 import IgniteText from './IgniteText.vue'
+import { reactive } from 'vue'
+
+const props = defineProps({
+  projectID: String,
+  activeTab: String,
+})
 
 const githubUrl = 'https://github.com/allinbits/ignite-ui'
-const navigation = [
+const navigation = reactive([
   {
-    link: '/project',
+    link: `/projects/${props.projectID}/overview`,
     title: 'Overview'
   },
   {
-    link: '/validators',
+    link: `/projects/${props.projectID}/validators`,
     title: 'Validators'
   },
   {
-    link: '/requests',
+    link: `/projects/${props.projectID}/requests`,
     title: 'Requests'
   },
   {
-    link: '/invest',
+    link: `/projects/${props.projectID}/invest`,
     title: 'Invest'
   }
-]
+])
 </script>
 
 <style scoped lang="postcss"></style>

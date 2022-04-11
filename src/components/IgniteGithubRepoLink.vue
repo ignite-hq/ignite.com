@@ -2,6 +2,7 @@
   <IgniteLink
     :to="githubUrl"
     class="flex items-center text-muted hover:text-title"
+    v-on:click.stop
   >
     <IconGithub class="mr-1 text-title" />
     <IgniteText as="span" class="font-medium">{{ githubUser }}</IgniteText>

@@ -8,14 +8,10 @@
       <IconPlane class="icon" />
       <IgniteText as="span">{{ requestCount }}</IgniteText>
     </div>
-    <router-link
-      :to="{ path: `/${campaignId}/${launchId}/validators` }"
-      title="Validators"
-      class="status__item cursor-pointer select-none hover:opacity-80 active:opacity-70"
-    >
+    <div class="status__item">
       <IconStage class="icon" />
       <IgniteText as="span">{{ validatorCount }}</IgniteText>
-    </router-link>
+    </div>
     <div class="status__item">
       <IgniteText as="span" class="ignite-badge">testnet</IgniteText>
     </div>

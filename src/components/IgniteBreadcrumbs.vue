@@ -11,7 +11,7 @@
     </li>
     <li class="ignite-breadcrumbs__item ignite-text text-2">
       <IgniteLink
-        to="/project"
+        to="/projects"
         inactive-class="text-muted hover:text-title"
         active-class="font-medium text-primary pointer-events-none"
       >
