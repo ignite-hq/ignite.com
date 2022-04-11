@@ -1,0 +1,19 @@
+<template>
+  <svg
+    width="9"
+    height="2"
+    viewBox="0 0 9 2"
+    color="white"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <line
+      x1="1"
+      y1="1"
+      x2="8"
+      y2="1"
+      stroke="currentcolor"
+      stroke-width="2"
+      stroke-linecap="round"
+    />
+  </svg>
+</template>

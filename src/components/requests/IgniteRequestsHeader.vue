@@ -20,7 +20,7 @@
 
           <ListboxOptions class="requests-dropdown-list">
             <ListboxOption
-              v-for="page in pageFilters"
+              v-for="page in requestPageFilters"
               v-slot="{ active, selected }"
               :key="page.id"
               :value="page"
@@ -56,7 +56,7 @@
 
           <ListboxOptions class="requests-dropdown-list">
             <ListboxOption
-              v-for="sort in pageSorts"
+              v-for="sort in requestPageSorts"
               v-slot="{ active, selected }"
               :key="sort.id"
               :value="sort"
@@ -97,8 +97,8 @@ import IconFilter from '~/components/icons/IconFilter.vue'
 import IconSort from '~/components/icons/IconSort.vue'
 import IgniteHeading from '~/components/IgniteHeading.vue'
 import {
-  pageFilters,
-  pageSorts,
+  requestPageFilters,
+  requestPageSorts,
   useRequestsStore
 } from '~/stores/requests-store'
 

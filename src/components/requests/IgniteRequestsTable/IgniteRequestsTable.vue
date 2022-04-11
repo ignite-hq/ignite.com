@@ -4,7 +4,11 @@
     <div role="rowgroup">
       <div role="row" class="responses-table-header">
         <div role="columnheader" class="responses-table-column-cell">
-          <IgniteCheckbox @input="selectAll" />
+          <IgniteCheckbox
+            :is-checked="areAllChecked"
+            :is-indeterminate="isAnyChecked"
+            @input="selectAll"
+          />
         </div>
         <div role="columnheader" class="responses-table-column-cell flex-1">
           Action
@@ -77,7 +81,7 @@ import { useRequestsStore } from '~/stores/requests-store'
 import { getShortAddress } from '~/utils/address'
 
 import IgniteRequestsAction from '../IgniteRequestsAction.vue'
-import { getHumanizedType } from './utils'
+import { getHumanizedType, sortRequests } from './utils'
 
 // store
 const store = useRequestsStore()
@@ -97,7 +101,7 @@ function mergePages(
 }
 
 function selectAll() {
-  if (store.selectedRequests.length === launchRequests.value.length) {
+  if (areAllChecked.value) {
     store.selectedRequests = []
   } else {
     store.selectedRequests = launchRequests.value.map((_, index) =>
@@ -108,9 +112,24 @@ function selectAll() {
 
 // computed
 const launchRequests = computed(() => {
-  return mergePages(requests.value?.pages).filter(({ content }) =>
-    Boolean(content)
+  const requestsWithContent = mergePages(requests.value?.pages).filter(
+    ({ content }) => Boolean(content)
   )
+
+  const sortedRequests = sortRequests(
+    requestsWithContent,
+    store.selectedPageSort.id
+  )
+
+  return sortedRequests
+})
+
+const isAnyChecked = computed(() => {
+  return store.selectedRequests.length > 0
+})
+
+const areAllChecked = computed(() => {
+  return store.selectedRequests.length === launchRequests.value.length
 })
 </script>
 
