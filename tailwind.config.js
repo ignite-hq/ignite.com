@@ -68,7 +68,8 @@ module.exports = {
       boxShadow: {
         border: '0px 0.5px 0px #CBCBCB',
         border_double: '0px -0.5px 0px #CBCBCB, 0px 0.5px 0px #CBCBCB',
-        max: '16px 32px 128px 8px rgba(0, 0, 0, 0.07)'
+        max: '16px 32px 128px 8px rgba(0, 0, 0, 0.07)',
+        dropdown: '-112px 73px 191px 59px rgba(0, 0, 0, 0.09)'
       },
       inset: {
         center: '50%'
@@ -80,9 +81,6 @@ module.exports = {
       borderRadius: {
         '2sm': '8px',
         '3sm': '10px'
-      },
-      boxShadow: {
-        dropdown: '-112px 73px 191px 59px rgba(0, 0, 0, 0.09)'
       }
     },
     letterSpacing: {
