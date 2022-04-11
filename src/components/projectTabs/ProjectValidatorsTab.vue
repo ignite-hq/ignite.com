@@ -1,10 +1,7 @@
 <template>
   <div class="container text-center">
     <LayoutSpacer size="lg" />
-    <IgniteHeading
-      modifier="brand-font"
-      class="text-center text-7 font-normal"
-    >
+    <IgniteHeading class="brand-font text-center text-7 font-semibold">
       Validator incentives
     </IgniteHeading>
     <LayoutSpacer size="xs" />
@@ -35,10 +32,7 @@
 
     <LayoutSpacer size="lg" />
 
-    <IgniteHeading
-      modifier="brand-font"
-      class="text-center text-7 font-normal"
-    >
+    <IgniteHeading class="brand-font text-center text-7 font-semibold">
       Validators
     </IgniteHeading>
     <LayoutSpacer size="xs" />
@@ -48,17 +42,14 @@
     </IgniteText>
 
     <LayoutSpacer size="md" />
-    <ValidatorList
-      v-if="launchID && launchID !== '0'"
-      :launchID="launchID"
-    />
+    <ValidatorList v-if="launchID && launchID !== '0'" :launchID="launchID" />
 
     <LayoutSpacer size="lg" />
 
     <div
       class="my-4 mx-auto flex w-full max-w-5xl flex-col justify-start rounded p-8 text-left shadow"
     >
-      <IgniteHeading modifier="brand-font" class="text-7 font-normal">
+      <IgniteHeading class="brand-font text-7 font-semibold">
         Become a validator
       </IgniteHeading>
       <LayoutSpacer size="xs" />
