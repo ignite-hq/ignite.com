@@ -10,9 +10,12 @@ export default function useValidatorProfile(operatorAddress: string) {
     ignite: ignite.value
   })
 
-  const { data, ...other } = useQuery(['launchID'], () => {
-    return queryValidator(operatorAddress).then((r) => r.data)
-  })
+  const { data, ...other } = useQuery(
+    ['validators', 'profile', operatorAddress],
+    () => {
+      return queryValidator(operatorAddress).then((r) => r.data)
+    }
+  )
 
   const validatorProfileData = computed(() => {
     return data.value

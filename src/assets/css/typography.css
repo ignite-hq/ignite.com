@@ -13,12 +13,4 @@
   .ignite-badge {
     @apply inline-block rounded-lg bg-gray-30 py-1 px-4;
   }
-
-  /* Badge */
-  .brand-font {
-    font-family: Druk Wide;
-    line-height: 100%;
-    letter-spacing: -0.03em;
-    font-feature-settings: 'zero' on;
-  }
 }

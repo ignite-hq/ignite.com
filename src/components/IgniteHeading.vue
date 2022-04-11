@@ -1,5 +1,5 @@
 <template>
-  <component :is="as" class="ignite-title" :class="modifier">
+  <component :is="as" class="ignite-title">
     <slot />
   </component>
 </template>
@@ -13,11 +13,9 @@ export default {
 <script lang="ts" setup>
 interface Props {
   as?: string
-  modifier?: string
 }
 
 withDefaults(defineProps<Props>(), {
   as: 'h1',
-  modifier: ''
 })
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div class="container text-center">
     <LayoutSpacer size="lg" />
-    <IgniteHeading class="brand-font text-center text-7 font-semibold">
+    <IgniteHeading class="text-center text-7 font-semibold brand-font">
       Validator incentives
     </IgniteHeading>
     <LayoutSpacer size="xs" />
@@ -32,7 +32,7 @@
 
     <LayoutSpacer size="lg" />
 
-    <IgniteHeading class="brand-font text-center text-7 font-semibold">
+    <IgniteHeading class="text-center text-7 font-semibold brand-font">
       Validators
     </IgniteHeading>
     <LayoutSpacer size="xs" />
@@ -49,7 +49,7 @@
     <div
       class="my-4 mx-auto flex w-full max-w-5xl flex-col justify-start rounded p-8 text-left shadow"
     >
-      <IgniteHeading class="brand-font text-7 font-semibold">
+      <IgniteHeading class="text-7 font-semibold brand-font">
         Become a validator
       </IgniteHeading>
       <LayoutSpacer size="xs" />

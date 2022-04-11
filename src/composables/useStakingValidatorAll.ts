@@ -4,7 +4,7 @@ import { useInfiniteQuery } from 'vue-query'
 
 const VALIDATORS_PER_PAGE = '20'
 
-export default function useCampaignSummaries() {
+export default function useAllStakingValidators() {
   const {
     state: { ignite }
   } = useIgnite()
@@ -13,7 +13,7 @@ export default function useCampaignSummaries() {
   })
 
   const { data, ...other } = useInfiniteQuery(
-    ['campaigns', 'summaries'],
+    ['staking-validators'],
     ({ pageParam }) => {
       return queryValidators({
         'pagination.limit': VALIDATORS_PER_PAGE,
