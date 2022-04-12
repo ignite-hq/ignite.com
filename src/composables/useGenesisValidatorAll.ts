@@ -1,5 +1,5 @@
 import { useIgnite, useTendermintSpnLaunch } from 'tendermint-spn-vue'
-import { computed, ref } from 'vue'
+import { computed, Ref } from 'vue'
 import { useInfiniteQuery } from 'vue-query'
 
 const VALIDATORS_PER_PAGE = '20'

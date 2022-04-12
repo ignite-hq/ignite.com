@@ -75,15 +75,6 @@ const {
   genesisValidatorAllData
 } = useGenesisValidatorAll(toRef(props, 'launchID'))
 
-/*
-const { stakingValidatorsAllData } = useStakingValidatorAll()
-
-onBeforeMount(async () => {
-  // Cosmos Hub:
-  const res = await fetch('https://api.cosmos.network/cosmos/staking/v1beta1/validators')
-  console.log(res.json())
-})*/
-
 // computed
 const chain = computed<LaunchChain>(() => {
   return chainData.value
