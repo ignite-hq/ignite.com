@@ -1,14 +1,16 @@
 <template>
   <div class="status">
-    <div class="status__item">
+    <div class="status__item" title="Stargazers">
       <IconStar class="icon" />
       <IgniteText as="span">{{ stargazerCount }}</IgniteText>
     </div>
-    <div class="status__item">
-      <IconPlane class="icon" />
-      <IgniteText as="span">{{ requestCount }}</IgniteText>
-    </div>
-    <div class="status__item">
+    <IgniteLink :to="requestsUrl">
+      <div class="status__item" title="Request count">
+        <IconPlane class="icon" />
+        <IgniteText as="span">{{ requestCount }}</IgniteText>
+      </div>
+    </IgniteLink>
+    <div class="status__item" title="Validator count">
       <IconStage class="icon" />
       <IgniteText as="span">{{ validatorCount }}</IgniteText>
     </div>
@@ -19,7 +21,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'IgniteProjectStatus'
@@ -30,12 +32,18 @@ export default defineComponent({
 import IconPlane from './icons/IconPlane.vue'
 import IconStage from './icons/IconStage.vue'
 import IconStar from './icons/IconStar.vue'
+import IgniteLink from './IgniteLink.vue'
 import IgniteText from './IgniteText.vue'
 
-defineProps({
+const props = defineProps({
   requestCount: { type: String, required: true },
   validatorCount: { type: String, required: true },
-  stargazerCount: { type: String, required: true }
+  stargazerCount: { type: String, required: true },
+  projectId: { type: String, required: true }
+})
+
+const requestsUrl = computed(() => {
+  return `/projects/${props.projectId}/requests`
 })
 </script>
 

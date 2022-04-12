@@ -22,6 +22,7 @@
       <ProjectCardStatus
         class="project-card__row"
         :loading="isLoading"
+        :project-id="campaignSummary.mostRecentChain?.launchID ?? ''"
         :validator-count="campaignSummary.mostRecentChain?.validatorNb ?? '0'"
         :request-count="campaignSummary.mostRecentChain?.requestNb ?? '0'"
         :stargazer-count="repository?.stargazers_count?.toString() ?? '0'"

@@ -37,10 +37,10 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import IconWarning from '~/components/icons/IconWarning.vue'
 import IgniteButton from '~/components/IgniteButton.vue'
 import IgniteHeading from '~/components/IgniteHeading.vue'
 import IgniteModal from '~/components/IgniteModal.vue'
-import IconWarning from '~/components/icons/IconWarning.vue'
 
 interface Emits {
   (e: 'close'): void
