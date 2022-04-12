@@ -8,13 +8,15 @@
   "parserOptions": {
     "parser": "@typescript-eslint/parser"
   },
-  "plugins": ["@typescript-eslint", "simple-import-sort"],
+  "plugins": ["@typescript-eslint", "simple-import-sort", "unused-imports"],
   "extends": [
     "@vue/typescript/recommended",
     "plugin:vue/vue3-recommended",
     "prettier"
   ],
   "rules": {
+    "unused-imports/no-unused-imports": "error",
+    "unused-imports/no-unused-vars": "error",
     "indent": "off",
     "vue/html-self-closing": "off",
     "vue/max-attributes-per-line": "off",
