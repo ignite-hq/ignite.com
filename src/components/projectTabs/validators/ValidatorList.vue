@@ -9,13 +9,15 @@
     </div>
     <div v-if="hasNextPage">
       <LayoutSpacer size="sm" />
-      <button
-        class="rounded-sm bg-primary py-4 px-6 text-2 text-bg transition duration-200 hover:brightness-90 active:brightness-75 disabled:bg-inactive disabled:brightness-100"
+      <IgniteButton
+        variant="primary"
+        color="primary"
+        class="px-6"
         :disabled="isFetchingNextPage"
         @click="fetchNextPage"
       >
         View more
-      </button>
+      </IgniteButton>
     </div>
     <div v-if="!isLoading && genesisValidatorsAll.length === 0">
       <span>- No validators yet -</span>
@@ -39,6 +41,7 @@ import LayoutSpacer from '../../atoms/LayoutSpacer.vue'
 import ValidatorCard from './ValidatorCard.vue'
 import IgniteText from '../../IgniteText.vue'
 import IgniteHeading from '../../IgniteHeading.vue'
+import IgniteButton from '../../IgniteButton.vue'
 import { Validator } from 'tendermint-spn-ts-client/cosmos.staking.v1beta1'
 import {
   LaunchChain,

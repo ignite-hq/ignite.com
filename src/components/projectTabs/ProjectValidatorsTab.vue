@@ -58,11 +58,9 @@
       </IgniteText>
       <LayoutSpacer size="sm" />
       <div>
-        <button
-          class="rounded-sm bg-primary py-4 px-6 text-2 text-bg transition duration-200 hover:brightness-90 active:brightness-75"
-        >
+        <IgniteButton variant="primary" color="primary" class="px-6">
           Learn more
-        </button>
+        </IgniteButton>
       </div>
     </div>
 
@@ -74,6 +72,7 @@
 import { computed, defineComponent, ref, toRef, onBeforeMount } from 'vue'
 import { useRoute } from 'vue-router'
 import LayoutSpacer from '../atoms/LayoutSpacer.vue'
+import IgniteButton from '../IgniteButton.vue'
 import IgniteText from '../IgniteText.vue'
 import IgniteHeading from '../IgniteHeading.vue'
 import { CampaignCampaignSummary } from 'tendermint-spn-ts-client/tendermint.spn.campaign/rest'
