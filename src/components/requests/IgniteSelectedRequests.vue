@@ -1,35 +1,38 @@
 <template>
-  <div v-if="store.selectedRequests.length > 0" class="selected-requests">
-    <IgniteText class="text-4">
-      <strong>{{ store.selectedRequests.length }}</strong>
-      {{ store.selectedRequests.length > 1 ? 'Requests' : 'Request' }} selected
-    </IgniteText>
+  <div>
+    <div v-if="store.selectedRequests.length > 0" class="selected-requests">
+      <IgniteText class="text-4">
+        <strong>{{ store.selectedRequests.length }}</strong>
+        {{ store.selectedRequests.length > 1 ? 'Requests' : 'Request' }}
+        selected
+      </IgniteText>
 
-    <div class="space-x-6">
-      <button
-        aria-label="Accept requests"
-        @click="() => (isAcceptModalOpen = true)"
-      >
-        <IconAccept />
-      </button>
-      <button
-        aria-label="Deny requests"
-        @click="() => (isDeclineModalOpen = true)"
-      >
-        <IconDeny />
-      </button>
+      <div class="space-x-6">
+        <button
+          aria-label="Accept requests"
+          @click="() => (isAcceptModalOpen = true)"
+        >
+          <IconAccept />
+        </button>
+        <button
+          aria-label="Deny requests"
+          @click="() => (isDeclineModalOpen = true)"
+        >
+          <IconDeny />
+        </button>
+      </div>
     </div>
+
+    <IgniteRequestsDeclineModal
+      :visible="isDeclineModalOpen"
+      @close="() => (isDeclineModalOpen = false)"
+    />
+
+    <IgniteRequestsAcceptModal
+      :visible="isAcceptModalOpen"
+      @close="() => (isAcceptModalOpen = false)"
+    />
   </div>
-
-  <IgniteRequestsDeclineModal
-    :visible="isDeclineModalOpen"
-    @close="() => (isDeclineModalOpen = false)"
-  />
-
-  <IgniteRequestsAcceptModal
-    :visible="isAcceptModalOpen"
-    @close="() => (isAcceptModalOpen = false)"
-  />
 </template>
 
 <script lang="ts">
@@ -44,10 +47,19 @@ import { ref } from 'vue'
 import IconAccept from '~/components/icons/IconAccept.vue'
 import IconDeny from '~/components/icons/IconDeny.vue'
 import IgniteText from '~/components/IgniteText.vue'
+import { LaunchRequest } from '~/generated/tendermint-spn-ts-client/tendermint.spn.launch/rest'
 import { useRequestsStore } from '~/stores/requests-store'
 
 import IgniteRequestsAcceptModal from './IgniteRequestsAcceptModal.vue'
 import IgniteRequestsDeclineModal from './IgniteRequestsDeclineModal.vue'
+
+interface Props {
+  requests: LaunchRequest[]
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  requests: () => []
+})
 
 const store = useRequestsStore()
 

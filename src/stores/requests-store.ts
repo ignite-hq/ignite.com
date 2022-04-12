@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia'
 
+import { LaunchRequest } from '~/generated/tendermint-spn-ts-client/tendermint.spn.launch/rest'
+
 export enum RequestPageFilters {
   Pending = 'pending',
   Closed = 'closed'
@@ -40,7 +42,7 @@ export const requestPageSorts = [
 
 export const useRequestsStore = defineStore('RequestsStore', {
   state: () => ({
-    selectedRequests: [] as string[],
+    selectedRequests: [] as LaunchRequest[],
     selectedPageFilter: requestPageFilters[0],
     selectedPageSort: requestPageSorts[0]
   })

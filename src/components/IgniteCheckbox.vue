@@ -35,7 +35,7 @@ import IconBaseline from './icons/IconBaseline.vue'
 import IconCheck from './icons/IconCheckMark.vue'
 
 interface Emits {
-  (e: 'update:modelValue', value: boolean | any[]): void
+  (e: 'update:modelValue', value: boolean | string | any[]): void
 }
 
 interface Props {

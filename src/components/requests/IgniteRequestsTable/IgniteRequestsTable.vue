@@ -29,7 +29,7 @@
     <!-- Body -->
     <div role="rowgroup" class="responses-table-body">
       <div
-        v-for="(request, index) in launchRequests"
+        v-for="(request, index) in sortedProjectRequests"
         :key="request.launchID"
         role="row"
         class="responses-table-row"
@@ -37,8 +37,8 @@
         <!-- Checkbox -->
         <div v-if="Boolean(account)" role="cell" class="responses-table-cell">
           <IgniteCheckbox
-            v-model="store.selectedRequests"
-            :value="index.toString()"
+            :is-checked="isChecked(request.requestID)"
+            @update:model-value="(isChecked) => onSelect(index, isChecked as boolean)"
           />
         </div>
 
@@ -73,53 +73,64 @@ export default {
 <script lang="ts" setup>
 import { useAddress } from '@starport/vue/src/composables'
 import { computed } from 'vue'
-import { useRoute } from 'vue-router'
 
 import IgniteCheckbox from '~/components/IgniteCheckbox.vue'
 import IgniteProfileIcon from '~/components/IgniteProfileIcon.vue'
-import useProjectRequests from '~/composables/useProjectRequests'
-import {
-  LaunchQueryAllRequestResponse,
-  LaunchRequest
-} from '~/generated/tendermint-spn-ts-client/tendermint.spn.launch/rest'
+import { LaunchRequest } from '~/generated/tendermint-spn-ts-client/tendermint.spn.launch/rest'
 import { useRequestsStore } from '~/stores/requests-store'
 import { getShortAddress } from '~/utils/address'
 
 import IgniteRequestsAction from '../IgniteRequestsAction.vue'
 import { getHumanizedType, sortRequests } from './utils'
 
+interface Props {
+  requests: LaunchRequest[]
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  requests: () => []
+})
+
 // store
 const store = useRequestsStore()
 
 // composables
 const { address: account } = useAddress()
-const { params } = useRoute()
-const { requests } = useProjectRequests(params.projectId.toString())
 
 // methods
-function mergePages(
-  pages: LaunchQueryAllRequestResponse[] = []
-): LaunchRequest[] {
-  return pages.reduce(
-    (acc, page) => [...acc, ...(page?.request ?? [])],
-    [] as LaunchRequest[]
-  )
-}
-
 function selectAll() {
   if (areAllChecked.value) {
     store.selectedRequests = []
   } else {
-    store.selectedRequests = launchRequests.value.map((_, index) =>
-      index.toString()
+    store.selectedRequests = sortedProjectRequests.value.map(
+      (request) => request
     )
   }
 }
 
+function onSelect(index: number, isChecked: boolean) {
+  const requestToSelect = sortedProjectRequests.value[index]
+  const newValue = [...store.selectedRequests]
+
+  if (isChecked) {
+    newValue.push(requestToSelect)
+  } else {
+    newValue.splice(index, 1)
+  }
+
+  store.selectedRequests = newValue
+}
+
+function isChecked(requestId?: string) {
+  return store.selectedRequests.some(
+    (request) => request.requestID === requestId
+  )
+}
+
 // computed
-const launchRequests = computed(() => {
-  const requestsWithContent = mergePages(requests.value?.pages).filter(
-    ({ content }) => Boolean(content)
+const sortedProjectRequests = computed(() => {
+  const requestsWithContent = props.requests.filter(({ content }) =>
+    Boolean(content)
   )
 
   const sortedRequests = sortRequests(
@@ -135,7 +146,7 @@ const isAnyChecked = computed(() => {
 })
 
 const areAllChecked = computed(() => {
-  return store.selectedRequests.length === launchRequests.value.length
+  return store.selectedRequests.length === sortedProjectRequests.value.length
 })
 </script>
 
