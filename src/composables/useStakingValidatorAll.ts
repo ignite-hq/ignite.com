@@ -5,7 +5,6 @@ import { useInfiniteQuery } from 'vue-query'
 const VALIDATORS_PER_PAGE = '20'
 
 export default function useAllStakingValidators() {
-  const { ignite } = useIgnite()
   const { queryValidators } = useCosmosStakingV1Beta1()
 
   const { data, ...other } = useInfiniteQuery(
