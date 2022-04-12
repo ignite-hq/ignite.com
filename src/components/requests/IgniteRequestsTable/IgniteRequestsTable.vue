@@ -3,7 +3,11 @@
     <!-- Header -->
     <div role="rowgroup">
       <div role="row" class="responses-table-header">
-        <div role="columnheader" class="responses-table-column-cell">
+        <div
+          v-if="Boolean(account)"
+          role="columnheader"
+          class="responses-table-column-cell"
+        >
           <IgniteCheckbox
             :is-checked="areAllChecked"
             :is-indeterminate="isAnyChecked"
@@ -31,7 +35,7 @@
         class="responses-table-row"
       >
         <!-- Checkbox -->
-        <div role="cell" class="responses-table-cell">
+        <div v-if="Boolean(account)" role="cell" class="responses-table-cell">
           <IgniteCheckbox
             v-model="store.selectedRequests"
             :value="index.toString()"
@@ -67,6 +71,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import { useAddress } from '@starport/vue/src/composables'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 
@@ -87,6 +92,7 @@ import { getHumanizedType, sortRequests } from './utils'
 const store = useRequestsStore()
 
 // composables
+const { address: account } = useAddress()
 const { params } = useRoute()
 const { requests } = useProjectRequests(params.projectId.toString())
 

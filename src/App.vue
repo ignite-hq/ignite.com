@@ -25,7 +25,8 @@ import IgniteNavbar from './components/IgniteNavbar.vue'
 let env: Environment = {
   apiURL: process.env.VUE_APP_API_COSMOS ?? '',
   rpcURL: process.env.VUE_APP_API_TENDERMINT ?? '',
-  wsURL: process.env.VUE_APP_WS_TENDERMINT ?? ''
+  wsURL: process.env.VUE_APP_WS_TENDERMINT ?? '',
+  prefix: process.env.VUE_APP_ADDRESS_PREFIX ?? ''
 }
 let tsClientParams = {
   env,
