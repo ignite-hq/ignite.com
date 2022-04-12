@@ -4,8 +4,7 @@ import { useInfiniteQuery } from 'vue-query'
 
 const VALIDATORS_PER_PAGE = '20'
 
-export default function useGenesisValidatorsAll(launchID: ref<string>) {
-  const { ignite } = useIgnite()
+export default function useGenesisValidatorsAll(launchID: Ref<string>) {
   const { queryGenesisValidatorAll } = useTendermintSpnLaunch()
 
   const { data, ...other } = useInfiniteQuery(

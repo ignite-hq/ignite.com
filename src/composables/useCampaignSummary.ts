@@ -3,7 +3,6 @@ import { computed } from 'vue'
 import { useQuery } from 'vue-query'
 
 export default function useCampaignSummary(campaignID: string) {
-  const { ignite } = useIgnite()
   const { queryCampaignSummary } = useTendermintSpnCampaign()
 
   const { data, ...other } = useQuery(['campaigns', campaignID], () => {
