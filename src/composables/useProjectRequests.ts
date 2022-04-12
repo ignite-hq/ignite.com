@@ -1,16 +1,11 @@
-import { useIgnite, useTendermintSpnLaunchModule } from 'tendermint-spn-vue'
+import { useTendermintSpnLaunch } from 'tendermint-spn-vue'
 import { computed } from 'vue'
 import { useInfiniteQuery } from 'vue-query'
 
 const REQUESTS_PER_PAGE = '20'
 
 export default function useLaunchRequests(launchId: string) {
-  const {
-    state: { ignite }
-  } = useIgnite()
-  const { queryRequestAll } = useTendermintSpnLaunchModule({
-    ignite: ignite.value
-  })
+  const { queryRequestAll } = useTendermintSpnLaunch()
 
   const { data, ...other } = useInfiniteQuery(
     ['launch', launchId, 'requests'],

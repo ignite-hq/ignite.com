@@ -72,7 +72,7 @@ import { useRoute } from 'vue-router'
 
 import IgniteCheckbox from '~/components/IgniteCheckbox.vue'
 import IgniteProfileIcon from '~/components/IgniteProfileIcon.vue'
-import useLaunchRequests from '~/composables/useLaunchRequests'
+import useProjectRequests from '~/composables/useProjectRequests'
 import {
   LaunchQueryAllRequestResponse,
   LaunchRequest
@@ -88,7 +88,7 @@ const store = useRequestsStore()
 
 // composables
 const { params } = useRoute()
-const { requests } = useLaunchRequests(params.launchId.toString())
+const { requests } = useProjectRequests(params.projectId.toString())
 
 // methods
 function mergePages(

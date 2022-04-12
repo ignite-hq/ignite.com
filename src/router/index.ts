@@ -8,7 +8,7 @@ const routerHistory = createWebHistory()
 const routes = [
   { path: '/', component: Index },
   { path: '/project', component: Project },
-  { path: '/requests/:launchId', component: Requests }
+  { path: '/projects/:projectId/requests', component: Requests }
 ]
 
 const router = createRouter({

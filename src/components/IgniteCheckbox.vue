@@ -39,8 +39,8 @@ interface Emits {
 }
 
 interface Props {
-  value: string
-  modelValue: string | string[]
+  value?: string
+  modelValue?: string | string[]
   isChecked?: boolean
   isIndeterminate?: boolean
 }
