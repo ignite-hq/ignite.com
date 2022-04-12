@@ -3,7 +3,6 @@ import { computed } from 'vue'
 import { useQuery } from 'vue-query'
 
 export default function useValidatorProfile(operatorAddress: string) {
-  const { ignite } = useIgnite()
   const { queryValidator } = useTendermintSpnProfile()
 
   const { data, ...other } = useQuery(
