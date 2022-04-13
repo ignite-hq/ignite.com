@@ -4,7 +4,7 @@
     <div role="rowgroup">
       <div role="row" class="responses-table-header">
         <div
-          v-if="Boolean(account)"
+          v-if="Boolean(account) && !isLoading"
           role="columnheader"
           class="responses-table-column-cell"
         >
@@ -14,14 +14,20 @@
             @input="selectAll"
           />
         </div>
+
         <div role="columnheader" class="responses-table-column-cell flex-1">
-          Action
+          <IgniteLoader v-if="isLoading" class="h-5" />
+          <span v-if="!isLoading">Action</span>
         </div>
+
         <div role="columnheader" class="responses-table-column-cell flex-1">
-          Type
+          <IgniteLoader v-if="isLoading" class="h-5" />
+          <span v-if="!isLoading">Type</span>
         </div>
+
         <div role="columnheader" class="responses-table-column-cell flex-1">
-          Requestor
+          <IgniteLoader v-if="isLoading" class="h-5" />
+          <span v-if="!isLoading">Requestor</span>
         </div>
       </div>
     </div>
@@ -30,12 +36,16 @@
     <div role="rowgroup" class="responses-table-body">
       <div
         v-for="(request, index) in sortedProjectRequests"
-        :key="request.launchID"
+        :key="request?.launchID"
         role="row"
         class="responses-table-row"
       >
         <!-- Checkbox -->
-        <div v-if="Boolean(account)" role="cell" class="responses-table-cell">
+        <div
+          v-if="Boolean(account) && !isLoading"
+          role="cell"
+          class="responses-table-cell"
+        >
           <IgniteCheckbox
             :is-checked="isChecked(request.requestID)"
             @update:model-value="(isChecked) => onSelect(index, isChecked as boolean)"
@@ -44,20 +54,25 @@
 
         <!-- Action -->
         <div role="cell" class="responses-table-cell flex-1">
-          <IgniteRequestsAction :request="request" />
+          <IgniteLoader v-if="isLoading" class="h-5 w-full" />
+          <IgniteRequestsAction v-if="!isLoading" :request="request" />
         </div>
 
         <!-- Type -->
         <div role="cell" class="responses-table-cell flex-1">
-          {{ getHumanizedType(request.content) }}
+          <IgniteLoader v-if="isLoading" class="h-5 w-full" />
+          <span v-if="!isLoading">{{ getHumanizedType(request.content) }}</span>
         </div>
 
         <!-- Requestor -->
         <div role="cell" class="responses-table-cell flex-1 font-semibold">
-          <IgniteProfileIcon :address="request.creator" />
-          <span>{{
-            request.creator ? getShortAddress(request.creator) : 'Unknown'
-          }}</span>
+          <IgniteLoader v-if="isLoading" class="h-5 w-full" />
+          <span v-if="!isLoading" class="flex items-center space-x-4">
+            <IgniteProfileIcon :address="request.creator" />
+            <span>{{
+              request.creator ? getShortAddress(request.creator) : 'Unknown'
+            }}</span>
+          </span>
         </div>
       </div>
     </div>
@@ -75,6 +90,7 @@ import { useAddress } from '@starport/vue/src/composables'
 import { computed } from 'vue'
 
 import IgniteCheckbox from '~/components/IgniteCheckbox.vue'
+import IgniteLoader from '~/components/IgniteLoader.vue'
 import IgniteProfileIcon from '~/components/IgniteProfileIcon.vue'
 import { LaunchRequest } from '~/generated/tendermint-spn-ts-client/tendermint.spn.launch/rest'
 import { useRequestsStore } from '~/stores/requests-store'
@@ -85,11 +101,16 @@ import { getHumanizedType, sortRequests } from './utils'
 
 interface Props {
   requests: LaunchRequest[]
+  loading: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  requests: () => []
+  requests: () => [],
+  loading: false
 })
+
+// variables
+const skeletons = new Array(6).fill(null)
 
 // store
 const store = useRequestsStore()
@@ -129,6 +150,8 @@ function isChecked(requestId?: string) {
 
 // computed
 const sortedProjectRequests = computed(() => {
+  if (isLoading.value) return skeletons
+
   const requestsWithContent = props.requests.filter(({ content }) =>
     Boolean(content)
   )
@@ -147,6 +170,10 @@ const isAnyChecked = computed(() => {
 
 const areAllChecked = computed(() => {
   return store.selectedRequests.length === sortedProjectRequests.value.length
+})
+
+const isLoading = computed(() => {
+  return props.loading
 })
 </script>
 

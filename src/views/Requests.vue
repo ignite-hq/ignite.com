@@ -1,7 +1,19 @@
 <template>
   <div class="container">
     <IgniteRequestsHeader />
-    <IgniteRequestsTable :requests="projectRequests" />
+    <div>
+      <IgniteRequestsTable
+        v-if="projectRequests.length > 0 || isFetching"
+        :loading="isFetching"
+        :requests="projectRequests"
+      />
+      <IgniteRequestsEmptyState
+        v-else-if="projectRequests.length <= 0"
+        class="mt-8"
+      >
+        {{ emptyStateMessage }}
+      </IgniteRequestsEmptyState>
+    </div>
     <IgniteSelectedRequests :requests="projectRequests" />
   </div>
 </template>
@@ -10,6 +22,7 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 
+import IgniteRequestsEmptyState from '~/components/requests/IgniteRequestsEmptyState.vue'
 import IgniteRequestsHeader from '~/components/requests/IgniteRequestsHeader.vue'
 import IgniteRequestsTable from '~/components/requests/IgniteRequestsTable'
 import IgniteSelectedRequests from '~/components/requests/IgniteSelectedRequests.vue'
@@ -18,10 +31,14 @@ import {
   LaunchQueryAllRequestResponse,
   LaunchRequest
 } from '~/generated/tendermint-spn-ts-client/tendermint.spn.launch/rest'
+import { RequestPageFilters, useRequestsStore } from '~/stores/requests-store'
+
+// store
+const store = useRequestsStore()
 
 // composables
 const { params } = useRoute()
-const { requests } = useProjectRequests(params.projectId.toString())
+const { requests, isFetching } = useProjectRequests(params.projectId.toString())
 
 // methods
 function mergePages(
@@ -36,5 +53,11 @@ function mergePages(
 // computed
 const projectRequests = computed(() => {
   return mergePages(requests.value?.pages)
+})
+
+const emptyStateMessage = computed(() => {
+  return store.selectedPageFilter.id === RequestPageFilters.Pending
+    ? 'No pending requests'
+    : 'No closed requests'
 })
 </script>

@@ -73,7 +73,10 @@ module.exports = {
       },
       borderRadius: {
         '2sm': '8px',
-        '3sm': '10px'
+        '3sm': '10px',
+        '4sm': '12px',
+        '5sm': '14px',
+        '6sm': '16px'
       },
       boxShadow: {
         dropdown: '-112px 73px 191px 59px rgba(0, 0, 0, 0.09)'
