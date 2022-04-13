@@ -35,7 +35,7 @@ import { RequestPageFilters, useRequestsStore } from '~/stores/requests-store'
 
 // lh
 onBeforeUnmount(() => {
-  store.selectedRequests = []
+  store.$reset()
 })
 
 // store
