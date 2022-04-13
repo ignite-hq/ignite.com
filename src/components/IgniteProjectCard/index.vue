@@ -1,33 +1,42 @@
 <template>
-  <div class="project-card shadow-max">
-    <ProjectCardHeader :loading="isLoading" />
-    <div>
-      <ProjectCardDescription
-        :campaign="campaignSummary.campaign"
-        :loading="isLoading"
-        :github-url="githubUrl"
-        :github-description="repository?.description ?? ''"
-        class="project-card__row"
-      />
-      <ProjectCardShareAllocation
-        v-if="showAllocation"
-        class="project-card__row"
-        :campaign-summary="campaignSummary"
-      />
-      <ProjectCardIncentives
-        v-if="showIncentives"
-        class="project-card__row"
-        :campaign-summary="campaignSummary"
-      />
-      <ProjectCardStatus
-        class="project-card__row"
-        :loading="isLoading"
-        :validator-count="campaignSummary.mostRecentChain?.validatorNb ?? '0'"
-        :request-count="campaignSummary.mostRecentChain?.requestNb ?? '0'"
-        :stargazer-count="repository?.stargazers_count?.toString() ?? '0'"
-      />
+  <router-link
+    :to="{
+      path: `/projects/${campaignSummary.campaign?.campaignID ?? '0'}/overview`
+    }"
+    :class="isLoading ? '' : 'cursor-pointer'"
+  >
+    <div class="project-card shadow-max">
+      <ProjectCardHeader :loading="isLoading" />
+      <div>
+        <ProjectCardDescription
+          :campaign="campaignSummary.campaign"
+          :loading="isLoading"
+          :github-url="githubUrl"
+          :github-description="repository?.description ?? ''"
+          class="project-card__row"
+        />
+        <ProjectCardShareAllocation
+          v-if="showAllocation"
+          class="project-card__row"
+          :campaign-summary="campaignSummary"
+        />
+        <ProjectCardIncentives
+          v-if="showIncentives"
+          class="project-card__row"
+          :campaign-summary="campaignSummary"
+        />
+        <ProjectCardStatus
+          class="project-card__row"
+          :loading="isLoading"
+          :launchID="campaignSummary.mostRecentChain?.launchID ?? '0'"
+          :campaignID="campaignSummary.campaign?.campaignID ?? '0'"
+          :validator-count="campaignSummary.mostRecentChain?.validatorNb ?? '0'"
+          :request-count="campaignSummary.mostRecentChain?.requestNb ?? '0'"
+          :stargazer-count="repository?.stargazers_count?.toString() ?? '0'"
+        />
+      </div>
     </div>
-  </div>
+  </router-link>
 </template>
 
 <script lang="ts">
@@ -72,8 +81,8 @@ const isLoading = computed(function () {
 const showAllocation = computed(function () {
   const campaignSummary = props.campaignSummary
   const hasAtLeastOneShare = campaignSummary?.rewards?.some((supply) => {
-    const campaignId = campaignSummary.campaign?.campaignID
-    const isShare = supply.denom?.startsWith(`v/${campaignId}`)
+    const campaignID = campaignSummary.campaign?.campaignID
+    const isShare = supply.denom?.startsWith(`v/${campaignID}`)
     return isShare
   })
 
@@ -87,8 +96,8 @@ const showAllocation = computed(function () {
 const showIncentives = computed(function () {
   const campaignSummary = props.campaignSummary
   const hasAtLeastOneIncentive = campaignSummary?.rewards?.some((supply) => {
-    const campaignId = campaignSummary.campaign?.campaignID
-    const isIncentive = !supply.denom?.startsWith(`v/${campaignId}`)
+    const campaignID = campaignSummary.campaign?.campaignID
+    const isIncentive = !supply.denom?.startsWith(`v/${campaignID}`)
     return isIncentive
   })
 

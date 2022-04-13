@@ -1,5 +1,7 @@
 <template>
-  <component :is="as" class="ignite-title"><slot /></component>
+  <component :is="as" class="ignite-title">
+    <slot />
+  </component>
 </template>
 
 <script lang="ts">
@@ -14,6 +16,6 @@ interface Props {
 }
 
 withDefaults(defineProps<Props>(), {
-  as: 'h1'
+  as: 'h1',
 })
 </script>

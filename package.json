@@ -39,6 +39,7 @@
     "src/generated/tendermint-spn-vue"
   ],
   "devDependencies": {
+    "@babel/helper-get-function-arity": "^7.16.7",
     "@keplr-wallet/types": "^0.9.12",
     "@rollup/plugin-commonjs": "^21.0.1",
     "@rollup/plugin-dynamic-import-vars": "^1.4.1",

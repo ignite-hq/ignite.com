@@ -51,8 +51,8 @@ function getIncentivesFromRewards(
   rewards: CampaignCampaignSummary['rewards'] = []
 ) {
   return rewards.filter((coin) => {
-    const campaignId = props.campaignSummary.campaign?.campaignID
-    const isShare = !coin.denom?.startsWith(`v/${campaignId}`)
+    const campaignID = props.campaignSummary.campaign?.campaignID
+    const isShare = !coin.denom?.startsWith(`v/${campaignID}`)
     return isShare
   })
 }
@@ -62,8 +62,8 @@ const incentive = computed(() => {
   const incentiveCoins = getIncentivesFromRewards(props.campaignSummary.rewards)
 
   const total = incentiveCoins.reduce((acc, coin) => {
-    const campaignId = props.campaignSummary.campaign?.campaignID
-    const isIncentive = !coin.denom?.startsWith(`v/${campaignId}`)
+    const campaignID = props.campaignSummary.campaign?.campaignID
+    const isIncentive = !coin.denom?.startsWith(`v/${campaignID}`)
     if (isIncentive) return acc + Number(coin.amount)
     return acc
   }, 0)
@@ -82,8 +82,8 @@ const pastIncentive = computed(() => {
   )
 
   const total = incentiveCoins.reduce((acc, coin) => {
-    const campaignId = props.campaignSummary.campaign?.campaignID
-    const isIncentive = !coin.denom?.startsWith(`v/${campaignId}`)
+    const campaignID = props.campaignSummary.campaign?.campaignID
+    const isIncentive = !coin.denom?.startsWith(`v/${campaignID}`)
     if (isIncentive) return acc + Number(coin.amount)
     return acc
   }, 0)

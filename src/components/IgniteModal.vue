@@ -29,7 +29,7 @@
             leave-to="opacity-0 scale-95"
           >
             <div
-              class="my-8 inline-block w-full max-w-sm transform overflow-hidden rounded-md bg-white-1000 p-6 text-left align-middle shadow-xl transition-all"
+              class="shadow-xl my-8 inline-block w-full max-w-sm transform overflow-hidden rounded-md bg-white-1000 p-6 text-left align-middle transition-all"
             >
               <DialogTitle v-if="$slots['title']">
                 <slot name="title" />
