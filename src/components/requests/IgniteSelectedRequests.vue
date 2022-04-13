@@ -57,7 +57,7 @@ interface Props {
   requests: LaunchRequest[]
 }
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   requests: () => []
 })
 
