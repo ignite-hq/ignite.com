@@ -1,6 +1,7 @@
 <template>
   <IgniteLink
-    :to="githubUrl"
+    v-if="Boolean(githubUrl)"
+    :to="redirectGithubUrl"
     class="flex items-center text-muted hover:text-title"
   >
     <IconGithub class="mr-1 text-title" />
@@ -27,7 +28,8 @@ const props = defineProps({
 })
 
 // variables
-const { githubRepo, githubUser } = getUserAndRepositoryFromUrl(props.githubUrl)
+const { githubRepo, githubUser, redirectGithubUrl } =
+  getUserAndRepositoryFromUrl(props.githubUrl)
 </script>
 
 <style scoped lang="postcss"></style>
