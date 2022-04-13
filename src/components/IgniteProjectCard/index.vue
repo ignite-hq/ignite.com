@@ -3,7 +3,7 @@
     :to="{
       path: `/projects/${campaignSummary.campaign?.campaignID ?? '0'}/overview`
     }"
-    :class="isLoading ? 'cursor-pointer' : ''"
+    :class="isLoading ? '' : 'cursor-pointer'"
   >
     <div class="project-card">
       <ProjectCardHeader :loading="isLoading" />
