@@ -19,12 +19,12 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { computed, onBeforeUnmount } from 'vue'
 import { useRoute } from 'vue-router'
 
 import IgniteRequestsEmptyState from '~/components/requests/IgniteRequestsEmptyState.vue'
 import IgniteRequestsHeader from '~/components/requests/IgniteRequestsHeader.vue'
-import IgniteRequestsTable from '~/components/requests/IgniteRequestsTable'
+import IgniteRequestsTable from '~/components/requests/IgniteRequestsTable.vue'
 import IgniteSelectedRequests from '~/components/requests/IgniteSelectedRequests.vue'
 import useProjectRequests from '~/composables/useProjectRequests'
 import {
@@ -32,6 +32,11 @@ import {
   LaunchRequest
 } from '~/generated/tendermint-spn-ts-client/tendermint.spn.launch/rest'
 import { RequestPageFilters, useRequestsStore } from '~/stores/requests-store'
+
+// lh
+onBeforeUnmount(() => {
+  store.selectedRequests = []
+})
 
 // store
 const store = useRequestsStore()

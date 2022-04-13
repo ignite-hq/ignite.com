@@ -36,7 +36,7 @@
     <div role="rowgroup" class="responses-table-body">
       <div
         v-for="(request, index) in sortedProjectRequests"
-        :key="request?.launchID"
+        :key="request?.requestID"
         role="row"
         class="responses-table-row"
       >
@@ -92,12 +92,15 @@ import { computed } from 'vue'
 import IgniteCheckbox from '~/components/IgniteCheckbox.vue'
 import IgniteLoader from '~/components/IgniteLoader.vue'
 import IgniteProfileIcon from '~/components/IgniteProfileIcon.vue'
-import { LaunchRequest } from '~/generated/tendermint-spn-ts-client/tendermint.spn.launch/rest'
-import { useRequestsStore } from '~/stores/requests-store'
+import {
+  LaunchRequest,
+  LaunchRequestContent
+} from '~/generated/tendermint-spn-ts-client/tendermint.spn.launch/rest'
+import { RequestPageSorts, useRequestsStore } from '~/stores/requests-store'
 import { getShortAddress } from '~/utils/address'
 
-import IgniteRequestsAction from '../IgniteRequestsAction.vue'
-import { getHumanizedType, sortRequests } from './utils'
+import IgniteRequestsAction from './IgniteRequestsAction.vue'
+import { getTypeFromContent } from './utils'
 
 interface Props {
   requests: LaunchRequest[]
@@ -148,8 +151,62 @@ function isChecked(requestId?: string) {
   )
 }
 
+function getHumanizedType(content?: LaunchRequestContent): string {
+  const type = getTypeFromContent(content)
+
+  switch (type) {
+    case 'genesisAccount':
+      return 'Request for tokens'
+    case 'genesisValidator':
+      return 'Request to validate'
+    default:
+      return 'Unknown'
+  }
+}
+
+function sortRequests(requests: LaunchRequest[], sortBy: RequestPageSorts) {
+  switch (sortBy) {
+    case RequestPageSorts.Newest:
+      return requests.sort(
+        (a, b) => Number(a?.createdAt ?? '') - Number(b?.createdAt ?? '')
+      )
+    case RequestPageSorts.RequestType:
+      return requests.sort((a, b) => {
+        const aType = getTypeFromContent(a.content)
+        const bType = getTypeFromContent(b.content)
+
+        if (aType < bType) {
+          return -1
+        }
+
+        if (aType > bType) {
+          return 1
+        }
+
+        return 0
+      })
+    case RequestPageSorts.Requestor:
+      return requests.sort((a, b) => {
+        const aRequestor = a.creator ?? ''
+        const bRequestor = b.creator ?? ''
+
+        if (aRequestor < bRequestor) {
+          return -1
+        }
+
+        if (aRequestor > bRequestor) {
+          return 1
+        }
+
+        return 0
+      })
+    default:
+      return requests
+  }
+}
+
 // computed
-const sortedProjectRequests = computed(() => {
+const sortedProjectRequests = computed<LaunchRequest[]>(() => {
   if (isLoading.value) return skeletons
 
   const requestsWithContent = props.requests.filter(({ content }) =>

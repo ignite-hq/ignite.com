@@ -8,8 +8,25 @@
     </template>
 
     <template #body>
-      <IgniteText class="text-center text-3 leading-normal text-muted">
-        Grant <span class="font-semibold">000,000,000 ATOM</span>
+      <IgniteText
+        v-if="requestSummaries.validatorCount > 0"
+        class="text-center text-3 leading-normal text-muted"
+      >
+        Add
+        <span class="font-semibold">{{ requestSummaries.validatorCount }}</span>
+        validator{{ requestSummaries.validatorCount === 1 ? '' : 's' }}
+      </IgniteText>
+
+      <IgniteText
+        v-for="coin in requestSummaries.coinsToGrant"
+        :key="coin.denom"
+        class="text-center text-3 leading-normal text-muted"
+      >
+        Grant
+        <span class="font-semibold"
+          >{{ addCommasToNumber(coin.amount ?? '') }}
+          {{ coin.denom?.toUpperCase() }}</span
+        >
       </IgniteText>
 
       <div class="mt-7 flex space-x-4">
@@ -41,15 +58,67 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import BigNumber from 'bignumber.js'
+import { computed } from 'vue'
+
 import IconWarning from '~/components/icons/IconWarning.vue'
 import IgniteButton from '~/components/IgniteButton.vue'
 import IgniteHeading from '~/components/IgniteHeading.vue'
 import IgniteModal from '~/components/IgniteModal.vue'
 import IgniteText from '~/components/IgniteText.vue'
+import {
+  LaunchRequest,
+  V1Beta1Coin
+} from '~/generated/tendermint-spn-ts-client/tendermint.spn.launch/rest'
+import { useRequestsStore } from '~/stores/requests-store'
+import { addCommasToNumber } from '~/utils/number'
+
+import { getTypeFromContent } from './utils'
 
 interface Emits {
   (e: 'close'): void
 }
 
 defineEmits<Emits>()
+
+// store
+const store = useRequestsStore()
+
+// menthods
+function getRequestsSummaries(requests: LaunchRequest[]) {
+  let validatorCount = 0
+  const coinsToGrant: Record<string, V1Beta1Coin> = {}
+
+  requests.forEach(({ content }) => {
+    const rawActionType = getTypeFromContent(content)
+
+    if (rawActionType === 'genesisValidator') {
+      return validatorCount++
+    }
+
+    if (rawActionType === 'genesisAccount') {
+      return content?.genesisAccount?.coins?.forEach(({ amount, denom }) => {
+        if (!denom || !amount) return
+        const previousAmount = new BigNumber(coinsToGrant[denom]?.amount || 0)
+        const newAmount = new BigNumber(amount)
+
+        coinsToGrant[denom] = {
+          denom,
+          amount: previousAmount.plus(newAmount).toString()
+        }
+      })
+    }
+  })
+
+  return {
+    validatorCount,
+    coinsToGrant: Object.values(coinsToGrant)
+  }
+}
+
+// computed
+const requestSummaries = computed(() => {
+  const requests = store.selectedRequests
+  return getRequestsSummaries(requests)
+})
 </script>
