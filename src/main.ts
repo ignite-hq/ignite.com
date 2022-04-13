@@ -1,6 +1,7 @@
 import './assets/css/main.css'
 
 import MasonryWall from '@yeger/vue-masonry-wall'
+import HighchartsVue from 'highcharts-vue'
 import { createPinia } from 'pinia'
 import {
   createIgnite as createIgniteN,
@@ -47,4 +48,5 @@ app
   .use(createPinia())
   .use(router)
   .use(MasonryWall)
+  .use(HighchartsVue)
   .mount('#app')
