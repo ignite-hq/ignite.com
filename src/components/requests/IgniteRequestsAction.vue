@@ -3,7 +3,13 @@
     <component :is="actionIcon" />
   </div>
 
-  <span v-if="rawActionType === 'genesisAccount'"> Grant </span>
+  <span v-if="rawActionType === 'genesisAccount'">
+    Grant
+    <span class="font-semibold">
+      {{ addCommasToNumber(request.content?.genesisAccount?.coins[0].amount) }}
+      {{ request.content?.genesisAccount?.coins[0].denom?.toUpperCase() }}
+    </span>
+  </span>
   <span v-else-if="rawActionType === 'genesisValidator'">
     Add validator to
     <span class="font-semibold">Testnet {{ request.launchID }}</span>
@@ -23,6 +29,7 @@ import { computed } from 'vue'
 import IconCoins from '~/components/icons/IconCoins.vue'
 import IconStage from '~/components/icons/IconStage.vue'
 import { LaunchRequest } from '~/generated/tendermint-spn-ts-client/tendermint.spn.launch/rest'
+import { addCommasToNumber } from '~/utils/number'
 
 import { getTypeFromContent } from './utils'
 
