@@ -1,5 +1,5 @@
 <template>
-  <div class="project-card">
+  <div class="project-card shadow-max">
     <ProjectCardHeader :loading="isLoading" />
     <div>
       <ProjectCardDescription
@@ -103,7 +103,6 @@ const showIncentives = computed(function () {
 <style scoped lang="postcss">
 .project-card {
   @apply overflow-hidden rounded-md bg-white-1000;
-  box-shadow: 16px 32px 128px 8px rgba(0, 0, 0, 0.07);
 
   &__row {
     @apply border-t border-gray-70 py-7 px-6 m:px-7.5;
