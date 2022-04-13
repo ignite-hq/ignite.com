@@ -6,7 +6,9 @@ module.exports = {
   theme: {
     borderRadius: {
       none: '0',
-      sm: `${pxToRem(4)}rem`,
+      xxs: `${pxToRem(4)}rem`,
+      xs: `${pxToRem(8)}rem`,
+      sm: `${pxToRem(10)}rem`,
       DEFAULT: `${pxToRem(16)}rem`,
       md: `${pxToRem(20)}rem`,
       lg: `${pxToRem(100)}rem`,
@@ -45,6 +47,9 @@ module.exports = {
       radio: '#C4C4C4',
       error: '#D80228'
     },
+    container: {
+      center: true
+    },
     fontFamily: {
       title: ['Termina', 'sans-serif']
     },
@@ -62,7 +67,9 @@ module.exports = {
     extend: {
       boxShadow: {
         border: '0px 0.5px 0px #CBCBCB',
-        border_double: '0px -0.5px 0px #CBCBCB, 0px 0.5px 0px #CBCBCB'
+        border_double: '0px -0.5px 0px #CBCBCB, 0px 0.5px 0px #CBCBCB',
+        max: '16px 32px 128px 8px rgba(0, 0, 0, 0.07)',
+        dropdown: '-112px 73px 191px 59px rgba(0, 0, 0, 0.09)'
       },
       inset: {
         center: '50%'
@@ -74,9 +81,6 @@ module.exports = {
       borderRadius: {
         '2sm': '8px',
         '3sm': '10px'
-      },
-      boxShadow: {
-        dropdown: '-112px 73px 191px 59px rgba(0, 0, 0, 0.09)'
       }
     },
     letterSpacing: {
@@ -91,7 +95,7 @@ module.exports = {
       sm: `${pxToRem(576)}rem`,
       m: `${pxToRem(768)}rem`,
       l: `${pxToRem(1024)}rem`,
-      xl: `${pxToRem(1440)}rem`
+      xl: `${pxToRem(1380)}rem`
     },
     spacing: {
       auto: 'auto',
@@ -111,6 +115,7 @@ module.exports = {
       9: '4rem',
       9.5: '5rem',
       10: '6rem',
+      10.5: `${pxToRem(104)}rem`,
       11: '8rem',
       12: '12rem'
     },
