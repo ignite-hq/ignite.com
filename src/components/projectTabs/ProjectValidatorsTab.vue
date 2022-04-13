@@ -7,7 +7,7 @@
     <LayoutSpacer size="xs" />
     <IgniteText class="mx-auto" style="max-width: 30rem">
       Participation incentives for validating transactions on the
-      {{ campaignSummary?.campaign?.campaignName }} network
+      {{ campaignSummary?.campaignSummary?.campaign?.campaignName }} network
     </IgniteText>
     <LayoutSpacer size="md" />
 
@@ -16,16 +16,16 @@
         class="m-4 flex w-full flex-col justify-center rounded border border-gray-70 p-5"
       >
         <ProjectCardIncentives
-          v-if="campaignSummary"
-          :campaign-summary="campaignSummary"
+          v-if="campaignSummary?.campaignSummary"
+          :campaign-summary="campaignSummary?.campaignSummary"
         />
       </div>
       <div
         class="m-4 flex w-full flex-col justify-center rounded border border-gray-70 p-5"
       >
         <ProjectCardShareAllocation
-          v-if="campaignSummary"
-          :campaign-summary="campaignSummary"
+          v-if="campaignSummary?.campaignSummary"
+          :campaign-summary="campaignSummary?.campaignSummary"
         />
       </div>
     </div>
@@ -38,7 +38,7 @@
     <LayoutSpacer size="xs" />
     <IgniteText class="mx-auto" style="max-width: 30rem">
       Active validators verifying transactions to secure the
-      {{ campaignSummary?.campaign?.campaignName }} network
+      {{ campaignSummary?.campaignSummary?.campaign?.campaignName }} network
     </IgniteText>
 
     <LayoutSpacer size="md" />
@@ -86,25 +86,12 @@ const route = useRoute()
 const projectID = route.params.projectID.toString() || '0'
 
 // composables
-const { campaignSummaryData } = useCampaignSummary(projectID)
-const campaignSummary = computed<CampaignCampaignSummary>(() => {
-  return (
-    campaignSummaryData.value?.campaignSummary ||
-    ({} as CampaignCampaignSummary)
-  )
-})
-
-/*
-const { stakingValidatorsAllData } = useStakingValidatorAll()
-
-onBeforeMount(async () => {
-  // Cosmos Hub:
-  const res = await fetch('https://api.cosmos.network/cosmos/staking/v1beta1/validators')
-  console.log(res.json())
-})*/
+const { campaignSummary } = useCampaignSummary(projectID)
 
 // computed
 const launchID = computed<string>(() => {
-  return campaignSummary?.value?.mostRecentChain?.launchID || '0'
+  return (
+    campaignSummary?.value?.campaignSummary?.mostRecentChain?.launchID || '0'
+  )
 })
 </script>
