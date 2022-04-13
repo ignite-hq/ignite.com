@@ -8,11 +8,10 @@
       />
     </div>
     <div v-if="hasNextPage">
-      <LayoutSpacer size="sm" />
       <IgniteButton
         variant="primary"
         color="primary"
-        class="px-6"
+        class="px-6 mt-4"
         :disabled="isFetchingNextPage"
         @click="fetchNextPage"
       >
@@ -37,7 +36,6 @@ import {
   watch,
   onBeforeMount
 } from 'vue'
-import LayoutSpacer from '../../atoms/LayoutSpacer.vue'
 import ValidatorCard from './ValidatorCard.vue'
 import IgniteText from '../../IgniteText.vue'
 import IgniteHeading from '../../IgniteHeading.vue'
