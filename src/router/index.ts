@@ -13,9 +13,6 @@ const routes = [
 
 const router = createRouter({
   history: routerHistory,
-  scrollBehavior() {
-    return { top: 0 }
-  },
   routes
 })
 
