@@ -1,6 +1,6 @@
 <template>
   <div>
-    <IgniteProjectHeader :active-tab="tab" :project-i-d="projectID" />
+    <IgniteProjectHeader :active-tab="tab" :projectID="projectID" />
     <ProjectOverviewTab v-if="tab === 'overview'" />
     <ProjectValidatorsTab v-if="tab === 'validators'" />
     <ProjectRequestsTab v-if="tab === 'requests'" />

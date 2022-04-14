@@ -42,7 +42,7 @@
     </IgniteText>
 
     <LayoutSpacer size="md" />
-    <ValidatorList v-if="launchID && launchID !== '0'" :launch-i-d="launchID" />
+    <ValidatorList v-if="launchID && launchID !== '0'" :launchID="launchID" />
 
     <LayoutSpacer size="lg" />
 

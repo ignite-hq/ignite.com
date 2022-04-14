@@ -28,8 +28,8 @@
         <ProjectCardStatus
           class="project-card__row"
           :loading="isLoading"
-          :launch-i-d="campaignSummary.mostRecentChain?.launchID ?? '0'"
-          :campaign-i-d="campaignSummary.campaign?.campaignID ?? '0'"
+          :launchID="campaignSummary.mostRecentChain?.launchID ?? '0'"
+          :campaignID="campaignSummary.campaign?.campaignID ?? '0'"
           :validator-count="campaignSummary.mostRecentChain?.validatorNb ?? '0'"
           :request-count="campaignSummary.mostRecentChain?.requestNb ?? '0'"
           :stargazer-count="repository?.stargazers_count?.toString() ?? '0'"

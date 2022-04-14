@@ -20,7 +20,6 @@
     "indent": "off",
     "vue/html-self-closing": "off",
     "vue/max-attributes-per-line": "off",
-    "@typescript-eslint/camelcase": "off",
     "vue/singleline-html-element-content-newline": "off",
     "simple-import-sort/imports": "warn",
     "simple-import-sort/exports": "warn",
