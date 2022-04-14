@@ -42,7 +42,7 @@
     </IgniteText>
 
     <LayoutSpacer size="md" />
-    <ValidatorList v-if="launchID && launchID !== '0'" :launchID="launchID" />
+    <ValidatorList v-if="projectID && projectID !== '0'" :projectID="projectID" />
 
     <LayoutSpacer size="lg" />
 
@@ -87,11 +87,4 @@ const projectID = route.params.projectID.toString() || '0'
 
 // composables
 const { campaignSummary } = useCampaignSummary(projectID)
-
-// computed
-const launchID = computed<string>(() => {
-  return (
-    campaignSummary?.value?.campaignSummary?.mostRecentChain?.launchID || '0'
-  )
-})
 </script>

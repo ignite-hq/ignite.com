@@ -9,7 +9,7 @@
     </div>
     <div v-if="hasNextPage">
       <LayoutSpacer size="sm" />
-      <IgniteButton
+      <!--<IgniteButton
         variant="primary"
         color="primary"
         class="px-6"
@@ -17,11 +17,17 @@
         @click="fetchNextPage"
       >
         View more
-      </IgniteButton>
+      </IgniteButton>-->
     </div>
-    <div v-if="!isLoading && genesisValidatorsAll.length === 0">
+    <!--<div v-if="!isLoading && genesisValidatorsAll.length === 0">
       <span>- No validators yet -</span>
-    </div>
+    </div>-->
+    <hr />
+    {{campaignChains}}
+    <hr />
+    {{chainList}}
+    <hr />
+    {{allGenesisValidators}}
   </div>
 </template>
 
@@ -50,37 +56,31 @@ import {
 } from 'tendermint-spn-ts-client/tendermint.spn.launch/rest'
 import useChain from '../../../composables/useChain'
 import useGenesisValidatorAll from '../../../composables/useGenesisValidatorAll'
+import useCampaignChains from '../../../composables/useCampaignChains'
+import { CampaignCampaignSummary } from 'tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 
 const props = defineProps({
-  launchID: String
+  projectID: { type: String, required: true }
 })
 
-// methods
-function mergePages(
-  pages: LaunchQueryGetGenesisValidatorResponse[] = []
-): LaunchGenesisValidator[] {
-  return pages.reduce(
-    (acc, page) => [...acc, ...(page?.genesisValidator ?? [])],
-    [] as LaunchGenesisValidator[]
-  )
-}
+const { campaignChains } = useCampaignChains(toRef(props, 'projectID'))
 
-// composables
-const { chainData } = useChain(toRef(props, 'launchID'))
-const {
-  isLoading,
-  fetchNextPage,
-  hasNextPage,
-  isFetchingNextPage,
-  genesisValidatorAllData
-} = useGenesisValidatorAll(toRef(props, 'launchID'))
+const chainList = computed<string[]>(() =>
+  campaignChains?.value?.pages && campaignChains?.value?.pages[0].campaignChains?.chains || []
+)
 
-// computed
-const chain = computed<LaunchChain>(() => {
-  return chainData.value
-})
+const allGenesisValidators = computed<Validator>(() => {
+  let validatorsFromAllChains = chainList?.value?.map((chainID: string) => {
+    let { genesisValidatorAll } = useGenesisValidatorAll(chainID.toString())
+    return genesisValidatorAll
+  })
+    .reduce(
+      (acc, chainValidators) => [...acc, ...(chainValidators?.value?.pages && chainValidators?.value?.pages[0].genesisValidator || [])],
+      []
+    )
+  let uniqueValidatorsFromAllChains = [...new Map(validatorsFromAllChains
+    .map(validator => [validator.address, validator])).values()]
 
-const genesisValidatorsAll = computed<LaunchGenesisValidator[]>(() => {
-  return mergePages(genesisValidatorAllData.value?.pages)
+  return uniqueValidatorsFromAllChains
 })
 </script>
