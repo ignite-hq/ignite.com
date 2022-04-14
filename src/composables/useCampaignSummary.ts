@@ -1,5 +1,4 @@
-import { useIgnite, useTendermintSpnCampaign } from 'tendermint-spn-vue'
-import { computed } from 'vue'
+import { useTendermintSpnCampaign } from 'tendermint-spn-vue'
 import { useQuery } from 'vue-query'
 
 export default function useCampaignSummary(campaignID: string) {

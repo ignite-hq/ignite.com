@@ -69,18 +69,16 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineComponent, ref, toRef, onBeforeMount } from 'vue'
+import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import LayoutSpacer from '../atoms/LayoutSpacer.vue'
 import IgniteButton from '../IgniteButton.vue'
 import IgniteText from '../IgniteText.vue'
 import IgniteHeading from '../IgniteHeading.vue'
-import { CampaignCampaignSummary } from 'tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 import useCampaignSummary from '../../composables/useCampaignSummary'
 import ProjectCardIncentives from '../IgniteProjectCard/ProjectCardIncentives.vue'
 import ProjectCardShareAllocation from '../IgniteProjectCard/ProjectCardShareAllocation.vue'
 import ValidatorList from './validators/ValidatorList.vue'
-import { LaunchChain } from 'tendermint-spn-ts-client/tendermint.spn.launch/rest'
 
 const route = useRoute()
 const projectID = route.params.projectID.toString() || '0'

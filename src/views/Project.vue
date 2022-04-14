@@ -1,9 +1,6 @@
 <template>
   <div>
-    <IgniteProjectHeader
-      :activeTab="tab"
-      :projectID="projectID"
-    />
+    <IgniteProjectHeader :activeTab="tab" :projectID="projectID" />
     <ProjectOverviewTab v-if="tab === 'overview'" />
     <ProjectValidatorsTab v-if="tab === 'validators'" />
     <ProjectRequestsTab v-if="tab === 'requests'" />
@@ -18,7 +15,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { ref, watch, computed } from 'vue'
+import { ref } from 'vue'
 import { useRoute, onBeforeRouteUpdate } from 'vue-router'
 import IgniteProjectHeader from '../components/IgniteProjectHeader.vue'
 import ProjectOverviewTab from '../components/projectTabs/ProjectOverviewTab.vue'
@@ -33,6 +30,4 @@ let tab = ref(route.params?.tab?.toString().toLowerCase() || 'overview')
 onBeforeRouteUpdate(async (to) => {
   tab.value = to.params.tab.toString().toLowerCase()
 })
-
-
 </script>

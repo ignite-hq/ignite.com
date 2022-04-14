@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineComponent, PropType } from 'vue'
+import { computed, PropType } from 'vue'
 import LayoutSpacer from '../../atoms/LayoutSpacer.vue'
 import validatorAvatar from '../../../assets/svg/validatorAvatar.svg'
 import { Validator } from 'tendermint-spn-ts-client/cosmos.staking.v1beta1'
