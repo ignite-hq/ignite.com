@@ -88,7 +88,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import IgniteHeading from './IgniteHeading.vue'
+import IgniteHeading from '../IgniteHeading.vue'
 import SocialCard from './SocialCard.vue'
 </script>
 
