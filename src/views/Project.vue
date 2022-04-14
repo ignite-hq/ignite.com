@@ -1,6 +1,6 @@
 <template>
   <div>
-    <IgniteProjectHeader :active-tab="tab" :projectID="projectID" />
+    <IgniteProjectHeader :active-tab="tab" :project-id="projectId" />
     <ProjectOverviewTab v-if="tab === 'overview'" />
     <ProjectValidatorsTab v-if="tab === 'validators'" />
     <ProjectRequestsTab v-if="tab === 'requests'" />
@@ -25,7 +25,7 @@ import ProjectRequestsTab from '../components/projectTabs/ProjectRequestsTab.vue
 import ProjectValidatorsTab from '../components/projectTabs/ProjectValidatorsTab.vue'
 
 const route = useRoute()
-const projectID = route.params.projectID.toString() || '0'
+const projectId = route.params.projectId.toString() || '0'
 let tab = ref(route.params?.tab?.toString().toLowerCase() || 'overview')
 
 onBeforeRouteUpdate(async (to) => {

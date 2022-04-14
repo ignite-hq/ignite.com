@@ -8,11 +8,10 @@
       />
     </div>
     <div v-if="hasNextPage">
-      <LayoutSpacer size="sm" />
       <IgniteButton
         variant="primary"
         color="primary"
-        class="px-6"
+        class="mt-4 px-6"
         :disabled="isFetchingNextPage"
         @click="fetchNextPage"
       >
@@ -33,12 +32,11 @@ import {
 import { computed, toRef } from 'vue'
 
 import useGenesisValidatorAll from '../../../composables/useGenesisValidatorAll'
-import LayoutSpacer from '../../atoms/LayoutSpacer.vue'
 import IgniteButton from '../../IgniteButton.vue'
 import ValidatorCard from './ValidatorCard.vue'
 
 const props = defineProps({
-  launchID: String
+  launchId: { type: String, required: true }
 })
 
 // methods
@@ -58,9 +56,8 @@ const {
   hasNextPage,
   isFetchingNextPage,
   genesisValidatorAllData
-} = useGenesisValidatorAll(toRef(props, 'launchID'))
+} = useGenesisValidatorAll(toRef(props, 'launchId'))
 
-// computed
 const genesisValidatorsAll = computed<LaunchGenesisValidator[]>(() => {
   return mergePages(genesisValidatorAllData.value?.pages)
 })

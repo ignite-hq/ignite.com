@@ -28,8 +28,8 @@
                     class="mb-5 text-3 l:mb-0 l:mr-7"
                   />
                   <IgniteProjectStatus
-                    campaignID="0"
-                    launchID="0"
+                    campaign-id="0"
+                    launch-id="0"
                     stargazer-count="1"
                     request-count="100"
                     validator-count="30"
@@ -83,26 +83,26 @@ import IgniteProjectStatus from './IgniteProjectStatus.vue'
 import IgniteText from './IgniteText.vue'
 
 const props = defineProps({
-  projectID: String,
+  projectId: String,
   activeTab: String
 })
 
 const githubUrl = 'https://github.com/allinbits/ignite-ui'
 const navigation = reactive([
   {
-    link: `/projects/${props.projectID}/overview`,
+    link: `/projects/${props.projectId}/overview`,
     title: 'Overview'
   },
   {
-    link: `/projects/${props.projectID}/validators`,
+    link: `/projects/${props.projectId}/validators`,
     title: 'Validators'
   },
   {
-    link: `/projects/${props.projectID}/requests`,
+    link: `/projects/${props.projectId}/requests`,
     title: 'Requests'
   },
   {
-    link: `/projects/${props.projectID}/invest`,
+    link: `/projects/${props.projectId}/invest`,
     title: 'Invest'
   }
 ])

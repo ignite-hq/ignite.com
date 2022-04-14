@@ -38,8 +38,8 @@ import IconStar from './icons/IconStar.vue'
 import IgniteText from './IgniteText.vue'
 
 defineProps({
-  campaignID: { type: String, required: true },
-  launchID: { type: String, required: true },
+  campaignId: { type: String, required: true },
+  launchId: { type: String, required: true },
   requestCount: { type: String, required: true },
   validatorCount: { type: String, required: true },
   stargazerCount: { type: String, required: true }
