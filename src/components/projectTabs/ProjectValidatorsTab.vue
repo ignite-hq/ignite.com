@@ -42,7 +42,7 @@
     </IgniteText>
 
     <LayoutSpacer size="md" />
-    <ValidatorList v-if="launchID && launchID !== '0'" :launchID="launchID" />
+    <ValidatorList v-if="launchID && launchID !== '0'" :launch-i-d="launchID" />
 
     <LayoutSpacer size="lg" />
 
@@ -71,13 +71,14 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
+
+import useCampaignSummary from '../../composables/useCampaignSummary'
 import LayoutSpacer from '../atoms/LayoutSpacer.vue'
 import IgniteButton from '../IgniteButton.vue'
-import IgniteText from '../IgniteText.vue'
 import IgniteHeading from '../IgniteHeading.vue'
-import useCampaignSummary from '../../composables/useCampaignSummary'
 import ProjectCardIncentives from '../IgniteProjectCard/ProjectCardIncentives.vue'
 import ProjectCardShareAllocation from '../IgniteProjectCard/ProjectCardShareAllocation.vue'
+import IgniteText from '../IgniteText.vue'
 import ValidatorList from './validators/ValidatorList.vue'
 
 const route = useRoute()

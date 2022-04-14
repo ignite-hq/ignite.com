@@ -70,6 +70,7 @@ export default defineComponent({
 
 <script setup lang="ts">
 import SpDenom from '@starport/vue/src/components/SpDenom/SpDenom.vue'
+
 import IgniteButton from '../IgniteButton.vue'
 import IgniteCard from '../IgniteCard.vue'
 

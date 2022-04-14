@@ -26,18 +26,19 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, toRef } from 'vue'
-import LayoutSpacer from '../../atoms/LayoutSpacer.vue'
-import ValidatorCard from './ValidatorCard.vue'
-import IgniteButton from '../../IgniteButton.vue'
 import {
   LaunchGenesisValidator,
   LaunchQueryGetGenesisValidatorResponse
 } from 'tendermint-spn-ts-client/tendermint.spn.launch/rest'
+import { computed, toRef } from 'vue'
+
 import useGenesisValidatorAll from '../../../composables/useGenesisValidatorAll'
+import LayoutSpacer from '../../atoms/LayoutSpacer.vue'
+import IgniteButton from '../../IgniteButton.vue'
+import ValidatorCard from './ValidatorCard.vue'
 
 const props = defineProps({
-  launchID: String
+  launchID: { type: String, required: true }
 })
 
 // methods

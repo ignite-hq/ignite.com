@@ -10,9 +10,9 @@
     </div>
     <router-link
       :to="{ path: `/projects/${campaignID}/validators` }"
-      v-on:click.stop
       title="Validators"
       class="status__item cursor-pointer select-none hover:opacity-80 active:opacity-70"
+      @click.stop
     >
       <IconStage class="icon" />
       <IgniteText as="span">{{ validatorCount }}</IgniteText>
