@@ -70,8 +70,6 @@ import IgniteButton from '~/components/IgniteButton.vue'
 import IgniteHeading from '~/components/IgniteHeading.vue'
 import IgniteModal from '~/components/IgniteModal.vue'
 import IgniteText from '~/components/IgniteText.vue'
-import { Coin } from '~/generated/tendermint-spn-ts-client/cosmos.bank.v1beta1/types/cosmos/base/v1beta1/coin'
-import { Peer } from '~/generated/tendermint-spn-ts-client/tendermint.spn.launch'
 import {
   LaunchRequest,
   V1Beta1Coin
@@ -126,64 +124,34 @@ function getRequestsSummaries(requests: LaunchRequest[]) {
   }
 }
 
-function getTransactionMessages() {
+function getTransactionMessages(signer: string) {
   const requests = store.selectedRequests
   const messages: EncodeObject[] = []
 
-  requests.forEach(({ launchID, creator, content }) => {
-    const rawActionType = getTypeFromContent(content)
-
+  requests.forEach(({ launchID, content, requestID }) => {
     if (!content) return
 
-    if (rawActionType === 'genesisValidator') {
-      if (!content.genesisValidator) return
+    const message = ignite.tendermintSpnLaunch.value.msgSettleRequest({
+      value: {
+        approve: true,
+        launchID: Number(launchID),
+        requestID: Number(requestID),
+        signer: signer
+      }
+    })
 
-      const { genTx, peer, consPubKey, selfDelegation, address } =
-        content.genesisValidator
-
-      const encoder = new TextEncoder()
-
-      const message = ignite.tendermintSpnLaunch.value.msgRequestAddValidator({
-        value: {
-          creator: creator ?? '',
-          valAddress: address ?? '',
-          genTx: new Uint8Array(encoder.encode(genTx)),
-          launchID: Number(launchID),
-          peer: peer as Peer,
-          consPubKey: new Uint8Array(encoder.encode(consPubKey)),
-          selfDelegation: selfDelegation as Coin
-        }
-      })
-
-      return messages.push(message)
-    }
-
-    if (rawActionType === 'genesisAccount') {
-      if (!content.genesisAccount) return
-
-      const { coins, address } = content.genesisAccount
-
-      const message = ignite.tendermintSpnLaunch.value.msgRequestAddAccount({
-        value: {
-          coins: coins as Coin[],
-          address: address ?? '',
-          creator: creator ?? '',
-          launchID: Number(launchID)
-        }
-      })
-
-      return messages.push(message)
-    }
+    messages.push(message)
   })
 
   return messages
 }
 
 function onConfirm() {
-  const messages = getTransactionMessages()
   const signerAddress = igniteN.value.addr
 
   if (!signerAddress) return
+
+  const messages = getTransactionMessages(signerAddress)
 
   igniteN.value.signer?.signAndBroadcast(signerAddress, messages, {
     amount: [],
