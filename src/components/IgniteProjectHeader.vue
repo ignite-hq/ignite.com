@@ -28,8 +28,8 @@
                     class="mb-5 text-3 l:mb-0 l:mr-7"
                   />
                   <IgniteProjectStatus
-                    campaignID="0"
-                    launchID="0"
+                    campaign-id="0"
+                    launch-id="0"
                     stargazer-count="1"
                     request-count="100"
                     validator-count="30"
@@ -50,9 +50,9 @@
       </div>
     </div>
 
-    <div class="shadow-border_double py-6">
+    <div class="py-6 shadow-border_double">
       <div class="container-full px-6 xl:container">
-        <IgniteProjectNav :items="navigation" :activeTab="tab" />
+        <IgniteProjectNav :items="navigation" :active-tab="tab" />
       </div>
     </div>
 
@@ -71,6 +71,8 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import { reactive } from 'vue'
+
 import IgniteBgWave from './IgniteBgWave.vue'
 import IgniteBreadcrumbs from './IgniteBreadcrumbs.vue'
 import IgniteGithubRepoLink from './IgniteGithubRepoLink.vue'
@@ -79,29 +81,28 @@ import IgniteProjectActions from './IgniteProjectActions.vue'
 import IgniteProjectNav from './IgniteProjectNav.vue'
 import IgniteProjectStatus from './IgniteProjectStatus.vue'
 import IgniteText from './IgniteText.vue'
-import { reactive } from 'vue'
 
 const props = defineProps({
-  projectID: String,
+  projectId: String,
   activeTab: String
 })
 
 const githubUrl = 'https://github.com/allinbits/ignite-ui'
 const navigation = reactive([
   {
-    link: `/projects/${props.projectID}/overview`,
+    link: `/projects/${props.projectId}/overview`,
     title: 'Overview'
   },
   {
-    link: `/projects/${props.projectID}/validators`,
+    link: `/projects/${props.projectId}/validators`,
     title: 'Validators'
   },
   {
-    link: `/projects/${props.projectID}/requests`,
+    link: `/projects/${props.projectId}/requests`,
     title: 'Requests'
   },
   {
-    link: `/projects/${props.projectID}/invest`,
+    link: `/projects/${props.projectId}/invest`,
     title: 'Invest'
   }
 ])

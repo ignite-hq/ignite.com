@@ -32,10 +32,11 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineComponent, PropType } from 'vue'
-import validatorAvatar from '../../../assets/svg/validatorAvatar.svg'
 import { Validator } from 'tendermint-spn-ts-client/cosmos.staking.v1beta1'
 import { LaunchGenesisValidator } from 'tendermint-spn-ts-client/tendermint.spn.launch/rest'
+import { computed, PropType } from 'vue'
+
+import validatorAvatar from '../../../assets/svg/validatorAvatar.svg'
 import IgniteText from '../../IgniteText.vue'
 
 const props = defineProps({
