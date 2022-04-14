@@ -35,8 +35,8 @@
     </IgniteText>
 
     <ValidatorList
-      v-if="launchID && launchID !== '0'"
-      :launchID="launchID"
+      v-if="launchId && launchId !== '0'"
+      :launch-id="launchId"
       class="mt-6"
     />
 
@@ -71,13 +71,13 @@ import IgniteText from '../IgniteText.vue'
 import ValidatorList from './validators/ValidatorList.vue'
 
 const route = useRoute()
-const projectID = route.params.projectID.toString() || '0'
+const projectId = route.params.projectId.toString() || '0'
 
 // composables
-const { campaignSummary } = useCampaignSummary(projectID)
+const { campaignSummary } = useCampaignSummary(projectId)
 
 // computed
-const launchID = computed<string>(() => {
+const launchId = computed<string>(() => {
   return (
     campaignSummary?.value?.campaignSummary?.mostRecentChain?.launchID || '0'
   )

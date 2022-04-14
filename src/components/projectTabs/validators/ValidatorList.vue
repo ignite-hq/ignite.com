@@ -36,7 +36,7 @@ import IgniteButton from '../../IgniteButton.vue'
 import ValidatorCard from './ValidatorCard.vue'
 
 const props = defineProps({
-  launchID: { type: String, required: true }
+  launchId: { type: String, required: true }
 })
 
 // methods
@@ -56,7 +56,7 @@ const {
   hasNextPage,
   isFetchingNextPage,
   genesisValidatorAllData
-} = useGenesisValidatorAll(toRef(props, 'launchID'))
+} = useGenesisValidatorAll(toRef(props, 'launchId'))
 
 const genesisValidatorsAll = computed<LaunchGenesisValidator[]>(() => {
   return mergePages(genesisValidatorAllData.value?.pages)
