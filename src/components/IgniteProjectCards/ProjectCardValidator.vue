@@ -1,7 +1,7 @@
 <template>
   <IgniteCard
     :shadow="true"
-    class="flex justify-between flex-col pt-8 m:pt-9 px-5 sm:px-7 m:px-8 pb-7.5"
+    class="flex flex-col justify-between px-5 pt-8 pb-7.5 sm:px-7 m:px-8 m:pt-9"
     :class="
       isWide && [
         'l:flex-row',
@@ -11,14 +11,15 @@
       ]
     "
   >
-    <div
-      class="ignite-title font-semibold text-title font-title text-center text-3"
+    <IgniteHeading
+      as="div"
+      class="text-center font-title text-3 font-semibold text-title"
       :class="isWide ? ['l:text-7', 'l:max-w-sm', 'l:text-left'] : ['m:text-4']"
     >
       Validator Incentives
-    </div>
+    </IgniteHeading>
     <div
-      class="sm:flex justify-center w-full mt-8"
+      class="mt-8 w-full justify-center sm:flex"
       :class="
         isWide && [
           'xl:mt-0',
@@ -32,25 +33,29 @@
       <div class="">
         <div class="flex items-center justify-center">
           <SpDenom modifier="avatar" denom="denom" title="denom" class="mr-3" />
-          <div class="ignite-title font-title text-5 m:text-6">000%</div>
+          <IgniteHeading as="div" class="font-title text-5 m:text-6"
+            >000%</IgniteHeading
+          >
         </div>
-        <div class="mt-5 ignite-text text-muted text-center">
+        <IgniteText as="div" class="mt-5 text-center text-muted">
           Chain Vouchers
-        </div>
+        </IgniteText>
       </div>
-      <div class="my-3 sm:my-0 sm:mx-6 text-5 text-inactive text-center">+</div>
+      <div class="my-3 text-center text-5 text-inactive sm:my-0 sm:mx-6">+</div>
       <div class="">
         <div class="flex items-center justify-center">
           <SpDenom modifier="avatar" denom="denom" title="denom" class="mr-3" />
-          <div class="ignite-title font-title text-5 m:text-6">00M UST</div>
+          <IgniteHeading as="div" class="font-title text-5 m:text-6"
+            >00M UST</IgniteHeading
+          >
         </div>
-        <div class="mt-5 ignite-text text-muted text-center">
+        <IgniteText as="div" class="mt-5 text-center text-muted">
           Testnet Incentives
-        </div>
+        </IgniteText>
       </div>
     </div>
     <div
-      class="m:shrink-0 flex items-center justify-center mt-8.5"
+      class="mt-8.5 flex items-center justify-center m:shrink-0"
       :class="isWide && 'l:mt-0'"
     >
       <IgniteButton variant="primary" class="w-full sm:w-auto"
@@ -71,9 +76,10 @@ export default defineComponent({
 <script setup lang="ts">
 import SpDenom from '@starport/vue/src/components/SpDenom/SpDenom.vue'
 
-import { ProgressBarItem } from '../../utils/types'
 import IgniteButton from '../IgniteButton.vue'
 import IgniteCard from '../IgniteCard.vue'
+import IgniteHeading from '../IgniteHeading.vue'
+import IgniteText from '../IgniteText.vue'
 
 defineProps({
   isWide: {

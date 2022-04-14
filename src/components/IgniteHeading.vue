@@ -16,6 +16,6 @@ interface Props {
 }
 
 withDefaults(defineProps<Props>(), {
-  as: 'h1',
+  as: 'h1'
 })
 </script>

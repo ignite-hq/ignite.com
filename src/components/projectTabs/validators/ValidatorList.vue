@@ -27,29 +27,15 @@
 
 <script lang="ts" setup>
 import {
-  computed,
-  watchEffect,
-  defineComponent,
-  ref,
-  toRef,
-  reactive,
-  toRefs,
-  watch,
-  onBeforeMount
-} from 'vue'
-import LayoutSpacer from '../../atoms/LayoutSpacer.vue'
-import ValidatorCard from './ValidatorCard.vue'
-import IgniteText from '../../IgniteText.vue'
-import IgniteHeading from '../../IgniteHeading.vue'
-import IgniteButton from '../../IgniteButton.vue'
-import { Validator } from 'tendermint-spn-ts-client/cosmos.staking.v1beta1'
-import {
-  LaunchChain,
   LaunchGenesisValidator,
   LaunchQueryGetGenesisValidatorResponse
 } from 'tendermint-spn-ts-client/tendermint.spn.launch/rest'
-import useChain from '../../../composables/useChain'
+import { computed, toRef } from 'vue'
+
 import useGenesisValidatorAll from '../../../composables/useGenesisValidatorAll'
+import LayoutSpacer from '../../atoms/LayoutSpacer.vue'
+import IgniteButton from '../../IgniteButton.vue'
+import ValidatorCard from './ValidatorCard.vue'
 
 const props = defineProps({
   launchID: String
@@ -66,7 +52,6 @@ function mergePages(
 }
 
 // composables
-const { chainData } = useChain(toRef(props, 'launchID'))
 const {
   isLoading,
   fetchNextPage,
@@ -76,10 +61,6 @@ const {
 } = useGenesisValidatorAll(toRef(props, 'launchID'))
 
 // computed
-const chain = computed<LaunchChain>(() => {
-  return chainData.value
-})
-
 const genesisValidatorsAll = computed<LaunchGenesisValidator[]>(() => {
   return mergePages(genesisValidatorAllData.value?.pages)
 })

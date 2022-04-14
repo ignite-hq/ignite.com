@@ -4,9 +4,9 @@
     class="flex items-center text-muted hover:text-title"
   >
     <IconGithub class="mr-1 text-title" />
-    <span class="font-medium ignite-text">{{ githubUser }}</span>
-    <span class="mx-1 font-medium ignite-text text-inactive">/</span>
-    <span class="font-medium ignite-text">{{ githubRepo }}</span>
+    <IgniteText as="span" class="font-medium">{{ githubUser }}</IgniteText>
+    <IgniteText as="span" class="mx-1 font-medium text-inactive">/</IgniteText>
+    <IgniteText as="span" class="font-medium">{{ githubRepo }}</IgniteText>
   </IgniteLink>
 </template>
 
@@ -22,6 +22,7 @@ export default defineComponent({
 import { getUserAndRepositoryFromUrl } from '../utils/github'
 import IconGithub from './icons/IconGithub.vue'
 import IgniteLink from './IgniteLink.vue'
+import IgniteText from './IgniteText.vue'
 
 const props = defineProps({
   githubUrl: { type: String, required: true }

@@ -25,9 +25,9 @@
         ]"
         :style="{ width: `${item.value}%` }"
       >
-        <span v-if="label" class="ignite-text text-1 font-medium">
+        <IgniteText v-if="label" as="span" class="text-1 font-medium">
           <b>{{ item.value }}%</b>
-        </span>
+        </IgniteText>
       </div>
     </div>
   </div>
@@ -38,10 +38,11 @@ import SpDenom from '@starport/vue/src/components/SpDenom/SpDenom.vue'
 import { defineComponent, PropType } from 'vue'
 
 import { ProgressBarItem } from '../utils/types'
+import IgniteText from './IgniteText.vue'
 
 export default defineComponent({
   name: 'IgniteProgressBar',
-  components: { SpDenom },
+  components: { SpDenom, IgniteText },
   props: {
     inverse: {
       type: Boolean

@@ -5,12 +5,12 @@
   >
     <div
       ref="section"
-      class="overflow-auto invisible-scrollbar"
+      class="invisible-scrollbar overflow-auto"
       @scroll="onScroll"
     >
       <div
         ref="inner"
-        class="w-max mx-auto pt-5 m:pt-7"
+        class="mx-auto w-max pt-5 m:pt-7"
         :class="state.scrollWidth > 0 && ['pb-7', 'm:pb-9']"
       >
         <slot />
