@@ -1,6 +1,6 @@
 <template>
   <div
-    class="rounded h-[100%] bg-white-1000"
+    class="h-[100%] rounded bg-white-1000"
     :class="shadow ? 'shadow-max' : ['border', 'border-border']"
   >
     <slot />
