@@ -16,9 +16,7 @@
       {{ validatorData.details.body?.messages[0]?.description?.details || '-' }}
     </IgniteText>
 
-    <LayoutSpacer size="sm" />
-
-    <div class="mb-2 w-full border-b border-gray-70" />
+    <div class="mb-2 mt-4 w-full border-b border-gray-70" />
     <IgniteText class="mb-1 text-2 leading-5 text-muted">
       Also validates
     </IgniteText>
@@ -35,7 +33,6 @@
 
 <script lang="ts" setup>
 import { computed, defineComponent, PropType } from 'vue'
-import LayoutSpacer from '../../atoms/LayoutSpacer.vue'
 import validatorAvatar from '../../../assets/svg/validatorAvatar.svg'
 import { Validator } from 'tendermint-spn-ts-client/cosmos.staking.v1beta1'
 import { LaunchGenesisValidator } from 'tendermint-spn-ts-client/tendermint.spn.launch/rest'
