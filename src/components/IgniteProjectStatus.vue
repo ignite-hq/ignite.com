@@ -9,7 +9,7 @@
       <IgniteText as="span">{{ requestCount }}</IgniteText>
     </div>
     <router-link
-      :to="{ path: `/projects/${campaignID}/validators` }"
+      :to="{ path: `/projects/${campaignId}/validators` }"
       title="Validators"
       class="status__item cursor-pointer select-none hover:opacity-80 active:opacity-70"
       @click.stop
@@ -38,8 +38,8 @@ import IconStar from './icons/IconStar.vue'
 import IgniteText from './IgniteText.vue'
 
 defineProps({
-  campaignID: { type: String, required: true },
-  launchID: { type: String, required: true },
+  campaignId: { type: String, required: true },
+  launchId: { type: String, required: true },
   requestCount: { type: String, required: true },
   validatorCount: { type: String, required: true },
   stargazerCount: { type: String, required: true }
