@@ -1,4 +1,4 @@
-import { useIgnite, useTendermintSpnProfile } from 'tendermint-spn-vue'
+import { useTendermintSpnProfile } from 'tendermint-spn-vue'
 import { computed } from 'vue'
 import { useQuery } from 'vue-query'
 

@@ -1,5 +1,5 @@
-import { useIgnite, useTendermintSpnLaunch } from 'tendermint-spn-vue'
-import { computed, Ref } from 'vue'
+import { useTendermintSpnLaunch } from 'tendermint-spn-vue'
+import { Ref } from 'vue'
 import { useQuery } from 'vue-query'
 
 export default function useChain(launchID: Ref<string>) {

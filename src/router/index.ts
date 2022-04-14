@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 import Index from '../views/Index.vue'
-import Projects from '../views/Projects.vue'
 import Project from '../views/Project.vue'
+import Projects from '../views/Projects.vue'
 
 const routerHistory = createWebHistory()
 const routes = [

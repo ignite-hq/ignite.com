@@ -3,8 +3,8 @@
     <IgniteLoader v-if="isLoading" class="status-loading mx-auto" />
     <IgniteProjectStatus
       v-if="!isLoading"
-      :launchID="launchID"
-      :campaignID="campaignID"
+      :launch-i-d="launchID"
+      :campaign-i-d="campaignID"
       :stargazer-count="stargazerCount"
       :request-count="requestCount"
       :validator-count="validatorCount"
