@@ -3,7 +3,7 @@
     <IgniteHeading class="text-center font-title text-7 font-semibold mt-10">
       Validator incentives
     </IgniteHeading>
-    <IgniteText class="mx-auto mt-4" style="max-width: 30rem">
+    <IgniteText class="mx-auto mt-4 m-w-[30rem]">
       Participation incentives for validating transactions on the
       {{ campaignSummary?.campaignSummary?.campaign?.campaignName }} network
     </IgniteText>
@@ -29,7 +29,7 @@
     <IgniteHeading class="text-center font-title text-7 font-semibold mt-10">
       Validators
     </IgniteHeading>
-    <IgniteText class="mx-auto mt-4" style="max-width: 30rem">
+    <IgniteText class="mx-auto mt-4 m-w-[30rem]">
       Active validators verifying transactions to secure the
       {{ campaignSummary?.campaignSummary?.campaign?.campaignName }} network
     </IgniteText>
