@@ -1,17 +1,13 @@
 <template>
   <div class="container text-center">
-    <LayoutSpacer size="lg" />
-    <IgniteHeading class="text-center font-title text-7 font-semibold">
+    <IgniteHeading class="mt-10 text-center font-title text-7 font-semibold">
       Validator incentives
     </IgniteHeading>
-    <LayoutSpacer size="xs" />
-    <IgniteText class="mx-auto" style="max-width: 30rem">
+    <IgniteText class="mx-auto mt-4 max-w-lg">
       Participation incentives for validating transactions on the
       {{ campaignSummary?.campaignSummary?.campaign?.campaignName }} network
     </IgniteText>
-    <LayoutSpacer size="md" />
-
-    <div class="flex flex-col md:flex-row">
+    <div class="mt-8 flex flex-col md:flex-row">
       <div
         class="m-4 flex w-full flex-col justify-center rounded border border-gray-70 p-5"
       >
@@ -30,41 +26,35 @@
       </div>
     </div>
 
-    <LayoutSpacer size="lg" />
-
-    <IgniteHeading class="text-center font-title text-7 font-semibold">
+    <IgniteHeading class="mt-10 text-center font-title text-7 font-semibold">
       Validators
     </IgniteHeading>
-    <LayoutSpacer size="xs" />
-    <IgniteText class="mx-auto" style="max-width: 30rem">
+    <IgniteText class="mx-auto mt-4 max-w-lg">
       Active validators verifying transactions to secure the
       {{ campaignSummary?.campaignSummary?.campaign?.campaignName }} network
     </IgniteText>
 
-    <LayoutSpacer size="md" />
-    <ValidatorList v-if="launchID && launchID !== '0'" :launch-i-d="launchID" />
-
-    <LayoutSpacer size="lg" />
+    <ValidatorList
+      v-if="launchId && launchId !== '0'"
+      :launch-id="launchId"
+      class="mt-6"
+    />
 
     <div
-      class="my-4 mx-auto flex w-full max-w-5xl flex-col justify-start rounded p-8 text-left shadow"
+      class="mx-auto my-10 flex w-full max-w-5xl flex-col justify-start rounded p-8 text-left shadow"
     >
       <IgniteHeading class="font-title text-7 font-semibold">
         Become a validator
       </IgniteHeading>
-      <LayoutSpacer size="xs" />
-      <IgniteText>
+      <IgniteText class="mt-4">
         Help secure blockchain projects and be rewarded for your participation
       </IgniteText>
-      <LayoutSpacer size="sm" />
-      <div>
+      <div class="mt-6">
         <IgniteButton variant="primary" color="primary" class="px-6">
           Learn more
         </IgniteButton>
       </div>
     </div>
-
-    <LayoutSpacer size="lg" />
   </div>
 </template>
 
@@ -73,7 +63,6 @@ import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 
 import useCampaignSummary from '../../composables/useCampaignSummary'
-import LayoutSpacer from '../atoms/LayoutSpacer.vue'
 import IgniteButton from '../IgniteButton.vue'
 import IgniteHeading from '../IgniteHeading.vue'
 import ProjectCardIncentives from '../IgniteProjectCard/ProjectCardIncentives.vue'
@@ -82,13 +71,13 @@ import IgniteText from '../IgniteText.vue'
 import ValidatorList from './validators/ValidatorList.vue'
 
 const route = useRoute()
-const projectID = route.params.projectID.toString() || '0'
+const projectId = route.params.projectId.toString() || '0'
 
 // composables
-const { campaignSummary } = useCampaignSummary(projectID)
+const { campaignSummary } = useCampaignSummary(projectId)
 
 // computed
-const launchID = computed<string>(() => {
+const launchId = computed<string>(() => {
   return (
     campaignSummary?.value?.campaignSummary?.mostRecentChain?.launchID || '0'
   )

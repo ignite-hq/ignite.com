@@ -1,13 +1,13 @@
 import { useTendermintSpnCampaign } from 'tendermint-spn-vue'
 import { useQuery } from 'vue-query'
 
-export default function useCampaignSummary(campaignID: string) {
+export default function useCampaignSummary(campaignId: string) {
   const { queryCampaignSummary } = useTendermintSpnCampaign()
 
   const { data: campaignSummary, ...other } = useQuery(
-    ['campaigns', campaignID],
+    ['campaigns', campaignId],
     () => {
-      return queryCampaignSummary(campaignID).then((r) => r.data)
+      return queryCampaignSummary(campaignId).then((r) => r.data)
     }
   )
 
