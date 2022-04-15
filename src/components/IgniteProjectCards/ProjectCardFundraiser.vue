@@ -1,27 +1,27 @@
 <template>
   <IgniteCard
     :shadow="true"
-    class="flex flex-col justify-between gap-9 pt-8 m:pt-9 px-5 sm:px-7 m:px-8 pb-7.5"
+    class="flex flex-col justify-between gap-9 px-5 pt-8 pb-7.5 sm:px-7 md:px-8 md:pt-9"
     :class="isWide && 'sm:flex-row'"
   >
     <div v-if="!isOngoing" class="w-full">
       <IgniteProgressBar :items="progressBar.items" :label="false" />
-      <div class="mt-6 ignite-title font-semibold font-title text-5 m:text-7">
+      <div class="ignite-title mt-6 font-title text-5 font-semibold md:text-7">
         300,000 UST
       </div>
-      <div class="mt-5 ignite-text text-muted text-3">
+      <div class="ignite-text mt-5 text-3 text-muted">
         raised of 3,000,000 UST
       </div>
     </div>
     <div v-else class="w-full" :class="isWide && 'xl:flex'">
       <div
-        class="ignite-title font-semibold font-title text-5 m:text-7 mr-8 max-w-sm"
+        class="ignite-title mr-8 max-w-sm font-title text-5 font-semibold md:text-7"
       >
         Registration open now
       </div>
       <div class="mt-6 w-full" :class="isWide && 'xl:mt-2'">
         <div
-          class="ignite-text text-muted text-3"
+          class="ignite-text text-3 text-muted"
           :class="isWide && 'max-w-md'"
         >
           Register to participate in the upcoming Project Name fundraiser. The
@@ -39,7 +39,7 @@
         class="flex flex-col justify-center"
         :class="!isWide && ['sm:order-last', 'sm:h-[100%]']"
       >
-        <div class="mb-2 ignite-text text-2 text-muted">Sale ends in</div>
+        <div class="ignite-text mb-2 text-2 text-muted">Sale ends in</div>
         <div class="ignite-title font-title text-4">3 days</div>
       </div>
       <div class="mt-4" :class="!isWide ? ['sm:mt-0', 'sm:mr-6'] : 'sm:mt-6'">

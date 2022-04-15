@@ -5,12 +5,12 @@
         <IgniteBreadcrumbs />
       </div>
 
-      <div class="pt-5.5 pb-8 m:pb-9">
-        <div class="grid grid-cols-1 gap-4 m:grid-cols-8 l:grid-cols-6">
-          <div class="px-0 m:col-span-6 l:col-span-4 xl:col-span-3">
-            <div class="m:flex">
+      <div class="pt-5.5 pb-8 md:pb-9">
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-8 lg:grid-cols-6">
+          <div class="px-0 md:col-span-6 lg:col-span-4 xl:col-span-3">
+            <div class="md:flex">
               <div
-                class="relative mb-6 h-9.5 w-9.5 shrink-0 rounded-md bg-primary m:mb-0 m:mr-7"
+                class="relative mb-6 h-9.5 w-9.5 shrink-0 rounded-md bg-primary md:mb-0 md:mr-7"
               >
                 <div class="absolute inset-0 z-[2] overflow-hidden">
                   <IgniteBgWave />
@@ -18,14 +18,14 @@
               </div>
               <div class="max-w-lg">
                 <IgniteHeading
-                  class="mb-6 font-title text-7 font-semibold m:text-8"
+                  class="mb-6 font-title text-7 font-semibold md:text-8"
                 >
                   Project Name
                 </IgniteHeading>
-                <div class="item-center mb-7 l:flex">
+                <div class="item-center mb-7 lg:flex">
                   <IgniteGithubRepoLink
                     :github-url="githubUrl"
-                    class="mb-5 text-3 l:mb-0 l:mr-7"
+                    class="mb-5 text-3 lg:mb-0 lg:mr-7"
                   />
                   <IgniteProjectStatus
                     campaign-i-d="0"
@@ -35,7 +35,7 @@
                     validator-count="30"
                   />
                 </div>
-                <IgniteText class="text-2 text-muted m:text-3">
+                <IgniteText class="text-2 text-muted md:text-3">
                   NFT game powered by Unreal Engine hosted on Akash and built on
                   top of Cosmos. From the creators of Passage3D.
                 </IgniteText>
@@ -43,7 +43,9 @@
             </div>
           </div>
 
-          <div class="mt-6 px-0 m:col-span-2 m:mt-0 l:col-span-1 l:col-start-6">
+          <div
+            class="mt-6 px-0 md:col-span-2 md:mt-0 lg:col-span-1 lg:col-start-6"
+          >
             <IgniteProjectActions />
           </div>
         </div>
@@ -56,7 +58,7 @@
       </div>
     </div>
 
-    <div class="relative bg-primary pb-[50%] m:pb-[33.33%]">
+    <div class="relative bg-primary pb-[50%] md:pb-[33.33%]">
       <div class="absolute inset-0 z-[2] overflow-hidden">
         <IgniteBgWave />
       </div>

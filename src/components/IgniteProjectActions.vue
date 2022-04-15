@@ -1,12 +1,12 @@
 <template>
   <ul class="">
-    <li class="ignite-text mb-6 text-3 m:mb-7">
+    <li class="ignite-text mb-6 text-3 md:mb-7">
       <IgniteButton>
         <IconStage class="mr-3 text-title" />
         <span>Validate</span>
       </IgniteButton>
     </li>
-    <li class="ignite-text mb-6 text-3 m:mb-7">
+    <li class="ignite-text mb-6 text-3 md:mb-7">
       <IgniteButton>
         <IconStack class="mr-3 text-title" />
         <span>Request tokens</span>

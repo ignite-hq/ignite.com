@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="absolute overflow-hidden rounded-circle bg-primary scale-[0.65] m:scale-100"
+      class="absolute scale-[0.65] overflow-hidden rounded-circle bg-primary md:scale-100"
       :style="{
         left: `${state.positionLogoX}px`,
         top: `${state.positionLogoY}px`,

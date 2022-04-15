@@ -11,7 +11,7 @@
     </IgniteText>
     <LayoutSpacer size="md" />
 
-    <div class="flex flex-col m:flex-row">
+    <div class="flex flex-col md:flex-row">
       <div
         class="m-4 flex w-full flex-col justify-center rounded border border-gray-70 p-5"
       >

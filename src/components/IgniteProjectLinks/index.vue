@@ -1,18 +1,18 @@
 <template>
-  <div class="container-full container px-5 sm:px-5.5 l:px-7">
-    <div class="ignite-title font-title text-center text-5 m:text-7">
+  <div class="container-full container px-5 sm:px-5.5 lg:px-7">
+    <div class="ignite-title text-center font-title text-5 md:text-7">
       Join the community
     </div>
 
-    <div class="mt-6 m:mt-9 flex justify-center flex-wrap -m-4 m:-m-5">
+    <div class="-m-4 mt-6 flex flex-wrap justify-center md:-m-5 md:mt-9">
       <div
-        class="flex-none w-full l:w-[50%] p-4 m:p-5"
+        class="w-full flex-none p-4 md:p-5 lg:w-[50%]"
         :class="social.length === 1 && 'l:w-full'"
       >
         <div
           v-for="(item, key) in social"
           :key="item.link"
-          class="px-0 mb-7 last:mb-0 empty:hidden"
+          class="mb-7 px-0 last:mb-0 empty:hidden"
           :class="(social.length === 2 || key % 2 !== 0) && 'h-[100%]'"
         >
           <SocialCard
@@ -29,12 +29,12 @@
       </div>
       <div
         v-if="social.length > 1"
-        class="flex-none w-full l:w-[50%] p-4 m:p-5"
+        class="w-full flex-none p-4 md:p-5 lg:w-[50%]"
       >
         <div
           v-for="(item, key) in social"
           :key="item.link"
-          class="px-0 mb-7 last:mb-0 empty:hidden"
+          class="mb-7 px-0 last:mb-0 empty:hidden"
           :class="(social.length === 2 || key % 2 !== 0) && 'h-[100%]'"
         >
           <SocialCard

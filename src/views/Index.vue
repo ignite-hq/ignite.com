@@ -1,5 +1,5 @@
 <template>
-  <div class="container-full container px-5 sm:px-5.5 l:px-7">
+  <div class="container-full container px-5 sm:px-5.5 lg:px-7">
     <IgniteProjectList />
   </div>
 </template>

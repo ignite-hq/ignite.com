@@ -1,7 +1,7 @@
 <template>
   <IgniteCard
     :shadow="true"
-    class="flex flex-col justify-between px-5 pt-8 pb-7.5 sm:px-7 m:px-8 m:pt-9"
+    class="flex flex-col justify-between px-5 pt-8 pb-7.5 sm:px-7 md:px-8 md:pt-9"
     :class="
       isWide && [
         'l:flex-row',
@@ -32,7 +32,7 @@
       <div class="">
         <div class="flex items-center justify-center">
           <SpDenom modifier="avatar" denom="denom" title="denom" class="mr-3" />
-          <div class="ignite-title font-title text-5 m:text-6">000%</div>
+          <div class="ignite-title font-title text-5 md:text-6">000%</div>
         </div>
         <div class="ignite-text mt-5 text-center text-muted">
           Chain Vouchers
@@ -42,7 +42,7 @@
       <div class="">
         <div class="flex items-center justify-center">
           <SpDenom modifier="avatar" denom="denom" title="denom" class="mr-3" />
-          <div class="ignite-title font-title text-5 m:text-6">00M UST</div>
+          <div class="ignite-title font-title text-5 md:text-6">00M UST</div>
         </div>
         <div class="ignite-text mt-5 text-center text-muted">
           Testnet Incentives
@@ -50,7 +50,7 @@
       </div>
     </div>
     <div
-      class="mt-8.5 flex items-center justify-center m:shrink-0"
+      class="mt-8.5 flex items-center justify-center md:shrink-0"
       :class="isWide && 'l:mt-0'"
     >
       <IgniteButton variant="primary" class="w-full sm:w-auto"

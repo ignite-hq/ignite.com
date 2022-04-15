@@ -1,7 +1,7 @@
 <template>
   <IgniteLink
     :to="item.link"
-    class="block l:h-[100%] text-primary hover:text-title"
+    class="block text-primary hover:text-title lg:h-[100%]"
   >
     <IgniteCard
       class="relative flex flex-col justify-between overflow-hidden"
@@ -30,13 +30,13 @@
     >
       <div>
         <div
-          class="ignite-title text-title font-semibold font-title"
+          class="ignite-title font-title font-semibold text-title"
           :class="size === 'lg' ? ['text-4', 'm:text-5'] : ['text-4']"
         >
           {{ item.title }}
         </div>
         <div
-          class="ignite-text text-muted text-2"
+          class="ignite-text text-2 text-muted"
           :class="[
             size === 'sm' && 'max-w-[15rem]',
             size === 'md' && 'max-w-[22rem]',
@@ -47,7 +47,7 @@
           {{ item.description }}
         </div>
         <div
-          class="flex items-center ignite-text font-medium text-3"
+          class="ignite-text flex items-center text-3 font-medium"
           :class="size === 'lg' ? 'mt-6' : ['mt-5', 'm:mt-7']"
         >
           <component :is="socialIcon" class="mr-4" />
