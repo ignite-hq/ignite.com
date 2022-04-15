@@ -1,13 +1,13 @@
 <template>
   <div class="container-full container px-5 sm:px-5.5 lg:px-7">
-    <div class="ignite-title text-center font-title text-5 md:text-7">
+    <IgniteHeading as="div" class="text-center font-title text-5 md:text-7">
       Join the community
-    </div>
+    </IgniteHeading>
 
     <div class="-m-4 mt-6 flex flex-wrap justify-center md:-m-5 md:mt-9">
       <div
         class="w-full flex-none p-4 md:p-5 lg:w-[50%]"
-        :class="social.length === 1 && 'l:w-full'"
+        :class="social.length === 1 && 'lg:w-full'"
       >
         <div
           v-for="(item, key) in social"
@@ -88,6 +88,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
+import IgniteHeading from '../IgniteHeading.vue'
 import SocialCard from './SocialCard.vue'
 </script>
 

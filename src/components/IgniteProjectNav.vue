@@ -1,9 +1,10 @@
 <template>
   <ul class="items-center sm:flex">
-    <li
+    <IgniteText
       v-for="item in items"
       :key="item.link"
-      class="ignite-text mb-6 text-3 last:m-0 sm:mb-0 sm:mr-7"
+      as="li"
+      class="mb-6 text-3 last:m-0 sm:mb-0 sm:mr-7"
     >
       <IgniteLink
         :to="item.link"
@@ -13,7 +14,7 @@
       >
         <span>{{ item.title }}</span>
       </IgniteLink>
-    </li>
+    </IgniteText>
   </ul>
 </template>
 
@@ -21,6 +22,7 @@
 import { PropType } from 'vue'
 
 import IgniteLink from './IgniteLink.vue'
+import IgniteText from './IgniteText.vue'
 
 interface NavLink {
   title: string

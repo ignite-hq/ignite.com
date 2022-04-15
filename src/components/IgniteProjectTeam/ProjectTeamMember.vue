@@ -1,14 +1,20 @@
 <template>
   <IgniteCard class="p-6">
-    <div class="overflow-hidden relative rounded-circle w-9.5 h-9.5 bg-primary">
+    <div class="relative h-9.5 w-9.5 overflow-hidden rounded-circle bg-primary">
       <IgniteBgWave />
     </div>
-    <div class="mt-6 ignite-title font-semibold text-4">{{ member.name }}</div>
-    <div class="mt-5 ignite-text text-muted text-2">{{ member.company }}</div>
-    <div class="mt-1 ignite-text text-title font-medium text-2">
+    <IgniteHeading as="div" class="mt-6 text-4 font-semibold">{{
+      member.name
+    }}</IgniteHeading>
+    <IgniteText as="div" class="mt-5 text-2 text-muted">{{
+      member.company
+    }}</IgniteText>
+    <IgniteText as="div" class="mt-1 text-2 font-medium text-title">
       {{ member.title }}
-    </div>
-    <div class="mt-5 ignite-text text-muted text-3">{{ member.info }}</div>
+    </IgniteText>
+    <IgniteText as="div" class="mt-5 text-3 text-muted">{{
+      member.info
+    }}</IgniteText>
   </IgniteCard>
 </template>
 
@@ -23,6 +29,8 @@ export default defineComponent({
 <script setup lang="ts">
 import IgniteBgWave from '../IgniteBgWave.vue'
 import IgniteCard from '../IgniteCard.vue'
+import IgniteHeading from '../IgniteHeading.vue'
+import IgniteText from '../IgniteText.vue'
 
 defineProps({
   member: {

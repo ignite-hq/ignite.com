@@ -11,12 +11,13 @@
       ]
     "
   >
-    <div
-      class="ignite-title text-center font-title text-3 font-semibold text-title"
+    <IgniteHeading
+      as="div"
+      class="text-center font-title text-3 font-semibold text-title"
       :class="isWide ? ['l:text-7', 'l:max-w-sm', 'l:text-left'] : ['m:text-4']"
     >
       Validator Incentives
-    </div>
+    </IgniteHeading>
     <div
       class="mt-8 w-full justify-center sm:flex"
       :class="
@@ -32,21 +33,25 @@
       <div class="">
         <div class="flex items-center justify-center">
           <SpDenom modifier="avatar" denom="denom" title="denom" class="mr-3" />
-          <div class="ignite-title font-title text-5 md:text-6">000%</div>
+          <IgniteHeading as="div" class="font-title text-5 md:text-6"
+            >000%</IgniteHeading
+          >
         </div>
-        <div class="ignite-text mt-5 text-center text-muted">
+        <IgniteText as="div" class="mt-5 text-center text-muted">
           Chain Vouchers
-        </div>
+        </IgniteText>
       </div>
       <div class="my-3 text-center text-5 text-inactive sm:my-0 sm:mx-6">+</div>
       <div class="">
         <div class="flex items-center justify-center">
           <SpDenom modifier="avatar" denom="denom" title="denom" class="mr-3" />
-          <div class="ignite-title font-title text-5 md:text-6">00M UST</div>
+          <IgniteHeading as="div" class="font-title text-5 md:text-6"
+            >00M UST</IgniteHeading
+          >
         </div>
-        <div class="ignite-text mt-5 text-center text-muted">
+        <IgniteText as="div" class="mt-5 text-center text-muted">
           Testnet Incentives
-        </div>
+        </IgniteText>
       </div>
     </div>
     <div
@@ -73,6 +78,8 @@ import SpDenom from '@starport/vue/src/components/SpDenom/SpDenom.vue'
 
 import IgniteButton from '../IgniteButton.vue'
 import IgniteCard from '../IgniteCard.vue'
+import IgniteHeading from '../IgniteHeading.vue'
+import IgniteText from '../IgniteText.vue'
 
 defineProps({
   isWide: {

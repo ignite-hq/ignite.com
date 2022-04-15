@@ -9,7 +9,7 @@
       <IgniteText as="span">{{ requestCount }}</IgniteText>
     </div>
     <router-link
-      :to="{ path: `/projects/${campaignId}/validators` }"
+      :to="{ path: `/projects/${campaignID}/validators` }"
       title="Validators"
       class="status__item cursor-pointer select-none hover:opacity-80 active:opacity-70"
       @click.stop
