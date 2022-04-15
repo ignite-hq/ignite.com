@@ -39,8 +39,8 @@ export default {
 
 <script lang="ts" setup>
 import { EncodeObject } from '@cosmjs/proto-signing'
-import { useIgnite as useIgniteN } from '@ignt/vue'
-import { useIgnite } from 'tendermint-spn-vue'
+import { useIgnite } from '@ignt/vue'
+import { useIgnite as useIgniteN } from 'tendermint-spn-vue'
 
 import IconWarning from '~/components/icons/IconWarning.vue'
 import IgniteButton from '~/components/IgniteButton.vue'
@@ -55,13 +55,12 @@ interface Emits {
 defineEmits<Emits>()
 
 const store = useRequestsStore()
-const { ignite } = useIgnite()
+const { ignite: igniteN } = useIgniteN()
 const {
-  state: { ignite: igniteN }
-} = useIgniteN()
+  state: { ignite }
+} = useIgnite()
 
-// menthods
-
+// methods
 function getTransactionMessages(signer: string) {
   const requests = store.selectedRequests
   const messages: EncodeObject[] = []
@@ -69,7 +68,7 @@ function getTransactionMessages(signer: string) {
   requests.forEach(({ launchID, content, requestID }) => {
     if (!content) return
 
-    const message = ignite.tendermintSpnLaunch.value.msgSettleRequest({
+    const message = igniteN.tendermintSpnLaunch.value.msgSettleRequest({
       value: {
         approve: false,
         launchID: Number(launchID),
@@ -84,14 +83,14 @@ function getTransactionMessages(signer: string) {
   return messages
 }
 
-function onConfirm() {
-  const signerAddress = igniteN.value.addr
+async function onConfirm() {
+  const signerAddress = ignite.value.addr
 
   if (!signerAddress) return
 
   const messages = getTransactionMessages(signerAddress)
 
-  igniteN.value.signer?.signAndBroadcast(signerAddress, messages, {
+  await igniteN.signer.value.client.signAndBroadcast(signerAddress, messages, {
     amount: [],
     gas: '200000'
   })

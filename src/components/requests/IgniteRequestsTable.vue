@@ -47,8 +47,8 @@
           class="responses-table-cell"
         >
           <IgniteCheckbox
-            :is-checked="isChecked(request.requestID)"
-            @update:model-value="(isChecked) => onSelect(index, isChecked as boolean)"
+            :is-checked="isChecked(request.requestID!)"
+            @update:model-value="(isChecked) => onSelect( index, request.requestID!, isChecked as boolean)"
           />
         </div>
 
@@ -132,20 +132,20 @@ function selectAll() {
   }
 }
 
-function onSelect(index: number, isChecked: boolean) {
+function onSelect(index: number, requestId: string, isChecked: boolean) {
   const requestToSelect = sortedProjectRequests.value[index]
-  const newValue = [...store.selectedRequests]
+  let newValue = [...store.selectedRequests]
 
   if (isChecked) {
     newValue.push(requestToSelect)
   } else {
-    newValue.splice(index, 1)
+    newValue = newValue.filter((request) => request.requestID !== requestId)
   }
 
   store.selectedRequests = newValue
 }
 
-function isChecked(requestId?: string) {
+function isChecked(requestId: string) {
   return store.selectedRequests.some(
     (request) => request.requestID === requestId
   )
