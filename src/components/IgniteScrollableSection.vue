@@ -11,7 +11,7 @@
       <div
         ref="inner"
         class="mx-auto w-max pt-5 md:pt-7"
-        :class="state.scrollWidth > 0 && ['pb-7', 'm:pb-9']"
+        :class="state.scrollWidth > 0 && ['pb-7', 'md:pb-9']"
       >
         <slot />
       </div>

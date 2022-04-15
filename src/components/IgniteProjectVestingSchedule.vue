@@ -35,33 +35,33 @@
           <div
             v-for="(item, key) in schedule"
             :key="item.category"
-            class="mt-6 border-t border-border pt-6 first:mt-0 first:border-t-0 first:pt-0 m:mt-9 m:border-t-0 m:pt-0"
+            class="mt-6 border-t border-border pt-6 first:mt-0 first:border-t-0 first:pt-0 md:mt-9 md:border-t-0 md:pt-0"
           >
             <div
-              class="igntite-text -mx-5 flex flex-wrap items-center text-2 m:flex-nowrap m:text-3"
+              class="igntite-text -mx-5 flex flex-wrap items-center text-2 md:flex-nowrap md:text-3"
             >
               <div class="flex w-full items-center px-5">
                 <div
-                  class="mr-3 inline-flex h-[1.75rem] w-[1.75rem] shrink-0 items-center justify-center rounded-xs bg-gray-30 text-1 font-semibold m:mr-5 m:h-[2rem] m:w-[2rem] m:text-2 l:ml-[1.25rem]"
+                  class="mr-3 inline-flex h-[1.75rem] w-[1.75rem] shrink-0 items-center justify-center rounded-xs bg-gray-30 text-1 font-semibold md:mr-5 md:h-[2rem] md:w-[2rem] md:text-2 lg:ml-[1.25rem]"
                 >
                   {{ key + 1 }}
                 </div>
                 <div class="font-semibold">{{ item.category }}</div>
               </div>
               <div
-                class="mt-4 w-full px-5 text-muted m:mt-0 m:w-[11.5rem] m:shrink-0 m:text-center"
+                class="mt-4 w-full px-5 text-muted md:mt-0 md:w-[11.5rem] md:shrink-0 md:text-center"
               >
-                <strong class="mr-1 inline-block m:hidden">Allocation:</strong>
+                <strong class="mr-1 inline-block md:hidden">Allocation:</strong>
                 <span>{{ item.allocation }}</span>
               </div>
               <div
-                class="mt-4 w-full px-5 text-muted m:mt-0 m:w-[11.5rem] m:shrink-0 m:text-center"
+                class="mt-4 w-full px-5 text-muted md:mt-0 md:w-[11.5rem] md:shrink-0 md:text-center"
               >
-                <strong class="mr-1 inline-block m:hidden">Duration:</strong>
+                <strong class="mr-1 inline-block md:hidden">Duration:</strong>
                 <span>{{ item.duration }}</span>
               </div>
-              <div class="mt-4 w-full px-5 text-muted m:mt-0">
-                <strong class="mr-1 inline-block m:hidden">Dates:</strong>
+              <div class="mt-4 w-full px-5 text-muted md:mt-0">
+                <strong class="mr-1 inline-block md:hidden">Dates:</strong>
                 <span>{{ item.dates }}</span>
               </div>
             </div>

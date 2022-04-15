@@ -6,23 +6,23 @@
     <IgniteCard
       class="relative flex flex-col justify-between overflow-hidden"
       :class="[
-        size === 'sm' && ['p-6', 'pb-0', 'm:p-7', 'l:py-8.5', 'xl:px-9'],
+        size === 'sm' && ['p-6', 'pb-0', 'md:p-7', 'lg:py-8.5', 'xl:px-9'],
         size === 'md' && [
           'p-6',
           'pb-0',
-          'm:p-7',
-          'm:pb-0',
-          'l:pb-0',
-          'l:py-8.5',
+          'md:p-7',
+          'md:pb-0',
+          'lg:pb-0',
+          'lg:py-8.5',
           'xl:px-8.5',
           'xl:pt-9'
         ],
         size === 'lg' && [
           'p-6',
           'pb-0',
-          'm:p-7',
-          'l:px-9',
-          'l:py-8.5',
+          'md:p-7',
+          'lg:px-9',
+          'lg:py-8.5',
           'xl:px-10',
           'xl:py-9'
         ]
