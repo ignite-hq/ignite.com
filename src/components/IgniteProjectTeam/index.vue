@@ -1,6 +1,8 @@
 <template>
   <div class="container-full container px-5 sm:px-5.5 l:px-7">
-    <div class="ignite-title text-center font-title text-5 m:text-7">Team</div>
+    <IgniteHeading as="div" class="text-center font-title text-5 m:text-7"
+      >Team</IgniteHeading
+    >
 
     <div class="-m-4 mt-6 flex flex-wrap justify-center m:-m-5 m:mt-9">
       <div
@@ -50,6 +52,7 @@ export default defineComponent({
 <script lang="ts" setup></script>
 
 <script setup lang="ts">
+import IgniteHeading from '../IgniteHeading.vue'
 import ProjectTeamMember from './ProjectTeamMember.vue'
 </script>
 

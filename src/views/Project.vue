@@ -1,14 +1,10 @@
 <template>
   <div>
-    <IgniteProjectHeader />
-    <IgniteProjectCards class="mt-8 m:mt-10.5" />
-    <IgniteProjectDescription class="mt-8 m:mt-10.5" />
-    <IgniteWhitepaper class="mt-8 m:mt-10.5" />
-    <IgniteProjectRoadmap class="mt-8 m:mt-12" />
-    <IgniteProjectTokenomics class="mt-8 m:mt-12" />
-    <IgniteProjectVestingSchedule class="mt-8 m:mt-10.5" />
-    <IgniteProjectTeam class="mt-8 m:mt-11" />
-    <IgniteProjectLinks class="mt-8 m:mt-11" />
+    <IgniteProjectHeader :active-tab="tab" :project-id="projectId" />
+    <ProjectOverviewTab v-if="tab === 'overview'" />
+    <ProjectValidatorsTab v-if="tab === 'validators'" />
+    <ProjectRequestsTab v-if="tab === 'requests'" />
+    <ProjectInvestTab v-if="tab === 'invest'" />
   </div>
 </template>
 
@@ -19,13 +15,20 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import IgniteProjectCards from '../components/IgniteProjectCards/index.vue'
-import IgniteProjectDescription from '../components/IgniteProjectDescription.vue'
+import { ref } from 'vue'
+import { onBeforeRouteUpdate, useRoute } from 'vue-router'
+
 import IgniteProjectHeader from '../components/IgniteProjectHeader.vue'
-import IgniteProjectLinks from '../components/IgniteProjectLinks/index.vue'
-import IgniteProjectRoadmap from '../components/IgniteProjectRoadmap.vue'
-import IgniteProjectTeam from '../components/IgniteProjectTeam/index.vue'
-import IgniteProjectTokenomics from '../components/IgniteProjectTokenomics.vue'
-import IgniteProjectVestingSchedule from '../components/IgniteProjectVestingSchedule.vue'
-import IgniteWhitepaper from '../components/IgniteWhitepaper.vue'
+import ProjectInvestTab from '../components/projectTabs/ProjectInvestTab.vue'
+import ProjectOverviewTab from '../components/projectTabs/ProjectOverviewTab.vue'
+import ProjectRequestsTab from '../components/projectTabs/ProjectRequestsTab.vue'
+import ProjectValidatorsTab from '../components/projectTabs/ProjectValidatorsTab.vue'
+
+const route = useRoute()
+const projectId = route.params.projectId.toString() || '0'
+let tab = ref(route.params?.tab?.toString().toLowerCase() || 'overview')
+
+onBeforeRouteUpdate(async (to) => {
+  tab.value = to.params.tab.toString().toLowerCase()
+})
 </script>

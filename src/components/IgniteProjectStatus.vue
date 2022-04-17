@@ -4,16 +4,21 @@
       <IconStar class="icon" />
       <IgniteText as="span">{{ stargazerCount }}</IgniteText>
     </div>
+
     <IgniteLink :to="requestsUrl">
-      <div class="status__item" title="Request count">
+      <div class="status__item status__item--clickable" title="Requests">
         <IconPlane class="icon" />
         <IgniteText as="span">{{ requestCount }}</IgniteText>
       </div>
     </IgniteLink>
-    <div class="status__item" title="Validator count">
-      <IconStage class="icon" />
-      <IgniteText as="span">{{ validatorCount }}</IgniteText>
-    </div>
+
+    <IgniteLink :to="validatorsUrl" title="Validators">
+      <div class="status__item status__item--clickable">
+        <IconStage class="icon" />
+        <IgniteText as="span">{{ validatorCount }}</IgniteText>
+      </div>
+    </IgniteLink>
+
     <div class="status__item">
       <IgniteText as="span" class="ignite-badge">testnet</IgniteText>
     </div>
@@ -36,14 +41,20 @@ import IgniteLink from './IgniteLink.vue'
 import IgniteText from './IgniteText.vue'
 
 const props = defineProps({
+  campaignId: { type: String, required: true },
+  launchId: { type: String, required: true },
   requestCount: { type: String, required: true },
   validatorCount: { type: String, required: true },
-  stargazerCount: { type: String, required: true },
-  projectId: { type: String, required: true }
+  stargazerCount: { type: String, required: true }
 })
 
+// computed
 const requestsUrl = computed(() => {
-  return `/projects/${props.projectId}/requests`
+  return `/projects/${props.launchId}/requests`
+})
+
+const validatorsUrl = computed(() => {
+  return `/projects/${props.campaignId}/validators`
 })
 </script>
 
@@ -53,6 +64,10 @@ const requestsUrl = computed(() => {
 
   &__item {
     @apply flex items-center justify-center px-3;
+
+    &--clickable {
+      @apply cursor-pointer select-none hover:opacity-80 active:opacity-70;
+    }
   }
 }
 

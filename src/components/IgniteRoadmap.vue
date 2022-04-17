@@ -14,15 +14,15 @@
             : 'text-border'
         "
       />
-      <div class="ignite-text pt-1 text-3 font-medium">
+      <IgniteText as="div" class="pt-1 text-3 font-medium">
         {{ item.name }}
-      </div>
-      <div class="ignite-text text-2 font-normal text-muted">
+      </IgniteText>
+      <IgniteText as="div" class="text-2 font-normal text-muted">
         {{ item.date }}
-      </div>
-      <div class="ignite-text mt-5 max-w-[15rem] text-2 font-normal">
-        {{ item.descripton }}
-      </div>
+      </IgniteText>
+      <IgniteText as="div" class="mt-5 max-w-[15rem] text-2 font-normal">
+        {{ item.description }}
+      </IgniteText>
     </li>
   </ul>
 </template>
@@ -35,6 +35,7 @@ export default {
 
 <script lang="ts" setup>
 import IconCheck from './icons/IconCheck.vue'
+import IgniteText from './IgniteText.vue'
 
 defineProps({
   items: {

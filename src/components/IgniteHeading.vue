@@ -1,5 +1,7 @@
 <template>
-  <component :is="as" class="ignite-title"><slot /></component>
+  <component :is="as" class="ignite-title">
+    <slot />
+  </component>
 </template>
 
 <script lang="ts">

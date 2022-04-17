@@ -3,9 +3,9 @@
     <div
       class="relative h-[100%] rounded border border-border bg-white-1000 px-5 pt-7 pb-0 sm:px-7 m:px-9 m:pt-8 l:py-8.5 xl:px-10"
     >
-      <div class="ignite-title font-title text-4 font-semibold m:text-5">
+      <IgniteHeading as="div" class="font-title text-4 font-semibold m:text-5">
         Whitepaper
-      </div>
+      </IgniteHeading>
       <div class="mt-3 text-2 text-muted">
         Learn about the vision for the project in the whitepaper.
       </div>
@@ -32,6 +32,7 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import IgniteButton from './IgniteButton.vue'
+import IgniteHeading from './IgniteHeading.vue'
 import IgniteImage from './IgniteImage.vue'
 </script>
 

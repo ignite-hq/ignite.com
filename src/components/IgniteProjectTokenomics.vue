@@ -1,11 +1,11 @@
 <template>
   <div class="container-full container px-5 sm:px-5.5 l:px-7">
-    <div class="ignite-title text-center font-title text-5 m:text-7">
+    <IgniteHeading as="div" class="text-center font-title text-5 m:text-7">
       Tokenomics
-    </div>
-    <div class="ignite-text mt-6 text-center text-3 text-muted">
+    </IgniteHeading>
+    <IgniteText as="div" class="mt-6 text-center text-3 text-muted">
       Planned token allocation for 200,000 tokens minted at Genesis
-    </div>
+    </IgniteText>
 
     <div class="relative mt-7 m:mt-9">
       <IgniteDonutChart :colors="colors" :data-series="dataSeries" />
@@ -14,15 +14,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
+export default {
   name: 'IgniteProjectStatus'
-})
+}
 </script>
 
 <script lang="ts" setup>
 import IgniteDonutChart from './IgniteDonutChart.vue'
+import IgniteHeading from './IgniteHeading.vue'
+import IgniteText from './IgniteText.vue'
 
 const colors = [
   'rgba(9, 78, 253, 1)',

@@ -1,11 +1,11 @@
 <template>
   <div class="container-full container px-5 sm:px-5.5 l:px-7">
-    <div class="ignite-title text-center font-title text-5">
+    <IgniteHeading as="div" class="text-center font-title text-5">
       Vesting schedule
-    </div>
-    <div class="ignite-text mt-5 text-center text-3 text-muted">
+    </IgniteHeading>
+    <IgniteText as="div" class="mt-5 text-center text-3 text-muted">
       Pre-determined schedule for token distribution
-    </div>
+    </IgniteText>
 
     <div class="mt-7 m:mt-9">
       <!-- table -->
@@ -122,7 +122,10 @@ export default defineComponent({
 })
 </script>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import IgniteHeading from './IgniteHeading.vue'
+import IgniteText from './IgniteText.vue'
+</script>
 
 <style scoped lang="postcss">
 .status {

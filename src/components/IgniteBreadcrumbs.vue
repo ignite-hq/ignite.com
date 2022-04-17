@@ -1,6 +1,6 @@
 <template>
-  <ul class="ignite-breadcrumbs flex items-center">
-    <li class="ignite-breadcrumbs__item ignite-text text-2">
+  <ul class="flex items-center">
+    <IgniteText as="li" class="item flex items-center justify-center text-2">
       <IgniteLink
         to="/"
         inactive-class="text-muted hover:text-title"
@@ -8,41 +8,38 @@
       >
         Explore
       </IgniteLink>
-    </li>
-    <li class="ignite-breadcrumbs__item ignite-text text-2">
+    </IgniteText>
+    <IgniteText as="li" class="item flex items-center justify-center text-2">
       <IgniteLink
-        to="/project"
+        to="/projects"
         inactive-class="text-muted hover:text-title"
         active-class="font-medium text-primary pointer-events-none"
       >
         Strange Clan
       </IgniteLink>
-    </li>
+    </IgniteText>
   </ul>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
 
-import IgniteLink from './IgniteLink.vue'
-
 export default defineComponent({
-  name: 'IgniteBreadcrumbs',
-
-  components: { IgniteLink }
+  name: 'IgniteBreadcrumbs'
 })
 </script>
 
-<style scoped lang="postcss">
-.ignite-breadcrumbs {
-  &__item {
-    @apply flex items-center justify-center;
+<script lang="ts" setup>
+import IgniteLink from './IgniteLink.vue'
+import IgniteText from './IgniteText.vue'
+</script>
 
-    &:not(:last-child) {
-      &:after {
-        content: '/';
-        @apply mx-1 text-inactive;
-      }
+<style scoped lang="postcss">
+.item {
+  &:not(:last-child) {
+    &:after {
+      content: '/';
+      @apply mx-1 text-inactive;
     }
   }
 }

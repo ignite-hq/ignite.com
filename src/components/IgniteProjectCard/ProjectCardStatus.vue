@@ -3,10 +3,11 @@
     <IgniteLoader v-if="isLoading" class="status-loading mx-auto" />
     <IgniteProjectStatus
       v-if="!isLoading"
+      :launch-id="launchId"
+      :campaign-id="campaignId"
       :stargazer-count="stargazerCount"
       :request-count="requestCount"
       :validator-count="validatorCount"
-      :project-id="projectId"
       class="justify-center"
     />
   </div>
@@ -26,10 +27,11 @@ import IgniteProjectStatus from '../IgniteProjectStatus.vue'
 
 const props = defineProps({
   loading: Boolean,
+  campaignId: { type: String, required: true },
+  launchId: { type: String, required: true },
   requestCount: { type: String, required: true },
   validatorCount: { type: String, required: true },
-  stargazerCount: { type: String, required: true },
-  projectId: { type: String, required: true }
+  stargazerCount: { type: String, required: true }
 })
 
 const isLoading = computed(() => {

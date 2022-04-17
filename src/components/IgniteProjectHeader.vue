@@ -28,6 +28,8 @@
                     class="mb-5 text-3 l:mb-0 l:mr-7"
                   />
                   <IgniteProjectStatus
+                    campaign-id="0"
+                    launch-id="0"
                     stargazer-count="1"
                     request-count="100"
                     validator-count="30"
@@ -50,7 +52,7 @@
 
     <div class="shadow-border_double py-6">
       <div class="container-full px-6 xl:container">
-        <IgniteProjectNav :items="navigation" />
+        <IgniteProjectNav :items="navigation" :active-tab="tab" />
       </div>
     </div>
 
@@ -69,6 +71,8 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import { reactive } from 'vue'
+
 import IgniteBgWave from './IgniteBgWave.vue'
 import IgniteBreadcrumbs from './IgniteBreadcrumbs.vue'
 import IgniteGithubRepoLink from './IgniteGithubRepoLink.vue'
@@ -78,25 +82,30 @@ import IgniteProjectNav from './IgniteProjectNav.vue'
 import IgniteProjectStatus from './IgniteProjectStatus.vue'
 import IgniteText from './IgniteText.vue'
 
+const props = defineProps({
+  projectId: String,
+  activeTab: String
+})
+
 const githubUrl = 'https://github.com/allinbits/ignite-ui'
-const navigation = [
+const navigation = reactive([
   {
-    link: '/project',
+    link: `/projects/${props.projectId}/overview`,
     title: 'Overview'
   },
   {
-    link: '/validators',
+    link: `/projects/${props.projectId}/validators`,
     title: 'Validators'
   },
   {
-    link: '/requests',
+    link: `/projects/${props.projectId}/requests`,
     title: 'Requests'
   },
   {
-    link: '/invest',
+    link: `/projects/${props.projectId}/invest`,
     title: 'Invest'
   }
-]
+])
 </script>
 
 <style scoped lang="postcss"></style>

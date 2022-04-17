@@ -1,8 +1,8 @@
 <template>
   <div class="container-full container px-5 sm:px-5.5 l:px-7">
-    <div class="ignite-title text-center font-title text-5 m:text-7">
+    <IgniteHeading as="div" class="text-center font-title text-5 m:text-7">
       Join the community
-    </div>
+    </IgniteHeading>
 
     <div class="-m-4 mt-6 flex flex-wrap justify-center m:-m-5 m:mt-9">
       <div
@@ -88,6 +88,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
+import IgniteHeading from '../IgniteHeading.vue'
 import SocialCard from './SocialCard.vue'
 </script>
 

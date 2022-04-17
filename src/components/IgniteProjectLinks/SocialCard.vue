@@ -29,14 +29,16 @@
       ]"
     >
       <div>
-        <div
-          class="ignite-title font-title font-semibold text-title"
+        <IgniteHeading
+          as="div"
+          class="font-title font-semibold text-title"
           :class="size === 'lg' ? ['text-4', 'm:text-5'] : ['text-4']"
         >
           {{ item.title }}
-        </div>
-        <div
-          class="ignite-text text-2 text-muted"
+        </IgniteHeading>
+        <IgniteText
+          as="div"
+          class="text-2 text-muted"
           :class="[
             size === 'sm' && 'max-w-[15rem]',
             size === 'md' && 'max-w-[22rem]',
@@ -45,14 +47,15 @@
           ]"
         >
           {{ item.description }}
-        </div>
-        <div
-          class="ignite-text flex items-center text-3 font-medium"
+        </IgniteText>
+        <IgniteText
+          as="div"
+          class="flex items-center text-3 font-medium"
           :class="size === 'lg' ? 'mt-6' : ['mt-5', 'm:mt-7']"
         >
           <component :is="socialIcon" class="mr-4" />
           <span>{{ item.cta }}</span>
-        </div>
+        </IgniteText>
       </div>
       <component :is="socialGraphic" :size="size" />
     </IgniteCard>
@@ -72,7 +75,9 @@ import IconDiscord from '../icons/IconDiscord.vue'
 import IconTelegram from '../icons/IconTelegram.vue'
 import IconTwitter from '../icons/IconTwitter.vue'
 import IgniteCard from '../IgniteCard.vue'
+import IgniteHeading from '../IgniteHeading.vue'
 import IgniteLink from '../IgniteLink.vue'
+import IgniteText from '../IgniteText.vue'
 import GraphicDiscord from './GraphicDiscord.vue'
 import GraphicTelegram from './GraphicTelegram.vue'
 import GraphicTwitter from './GraphicTwitter.vue'

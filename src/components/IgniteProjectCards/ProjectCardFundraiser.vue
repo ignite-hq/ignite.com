@@ -6,27 +6,32 @@
   >
     <div v-if="!isOngoing" class="w-full">
       <IgniteProgressBar :items="progressBar.items" :label="false" />
-      <div class="ignite-title mt-6 font-title text-5 font-semibold m:text-7">
+      <IgniteHeading
+        as="div"
+        class="mt-6 font-title text-5 font-semibold m:text-7"
+      >
         300,000 UST
-      </div>
-      <div class="ignite-text mt-5 text-3 text-muted">
+      </IgniteHeading>
+      <IgniteText as="div" class="mt-5 text-3 text-muted">
         raised of 3,000,000 UST
-      </div>
+      </IgniteText>
     </div>
     <div v-else class="w-full" :class="isWide && 'xl:flex'">
-      <div
-        class="ignite-title mr-8 max-w-sm font-title text-5 font-semibold m:text-7"
+      <IgniteHeading
+        as="div"
+        class="mr-8 max-w-sm font-title text-5 font-semibold m:text-7"
       >
         Registration open now
-      </div>
+      </IgniteHeading>
       <div class="mt-6 w-full" :class="isWide && 'xl:mt-2'">
-        <div
-          class="ignite-text text-3 text-muted"
+        <IgniteText
+          as="div"
+          class="text-3 text-muted"
           :class="isWide && 'max-w-md'"
         >
           Register to participate in the upcoming Project Name fundraiser. The
           more IGNT you stake, the bigger your investment opportunity.
-        </div>
+        </IgniteText>
       </div>
     </div>
     <div
@@ -39,8 +44,10 @@
         class="flex flex-col justify-center"
         :class="!isWide && ['sm:order-last', 'sm:h-[100%]']"
       >
-        <div class="ignite-text mb-2 text-2 text-muted">Sale ends in</div>
-        <div class="ignite-title font-title text-4">3 days</div>
+        <IgniteText as="div" class="mb-2 text-2 text-muted"
+          >Sale ends in</IgniteText
+        >
+        <IgniteHeading as="div" class="font-title text-4">3 days</IgniteHeading>
       </div>
       <div class="mt-4" :class="!isWide ? ['sm:mt-0', 'sm:mr-6'] : 'sm:mt-6'">
         <IgniteButton variant="primary" class="w-full sm:w-auto"
@@ -52,18 +59,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
+export default {
   name: 'ProjectCardFundraiser'
-})
+}
 </script>
 
 <script setup lang="ts">
 import { ProgressBarItem } from '../../utils/types'
 import IgniteButton from '../IgniteButton.vue'
 import IgniteCard from '../IgniteCard.vue'
+import IgniteHeading from '../IgniteHeading.vue'
 import IgniteProgressBar from '../IgniteProgressBar.vue'
+import IgniteText from '../IgniteText.vue'
 
 const progressBar = {
   items: [
