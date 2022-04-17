@@ -1,19 +1,27 @@
 <template>
-  <IgniteModal @close="$emit('close')">
+  <IgniteModal @after-leave="resetState" @close="onClose">
     <template #title>
-      <div class="flex flex-col items-center space-y-4">
+      <div v-if="isFresh" class="flex flex-col items-center space-y-4">
         <IconWarning aria-hidden />
         <IgniteHeading class="text-5">Confirm decline</IgniteHeading>
       </div>
+      <div v-else-if="isError" class="flex flex-col items-center space-y-4">
+        <IconDenied />
+        <IgniteHeading class="text-5">Something went wrong!</IgniteHeading>
+      </div>
+      <div v-else-if="isSuccess" class="flex flex-col items-center space-y-4">
+        <IconDenied />
+        <IgniteHeading class="text-5">Requests declined</IgniteHeading>
+      </div>
     </template>
 
-    <template #body>
+    <template v-if="isFresh" #body>
       <div class="mt-7 flex w-full space-x-4">
         <IgniteButton
           class="flex-1"
           variant="text"
           color="text-gray-0"
-          @click="$emit('close')"
+          @click="onClose"
         >
           Cancel
         </IgniteButton>
@@ -28,6 +36,42 @@
         </IgniteButton>
       </div>
     </template>
+
+    <template v-else-if="isError" #body>
+      <IgniteText class="text-center text-3 leading-normal text-muted">
+        {{ state.errorMessage }}
+      </IgniteText>
+
+      <div class="mt-7 flex space-x-4">
+        <IgniteButton
+          variant="primary"
+          color="primary"
+          type="submit"
+          class="flex-1"
+          @click="onClose"
+        >
+          Done
+        </IgniteButton>
+      </div>
+    </template>
+
+    <template v-else-if="isSuccess" #body>
+      <IgniteText class="text-center text-3 leading-normal text-muted">
+        {{ confirmationMessage }}
+      </IgniteText>
+
+      <div class="mt-7 flex space-x-4">
+        <IgniteButton
+          variant="primary"
+          color="primary"
+          type="submit"
+          class="flex-1"
+          @click="onClose"
+        >
+          Done
+        </IgniteButton>
+      </div>
+    </template>
   </IgniteModal>
 </template>
 
@@ -38,61 +82,113 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { EncodeObject } from '@cosmjs/proto-signing'
 import { useIgnite } from '@ignt/vue'
 import { useIgnite as useIgniteN } from 'tendermint-spn-vue'
+import { computed, reactive } from 'vue'
 
 import IconWarning from '~/components/icons/IconWarning.vue'
 import IgniteButton from '~/components/IgniteButton.vue'
 import IgniteHeading from '~/components/IgniteHeading.vue'
 import IgniteModal from '~/components/IgniteModal.vue'
+import IgniteText from '~/components/IgniteText.vue'
 import { useRequestsStore } from '~/stores/requests-store'
+import { oxfordComma } from '~/utils/array'
+
+import IconDenied from '../icons/IconDenied.vue'
+import { getRequestsSummaries, getSettleRequestTxMessages } from './utils'
+
+enum UIStates {
+  Fresh,
+  Success,
+  Error
+}
+
+const initialState = {
+  currentUIState: UIStates.Fresh,
+  errorMessage: '',
+  isLoading: false
+}
 
 interface Emits {
   (e: 'close'): void
 }
 
-defineEmits<Emits>()
+const emit = defineEmits<Emits>()
 
+// store
 const store = useRequestsStore()
+
+// state
+const state = reactive({ ...initialState })
+
+// composables
 const { ignite: igniteN } = useIgniteN()
 const {
   state: { ignite }
 } = useIgnite()
 
 // methods
-function getTransactionMessages(signer: string) {
-  const requests = store.selectedRequests
-  const messages: EncodeObject[] = []
+function resetState() {
+  state.currentUIState = initialState.currentUIState
+  state.errorMessage = initialState.errorMessage
+  state.isLoading = initialState.isLoading
+}
 
-  requests.forEach(({ launchID, content, requestID }) => {
-    if (!content) return
-
-    const message = igniteN.tendermintSpnLaunch.value.msgSettleRequest({
-      value: {
-        approve: false,
-        launchID: Number(launchID),
-        requestID: Number(requestID),
-        signer: signer
-      }
-    })
-
-    messages.push(message)
-  })
-
-  return messages
+function onClose() {
+  emit('close')
 }
 
 async function onConfirm() {
+  state.isLoading = true
+
   const signerAddress = ignite.value.addr
 
   if (!signerAddress) return
 
-  const messages = getTransactionMessages(signerAddress)
+  const messages = getSettleRequestTxMessages(
+    signerAddress,
+    false,
+    store.selectedRequests
+  )
 
-  await igniteN.signer.value.client.signAndBroadcast(signerAddress, messages, {
-    amount: [],
-    gas: '200000'
-  })
+  try {
+    await igniteN.signer.value.client.signAndBroadcast(
+      signerAddress,
+      messages,
+      {
+        amount: [],
+        gas: '200000'
+      }
+    )
+
+    state.currentUIState = UIStates.Success
+  } catch (e) {
+    const error = e as Error
+    state.currentUIState = UIStates.Error
+    state.errorMessage = error.message
+  } finally {
+    state.isLoading = false
+  }
 }
+
+// computed
+const confirmationMessage = computed(() => {
+  const requests = store.selectedRequests
+  const { coinsToGrant, validatorCount } = getRequestsSummaries(requests)
+
+  const validatorConfirmationMessage =
+    validatorCount > 0 ? 'Validators were not added.' : ''
+
+  const arrayOfDenoms = coinsToGrant.map(({ denom }) => denom?.toUpperCase())
+  const coinsConfirmationMessage = arrayOfDenoms
+    ? oxfordComma(arrayOfDenoms) +
+      ` ${arrayOfDenoms.length > 1 ? 'were' : 'was'} not granted.`
+    : ''
+
+  return validatorConfirmationMessage + ' ' + coinsConfirmationMessage
+})
+
+const isFresh = computed(() => state.currentUIState === UIStates.Fresh)
+const isSuccess = computed(() => state.currentUIState === UIStates.Success)
+const isError = computed(() => state.currentUIState === UIStates.Error)
 </script>
