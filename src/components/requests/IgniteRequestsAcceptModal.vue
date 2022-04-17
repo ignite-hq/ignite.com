@@ -110,7 +110,7 @@
           color="primary"
           type="submit"
           class="flex-1"
-          @click="onClose"
+          @click="onSuccessClose"
         >
           Done
         </IgniteButton>
@@ -214,6 +214,11 @@ async function onConfirm() {
   } finally {
     state.isLoading = false
   }
+}
+
+function onSuccessClose() {
+  onClose()
+  store.$reset()
 }
 
 // computed
