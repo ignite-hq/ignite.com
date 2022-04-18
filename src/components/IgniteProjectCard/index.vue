@@ -114,7 +114,7 @@ const showIncentives = computed(function () {
   @apply overflow-hidden rounded-md bg-white-1000;
 
   &__row {
-    @apply border-t border-gray-70 py-7 px-6 m:px-7.5;
+    @apply border-t border-gray-70 py-7 px-6 md:px-7.5;
     &:first-child {
       @apply border-t-0 pt-8.5;
     }

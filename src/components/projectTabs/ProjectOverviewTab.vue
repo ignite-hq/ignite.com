@@ -1,13 +1,13 @@
 <template>
   <div>
-    <IgniteProjectCards class="mt-8 m:mt-10.5" />
-    <IgniteProjectDescription class="mt-8 m:mt-10.5" />
-    <IgniteWhitepaper class="mt-8 m:mt-10.5" />
-    <IgniteProjectRoadmap class="mt-8 m:mt-12" />
-    <IgniteProjectTokenomics class="mt-8 m:mt-12" />
-    <IgniteProjectVestingSchedule class="mt-8 m:mt-10.5" />
-    <IgniteProjectTeam class="mt-8 m:mt-11" />
-    <IgniteProjectLinks class="mt-8 m:mt-11" />
+    <IgniteProjectCards class="mt-8 md:mt-10.5" />
+    <IgniteProjectDescription class="mt-8 md:mt-10.5" />
+    <IgniteWhitepaper class="mt-8 md:mt-10.5" />
+    <IgniteProjectRoadmap class="mt-8 md:mt-12" />
+    <IgniteProjectTokenomics class="mt-8 md:mt-12" />
+    <IgniteProjectVestingSchedule class="mt-8 md:mt-10.5" />
+    <IgniteProjectTeam class="mt-8 md:mt-11" />
+    <IgniteProjectLinks class="mt-8 md:mt-11" />
   </div>
 </template>
 

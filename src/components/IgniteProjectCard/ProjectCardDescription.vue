@@ -3,7 +3,7 @@
     <IgniteLoader v-if="isLoading" class="title-loading mx-auto mb-4" />
     <IgniteHeading
       v-if="!isLoading"
-      class="mb-4 text-center text-4 font-semibold m:text-5"
+      class="mb-4 text-center text-4 font-semibold md:text-5"
     >
       {{ campaignName }}
     </IgniteHeading>
@@ -15,7 +15,7 @@
       class="mb-7 justify-center text-2"
     />
 
-    <IgniteText v-if="!isLoading" class="text-2 text-muted m:text-3">
+    <IgniteText v-if="!isLoading" class="text-2 text-muted md:text-3">
       {{ description }}
     </IgniteText>
   </div>

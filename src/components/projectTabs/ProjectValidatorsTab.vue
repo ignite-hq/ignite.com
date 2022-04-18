@@ -7,7 +7,7 @@
       Participation incentives for validating transactions on the
       {{ campaignSummary?.campaignSummary?.campaign?.campaignName }} network
     </IgniteText>
-    <div class="mt-8 flex flex-col m:flex-row">
+    <div class="mt-8 flex flex-col md:flex-row">
       <div
         class="m-4 flex w-full flex-col justify-center rounded border border-gray-70 p-5"
       >
