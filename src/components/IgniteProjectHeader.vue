@@ -2,7 +2,7 @@
   <div>
     <div class="container-full px-6 xl:container">
       <div class="py-7.5">
-        <IgniteBreadcrumbs />
+        <IgniteBreadcrumbs :links="breadcrumbsLinks" />
       </div>
 
       <div class="pt-5.5 pb-8 md:pb-9">
@@ -20,24 +20,35 @@
                 <IgniteHeading
                   class="mb-6 font-title text-7 font-semibold md:text-8"
                 >
-                  Project Name
+                  {{ campaignSummary?.campaignSummary?.campaign?.campaignName }}
                 </IgniteHeading>
                 <div class="item-center mb-7 lg:flex">
                   <IgniteGithubRepoLink
-                    :github-url="githubUrl"
+                    :github-url="campaignSummary?.mostRecentChain?.sourceURL"
                     class="mb-5 text-3 lg:mb-0 lg:mr-7"
                   />
                   <IgniteProjectStatus
-                    campaign-id="0"
-                    launch-id="0"
-                    stargazer-count="1"
-                    request-count="100"
-                    validator-count="30"
+                    :loading="isLoading"
+                    :launch-id="
+                      campaignSummary?.mostRecentChain?.launchID ?? '0'
+                    "
+                    :campaign-id="campaignSummary?.campaign?.campaignID ?? '0'"
+                    :validator-count="
+                      campaignSummary?.mostRecentChain?.validatorNb ?? '0'
+                    "
+                    :request-count="
+                      campaignSummary?.mostRecentChain?.requestNb ?? '0'
+                    "
+                    :stargazer-count="
+                      repository?.stargazers_count?.toString() ?? '0'
+                    "
                   />
                 </div>
-                <IgniteText class="text-2 text-muted md:text-3">
-                  NFT game powered by Unreal Engine hosted on Akash and built on
-                  top of Cosmos. From the creators of Passage3D.
+                <IgniteText
+                  v-if="repository?.description"
+                  class="text-2 text-muted md:text-3"
+                >
+                  {{ repository?.description }}
                 </IgniteText>
               </div>
             </div>
@@ -73,8 +84,11 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { reactive } from 'vue'
+import { CampaignCampaignSummary } from 'tendermint-spn-ts-client/tendermint.spn.campaign/rest'
+import { PropType, reactive } from 'vue'
 
+import useGitHubRepository from '../composables/useGitHubRepository'
+import { getUserAndRepositoryFromUrl } from '../utils/github'
 import IgniteBgWave from './IgniteBgWave.vue'
 import IgniteBreadcrumbs from './IgniteBreadcrumbs.vue'
 import IgniteGithubRepoLink from './IgniteGithubRepoLink.vue'
@@ -85,11 +99,14 @@ import IgniteProjectStatus from './IgniteProjectStatus.vue'
 import IgniteText from './IgniteText.vue'
 
 const props = defineProps({
-  projectId: String,
+  projectId: { type: String, requred: true },
+  campaignSummary: {
+    type: Object as PropType<CampaignCampaignSummary>,
+    default: () => ({})
+  },
   activeTab: String
 })
 
-const githubUrl = 'https://github.com/allinbits/ignite-ui'
 const navigation = reactive([
   {
     link: `/projects/${props.projectId}/overview`,
@@ -108,6 +125,24 @@ const navigation = reactive([
     title: 'Invest'
   }
 ])
+
+const breadcrumbsLinks = reactive([
+  {
+    link: `/`,
+    title: 'Explore'
+  },
+  {
+    link: `/projects/${props.projectId}/overview`,
+    title: props.campaignSummary?.campaignSummary?.campaign?.campaignName
+  }
+])
+
+// variables
+const githubUrl = props.campaignSummary?.mostRecentChain?.sourceURL ?? ''
+const { githubUser, githubRepo } = getUserAndRepositoryFromUrl(githubUrl)
+
+// composables
+const { repository, isLoading } = useGitHubRepository(githubUser, githubRepo)
 </script>
 
 <style scoped lang="postcss"></style>
