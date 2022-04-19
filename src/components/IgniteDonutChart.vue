@@ -1,28 +1,29 @@
 <template>
   <div class="relative">
-    <div class="relative">
+    <div class="relative mx-auto max-w-[580px]">
       <div
-        class="absolute inset-0 m-auto h-[15rem] w-[15rem] overflow-hidden rounded-circle bg-primary md:scale-100"
+        class="absolute inset-0 m-auto h-[35vw] w-[35vw] overflow-hidden rounded-circle bg-primary md:h-[15rem] md:w-[15rem] md:scale-100"
       >
         <IgniteBgWave />
       </div>
       <div class="z-1 relative">
-        <Doughnut :chart-options="chartOptions" :chart-data="chartData" />
+        <apexchart type="donut" :options="chartOptions" :series="chartData">
+        </apexchart>
       </div>
     </div>
-    <div class="mt-9">
-      <div class="-m-6 flex flex-wrap items-center justify-center">
+    <div class="mt-6 md:mt-9">
+      <div class="-m-3 flex flex-wrap justify-center md:-m-6">
         <div
           v-for="(item, key) in dataSeries"
           :key="item.name"
-          class="flex p-6"
+          class="flex w-[50%] p-3 sm:w-auto md:p-6"
         >
           <div
-            class="shrink-1 mt-2 mr-5 h-4 w-4 rounded-circle"
+            class="mt-1 mr-3 h-4 w-4 shrink-0 rounded-circle md:mt-2 md:mr-5"
             :style="{ backgroundColor: colors[key] }"
           ></div>
           <div>
-            <IgniteHeading as="div" class="text-4 font-semibold">{{
+            <IgniteHeading as="div" class="text-3 font-semibold md:text-4">{{
               item.name
             }}</IgniteHeading>
             <IgniteText as="div" class="mt-1 text-2 font-medium text-muted"
@@ -44,21 +45,9 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import {
-  ArcElement,
-  CategoryScale,
-  Chart as ChartJS,
-  Legend,
-  Title,
-  Tooltip
-} from 'chart.js'
-import { Doughnut } from 'vue-chartjs'
-
 import IgniteBgWave from './IgniteBgWave.vue'
 import IgniteHeading from './IgniteHeading.vue'
 import IgniteText from './IgniteText.vue'
-
-ChartJS.register(Title, Tooltip, Legend, ArcElement, CategoryScale)
 
 const props = defineProps({
   colors: {
@@ -81,28 +70,32 @@ const props = defineProps({
 const labels = props.dataSeries.map((item) => item.name)
 const datasets = props.dataSeries.map((item) => item.y)
 
-const chartData = {
-  labels: labels,
-  datasets: [
-    {
-      data: datasets,
-      backgroundColor: props.colors,
-      borderWidth: 0,
-      hoverBorderWidth: 1
-    }
-  ]
-}
+const chartData = datasets
 
 const chartOptions = {
-  responsive: true,
-  maintainAspectRatio: false,
-  cutout: 165,
-  animation: {
-    animateRotate: false
+  colors: props.colors,
+  dataLabels: {
+    enabled: false
   },
-  plugins: {
-    legend: {
-      display: false
+  labels: labels,
+  legend: {
+    show: false
+  },
+  plotOptions: {
+    pie: {
+      donut: {
+        size: '85%'
+      }
+    }
+  },
+  stroke: {
+    width: 0
+  },
+  tooltip: {
+    y: {
+      formatter: function (value, { series, seriesIndex, dataPointIndex, w }) {
+        return `${value}%`
+      }
     }
   }
 }
