@@ -1,3 +1,42 @@
+<script lang="ts">
+import { defineComponent } from 'vue'
+
+export default defineComponent({
+  name: 'IgniteProjectLinks',
+  data() {
+    return {
+      social: [
+        {
+          title: 'Follow us on Twitter',
+          description: 'Keep up to date with the latest project developments.',
+          cta: 'Follow us',
+          link: 'https://twitter.com/'
+        },
+        {
+          title: 'Join our Discord',
+          description:
+            'Looking to get involved? Join our Discord for development help and tips.',
+          cta: 'Join our Discord',
+          link: 'https://discord.com/'
+        },
+        {
+          title: 'Chat on Telegram',
+          description:
+            'Have questions about the project? Reach out and say hello.',
+          cta: 'Say hello',
+          link: 'https://t.me/'
+        }
+      ]
+    }
+  }
+})
+</script>
+
+<script setup lang="ts">
+import IgniteHeading from '../IgniteHeading.vue'
+import SocialCard from './SocialCard.vue'
+</script>
+
 <template>
   <div class="container-full container px-5 sm:px-5.5 lg:px-7">
     <IgniteHeading as="div" class="text-center font-title text-5 md:text-7">
@@ -52,44 +91,5 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'IgniteProjectLinks',
-  data() {
-    return {
-      social: [
-        {
-          title: 'Follow us on Twitter',
-          description: 'Keep up to date with the latest project developments.',
-          cta: 'Follow us',
-          link: 'https://twitter.com/'
-        },
-        {
-          title: 'Join our Discord',
-          description:
-            'Looking to get involved? Join our Discord for development help and tips.',
-          cta: 'Join our Discord',
-          link: 'https://discord.com/'
-        },
-        {
-          title: 'Chat on Telegram',
-          description:
-            'Have questions about the project? Reach out and say hello.',
-          cta: 'Say hello',
-          link: 'https://t.me/'
-        }
-      ]
-    }
-  }
-})
-</script>
-
-<script setup lang="ts">
-import IgniteHeading from '../IgniteHeading.vue'
-import SocialCard from './SocialCard.vue'
-</script>
 
 <style scoped lang="postcss"></style>

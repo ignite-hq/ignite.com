@@ -1,16 +1,3 @@
-<template>
-  <div>
-    <div class="mb-7.5 flex items-center justify-between">
-      <IgniteText class="text-2 font-medium text-muted">Invest</IgniteText>
-      <IgniteText class="text-2 font-medium text-title">
-        <b>$1M</b> of <b>$2M</b>
-      </IgniteText>
-    </div>
-
-    <IgniteProgressBar :items="progressBar.items" :inverse="true" />
-  </div>
-</template>
-
 <script lang="ts">
 export default {
   name: 'ProjectCardIncentives'
@@ -31,3 +18,16 @@ const progressBar = {
   ] as ProgressBarItem[]
 }
 </script>
+
+<template>
+  <div>
+    <div class="mb-7.5 flex items-center justify-between">
+      <IgniteText class="text-2 font-medium text-muted">Invest</IgniteText>
+      <IgniteText class="text-2 font-medium text-title">
+        <b>$1M</b> of <b>$2M</b>
+      </IgniteText>
+    </div>
+
+    <IgniteProgressBar :items="progressBar.items" :inverse="true" />
+  </div>
+</template>

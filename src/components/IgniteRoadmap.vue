@@ -1,3 +1,21 @@
+<script lang="ts">
+export default {
+  name: 'IgniteRoadmap'
+}
+</script>
+
+<script lang="ts" setup>
+import IconCheck from './icons/IconCheck.vue'
+import IgniteText from './IgniteText.vue'
+
+defineProps({
+  items: {
+    type: Array,
+    required: true
+  }
+})
+</script>
+
 <template>
   <ul class="whitespace-nowrap">
     <li
@@ -26,24 +44,6 @@
     </li>
   </ul>
 </template>
-
-<script lang="ts">
-export default {
-  name: 'IgniteRoadmap'
-}
-</script>
-
-<script lang="ts" setup>
-import IconCheck from './icons/IconCheck.vue'
-import IgniteText from './IgniteText.vue'
-
-defineProps({
-  items: {
-    type: Array,
-    required: true
-  }
-})
-</script>
 
 <style lang="postcss">
 .item {

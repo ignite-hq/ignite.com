@@ -1,3 +1,30 @@
+<script lang="ts">
+export default {
+  name: 'IgniteRequestsHeader'
+}
+</script>
+
+<script lang="ts" setup>
+import {
+  Listbox,
+  ListboxButton,
+  ListboxOption,
+  ListboxOptions
+} from '@headlessui/vue'
+
+import IconCheck from '~/components/icons/IconCheckMarkThin.vue'
+import IconFilter from '~/components/icons/IconFilter.vue'
+import IconSort from '~/components/icons/IconSort.vue'
+import IgniteHeading from '~/components/IgniteHeading.vue'
+import {
+  requestPageFilters,
+  requestPageSorts,
+  useRequestsStore
+} from '~/stores/requests-store'
+
+const store = useRequestsStore()
+</script>
+
 <template>
   <header class="flex items-center justify-between">
     <IgniteHeading class="font-title">Requests</IgniteHeading>
@@ -77,33 +104,6 @@
     </div>
   </header>
 </template>
-
-<script lang="ts">
-export default {
-  name: 'IgniteRequestsHeader'
-}
-</script>
-
-<script lang="ts" setup>
-import {
-  Listbox,
-  ListboxButton,
-  ListboxOption,
-  ListboxOptions
-} from '@headlessui/vue'
-
-import IconCheck from '~/components/icons/IconCheckMarkThin.vue'
-import IconFilter from '~/components/icons/IconFilter.vue'
-import IconSort from '~/components/icons/IconSort.vue'
-import IgniteHeading from '~/components/IgniteHeading.vue'
-import {
-  requestPageFilters,
-  requestPageSorts,
-  useRequestsStore
-} from '~/stores/requests-store'
-
-const store = useRequestsStore()
-</script>
 
 <style scoped lang="postcss">
 .requests-dropdown-button {

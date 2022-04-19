@@ -1,30 +1,3 @@
-<template>
-  <div class="status">
-    <div class="status__item" title="Stargazers">
-      <IconStar class="icon" />
-      <IgniteText as="span">{{ stargazerCount }}</IgniteText>
-    </div>
-
-    <IgniteLink :to="requestsUrl">
-      <div class="status__item status__item--clickable" title="Requests">
-        <IconPlane class="icon" />
-        <IgniteText as="span">{{ requestCount }}</IgniteText>
-      </div>
-    </IgniteLink>
-
-    <IgniteLink :to="validatorsUrl" title="Validators">
-      <div class="status__item status__item--clickable">
-        <IconStage class="icon" />
-        <IgniteText as="span">{{ validatorCount }}</IgniteText>
-      </div>
-    </IgniteLink>
-
-    <div class="status__item">
-      <IgniteText as="span" class="ignite-badge">testnet</IgniteText>
-    </div>
-  </div>
-</template>
-
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
 
@@ -57,6 +30,33 @@ const validatorsUrl = computed(() => {
   return `/projects/${props.campaignId}/validators`
 })
 </script>
+
+<template>
+  <div class="status">
+    <div class="status__item" title="Stargazers">
+      <IconStar class="icon" />
+      <IgniteText as="span">{{ stargazerCount }}</IgniteText>
+    </div>
+
+    <IgniteLink :to="requestsUrl">
+      <div class="status__item status__item--clickable" title="Requests">
+        <IconPlane class="icon" />
+        <IgniteText as="span">{{ requestCount }}</IgniteText>
+      </div>
+    </IgniteLink>
+
+    <IgniteLink :to="validatorsUrl" title="Validators">
+      <div class="status__item status__item--clickable">
+        <IconStage class="icon" />
+        <IgniteText as="span">{{ validatorCount }}</IgniteText>
+      </div>
+    </IgniteLink>
+
+    <div class="status__item">
+      <IgniteText as="span" class="ignite-badge">testnet</IgniteText>
+    </div>
+  </div>
+</template>
 
 <style scoped lang="postcss">
 .status {

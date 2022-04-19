@@ -1,27 +1,3 @@
-<template>
-  <label class="relative flex items-center">
-    <span class="relative flex items-center justify-center">
-      <input
-        :checked="isChecked"
-        type="checkbox"
-        class="ignite-checkbox"
-        :class="{
-          'ignite-checkbox--indeterminate': isIndeterminate
-        }"
-        @change="onChange"
-      />
-      <div class="ignite-checkbox-icon">
-        <IconCheck v-if="isChecked" />
-        <IconBaseline v-else-if="isIndeterminate" />
-      </div>
-    </span>
-
-    <span :class="[$slots['default'] && 'ml-4']">
-      <slot />
-    </span>
-  </label>
-</template>
-
 <script lang="ts">
 export default {
   name: 'IgniteCheckbox'
@@ -82,6 +58,30 @@ const isChecked = computed(() => {
   return props.value === props.modelValue
 })
 </script>
+
+<template>
+  <label class="relative flex items-center">
+    <span class="relative flex items-center justify-center">
+      <input
+        :checked="isChecked"
+        type="checkbox"
+        class="ignite-checkbox"
+        :class="{
+          'ignite-checkbox--indeterminate': isIndeterminate
+        }"
+        @change="onChange"
+      />
+      <div class="ignite-checkbox-icon">
+        <IconCheck v-if="isChecked" />
+        <IconBaseline v-else-if="isIndeterminate" />
+      </div>
+    </span>
+
+    <span :class="[$slots['default'] && 'ml-4']">
+      <slot />
+    </span>
+  </label>
+</template>
 
 <style scoped lang="postcss">
 .ignite-checkbox {

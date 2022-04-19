@@ -1,14 +1,3 @@
-<template>
-  <div>
-    <Suspense>
-      <SpTheme>
-        <IgniteNavbar />
-        <router-view />
-      </SpTheme>
-    </Suspense>
-  </div>
-</template>
-
 <script lang="ts">
 export default {
   name: 'IndexView'
@@ -34,6 +23,17 @@ let tsClientParams = {
 }
 useIgnite(tsClientParams)
 </script>
+
+<template>
+  <div>
+    <Suspense>
+      <SpTheme>
+        <IgniteNavbar />
+        <router-view />
+      </SpTheme>
+    </Suspense>
+  </div>
+</template>
 
 <style scoped lang="postcss">
 body {

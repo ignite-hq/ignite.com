@@ -1,80 +1,3 @@
-<template>
-  <IgniteModal @after-leave="resetState" @close="onClose">
-    <template #title>
-      <div v-if="isFresh" class="flex flex-col items-center space-y-4">
-        <IconWarning aria-hidden />
-        <IgniteHeading class="text-5">Confirm decline</IgniteHeading>
-      </div>
-      <div v-else-if="isError" class="flex flex-col items-center space-y-4">
-        <IconDenied />
-        <IgniteHeading class="text-5">Something went wrong!</IgniteHeading>
-      </div>
-      <div v-else-if="isSuccess" class="flex flex-col items-center space-y-4">
-        <IconDenied />
-        <IgniteHeading class="text-5">Requests declined</IgniteHeading>
-      </div>
-    </template>
-
-    <template v-if="isFresh" #body>
-      <div class="mt-7 flex w-full space-x-4">
-        <IgniteButton
-          class="flex-1"
-          variant="text"
-          color="text-gray-0"
-          @click="onClose"
-        >
-          Cancel
-        </IgniteButton>
-        <IgniteButton
-          variant="primary"
-          color="primary"
-          type="submit"
-          class="flex-1"
-          @click="onConfirm"
-        >
-          Confirm
-        </IgniteButton>
-      </div>
-    </template>
-
-    <template v-else-if="isError" #body>
-      <IgniteText class="text-center text-3 leading-normal text-muted">
-        {{ state.errorMessage }}
-      </IgniteText>
-
-      <div class="mt-7 flex space-x-4">
-        <IgniteButton
-          variant="primary"
-          color="primary"
-          type="submit"
-          class="flex-1"
-          @click="onClose"
-        >
-          Done
-        </IgniteButton>
-      </div>
-    </template>
-
-    <template v-else-if="isSuccess" #body>
-      <IgniteText class="text-center text-3 leading-normal text-muted">
-        {{ confirmationMessage }}
-      </IgniteText>
-
-      <div class="mt-7 flex space-x-4">
-        <IgniteButton
-          variant="primary"
-          color="primary"
-          type="submit"
-          class="flex-1"
-          @click="onSuccessClose"
-        >
-          Done
-        </IgniteButton>
-      </div>
-    </template>
-  </IgniteModal>
-</template>
-
 <script lang="ts">
 export default {
   name: 'IgniteRequestsDeclineModal'
@@ -197,3 +120,80 @@ const isFresh = computed(() => state.currentUIState === UIStates.Fresh)
 const isSuccess = computed(() => state.currentUIState === UIStates.Success)
 const isError = computed(() => state.currentUIState === UIStates.Error)
 </script>
+
+<template>
+  <IgniteModal @after-leave="resetState" @close="onClose">
+    <template #title>
+      <div v-if="isFresh" class="flex flex-col items-center space-y-4">
+        <IconWarning aria-hidden />
+        <IgniteHeading class="text-5">Confirm decline</IgniteHeading>
+      </div>
+      <div v-else-if="isError" class="flex flex-col items-center space-y-4">
+        <IconDenied />
+        <IgniteHeading class="text-5">Something went wrong!</IgniteHeading>
+      </div>
+      <div v-else-if="isSuccess" class="flex flex-col items-center space-y-4">
+        <IconDenied />
+        <IgniteHeading class="text-5">Requests declined</IgniteHeading>
+      </div>
+    </template>
+
+    <template v-if="isFresh" #body>
+      <div class="mt-7 flex w-full space-x-4">
+        <IgniteButton
+          class="flex-1"
+          variant="text"
+          color="text-gray-0"
+          @click="onClose"
+        >
+          Cancel
+        </IgniteButton>
+        <IgniteButton
+          variant="primary"
+          color="primary"
+          type="submit"
+          class="flex-1"
+          @click="onConfirm"
+        >
+          Confirm
+        </IgniteButton>
+      </div>
+    </template>
+
+    <template v-else-if="isError" #body>
+      <IgniteText class="text-center text-3 leading-normal text-muted">
+        {{ state.errorMessage }}
+      </IgniteText>
+
+      <div class="mt-7 flex space-x-4">
+        <IgniteButton
+          variant="primary"
+          color="primary"
+          type="submit"
+          class="flex-1"
+          @click="onClose"
+        >
+          Done
+        </IgniteButton>
+      </div>
+    </template>
+
+    <template v-else-if="isSuccess" #body>
+      <IgniteText class="text-center text-3 leading-normal text-muted">
+        {{ confirmationMessage }}
+      </IgniteText>
+
+      <div class="mt-7 flex space-x-4">
+        <IgniteButton
+          variant="primary"
+          color="primary"
+          type="submit"
+          class="flex-1"
+          @click="onSuccessClose"
+        >
+          Done
+        </IgniteButton>
+      </div>
+    </template>
+  </IgniteModal>
+</template>

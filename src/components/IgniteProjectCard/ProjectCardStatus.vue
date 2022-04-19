@@ -1,18 +1,3 @@
-<template>
-  <div>
-    <IgniteLoader v-if="isLoading" class="status-loading mx-auto" />
-    <IgniteProjectStatus
-      v-if="!isLoading"
-      :launch-id="launchId"
-      :campaign-id="campaignId"
-      :stargazer-count="stargazerCount"
-      :request-count="requestCount"
-      :validator-count="validatorCount"
-      class="justify-center"
-    />
-  </div>
-</template>
-
 <script lang="ts">
 export default {
   name: 'ProjectCardStatus'
@@ -38,6 +23,21 @@ const isLoading = computed(() => {
   return props.loading
 })
 </script>
+
+<template>
+  <div>
+    <IgniteLoader v-if="isLoading" class="status-loading mx-auto" />
+    <IgniteProjectStatus
+      v-if="!isLoading"
+      :launch-id="launchId"
+      :campaign-id="campaignId"
+      :stargazer-count="stargazerCount"
+      :request-count="requestCount"
+      :validator-count="validatorCount"
+      class="justify-center"
+    />
+  </div>
+</template>
 
 <style scoped lang="postcss">
 .status-loading {

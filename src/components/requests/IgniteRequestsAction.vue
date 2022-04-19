@@ -1,22 +1,3 @@
-<template>
-  <div class="rounded-2sm bg-gray-30 p-3">
-    <component :is="actionIcon" />
-  </div>
-
-  <span v-if="rawActionType === 'genesisAccount'">
-    Grant
-    <span class="font-semibold">
-      {{ addCommasToNumber(request.content?.genesisAccount?.coins[0].amount) }}
-      {{ request.content?.genesisAccount?.coins[0].denom?.toUpperCase() }}
-    </span>
-  </span>
-  <span v-else-if="rawActionType === 'genesisValidator'">
-    Add validator to
-    <span class="font-semibold">Testnet {{ request.launchID }}</span>
-  </span>
-  <span v-else>Unknown</span>
-</template>
-
 <script lang="ts">
 export default {
   name: 'IgniteRequestsAction'
@@ -55,3 +36,22 @@ const actionIcon = computed(() => {
   }
 })
 </script>
+
+<template>
+  <div class="rounded-2sm bg-gray-30 p-3">
+    <component :is="actionIcon" />
+  </div>
+
+  <span v-if="rawActionType === 'genesisAccount'">
+    Grant
+    <span class="font-semibold">
+      {{ addCommasToNumber(request.content?.genesisAccount?.coins[0].amount) }}
+      {{ request.content?.genesisAccount?.coins[0].denom?.toUpperCase() }}
+    </span>
+  </span>
+  <span v-else-if="rawActionType === 'genesisValidator'">
+    Add validator to
+    <span class="font-semibold">Testnet {{ request.launchID }}</span>
+  </span>
+  <span v-else>Unknown</span>
+</template>

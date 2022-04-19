@@ -1,30 +1,3 @@
-<template>
-  <div>
-    <IgniteText class="mb-6 text-center text-2 font-medium text-muted">
-      Incentives
-    </IgniteText>
-    <div class="mb-6 flex items-center justify-center">
-      <SpDenom
-        v-if="firstIncentiveDenom"
-        modifier="avatar"
-        :denom="firstIncentiveDenom"
-        :title="firstIncentiveDenom"
-        class="mr-3"
-      />
-      <IgniteHeading class="text-center text-5 font-semibold">
-        {{ incentive.total }} {{ firstIncentiveDenom?.toUpperCase() }}
-      </IgniteHeading>
-    </div>
-    <IgniteText
-      v-if="pastIncentive.total > 0"
-      class="text-center text-2 text-muted"
-    >
-      Past incentives: {{ pastIncentive.total }}
-      {{ firstPastIncentiveDenom?.toUpperCase() }}
-    </IgniteText>
-  </div>
-</template>
-
 <script lang="ts">
 export default {
   name: 'ProjectCardIncentives'
@@ -97,3 +70,30 @@ const firstPastIncentiveDenom = computed(() => {
   return pastIncentive.value.denoms[0]
 })
 </script>
+
+<template>
+  <div>
+    <IgniteText class="mb-6 text-center text-2 font-medium text-muted">
+      Incentives
+    </IgniteText>
+    <div class="mb-6 flex items-center justify-center">
+      <SpDenom
+        v-if="firstIncentiveDenom"
+        modifier="avatar"
+        :denom="firstIncentiveDenom"
+        :title="firstIncentiveDenom"
+        class="mr-3"
+      />
+      <IgniteHeading class="text-center text-5 font-semibold">
+        {{ incentive.total }} {{ firstIncentiveDenom?.toUpperCase() }}
+      </IgniteHeading>
+    </div>
+    <IgniteText
+      v-if="pastIncentive.total > 0"
+      class="text-center text-2 text-muted"
+    >
+      Past incentives: {{ pastIncentive.total }}
+      {{ firstPastIncentiveDenom?.toUpperCase() }}
+    </IgniteText>
+  </div>
+</template>

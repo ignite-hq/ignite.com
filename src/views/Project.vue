@@ -1,13 +1,3 @@
-<template>
-  <div>
-    <IgniteProjectHeader :active-tab="tab" :project-id="projectId" />
-    <ProjectOverviewTab v-if="tab === 'overview'" />
-    <ProjectValidatorsTab v-if="tab === 'validators'" />
-    <ProjectRequestsTab v-if="tab === 'requests'" />
-    <ProjectInvestTab v-if="tab === 'invest'" />
-  </div>
-</template>
-
 <script lang="ts">
 export default {
   name: 'ProjectView'
@@ -32,3 +22,13 @@ onBeforeRouteUpdate(async (to) => {
   tab.value = to.params.tab.toString().toLowerCase()
 })
 </script>
+
+<template>
+  <div>
+    <IgniteProjectHeader :active-tab="tab" :project-id="projectId" />
+    <ProjectOverviewTab v-if="tab === 'overview'" />
+    <ProjectValidatorsTab v-if="tab === 'validators'" />
+    <ProjectRequestsTab v-if="tab === 'requests'" />
+    <ProjectInvestTab v-if="tab === 'invest'" />
+  </div>
+</template>
