@@ -72,11 +72,9 @@ interface Props {
   visible: boolean
 }
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   visible: false
 })
-
-console.log(props)
 
 const emit = defineEmits<Emits>()
 

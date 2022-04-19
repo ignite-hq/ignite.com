@@ -68,11 +68,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
+export default {
   name: 'ProjectCardValidator'
-})
+}
 </script>
 
 <script setup lang="ts">

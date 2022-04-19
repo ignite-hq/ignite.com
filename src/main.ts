@@ -1,6 +1,7 @@
 import './assets/css/main.css'
 
 import MasonryWall from '@yeger/vue-masonry-wall'
+import { createPinia } from 'pinia'
 import {
   createIgnite as createIgniteN,
   Environment
@@ -44,6 +45,7 @@ const vueQueryPluginOptions: VueQueryPluginOptions = {
 
 app
   .use(VueQueryPlugin, vueQueryPluginOptions)
+  .use(createPinia())
   .use(router)
   .use(MasonryWall)
   .use(VueApexCharts)

@@ -3,7 +3,7 @@
     <li
       v-for="item in items"
       :key="item.name"
-      class="item relative relative inline-block min-w-[8.625rem] whitespace-normal border-t-4 pt-6 pr-7 align-top last:border-dashed last:pr-0"
+      class="item relative inline-block min-w-[8.625rem] whitespace-normal border-t-4 pt-6 pr-7 align-top last:border-dashed last:pr-0"
       :class="item.status === 'complited' ? 'border-primary' : 'border-border'"
     >
       <IconCheck
@@ -28,11 +28,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
+export default {
   name: 'IgniteRoadmap'
-})
+}
 </script>
 
 <script lang="ts" setup>
