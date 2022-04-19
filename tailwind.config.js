@@ -99,8 +99,8 @@ module.exports = {
       // mobile first -> (min-width:xxx)
       xs: `${pxToRem(320)}rem`,
       sm: `${pxToRem(576)}rem`,
-      m: `${pxToRem(768)}rem`,
-      l: `${pxToRem(1024)}rem`,
+      md: `${pxToRem(768)}rem`,
+      lg: `${pxToRem(1024)}rem`,
       xl: `${pxToRem(1380)}rem`
     },
     spacing: {

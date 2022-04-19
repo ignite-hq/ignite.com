@@ -1,28 +1,28 @@
 <template>
   <IgniteLink
     :to="item.link"
-    class="block text-primary hover:text-title l:h-[100%]"
+    class="block text-primary hover:text-title lg:h-[100%]"
   >
     <IgniteCard
       class="relative flex flex-col justify-between overflow-hidden"
       :class="[
-        size === 'sm' && ['p-6', 'pb-0', 'm:p-7', 'l:py-8.5', 'xl:px-9'],
+        size === 'sm' && ['p-6', 'pb-0', 'md:p-7', 'lg:py-8.5', 'xl:px-9'],
         size === 'md' && [
           'p-6',
           'pb-0',
-          'm:p-7',
-          'm:pb-0',
-          'l:pb-0',
-          'l:py-8.5',
+          'md:p-7',
+          'md:pb-0',
+          'lg:pb-0',
+          'lg:py-8.5',
           'xl:px-8.5',
           'xl:pt-9'
         ],
         size === 'lg' && [
           'p-6',
           'pb-0',
-          'm:p-7',
-          'l:px-9',
-          'l:py-8.5',
+          'md:p-7',
+          'lg:px-9',
+          'lg:py-8.5',
           'xl:px-10',
           'xl:py-9'
         ]
@@ -32,7 +32,7 @@
         <IgniteHeading
           as="div"
           class="font-title font-semibold text-title"
-          :class="size === 'lg' ? ['text-4', 'm:text-5'] : ['text-4']"
+          :class="size === 'lg' ? ['text-4', 'md:text-5'] : ['text-4']"
         >
           {{ item.title }}
         </IgniteHeading>
@@ -51,7 +51,7 @@
         <IgniteText
           as="div"
           class="flex items-center text-3 font-medium"
-          :class="size === 'lg' ? 'mt-6' : ['mt-5', 'm:mt-7']"
+          :class="size === 'lg' ? 'mt-6' : ['mt-5', 'md:mt-7']"
         >
           <component :is="socialIcon" class="mr-4" />
           <span>{{ item.cta }}</span>

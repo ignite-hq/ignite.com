@@ -1,7 +1,7 @@
 <template>
-  <div class="container-full container px-5 sm:px-5.5 l:px-7">
+  <div class="container-full container px-5 sm:px-5.5 lg:px-7">
     <div
-      class="project-description grid grid-cols-1 gap-x-6 m:gap-x-7 l:grid-cols-12"
+      class="project-description grid grid-cols-1 gap-x-6 md:gap-x-7 lg:grid-cols-12"
     >
       <h1>About the project</h1>
       <img
@@ -148,7 +148,7 @@ export default defineComponent({
 
   h1,
   h2 {
-    @apply font-title l:col-span-4 xl:col-start-2;
+    @apply font-title lg:col-span-4 xl:col-start-2;
   }
 
   h1 {
@@ -165,23 +165,23 @@ export default defineComponent({
   video,
   img,
   iframe {
-    @apply l:col-span-8 l:col-start-5 xl:col-span-6 xl:col-start-6;
+    @apply lg:col-span-8 lg:col-start-5 xl:col-span-6 xl:col-start-6;
   }
 
   h1 {
-    @apply mb-6 text-5 font-semibold m:mb-8 m:text-7 l:mb-0;
+    @apply mb-6 text-5 font-semibold md:mb-8 md:text-7 lg:mb-0;
   }
   h2 {
-    @apply mt-8 mb-0 whitespace-normal text-4 font-semibold m:mt-9 l:mt-9.5;
+    @apply mt-8 mb-0 whitespace-normal text-4 font-semibold md:mt-9 lg:mt-9.5;
   }
   h3 {
-    @apply mb-5 mt-6 mb-0 whitespace-normal text-3 font-semibold m:mt-7 m:text-4 l:mt-9.5;
+    @apply mb-5 mt-6 mb-0 whitespace-normal text-3 font-semibold md:mt-7 md:text-4 lg:mt-9.5;
   }
 
   h3,
   p,
   ul {
-    @apply m:px-7;
+    @apply md:px-7;
   }
 
   p,
@@ -211,7 +211,7 @@ export default defineComponent({
   video,
   img,
   iframe {
-    @apply mb-6 mt-7 w-full rounded m:mb-7 m:mt-8 l:mb-8 l:mt-9.5;
+    @apply mb-6 mt-7 w-full rounded md:mb-7 md:mt-8 lg:mb-8 lg:mt-9.5;
     + h3 {
       @apply mt-0;
     }

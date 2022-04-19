@@ -1,7 +1,7 @@
 <template>
   <svg
     v-if="size === 'sm'"
-    class="mx-auto my-6 m:absolute m:right-9 m:top-[50%] m:my-0 m:translate-y-[-50%] l:right-0 l:right-auto l:left-[19rem] xl:left-auto xl:right-9"
+    class="mx-auto my-6 md:absolute md:right-9 md:top-[50%] md:my-0 md:translate-y-[-50%] lg:right-0 lg:right-auto lg:left-[19rem] xl:left-auto xl:right-9"
     width="184"
     height="104"
     viewBox="0 0 184 104"
@@ -37,7 +37,7 @@
 
   <svg
     v-if="size === 'md'"
-    class="mt-6 mb-4 h-auto w-full m:mb-6"
+    class="mt-6 mb-4 h-auto w-full md:mb-6"
     width="496"
     height="234"
     viewBox="0 0 496 234"
@@ -135,7 +135,7 @@
 
   <svg
     v-if="size === 'lg'"
-    class="mt-5 h-auto w-full m:absolute m:bottom-0 m:right-6 m:mt-0 m:max-w-[40%] l:right-[30%] l:max-w-[45%] l:translate-x-[50%] xl:h-[80%] xl:w-auto xl:max-w-[31rem]"
+    class="mt-5 h-auto w-full md:absolute md:bottom-0 md:right-6 md:mt-0 md:max-w-[40%] lg:right-[30%] lg:max-w-[45%] lg:translate-x-[50%] xl:h-[80%] xl:w-auto xl:max-w-[31rem]"
     width="496"
     height="195"
     viewBox="0 0 496 195"

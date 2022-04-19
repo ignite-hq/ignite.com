@@ -1,14 +1,14 @@
 <template>
   <IgniteCard
     :shadow="true"
-    class="flex flex-col justify-between gap-9 px-5 pt-8 pb-7.5 sm:px-7 m:px-8 m:pt-9"
+    class="flex flex-col justify-between gap-9 px-5 pt-8 pb-7.5 sm:px-7 md:px-8 md:pt-9"
     :class="isWide && 'sm:flex-row'"
   >
     <div v-if="!isOngoing" class="w-full">
       <IgniteProgressBar :items="progressBar.items" :label="false" />
       <IgniteHeading
         as="div"
-        class="mt-6 font-title text-5 font-semibold m:text-7"
+        class="mt-6 font-title text-5 font-semibold md:text-7"
       >
         300,000 UST
       </IgniteHeading>
@@ -19,7 +19,7 @@
     <div v-else class="w-full" :class="isWide && 'xl:flex'">
       <IgniteHeading
         as="div"
-        class="mr-8 max-w-sm font-title text-5 font-semibold m:text-7"
+        class="mr-8 max-w-sm font-title text-5 font-semibold md:text-7"
       >
         Registration open now
       </IgniteHeading>

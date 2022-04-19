@@ -10,15 +10,15 @@
     >
       <div
         ref="inner"
-        class="mx-auto w-max pt-5 m:pt-7"
-        :class="state.scrollWidth > 0 && ['pb-7', 'm:pb-9']"
+        class="mx-auto w-max pt-5 md:pt-7"
+        :class="state.scrollWidth > 0 && ['pb-7', 'md:pb-9']"
       >
         <slot />
       </div>
     </div>
     <div
       v-if="state.scrollWidth > 0"
-      class="relative z-[2] mx-auto w-full m:w-10/12"
+      class="relative z-[2] mx-auto w-full md:w-10/12"
       :class="state.isGrabbing && 'grabbing'"
     >
       <input
