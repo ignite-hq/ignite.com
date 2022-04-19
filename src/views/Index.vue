@@ -1,9 +1,11 @@
 <template>
   <div class="container-full container px-5 sm:px-5.5 lg:px-7">
+    <IgniteProjectsHeader />
     <IgniteProjectList />
   </div>
 </template>
 
 <script lang="ts" setup>
+import IgniteProjectsHeader from '../components/IgniteProjectsHeader.vue'
 import IgniteProjectList from '../components/IgniteProjectList.vue'
 </script>
