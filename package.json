@@ -27,8 +27,6 @@
     "bignumber.js": "^9.0.2",
     "crypto-js": "^4.1.1",
     "gradient-avatar": "^1.0.2",
-    "highcharts": "^10.0.0",
-    "highcharts-vue": "^1.4.0",
     "pinia": "^2.0.13",
     "apexcharts": "^3.35.0",
     "buffer": "^6.0.3",
