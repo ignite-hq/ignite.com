@@ -1,9 +1,3 @@
-<template>
-  <!-- eslint-disable -->
-  <div class="ignite-avatar" v-html="getAvatar()" />
-  <!-- eslint-enable -->
-</template>
-
 <script lang="ts">
 export default {
   name: 'IgniteProfileIcon'
@@ -26,6 +20,12 @@ function getAvatar() {
   return avatar(MD5(props.address) + '', 64)
 }
 </script>
+
+<template>
+  <!-- eslint-disable -->
+  <div class="ignite-avatar" v-html="getAvatar()" />
+  <!-- eslint-enable -->
+</template>
 
 <style scoped lang="postcss">
 .ignite-avatar {

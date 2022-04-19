@@ -1,3 +1,25 @@
+<script lang="ts">
+export default {
+  name: 'ProjectCardValidator'
+}
+</script>
+
+<script setup lang="ts">
+import SpDenom from '@starport/vue/src/components/SpDenom/SpDenom.vue'
+
+import IgniteButton from '../IgniteButton.vue'
+import IgniteCard from '../IgniteCard.vue'
+import IgniteHeading from '../IgniteHeading.vue'
+import IgniteText from '../IgniteText.vue'
+
+defineProps({
+  isWide: {
+    type: Boolean,
+    default: false
+  }
+})
+</script>
+
 <template>
   <IgniteCard
     :shadow="true"
@@ -66,27 +88,5 @@
     </div>
   </IgniteCard>
 </template>
-
-<script lang="ts">
-export default {
-  name: 'ProjectCardValidator'
-}
-</script>
-
-<script setup lang="ts">
-import SpDenom from '@starport/vue/src/components/SpDenom/SpDenom.vue'
-
-import IgniteButton from '../IgniteButton.vue'
-import IgniteCard from '../IgniteCard.vue'
-import IgniteHeading from '../IgniteHeading.vue'
-import IgniteText from '../IgniteText.vue'
-
-defineProps({
-  isWide: {
-    type: Boolean,
-    default: false
-  }
-})
-</script>
 
 <style scoped lang="postcss"></style>

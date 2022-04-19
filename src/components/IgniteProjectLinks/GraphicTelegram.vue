@@ -1,3 +1,13 @@
+<script setup lang="ts">
+defineProps({
+  size: {
+    // sm, md, lg
+    type: String,
+    default: 'md'
+  }
+})
+</script>
+
 <template>
   <svg
     v-if="size === 'sm'"
@@ -73,13 +83,3 @@
     />
   </svg>
 </template>
-
-<script setup lang="ts">
-defineProps({
-  size: {
-    // sm, md, lg
-    type: String,
-    default: 'md'
-  }
-})
-</script>

@@ -1,3 +1,27 @@
+<script lang="ts">
+import { defineComponent } from 'vue'
+
+import IconLink from './icons/IconLink.vue'
+import IconStack from './icons/IconStack.vue'
+import IconStage from './icons/IconStage.vue'
+import IgniteButton from './IgniteButton.vue'
+import IgniteLink from './IgniteLink.vue'
+import IgniteText from './IgniteText.vue'
+
+export default defineComponent({
+  name: 'IgniteProjectActions',
+
+  components: {
+    IgniteButton,
+    IgniteLink,
+    IconStage,
+    IconStack,
+    IconLink,
+    IgniteText
+  }
+})
+</script>
+
 <template>
   <ul class="">
     <IgniteText as="li" class="mb-6 text-3 md:mb-7">
@@ -23,29 +47,5 @@
     </IgniteText>
   </ul>
 </template>
-
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-import IconLink from './icons/IconLink.vue'
-import IconStack from './icons/IconStack.vue'
-import IconStage from './icons/IconStage.vue'
-import IgniteButton from './IgniteButton.vue'
-import IgniteLink from './IgniteLink.vue'
-import IgniteText from './IgniteText.vue'
-
-export default defineComponent({
-  name: 'IgniteProjectActions',
-
-  components: {
-    IgniteButton,
-    IgniteLink,
-    IconStage,
-    IconStack,
-    IconLink,
-    IgniteText
-  }
-})
-</script>
 
 <style scoped lang="postcss"></style>

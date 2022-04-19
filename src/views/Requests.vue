@@ -1,23 +1,3 @@
-<template>
-  <div class="container">
-    <IgniteRequestsHeader />
-    <div>
-      <IgniteRequestsTable
-        v-if="projectRequests.length > 0 || isFetching"
-        :loading="isFetching"
-        :requests="projectRequests"
-      />
-      <IgniteRequestsEmptyState
-        v-else-if="projectRequests.length <= 0"
-        class="mt-8"
-      >
-        {{ emptyStateMessage }}
-      </IgniteRequestsEmptyState>
-    </div>
-    <IgniteSelectedRequests :requests="projectRequests" />
-  </div>
-</template>
-
 <script lang="ts" setup>
 import { computed, onBeforeUnmount } from 'vue'
 import { useRoute } from 'vue-router'
@@ -66,3 +46,23 @@ const emptyStateMessage = computed(() => {
     : 'No closed requests'
 })
 </script>
+
+<template>
+  <div class="container">
+    <IgniteRequestsHeader />
+    <div>
+      <IgniteRequestsTable
+        v-if="projectRequests.length > 0 || isFetching"
+        :loading="isFetching"
+        :requests="projectRequests"
+      />
+      <IgniteRequestsEmptyState
+        v-else-if="projectRequests.length <= 0"
+        class="mt-8"
+      >
+        {{ emptyStateMessage }}
+      </IgniteRequestsEmptyState>
+    </div>
+    <IgniteSelectedRequests :requests="projectRequests" />
+  </div>
+</template>

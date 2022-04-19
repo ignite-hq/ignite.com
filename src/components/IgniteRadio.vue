@@ -1,23 +1,3 @@
-<template>
-  <label class="flex items-center">
-    <span class="relative flex items-center justify-center">
-      <input
-        v-bind="$attrs"
-        :checked="isChecked"
-        type="radio"
-        class="ignite-radio"
-        :value="value"
-        @change="onChange"
-      />
-      <div class="ignite-circle" />
-    </span>
-
-    <span :class="[$slots['default'] && 'ml-4']">
-      <slot />
-    </span>
-  </label>
-</template>
-
 <script lang="ts">
 import { computed } from 'vue'
 
@@ -53,6 +33,26 @@ const isChecked = computed(() => {
   return props.value === props.modelValue
 })
 </script>
+
+<template>
+  <label class="flex items-center">
+    <span class="relative flex items-center justify-center">
+      <input
+        v-bind="$attrs"
+        :checked="isChecked"
+        type="radio"
+        class="ignite-radio"
+        :value="value"
+        @change="onChange"
+      />
+      <div class="ignite-circle" />
+    </span>
+
+    <span :class="[$slots['default'] && 'ml-4']">
+      <slot />
+    </span>
+  </label>
+</template>
 
 <style scoped lang="postcss">
 .ignite-radio {

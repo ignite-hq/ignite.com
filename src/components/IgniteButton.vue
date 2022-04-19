@@ -1,3 +1,23 @@
+<script lang="ts" setup>
+type Colors = 'default' | 'primary' | 'inherit'
+
+interface Props {
+  variant?: 'default' | 'primary' | 'text'
+  color?: Colors | string
+  size?: 'sm' | 'md'
+  disabled?: boolean
+}
+
+const colorTypes: string[] = ['default', 'primary', 'inherit'] as Colors[]
+
+withDefaults(defineProps<Props>(), {
+  variant: 'default',
+  color: 'default',
+  size: 'md',
+  disabled: false
+})
+</script>
+
 <template>
   <button
     v-bind="$props"
@@ -28,23 +48,3 @@
     <slot />
   </button>
 </template>
-
-<script lang="ts" setup>
-type Colors = 'default' | 'primary' | 'inherit'
-
-interface Props {
-  variant?: 'default' | 'primary' | 'text'
-  color?: Colors | string
-  size?: 'sm' | 'md'
-  disabled?: boolean
-}
-
-const colorTypes: string[] = ['default', 'primary', 'inherit'] as Colors[]
-
-withDefaults(defineProps<Props>(), {
-  variant: 'default',
-  color: 'default',
-  size: 'md',
-  disabled: false
-})
-</script>

@@ -1,11 +1,3 @@
-<template>
-  <textarea
-    :value="modelValue"
-    class="ignite-textarea"
-    @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
-  />
-</template>
-
 <script lang="ts">
 export default {
   name: 'IgniteTextArea'
@@ -27,6 +19,14 @@ withDefaults(defineProps<Props>(), {
 
 defineEmits<Emits>()
 </script>
+
+<template>
+  <textarea
+    :value="modelValue"
+    class="ignite-textarea"
+    @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
+  />
+</template>
 
 <style scoped lang="postcss">
 .ignite-textarea {

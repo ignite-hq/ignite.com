@@ -1,3 +1,58 @@
+<script lang="ts">
+import { defineComponent } from 'vue'
+
+export default defineComponent({
+  name: 'IgniteProjectStatus',
+  data() {
+    return {
+      schedule: [
+        {
+          category: 'Marketing',
+          allocation: '00.0%',
+          duration: '00 Months',
+          dates: 'Feb 1, 2022 - Nov 1, 2022'
+        },
+        {
+          category: 'Fundraiser',
+          allocation: '00%',
+          duration: '1 Day',
+          dates: 'March 26, 2022'
+        },
+        {
+          category: 'Airdrop',
+          allocation: '0%',
+          duration: '1 Month',
+          dates: 'July 1, 2022 - July 31, 2022'
+        },
+        {
+          category: 'Community Pool',
+          allocation: '00%',
+          duration: '1 Year',
+          dates: 'May 15, 2022 - May 15, 2023'
+        },
+        {
+          category: 'Public Sale',
+          allocation: '00.0%',
+          duration: '00 Months',
+          dates: 'July 1, 2022 - Dec 1, 2023'
+        },
+        {
+          category: 'Core Team',
+          allocation: '00%',
+          duration: '0 Years',
+          dates: 'September 22, 2022 - September 22, 2028'
+        }
+      ]
+    }
+  }
+})
+</script>
+
+<script setup lang="ts">
+import IgniteHeading from './IgniteHeading.vue'
+import IgniteText from './IgniteText.vue'
+</script>
+
 <template>
   <div class="container-full container px-5 sm:px-5.5 lg:px-7">
     <IgniteHeading as="div" class="text-center font-title text-5">
@@ -71,61 +126,6 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'IgniteProjectStatus',
-  data() {
-    return {
-      schedule: [
-        {
-          category: 'Marketing',
-          allocation: '00.0%',
-          duration: '00 Months',
-          dates: 'Feb 1, 2022 - Nov 1, 2022'
-        },
-        {
-          category: 'Fundraiser',
-          allocation: '00%',
-          duration: '1 Day',
-          dates: 'March 26, 2022'
-        },
-        {
-          category: 'Airdrop',
-          allocation: '0%',
-          duration: '1 Month',
-          dates: 'July 1, 2022 - July 31, 2022'
-        },
-        {
-          category: 'Community Pool',
-          allocation: '00%',
-          duration: '1 Year',
-          dates: 'May 15, 2022 - May 15, 2023'
-        },
-        {
-          category: 'Public Sale',
-          allocation: '00.0%',
-          duration: '00 Months',
-          dates: 'July 1, 2022 - Dec 1, 2023'
-        },
-        {
-          category: 'Core Team',
-          allocation: '00%',
-          duration: '0 Years',
-          dates: 'September 22, 2022 - September 22, 2028'
-        }
-      ]
-    }
-  }
-})
-</script>
-
-<script setup lang="ts">
-import IgniteHeading from './IgniteHeading.vue'
-import IgniteText from './IgniteText.vue'
-</script>
 
 <style scoped lang="postcss">
 .status {

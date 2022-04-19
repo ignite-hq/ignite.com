@@ -1,84 +1,3 @@
-<template>
-  <div role="table" class="responses-table">
-    <!-- Header -->
-    <div role="rowgroup">
-      <div role="row" class="responses-table-header">
-        <div
-          v-if="Boolean(account) && !isLoading"
-          role="columnheader"
-          class="responses-table-column-cell"
-        >
-          <IgniteCheckbox
-            :is-checked="areAllChecked"
-            :is-indeterminate="isAnyChecked"
-            @input="selectAll"
-          />
-        </div>
-
-        <div role="columnheader" class="responses-table-column-cell flex-1">
-          <IgniteLoader v-if="isLoading" class="h-5" />
-          <span v-if="!isLoading">Action</span>
-        </div>
-
-        <div role="columnheader" class="responses-table-column-cell flex-1">
-          <IgniteLoader v-if="isLoading" class="h-5" />
-          <span v-if="!isLoading">Type</span>
-        </div>
-
-        <div role="columnheader" class="responses-table-column-cell flex-1">
-          <IgniteLoader v-if="isLoading" class="h-5" />
-          <span v-if="!isLoading">Requestor</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Body -->
-    <div role="rowgroup" class="responses-table-body">
-      <div
-        v-for="(request, index) in sortedProjectRequests"
-        :key="request?.requestID"
-        role="row"
-        class="responses-table-row"
-      >
-        <!-- Checkbox -->
-        <div
-          v-if="Boolean(account) && !isLoading"
-          role="cell"
-          class="responses-table-cell"
-        >
-          <IgniteCheckbox
-            :is-checked="isChecked(request.requestID!)"
-            @update:model-value="(isChecked) => onSelect( index, request.requestID!, isChecked as boolean)"
-          />
-        </div>
-
-        <!-- Action -->
-        <div role="cell" class="responses-table-cell flex-1">
-          <IgniteLoader v-if="isLoading" class="h-5 w-full" />
-          <IgniteRequestsAction v-if="!isLoading" :request="request" />
-        </div>
-
-        <!-- Type -->
-        <div role="cell" class="responses-table-cell flex-1">
-          <IgniteLoader v-if="isLoading" class="h-5 w-full" />
-          <span v-if="!isLoading">{{ getHumanizedType(request.content) }}</span>
-        </div>
-
-        <!-- Requestor -->
-        <div role="cell" class="responses-table-cell flex-1 font-semibold">
-          <IgniteLoader v-if="isLoading" class="h-5 w-full" />
-          <span v-if="!isLoading" class="flex items-center space-x-4">
-            <IgniteProfileIcon :address="request.creator" />
-            <span>{{
-              request.creator ? getShortAddress(request.creator) : 'Unknown'
-            }}</span>
-          </span>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script lang="ts">
 export default {
   name: 'IgniteRequestsTable'
@@ -233,6 +152,87 @@ const isLoading = computed(() => {
   return props.loading
 })
 </script>
+
+<template>
+  <div role="table" class="responses-table">
+    <!-- Header -->
+    <div role="rowgroup">
+      <div role="row" class="responses-table-header">
+        <div
+          v-if="Boolean(account) && !isLoading"
+          role="columnheader"
+          class="responses-table-column-cell"
+        >
+          <IgniteCheckbox
+            :is-checked="areAllChecked"
+            :is-indeterminate="isAnyChecked"
+            @input="selectAll"
+          />
+        </div>
+
+        <div role="columnheader" class="responses-table-column-cell flex-1">
+          <IgniteLoader v-if="isLoading" class="h-5" />
+          <span v-if="!isLoading">Action</span>
+        </div>
+
+        <div role="columnheader" class="responses-table-column-cell flex-1">
+          <IgniteLoader v-if="isLoading" class="h-5" />
+          <span v-if="!isLoading">Type</span>
+        </div>
+
+        <div role="columnheader" class="responses-table-column-cell flex-1">
+          <IgniteLoader v-if="isLoading" class="h-5" />
+          <span v-if="!isLoading">Requestor</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div role="rowgroup" class="responses-table-body">
+      <div
+        v-for="(request, index) in sortedProjectRequests"
+        :key="request?.requestID"
+        role="row"
+        class="responses-table-row"
+      >
+        <!-- Checkbox -->
+        <div
+          v-if="Boolean(account) && !isLoading"
+          role="cell"
+          class="responses-table-cell"
+        >
+          <IgniteCheckbox
+            :is-checked="isChecked(request.requestID!)"
+            @update:model-value="(isChecked) => onSelect( index, request.requestID!, isChecked as boolean)"
+          />
+        </div>
+
+        <!-- Action -->
+        <div role="cell" class="responses-table-cell flex-1">
+          <IgniteLoader v-if="isLoading" class="h-5 w-full" />
+          <IgniteRequestsAction v-if="!isLoading" :request="request" />
+        </div>
+
+        <!-- Type -->
+        <div role="cell" class="responses-table-cell flex-1">
+          <IgniteLoader v-if="isLoading" class="h-5 w-full" />
+          <span v-if="!isLoading">{{ getHumanizedType(request.content) }}</span>
+        </div>
+
+        <!-- Requestor -->
+        <div role="cell" class="responses-table-cell flex-1 font-semibold">
+          <IgniteLoader v-if="isLoading" class="h-5 w-full" />
+          <span v-if="!isLoading" class="flex items-center space-x-4">
+            <IgniteProfileIcon :address="request.creator" />
+            <span>{{
+              request.creator ? getShortAddress(request.creator) : 'Unknown'
+            }}</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
 
 <style scoped lang="postcss">
 .responses-table {
