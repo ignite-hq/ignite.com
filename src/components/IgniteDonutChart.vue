@@ -1,21 +1,37 @@
 <template>
-  <div>
-    <div
-      class="absolute scale-[0.65] overflow-hidden rounded-circle bg-primary md:scale-100"
-      :style="{
-        left: `${state.positionLogoX}px`,
-        top: `${state.positionLogoY}px`,
-        width: `${state.logoSize}px`,
-        height: `${state.logoSize}px`
-      }"
-    >
-      <IgniteBgWave />
+  <div class="relative">
+    <div class="relative">
+      <div
+        class="absolute inset-0 m-auto h-[15rem] w-[15rem] overflow-hidden rounded-circle bg-primary md:scale-100"
+      >
+        <IgniteBgWave />
+      </div>
+      <div class="z-1 relative">
+        <Doughnut :chart-options="chartOptions" :chart-data="chartData" />
+      </div>
     </div>
-    <chart
-      :options="chartOptions"
-      :callback="onRender"
-      :update-args="[onRender]"
-    />
+    <div class="mt-9">
+      <div class="-m-6 flex flex-wrap items-center justify-center">
+        <div
+          v-for="(item, key) in dataSeries"
+          :key="item.name"
+          class="flex p-6"
+        >
+          <div
+            class="shrink-1 mt-2 mr-5 h-4 w-4 rounded-circle"
+            :style="{ backgroundColor: colors[key] }"
+          ></div>
+          <div>
+            <IgniteHeading as="div" class="text-4 font-semibold">{{
+              item.name
+            }}</IgniteHeading>
+            <IgniteText as="div" class="mt-1 text-2 font-medium text-muted"
+              >{{ item.y }}%</IgniteText
+            >
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -28,10 +44,21 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { Chart } from 'highcharts-vue'
-import { reactive } from 'vue'
+import {
+  ArcElement,
+  CategoryScale,
+  Chart as ChartJS,
+  Legend,
+  Title,
+  Tooltip
+} from 'chart.js'
+import { Doughnut } from 'vue-chartjs'
 
 import IgniteBgWave from './IgniteBgWave.vue'
+import IgniteHeading from './IgniteHeading.vue'
+import IgniteText from './IgniteText.vue'
+
+ChartJS.register(Title, Tooltip, Legend, ArcElement, CategoryScale)
 
 const props = defineProps({
   colors: {
@@ -51,97 +78,34 @@ const props = defineProps({
   }
 })
 
-const state = reactive({
-  positionLogoX: 0,
-  positionLogoY: 0,
-  logoSize: 0
-})
+const labels = props.dataSeries.map((item) => item.name)
+const datasets = props.dataSeries.map((item) => item.y)
 
-const onRender = (chart) => {
-  state.logoSize = chart.plotHeight * 0.575
-  state.positionLogoX =
-    chart.plotLeft + chart.series[0].center[0] - state.logoSize / 2
-  state.positionLogoY =
-    chart.plotTop + chart.series[0].center[1] - state.logoSize / 2
-}
-
-const chartOptions = {
-  credits: {
-    enabled: false
-  },
-  chart: {
-    type: 'pie',
-    height: '545px',
-    backgroundColor: 'transparent',
-    events: {
-      redraw: function () {
-        onRender(this)
-      }
-    }
-  },
-  title: false,
-  tooltip: {
-    headerFormat: '',
-    pointFormat:
-      '<span style="color:{point.color}">\u25CF</span> <b> {point.name}</b>: {point.y}%'
-  },
-  plotOptions: {
-    series: {
-      dataLabels: {
-        enabled: false,
-        shape: 'callout',
-        formatter: function () {
-          return `
-            <span style="padding:8px;font-size:13px;font-weight:500;">${
-              Math.round(this.percentage * 100) / 100
-            }%</span>
-            <span style="font-size:16px;font-weight:600;">${this.key}</span>
-            <br/>
-            <text dy="4" style="color:rgba(0, 0, 0, 0.667);font-size:13px;font-weight:400;">${
-              this.point.description
-            }</text>
-          `
-        }
-      }
-    },
-    pie: {
-      allowPointSelect: false,
-      showInLegend: true,
-      point: {
-        events: {
-          legendItemClick: () => false
-        }
-      }
-    }
-  },
-  legend: {
-    margin: 34,
-    itemDistance: 48,
-    itemMarginTop: 16,
-    labelFormatter: function () {
-      return `
-        <span style="font-size:16px;font-weight:600;">${this.name}</span><br/>
-        <span dy="4" style="color:#626262;font-size:13px;font-weight:500;">${
-          Math.round(this.percentage * 100) / 100
-        }%<span>
-      `
-    }
-  },
-  colors: props.colors,
-  series: [
+const chartData = {
+  labels: labels,
+  datasets: [
     {
-      minPointSize: 10,
-      innerSize: '85%',
-      zMin: 0,
-      name: 'sections',
-      data: props.dataSeries
+      data: datasets,
+      backgroundColor: props.colors,
+      borderWidth: 0,
+      hoverBorderWidth: 1
     }
   ]
 }
+
+const chartOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  cutout: 165,
+  animation: {
+    animateRotate: false
+  },
+  plugins: {
+    legend: {
+      display: false
+    }
+  }
+}
 </script>
 
-<style lang="postcss">
-svg.highcharts-root {
-  font-family: 'Inter', sans-serif !important;
-}
-</style>
+<style lang="postcss"></style>
