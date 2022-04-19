@@ -1,17 +1,3 @@
-<template>
-  <IgniteLink
-    v-if="Boolean(githubUrl)"
-    :to="redirectGithubUrl"
-    class="flex items-center text-muted hover:text-title"
-    @click.stop
-  >
-    <IconGithub class="mr-1 text-title" />
-    <IgniteText as="span" class="font-medium">{{ githubUser }}</IgniteText>
-    <IgniteText as="span" class="mx-1 font-medium text-inactive">/</IgniteText>
-    <IgniteText as="span" class="font-medium">{{ githubRepo }}</IgniteText>
-  </IgniteLink>
-</template>
-
 <script lang="ts">
 export default {
   name: 'IgniteGithubRepoLink'
@@ -32,5 +18,19 @@ const props = defineProps({
 const { githubRepo, githubUser, redirectGithubUrl } =
   getUserAndRepositoryFromUrl(props.githubUrl)
 </script>
+
+<template>
+  <IgniteLink
+    v-if="Boolean(githubUrl)"
+    :to="redirectGithubUrl"
+    class="flex items-center text-muted hover:text-title"
+    @click.stop
+  >
+    <IconGithub class="mr-1 text-title" />
+    <IgniteText as="span" class="font-medium">{{ githubUser }}</IgniteText>
+    <IgniteText as="span" class="mx-1 font-medium text-inactive">/</IgniteText>
+    <IgniteText as="span" class="font-medium">{{ githubRepo }}</IgniteText>
+  </IgniteLink>
+</template>
 
 <style scoped lang="postcss"></style>

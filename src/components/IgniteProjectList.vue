@@ -1,32 +1,3 @@
-<template>
-  <div class="project-list">
-    <div class="masonry">
-      <MasonryWall
-        :items="campaignSummaries"
-        :column-width="columnWidth"
-        :gap="gap"
-        :rtl="rtl"
-      >
-        <template #default="{ item: campaignSummary }">
-          <IgniteProjectCard
-            :campaign-summary="campaignSummary"
-            :loading="campaignSummary?.loading"
-          />
-        </template>
-      </MasonryWall>
-    </div>
-
-    <div v-if="hasNextPage && !isFetchingNextPage" class="blur-box">
-      <IgniteButton
-        variant="primary"
-        class="view-more-btn"
-        @click="() => fetchNextPage()"
-        >View More</IgniteButton
-      >
-    </div>
-  </div>
-</template>
-
 <script lang="ts">
 export default {
   name: 'IgniteProjectList'
@@ -83,6 +54,35 @@ const campaignSummaries = computed<CampaignCampaignSummary[]>(() => {
   return mergePages(allCampaignSummaries.value?.pages)
 })
 </script>
+
+<template>
+  <div class="project-list">
+    <div class="masonry">
+      <MasonryWall
+        :items="campaignSummaries"
+        :column-width="columnWidth"
+        :gap="gap"
+        :rtl="rtl"
+      >
+        <template #default="{ item: campaignSummary }">
+          <IgniteProjectCard
+            :campaign-summary="campaignSummary"
+            :loading="campaignSummary?.loading"
+          />
+        </template>
+      </MasonryWall>
+    </div>
+
+    <div v-if="hasNextPage && !isFetchingNextPage" class="blur-box">
+      <IgniteButton
+        variant="primary"
+        class="view-more-btn"
+        @click="() => fetchNextPage()"
+        >View More</IgniteButton
+      >
+    </div>
+  </div>
+</template>
 
 <style scoped lang="postcss">
 .project-list {

@@ -1,3 +1,36 @@
+<script lang="ts">
+export default {
+  name: 'IgniteSelectedRequests'
+}
+</script>
+
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+import IconAccept from '~/components/icons/IconAccept.vue'
+import IconDeny from '~/components/icons/IconDeny.vue'
+import IgniteText from '~/components/IgniteText.vue'
+import { LaunchRequest } from '~/generated/tendermint-spn-ts-client/tendermint.spn.launch/rest'
+import { useRequestsStore } from '~/stores/requests-store'
+
+import IgniteRequestsAcceptModal from './IgniteRequestsAcceptModal.vue'
+import IgniteRequestsDeclineModal from './IgniteRequestsDeclineModal.vue'
+
+interface Props {
+  requests: LaunchRequest[]
+}
+
+withDefaults(defineProps<Props>(), {
+  requests: () => []
+})
+
+const store = useRequestsStore()
+
+// state
+const isDeclineModalOpen = ref(false)
+const isAcceptModalOpen = ref(false)
+</script>
+
 <template>
   <div>
     <div v-if="store.selectedRequests.length > 0" class="selected-requests">
@@ -34,39 +67,6 @@
     />
   </div>
 </template>
-
-<script lang="ts">
-export default {
-  name: 'IgniteSelectedRequests'
-}
-</script>
-
-<script lang="ts" setup>
-import { ref } from 'vue'
-
-import IconAccept from '~/components/icons/IconAccept.vue'
-import IconDeny from '~/components/icons/IconDeny.vue'
-import IgniteText from '~/components/IgniteText.vue'
-import { LaunchRequest } from '~/generated/tendermint-spn-ts-client/tendermint.spn.launch/rest'
-import { useRequestsStore } from '~/stores/requests-store'
-
-import IgniteRequestsAcceptModal from './IgniteRequestsAcceptModal.vue'
-import IgniteRequestsDeclineModal from './IgniteRequestsDeclineModal.vue'
-
-interface Props {
-  requests: LaunchRequest[]
-}
-
-withDefaults(defineProps<Props>(), {
-  requests: () => []
-})
-
-const store = useRequestsStore()
-
-// state
-const isDeclineModalOpen = ref(false)
-const isAcceptModalOpen = ref(false)
-</script>
 
 <style scoped lang="postcss">
 .selected-requests {

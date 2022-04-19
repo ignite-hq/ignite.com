@@ -1,3 +1,18 @@
+<script lang="ts">
+import { defineComponent } from 'vue'
+
+export default defineComponent({
+  name: 'IgniteProjectsHeader'
+})
+</script>
+
+<script lang="ts" setup>
+import IgniteHeading from './IgniteHeading.vue'
+import IgniteText from './IgniteText.vue'
+import IgniteInput from './IgniteInput.vue'
+import IconSearch from './icons/IconSearch.vue'
+</script>
+
 <template>
   <div
     class="mx-auto max-w-[34rem] py-8 text-center md:py-10.5 xl:pt-[8.5rem] xl:pb-[12.5rem]"
@@ -18,20 +33,5 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'IgniteProjectsHeader'
-})
-</script>
-
-<script lang="ts" setup>
-import IgniteHeading from './IgniteHeading.vue'
-import IgniteText from './IgniteText.vue'
-import IgniteInput from './IgniteInput.vue'
-import IconSearch from './icons/IconSearch.vue'
-</script>
 
 <style scoped lang="postcss"></style>

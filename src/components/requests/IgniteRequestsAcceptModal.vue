@@ -1,3 +1,116 @@
+<script lang="ts">
+export default {
+  name: 'IgniteRequestsAcceptModal'
+}
+</script>
+
+<script lang="ts" setup>
+import { useIgnite } from '@ignt/vue'
+import { useIgnite as useIgniteN } from 'tendermint-spn-vue'
+import { computed, reactive } from 'vue'
+
+import IconWarning from '~/components/icons/IconWarning.vue'
+import IgniteButton from '~/components/IgniteButton.vue'
+import IgniteHeading from '~/components/IgniteHeading.vue'
+import IgniteModal from '~/components/IgniteModal.vue'
+import IgniteText from '~/components/IgniteText.vue'
+import { useRequestsStore } from '~/stores/requests-store'
+import { addCommasToNumber } from '~/utils/number'
+
+import IconDenied from '../icons/IconDenied.vue'
+import IconSuccessCheck from '../icons/IconSuccessCheck.vue'
+import { getRequestsSummaries, getSettleRequestTxMessages } from './utils'
+
+enum UIStates {
+  Fresh,
+  Success,
+  Error
+}
+
+const initialState = {
+  currentUIState: UIStates.Fresh,
+  errorMessage: '',
+  isLoading: false
+}
+
+interface Emits {
+  (e: 'close'): void
+}
+
+const emit = defineEmits<Emits>()
+
+// store
+const store = useRequestsStore()
+
+// state
+const state = reactive({ ...initialState })
+
+// composables
+const { ignite: igniteN } = useIgniteN()
+const {
+  state: { ignite }
+} = useIgnite()
+
+// methods
+function resetState() {
+  state.currentUIState = initialState.currentUIState
+  state.errorMessage = initialState.errorMessage
+  state.isLoading = initialState.isLoading
+}
+
+function onClose() {
+  emit('close')
+}
+
+async function onConfirm() {
+  state.isLoading = true
+
+  const signerAddress = ignite.value.addr
+
+  if (!signerAddress) return
+
+  const messages = getSettleRequestTxMessages(
+    signerAddress,
+    true,
+    store.selectedRequests
+  )
+
+  try {
+    await igniteN.signer.value.client.signAndBroadcast(
+      signerAddress,
+      messages,
+      {
+        amount: [],
+        gas: '200000'
+      }
+    )
+
+    state.currentUIState = UIStates.Success
+  } catch (e) {
+    const error = e as Error
+    state.currentUIState = UIStates.Error
+    state.errorMessage = error.message
+  } finally {
+    state.isLoading = false
+  }
+}
+
+function onSuccessClose() {
+  onClose()
+  store.$reset()
+}
+
+// computed
+const requestsSummaries = computed(() => {
+  const requests = store.selectedRequests
+  return getRequestsSummaries(requests)
+})
+
+const isFresh = computed(() => state.currentUIState === UIStates.Fresh)
+const isSuccess = computed(() => state.currentUIState === UIStates.Success)
+const isError = computed(() => state.currentUIState === UIStates.Error)
+</script>
+
 <template>
   <IgniteModal @after-leave="resetState" @close="onClose">
     <template #title>
@@ -118,116 +231,3 @@
     </template>
   </IgniteModal>
 </template>
-
-<script lang="ts">
-export default {
-  name: 'IgniteRequestsAcceptModal'
-}
-</script>
-
-<script lang="ts" setup>
-import { useIgnite } from '@ignt/vue'
-import { useIgnite as useIgniteN } from 'tendermint-spn-vue'
-import { computed, reactive } from 'vue'
-
-import IconWarning from '~/components/icons/IconWarning.vue'
-import IgniteButton from '~/components/IgniteButton.vue'
-import IgniteHeading from '~/components/IgniteHeading.vue'
-import IgniteModal from '~/components/IgniteModal.vue'
-import IgniteText from '~/components/IgniteText.vue'
-import { useRequestsStore } from '~/stores/requests-store'
-import { addCommasToNumber } from '~/utils/number'
-
-import IconDenied from '../icons/IconDenied.vue'
-import IconSuccessCheck from '../icons/IconSuccessCheck.vue'
-import { getRequestsSummaries, getSettleRequestTxMessages } from './utils'
-
-enum UIStates {
-  Fresh,
-  Success,
-  Error
-}
-
-const initialState = {
-  currentUIState: UIStates.Fresh,
-  errorMessage: '',
-  isLoading: false
-}
-
-interface Emits {
-  (e: 'close'): void
-}
-
-const emit = defineEmits<Emits>()
-
-// store
-const store = useRequestsStore()
-
-// state
-const state = reactive({ ...initialState })
-
-// composables
-const { ignite: igniteN } = useIgniteN()
-const {
-  state: { ignite }
-} = useIgnite()
-
-// methods
-function resetState() {
-  state.currentUIState = initialState.currentUIState
-  state.errorMessage = initialState.errorMessage
-  state.isLoading = initialState.isLoading
-}
-
-function onClose() {
-  emit('close')
-}
-
-async function onConfirm() {
-  state.isLoading = true
-
-  const signerAddress = ignite.value.addr
-
-  if (!signerAddress) return
-
-  const messages = getSettleRequestTxMessages(
-    signerAddress,
-    true,
-    store.selectedRequests
-  )
-
-  try {
-    await igniteN.signer.value.client.signAndBroadcast(
-      signerAddress,
-      messages,
-      {
-        amount: [],
-        gas: '200000'
-      }
-    )
-
-    state.currentUIState = UIStates.Success
-  } catch (e) {
-    const error = e as Error
-    state.currentUIState = UIStates.Error
-    state.errorMessage = error.message
-  } finally {
-    state.isLoading = false
-  }
-}
-
-function onSuccessClose() {
-  onClose()
-  store.$reset()
-}
-
-// computed
-const requestsSummaries = computed(() => {
-  const requests = store.selectedRequests
-  return getRequestsSummaries(requests)
-})
-
-const isFresh = computed(() => state.currentUIState === UIStates.Fresh)
-const isSuccess = computed(() => state.currentUIState === UIStates.Success)
-const isError = computed(() => state.currentUIState === UIStates.Error)
-</script>

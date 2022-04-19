@@ -1,17 +1,3 @@
-<template>
-  <SpNavbar
-    :links="navbarLinks"
-    :active-route="router.currentRoute.value.path"
-    class="mb-0 shadow-border"
-  >
-    <template #logo>
-      <router-link :to="'/'" alt="Home" title="Home">
-        <IconIgnite />
-      </router-link>
-    </template>
-  </SpNavbar>
-</template>
-
 <script lang="ts" setup>
 import { useIgnite } from '@ignt/vue'
 import { SpNavbar } from '@starport/vue'
@@ -47,3 +33,17 @@ watch(
   }
 )
 </script>
+
+<template>
+  <SpNavbar
+    :links="navbarLinks"
+    :active-route="router.currentRoute.value.path"
+    class="mb-0 shadow-border"
+  >
+    <template #logo>
+      <router-link :to="'/'" alt="Home" title="Home">
+        <IconIgnite />
+      </router-link>
+    </template>
+  </SpNavbar>
+</template>

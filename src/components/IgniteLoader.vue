@@ -1,7 +1,3 @@
-<template>
-  <div class="loading" />
-</template>
-
 <script lang="ts">
 import { defineComponent } from 'vue'
 
@@ -9,6 +5,10 @@ export default defineComponent({
   name: 'IgniteLoader'
 })
 </script>
+
+<template>
+  <div class="loading" />
+</template>
 
 <style scoped lang="postcss">
 .loading {

@@ -1,20 +1,3 @@
-<template>
-  <div class="container-full container px-5 sm:px-5.5 lg:px-7">
-    <IgniteHeading as="div" class="text-center font-title text-5 md:text-7">
-      Roadmap and history
-    </IgniteHeading>
-    <IgniteText as="div" class="mt-6 text-center text-3 text-muted">
-      Key milestones for the Project Name project
-    </IgniteText>
-
-    <div class="relative mt-7 md:mt-9">
-      <IgniteScrollableSection>
-        <IgniteRoadmap :items="roadmapItems" />
-      </IgniteScrollableSection>
-    </div>
-  </div>
-</template>
-
 <script lang="ts">
 import { defineComponent } from 'vue'
 
@@ -76,5 +59,22 @@ const roadmapItems = [
   }
 ]
 </script>
+
+<template>
+  <div class="container-full container px-5 sm:px-5.5 lg:px-7">
+    <IgniteHeading as="div" class="text-center font-title text-5 md:text-7">
+      Roadmap and history
+    </IgniteHeading>
+    <IgniteText as="div" class="mt-6 text-center text-3 text-muted">
+      Key milestones for the Project Name project
+    </IgniteText>
+
+    <div class="relative mt-7 md:mt-9">
+      <IgniteScrollableSection>
+        <IgniteRoadmap :items="roadmapItems" />
+      </IgniteScrollableSection>
+    </div>
+  </div>
+</template>
 
 <style lang="postcss"></style>

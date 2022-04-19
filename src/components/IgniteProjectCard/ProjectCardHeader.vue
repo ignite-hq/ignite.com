@@ -1,13 +1,3 @@
-<template>
-  <div class="header" :class="loading && '_loading'">
-    <div class="background">
-      <IgniteBgWave />
-    </div>
-    <IgniteLoader v-if="loading" class="logo" />
-    <div v-if="!loading" class="logo" />
-  </div>
-</template>
-
 <script lang="ts">
 export default {
   name: 'ProjectCardHeader'
@@ -22,6 +12,16 @@ defineProps({
   loading: Boolean
 })
 </script>
+
+<template>
+  <div class="header" :class="loading && '_loading'">
+    <div class="background">
+      <IgniteBgWave />
+    </div>
+    <IgniteLoader v-if="loading" class="logo" />
+    <div v-if="!loading" class="logo" />
+  </div>
+</template>
 
 <style scoped lang="postcss">
 .header {
