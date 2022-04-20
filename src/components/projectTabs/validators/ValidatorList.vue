@@ -1,102 +1,70 @@
 <script lang="ts" setup>
-import {
-  LaunchGenesisValidator,
-  LaunchQueryGetGenesisValidatorResponse
-} from 'tendermint-spn-ts-client/tendermint.spn.launch/rest'
 import { Validator } from 'tendermint-spn-ts-client/cosmos.staking.v1beta1'
-import { computed, toRef } from 'vue'
+import { watch, ref, toRef } from 'vue'
 
-import useGenesisValidatorAll from '../../../composables/useGenesisValidatorAll'
 import useCampaignChains from '../../../composables/useCampaignChains'
-import IgniteButton from '../../IgniteButton.vue'
 import ValidatorCard from './ValidatorCard.vue'
+import { useTendermintSpnLaunch } from 'tendermint-spn-vue'
 
 const props = defineProps({
-  launchId: { type: String, required: true }
+  projectId: { type: String, required: true }
+})
+
+// variables
+let isLoading = ref(true)
+let allGenesisValidators: Validator[] = ref([])
+
+// composables
+const { queryGenesisValidatorAll } = useTendermintSpnLaunch()
+const { campaignChains } = useCampaignChains(toRef(props, 'projectId'))
+
+// watchers
+watch(campaignChains, (newVal) => {
+  if (newVal?.pages && newVal?.pages[0].campaignChains?.chains) {
+    getValidatorsFromAllChains(newVal.pages[0].campaignChains.chains)
+  }
 })
 
 // methods
-function mergePages(
-  pages: LaunchQueryGetGenesisValidatorResponse[] = []
-): LaunchGenesisValidator[] {
-  return pages.reduce(
-    (acc, page) => [...acc, ...(page?.genesisValidator ?? [])],
-    [] as LaunchGenesisValidator[]
-  )
-}
-
-// composables
-const {
-  isLoading,
-  fetchNextPage,
-  hasNextPage,
-  isFetchingNextPage,
-  genesisValidatorAllData
-} = useGenesisValidatorAll(toRef(props, 'launchId'))
-
-const genesisValidatorsAll = computed<LaunchGenesisValidator[]>(() => {
-  return mergePages(genesisValidatorAllData.value?.pages)
-})
-
-const props = defineProps({
-  projectID: { type: String, required: true }
-})
-
-const { campaignChains } = useCampaignChains(toRef(props, 'projectID'))
-
-const chainList = computed<string[]>(
-  () =>
-    (campaignChains?.value?.pages &&
-      campaignChains?.value?.pages[0].campaignChains?.chains) ||
-    []
-)
-
-const allGenesisValidators = computed<Validator>(() => {
-  let validatorsFromAllChains = chainList?.value
-    ?.map((chainID: string) => {
-      let { genesisValidatorAll } = useGenesisValidatorAll(chainID.toString())
-      return genesisValidatorAll
+const getValidatorsFromAllChains = async (chains: string[]) => {
+  let validatorsFromAllChains = await Promise.all(
+    chains.map(async (chainId: string) => {
+      return await queryGenesisValidatorAll(chainId.toString()).then(
+        (r) => r.data
+      )
     })
-    .reduce(
-      (acc, chainValidators) => [
-        ...acc,
-        ...((chainValidators?.value?.pages &&
-          chainValidators?.value?.pages[0].genesisValidator) ||
-          [])
-      ],
-      []
-    )
-  let uniqueValidatorsFromAllChains = [
+  )
+
+  let reducedValidatorsFromAllChains = validatorsFromAllChains.reduce(
+    (acc, chainValidators) => [
+      ...acc,
+      ...(chainValidators?.genesisValidator || [])
+    ],
+    []
+  )
+
+  allGenesisValidators.value = [
     ...new Map(
-      validatorsFromAllChains.map((validator) => [validator.address, validator])
+      reducedValidatorsFromAllChains.map((validator) => [
+        validator.address,
+        validator
+      ])
     ).values()
   ]
-
-  return uniqueValidatorsFromAllChains
-})
+  isLoading.value = false
+}
 </script>
 
 <template>
   <div>
     <div class="flex flex-wrap justify-center">
       <ValidatorCard
-        v-for="validator in genesisValidatorsAll"
+        v-for="validator in allGenesisValidators"
         :key="validator"
         :validator="validator"
       />
     </div>
-    <div v-if="hasNextPage">
-      <IgniteButton
-        variant="primary"
-        color="primary"
-        class="mt-4 px-6"
-        :disabled="isFetchingNextPage"
-        @click="fetchNextPage"
-      >
-        View more
-      </IgniteButton>
-    </div>
-    <div v-if="!isLoading && genesisValidatorsAll.length === 0">
+    <div v-if="!isLoading && allGenesisValidators.length === 0">
       <span>- No validators yet -</span>
     </div>
   </div>

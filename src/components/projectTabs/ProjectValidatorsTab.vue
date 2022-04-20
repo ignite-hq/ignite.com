@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 
 import useCampaignSummary from '../../composables/useCampaignSummary'
@@ -15,13 +14,6 @@ const projectId = route.params.projectId.toString() || '0'
 
 // composables
 const { campaignSummary } = useCampaignSummary(projectId)
-
-// computed
-const launchId = computed<string>(() => {
-  return (
-    campaignSummary?.value?.campaignSummary?.mostRecentChain?.launchID || '0'
-  )
-})
 </script>
 
 <template>
@@ -61,8 +53,8 @@ const launchId = computed<string>(() => {
     </IgniteText>
 
     <ValidatorList
-      v-if="launchId && launchId !== '0'"
-      :launch-id="launchId"
+      v-if="projectId && projectId !== '0'"
+      :project-id="projectId"
       class="mt-6"
     />
 

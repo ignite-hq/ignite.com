@@ -1,26 +1,12 @@
-import { useIgnite, useTendermintSpnLaunch } from 'tendermint-spn-vue'
-import { computed, Ref } from 'vue'
-import { useInfiniteQuery } from 'vue-query'
-
-const VALIDATORS_PER_PAGE = '500'
+import { useTendermintSpnLaunch } from 'tendermint-spn-vue'
+import { useQuery } from 'vue-query'
 
 export default function useGenesisValidatorsAll(launchID: string) {
   const { queryGenesisValidatorAll } = useTendermintSpnLaunch()
 
-  const { data, ...other } = useInfiniteQuery(
-    ['validators', launchID],
-    ({ pageParam }) => {
-      return queryGenesisValidatorAll(launchID, {
-        'pagination.limit': VALIDATORS_PER_PAGE,
-        'pagination.key': pageParam
-      }).then((r) => r.data)
-    },
-    {
-      getNextPageParam: (lastPage) => {
-        return lastPage.pagination?.next_key
-      }
-    }
-  )
+  const { data, ...other } = useQuery(['validators', launchID], () => {
+    return queryGenesisValidatorAll(launchID).then((r) => r.data)
+  })
 
   return { genesisValidatorAll: data, ...other }
 }
