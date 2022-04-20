@@ -1,18 +1,3 @@
-<template>
-  <div>
-    <IgniteLoader v-if="isLoading" class="status-loading mx-auto" />
-    <IgniteProjectStatus
-      v-if="!isLoading"
-      :launchID="launchID"
-      :campaignID="campaignID"
-      :stargazer-count="stargazerCount"
-      :request-count="requestCount"
-      :validator-count="validatorCount"
-      class="justify-center"
-    />
-  </div>
-</template>
-
 <script lang="ts">
 export default {
   name: 'ProjectCardStatus'
@@ -27,8 +12,8 @@ import IgniteProjectStatus from '../IgniteProjectStatus.vue'
 
 const props = defineProps({
   loading: Boolean,
-  campaignID: { type: String, required: true },
-  launchID: { type: String, required: true },
+  campaignId: { type: String, required: true },
+  launchId: { type: String, required: true },
   requestCount: { type: String, required: true },
   validatorCount: { type: String, required: true },
   stargazerCount: { type: String, required: true }
@@ -38,6 +23,21 @@ const isLoading = computed(() => {
   return props.loading
 })
 </script>
+
+<template>
+  <div>
+    <IgniteLoader v-if="isLoading" class="status-loading mx-auto" />
+    <IgniteProjectStatus
+      v-if="!isLoading"
+      :launch-id="launchId"
+      :campaign-id="campaignId"
+      :stargazer-count="stargazerCount"
+      :request-count="requestCount"
+      :validator-count="validatorCount"
+      class="justify-center"
+    />
+  </div>
+</template>
 
 <style scoped lang="postcss">
 .status-loading {

@@ -1,3 +1,26 @@
+<script lang="ts" setup>
+import { Validator } from 'tendermint-spn-ts-client/cosmos.staking.v1beta1'
+import { LaunchGenesisValidator } from 'tendermint-spn-ts-client/tendermint.spn.launch/rest'
+import { computed, PropType } from 'vue'
+
+import validatorAvatar from '../../../assets/svg/validatorAvatar.svg'
+import IgniteText from '../../IgniteText.vue'
+
+const props = defineProps({
+  validator: {
+    type: Object as PropType<Validator>,
+    required: true
+  }
+})
+
+const validatorData = computed<LaunchGenesisValidator>(() => {
+  return {
+    ...props.validator,
+    details: JSON.parse(atob(props.validator.genTx))
+  }
+})
+</script>
+
 <template>
   <div
     class="mx-2 mb-6 flex flex-col justify-start rounded border border-gray-70 p-5 text-left"
@@ -16,9 +39,7 @@
       {{ validatorData.details.body?.messages[0]?.description?.details || '-' }}
     </IgniteText>
 
-    <LayoutSpacer size="sm" />
-
-    <div class="mb-2 w-full border-b border-gray-70" />
+    <div class="mb-2 mt-4 w-full border-b border-gray-70" />
     <IgniteText class="mb-1 text-2 leading-5 text-muted">
       Also validates
     </IgniteText>
@@ -32,28 +53,5 @@
     </div>
   </div>
 </template>
-
-<script lang="ts" setup>
-import { computed, defineComponent, PropType } from 'vue'
-import LayoutSpacer from '../../atoms/LayoutSpacer.vue'
-import validatorAvatar from '../../../assets/svg/validatorAvatar.svg'
-import { Validator } from 'tendermint-spn-ts-client/cosmos.staking.v1beta1'
-import { LaunchGenesisValidator } from 'tendermint-spn-ts-client/tendermint.spn.launch/rest'
-import IgniteText from '../../IgniteText.vue'
-
-const props = defineProps({
-  validator: {
-    type: Object as PropType<Validator>,
-    required: true
-  }
-})
-
-const validatorData = computed<LaunchGenesisValidator>(() => {
-  return {
-    ...props.validator,
-    details: JSON.parse(atob(props.validator.genTx))
-  }
-})
-</script>
 
 <style scoped lang="scss"></style>

@@ -1,12 +1,3 @@
-<template>
-  <div
-    class="rounded h-[100%] bg-white-1000"
-    :class="shadow ? 'shadow-max' : ['border', 'border-border']"
-  >
-    <slot />
-  </div>
-</template>
-
 <script lang="ts">
 import { defineComponent } from 'vue'
 
@@ -23,5 +14,14 @@ defineProps({
   }
 })
 </script>
+
+<template>
+  <div
+    class="h-[100%] rounded bg-white-1000"
+    :class="shadow ? 'shadow-max' : ['border', 'border-border']"
+  >
+    <slot />
+  </div>
+</template>
 
 <style scoped lang="postcss"></style>

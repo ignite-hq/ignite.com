@@ -1,17 +1,18 @@
 import './assets/css/main.css'
 
 import MasonryWall from '@yeger/vue-masonry-wall'
-import HighchartsVue from 'highcharts-vue'
-import { createApp } from 'vue'
-import { VueQueryPlugin, VueQueryPluginOptions } from 'vue-query'
-import { useIgnite as useIgniteN } from 'tendermint-spn-vue'
-
-import App from './App.vue'
-import router from './router'
+import { createPinia } from 'pinia'
 import {
   createIgnite as createIgniteN,
   Environment
 } from 'tendermint-spn-ts-client'
+import { useIgnite as useIgniteN } from 'tendermint-spn-vue'
+import { createApp } from 'vue'
+import { VueQueryPlugin, VueQueryPluginOptions } from 'vue-query'
+import VueApexCharts from 'vue3-apexcharts'
+
+import App from './App.vue'
+import router from './router'
 
 let env: Environment = {
   apiURL: process.env.VUE_APP_API_COSMOS ?? '',
@@ -44,7 +45,8 @@ const vueQueryPluginOptions: VueQueryPluginOptions = {
 
 app
   .use(VueQueryPlugin, vueQueryPluginOptions)
+  .use(createPinia())
   .use(router)
   .use(MasonryWall)
-  .use(HighchartsVue)
+  .use(VueApexCharts)
   .mount('#app')

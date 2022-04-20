@@ -1,42 +1,3 @@
-<template>
-  <div
-    class="wrapper"
-    :class="[!(state.value * 1) && '_start', state.value * 1 === 100 && '_end']"
-  >
-    <div
-      ref="section"
-      class="overflow-auto invisible-scrollbar"
-      @scroll="onScroll"
-    >
-      <div
-        ref="inner"
-        class="w-max mx-auto pt-5 m:pt-7"
-        :class="state.scrollWidth > 0 && ['pb-7', 'm:pb-9']"
-      >
-        <slot />
-      </div>
-    </div>
-    <div
-      v-if="state.scrollWidth > 0"
-      class="relative z-[2] mx-auto w-full m:w-10/12"
-      :class="state.isGrabbing && 'grabbing'"
-    >
-      <input
-        v-model="state.value"
-        type="range"
-        min="0"
-        max="100"
-        step="1"
-        class="range w-full"
-        @input="onRange"
-        @change="onRange"
-        @mousedown="state.isGrabbing = true"
-        @mouseup="state.isGrabbing = false"
-      />
-    </div>
-  </div>
-</template>
-
 <script lang="ts">
 import { defineComponent } from 'vue'
 
@@ -95,6 +56,45 @@ const onRange = () => {
   section.value.scrollLeft = scrollPosition
 }
 </script>
+
+<template>
+  <div
+    class="wrapper"
+    :class="[!(state.value * 1) && '_start', state.value * 1 === 100 && '_end']"
+  >
+    <div
+      ref="section"
+      class="invisible-scrollbar overflow-auto"
+      @scroll="onScroll"
+    >
+      <div
+        ref="inner"
+        class="mx-auto w-max pt-5 md:pt-7"
+        :class="state.scrollWidth > 0 && ['pb-7', 'md:pb-9']"
+      >
+        <slot />
+      </div>
+    </div>
+    <div
+      v-if="state.scrollWidth > 0"
+      class="relative z-[2] mx-auto w-full md:w-10/12"
+      :class="state.isGrabbing && 'grabbing'"
+    >
+      <input
+        v-model="state.value"
+        type="range"
+        min="0"
+        max="100"
+        step="1"
+        class="range w-full"
+        @input="onRange"
+        @change="onRange"
+        @mousedown="state.isGrabbing = true"
+        @mouseup="state.isGrabbing = false"
+      />
+    </div>
+  </div>
+</template>
 
 <style lang="postcss">
 .wrapper {

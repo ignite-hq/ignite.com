@@ -1,9 +1,3 @@
-<template>
-  <div class="wave__container">
-    <div class="wave" />
-  </div>
-</template>
-
 <script lang="ts">
 import { defineComponent } from 'vue'
 
@@ -11,6 +5,12 @@ export default defineComponent({
   name: 'IgniteBgWave'
 })
 </script>
+
+<template>
+  <div class="wave__container">
+    <div class="wave" />
+  </div>
+</template>
 
 <style scoped lang="postcss">
 .wave__container {

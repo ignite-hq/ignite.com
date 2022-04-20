@@ -1,3 +1,33 @@
+<script lang="ts">
+import SpDenom from '@starport/vue/src/components/SpDenom/SpDenom.vue'
+import { defineComponent, PropType } from 'vue'
+
+import { ProgressBarItem } from '../utils/types'
+import IgniteText from './IgniteText.vue'
+
+export default defineComponent({
+  name: 'IgniteProgressBar',
+  components: { SpDenom, IgniteText },
+  props: {
+    inverse: {
+      type: Boolean
+    },
+    label: {
+      type: Boolean,
+      default: true
+    },
+    items: {
+      type: Array as PropType<ProgressBarItem[]>,
+      required: true
+    },
+    denom: {
+      type: String,
+      default: ''
+    }
+  }
+})
+</script>
+
 <template>
   <div class="ignite-progress__container">
     <SpDenom
@@ -25,42 +55,13 @@
         ]"
         :style="{ width: `${item.value}%` }"
       >
-        <span v-if="label" class="ignite-text text-1 font-medium">
+        <IgniteText v-if="label" as="span" class="text-1 font-medium">
           <b>{{ item.value }}%</b>
-        </span>
+        </IgniteText>
       </div>
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import SpDenom from '@starport/vue/src/components/SpDenom/SpDenom.vue'
-import { defineComponent, PropType } from 'vue'
-
-import { ProgressBarItem } from '../utils/types'
-
-export default defineComponent({
-  name: 'IgniteProgressBar',
-  components: { SpDenom },
-  props: {
-    inverse: {
-      type: Boolean
-    },
-    label: {
-      type: Boolean,
-      default: true
-    },
-    items: {
-      type: Array as PropType<ProgressBarItem[]>,
-      required: true
-    },
-    denom: {
-      type: String,
-      default: ''
-    }
-  }
-})
-</script>
 
 <style scoped lang="postcss">
 .ignite-progress {

@@ -1,3 +1,25 @@
+<script>
+import { RouterLink } from 'vue-router'
+
+export default {
+  name: 'IgniteLink',
+  inheritAttrs: false,
+
+  props: {
+    // add @ts-ignore if using TypeScript
+    ...RouterLink.props,
+    activeClass: String,
+    inactiveClass: String
+  },
+
+  computed: {
+    isExternalLink() {
+      return typeof this.to === 'string' && this.to.startsWith('http')
+    }
+  }
+}
+</script>
+
 <template>
   <a
     v-if="isExternalLink"
@@ -26,25 +48,3 @@
     </a>
   </router-link>
 </template>
-
-<script>
-import { RouterLink } from 'vue-router'
-
-export default {
-  name: 'IgniteLink',
-  inheritAttrs: false,
-
-  props: {
-    // add @ts-ignore if using TypeScript
-    ...RouterLink.props,
-    activeClass: String,
-    inactiveClass: String
-  },
-
-  computed: {
-    isExternalLink() {
-      return typeof this.to === 'string' && this.to.startsWith('http')
-    }
-  }
-}
-</script>

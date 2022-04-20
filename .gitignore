@@ -5,7 +5,6 @@ lerna-debug.log
 .netlify
 
 # local env files
-.env
 .env.local
 .env.*.local
 

@@ -80,7 +80,13 @@ module.exports = {
       },
       borderRadius: {
         '2sm': '8px',
-        '3sm': '10px'
+        '3sm': '10px',
+        '4sm': '12px',
+        '5sm': '14px',
+        '6sm': '16px'
+      },
+      boxShadow: {
+        dropdown: '-112px 73px 191px 59px rgba(0, 0, 0, 0.09)'
       }
     },
     letterSpacing: {
@@ -93,8 +99,8 @@ module.exports = {
       // mobile first -> (min-width:xxx)
       xs: `${pxToRem(320)}rem`,
       sm: `${pxToRem(576)}rem`,
-      m: `${pxToRem(768)}rem`,
-      l: `${pxToRem(1024)}rem`,
+      md: `${pxToRem(768)}rem`,
+      lg: `${pxToRem(1024)}rem`,
       xl: `${pxToRem(1380)}rem`
     },
     spacing: {

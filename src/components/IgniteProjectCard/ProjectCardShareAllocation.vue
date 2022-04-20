@@ -1,23 +1,3 @@
-<template>
-  <div>
-    <IgniteText class="mb-6 text-center text-2 font-medium text-muted">
-      Share allocation
-    </IgniteText>
-
-    <div class="mb-6">
-      <IgniteProgressBar
-        v-for="share in totalSupply"
-        :key="share.denom"
-        :denom="share.denom"
-        :items="share.items"
-        class="mb-4 last:mb-0"
-      />
-    </div>
-
-    <IgniteLegend :items="legend" />
-  </div>
-</template>
-
 <script lang="ts">
 export default {
   name: 'ProjectCardShareAllocation'
@@ -62,8 +42,8 @@ function getVouchersFromRewards(
   rewards: CampaignCampaignSummary['rewards'] = []
 ) {
   return rewards.filter((coin) => {
-    const campaignID = props.campaignSummary.campaign?.campaignID
-    const isShare = coin.denom?.startsWith(`v/${campaignID}`)
+    const campaignId = props.campaignSummary.campaign?.campaignID
+    const isShare = coin.denom?.startsWith(`v/${campaignId}`)
     return isShare
   })
 }
@@ -106,3 +86,23 @@ const totalSupply = computed(() => {
   })
 })
 </script>
+
+<template>
+  <div>
+    <IgniteText class="mb-6 text-center text-2 font-medium text-muted">
+      Share allocation
+    </IgniteText>
+
+    <div class="mb-6">
+      <IgniteProgressBar
+        v-for="share in totalSupply"
+        :key="share.denom"
+        :denom="share.denom"
+        :items="share.items"
+        class="mb-4 last:mb-0"
+      />
+    </div>
+
+    <IgniteLegend :items="legend" />
+  </div>
+</template>

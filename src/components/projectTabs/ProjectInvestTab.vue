@@ -1,8 +1,5 @@
 <template>
-  <div class="p-12 text-center">
-    - Invest coming soon -
-  </div>
+  <div class="p-12 text-center">- Invest coming soon -</div>
 </template>
 
-<script lang="ts">
-</script>
+<script lang="ts"></script>

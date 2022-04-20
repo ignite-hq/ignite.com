@@ -1,17 +1,3 @@
-<template>
-  <div class="ignite-legend">
-    <div v-for="item in items" :key="item.name" class="ignite-legend__item">
-      <div
-        class="ignite-legend__icon mr-1"
-        :class="item.color || 'bg-gray-50'"
-      />
-      <IgniteText as="span" class="text-2 text-muted">{{
-        item.name
-      }}</IgniteText>
-    </div>
-  </div>
-</template>
-
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 
@@ -29,6 +15,20 @@ export default defineComponent({
   }
 })
 </script>
+
+<template>
+  <div class="ignite-legend">
+    <div v-for="item in items" :key="item.name" class="ignite-legend__item">
+      <div
+        class="ignite-legend__icon mr-1"
+        :class="item.color || 'bg-gray-50'"
+      />
+      <IgniteText as="span" class="text-2 text-muted">{{
+        item.name
+      }}</IgniteText>
+    </div>
+  </div>
+</template>
 
 <style scoped lang="postcss">
 .ignite-legend {

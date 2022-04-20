@@ -20,13 +20,18 @@
     "indent": "off",
     "vue/html-self-closing": "off",
     "vue/max-attributes-per-line": "off",
-    "@typescript-eslint/camelcase": "off",
     "vue/singleline-html-element-content-newline": "off",
     "simple-import-sort/imports": "warn",
     "simple-import-sort/exports": "warn",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/no-explicit-any": "off",
-    "prefer-const": "off"
+    "prefer-const": "off",
+    "vue/component-tags-order": [
+      "error",
+      {
+        "order": ["script", "template", "style"]
+      }
+    ]
   }
 }
