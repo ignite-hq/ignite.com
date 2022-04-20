@@ -6,7 +6,7 @@
   "scripts": {
     "prepare": "husky install",
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build --mode production",
     "serve": "vite preview",
     "lint:check": "eslint --ext .js,.ts,.vue .",
     "lint:format": "eslint --fix --ext .js,.ts,.vue .",
