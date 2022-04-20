@@ -20,35 +20,41 @@
                 <IgniteHeading
                   class="mb-6 font-title text-7 font-semibold md:text-8"
                 >
-                  {{ campaignSummary?.campaignSummary?.campaign?.campaignName }}
+                  {{ campaignName }}
                 </IgniteHeading>
                 <div class="item-center mb-7 lg:flex">
                   <IgniteGithubRepoLink
-                    :github-url="campaignSummary?.mostRecentChain?.sourceURL"
+                    :github-url="
+                      campaignSummary?.campaignSummary?.mostRecentChain
+                        ?.sourceURL
+                    "
                     class="mb-5 text-3 lg:mb-0 lg:mr-7"
                   />
                   <IgniteProjectStatus
                     :loading="isLoading"
                     :launch-id="
-                      campaignSummary?.mostRecentChain?.launchID ?? '0'
+                      campaignSummary?.campaignSummary?.mostRecentChain
+                        ?.launchID ?? '0'
                     "
-                    :campaign-id="campaignSummary?.campaign?.campaignID ?? '0'"
+                    :campaign-id="
+                      campaignSummary?.campaignSummary?.campaign?.campaignID ??
+                      '0'
+                    "
                     :validator-count="
-                      campaignSummary?.mostRecentChain?.validatorNb ?? '0'
+                      campaignSummary?.campaignSummary?.mostRecentChain
+                        ?.validatorNb ?? '0'
                     "
                     :request-count="
-                      campaignSummary?.mostRecentChain?.requestNb ?? '0'
+                      campaignSummary?.campaignSummary?.mostRecentChain
+                        ?.requestNb ?? '0'
                     "
                     :stargazer-count="
                       repository?.stargazers_count?.toString() ?? '0'
                     "
                   />
                 </div>
-                <IgniteText
-                  v-if="repository?.description"
-                  class="text-2 text-muted md:text-3"
-                >
-                  {{ repository?.description }}
+                <IgniteText class="text-2 text-muted md:text-3">
+                  {{ description }}
                 </IgniteText>
               </div>
             </div>
@@ -85,7 +91,7 @@ export default {
 
 <script lang="ts" setup>
 import { CampaignCampaignSummary } from 'tendermint-spn-ts-client/tendermint.spn.campaign/rest'
-import { PropType, reactive } from 'vue'
+import { computed, PropType, reactive } from 'vue'
 
 import useGitHubRepository from '../composables/useGitHubRepository'
 import { getUserAndRepositoryFromUrl } from '../utils/github'
@@ -126,23 +132,39 @@ const navigation = reactive([
   }
 ])
 
-const breadcrumbsLinks = reactive([
-  {
-    link: `/`,
-    title: 'Explore'
-  },
-  {
-    link: `/projects/${props.projectId}/overview`,
-    title: props.campaignSummary?.campaignSummary?.campaign?.campaignName
-  }
-])
-
 // variables
-const githubUrl = props.campaignSummary?.mostRecentChain?.sourceURL ?? ''
+const githubUrl =
+  props.campaignSummary?.campaignSummary?.mostRecentChain?.sourceURL ?? ''
 const { githubUser, githubRepo } = getUserAndRepositoryFromUrl(githubUrl)
+const defaultDescription =
+  'A blockchain built with the Cosmos SDK and launched on the Ignite Network.'
 
 // composables
 const { repository, isLoading } = useGitHubRepository(githubUser, githubRepo)
+
+// computed
+const breadcrumbsLinks = computed(() => {
+  return [
+    {
+      link: `/`,
+      title: 'Explore'
+    },
+    {
+      link: `/projects/${props.projectId}/overview`,
+      title: props.campaignSummary.campaignSummary.campaign.campaignName
+    }
+  ]
+})
+
+const campaignName = computed(() => {
+  if (!props.campaignSummary) return ''
+  return props.campaignSummary.campaignSummary.campaign.campaignName
+})
+
+const description = computed(() => {
+  if (repository.description > 0) return repository.description
+  return defaultDescription
+})
 </script>
 
 <style scoped lang="postcss"></style>
