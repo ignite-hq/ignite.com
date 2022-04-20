@@ -98,8 +98,7 @@ const showIncentives = computed(function () {
         <ProjectCardStatus
           class="project-card__row"
           :loading="isLoading"
-          :launch-id="campaignSummary.mostRecentChain?.launchID ?? '0'"
-          :campaign-id="campaignSummary.campaign?.campaignID ?? '0'"
+          :project-id="campaignSummary.campaign?.campaignID ?? '0'"
           :validator-count="campaignSummary.mostRecentChain?.validatorNb ?? '0'"
           :request-count="campaignSummary.mostRecentChain?.requestNb ?? '0'"
           :stargazer-count="repository?.stargazers_count?.toString() ?? '0'"

@@ -9,13 +9,17 @@ export default defineComponent({
 <script lang="ts" setup>
 import IgniteLink from './IgniteLink.vue'
 import IgniteText from './IgniteText.vue'
+
+defineProps({
+  projectId: String
+})
 </script>
 
 <template>
   <ul class="flex items-center">
     <IgniteText as="li" class="item flex items-center justify-center text-2">
       <IgniteLink
-        to="/"
+        to="/projects"
         inactive-class="text-muted hover:text-title"
         active-class="font-medium text-primary pointer-events-none"
       >
@@ -24,7 +28,7 @@ import IgniteText from './IgniteText.vue'
     </IgniteText>
     <IgniteText as="li" class="item flex items-center justify-center text-2">
       <IgniteLink
-        to="/projects"
+        :to="`/projects/${projectId}/overview`"
         inactive-class="text-muted hover:text-title"
         active-class="font-medium text-primary pointer-events-none"
       >
