@@ -20,10 +20,12 @@ interface Emits {
 
 interface Props {
   visible: boolean
+  size?: 'sm' | 'md' | 'lg'
 }
 
 withDefaults(defineProps<Props>(), {
-  visible: false
+  visible: false,
+  size: 'sm'
 })
 
 const emit = defineEmits<Emits>()
@@ -40,10 +42,10 @@ function closeModal() {
         <div class="min-h-screen px-4 text-center">
           <TransitionChild
             as="template"
-            enter="duration-200 ease-out"
+            enter="duration-150 ease-out"
             enter-from="opacity-0"
             enter-to="opacity-100"
-            leave="duration-200 ease-in"
+            leave="duration-150 ease-in"
             leave-from="opacity-100"
             leave-to="opacity-0"
           >
@@ -56,15 +58,20 @@ function closeModal() {
 
           <TransitionChild
             as="template"
-            enter="duration-200 ease-out"
+            enter="duration-150 ease-out"
             enter-from="opacity-0 scale-95"
             enter-to="opacity-100 scale-100"
-            leave="duration-200 ease-in"
+            leave="duration-150 ease-in"
             leave-from="opacity-100 scale-100"
             leave-to="opacity-0 scale-95"
           >
             <div
               class="shadow-xl my-8 inline-block w-full max-w-sm transform overflow-hidden rounded-md bg-white-1000 p-6 text-left align-middle transition-all"
+              :class="{
+                'max-w-sm': size === 'sm',
+                'max-w-md': size === 'md',
+                'max-w-lg': size === 'lg'
+              }"
             >
               <DialogTitle v-if="$slots['title']">
                 <slot name="title" />
