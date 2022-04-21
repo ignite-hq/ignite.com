@@ -1,17 +1,3 @@
-<template>
-  <div>
-    <IgniteProjectHeader
-      :active-tab="tab"
-      :project-id="projectId"
-      :campaign-summary="campaignSummary"
-    />
-    <ProjectOverviewTab v-if="tab === 'overview'" />
-    <ProjectValidatorsTab v-if="tab === 'validators'" />
-    <ProjectRequestsTab v-if="tab === 'requests'" />
-    <ProjectInvestTab v-if="tab === 'invest'" />
-  </div>
-</template>
-
 <script lang="ts">
 export default {
   name: 'ProjectView'
@@ -40,3 +26,18 @@ onBeforeRouteUpdate(async (to) => {
 // composables
 const { campaignSummary } = useCampaignSummary(projectId)
 </script>
+
+<template>
+  <div>
+    <IgniteProjectHeader
+      :active-tab="tab"
+      :project-id="projectId"
+      :campaign-summary="campaignSummary"
+    />
+    <ProjectOverviewTab v-if="tab === 'overview'" />
+    <ProjectValidatorsTab v-if="tab === 'validators'" />
+    <ProjectRequestsTab v-if="tab === 'requests'" />
+    <ProjectInvestTab v-if="tab === 'invest'" />
+  </div>
+</template>
+
