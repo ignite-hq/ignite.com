@@ -96,7 +96,7 @@ const navigation = reactive([
       </div>
     </div>
 
-    <div class="shadow-border_double py-6">
+    <div class="py-6 shadow-border_double">
       <div class="container-full px-6 xl:container">
         <IgniteProjectNav :items="navigation" :active-tab="tab" />
       </div>
