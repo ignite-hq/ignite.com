@@ -73,7 +73,7 @@ const showIncentives = computed(function () {
     :to="{
       path: `/projects/${campaignSummary.campaign?.campaignID ?? '0'}/overview`
     }"
-    :class="isLoading ? '' : 'cursor-pointer'"
+    :class="isLoading ? 'pointer-events-none cursor-default' : 'cursor-pointer'"
   >
     <div class="project-card shadow-max">
       <ProjectCardHeader :loading="isLoading" />
