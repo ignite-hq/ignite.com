@@ -5,8 +5,11 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { reactive } from 'vue'
+import { CampaignCampaignSummary } from 'tendermint-spn-ts-client/tendermint.spn.campaign/rest'
+import { computed, PropType, reactive } from 'vue'
 
+import useGitHubRepository from '../composables/useGitHubRepository'
+import { getUserAndRepositoryFromUrl } from '../utils/github'
 import IgniteBgWave from './IgniteBgWave.vue'
 import IgniteBreadcrumbs from './IgniteBreadcrumbs.vue'
 import IgniteGithubRepoLink from './IgniteGithubRepoLink.vue'
@@ -17,11 +20,14 @@ import IgniteProjectStatus from './IgniteProjectStatus.vue'
 import IgniteText from './IgniteText.vue'
 
 const props = defineProps({
-  projectId: String,
+  projectId: { type: String, requred: true },
+  campaignSummary: {
+    type: Object as PropType<CampaignCampaignSummary>,
+    default: () => ({})
+  },
   activeTab: String
 })
 
-const githubUrl = 'https://github.com/allinbits/ignite-ui'
 const navigation = reactive([
   {
     link: `/projects/${props.projectId}/overview`,
@@ -40,6 +46,40 @@ const navigation = reactive([
     title: 'Invest'
   }
 ])
+
+// variables
+const githubUrl =
+  props.campaignSummary?.campaignSummary?.mostRecentChain?.sourceURL ?? ''
+const { githubUser, githubRepo } = getUserAndRepositoryFromUrl(githubUrl)
+const defaultDescription =
+  'A blockchain built with the Cosmos SDK and launched on the Ignite Network.'
+
+// composables
+const { repository, isLoading } = useGitHubRepository(githubUser, githubRepo)
+
+// computed
+const breadcrumbsLinks = computed(() => {
+  return [
+    {
+      link: `/`,
+      title: 'Explore'
+    },
+    {
+      link: `/projects/${props.projectId}/overview`,
+      title: props.campaignSummary.campaignSummary.campaign.campaignName
+    }
+  ]
+})
+
+const campaignName = computed(() => {
+  if (!props.campaignSummary) return ''
+  return props.campaignSummary.campaignSummary.campaign.campaignName
+})
+
+const description = computed(() => {
+  if (repository.description > 0) return repository.description
+  return defaultDescription
+})
 </script>
 
 <template>
@@ -126,89 +166,5 @@ const navigation = reactive([
     </div>
   </div>
 </template>
-
-<script lang="ts">
-export default {
-  name: 'IgniteProjectHeader'
-}
-</script>
-
-<script lang="ts" setup>
-import { CampaignCampaignSummary } from 'tendermint-spn-ts-client/tendermint.spn.campaign/rest'
-import { computed, PropType, reactive } from 'vue'
-
-import useGitHubRepository from '../composables/useGitHubRepository'
-import { getUserAndRepositoryFromUrl } from '../utils/github'
-import IgniteBgWave from './IgniteBgWave.vue'
-import IgniteBreadcrumbs from './IgniteBreadcrumbs.vue'
-import IgniteGithubRepoLink from './IgniteGithubRepoLink.vue'
-import IgniteHeading from './IgniteHeading.vue'
-import IgniteProjectActions from './IgniteProjectActions.vue'
-import IgniteProjectNav from './IgniteProjectNav.vue'
-import IgniteProjectStatus from './IgniteProjectStatus.vue'
-import IgniteText from './IgniteText.vue'
-
-const props = defineProps({
-  projectId: { type: String, requred: true },
-  campaignSummary: {
-    type: Object as PropType<CampaignCampaignSummary>,
-    default: () => ({})
-  },
-  activeTab: String
-})
-
-const navigation = reactive([
-  {
-    link: `/projects/${props.projectId}/overview`,
-    title: 'Overview'
-  },
-  {
-    link: `/projects/${props.projectId}/validators`,
-    title: 'Validators'
-  },
-  {
-    link: `/projects/${props.projectId}/requests`,
-    title: 'Requests'
-  },
-  {
-    link: `/projects/${props.projectId}/invest`,
-    title: 'Invest'
-  }
-])
-
-// variables
-const githubUrl =
-  props.campaignSummary?.campaignSummary?.mostRecentChain?.sourceURL ?? ''
-const { githubUser, githubRepo } = getUserAndRepositoryFromUrl(githubUrl)
-const defaultDescription =
-  'A blockchain built with the Cosmos SDK and launched on the Ignite Network.'
-
-// composables
-const { repository, isLoading } = useGitHubRepository(githubUser, githubRepo)
-
-// computed
-const breadcrumbsLinks = computed(() => {
-  return [
-    {
-      link: `/`,
-      title: 'Explore'
-    },
-    {
-      link: `/projects/${props.projectId}/overview`,
-      title: props.campaignSummary.campaignSummary.campaign.campaignName
-    }
-  ]
-})
-
-const campaignName = computed(() => {
-  if (!props.campaignSummary) return ''
-  return props.campaignSummary.campaignSummary.campaign.campaignName
-})
-
-const description = computed(() => {
-  if (repository.description > 0) return repository.description
-  return defaultDescription
-})
-</script>
 
 <style scoped lang="postcss"></style>
