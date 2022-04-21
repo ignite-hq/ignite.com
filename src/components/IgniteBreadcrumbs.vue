@@ -13,7 +13,8 @@ import IgniteText from './IgniteText.vue'
 defineProps({
   links: {
     type: Array
-  }
+  },
+  projectId: String
 })
 </script>
 
