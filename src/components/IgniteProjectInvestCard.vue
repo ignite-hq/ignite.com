@@ -9,6 +9,7 @@ export default defineComponent({
 <script lang="ts" setup>
 import { ProgressBarItem } from '../utils/types'
 import IconCalendar from './icons/IconCalendar.vue'
+import IconCanceled from './icons/IconCanceled.vue'
 import IconCheckMarkThin from './icons/IconCheckMarkThin.vue'
 import IconClock from './icons/IconClock.vue'
 import IconDots from './icons/IconDots.vue'
@@ -26,7 +27,7 @@ const props = defineProps({
 const progressBar = {
   items: [
     {
-      value: ((props.data.goal / props.data.raised) * 100).toString(),
+      value: ((props.data.raised / props.data.goal) * 100).toString(),
       bgColor: 'bg-primary'
     }
   ] as ProgressBarItem[]
@@ -40,14 +41,12 @@ const progressBar = {
       as="div"
       class="mt-5 font-title text-4 font-semibold md:text-5"
     >
-      <IgniteNumber :number="data.goal" />
+      <IgniteNumber :number="data.raised" />
       {{ data.curency }}
     </IgniteHeading>
     <IgniteHeading as="div" class="mt-3 text-3 text-muted">
       Raised of
-      <strong>
-        <IgniteNumber :number="data.raised" /> {{ data.curency }}
-      </strong>
+      <strong> <IgniteNumber :number="data.goal" /> {{ data.curency }} </strong>
     </IgniteHeading>
     <div
       class="mt-7.5 grid grid-cols-2 gap-6 border-t border-border pt-6 sm:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4 xl:pt-7.5"
@@ -61,6 +60,7 @@ const progressBar = {
           <IconDots v-if="data.status === 'Ongoing'" class="mr-3" />
           <IconClock v-if="data.status === 'Upcoming'" class="mr-3" />
           <IconCheckMarkThin v-if="data.status === 'Funded'" class="mr-3" />
+          <IconCanceled v-if="data.status === 'Canceled'" class="mr-3" />
           {{ data.status }}
         </IgniteHeading>
       </div>
@@ -94,7 +94,11 @@ const progressBar = {
           class="mt-2 flex items-center text-2 font-semibold md:mt-3 md:text-3"
         >
           <IconCalendar class="mr-3" />
-          {{ data.ends }}
+          <span
+            :class="data.status === 'Canceled' && 'text-inactive line-through'"
+          >
+            {{ data.ends }}
+          </span>
         </IgniteHeading>
       </div>
     </div>

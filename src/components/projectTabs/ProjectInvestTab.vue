@@ -10,8 +10,8 @@ const fundraisers = [
     title: 'Current',
     items: [
       {
-        goal: '300000',
-        raised: '3000000',
+        raised: '300000',
+        goal: '3000000',
         curency: 'UST',
         status: 'Ongoing',
         vouchers: '6M (3%)',
@@ -24,8 +24,8 @@ const fundraisers = [
     title: 'Current and upcoming',
     items: [
       {
-        goal: '300000',
-        raised: '3000000',
+        raised: '300000',
+        goal: '3000000',
         curency: 'UST',
         status: 'Ongoing',
         vouchers: '6M (3%)',
@@ -33,8 +33,8 @@ const fundraisers = [
         ends: '03.25.2022'
       },
       {
-        goal: '0',
-        raised: '3000000',
+        raised: '0',
+        goal: '3000000',
         curency: 'UST',
         status: 'Upcoming',
         vouchers: '6M (3%)',
@@ -47,8 +47,8 @@ const fundraisers = [
     title: 'Previous',
     items: [
       {
-        goal: '3000000',
         raised: '3000000',
+        goal: '3000000',
         curency: 'UST',
         status: 'Funded',
         vouchers: '6M (3%)',
@@ -56,13 +56,27 @@ const fundraisers = [
         ends: '02.14.2022'
       },
       {
-        goal: '1500000',
-        raised: '3000000',
+        raised: '1500000',
+        goal: '3000000',
         curency: 'UST',
         status: 'Funded',
         vouchers: '6M (3%)',
         investors: '3420',
         ends: '11.07.2021'
+      }
+    ]
+  },
+  {
+    title: 'Canceled',
+    items: [
+      {
+        raised: '0',
+        goal: '3000000',
+        curency: 'UST',
+        status: 'Canceled',
+        vouchers: '6M (3%)',
+        investors: '0',
+        ends: '03.25.2022'
       }
     ]
   }
