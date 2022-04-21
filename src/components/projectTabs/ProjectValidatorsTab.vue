@@ -25,8 +25,8 @@ const launchId = computed<string>(() => {
 </script>
 
 <template>
-  <div class="container text-center">
-    <IgniteHeading class="mt-10 text-center font-title text-7 font-semibold">
+  <div class="container py-10 text-center">
+    <IgniteHeading class="text-center font-title text-7 font-semibold">
       Validator incentives
     </IgniteHeading>
     <IgniteText class="mx-auto mt-4 max-w-lg">
@@ -67,7 +67,7 @@ const launchId = computed<string>(() => {
     />
 
     <div
-      class="mx-auto my-10 flex w-full max-w-5xl flex-col justify-start rounded p-8 text-left shadow"
+      class="mx-auto mt-10 flex w-full max-w-5xl flex-col justify-start rounded p-8 text-left shadow"
     >
       <IgniteHeading class="font-title text-7 font-semibold">
         Become a validator
