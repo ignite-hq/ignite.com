@@ -51,7 +51,7 @@ watch(
 </script>
 
 <template>
-  <nav class="container flex items-center justify-between py-6">
+  <nav class="navbar container flex items-center justify-between py-6">
     <div class="flex items-center space-x-8">
       <router-link :to="'/'" alt="Home" title="Home">
         <IconIgnite />
@@ -73,3 +73,9 @@ watch(
     <IgniteAccount />
   </nav>
 </template>
+
+<style lang="postcss" scoped>
+.navbar {
+  box-shadow: 0px 0.5px 0px #cbcbcb;
+}
+</style>

@@ -1,21 +1,38 @@
-<script>
+<script lang="ts">
+import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 
 export default {
   name: 'IgniteLink',
+
+  components: {
+    RouterLink
+  },
+
   inheritAttrs: false,
 
   props: {
-    // add @ts-ignore if using TypeScript
+    // @ts-ignore
     ...RouterLink.props,
-    activeClass: String,
-    inactiveClass: String
+    inactiveClass: {
+      type: String,
+      default: ''
+    },
+    activeClass: {
+      type: String,
+      default: ''
+    }
   },
 
-  computed: {
-    isExternalLink() {
-      return typeof this.to === 'string' && this.to.startsWith('http')
-    }
+  setup(props: any) {
+    const isExternalLink = computed(() => {
+      return (
+        typeof props.to === 'string' &&
+        (props.to.startsWith('http') || props.to.startsWith('https'))
+      )
+    })
+
+    return { isExternalLink }
   }
 }
 </script>
@@ -24,9 +41,9 @@ export default {
   <a
     v-if="isExternalLink"
     v-bind="$attrs"
-    :href="to"
+    :href="to as string"
     target="_blank"
-    class="duration-250 transition-colors ease-in-out"
+    class="duration-250 flex items-center transition-colors ease-in-out"
   >
     <slot />
   </a>

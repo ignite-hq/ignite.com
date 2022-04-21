@@ -6,32 +6,31 @@ export default {
 
 <script lang="ts" setup>
 import { useIgnite } from '@ignt/vue'
-import { SpTheme } from '@starport/vue'
 import { Environment } from 'tendermint-spn-ts-client'
 
 import IgniteNavbar from './components/IgniteNavbar.vue'
 
-let env: Environment = {
+const env: Environment = {
   apiURL: process.env.VUE_APP_API_COSMOS ?? '',
   rpcURL: process.env.VUE_APP_API_TENDERMINT ?? '',
   wsURL: process.env.VUE_APP_WS_TENDERMINT ?? '',
-  prefix: process.env.VUE_APP_ADDRESS_PREFIX ?? ''
+  prefix: process.env.VUE_APP_ADDRESS_PREFIX ?? '',
+  chainID: process.env.VUE_APP_CHAIN_ID ?? '',
+  chainName: process.env.VUE_APP_CHAIN_NAME ?? ''
 }
-let tsClientParams = {
+
+const tsClientParams = {
   env,
   autoConnectWS: true
 }
+
 useIgnite(tsClientParams)
 </script>
 
 <template>
   <div>
-    <Suspense>
-      <SpTheme>
-        <IgniteNavbar />
-        <router-view />
-      </SpTheme>
-    </Suspense>
+    <IgniteNavbar />
+    <router-view />
   </div>
 </template>
 

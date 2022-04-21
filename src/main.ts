@@ -14,16 +14,19 @@ import VueApexCharts from 'vue3-apexcharts'
 import App from './App.vue'
 import router from './router'
 
-let env: Environment = {
+const env: Environment = {
   apiURL: process.env.VUE_APP_API_COSMOS ?? '',
   rpcURL: process.env.VUE_APP_API_TENDERMINT ?? '',
-  wsURL: process.env.VUE_APP_WS_TENDERMINT ?? ''
+  wsURL: process.env.VUE_APP_WS_TENDERMINT ?? '',
+  prefix: process.env.VUE_APP_ADDRESS_PREFIX ?? '',
+  chainID: process.env.VUE_APP_CHAIN_ID ?? '',
+  chainName: process.env.VUE_APP_CHAIN_NAME ?? ''
 }
 
 // ignite
-let { inject } = useIgniteN()
+const { inject } = useIgniteN()
 
-let igniteN = createIgniteN({
+const igniteN = createIgniteN({
   env
 })
 

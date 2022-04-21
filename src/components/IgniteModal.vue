@@ -38,7 +38,7 @@ function closeModal() {
 <template>
   <TransitionRoot appear :show="visible" as="template">
     <Dialog as="div" @close="closeModal">
-      <div class="fixed inset-0 overflow-y-auto">
+      <div class="fixed inset-0 z-10 overflow-y-auto">
         <div class="min-h-screen px-4 text-center">
           <TransitionChild
             as="template"
@@ -66,7 +66,7 @@ function closeModal() {
             leave-to="opacity-0 scale-95"
           >
             <div
-              class="shadow-xl my-8 inline-block w-full max-w-sm transform overflow-hidden rounded-md bg-white-1000 p-6 text-left align-middle transition-all"
+              class="shadow-xl my-8 inline-block w-full max-w-sm transform overflow-hidden rounded-md bg-white-1000 p-7 text-left align-middle transition-all"
               :class="{
                 'max-w-sm': size === 'sm',
                 'max-w-md': size === 'md',

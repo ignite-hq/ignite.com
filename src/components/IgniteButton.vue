@@ -25,7 +25,7 @@ withDefaults(defineProps<Props>(), {
     :class="{
       // Variant
       'bg-none p-0': variant === 'default',
-      'flex transform items-center justify-center rounded-3sm font-semibold text-white-1000 hover:scale-105':
+      'flex transform items-center justify-center rounded-3sm font-semibold text-white-1000 hover:scale-[1.03]':
         variant === 'primary',
       'flex transform items-center justify-center font-semibold text-gray-0 hover:scale-105':
         variant === 'text',
@@ -38,6 +38,7 @@ withDefaults(defineProps<Props>(), {
       // Color
       'text-primary hover:text-title': color === 'default',
       'text-white bg-primary': color === 'primary',
+      'text-white bg-gray-0': color === 'black',
       'text-current': color === 'inherit',
       [color]: !colorTypes.includes(color),
 
