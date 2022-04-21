@@ -9,6 +9,12 @@ export default defineComponent({
 <script lang="ts" setup>
 import IgniteLink from './IgniteLink.vue'
 import IgniteText from './IgniteText.vue'
+
+defineProps({
+  links: {
+    type: Array
+  }
+})
 </script>
 
 <template>
@@ -29,25 +35,6 @@ import IgniteText from './IgniteText.vue'
     </IgniteText>
   </ul>
 </template>
-
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'IgniteBreadcrumbs'
-})
-</script>
-
-<script lang="ts" setup>
-import IgniteLink from './IgniteLink.vue'
-import IgniteText from './IgniteText.vue'
-
-defineProps({
-  links: {
-    type: Array
-  }
-})
-</script>
 
 <style scoped lang="postcss">
 .item {
