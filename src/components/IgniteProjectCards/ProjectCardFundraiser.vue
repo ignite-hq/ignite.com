@@ -1,3 +1,38 @@
+<script lang="ts">
+export default {
+  name: 'ProjectCardFundraiser'
+}
+</script>
+
+<script setup lang="ts">
+import { ProgressBarItem } from '../../utils/types'
+import IgniteButton from '../IgniteButton.vue'
+import IgniteCard from '../IgniteCard.vue'
+import IgniteHeading from '../IgniteHeading.vue'
+import IgniteProgressBar from '../IgniteProgressBar.vue'
+import IgniteText from '../IgniteText.vue'
+
+const progressBar = {
+  items: [
+    {
+      value: '10',
+      bgColor: 'bg-primary'
+    }
+  ] as ProgressBarItem[]
+}
+
+defineProps({
+  isWide: {
+    type: Boolean,
+    default: false
+  },
+  isOngoing: {
+    type: Boolean,
+    default: false
+  }
+})
+</script>
+
 <template>
   <IgniteCard
     :shadow="true"
@@ -57,42 +92,5 @@
     </div>
   </IgniteCard>
 </template>
-
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'ProjectCardFundraiser'
-})
-</script>
-
-<script setup lang="ts">
-import { ProgressBarItem } from '../../utils/types'
-import IgniteButton from '../IgniteButton.vue'
-import IgniteCard from '../IgniteCard.vue'
-import IgniteHeading from '../IgniteHeading.vue'
-import IgniteProgressBar from '../IgniteProgressBar.vue'
-import IgniteText from '../IgniteText.vue'
-
-const progressBar = {
-  items: [
-    {
-      value: '10',
-      bgColor: 'bg-primary'
-    }
-  ] as ProgressBarItem[]
-}
-
-defineProps({
-  isWide: {
-    type: Boolean,
-    default: false
-  },
-  isOngoing: {
-    type: Boolean,
-    default: false
-  }
-})
-</script>
 
 <style scoped lang="postcss"></style>

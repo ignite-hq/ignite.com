@@ -1,44 +1,3 @@
-<template>
-  <router-link
-    :to="{
-      path: `/projects/${campaignSummary.campaign?.campaignID ?? '0'}/overview`
-    }"
-    :class="isLoading ? '' : 'cursor-pointer'"
-  >
-    <div class="project-card shadow-max">
-      <ProjectCardHeader :loading="isLoading" />
-      <div>
-        <ProjectCardDescription
-          :campaign="campaignSummary.campaign"
-          :loading="isLoading"
-          :github-url="githubUrl"
-          :github-description="repository?.description ?? ''"
-          class="project-card__row"
-        />
-        <ProjectCardShareAllocation
-          v-if="showAllocation"
-          class="project-card__row"
-          :campaign-summary="campaignSummary"
-        />
-        <ProjectCardIncentives
-          v-if="showIncentives"
-          class="project-card__row"
-          :campaign-summary="campaignSummary"
-        />
-        <ProjectCardStatus
-          class="project-card__row"
-          :loading="isLoading"
-          :launch-id="campaignSummary.mostRecentChain?.launchID ?? '0'"
-          :campaign-id="campaignSummary.campaign?.campaignID ?? '0'"
-          :validator-count="campaignSummary.mostRecentChain?.validatorNb ?? '0'"
-          :request-count="campaignSummary.mostRecentChain?.requestNb ?? '0'"
-          :stargazer-count="repository?.stargazers_count?.toString() ?? '0'"
-        />
-      </div>
-    </div>
-  </router-link>
-</template>
-
 <script lang="ts">
 export default {
   name: 'IgniteProjectCard'
@@ -109,9 +68,51 @@ const showIncentives = computed(function () {
 })
 </script>
 
+<template>
+  <router-link
+    :to="{
+      path: `/projects/${campaignSummary.campaign?.campaignID ?? '0'}/overview`
+    }"
+    :class="isLoading ? '' : 'cursor-pointer'"
+  >
+    <div class="project-card shadow-max">
+      <ProjectCardHeader :loading="isLoading" />
+      <div>
+        <ProjectCardDescription
+          :campaign="campaignSummary.campaign"
+          :loading="isLoading"
+          :github-url="githubUrl"
+          :github-description="repository?.description ?? ''"
+          class="project-card__row"
+        />
+        <ProjectCardShareAllocation
+          v-if="showAllocation"
+          class="project-card__row"
+          :campaign-summary="campaignSummary"
+        />
+        <ProjectCardIncentives
+          v-if="showIncentives"
+          class="project-card__row"
+          :campaign-summary="campaignSummary"
+        />
+        <ProjectCardStatus
+          class="project-card__row"
+          :loading="isLoading"
+          :launch-id="campaignSummary.mostRecentChain?.launchID ?? '0'"
+          :campaign-id="campaignSummary.campaign?.campaignID ?? '0'"
+          :validator-count="campaignSummary.mostRecentChain?.validatorNb ?? '0'"
+          :request-count="campaignSummary.mostRecentChain?.requestNb ?? '0'"
+          :stargazer-count="repository?.stargazers_count?.toString() ?? '0'"
+        />
+      </div>
+    </div>
+  </router-link>
+</template>
+
 <style scoped lang="postcss">
 .project-card {
   @apply overflow-hidden rounded-md bg-white-1000;
+  box-shadow: 16px 32px 128px 8px rgba(0, 0, 0, 0.07);
 
   &__row {
     @apply border-t border-gray-70 py-7 px-6 md:px-7.5;

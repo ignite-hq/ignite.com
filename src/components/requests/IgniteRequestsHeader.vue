@@ -1,9 +1,36 @@
+<script lang="ts">
+export default {
+  name: 'IgniteRequestsHeader'
+}
+</script>
+
+<script lang="ts" setup>
+import {
+  Listbox,
+  ListboxButton,
+  ListboxOption,
+  ListboxOptions
+} from '@headlessui/vue'
+
+import IconCheck from '~/components/icons/IconCheckMarkThin.vue'
+import IconFilter from '~/components/icons/IconFilter.vue'
+import IconSort from '~/components/icons/IconSort.vue'
+import IgniteHeading from '~/components/IgniteHeading.vue'
+import {
+  requestPageFilters,
+  requestPageSorts,
+  useRequestsStore
+} from '~/stores/requests-store'
+
+const store = useRequestsStore()
+</script>
+
 <template>
   <header class="flex items-center justify-between">
     <IgniteHeading class="font-title">Requests</IgniteHeading>
 
     <div class="flex space-x-4">
-      <Listbox v-slot="{ open }" v-model="selectedPageFilter">
+      <Listbox v-slot="{ open }" v-model="store.selectedPageFilter">
         <div
           class="relative flex flex-col items-end"
           :class="{ 'shadow-dropdown': open }"
@@ -15,12 +42,12 @@
             }"
           >
             <IconFilter />
-            <span>{{ selectedPageFilter.displayName }}</span>
+            <span>{{ store.selectedPageFilter.displayName }}</span>
           </ListboxButton>
 
           <ListboxOptions class="requests-dropdown-list">
             <ListboxOption
-              v-for="page in pageFilters"
+              v-for="page in requestPageFilters"
               v-slot="{ active, selected }"
               :key="page.id"
               :value="page"
@@ -39,7 +66,7 @@
         </div>
       </Listbox>
 
-      <Listbox v-slot="{ open }" v-model="selectedPageSort">
+      <Listbox v-slot="{ open }" v-model="store.selectedPageSort">
         <div
           class="relative flex flex-col items-end"
           :class="{ 'shadow-dropdown': open }"
@@ -51,12 +78,12 @@
             }"
           >
             <IconSort />
-            <span>{{ selectedPageSort.name }}</span>
+            <span>{{ store.selectedPageSort.name }}</span>
           </ListboxButton>
 
           <ListboxOptions class="requests-dropdown-list">
             <ListboxOption
-              v-for="sort in pageSorts"
+              v-for="sort in requestPageSorts"
               v-slot="{ active, selected }"
               :key="sort.id"
               :value="sort"
@@ -77,42 +104,6 @@
     </div>
   </header>
 </template>
-
-<script lang="ts">
-export default {
-  name: 'IgniteRequestsHeader'
-}
-</script>
-
-<script lang="ts" setup>
-import {
-  Listbox,
-  ListboxButton,
-  ListboxOption,
-  ListboxOptions
-} from '@headlessui/vue'
-import { ref } from 'vue'
-
-import IconCheck from './icons/IconCheckMarkThin.vue'
-import IconFilter from './icons/IconFilter.vue'
-import IconSort from './icons/IconSort.vue'
-import IgniteHeading from './IgniteHeading.vue'
-
-const pageFilters = [
-  { id: 1, name: 'Pending requests', displayName: 'Pending' },
-  { id: 2, name: 'Closed requests', displayName: 'Closed' }
-]
-
-const pageSorts = [
-  { id: 1, name: 'Newest' },
-  { id: 2, name: 'Request type' },
-  { id: 2, name: 'Requestor' }
-]
-
-// state
-const selectedPageFilter = ref(pageFilters[0])
-const selectedPageSort = ref(pageSorts[0])
-</script>
 
 <style scoped lang="postcss">
 .requests-dropdown-button {

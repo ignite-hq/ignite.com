@@ -1,3 +1,11 @@
+<script lang="ts">
+import { defineComponent } from 'vue'
+
+export default defineComponent({
+  name: 'IgniteProjectDescription'
+})
+</script>
+
 <template>
   <div class="container-full container px-5 sm:px-5.5 lg:px-7">
     <div
@@ -125,14 +133,6 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'IgniteProjectDescription'
-})
-</script>
 
 <style scoped lang="postcss">
 .project-description {

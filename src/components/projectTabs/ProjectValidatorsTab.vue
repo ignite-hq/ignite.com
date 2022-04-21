@@ -1,3 +1,29 @@
+<script lang="ts" setup>
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+
+import useCampaignSummary from '../../composables/useCampaignSummary'
+import IgniteButton from '../IgniteButton.vue'
+import IgniteHeading from '../IgniteHeading.vue'
+import ProjectCardIncentives from '../IgniteProjectCard/ProjectCardIncentives.vue'
+import ProjectCardShareAllocation from '../IgniteProjectCard/ProjectCardShareAllocation.vue'
+import IgniteText from '../IgniteText.vue'
+import ValidatorList from './validators/ValidatorList.vue'
+
+const route = useRoute()
+const projectId = route.params.projectId.toString() || '0'
+
+// composables
+const { campaignSummary } = useCampaignSummary(projectId)
+
+// computed
+const launchId = computed<string>(() => {
+  return (
+    campaignSummary?.value?.campaignSummary?.mostRecentChain?.launchID || '0'
+  )
+})
+</script>
+
 <template>
   <div class="container text-center">
     <IgniteHeading class="mt-10 text-center font-title text-7 font-semibold">
@@ -57,29 +83,3 @@
     </div>
   </div>
 </template>
-
-<script lang="ts" setup>
-import { computed } from 'vue'
-import { useRoute } from 'vue-router'
-
-import useCampaignSummary from '../../composables/useCampaignSummary'
-import IgniteButton from '../IgniteButton.vue'
-import IgniteHeading from '../IgniteHeading.vue'
-import ProjectCardIncentives from '../IgniteProjectCard/ProjectCardIncentives.vue'
-import ProjectCardShareAllocation from '../IgniteProjectCard/ProjectCardShareAllocation.vue'
-import IgniteText from '../IgniteText.vue'
-import ValidatorList from './validators/ValidatorList.vue'
-
-const route = useRoute()
-const projectId = route.params.projectId.toString() || '0'
-
-// composables
-const { campaignSummary } = useCampaignSummary(projectId)
-
-// computed
-const launchId = computed<string>(() => {
-  return (
-    campaignSummary?.value?.campaignSummary?.mostRecentChain?.launchID || '0'
-  )
-})
-</script>

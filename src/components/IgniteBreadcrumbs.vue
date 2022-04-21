@@ -1,3 +1,16 @@
+<script lang="ts">
+import { defineComponent } from 'vue'
+
+export default defineComponent({
+  name: 'IgniteBreadcrumbs'
+})
+</script>
+
+<script lang="ts" setup>
+import IgniteLink from './IgniteLink.vue'
+import IgniteText from './IgniteText.vue'
+</script>
+
 <template>
   <ul class="flex items-center">
     <IgniteText

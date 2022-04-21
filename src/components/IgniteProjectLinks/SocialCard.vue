@@ -1,3 +1,63 @@
+<script lang="ts">
+import { defineComponent } from 'vue'
+
+export default defineComponent({
+  name: 'SocialCard'
+})
+</script>
+
+<script setup lang="ts">
+import IconDiscord from '../icons/IconDiscord.vue'
+import IconTelegram from '../icons/IconTelegram.vue'
+import IconTwitter from '../icons/IconTwitter.vue'
+import IgniteCard from '../IgniteCard.vue'
+import IgniteHeading from '../IgniteHeading.vue'
+import IgniteLink from '../IgniteLink.vue'
+import IgniteText from '../IgniteText.vue'
+import GraphicDiscord from './GraphicDiscord.vue'
+import GraphicTelegram from './GraphicTelegram.vue'
+import GraphicTwitter from './GraphicTwitter.vue'
+
+const props = defineProps({
+  item: {
+    type: Object,
+    reqired: true
+  },
+  size: {
+    // sm, md, lg
+    type: String,
+    default: 'md'
+  }
+})
+
+// variables
+const DISCORD = 'discord'
+const TELEGRAM = 't.me'
+const TWITTER = 'twitter'
+
+// methods
+function getSocialVisual() {
+  let socialIcon = ''
+  let socialGraphic = ''
+  if (props.item.link.includes(DISCORD)) {
+    socialIcon = IconDiscord
+    socialGraphic = GraphicDiscord
+  }
+  if (props.item.link.includes(TELEGRAM)) {
+    socialIcon = IconTelegram
+    socialGraphic = GraphicTelegram
+  }
+  if (props.item.link.includes(TWITTER)) {
+    socialIcon = IconTwitter
+    socialGraphic = GraphicTwitter
+  }
+  return { socialIcon, socialGraphic }
+}
+
+// computed
+const { socialIcon, socialGraphic } = getSocialVisual()
+</script>
+
 <template>
   <IgniteLink
     :to="item.link"
@@ -61,65 +121,5 @@
     </IgniteCard>
   </IgniteLink>
 </template>
-
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'SocialCard'
-})
-</script>
-
-<script setup lang="ts">
-import IconDiscord from '../icons/IconDiscord.vue'
-import IconTelegram from '../icons/IconTelegram.vue'
-import IconTwitter from '../icons/IconTwitter.vue'
-import IgniteCard from '../IgniteCard.vue'
-import IgniteHeading from '../IgniteHeading.vue'
-import IgniteLink from '../IgniteLink.vue'
-import IgniteText from '../IgniteText.vue'
-import GraphicDiscord from './GraphicDiscord.vue'
-import GraphicTelegram from './GraphicTelegram.vue'
-import GraphicTwitter from './GraphicTwitter.vue'
-
-const props = defineProps({
-  item: {
-    type: Object,
-    reqired: true
-  },
-  size: {
-    // sm, md, lg
-    type: String,
-    default: 'md'
-  }
-})
-
-// variables
-const DISCORD = 'discord'
-const TELEGRAM = 't.me'
-const TWITTER = 'twitter'
-
-// methods
-function getSocialVisual() {
-  let socialIcon = ''
-  let socialGraphic = ''
-  if (props.item.link.includes(DISCORD)) {
-    socialIcon = IconDiscord
-    socialGraphic = GraphicDiscord
-  }
-  if (props.item.link.includes(TELEGRAM)) {
-    socialIcon = IconTelegram
-    socialGraphic = GraphicTelegram
-  }
-  if (props.item.link.includes(TWITTER)) {
-    socialIcon = IconTwitter
-    socialGraphic = GraphicTwitter
-  }
-  return { socialIcon, socialGraphic }
-}
-
-// computed
-const { socialIcon, socialGraphic } = getSocialVisual()
-</script>
 
 <style scoped lang="postcss"></style>

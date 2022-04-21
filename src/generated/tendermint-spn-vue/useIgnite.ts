@@ -8,7 +8,7 @@ type State = UnwrapNestedRefs<Ignite>
 
 type Response = {
   ignite: ToRefs<Ignite>
-  signIn: (offlineSigner: OfflineDirectSigner) => void
+  signIn: (offlineSigner: OfflineDirectSigner) => Promise<void>
   signOut: () => void
   inject: (instance: Ignite) => void
 }

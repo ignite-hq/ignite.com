@@ -1,14 +1,3 @@
-<template>
-  <div>
-    <Suspense>
-      <SpTheme>
-        <IgniteNavbar />
-        <router-view />
-      </SpTheme>
-    </Suspense>
-  </div>
-</template>
-
 <script lang="ts">
 export default {
   name: 'IndexView'
@@ -25,7 +14,8 @@ import IgniteNavbar from './components/IgniteNavbar.vue'
 let env: Environment = {
   apiURL: process.env.VUE_APP_API_COSMOS ?? '',
   rpcURL: process.env.VUE_APP_API_TENDERMINT ?? '',
-  wsURL: process.env.VUE_APP_WS_TENDERMINT ?? ''
+  wsURL: process.env.VUE_APP_WS_TENDERMINT ?? '',
+  prefix: process.env.VUE_APP_ADDRESS_PREFIX ?? ''
 }
 let tsClientParams = {
   env,
@@ -33,6 +23,17 @@ let tsClientParams = {
 }
 useIgnite(tsClientParams)
 </script>
+
+<template>
+  <div>
+    <Suspense>
+      <SpTheme>
+        <IgniteNavbar />
+        <router-view />
+      </SpTheme>
+    </Suspense>
+  </div>
+</template>
 
 <style scoped lang="postcss">
 body {

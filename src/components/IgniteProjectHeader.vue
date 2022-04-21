@@ -1,3 +1,47 @@
+<script lang="ts">
+export default {
+  name: 'IgniteProjectHeader'
+}
+</script>
+
+<script lang="ts" setup>
+import { reactive } from 'vue'
+
+import IgniteBgWave from './IgniteBgWave.vue'
+import IgniteBreadcrumbs from './IgniteBreadcrumbs.vue'
+import IgniteGithubRepoLink from './IgniteGithubRepoLink.vue'
+import IgniteHeading from './IgniteHeading.vue'
+import IgniteProjectActions from './IgniteProjectActions.vue'
+import IgniteProjectNav from './IgniteProjectNav.vue'
+import IgniteProjectStatus from './IgniteProjectStatus.vue'
+import IgniteText from './IgniteText.vue'
+
+const props = defineProps({
+  projectId: String,
+  activeTab: String
+})
+
+const githubUrl = 'https://github.com/allinbits/ignite-ui'
+const navigation = reactive([
+  {
+    link: `/projects/${props.projectId}/overview`,
+    title: 'Overview'
+  },
+  {
+    link: `/projects/${props.projectId}/validators`,
+    title: 'Validators'
+  },
+  {
+    link: `/projects/${props.projectId}/requests`,
+    title: 'Requests'
+  },
+  {
+    link: `/projects/${props.projectId}/invest`,
+    title: 'Invest'
+  }
+])
+</script>
+
 <template>
   <div>
     <div class="container-full px-6 xl:container">
@@ -69,7 +113,7 @@
       </div>
     </div>
 
-    <div class="py-6 shadow-border_double">
+    <div class="shadow-border_double py-6">
       <div class="container-full px-6 xl:container">
         <IgniteProjectNav :items="navigation" :active-tab="tab" />
       </div>

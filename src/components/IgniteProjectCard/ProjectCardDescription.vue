@@ -1,26 +1,3 @@
-<template>
-  <div>
-    <IgniteLoader v-if="isLoading" class="title-loading mx-auto mb-4" />
-    <IgniteHeading
-      v-if="!isLoading"
-      class="mb-4 text-center text-4 font-semibold md:text-5"
-    >
-      {{ campaignName }}
-    </IgniteHeading>
-
-    <IgniteLoader v-if="isLoading" class="github-loading mx-auto" />
-    <IgniteGithubRepoLink
-      v-if="showGitHubRepository"
-      :github-url="githubUrl"
-      class="mb-7 justify-center text-2"
-    />
-
-    <IgniteText v-if="!isLoading" class="text-2 text-muted md:text-3">
-      {{ description }}
-    </IgniteText>
-  </div>
-</template>
-
 <script lang="ts">
 export default {
   name: 'ProjectCardDescription'
@@ -65,6 +42,29 @@ const showGitHubRepository = computed(() => {
   return props.githubUrl?.length > 0 && !isLoading.value
 })
 </script>
+
+<template>
+  <div>
+    <IgniteLoader v-if="isLoading" class="title-loading mx-auto mb-4" />
+    <IgniteHeading
+      v-if="!isLoading"
+      class="mb-4 text-center text-4 font-semibold md:text-5"
+    >
+      {{ campaignName }}
+    </IgniteHeading>
+
+    <IgniteLoader v-if="isLoading" class="github-loading mx-auto" />
+    <IgniteGithubRepoLink
+      v-if="showGitHubRepository"
+      :github-url="githubUrl"
+      class="mb-7 justify-center text-2"
+    />
+
+    <IgniteText v-if="!isLoading" class="text-2 text-muted md:text-3">
+      {{ description }}
+    </IgniteText>
+  </div>
+</template>
 
 <style scoped lang="postcss">
 .title-loading {

@@ -1,3 +1,14 @@
+<script lang="ts" setup>
+import IgniteProjectCards from '../IgniteProjectCards/index.vue'
+import IgniteProjectDescription from '../IgniteProjectDescription.vue'
+import IgniteProjectLinks from '../IgniteProjectLinks/index.vue'
+import IgniteProjectRoadmap from '../IgniteProjectRoadmap.vue'
+import IgniteProjectTeam from '../IgniteProjectTeam/index.vue'
+import IgniteProjectTokenomics from '../IgniteProjectTokenomics.vue'
+import IgniteProjectVestingSchedule from '../IgniteProjectVestingSchedule.vue'
+import IgniteWhitepaper from '../IgniteWhitepaper.vue'
+</script>
+
 <template>
   <div>
     <IgniteProjectCards class="mt-8 md:mt-10.5" />
@@ -10,14 +21,3 @@
     <IgniteProjectLinks class="mt-8 md:mt-11" />
   </div>
 </template>
-
-<script lang="ts" setup>
-import IgniteProjectCards from '../IgniteProjectCards/index.vue'
-import IgniteProjectDescription from '../IgniteProjectDescription.vue'
-import IgniteProjectLinks from '../IgniteProjectLinks/index.vue'
-import IgniteProjectRoadmap from '../IgniteProjectRoadmap.vue'
-import IgniteProjectTeam from '../IgniteProjectTeam/index.vue'
-import IgniteProjectTokenomics from '../IgniteProjectTokenomics.vue'
-import IgniteProjectVestingSchedule from '../IgniteProjectVestingSchedule.vue'
-import IgniteWhitepaper from '../IgniteWhitepaper.vue'
-</script>

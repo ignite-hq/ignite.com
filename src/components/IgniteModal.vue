@@ -1,3 +1,38 @@
+<script lang="ts">
+export default {
+  name: 'IgniteModal'
+}
+</script>
+
+<script lang="ts" setup>
+import {
+  Dialog,
+  DialogDescription,
+  DialogOverlay,
+  DialogTitle,
+  TransitionChild,
+  TransitionRoot
+} from '@headlessui/vue'
+
+interface Emits {
+  (e: 'close'): void
+}
+
+interface Props {
+  visible: boolean
+}
+
+withDefaults(defineProps<Props>(), {
+  visible: false
+})
+
+const emit = defineEmits<Emits>()
+
+function closeModal() {
+  emit('close')
+}
+</script>
+
 <template>
   <TransitionRoot appear :show="visible" as="template">
     <Dialog as="div" @close="closeModal">
@@ -47,40 +82,3 @@
     </Dialog>
   </TransitionRoot>
 </template>
-
-<script lang="ts">
-export default {
-  name: 'IgniteModal'
-}
-</script>
-
-<script lang="ts" setup>
-import {
-  Dialog,
-  DialogDescription,
-  DialogOverlay,
-  DialogTitle,
-  TransitionChild,
-  TransitionRoot
-} from '@headlessui/vue'
-
-interface Emits {
-  (e: 'close'): void
-}
-
-interface Props {
-  visible: boolean
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  visible: false
-})
-
-console.log(props)
-
-const emit = defineEmits<Emits>()
-
-function closeModal() {
-  emit('close')
-}
-</script>

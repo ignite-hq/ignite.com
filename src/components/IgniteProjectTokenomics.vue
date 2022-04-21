@@ -1,24 +1,7 @@
-<template>
-  <div class="container-full container px-5 sm:px-5.5 lg:px-7">
-    <IgniteHeading as="div" class="text-center font-title text-5 md:text-7">
-      Tokenomics
-    </IgniteHeading>
-    <IgniteText as="div" class="mt-6 text-center text-3 text-muted">
-      Planned token allocation for 200,000 tokens minted at Genesis
-    </IgniteText>
-
-    <div class="relative mt-7 md:mt-9">
-      <IgniteDonutChart :colors="colors" :data-series="dataSeries" />
-    </div>
-  </div>
-</template>
-
 <script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
+export default {
   name: 'IgniteProjectStatus'
-})
+}
 </script>
 
 <script lang="ts" setup>
@@ -66,5 +49,20 @@ const dataSeries = [
   }
 ]
 </script>
+
+<template>
+  <div class="container-full container px-5 sm:px-5.5 lg:px-7">
+    <IgniteHeading as="div" class="text-center font-title text-5 md:text-7">
+      Tokenomics
+    </IgniteHeading>
+    <IgniteText as="div" class="mt-6 text-center text-3 text-muted">
+      Planned token allocation for 200,000 tokens minted at Genesis
+    </IgniteText>
+
+    <div class="relative mt-7 md:mt-9">
+      <IgniteDonutChart :colors="colors" :data-series="dataSeries" />
+    </div>
+  </div>
+</template>
 
 <style lang="postcss"></style>

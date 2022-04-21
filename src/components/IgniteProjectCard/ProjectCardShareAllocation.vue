@@ -1,23 +1,3 @@
-<template>
-  <div>
-    <IgniteText class="mb-6 text-center text-2 font-medium text-muted">
-      Share allocation
-    </IgniteText>
-
-    <div class="mb-6">
-      <IgniteProgressBar
-        v-for="share in totalSupply"
-        :key="share.denom"
-        :denom="share.denom"
-        :items="share.items"
-        class="mb-4 last:mb-0"
-      />
-    </div>
-
-    <IgniteLegend :items="legend" />
-  </div>
-</template>
-
 <script lang="ts">
 export default {
   name: 'ProjectCardShareAllocation'
@@ -106,3 +86,23 @@ const totalSupply = computed(() => {
   })
 })
 </script>
+
+<template>
+  <div>
+    <IgniteText class="mb-6 text-center text-2 font-medium text-muted">
+      Share allocation
+    </IgniteText>
+
+    <div class="mb-6">
+      <IgniteProgressBar
+        v-for="share in totalSupply"
+        :key="share.denom"
+        :denom="share.denom"
+        :items="share.items"
+        class="mb-4 last:mb-0"
+      />
+    </div>
+
+    <IgniteLegend :items="legend" />
+  </div>
+</template>

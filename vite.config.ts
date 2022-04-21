@@ -11,6 +11,12 @@ const pathSrc = path.resolve(__dirname, './src')
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  resolve: {
+    alias: {
+      '~/': `${path.resolve(__dirname, 'src')}/`
+    }
+  },
+
   define: {
     global: {
       Buffer: Buffer
@@ -20,6 +26,7 @@ export default defineConfig({
   css: {
     postcss: `${pathSrc}/postcss.config.js`
   },
+
   optimizeDeps: {
     include: [
       'gradient-avatar',
