@@ -4,7 +4,7 @@ import IgniteProjectList from '../components/IgniteProjectList.vue'
 </script>
 
 <template>
-  <div class="container-full container px-5 sm:px-5.5 lg:px-7">
+  <div class="container-full container px-5 pb-10 sm:px-5.5 lg:px-7">
     <IgniteProjectsHeader />
     <IgniteProjectList />
   </div>
