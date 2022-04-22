@@ -46,7 +46,7 @@ const navigation = reactive([
   <div>
     <div class="container-full px-6 xl:container">
       <div class="py-7.5">
-        <IgniteBreadcrumbs />
+        <IgniteBreadcrumbs :project-id="projectId" />
       </div>
 
       <div class="pt-5.5 pb-8 md:pb-9">
@@ -72,8 +72,7 @@ const navigation = reactive([
                     class="mb-5 text-3 lg:mb-0 lg:mr-7"
                   />
                   <IgniteProjectStatus
-                    campaign-id="0"
-                    launch-id="0"
+                    :project-id="projectId"
                     stargazer-count="1"
                     request-count="100"
                     validator-count="30"
@@ -98,7 +97,7 @@ const navigation = reactive([
 
     <div class="py-6 shadow-border_double">
       <div class="container-full px-6 xl:container">
-        <IgniteProjectNav :items="navigation" :active-tab="tab" />
+        <IgniteProjectNav :items="navigation" :active-tab="activeTab" />
       </div>
     </div>
 

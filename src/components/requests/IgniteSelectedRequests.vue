@@ -70,7 +70,7 @@ const isAcceptModalOpen = ref(false)
 
 <style scoped lang="postcss">
 .selected-requests {
-  @apply absolute bottom-10 left-1/2 flex -translate-x-1/2 transform items-center space-x-7 rounded-md bg-white-1000 py-7 px-8;
+  @apply fixed bottom-10 left-1/2 flex -translate-x-1/2 transform items-center space-x-7 rounded-md bg-white-1000 py-7 px-8;
 
   box-shadow: 40px 64px 128px -8px rgba(0, 0, 0, 0.14);
 }

@@ -18,6 +18,6 @@ import IgniteWhitepaper from '../IgniteWhitepaper.vue'
     <IgniteProjectTokenomics class="mt-8 md:mt-12" />
     <IgniteProjectVestingSchedule class="mt-8 md:mt-10.5" />
     <IgniteProjectTeam class="mt-8 md:mt-11" />
-    <IgniteProjectLinks class="mt-8 md:mt-11" />
+    <IgniteProjectLinks class="mt-8 mb-10 md:mt-11" />
   </div>
 </template>

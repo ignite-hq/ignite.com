@@ -5,7 +5,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, onBeforeMount } from 'vue'
 import { onBeforeRouteUpdate, useRoute } from 'vue-router'
 
 import IgniteProjectHeader from '../components/IgniteProjectHeader.vue'
@@ -17,6 +17,10 @@ import ProjectValidatorsTab from '../components/projectTabs/ProjectValidatorsTab
 const route = useRoute()
 const projectId = route.params.projectId.toString() || '0'
 let tab = ref(route.params?.tab?.toString().toLowerCase() || 'overview')
+
+onBeforeMount(() => {
+  window.scrollTo(0, 0)
+})
 
 onBeforeRouteUpdate(async (to) => {
   tab.value = to.params.tab.toString().toLowerCase()
