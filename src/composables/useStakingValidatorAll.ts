@@ -1,4 +1,4 @@
-import { useCosmosStakingV1Beta1 } from 'tendermint-spn-vue'
+import { useCosmosStakingV1Beta1 } from 'tendermint-spn-vue-client'
 import { computed } from 'vue'
 import { useInfiniteQuery } from 'vue-query'
 

@@ -1,4 +1,4 @@
-import { useTendermintSpnLaunch } from 'tendermint-spn-vue'
+import { useTendermintSpnLaunch } from 'tendermint-spn-vue-client'
 import { Ref } from 'vue'
 import { useInfiniteQuery } from 'vue-query'
 

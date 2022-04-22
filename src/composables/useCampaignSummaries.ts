@@ -1,4 +1,4 @@
-import { useTendermintSpnCampaign } from 'tendermint-spn-vue'
+import { useTendermintSpnCampaign } from 'tendermint-spn-vue-client'
 import { useInfiniteQuery } from 'vue-query'
 
 const CAMPAIGNS_PER_PAGE = '20'

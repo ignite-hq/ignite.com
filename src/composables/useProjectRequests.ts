@@ -1,4 +1,4 @@
-import { useTendermintSpnLaunch } from 'tendermint-spn-vue'
+import { useTendermintSpnLaunch } from 'tendermint-spn-vue-client'
 import { useInfiniteQuery } from 'vue-query'
 
 const REQUESTS_PER_PAGE = '20'

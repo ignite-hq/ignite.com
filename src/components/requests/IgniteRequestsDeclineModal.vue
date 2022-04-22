@@ -6,7 +6,7 @@ export default {
 
 <script lang="ts" setup>
 import { useIgnite } from '@ignt/vue'
-import { useIgnite as useIgniteN } from 'tendermint-spn-vue'
+import { useSpn } from 'tendermint-spn-vue-client'
 import { computed, reactive } from 'vue'
 
 import IconWarning from '~/components/icons/IconWarning.vue'
@@ -45,7 +45,7 @@ const store = useRequestsStore()
 const state = reactive({ ...initialState })
 
 // composables
-const { ignite: igniteN } = useIgniteN()
+const { spn } = useSpn()
 const {
   state: { ignite }
 } = useIgnite()
@@ -75,14 +75,10 @@ async function onConfirm() {
   )
 
   try {
-    await igniteN.signer.value.client.signAndBroadcast(
-      signerAddress,
-      messages,
-      {
-        amount: [],
-        gas: '200000'
-      }
-    )
+    await spn.signer.value.client.signAndBroadcast(signerAddress, messages, {
+      amount: [],
+      gas: '200000'
+    })
 
     state.currentUIState = UIStates.Success
   } catch (e) {

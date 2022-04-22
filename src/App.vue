@@ -7,11 +7,11 @@ export default {
 <script lang="ts" setup>
 import { useIgnite } from '@ignt/vue'
 import { SpTheme } from '@starport/vue'
-import { Environment } from 'tendermint-spn-ts-client'
+import { Env } from '@ignt/plugins'
 
 import IgniteNavbar from './components/IgniteNavbar.vue'
 
-let env: Environment = {
+let env: Env = {
   apiURL: process.env.VUE_APP_API_COSMOS ?? '',
   rpcURL: process.env.VUE_APP_API_TENDERMINT ?? '',
   wsURL: process.env.VUE_APP_WS_TENDERMINT ?? '',

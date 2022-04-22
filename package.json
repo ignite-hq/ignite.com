@@ -42,7 +42,7 @@
   },
   "workspaces": [
     "src/generated/tendermint-spn-ts-client",
-    "src/generated/tendermint-spn-vue"
+    "src/generated/tendermint-spn-vue-client"
   ],
   "devDependencies": {
     "@babel/helper-get-function-arity": "^7.16.7",

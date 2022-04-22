@@ -5,7 +5,7 @@ import { NavbarLink } from '@starport/vue/src/components/SpNavbar/SpNavbar.vue'
 import { watch } from 'vue'
 import { useRouter } from 'vue-router'
 
-import { useIgnite as useIgniteN } from '~/generated/tendermint-spn-vue'
+import { useSpn } from '~/generated/tendermint-spn-vue-client'
 
 import IconIgnite from './icons/IconIgnite.vue'
 
@@ -17,14 +17,14 @@ const router = useRouter()
 const {
   state: { ignite }
 } = useIgnite()
-const { ignite: igniteN, signIn } = useIgniteN()
+const { spn, signIn } = useSpn()
 
 // watchers
 watch(
   () => ignite.value.addr,
   (address) => {
     if (address) {
-      const offlineSigner = igniteN.keplr.value.getOfflineSigner(
+      const offlineSigner = spn.keplr.value.getOfflineSigner(
         process.env.VUE_APP_CHAIN_ID ?? 'spn-nightly'
       )
 

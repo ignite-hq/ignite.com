@@ -105,10 +105,10 @@ export interface RpcStatus {
 export interface TypesConsensusState {
   nextValidatorsHash?: string
   timestamp?: string
-  root?: TypesMerkelRool
+  root?: TypesMerkleRoot
 }
 
-export interface TypesMerkelRool {
+export interface TypesMerkleRoot {
   hash?: string
 }
 
