@@ -1,3 +1,11 @@
+<script lang="ts">
+import { defineComponent } from 'vue'
+
+export default defineComponent({
+  name: 'IgniteButton'
+})
+</script>
+
 <script lang="ts" setup>
 type Colors = 'default' | 'primary' | 'inherit'
 
@@ -37,8 +45,8 @@ withDefaults(defineProps<Props>(), {
 
       // Color
       'text-primary hover:text-title': color === 'default',
-      'text-white bg-primary': color === 'primary',
-      'text-white bg-gray-0': color === 'black',
+      'bg-gray-0 text-white-1000': color === 'black',
+      'bg-primary text-white-1000': color === 'primary',
       'text-current': color === 'inherit',
       [color]: !colorTypes.includes(color),
 

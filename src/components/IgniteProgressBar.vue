@@ -23,6 +23,10 @@ export default defineComponent({
     denom: {
       type: String,
       default: ''
+    },
+    size: {
+      type: String,
+      default: ''
     }
   }
 })
@@ -48,7 +52,8 @@ export default defineComponent({
         :key="item.name"
         class="ignite-progress__inner text-center"
         :class="[
-          label ? 'h-[20px]' : 'h-[16px]',
+          label && 'h-[20px]',
+          !label && size === 'xs' ? 'h-3' : 'h-4',
           item.split ? 'rounded-none' : 'rounded-r-lg',
           item.bgColor,
           item.bgColor === 'bg-primary' && `text-white-1000`

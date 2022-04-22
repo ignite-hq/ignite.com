@@ -11,28 +11,27 @@ import IgniteLink from './IgniteLink.vue'
 import IgniteText from './IgniteText.vue'
 
 defineProps({
+  links: {
+    type: Array
+  },
   projectId: String
 })
 </script>
 
 <template>
   <ul class="flex items-center">
-    <IgniteText as="li" class="item flex items-center justify-center text-2">
+    <IgniteText
+      v-for="item in links"
+      :key="`breadcrumb_${item.title}`"
+      as="li"
+      class="item flex items-center justify-center text-2"
+    >
       <IgniteLink
-        to="/projects"
+        :to="item.link"
         inactive-class="text-muted hover:text-title"
         active-class="font-medium text-primary pointer-events-none"
       >
-        Explore
-      </IgniteLink>
-    </IgniteText>
-    <IgniteText as="li" class="item flex items-center justify-center text-2">
-      <IgniteLink
-        :to="`/projects/${projectId}/overview`"
-        inactive-class="text-muted hover:text-title"
-        active-class="font-medium text-primary pointer-events-none"
-      >
-        Strange Clan
+        {{ item.title }}
       </IgniteLink>
     </IgniteText>
   </ul>

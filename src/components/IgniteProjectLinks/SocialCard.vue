@@ -61,10 +61,10 @@ const { socialIcon, socialGraphic } = getSocialVisual()
 <template>
   <IgniteLink
     :to="item.link"
-    class="block text-primary hover:text-title lg:h-[100%]"
+    class="block w-full text-primary hover:text-title lg:h-[100%]"
   >
     <IgniteCard
-      class="relative flex flex-col justify-between overflow-hidden"
+      class="relative flex w-full flex-col justify-between overflow-hidden"
       :class="[
         size === 'sm' && ['p-6', 'pb-0', 'md:p-7', 'lg:py-8.5', 'xl:px-9'],
         size === 'md' && [
