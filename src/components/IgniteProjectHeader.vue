@@ -66,14 +66,14 @@ const breadcrumbsLinks = computed(() => {
     },
     {
       link: `/projects/${props.projectId}/overview`,
-      title: props.campaignSummary.campaignSummary.campaign.campaignName
+      title: props.campaignSummary?.campaignSummary?.campaign.campaignName
     }
   ]
 })
 
 const campaignName = computed(() => {
   if (!props.campaignSummary) return ''
-  return props.campaignSummary.campaignSummary.campaign.campaignName
+  return props.campaignSummary?.campaignSummary?.campaign.campaignName
 })
 
 const description = computed(() => {
@@ -153,7 +153,7 @@ const description = computed(() => {
       </div>
     </div>
 
-    <div class="shadow-border_double py-6">
+    <div class="py-6 shadow-border_double">
       <div class="container-full px-6 xl:container">
         <IgniteProjectNav :items="navigation" :active-tab="activeTab" />
       </div>
