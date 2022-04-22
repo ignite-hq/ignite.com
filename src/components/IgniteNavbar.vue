@@ -1,9 +1,4 @@
 <script lang="ts" setup>
-import { useIgnite } from '@ignt/vue'
-import { watch } from 'vue'
-
-import { useIgnite as useIgniteN } from '~/generated/tendermint-spn-vue'
-
 import IconIgnite from './icons/IconIgnite.vue'
 import IgniteLink from './IgniteLink.vue'
 import IgniteAccount from './wallet/IgniteAccount.vue'
@@ -28,26 +23,6 @@ const links: Link[] = [
     path: '/validate'
   }
 ]
-
-// composables
-const {
-  state: { ignite }
-} = useIgnite()
-const { ignite: igniteN, signIn } = useIgniteN()
-
-// watchers
-watch(
-  () => ignite.value.addr,
-  (address) => {
-    if (address) {
-      const offlineSigner = igniteN.keplr.value.getOfflineSigner(
-        process.env.VUE_APP_CHAIN_ID ?? 'spn-nightly'
-      )
-
-      signIn(offlineSigner)
-    }
-  }
-)
 </script>
 
 <template>

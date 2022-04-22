@@ -5,7 +5,6 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { useIgnite } from '@ignt/vue'
 import { useIgnite as useIgniteN } from 'tendermint-spn-vue'
 import { computed, reactive } from 'vue'
 
@@ -14,6 +13,7 @@ import IgniteButton from '~/components/IgniteButton.vue'
 import IgniteHeading from '~/components/IgniteHeading.vue'
 import IgniteModal from '~/components/IgniteModal.vue'
 import IgniteText from '~/components/IgniteText.vue'
+import useAddress from '~/composables/useAddress'
 import { useRequestsStore } from '~/stores/requests-store'
 import { oxfordComma } from '~/utils/array'
 
@@ -45,10 +45,8 @@ const store = useRequestsStore()
 const state = reactive({ ...initialState })
 
 // composables
-const { ignite: igniteN } = useIgniteN()
-const {
-  state: { ignite }
-} = useIgnite()
+const { ignite } = useIgniteN()
+const { address } = useAddress()
 
 // methods
 function resetState() {
@@ -64,7 +62,7 @@ function onClose() {
 async function onConfirm() {
   state.isLoading = true
 
-  const signerAddress = ignite.value.addr
+  const signerAddress = address.value
 
   if (!signerAddress) return
 
@@ -75,14 +73,10 @@ async function onConfirm() {
   )
 
   try {
-    await igniteN.signer.value.client.signAndBroadcast(
-      signerAddress,
-      messages,
-      {
-        amount: [],
-        gas: '200000'
-      }
-    )
+    await ignite.signer.value.client.signAndBroadcast(signerAddress, messages, {
+      amount: [],
+      gas: '200000'
+    })
 
     state.currentUIState = UIStates.Success
   } catch (e) {

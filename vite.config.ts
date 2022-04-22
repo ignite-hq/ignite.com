@@ -32,7 +32,6 @@ export default defineConfig({
       'gradient-avatar',
       'crypto-js',
       'axios',
-      'qrcode',
       'long',
       '@cosmjs/encoding'
     ]

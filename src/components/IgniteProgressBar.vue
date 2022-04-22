@@ -1,13 +1,13 @@
 <script lang="ts">
-import SpDenom from '@starport/vue/src/components/SpDenom/SpDenom.vue'
 import { defineComponent, PropType } from 'vue'
 
 import { ProgressBarItem } from '../utils/types'
 import IgniteText from './IgniteText.vue'
+import IgniteDenom from './ui/IgniteDenom.vue'
 
 export default defineComponent({
   name: 'IgniteProgressBar',
-  components: { SpDenom, IgniteText },
+  components: { IgniteText, IgniteDenom },
   props: {
     inverse: {
       type: Boolean
@@ -30,7 +30,7 @@ export default defineComponent({
 
 <template>
   <div class="ignite-progress__container">
-    <SpDenom
+    <IgniteDenom
       v-if="denom"
       modifier="avatar"
       :denom="denom"

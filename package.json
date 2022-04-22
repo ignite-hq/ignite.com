@@ -20,8 +20,6 @@
     "@cosmjs/proto-signing": "0.27.0",
     "@cosmjs/stargate": "0.27.0",
     "@headlessui/vue": "^1.5.0",
-    "@ignt/vue": "^0.0.9-alpha",
-    "@starport/vue": "^0.4.2-alpha-5c903fd2c09b27290c1151b5bdd4f96c719ae8a2.0",
     "@vueuse/core": "^8.2.5",
     "@yeger/vue-masonry-wall": "^3.0.23",
     "apexcharts": "^3.35.0",
