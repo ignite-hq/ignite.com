@@ -12,7 +12,7 @@ const props = defineProps({
 
 // variables
 let isLoading = ref(true)
-let allGenesisValidators: Validator[] = ref([])
+let allGenesisValidators = ref<Validator[]>([])
 
 // composables
 const { queryGenesisValidatorAll } = useTendermintSpnLaunch()
