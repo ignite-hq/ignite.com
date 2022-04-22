@@ -6,7 +6,7 @@ import {
   createIgnite as createIgniteN,
   Environment
 } from 'tendermint-spn-ts-client'
-import { useIgnite as useIgniteN } from 'tendermint-spn-vue'
+import { useIgnite } from 'tendermint-spn-vue'
 import { createApp } from 'vue'
 import { VueQueryPlugin, VueQueryPluginOptions } from 'vue-query'
 import VueApexCharts from 'vue3-apexcharts'
@@ -24,15 +24,15 @@ const env: Environment = {
 }
 
 // ignite
-const { inject } = useIgniteN()
+const { inject } = useIgnite()
 
-const igniteN = createIgniteN({
+const ignite = createIgniteN({
   env
 })
 
-inject(igniteN)
+inject(ignite)
 
-igniteN.ws.connect()
+ignite.ws.connect()
 
 const app = createApp(App)
 

@@ -5,7 +5,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { useIgnite as useIgniteN } from 'tendermint-spn-vue'
+import { useIgnite } from 'tendermint-spn-vue'
 import { computed, reactive } from 'vue'
 
 import IconWarning from '~/components/icons/IconWarning.vue'
@@ -45,7 +45,7 @@ const store = useRequestsStore()
 const state = reactive({ ...initialState })
 
 // composables
-const { ignite } = useIgniteN()
+const { ignite } = useIgnite()
 const { address } = useAddress()
 
 // methods
