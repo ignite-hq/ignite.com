@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { Validator } from 'tendermint-spn-ts-client/cosmos.staking.v1beta1'
-import { watch, ref, toRef } from 'vue'
+import { watch, ref } from 'vue'
 
 import useCampaignChains from '../../../composables/useCampaignChains'
 import ValidatorCard from './ValidatorCard.vue'
@@ -16,7 +16,7 @@ let allGenesisValidators: Validator[] = ref([])
 
 // composables
 const { queryGenesisValidatorAll } = useTendermintSpnLaunch()
-const { campaignChains } = useCampaignChains(toRef(props, 'projectId'))
+const { campaignChains } = useCampaignChains(props.projectId)
 
 // watchers
 watch(campaignChains, (newVal) => {
