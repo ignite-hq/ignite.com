@@ -5,8 +5,12 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import { isEmpty, isNil } from 'lodash'
 import { computed, reactive, watchEffect } from 'vue'
 
+import useAccount from '~/composables/useAccount'
+import useAddress from '~/composables/useAddress'
+import useBalances from '~/composables/useBalances'
 import { useIgnite } from '~/generated/tendermint-spn-vue'
 
 import IconExternalArrow from '../icons/IconExternalArrow.vue'
@@ -15,7 +19,9 @@ import IconWarning from '../icons/IconWarning.vue'
 import IgniteButton from '../IgniteButton.vue'
 import IgniteHeading from '../IgniteHeading.vue'
 import IgniteLink from '../IgniteLink.vue'
+import IgniteLoader from '../IgniteLoader.vue'
 import IgniteModal from '../IgniteModal.vue'
+import IgniteProfileIcon from '../IgniteProfileIcon.vue'
 import IgniteText from '../IgniteText.vue'
 import IgniteSpinner from '../ui/IgniteSpinner.vue'
 
@@ -28,6 +34,7 @@ enum ModalPage {
 // ignite
 const { ignite, signIn } = useIgnite()
 
+// variables
 const initialState = {
   modalPage: ModalPage.Connecting,
   isConnectWalletModalOpen: false,
@@ -36,6 +43,11 @@ const initialState = {
 
 // state
 const state = reactive({ ...initialState })
+
+// composables
+const { address } = useAddress()
+const { account } = useAccount()
+const { balances, isFetching: isFetchingBalances } = useBalances(address)
 
 // methods
 function onCloseModal() {
@@ -54,7 +66,6 @@ function getInitialModalPage(isKeplrAvaliable: boolean) {
 function resetState() {
   state.modalPage = getInitialModalPage(ignite.keplr.value.isAvailable())
   state.isConnectWalletModalOpen = initialState.isConnectWalletModalOpen
-  state.keplrParams = initialState.keplrParams
 }
 
 async function tryToConnectToKeplr() {
@@ -64,13 +75,13 @@ async function tryToConnectToKeplr() {
   state.modalPage = ModalPage.Connecting
 
   const onKeplrConnect = async () => {
-    const chainID = ignite.env.value.chainID ?? ''
-    const { name, bech32Address } = await getAccParams(chainID)
+    const chainId = ignite.env.value.chainID ?? ''
+    const { name, bech32Address } = await getAccParams(chainId)
 
     state.keplrParams.name = name
     state.keplrParams.bech32Address = bech32Address
 
-    const offlineSigner = getOfflineSigner(chainID)
+    const offlineSigner = getOfflineSigner(chainId)
     signIn(offlineSigner)
 
     listenToAccChange(onKeplrConnect)
@@ -81,19 +92,23 @@ async function tryToConnectToKeplr() {
     state.modalPage = ModalPage.Error
   }
 
-  const stakingParams = await (
-    await ignite.cosmosStakingV1Beta1.value.queryParams()
-  ).data
+  try {
+    const stakingParams = await (
+      await ignite.cosmosStakingV1Beta1.value.queryParams()
+    ).data
 
-  const tokens = await (
-    await ignite.cosmosBankV1Beta1.value.queryTotalSupply()
-  ).data
+    const tokens = await (
+      await ignite.cosmosBankV1Beta1.value.queryTotalSupply()
+    ).data
 
-  connect(onKeplrConnect, onKeplrError, {
-    stakinParams: stakingParams,
-    tokens,
-    env: ignite.env.value
-  })
+    connect(onKeplrConnect, onKeplrError, {
+      stakinParams: stakingParams,
+      tokens,
+      env: ignite.env.value
+    })
+  } catch (e) {
+    state.modalPage = ModalPage.Error
+  }
 }
 
 // computed
@@ -102,6 +117,10 @@ const isConnectingPage = computed(
   () => state.modalPage === ModalPage.Connecting
 )
 const isErrorPage = computed(() => state.modalPage === ModalPage.Error)
+const mainCoinBalance = computed(() => {
+  if (isEmpty(balances.value) || isNil(balances.value)) return undefined
+  return balances.value[0]
+})
 
 // watchers
 watchEffect(() => {
@@ -110,7 +129,24 @@ watchEffect(() => {
 </script>
 
 <template>
+  <div v-if="address" class="flex items-center space-x-4">
+    <IgniteProfileIcon :address="address" />
+
+    <div>
+      <IgniteHeading class="text-3 font-semibold">
+        {{ account?.name }}
+      </IgniteHeading>
+
+      <IgniteLoader v-if="isFetchingBalances" class="mt-2 h-5" />
+      <IgniteText v-else-if="mainCoinBalance" class="text-2 text-muted"
+        >{{ mainCoinBalance.amount?.toUpperCase() }}
+        {{ mainCoinBalance.denom?.toUpperCase() }}</IgniteText
+      >
+    </div>
+  </div>
+
   <IgniteButton
+    v-else
     variant="primary"
     color="primary"
     class="!px-5 !py-[10px] !text-2"
