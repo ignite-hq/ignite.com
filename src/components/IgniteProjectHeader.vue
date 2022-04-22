@@ -77,7 +77,7 @@ const campaignName = computed(() => {
 })
 
 const description = computed(() => {
-  if (repository.description > 0) return repository.description
+  if (repository.description?.length > 0) return repository.description
   return defaultDescription
 })
 </script>
