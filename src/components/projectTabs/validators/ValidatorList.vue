@@ -11,8 +11,8 @@ const props = defineProps({
 })
 
 // variables
-let isLoading = ref(true)
-let allGenesisValidators = ref<Validator[]>([])
+const isLoading = ref(true)
+const allGenesisValidators = ref<Validator[]>([])
 
 // composables
 const { queryGenesisValidatorAll } = useTendermintSpnLaunch()
@@ -27,7 +27,7 @@ watch(campaignChains, (newVal) => {
 
 // methods
 const getValidatorsFromAllChains = async (chains: string[]) => {
-  let validatorsFromAllChains = await Promise.all(
+  const validatorsFromAllChains = await Promise.all(
     chains.map(async (chainId: string) => {
       return await queryGenesisValidatorAll(chainId.toString()).then(
         (r) => r.data
@@ -35,12 +35,8 @@ const getValidatorsFromAllChains = async (chains: string[]) => {
     })
   )
 
-  let reducedValidatorsFromAllChains = validatorsFromAllChains.reduce(
-    (acc, chainValidators) => [
-      ...acc,
-      ...(chainValidators?.genesisValidator || [])
-    ],
-    []
+  const reducedValidatorsFromAllChains = validatorsFromAllChains.flatMap(
+    (chainValidators) => chainValidators?.genesisValidator || []
   )
 
   allGenesisValidators.value = [
