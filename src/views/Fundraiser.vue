@@ -6,10 +6,6 @@ export default {
 
 <script lang="ts" setup>
 import { useSpn } from 'tendermint-spn-vue-client'
-import IgniteInput from '~/components/IgniteInput.vue'
-import IgniteText from '~/components/IgniteText.vue'
-import IgniteLink from '../components/IgniteLink.vue'
-import IgniteTextArea from '~/components/IgniteTextArea.vue'
 import IgniteButton from '~/components/IgniteButton.vue'
 import { OfflineDirectSigner } from '@cosmjs/proto-signing'
 
@@ -70,24 +66,23 @@ async function create() {
     Create a fundraiser for your project. Once a fundraiser has been published,
     it cannot be edited. A fundraiser may be cancelled at any time prior to the
     start date and time of the fundraiser.
-    <IgniteInput type="text" placeholder="Find a project" />
-    <IgniteText as="li" class="item flex items-center justify-center text-2">
-      <IgniteLink
-        to="/"
-        inactive-class="text-muted hover:text-title"
-        active-class="font-medium text-primary pointer-events-none"
-      >
-        Explore
-      </IgniteLink>
-    </IgniteText>
-    <IgniteTextArea></IgniteTextArea>
+  </div>
+  <div>Vouchers offered</div>
+  <div>
+    <div>Fundraiser summary</div>
+    <div>Raising</div>
+    <div>Fee</div>
+    <div>Total raise potential</div>
+    <IgniteButton class="px-6">
+      <span>Cancel</span>
+    </IgniteButton>
     <IgniteButton
       variant="primary"
       color="primary"
       class="px-6"
       @click="create"
     >
-      <span>Create Fundraiser</span>
+      <span>Publish</span>
     </IgniteButton>
   </div>
 </template>

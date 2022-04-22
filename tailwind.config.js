@@ -14,6 +14,9 @@ module.exports = {
       lg: `${pxToRem(100)}rem`,
       circle: '100%'
     },
+    boxShadow: {
+      DEFAULT: '16px 32px 128px -8px rgba(0, 0, 0, 0.07)'
+    },
     colors: {
       transparent: 'transparent',
       current: 'currentColor',
@@ -84,9 +87,6 @@ module.exports = {
         '4sm': '12px',
         '5sm': '14px',
         '6sm': '16px'
-      },
-      boxShadow: {
-        dropdown: '-112px 73px 191px 59px rgba(0, 0, 0, 0.09)'
       }
     },
     letterSpacing: {
@@ -124,9 +124,6 @@ module.exports = {
       10.5: `${pxToRem(104)}rem`,
       11: '8rem',
       12: '12rem'
-    },
-    boxShadow: {
-      DEFAULT: '16px 32px 128px -8px rgba(0, 0, 0, 0.07)'
     }
   },
   plugins: []

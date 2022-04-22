@@ -7,10 +7,10 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import IgniteHeading from './IgniteHeading.vue'
-import IgniteText from './IgniteText.vue'
-import IgniteInput from './IgniteInput.vue'
 import IconSearch from './icons/IconSearch.vue'
+import IgniteHeading from './IgniteHeading.vue'
+import IgniteInput from './IgniteInput.vue'
+import IgniteText from './IgniteText.vue'
 </script>
 
 <template>
