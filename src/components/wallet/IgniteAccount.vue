@@ -5,12 +5,9 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { isEmpty, isNil } from 'lodash'
 import { computed, reactive, watchEffect } from 'vue'
 
-import useAccount from '~/composables/useAccount'
 import useAddress from '~/composables/useAddress'
-import useBalances from '~/composables/useBalances'
 import { useIgnite } from '~/generated/tendermint-spn-vue'
 
 import IconExternalArrow from '../icons/IconExternalArrow.vue'
@@ -19,11 +16,10 @@ import IconWarning from '../icons/IconWarning.vue'
 import IgniteButton from '../IgniteButton.vue'
 import IgniteHeading from '../IgniteHeading.vue'
 import IgniteLink from '../IgniteLink.vue'
-import IgniteLoader from '../IgniteLoader.vue'
 import IgniteModal from '../IgniteModal.vue'
-import IgniteProfileIcon from '../IgniteProfileIcon.vue'
 import IgniteText from '../IgniteText.vue'
 import IgniteSpinner from '../ui/IgniteSpinner.vue'
+import IgniteAccountMenu from './IgniteAccountMenu.vue'
 
 enum ModalPage {
   Install,
@@ -32,13 +28,12 @@ enum ModalPage {
 }
 
 // ignite
-const { ignite, signIn } = useIgnite()
+const { ignite, signIn, signOut } = useIgnite()
 
 // variables
 const initialState = {
   modalPage: ModalPage.Connecting,
-  isConnectWalletModalOpen: false,
-  keplrParams: { name: '', bech32Address: '' }
+  isConnectWalletModalOpen: false
 }
 
 // state
@@ -46,8 +41,6 @@ const state = reactive({ ...initialState })
 
 // composables
 const { address } = useAddress()
-const { account } = useAccount()
-const { balances, isFetching: isFetchingBalances } = useBalances(address)
 
 // methods
 function onCloseModal() {
@@ -57,6 +50,11 @@ function onCloseModal() {
 function onOpenModal() {
   state.isConnectWalletModalOpen = true
   if (state.modalPage === ModalPage.Connecting) return tryToConnectToKeplr()
+}
+
+function onCancel() {
+  resetState()
+  signOut()
 }
 
 function getInitialModalPage(isKeplrAvaliable: boolean) {
@@ -76,10 +74,6 @@ async function tryToConnectToKeplr() {
 
   const onKeplrConnect = async () => {
     const chainId = ignite.env.value.chainID ?? ''
-    const { name, bech32Address } = await getAccParams(chainId)
-
-    state.keplrParams.name = name
-    state.keplrParams.bech32Address = bech32Address
 
     const offlineSigner = getOfflineSigner(chainId)
     signIn(offlineSigner)
@@ -117,10 +111,6 @@ const isConnectingPage = computed(
   () => state.modalPage === ModalPage.Connecting
 )
 const isErrorPage = computed(() => state.modalPage === ModalPage.Error)
-const mainCoinBalance = computed(() => {
-  if (isEmpty(balances.value) || isNil(balances.value)) return undefined
-  return balances.value[0]
-})
 
 // watchers
 watchEffect(() => {
@@ -129,21 +119,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div v-if="address" class="flex items-center space-x-4">
-    <IgniteProfileIcon :address="address" />
-
-    <div>
-      <IgniteHeading class="text-3 font-semibold">
-        {{ account?.name }}
-      </IgniteHeading>
-
-      <IgniteLoader v-if="isFetchingBalances" class="mt-2 h-5" />
-      <IgniteText v-else-if="mainCoinBalance" class="text-2 text-muted"
-        >{{ mainCoinBalance.amount?.toUpperCase() }}
-        {{ mainCoinBalance.denom?.toUpperCase() }}</IgniteText
-      >
-    </div>
-  </div>
+  <IgniteAccountMenu v-if="address" />
 
   <IgniteButton
     v-else
@@ -186,7 +162,7 @@ watchEffect(() => {
         class="mt-6 flex flex-col items-center space-y-7"
       >
         <IgniteSpinner />
-        <IgniteButton class="w-full text-gray-0" @click="onCloseModal">
+        <IgniteButton class="w-full text-gray-0" @click="onCancel">
           Cancel
         </IgniteButton>
         <IgniteLink to="https://help.keplr.app/getting-started">
