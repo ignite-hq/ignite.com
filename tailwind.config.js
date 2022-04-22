@@ -14,6 +14,9 @@ module.exports = {
       lg: `${pxToRem(100)}rem`,
       circle: '100%'
     },
+    boxShadow: {
+      DEFAULT: '16px 32px 128px -8px rgba(0, 0, 0, 0.07)'
+    },
     colors: {
       transparent: 'transparent',
       current: 'currentColor',
@@ -121,9 +124,6 @@ module.exports = {
       10.5: `${pxToRem(104)}rem`,
       11: '8rem',
       12: '12rem'
-    },
-    boxShadow: {
-      DEFAULT: '16px 32px 128px -8px rgba(0, 0, 0, 0.07)'
     }
   },
   plugins: []

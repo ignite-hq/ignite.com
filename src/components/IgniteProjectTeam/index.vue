@@ -31,8 +31,6 @@ export default defineComponent({
 })
 </script>
 
-<script lang="ts" setup></script>
-
 <script setup lang="ts">
 import IgniteHeading from '../IgniteHeading.vue'
 import ProjectTeamMember from './ProjectTeamMember.vue'

@@ -85,7 +85,7 @@ defineProps({
         <IgniteHeading as="div" class="font-title text-4">3 days</IgniteHeading>
       </div>
       <div class="mt-4" :class="!isWide ? ['sm:mt-0', 'sm:mr-6'] : 'sm:mt-6'">
-        <IgniteButton variant="primary" class="w-full sm:w-auto"
+        <IgniteButton variant="primary" color="primary" class="w-full sm:w-auto"
           >View fundraiser</IgniteButton
         >
       </div>

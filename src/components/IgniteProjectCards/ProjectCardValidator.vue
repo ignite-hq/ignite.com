@@ -82,7 +82,7 @@ defineProps({
       class="mt-8.5 flex items-center justify-center md:shrink-0"
       :class="isWide && 'lg:mt-0'"
     >
-      <IgniteButton variant="primary" class="w-full sm:w-auto"
+      <IgniteButton variant="primary" color="primary" class="w-full sm:w-auto"
         >Become a validator</IgniteButton
       >
     </div>

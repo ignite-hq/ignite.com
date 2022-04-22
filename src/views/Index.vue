@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import IgniteProjectsHeader from '../components/IgniteProjectsHeader.vue'
 import IgniteProjectList from '../components/IgniteProjectList.vue'
+import IgniteProjectsHeader from '../components/IgniteProjectsHeader.vue'
 </script>
 
 <template>
