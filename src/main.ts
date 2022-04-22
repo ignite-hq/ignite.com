@@ -5,6 +5,7 @@ import { createPinia } from 'pinia'
 import { createSpn } from 'tendermint-spn-ts-client'
 import { useSpn } from 'tendermint-spn-vue-client'
 import { Env } from '@ignt/plugins'
+
 import { createApp } from 'vue'
 import { VueQueryPlugin, VueQueryPluginOptions } from 'vue-query'
 import VueApexCharts from 'vue3-apexcharts'
@@ -12,53 +13,56 @@ import VueApexCharts from 'vue3-apexcharts'
 import App from './App.vue'
 import router from './router'
 
-let env: Env = {
+const env: Env = {
   apiURL: process.env.VUE_APP_API_COSMOS ?? '',
   rpcURL: process.env.VUE_APP_API_TENDERMINT ?? '',
-  wsURL: process.env.VUE_APP_WS_TENDERMINT ?? ''
+  wsURL: process.env.VUE_APP_WS_TENDERMINT ?? '',
+  prefix: process.env.VUE_APP_ADDRESS_PREFIX ?? '',
+  chainID: process.env.VUE_APP_CHAIN_ID ?? '',
+  chainName: process.env.VUE_APP_CHAIN_NAME ?? ''
 }
 
-// ignite
+// spn
 let { inject } = useSpn()
 
-let $n = createSpn({
+let spn = createSpn({
   env
 })
 
-inject($n)
+inject(spn)
 
-$n.ws.ee().on('ws-chain-id', (chainId: string) => {
+spn.ws.ee().on('ws-chain-id', (chainId: string) => {
   console.log('ws-chain-id', chainId)
-  $n.env.chainID = chainId
+  spn.env.chainID = chainId
 })
-$n.ws.ee().on('ws-chain-name', (chainName: string) => {
-  $n.env.chainName = chainName
+spn.ws.ee().on('ws-chain-name', (chainName: string) => {
+  spn.env.chainName = chainName
 })
 
-$n.env.status = {
+spn.env.status = {
   apiConnected: false,
   rpcConnected: false,
   wsConnected: false
 }
 
-$n.ws.ee().on('ws-api-status', (connected: boolean) => {
+spn.ws.ee().on('ws-api-status', (connected: boolean) => {
   //@ts-ignore
-  $n.env.status.apiConnected = connected
+  spn.env.status.apiConnected = connected
 })
-$n.ws.ee().on('ws-rpc-status', (connected: boolean) => {
+spn.ws.ee().on('ws-rpc-status', (connected: boolean) => {
   //@ts-ignore
-  $n.env.status.rpcConnected = connected
+  spn.env.status.rpcConnected = connected
 })
-$n.ws.ee().on('ws-open', () => {
+spn.ws.ee().on('ws-open', () => {
   //@ts-ignore
-  $n.env.status.wsConnected = true
+  spn.env.status.wsConnected = true
 })
-$n.ws.ee().on('ws-close', () => {
+spn.ws.ee().on('ws-close', () => {
   //@ts-ignore
-  $n.env.status.wsConnected = false
+  spn.env.status.wsConnected = false
 })
 
-$n.ws.connect()
+spn.ws.connect()
 
 const app = createApp(App)
 

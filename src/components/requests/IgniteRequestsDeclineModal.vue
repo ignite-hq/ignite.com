@@ -5,7 +5,6 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { useIgnite } from '@ignt/vue'
 import { useSpn } from 'tendermint-spn-vue-client'
 import { computed, reactive } from 'vue'
 
@@ -13,7 +12,7 @@ import IconWarning from '~/components/icons/IconWarning.vue'
 import IgniteButton from '~/components/IgniteButton.vue'
 import IgniteHeading from '~/components/IgniteHeading.vue'
 import IgniteModal from '~/components/IgniteModal.vue'
-import IgniteText from '~/components/IgniteText.vue'
+import useAddress from '~/composables/useAddress'
 import { useRequestsStore } from '~/stores/requests-store'
 import { oxfordComma } from '~/utils/array'
 
@@ -46,9 +45,7 @@ const state = reactive({ ...initialState })
 
 // composables
 const { spn } = useSpn()
-const {
-  state: { ignite }
-} = useIgnite()
+const { address } = useAddress()
 
 // methods
 function resetState() {
@@ -64,7 +61,7 @@ function onClose() {
 async function onConfirm() {
   state.isLoading = true
 
-  const signerAddress = ignite.value.addr
+  const signerAddress = address.value
 
   if (!signerAddress) return
 
