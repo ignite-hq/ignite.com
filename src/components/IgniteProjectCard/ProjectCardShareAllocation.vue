@@ -20,8 +20,6 @@ const props = defineProps({
   }
 })
 
-console.log(props)
-
 // variables
 const legend: LegendItem[] = [
   {
