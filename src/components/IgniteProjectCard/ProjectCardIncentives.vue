@@ -5,12 +5,12 @@ export default {
 </script>
 
 <script setup lang="ts">
-import SpDenom from '@starport/vue/src/components/SpDenom/SpDenom.vue'
 import { CampaignCampaignSummary } from 'tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 import { computed, PropType } from 'vue'
 
 import IgniteHeading from '../IgniteHeading.vue'
 import IgniteText from '../IgniteText.vue'
+import IgniteDenom from '../ui/IgniteDenom.vue'
 
 const props = defineProps({
   campaignSummary: {
@@ -77,7 +77,7 @@ const firstPastIncentiveDenom = computed(() => {
       Incentives
     </IgniteText>
     <div class="mb-6 flex items-center justify-center">
-      <SpDenom
+      <IgniteDenom
         v-if="firstIncentiveDenom"
         modifier="avatar"
         :denom="firstIncentiveDenom"

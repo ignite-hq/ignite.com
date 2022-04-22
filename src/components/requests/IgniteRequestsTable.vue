@@ -5,12 +5,12 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { useAddress } from '@starport/vue/src/composables'
 import { computed } from 'vue'
 
 import IgniteCheckbox from '~/components/IgniteCheckbox.vue'
 import IgniteLoader from '~/components/IgniteLoader.vue'
 import IgniteProfileIcon from '~/components/IgniteProfileIcon.vue'
+import useAddress from '~/composables/useAddress'
 import {
   LaunchRequest,
   LaunchRequestContent
@@ -38,7 +38,7 @@ const skeletons = new Array(6).fill(null)
 const store = useRequestsStore()
 
 // composables
-const { address: account } = useAddress()
+const { address } = useAddress()
 
 // methods
 function selectAll() {
@@ -159,7 +159,7 @@ const isLoading = computed(() => {
     <div role="rowgroup">
       <div role="row" class="responses-table-header">
         <div
-          v-if="Boolean(account) && !isLoading"
+          v-if="Boolean(address) && !isLoading"
           role="columnheader"
           class="responses-table-column-cell"
         >
@@ -197,7 +197,7 @@ const isLoading = computed(() => {
       >
         <!-- Checkbox -->
         <div
-          v-if="Boolean(account) && !isLoading"
+          v-if="Boolean(address) && !isLoading"
           role="cell"
           class="responses-table-cell"
         >

@@ -44,4 +44,3 @@ const { campaignSummary } = useCampaignSummary(projectId)
     <ProjectInvestTab v-if="tab === 'invest'" />
   </div>
 </template>
-
