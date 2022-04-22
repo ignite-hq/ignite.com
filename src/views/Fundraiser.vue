@@ -8,6 +8,8 @@ export default {
 import { useSpn } from 'tendermint-spn-vue-client'
 import IgniteButton from '~/components/IgniteButton.vue'
 import { OfflineDirectSigner } from '@cosmjs/proto-signing'
+import IgniteHeading from '~/components/IgniteHeading.vue'
+import IgniteText from '~/components/IgniteText.vue'
 
 async function create() {
   let { spn, signIn } = useSpn()
@@ -61,28 +63,49 @@ async function create() {
 </script>
 
 <template>
-  <div>Create fundraiser</div>
-  <div>
-    Create a fundraiser for your project. Once a fundraiser has been published,
-    it cannot be edited. A fundraiser may be cancelled at any time prior to the
-    start date and time of the fundraiser.
-  </div>
-  <div>Vouchers offered</div>
-  <div>
-    <div>Fundraiser summary</div>
-    <div>Raising</div>
-    <div>Fee</div>
-    <div>Total raise potential</div>
-    <IgniteButton class="px-6">
-      <span>Cancel</span>
-    </IgniteButton>
-    <IgniteButton
-      variant="primary"
-      color="primary"
-      class="px-6"
-      @click="create"
-    >
-      <span>Publish</span>
-    </IgniteButton>
+  <div class="container py-10 text-center">
+    <div class="mt-8 flex flex-col md:flex-row">
+      <IgniteHeading class="text-center font-title text-7 font-semibold">
+        Create fundraiser
+      </IgniteHeading>
+      <IgniteText class="mx-auto mt-4 max-w-lg">
+        Create a fundraiser for your project. Once a fundraiser has been
+        published, it cannot be edited. A fundraiser may be cancelled at any
+        time prior to the start date and time of the fundraiser.
+      </IgniteText>
+    </div>
+    <div class="mt-8 flex flex-col md:flex-row">
+      <IgniteHeading class="text-center font-title text-7 font-semibold">
+        Vouchers offered
+      </IgniteHeading>
+      <IgniteText class="mx-auto mt-4 max-w-lg">
+        Create a fundraiser for your project. Once a fundraiser has been
+        published, it cannot be edited. A fundraiser may be cancelled at any
+        time prior to the start date and time of the fundraiser.
+      </IgniteText>
+    </div>
+    <div class="mt-8 flex flex-col md:flex-row">
+      <IgniteHeading class="text-center font-title text-7 font-semibold">
+        Fundraiser summary
+      </IgniteHeading>
+      <IgniteText class="mx-auto mt-4 max-w-lg">
+        Create a fundraiser for your project. Once a fundraiser has been
+        published, it cannot be edited. A fundraiser may be cancelled at any
+        time prior to the start date and time of the fundraiser.
+      </IgniteText>
+      <div>
+        <IgniteButton class="px-6">
+          <span>Cancel</span>
+        </IgniteButton>
+        <IgniteButton
+          variant="primary"
+          color="primary"
+          class="px-6"
+          @click="create"
+        >
+          <span>Publish</span>
+        </IgniteButton>
+      </div>
+    </div>
   </div>
 </template>
