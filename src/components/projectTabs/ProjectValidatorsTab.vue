@@ -18,9 +18,7 @@ const { campaignSummary } = useCampaignSummary(projectId)
 
 // computed
 const launchId = computed<string>(() => {
-  return (
-    campaignSummary?.value?.campaignSummary?.mostRecentChain?.launchID || '0'
-  )
+  return campaignSummary?.value?.mostRecentChain?.launchID || '0'
 })
 </script>
 
@@ -31,23 +29,23 @@ const launchId = computed<string>(() => {
     </IgniteHeading>
     <IgniteText class="mx-auto mt-4 max-w-lg">
       Participation incentives for validating transactions on the
-      {{ campaignSummary?.campaignSummary?.campaign?.campaignName }} network
+      {{ campaignSummary?.campaign?.campaignName }} network
     </IgniteText>
     <div class="mt-8 flex flex-col md:flex-row">
       <div
         class="m-4 flex w-full flex-col justify-center rounded border border-gray-70 p-5"
       >
         <ProjectCardIncentives
-          v-if="campaignSummary?.campaignSummary"
-          :campaign-summary="campaignSummary?.campaignSummary"
+          v-if="campaignSummary"
+          :campaign-summary="campaignSummary"
         />
       </div>
       <div
         class="m-4 flex w-full flex-col justify-center rounded border border-gray-70 p-5"
       >
         <ProjectCardShareAllocation
-          v-if="campaignSummary?.campaignSummary"
-          :campaign-summary="campaignSummary?.campaignSummary"
+          v-if="campaignSummary"
+          :campaign-summary="campaignSummary"
         />
       </div>
     </div>
@@ -57,7 +55,7 @@ const launchId = computed<string>(() => {
     </IgniteHeading>
     <IgniteText class="mx-auto mt-4 max-w-lg">
       Active validators verifying transactions to secure the
-      {{ campaignSummary?.campaignSummary?.campaign?.campaignName }} network
+      {{ campaignSummary?.campaign?.campaignName }} network
     </IgniteText>
 
     <ValidatorList

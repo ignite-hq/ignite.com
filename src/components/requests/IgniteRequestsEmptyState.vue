@@ -16,7 +16,7 @@ import IgniteText from '../IgniteText.vue'
     <div
       class="flex h-[46px] w-[46px] items-center justify-center rounded-circle border-2 border-primary"
     >
-      <IconCheckMarkThin class="h-[1.2rem] w-[1.2rem] stroke-2" />
+      <IconCheckMarkThin class="h-[1.2rem] w-[1.2rem] stroke-2 text-primary" />
     </div>
 
     <IgniteText class="font-title text-4 text-muted"><slot /></IgniteText>

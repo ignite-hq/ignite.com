@@ -123,49 +123,51 @@ const isError = computed(() => state.currentUIState === UIStates.Error)
     </template>
 
     <template v-if="isFresh" #body>
-      <IgniteText
-        v-if="requestsSummaries.validatorCount > 0"
-        class="text-center text-3 leading-normal text-muted"
-      >
-        Add
-        <span class="font-semibold">{{
-          requestsSummaries.validatorCount
-        }}</span>
-        validator{{ requestsSummaries.validatorCount === 1 ? '' : 's' }}
-      </IgniteText>
+      <div class="mt-4">
+        <IgniteText
+          v-if="requestsSummaries.validatorCount > 0"
+          class="text-center text-3 leading-normal text-muted"
+        >
+          Add
+          <span class="font-semibold">{{
+            requestsSummaries.validatorCount
+          }}</span>
+          validator{{ requestsSummaries.validatorCount === 1 ? '' : 's' }}
+        </IgniteText>
 
-      <IgniteText
-        v-for="coin in requestsSummaries.coinsToGrant"
-        :key="coin.denom"
-        class="text-center text-3 leading-normal text-muted"
-      >
-        Grant
-        <span class="font-semibold"
-          >{{ addCommasToNumber(coin.amount ?? '') }}
-          {{ coin.denom?.toUpperCase() }}</span
+        <IgniteText
+          v-for="coin in requestsSummaries.coinsToGrant"
+          :key="coin.denom"
+          class="text-center text-3 leading-normal text-muted"
         >
-      </IgniteText>
+          Grant
+          <span class="font-semibold"
+            >{{ addCommasToNumber(coin.amount ?? '') }}
+            {{ coin.denom?.toUpperCase() }}</span
+          >
+        </IgniteText>
 
-      <div class="mt-7 flex space-x-4">
-        <IgniteButton
-          class="flex-1"
-          variant="text"
-          color="text-gray-0"
-          :disabled="state.isLoading"
-          @click="onClose"
-        >
-          Cancel
-        </IgniteButton>
-        <IgniteButton
-          variant="primary"
-          color="primary"
-          type="submit"
-          class="flex-1"
-          :disabled="state.isLoading"
-          @click="onConfirm"
-        >
-          Confirm
-        </IgniteButton>
+        <div class="mt-7 flex space-x-4">
+          <IgniteButton
+            class="flex-1"
+            variant="text"
+            color="text-gray-0"
+            :disabled="state.isLoading"
+            @click="onClose"
+          >
+            Cancel
+          </IgniteButton>
+          <IgniteButton
+            variant="primary"
+            color="primary"
+            type="submit"
+            class="flex-1"
+            :disabled="state.isLoading"
+            @click="onConfirm"
+          >
+            Confirm
+          </IgniteButton>
+        </div>
       </div>
     </template>
 

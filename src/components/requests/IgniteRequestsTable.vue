@@ -13,11 +13,18 @@ import IgniteProfileIcon from '~/components/IgniteProfileIcon.vue'
 import useAddress from '~/composables/useAddress'
 import {
   LaunchRequest,
-  LaunchRequestContent
+  LaunchRequestContent,
+  LaunchRequestStatus
 } from '~/generated/tendermint-spn-ts-client/tendermint.spn.launch/rest'
-import { RequestPageSorts, useRequestsStore } from '~/stores/requests-store'
+import {
+  RequestPageFilters,
+  RequestPageSorts,
+  useRequestsStore
+} from '~/stores/requests-store'
 import { getShortAddress } from '~/utils/address'
 
+import IconCanceled from '../icons/IconCanceled.vue'
+import IconCheckMarkThin from '../icons/IconCheckMarkThin.vue'
 import IgniteRequestsAction from './IgniteRequestsAction.vue'
 import { getTypeFromContent } from './utils'
 
@@ -151,6 +158,20 @@ const areAllChecked = computed(() => {
 const isLoading = computed(() => {
   return props.loading
 })
+
+const showCheckbox = computed(() => {
+  const isShowingClosedRequests =
+    store.selectedPageFilter.id === RequestPageFilters.Closed
+
+  return Boolean(address) && !isLoading.value && !isShowingClosedRequests
+})
+
+const showStatus = computed(() => {
+  const isShowingClosedRequests =
+    store.selectedPageFilter.id === RequestPageFilters.Closed
+
+  return isShowingClosedRequests
+})
 </script>
 
 <template>
@@ -159,7 +180,7 @@ const isLoading = computed(() => {
     <div role="rowgroup">
       <div role="row" class="responses-table-header">
         <div
-          v-if="Boolean(address) && !isLoading"
+          v-if="showCheckbox"
           role="columnheader"
           class="responses-table-column-cell"
         >
@@ -168,6 +189,14 @@ const isLoading = computed(() => {
             :is-indeterminate="isAnyChecked"
             @input="selectAll"
           />
+        </div>
+
+        <div
+          v-if="showStatus"
+          role="columnheader"
+          class="responses-table-column-cell"
+        >
+          <IconCheckMarkThin class="invisible" />
         </div>
 
         <div role="columnheader" class="responses-table-column-cell flex-1">
@@ -196,14 +225,25 @@ const isLoading = computed(() => {
         class="responses-table-row"
       >
         <!-- Checkbox -->
-        <div
-          v-if="Boolean(address) && !isLoading"
-          role="cell"
-          class="responses-table-cell"
-        >
+        <div v-if="showCheckbox" role="cell" class="responses-table-cell">
           <IgniteCheckbox
             :is-checked="isChecked(request.requestID!)"
             @update:model-value="(isChecked) => onSelect( index, request.requestID!, isChecked as boolean)"
+          />
+        </div>
+
+        <!-- Status -->
+        <div v-if="showStatus" role="cell" class="responses-table-cell">
+          <component
+            :is="
+              request.status === LaunchRequestStatus.APPROVED
+                ? IconCheckMarkThin
+                : IconCanceled
+            "
+            :class="{
+              'text-primary': request.status === LaunchRequestStatus.APPROVED,
+              'text-negative': request.status === LaunchRequestStatus.REJECTED
+            }"
           />
         </div>
 

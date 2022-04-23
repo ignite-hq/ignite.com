@@ -44,7 +44,7 @@ const showGitHubRepository = computed(() => {
 </script>
 
 <template>
-  <div>
+  <div class="flex flex-col">
     <IgniteLoader v-if="isLoading" class="title-loading mx-auto mb-4" />
     <IgniteHeading
       v-if="!isLoading"
@@ -57,7 +57,7 @@ const showGitHubRepository = computed(() => {
     <IgniteGithubRepoLink
       v-if="showGitHubRepository"
       :github-url="githubUrl"
-      class="mb-7 justify-center text-2"
+      class="mb-7 text-2"
     />
 
     <IgniteText v-if="!isLoading" class="text-2 text-muted md:text-3">

@@ -9,7 +9,8 @@ import IgniteSelectedRequests from '~/components/requests/IgniteSelectedRequests
 import useProjectRequests from '~/composables/useProjectRequests'
 import {
   LaunchQueryAllRequestResponse,
-  LaunchRequest
+  LaunchRequest,
+  LaunchRequestStatus
 } from '~/generated/tendermint-spn-ts-client/tendermint.spn.launch/rest'
 import { RequestPageFilters, useRequestsStore } from '~/stores/requests-store'
 
@@ -35,9 +36,31 @@ function mergePages(
   )
 }
 
+function filterRequests(
+  requests: LaunchRequest[],
+  filterBy: RequestPageFilters
+) {
+  switch (filterBy) {
+    case RequestPageFilters.Pending:
+      return requests.filter(
+        ({ status }) => status === LaunchRequestStatus.PENDING
+      )
+    case RequestPageFilters.Closed:
+      return requests.filter(
+        ({ status }) =>
+          status === LaunchRequestStatus.REJECTED ||
+          status === LaunchRequestStatus.APPROVED
+      )
+    default:
+      return requests
+  }
+}
+
 // computed
 const projectRequests = computed(() => {
-  return mergePages(requests.value?.pages)
+  const mergedRequests = mergePages(requests.value?.pages)
+
+  return filterRequests(mergedRequests, store.selectedPageFilter.id)
 })
 
 const emptyStateMessage = computed(() => {

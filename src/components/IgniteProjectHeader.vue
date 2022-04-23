@@ -5,8 +5,9 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import { isEmpty, isNil } from 'lodash'
 import { CampaignCampaignSummary } from 'tendermint-spn-ts-client/tendermint.spn.campaign/rest'
-import { computed, PropType, reactive } from 'vue'
+import { computed, reactive } from 'vue'
 
 import useGitHubRepository from '../composables/useGitHubRepository'
 import { getUserAndRepositoryFromUrl } from '../utils/github'
@@ -19,13 +20,14 @@ import IgniteProjectNav from './IgniteProjectNav.vue'
 import IgniteProjectStatus from './IgniteProjectStatus.vue'
 import IgniteText from './IgniteText.vue'
 
-const props = defineProps({
-  projectId: { type: String, requred: true },
-  campaignSummary: {
-    type: Object as PropType<CampaignCampaignSummary>,
-    default: () => ({})
-  },
-  activeTab: String
+interface Props {
+  projectId: string
+  campaignSummary?: CampaignCampaignSummary
+  activeTab: string
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  campaignSummary: () => ({})
 })
 
 const navigation = reactive([
@@ -48,14 +50,14 @@ const navigation = reactive([
 ])
 
 // variables
-const githubUrl =
-  props.campaignSummary?.campaignSummary?.mostRecentChain?.sourceURL ?? ''
+const githubUrl = props.campaignSummary?.mostRecentChain?.sourceURL ?? ''
 const { githubUser, githubRepo } = getUserAndRepositoryFromUrl(githubUrl)
+
 const defaultDescription =
   'A blockchain built with the Cosmos SDK and launched on the Ignite Network.'
 
 // composables
-const { repository, isLoading } = useGitHubRepository(githubUser, githubRepo)
+const { repository } = useGitHubRepository(githubUser, githubRepo)
 
 // computed
 const breadcrumbsLinks = computed(() => {
@@ -66,19 +68,20 @@ const breadcrumbsLinks = computed(() => {
     },
     {
       link: `/projects/${props.projectId}/overview`,
-      title: props.campaignSummary?.campaignSummary?.campaign.campaignName
+      title: props.campaignSummary?.campaign?.campaignName
     }
   ]
 })
 
 const campaignName = computed(() => {
   if (!props.campaignSummary) return ''
-  return props.campaignSummary?.campaignSummary?.campaign.campaignName
+  return props.campaignSummary?.campaign?.campaignName
 })
 
 const description = computed(() => {
-  if (repository.description?.length > 0) return repository.description
-  return defaultDescription
+  const description = repository.value?.description
+  if (isNil(description) || isEmpty(description)) return defaultDescription
+  return description
 })
 </script>
 
@@ -108,29 +111,19 @@ const description = computed(() => {
                 </IgniteHeading>
                 <div class="item-center mb-7 lg:flex">
                   <IgniteGithubRepoLink
-                    :github-url="
-                      campaignSummary?.campaignSummary?.mostRecentChain
-                        ?.sourceURL
-                    "
+                    :github-url="campaignSummary?.mostRecentChain?.sourceURL"
                     class="mb-5 text-3 lg:mb-0 lg:mr-7"
                   />
                   <IgniteProjectStatus
-                    :loading="isLoading"
-                    :launch-id="
-                      campaignSummary?.campaignSummary?.mostRecentChain
-                        ?.launchID ?? '0'
+                    :project-id="
+                      campaignSummary?.mostRecentChain?.launchID ?? '0'
                     "
-                    :campaign-id="
-                      campaignSummary?.campaignSummary?.campaign?.campaignID ??
-                      '0'
-                    "
+                    :campaign-id="campaignSummary?.campaign?.campaignID ?? '0'"
                     :validator-count="
-                      campaignSummary?.campaignSummary?.mostRecentChain
-                        ?.validatorNb ?? '0'
+                      campaignSummary?.mostRecentChain?.validatorNb ?? '0'
                     "
                     :request-count="
-                      campaignSummary?.campaignSummary?.mostRecentChain
-                        ?.requestNb ?? '0'
+                      campaignSummary?.mostRecentChain?.requestNb ?? '0'
                     "
                     :stargazer-count="
                       repository?.stargazers_count?.toString() ?? '0'
