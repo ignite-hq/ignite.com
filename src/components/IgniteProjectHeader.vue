@@ -10,11 +10,11 @@ import { CampaignCampaignSummary } from 'tendermint-spn-ts-client/tendermint.spn
 import { computed, reactive } from 'vue'
 
 import useGitHubRepository from '../composables/useGitHubRepository'
-import { getUserAndRepositoryFromUrl } from '../utils/github'
 import IgniteBgWave from './IgniteBgWave.vue'
 import IgniteBreadcrumbs from './IgniteBreadcrumbs.vue'
 import IgniteGithubRepoLink from './IgniteGithubRepoLink.vue'
 import IgniteHeading from './IgniteHeading.vue'
+import IgniteLoader from './IgniteLoader.vue'
 import IgniteProjectActions from './IgniteProjectActions.vue'
 import IgniteProjectNav from './IgniteProjectNav.vue'
 import IgniteProjectStatus from './IgniteProjectStatus.vue'
@@ -22,12 +22,14 @@ import IgniteText from './IgniteText.vue'
 
 interface Props {
   projectId: string
-  campaignSummary?: CampaignCampaignSummary
   activeTab: string
+  campaignSummary?: CampaignCampaignSummary
+  loading: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  campaignSummary: () => ({})
+  campaignSummary: () => ({}),
+  loading: false
 })
 
 const navigation = reactive([
@@ -50,16 +52,16 @@ const navigation = reactive([
 ])
 
 // variables
-const githubUrl = props.campaignSummary?.mostRecentChain?.sourceURL ?? ''
-const { githubUser, githubRepo } = getUserAndRepositoryFromUrl(githubUrl)
-
 const defaultDescription =
   'A blockchain built with the Cosmos SDK and launched on the Ignite Network.'
 
-// composables
-const { repository } = useGitHubRepository(githubUser, githubRepo)
+const githubUrl = computed(() => {
+  return props.campaignSummary?.mostRecentChain?.sourceURL
+})
 
-// computed
+// composables
+const { repository, isFetching } = useGitHubRepository(githubUrl)
+
 const breadcrumbsLinks = computed(() => {
   return [
     {
@@ -83,6 +85,10 @@ const description = computed(() => {
   if (isNil(description) || isEmpty(description)) return defaultDescription
   return description
 })
+
+const isLoading = computed(() => {
+  return isFetching.value || props.loading
+})
 </script>
 
 <template>
@@ -96,25 +102,37 @@ const description = computed(() => {
         <div class="grid grid-cols-1 gap-4 md:grid-cols-8 lg:grid-cols-6">
           <div class="px-0 md:col-span-6 lg:col-span-4 xl:col-span-3">
             <div class="md:flex">
+              <!-- Profile Icon -->
+              <IgniteLoader
+                v-if="isLoading"
+                class="mb-6 h-9.5 w-9.5 rounded-md md:mb-0 md:mr-7"
+              />
               <div
+                v-else
                 class="relative mb-6 h-9.5 w-9.5 shrink-0 rounded-md bg-primary md:mb-0 md:mr-7"
               >
                 <div class="absolute inset-0 z-[2] overflow-hidden">
                   <IgniteBgWave />
                 </div>
               </div>
+
               <div class="max-w-lg">
+                <IgniteLoader v-if="isLoading" class="mb-6 h-8" />
                 <IgniteHeading
+                  v-else
                   class="mb-6 font-title text-7 font-semibold md:text-8"
                 >
                   {{ campaignName }}
                 </IgniteHeading>
+
                 <div class="item-center mb-7 lg:flex">
                   <IgniteGithubRepoLink
+                    :loading="isLoading"
                     :github-url="campaignSummary?.mostRecentChain?.sourceURL"
                     class="mb-5 text-3 lg:mb-0 lg:mr-7"
                   />
                   <IgniteProjectStatus
+                    :loading="isLoading"
                     :project-id="
                       campaignSummary?.mostRecentChain?.launchID ?? '0'
                     "
@@ -130,7 +148,12 @@ const description = computed(() => {
                     "
                   />
                 </div>
-                <IgniteText class="text-2 text-muted md:text-3">
+
+                <IgniteLoader
+                  v-if="isLoading"
+                  class="h-7 w-[30rem] !max-w-none"
+                />
+                <IgniteText v-else class="text-2 text-muted md:text-3">
                   {{ description }}
                 </IgniteText>
               </div>

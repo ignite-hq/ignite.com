@@ -1,9 +1,8 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'IgniteProjectStatus'
-})
+export default {
+  name: 'IgniteProjectStatus',
+  inheritAttrs: false
+}
 </script>
 
 <script setup lang="ts">
@@ -11,18 +10,21 @@ import IconPlane from './icons/IconPlane.vue'
 import IconStage from './icons/IconStage.vue'
 import IconStar from './icons/IconStar.vue'
 import IgniteLink from './IgniteLink.vue'
+import IgniteLoader from './IgniteLoader.vue'
 import IgniteText from './IgniteText.vue'
 
 defineProps({
   projectId: { type: String, required: true },
   requestCount: { type: String, required: true },
   validatorCount: { type: String, required: true },
-  stargazerCount: { type: String, required: true }
+  stargazerCount: { type: String, required: true },
+  loading: { type: Boolean, default: false }
 })
 </script>
 
 <template>
-  <div class="status">
+  <IgniteLoader v-if="loading" class="h-6 w-12" />
+  <div v-else v-bind="$attrs" class="status">
     <div class="status__item" title="Stargazers">
       <IconStar class="icon" />
       <IgniteText as="span">{{ stargazerCount }}</IgniteText>

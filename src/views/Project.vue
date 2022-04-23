@@ -28,12 +28,13 @@ onBeforeRouteUpdate(async (to) => {
 })
 
 // composables
-const { campaignSummary } = useCampaignSummary(projectId)
+const { campaignSummary, isFetching } = useCampaignSummary(projectId)
 </script>
 
 <template>
   <div>
     <IgniteProjectHeader
+      :loading="isFetching"
       :active-tab="tab"
       :project-id="projectId"
       :campaign-summary="campaignSummary"
