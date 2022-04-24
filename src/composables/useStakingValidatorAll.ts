@@ -8,7 +8,7 @@ export default function useAllStakingValidators() {
   const { queryValidators } = useCosmosStakingV1Beta1()
 
   const { data, ...other } = useInfiniteQuery(
-    ['staking-validators'],
+    ['staking-ProjectValidatorsTab'],
     ({ pageParam }) => {
       return queryValidators({
         'pagination.limit': VALIDATORS_PER_PAGE,

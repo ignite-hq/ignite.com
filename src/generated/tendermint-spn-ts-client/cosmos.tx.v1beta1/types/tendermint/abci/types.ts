@@ -526,7 +526,7 @@ export interface Evidence {
   time: Date | undefined
   /**
    * Total voting power of the validator set in case the ABCI application does
-   * not store historical validators.
+   * not store historical ProjectValidatorsTab.
    * https://github.com/tendermint/tendermint/issues/4581
    */
   total_voting_power: number

@@ -133,7 +133,7 @@ export interface Header {
   data_hash: Uint8Array
   /** hashes from the app output from the prev block */
   validators_hash: Uint8Array
-  /** validators for the next block */
+  /** ProjectValidatorsTab for the next block */
   next_validators_hash: Uint8Array
   /** consensus params for current block */
   consensus_hash: Uint8Array
@@ -158,7 +158,7 @@ export interface Data {
 }
 
 /**
- * Vote represents a prevote, precommit, or commit vote from validators for
+ * Vote represents a prevote, precommit, or commit vote from ProjectValidatorsTab for
  * consensus.
  */
 export interface Vote {
@@ -173,7 +173,7 @@ export interface Vote {
   signature: Uint8Array
 }
 
-/** Commit contains the evidence that a block was committed by a set of validators. */
+/** Commit contains the evidence that a block was committed by a set of ProjectValidatorsTab. */
 export interface Commit {
   height: number
   round: number

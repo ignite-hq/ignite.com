@@ -1,0 +1,45 @@
+<script lang="ts">
+export default {
+  name: 'ProjectCardStatus'
+}
+</script>
+
+<script setup lang="ts">
+import { computed } from 'vue'
+
+import IgniteLoader from '../../ui/atoms/IgniteLoader.vue'
+import IgniteProjectStatus from '../../ProjectHeader/IgniteProjectStatus.vue'
+
+const props = defineProps({
+  loading: Boolean,
+  projectId: { type: String, required: true },
+  requestCount: { type: String, required: true },
+  validatorCount: { type: String, required: true },
+  stargazerCount: { type: String, required: true }
+})
+
+const isLoading = computed(() => {
+  return props.loading
+})
+</script>
+
+<template>
+  <div>
+    <IgniteLoader v-if="isLoading" class="status-loading mx-auto" />
+    <IgniteProjectStatus
+      v-if="!isLoading"
+      :project-id="projectId"
+      :stargazer-count="stargazerCount"
+      :request-count="requestCount"
+      :validator-count="validatorCount"
+      class="justify-center"
+    />
+  </div>
+</template>
+
+<style scoped lang="postcss">
+.status-loading {
+  height: 1.75rem;
+  width: 11.25rem;
+}
+</style>

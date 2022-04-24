@@ -14,12 +14,12 @@ import useAccount from '~/composables/useAccount'
 import useAddress from '~/composables/useAddress'
 import useBalances from '~/composables/useBalances'
 
-import IgniteButton from '../IgniteButton.vue'
-import IgniteHeading from '../IgniteHeading.vue'
-import IgniteLink from '../IgniteLink.vue'
-import IgniteLoader from '../IgniteLoader.vue'
-import IgniteProfileIcon from '../IgniteProfileIcon.vue'
-import IgniteText from '../IgniteText.vue'
+import IgniteButton from '../ui/atoms/IgniteButton.vue'
+import IgniteHeading from '../ui/atoms/IgniteHeading.vue'
+import IgniteLink from '../ui/atoms/IgniteLink.vue'
+import IgniteLoader from '../ui/atoms/IgniteLoader.vue'
+import IgniteProfileIcon from '../ui/atoms/IgniteProfileIcon.vue'
+import IgniteText from '../ui/atoms/IgniteText.vue'
 
 interface Props {
   visible: boolean

@@ -8,11 +8,11 @@ export default {
 import { ref, onBeforeMount } from 'vue'
 import { onBeforeRouteUpdate, useRoute } from 'vue-router'
 
-import IgniteProjectHeader from '../components/IgniteProjectHeader.vue'
-import ProjectInvestTab from '../components/projectTabs/ProjectInvestTab.vue'
-import ProjectOverviewTab from '../components/projectTabs/ProjectOverviewTab.vue'
-import ProjectRequestsTab from '../components/projectTabs/ProjectRequestsTab.vue'
-import ProjectValidatorsTab from '../components/projectTabs/ProjectValidatorsTab.vue'
+import IgniteProjectHeader from '../components/ProjectHeader/index.vue'
+import ProjectInvestTab from '../components/projectTabs/ProjectInvestTab/index.vue'
+import ProjectOverviewTab from '../components/projectTabs/ProjectOverviewTab/index.vue'
+import ProjectRequestsTab from '../components/projectTabs/ProjectRequestsTab/index.vue'
+import ProjectValidatorsTab from '../components/projectTabs/ProjectValidatorsTab/index.vue'
 import useCampaignSummary from '../composables/useCampaignSummary'
 
 const route = useRoute()
