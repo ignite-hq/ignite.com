@@ -9,9 +9,9 @@ export default defineComponent({
 <script lang="ts" setup>
 import { ProgressBarItem } from '../../../utils/types'
 import IgniteHeading from '../../ui/atoms/IgniteHeading.vue'
-import IgniteProgressBar from '../../ui/molecules/IgniteProgressBar.vue'
 import IgniteText from '../../ui/atoms/IgniteText.vue'
 import IgniteDenom from '../../ui/molecules/IgniteDenom.vue'
+import IgniteProgressBar from '../../ui/molecules/IgniteProgressBar.vue'
 
 const progressBar = {
   items: [

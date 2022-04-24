@@ -7,11 +7,11 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
+import IgniteLink from '../ui/atoms/IgniteLink.vue'
+import IgniteText from '../ui/atoms/IgniteText.vue'
 import IconPlane from '../ui/icons/IconPlane.vue'
 import IconStage from '../ui/icons/IconStage.vue'
 import IconStar from '../ui/icons/IconStar.vue'
-import IgniteLink from '../ui/atoms/IgniteLink.vue'
-import IgniteText from '../ui/atoms/IgniteText.vue'
 
 defineProps({
   projectId: { type: String, required: true },

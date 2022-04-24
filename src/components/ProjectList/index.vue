@@ -6,11 +6,12 @@ export default {
 
 <script lang="ts" setup>
 import MasonryWall from '@yeger/vue-masonry-wall'
+import { computed } from 'vue'
+
 import {
   CampaignCampaignSummary,
   CampaignQueryCampaignSummariesResponse
 } from '~/generated/tendermint-spn-ts-client/tendermint.spn.campaign/rest'
-import { computed } from 'vue'
 
 import useCampaignSummaries from '../../composables/useCampaignSummaries'
 import IgniteButton from '../ui/atoms/IgniteButton.vue'

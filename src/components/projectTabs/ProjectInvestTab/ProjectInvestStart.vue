@@ -7,10 +7,10 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import IconPlus from '../../ui/icons/IconPlus.vue'
 import IgniteHeading from '../../ui/atoms/IgniteHeading.vue'
 import IgniteLink from '../../ui/atoms/IgniteLink.vue'
 import IgniteText from '../../ui/atoms/IgniteText.vue'
+import IconPlus from '../../ui/icons/IconPlus.vue'
 </script>
 
 <template>

@@ -5,15 +5,15 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { useIgnite as useIgniteN } from '~/generated/tendermint-spn-vue'
 import { computed, reactive } from 'vue'
 
-import IconWarning from '~/components/ui/icons/IconWarning.vue'
 import IgniteButton from '~/components/ui/atoms/IgniteButton.vue'
 import IgniteHeading from '~/components/ui/atoms/IgniteHeading.vue'
 import IgniteModal from '~/components/ui/atoms/IgniteModal.vue'
 import IgniteText from '~/components/ui/atoms/IgniteText.vue'
+import IconWarning from '~/components/ui/icons/IconWarning.vue'
 import useAddress from '~/composables/useAddress'
+import { useIgnite as useIgniteN } from '~/generated/tendermint-spn-vue'
 import { useRequestsStore } from '~/stores/requests-store'
 import { addCommasToNumber } from '~/utils/number'
 

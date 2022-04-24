@@ -5,8 +5,9 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { CampaignCampaignSummary } from '~/generated/tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 import { computed, PropType } from 'vue'
+
+import { CampaignCampaignSummary } from '~/generated/tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 
 import IgniteHeading from '../../ui/atoms/IgniteHeading.vue'
 import IgniteText from '../../ui/atoms/IgniteText.vue'

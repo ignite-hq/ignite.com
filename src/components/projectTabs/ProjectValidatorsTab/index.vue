@@ -9,10 +9,10 @@ import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 
 import useCampaignSummary from '../../../composables/useCampaignSummary'
-import IgniteButton from '../../ui/atoms/IgniteButton.vue'
-import IgniteHeading from '../../ui/atoms/IgniteHeading.vue'
 import ProjectCardIncentives from '../../ProjectList/ProjectCard/ProjectCardIncentives.vue'
 import ProjectCardShareAllocation from '../../ProjectList/ProjectCard/ProjectCardShareAllocation.vue'
+import IgniteButton from '../../ui/atoms/IgniteButton.vue'
+import IgniteHeading from '../../ui/atoms/IgniteHeading.vue'
 import IgniteText from '../../ui/atoms/IgniteText.vue'
 import ValidatorList from './ValidatorList.vue'
 

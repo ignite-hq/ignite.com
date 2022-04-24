@@ -5,13 +5,14 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { CampaignCampaign } from '~/generated/tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 import { computed, PropType } from 'vue'
 
-import IgniteGithubRepoLink from '../../ui/molecules/IgniteGithubRepoLink.vue'
+import { CampaignCampaign } from '~/generated/tendermint-spn-ts-client/tendermint.spn.campaign/rest'
+
 import IgniteHeading from '../../ui/atoms/IgniteHeading.vue'
 import IgniteLoader from '../../ui/atoms/IgniteLoader.vue'
 import IgniteText from '../../ui/atoms/IgniteText.vue'
+import IgniteGithubRepoLink from '../../ui/molecules/IgniteGithubRepoLink.vue'
 
 // props
 const props = defineProps({

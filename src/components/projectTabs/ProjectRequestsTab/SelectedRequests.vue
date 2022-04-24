@@ -7,9 +7,9 @@ export default {
 <script lang="ts" setup>
 import { ref } from 'vue'
 
+import IgniteText from '~/components/ui/atoms/IgniteText.vue'
 import IconAccept from '~/components/ui/icons/IconAccept.vue'
 import IconDeny from '~/components/ui/icons/IconDeny.vue'
-import IgniteText from '~/components/ui/atoms/IgniteText.vue'
 import { LaunchRequest } from '~/generated/tendermint-spn-ts-client/tendermint.spn.launch/rest'
 import { useRequestsStore } from '~/stores/requests-store'
 

@@ -8,6 +8,9 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import { ProgressBarItem } from '../../../utils/types'
+import IgniteHeading from '../../ui/atoms/IgniteHeading.vue'
+import IgniteNumber from '../../ui/atoms/IgniteNumber.vue'
+import IgniteText from '../../ui/atoms/IgniteText.vue'
 import IconCalendar from '../../ui/icons/IconCalendar.vue'
 import IconCanceled from '../../ui/icons/IconCanceled.vue'
 import IconCheckMarkThin from '../../ui/icons/IconCheckMarkThin.vue'
@@ -15,10 +18,7 @@ import IconClock from '../../ui/icons/IconClock.vue'
 import IconDots from '../../ui/icons/IconDots.vue'
 import IconStack from '../../ui/icons/IconStack.vue'
 import IconUser from '../../ui/icons/IconUser.vue'
-import IgniteHeading from '../../ui/atoms/IgniteHeading.vue'
-import IgniteNumber from '../../ui/atoms/IgniteNumber.vue'
 import IgniteProgressBar from '../../ui/molecules/IgniteProgressBar.vue'
-import IgniteText from '../../ui/atoms/IgniteText.vue'
 
 const props = defineProps({
   data: { type: Object, required: true }

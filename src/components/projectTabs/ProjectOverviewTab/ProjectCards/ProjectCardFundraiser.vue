@@ -9,8 +9,8 @@ import { ProgressBarItem } from '../../../../utils/types'
 import IgniteButton from '../../../ui/atoms/IgniteButton.vue'
 import IgniteCard from '../../../ui/atoms/IgniteCard.vue'
 import IgniteHeading from '../../../ui/atoms/IgniteHeading.vue'
-import IgniteProgressBar from '../../../ui/molecules/IgniteProgressBar.vue'
 import IgniteText from '../../../ui/atoms/IgniteText.vue'
+import IgniteProgressBar from '../../../ui/molecules/IgniteProgressBar.vue'
 
 const progressBar = {
   items: [

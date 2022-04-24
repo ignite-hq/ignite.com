@@ -7,13 +7,13 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import IconDiscord from '../../../ui/icons/IconDiscord.vue'
-import IconTelegram from '../../../ui/icons/IconTelegram.vue'
-import IconTwitter from '../../../ui/icons/IconTwitter.vue'
 import IgniteCard from '../../../ui/atoms/IgniteCard.vue'
 import IgniteHeading from '../../../ui/atoms/IgniteHeading.vue'
 import IgniteLink from '../../../ui/atoms/IgniteLink.vue'
 import IgniteText from '../../../ui/atoms/IgniteText.vue'
+import IconDiscord from '../../../ui/icons/IconDiscord.vue'
+import IconTelegram from '../../../ui/icons/IconTelegram.vue'
+import IconTwitter from '../../../ui/icons/IconTwitter.vue'
 import GraphicDiscord from './GraphicDiscord.vue'
 import GraphicTelegram from './GraphicTelegram.vue'
 import GraphicTwitter from './GraphicTwitter.vue'

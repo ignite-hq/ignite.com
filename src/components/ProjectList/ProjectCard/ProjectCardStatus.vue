@@ -7,8 +7,8 @@ export default {
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import IgniteLoader from '../../ui/atoms/IgniteLoader.vue'
 import IgniteProjectStatus from '../../ProjectHeader/IgniteProjectStatus.vue'
+import IgniteLoader from '../../ui/atoms/IgniteLoader.vue'
 
 const props = defineProps({
   loading: Boolean,

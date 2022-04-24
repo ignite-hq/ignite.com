@@ -1,12 +1,12 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 
-import IconLink from '../ui/icons/IconLink.vue'
-import IconStack from '../ui/icons/IconStack.vue'
-import IconStage from '../ui/icons/IconStage.vue'
 import IgniteButton from '../ui/atoms/IgniteButton.vue'
 import IgniteLink from '../ui/atoms/IgniteLink.vue'
 import IgniteText from '../ui/atoms/IgniteText.vue'
+import IconLink from '../ui/icons/IconLink.vue'
+import IconStack from '../ui/icons/IconStack.vue'
+import IconStage from '../ui/icons/IconStage.vue'
 
 export default defineComponent({
   name: 'ProjectHeader',

@@ -5,19 +5,20 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { CampaignCampaignSummary } from '~/generated/tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 import { computed, PropType, reactive } from 'vue'
+
+import { CampaignCampaignSummary } from '~/generated/tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 
 import useGitHubRepository from '../../composables/useGitHubRepository'
 import { getUserAndRepositoryFromUrl } from '../../utils/github'
 import IgniteBgWave from '../ui/atoms/IgniteBgWave.vue'
+import IgniteHeading from '../ui/atoms/IgniteHeading.vue'
+import IgniteText from '../ui/atoms/IgniteText.vue'
 import IgniteBreadcrumbs from '../ui/molecules/IgniteBreadcrumbs.vue'
 import IgniteGithubRepoLink from '../ui/molecules/IgniteGithubRepoLink.vue'
-import IgniteHeading from '../ui/atoms/IgniteHeading.vue'
 import IgniteProjectActions from './IgniteProjectActions.vue'
 import IgniteProjectNav from './IgniteProjectNav.vue'
 import IgniteProjectStatus from './IgniteProjectStatus.vue'
-import IgniteText from '../ui/atoms/IgniteText.vue'
 
 const props = defineProps({
   projectId: { type: String, requred: true },

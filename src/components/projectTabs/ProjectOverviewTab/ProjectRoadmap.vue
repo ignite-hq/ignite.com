@@ -8,9 +8,9 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import IgniteHeading from '../../ui/atoms/IgniteHeading.vue'
+import IgniteText from '../../ui/atoms/IgniteText.vue'
 import IgniteRoadmap from '../../ui/molecules/IgniteRoadmap.vue'
 import IgniteScrollableSection from '../../ui/molecules/IgniteScrollableSection.vue'
-import IgniteText from '../../ui/atoms/IgniteText.vue'
 
 const roadmapItems = [
   {

@@ -6,9 +6,9 @@ export default {
 
 <script lang="ts" setup>
 import { getUserAndRepositoryFromUrl } from '../../../utils/github'
-import IconGithub from '../icons/IconGithub.vue'
 import IgniteLink from '../atoms/IgniteLink.vue'
 import IgniteText from '../atoms/IgniteText.vue'
+import IconGithub from '../icons/IconGithub.vue'
 
 const props = defineProps({
   githubUrl: { type: String, required: true }

@@ -5,8 +5,9 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { CampaignCampaignSummary } from '~/generated/tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 import { computed, PropType } from 'vue'
+
+import { CampaignCampaignSummary } from '~/generated/tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 
 import useGitHubRepository from '../../../composables/useGitHubRepository'
 import { getUserAndRepositoryFromUrl } from '../../../utils/github'
