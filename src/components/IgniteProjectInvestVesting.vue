@@ -43,6 +43,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
+import SpDenom from '@starport/vue/src/components/SpDenom/SpDenom.vue'
 import IgniteButton from './IgniteButton.vue'
 import IgniteHeading from './IgniteHeading.vue'
 import IgniteNumber from './IgniteNumber.vue'
@@ -74,12 +75,12 @@ const curency = 'UST'
               </div>
             </div>
             <div
-              class="hidden shrink-0 px-5 text-center md:block md:w-[12rem] lg:w-[15rem]"
+              class="hidden shrink-0 px-5 text-center md:block md:w-[11rem] lg:w-[15rem]"
             >
               Percentage
             </div>
             <div
-              class="hidden shrink-0 px-5 text-center md:block md:w-[12rem] lg:w-[15rem]"
+              class="hidden shrink-0 px-5 text-center md:block md:w-[13rem] lg:w-[15rem]"
             >
               Amount
             </div>
@@ -109,18 +110,25 @@ const curency = 'UST'
                 </div>
               </div>
               <div
-                class="mt-4 w-full px-5 text-muted md:mt-0 md:w-[12rem] md:shrink-0 md:text-center lg:w-[15rem]"
+                class="mt-4 w-full px-5 text-muted md:mt-0 md:w-[11rem] md:shrink-0 md:text-center lg:w-[15rem]"
               >
                 <strong class="mr-1 inline-block md:hidden">Percentage:</strong>
                 <span>{{ item.percentage }}</span>
               </div>
               <div
-                class="mt-4 w-full px-5 text-muted md:mt-0 md:w-[12rem] md:shrink-0 md:text-center lg:w-[15rem]"
+                class="mt-4 w-full px-5 text-muted md:mt-0 md:w-[13rem] md:shrink-0 md:text-center lg:w-[15rem]"
               >
                 <strong class="mr-1 inline-block md:hidden">Amount:</strong>
-                <span>
+                <span class="inline-flex items-center">
+                  <SpDenom
+                    modifier="avatar"
+                    denom="denom"
+                    title="denom"
+                    size="small"
+                    class="mr-3 lg:mr-5"
+                  />
                   <IgniteNumber :number="item.amount" />
-                  {{ curency }}
+                  <span class="ml-1">{{ curency }}</span>
                 </span>
               </div>
             </div>
