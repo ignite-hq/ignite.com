@@ -16,9 +16,9 @@ import IgniteHeading from '../ui/atoms/IgniteHeading.vue'
 import IgniteText from '../ui/atoms/IgniteText.vue'
 import IgniteBreadcrumbs from '../ui/molecules/IgniteBreadcrumbs.vue'
 import IgniteGithubRepoLink from '../ui/molecules/IgniteGithubRepoLink.vue'
-import IgniteProjectActions from './IgniteProjectActions.vue'
-import IgniteProjectNav from './IgniteProjectNav.vue'
-import IgniteProjectStatus from './IgniteProjectStatus.vue'
+import ProjectActions from './ProjectActions.vue'
+import ProjectNav from './ProjectNav.vue'
+import ProjectStatus from './ProjectStatus.vue'
 
 const props = defineProps({
   projectId: { type: String, requred: true },
@@ -115,7 +115,7 @@ const description = computed(() => {
                     "
                     class="mb-5 text-3 lg:mb-0 lg:mr-7"
                   />
-                  <IgniteProjectStatus
+                  <ProjectStatus
                     :loading="isLoading"
                     :launch-id="
                       campaignSummary?.campaignSummary?.mostRecentChain
@@ -148,7 +148,7 @@ const description = computed(() => {
           <div
             class="mt-6 px-0 md:col-span-2 md:mt-0 lg:col-span-1 lg:col-start-6"
           >
-            <IgniteProjectActions />
+            <ProjectActions />
           </div>
         </div>
       </div>
@@ -156,7 +156,7 @@ const description = computed(() => {
 
     <div class="py-6 shadow-border_double">
       <div class="container-full px-6 xl:container">
-        <IgniteProjectNav :items="navigation" :active-tab="activeTab" />
+        <ProjectNav :items="navigation" :active-tab="activeTab" />
       </div>
     </div>
 
