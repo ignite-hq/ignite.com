@@ -5,12 +5,11 @@ export default {
 </script>
 
 <script setup lang="ts">
-import SpDenom from '@starport/vue/src/components/SpDenom/SpDenom.vue'
-
 import IgniteButton from '../IgniteButton.vue'
 import IgniteCard from '../IgniteCard.vue'
 import IgniteHeading from '../IgniteHeading.vue'
 import IgniteText from '../IgniteText.vue'
+import IgniteDenom from '../ui/IgniteDenom.vue'
 
 defineProps({
   isWide: {
@@ -56,7 +55,12 @@ defineProps({
     >
       <div class="">
         <div class="flex items-center justify-center">
-          <SpDenom modifier="avatar" denom="denom" title="denom" class="mr-3" />
+          <IgniteDenom
+            modifier="avatar"
+            denom="denom"
+            title="denom"
+            class="mr-3"
+          />
           <IgniteHeading as="div" class="font-title text-5 md:text-6"
             >000%</IgniteHeading
           >
@@ -68,7 +72,12 @@ defineProps({
       <div class="my-3 text-center text-5 text-inactive sm:my-0 sm:mx-6">+</div>
       <div class="">
         <div class="flex items-center justify-center">
-          <SpDenom modifier="avatar" denom="denom" title="denom" class="mr-3" />
+          <IgniteDenom
+            modifier="avatar"
+            denom="denom"
+            title="denom"
+            class="mr-3"
+          />
           <IgniteHeading as="div" class="font-title text-5 md:text-6"
             >00M UST</IgniteHeading
           >

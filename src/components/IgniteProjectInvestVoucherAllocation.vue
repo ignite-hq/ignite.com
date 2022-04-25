@@ -7,12 +7,11 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import SpDenom from '@starport/vue/src/components/SpDenom/SpDenom.vue'
-
 import { ProgressBarItem } from '../utils/types'
 import IgniteHeading from './IgniteHeading.vue'
 import IgniteProgressBar from './IgniteProgressBar.vue'
 import IgniteText from './IgniteText.vue'
+import IgniteDenom from './ui/IgniteDenom.vue'
 
 const progressBar = {
   items: [
@@ -47,7 +46,7 @@ const progressBar = {
           </IgniteHeading>
           <div class="mt-7">
             <div class="flex items-center">
-              <SpDenom
+              <IgniteDenom
                 size="small"
                 modifier="avatar"
                 denom="denom"
