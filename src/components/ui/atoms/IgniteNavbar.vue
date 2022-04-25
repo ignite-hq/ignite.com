@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import IgniteAccount from '../../wallet/IgniteAccount.vue'
-import IconIgnite from '../icons/IconIgnite.vue'
+import IconIgnite from '~/components/icons/IconIgnite.vue'
 import IgniteLink from './IgniteLink.vue'
 
 interface Link {

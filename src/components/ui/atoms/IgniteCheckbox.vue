@@ -7,8 +7,8 @@ export default {
 <script lang="ts" setup>
 import { computed } from 'vue'
 
-import IconBaseline from '../icons/IconBaseline.vue'
-import IconCheck from '../icons/IconCheckMark.vue'
+import IconBaseline from '~/components/icons/IconBaseline.vue'
+import IconCheck from '~/components/icons/IconCheckMark.vue'
 
 interface Emits {
   (e: 'update:modelValue', value: boolean | string | any[]): void

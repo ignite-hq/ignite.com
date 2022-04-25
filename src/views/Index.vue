@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import ProjectList from '../components/ProjectList/index.vue'
-import ProjectsHeader from '../components/ProjectsHeader.vue'
+import ProjectList from '~/components/project/ProjectList/index.vue'
+import ProjectsHeader from '~/components/project/ProjectsHeader.vue'
 </script>
 
 <template>

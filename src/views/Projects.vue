@@ -5,7 +5,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import IgniteProjectList from '../components/ProjectList/index.vue'
+import IgniteProjectList from '~/components/project/ProjectList/index.vue'
 </script>
 
 <template>

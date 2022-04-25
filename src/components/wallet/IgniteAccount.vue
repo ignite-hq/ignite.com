@@ -7,6 +7,9 @@ export default {
 <script lang="ts" setup>
 import { computed, reactive, watchEffect } from 'vue'
 
+import IconExternalArrow from '~/components/icons/IconExternalArrow.vue'
+import IconKeplr from '~/components/icons/IconKeplr.vue'
+import IconWarning from '~/components/icons/IconWarning.vue'
 import useAddress from '~/composables/useAddress'
 import { useIgnite } from '~/generated/tendermint-spn-vue'
 
@@ -16,9 +19,6 @@ import IgniteLink from '../ui/atoms/IgniteLink.vue'
 import IgniteModal from '../ui/atoms/IgniteModal.vue'
 import IgniteSpinner from '../ui/atoms/IgniteSpinner.vue'
 import IgniteText from '../ui/atoms/IgniteText.vue'
-import IconExternalArrow from '../ui/icons/IconExternalArrow.vue'
-import IconKeplr from '../ui/icons/IconKeplr.vue'
-import IconWarning from '../ui/icons/IconWarning.vue'
 import IgniteAccountMenu from './IgniteAccountMenu.vue'
 
 enum ModalPage {

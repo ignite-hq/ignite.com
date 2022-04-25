@@ -6,7 +6,7 @@ export default {
 
 <script lang="ts" setup>
 import IgniteText from '../atoms/IgniteText.vue'
-import IconCheck from '../icons/IconCheck.vue'
+import IconCheck from '~/components/icons/IconCheck.vue'
 
 defineProps({
   items: {
