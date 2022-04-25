@@ -5,7 +5,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { ref, onBeforeMount } from 'vue'
+import { onBeforeMount, ref } from 'vue'
 import { onBeforeRouteUpdate, useRoute } from 'vue-router'
 
 import IgniteProjectHeader from '../components/IgniteProjectHeader.vue'
@@ -44,4 +44,3 @@ const { campaignSummary } = useCampaignSummary(projectId)
     <ProjectInvestTab v-if="tab === 'invest'" />
   </div>
 </template>
-

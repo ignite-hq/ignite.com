@@ -11,7 +11,7 @@ export default {
     activeClass: String,
     inactiveClass: String,
     type: String, // button
-    color: String // primary
+    color: String // primary, dangerous
   },
 
   computed: {
@@ -28,9 +28,10 @@ export default {
     v-bind="$attrs"
     :href="to"
     target="_blank"
-    class="duration-250 inline-flex items-center justify-center transition-all ease-in-out"
+    class="duration-250 transition-all ease-in-out"
     :class="[
-      type === 'button' && 'rounded-sm rounded-3sm py-5 px-5 text-3 sm:px-8.5',
+      type === 'button' &&
+        'inline-flex items-center justify-center rounded-sm rounded-3sm py-5 px-5 text-3 sm:px-8.5',
       color === 'primary' &&
         'bg-primary font-semibold text-white-1000 hover:scale-105 hover:text-white-1000'
     ]"
@@ -51,7 +52,9 @@ export default {
         isActive ? activeClass : inactiveClass,
         type === 'button' && 'rounded-sm py-5 px-5 text-3 font-medium',
         color === 'primary' &&
-          'bg-primary text-white-1000 hover:scale-105 hover:text-white-1000'
+          'bg-primary text-white-1000 hover:scale-105 hover:text-white-1000',
+        color === 'error' &&
+          'bg-error text-white-1000 hover:scale-105 hover:text-white-1000'
       ]"
       class="duration-250 inline-flex items-center justify-center transition-all ease-in-out"
       @click="navigate"

@@ -12,6 +12,14 @@ defineProps({
   items: {
     type: Array,
     required: true
+  },
+  align: {
+    type: String,
+    default: ''
+  },
+  type: {
+    type: String,
+    default: ''
   }
 })
 </script>
@@ -19,26 +27,49 @@ defineProps({
 <template>
   <ul class="whitespace-nowrap">
     <li
-      v-for="item in items"
+      v-for="(item, key) in items"
       :key="item.name"
-      class="item relative inline-block min-w-[8.625rem] whitespace-normal border-t-4 pt-6 pr-7 align-top last:border-dashed last:pr-0"
-      :class="item.status === 'complited' ? 'border-primary' : 'border-border'"
+      class="item relative inline-block min-w-[8.625rem] whitespace-normal border-t-4 pt-6 pr-7 align-top last:pr-0"
+      :class="[
+        item.status === 'complited' ? 'border-primary' : 'border-border',
+        align === 'right' ? 'last:text-right' : 'last:border-dashed'
+      ]"
     >
       <IconCheck
-        class="absolute left-0 -top-[0.8125rem] h-6 w-6"
-        :class="
+        class="absolute -top-[0.8125rem] h-6 w-6"
+        :class="[
           item.status === 'complited' || item.status === 'active'
             ? 'text-primary'
-            : 'text-border'
-        "
+            : 'text-border',
+          align === 'right' && key === items.length - 1 ? 'right-0' : 'left-0'
+        ]"
       />
-      <IgniteText as="div" class="pt-1 text-3 font-medium">
+      <IgniteText
+        v-if="item.name"
+        as="div"
+        class="pt-1"
+        :class="[
+          type === 'fundraiser' && 'text-2 font-normal text-muted',
+          type !== 'fundraiser' && 'text-3 font-medium'
+        ]"
+      >
         {{ item.name }}
       </IgniteText>
-      <IgniteText as="div" class="text-2 font-normal text-muted">
+      <IgniteText
+        v-if="item.date"
+        as="div"
+        :class="[
+          type === 'fundraiser' && 'text-3 font-medium',
+          type !== 'fundraiser' && 'text-2 font-normal text-muted'
+        ]"
+      >
         {{ item.date }}
       </IgniteText>
-      <IgniteText as="div" class="mt-5 max-w-[15rem] text-2 font-normal">
+      <IgniteText
+        v-if="item.description"
+        as="div"
+        class="mt-5 max-w-[15rem] text-2 font-normal"
+      >
         {{ item.description }}
       </IgniteText>
     </li>
