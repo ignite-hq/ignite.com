@@ -7,7 +7,6 @@ export default {
 <script lang="ts" setup>
 interface Props {
   icon?: string
-  placeholder?: string
 }
 
 withDefaults(defineProps<Props>(), {
@@ -20,8 +19,7 @@ withDefaults(defineProps<Props>(), {
   <div class="relative">
     <component :is="icon" class="absolute left-4 top-1/2 -translate-y-1/2" />
     <input
-      v-bind="$props"
-      :placeholder="placeholder"
+      v-bind="$attrs"
       class="h-[3rem] w-full rounded-xs bg-gray-30 px-5 text-3 font-normal"
       :class="{
         'pl-7': icon

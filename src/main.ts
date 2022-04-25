@@ -32,7 +32,6 @@ let spn = createSpn({
 inject(spn)
 
 spn.ws.ee().on('ws-chain-id', (chainId: string) => {
-  console.log('ws-chain-id', chainId)
   spn.env.chainID = chainId
 })
 spn.ws.ee().on('ws-chain-name', (chainName: string) => {

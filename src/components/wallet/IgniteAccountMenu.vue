@@ -7,7 +7,7 @@ export default {
 <script lang="ts" setup>
 import { Menu, MenuButton, MenuItems } from '@headlessui/vue'
 import { isEmpty, isNil } from 'lodash'
-import { useIgnite } from 'tendermint-spn-vue'
+import { useSpn } from 'tendermint-spn-vue-client'
 import { computed } from 'vue'
 
 import useAccount from '~/composables/useAccount'
@@ -30,7 +30,7 @@ withDefaults(defineProps<Props>(), {
 })
 
 // ignite
-const { signOut } = useIgnite()
+const { signOut } = useSpn()
 
 // composables
 const { address } = useAddress()
