@@ -25,6 +25,7 @@ import {
 } from '~/stores/requests-store'
 import { getShortAddress } from '~/utils/address'
 
+import RequestsAction from './RequestsAction.vue'
 import { getTypeFromContent } from './utils'
 
 interface Props {
