@@ -95,7 +95,7 @@ export interface CommunityPoolSpendProposal {
  * DelegatorStartingInfo represents the starting info for a delegator reward
  * period. It tracks the previous validator period, the delegation's amount of
  * staking token, and the creation height (to check later on if any slashes have
- * occurred). NOTE: Even though validators are slashed to whole staking tokens,
+ * occurred). NOTE: Even though ProjectValidatorsTab are slashed to whole staking tokens,
  * the delegators within the validator may be left with less than a full token,
  * thus sdk.Dec is used.
  */

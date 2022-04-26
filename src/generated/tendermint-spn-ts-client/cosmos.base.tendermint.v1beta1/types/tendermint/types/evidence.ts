@@ -21,7 +21,7 @@ export interface DuplicateVoteEvidence {
   timestamp: Date | undefined
 }
 
-/** LightClientAttackEvidence contains evidence of a set of validators attempting to mislead a light client. */
+/** LightClientAttackEvidence contains evidence of a set of ProjectValidatorsTab attempting to mislead a light client. */
 export interface LightClientAttackEvidence {
   conflicting_block: LightBlock | undefined
   common_height: number
