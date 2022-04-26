@@ -136,7 +136,7 @@ const curency = 'UST'
         </div>
       </div>
 
-      <div class="mt-8.5 text-center">
+      <div class="mt-7 text-center md:mt-8.5">
         <IgniteButton variant="primary" color="primary" size="md">
           View 5 more
         </IgniteButton>
