@@ -86,9 +86,9 @@ const model = computed({
 
 <template>
   <input
-    class="h-[3rem] w-full rounded-xs bg-gray-30 px-5 text-3 font-normal"
     ref="inputRef"
     v-model="model"
+    class="h-[3rem] w-full rounded-xs bg-gray-30 px-5 text-3 font-normal"
     :placeholder="placeholder"
     type="text"
     inputmode="decimal"

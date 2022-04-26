@@ -5,21 +5,23 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import IgniteHeading from '~/components/IgniteHeading.vue'
-import IgniteText from '~/components/IgniteText.vue'
-import IgniteInput from '~/components/IgniteInput.vue'
-import { computed, reactive } from 'vue'
-import type { MsgCreateFixedPriceAuction } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/tx'
-import BigNumber from 'bignumber.js'
 import { Coin } from '@cosmjs/amino'
+import BigNumber from 'bignumber.js'
+import { computed, reactive } from 'vue'
+
+import IgniteHeading from '~/components/IgniteHeading.vue'
+import IgniteInput from '~/components/IgniteInput.vue'
+import IgniteInputAmount from '~/components/IgniteInputAmount.vue'
+import IgniteInputDate from '~/components/IgniteInputDate.vue'
+import IgniteInputTime from '~/components/IgniteInputTime.vue'
+import IgniteText from '~/components/IgniteText.vue'
+import FundraiserInputRow from '~/components/invest/FundraiserInputRow.vue'
+import type { MsgCreateFixedPriceAuction } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/tx'
+
+import FundraiserInfoCard from '../components/invest/FundraiserInfoCard.vue'
+import FundraiserInputSection from '../components/invest/FundraiserInputSection.vue'
 import FundraiserSection from '../components/invest/FundraiserSection.vue'
 import FundraiserSummary from '../components/invest/FundraiserSummary.vue'
-import FundraiserInputSection from '../components/invest/FundraiserInputSection.vue'
-import FundraiserInfoCard from '../components/invest/FundraiserInfoCard.vue'
-import FundraiserInputRow from '~/components/invest/FundraiserInputRow.vue'
-import IgniteInputTime from '~/components/IgniteInputTime.vue'
-import IgniteInputDate from '~/components/IgniteInputDate.vue'
-import IgniteInputAmount from '~/components/IgniteInputAmount.vue'
 
 let today = new Date()
 let oneYfromNow = new Date(new Date().setFullYear(new Date().getFullYear() + 1))
@@ -163,8 +165,8 @@ async function publishAuction() {
               <div class="">
                 <IgniteInput
                   :value="state.auction?.selling_coin?.amount"
-                  @input="handleAmountInput"
                   type="number"
+                  @input="handleAmountInput"
                 />
               </div>
               <div class="ml-6 flex-row">
@@ -185,8 +187,8 @@ async function publishAuction() {
             <div class="flex items-center">
               <div class="">
                 <IgniteInputAmount
-                  @input="handlePricePerVoucher"
                   :value="state.auction?.start_price"
+                  @input="handlePricePerVoucher"
                 />
               </div>
               <div class="ml-6 flex-row">

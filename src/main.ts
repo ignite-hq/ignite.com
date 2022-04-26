@@ -1,11 +1,10 @@
 import './assets/css/main.css'
 
+import { Env } from '@ignt/plugins'
 import MasonryWall from '@yeger/vue-masonry-wall'
 import { createPinia } from 'pinia'
 import { createSpn } from 'tendermint-spn-ts-client'
 import { useSpn } from 'tendermint-spn-vue-client'
-import { Env } from '@ignt/plugins'
-
 import { createApp } from 'vue'
 import { VueQueryPlugin, VueQueryPluginOptions } from 'vue-query'
 import VueApexCharts from 'vue3-apexcharts'
