@@ -6,7 +6,7 @@ import {
   createIgnite as createIgniteN,
   Environment
 } from 'tendermint-spn-ts-client'
-import { useIgnite as useIgniteN } from 'tendermint-spn-vue'
+import { useIgnite } from 'tendermint-spn-vue'
 import { createApp } from 'vue'
 import { VueQueryPlugin, VueQueryPluginOptions } from 'vue-query'
 import VueApexCharts from 'vue3-apexcharts'
@@ -14,22 +14,25 @@ import VueApexCharts from 'vue3-apexcharts'
 import App from './App.vue'
 import router from './router'
 
-let env: Environment = {
+const env: Environment = {
   apiURL: process.env.VUE_APP_API_COSMOS ?? '',
   rpcURL: process.env.VUE_APP_API_TENDERMINT ?? '',
-  wsURL: process.env.VUE_APP_WS_TENDERMINT ?? ''
+  wsURL: process.env.VUE_APP_WS_TENDERMINT ?? '',
+  prefix: process.env.VUE_APP_ADDRESS_PREFIX ?? '',
+  chainID: process.env.VUE_APP_CHAIN_ID ?? '',
+  chainName: process.env.VUE_APP_CHAIN_NAME ?? ''
 }
 
 // ignite
-let { inject } = useIgniteN()
+const { inject } = useIgnite()
 
-let igniteN = createIgniteN({
+const ignite = createIgniteN({
   env
 })
 
-inject(igniteN)
+inject(ignite)
 
-igniteN.ws.connect()
+ignite.ws.connect()
 
 const app = createApp(App)
 

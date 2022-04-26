@@ -1,23 +1,49 @@
-<script>
+<script lang="ts">
+import { computed, PropType } from 'vue'
 import { RouterLink } from 'vue-router'
+
+type Type = 'button' | 'default'
+type Color = 'primary' | 'error' | 'none'
 
 export default {
   name: 'IgniteLink',
+
+  components: {
+    RouterLink
+  },
+
   inheritAttrs: false,
 
   props: {
-    // add @ts-ignore if using TypeScript
+    // @ts-ignore
     ...RouterLink.props,
-    activeClass: String,
-    inactiveClass: String,
-    type: String, // button
-    color: String // primary, dangerous
+    inactiveClass: {
+      type: String,
+      default: ''
+    },
+    activeClass: {
+      type: String,
+      default: ''
+    },
+    type: {
+      type: String as PropType<Type>,
+      default: 'default'
+    },
+    color: {
+      type: String as PropType<Color>,
+      default: 'none'
+    }
   },
 
-  computed: {
-    isExternalLink() {
-      return typeof this.to === 'string' && this.to.startsWith('http')
-    }
+  setup(props: any) {
+    const isExternalLink = computed(() => {
+      return (
+        typeof props.to === 'string' &&
+        (props.to.startsWith('http') || props.to.startsWith('https'))
+      )
+    })
+
+    return { isExternalLink }
   }
 }
 </script>
@@ -26,12 +52,11 @@ export default {
   <a
     v-if="isExternalLink"
     v-bind="$attrs"
-    :href="to"
+    :href="to as string"
     target="_blank"
     class="duration-250 transition-all ease-in-out"
     :class="[
-      type === 'button' &&
-        'inline-flex items-center justify-center rounded-sm rounded-3sm py-5 px-5 text-3 sm:px-8.5',
+      type === 'button' && 'rounded-sm py-5 px-5 text-3 sm:px-8.5',
       color === 'primary' &&
         'bg-primary font-semibold text-white-1000 hover:scale-105 hover:text-white-1000'
     ]"
