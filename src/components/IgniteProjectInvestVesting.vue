@@ -43,11 +43,11 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import SpDenom from '@starport/vue/src/components/SpDenom/SpDenom.vue'
 import IgniteButton from './IgniteButton.vue'
 import IgniteHeading from './IgniteHeading.vue'
 import IgniteNumber from './IgniteNumber.vue'
 import IgniteText from './IgniteText.vue'
+import IgniteDenom from './ui/IgniteDenom.vue'
 
 const curency = 'UST'
 </script>
@@ -120,7 +120,7 @@ const curency = 'UST'
               >
                 <strong class="mr-1 inline-block md:hidden">Amount:</strong>
                 <span class="inline-flex items-center">
-                  <SpDenom
+                  <IgniteDenom
                     modifier="avatar"
                     denom="denom"
                     title="denom"

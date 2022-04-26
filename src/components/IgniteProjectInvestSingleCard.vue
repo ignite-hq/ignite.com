@@ -7,8 +7,6 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import SpDenom from '@starport/vue/src/components/SpDenom/SpDenom.vue'
-
 import { ProgressBarItem } from '../utils/types'
 import IconCanceled from './icons/IconCanceled.vue'
 import IconCheckMarkThin from './icons/IconCheckMarkThin.vue'
@@ -22,6 +20,7 @@ import IgniteProgressBar from './IgniteProgressBar.vue'
 import IgniteRoadmap from './IgniteRoadmap.vue'
 import IgniteScrollableSection from './IgniteScrollableSection.vue'
 import IgniteText from './IgniteText.vue'
+import IgniteDenom from './ui/IgniteDenom.vue'
 
 defineProps({
   data: { type: Object, required: true }
@@ -119,7 +118,7 @@ const roadmapItems = [
                 as="div"
                 class="mt-2 flex items-center text-2 font-semibold md:mt-3 md:text-3"
               >
-                <SpDenom
+                <IgniteDenom
                   modifier="avatar"
                   denom="denom"
                   title="denom"
