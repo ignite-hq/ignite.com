@@ -163,7 +163,7 @@ const showCheckbox = computed(() => {
   const isShowingClosedRequests =
     store.selectedPageFilter.id === RequestPageFilters.Closed
 
-  return Boolean(address) && !isLoading.value && !isShowingClosedRequests
+  return Boolean(address.value) && !isLoading.value && !isShowingClosedRequests
 })
 
 const showStatus = computed(() => {
