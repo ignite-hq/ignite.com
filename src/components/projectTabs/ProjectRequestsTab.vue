@@ -34,9 +34,8 @@ const { params } = useRoute()
 const { requests, isFetching: isFetchingProjectRequests } = useProjectRequests(
   params.projectId.toString()
 )
-const { isSameAsLoggedIn, isFetching: isFetchingCoordinator } = useCoordinator(
-  toRef(props, 'coordinatorId')
-)
+const { isSameAddressAsLoggedIn, isFetching: isFetchingCoordinator } =
+  useCoordinator(toRef(props, 'coordinatorId'))
 
 // methods
 function mergePages(
@@ -94,7 +93,7 @@ const isLoading = computed(() => {
         v-if="projectRequests.length > 0 || isLoading"
         :loading="isLoading"
         :requests="projectRequests"
-        :selection-disabled="!isSameAsLoggedIn"
+        :selection-disabled="!isSameAddressAsLoggedIn"
       />
       <IgniteRequestsEmptyState
         v-else-if="projectRequests.length <= 0"

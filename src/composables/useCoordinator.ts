@@ -27,14 +27,14 @@ export default function useCoordinator(
     }
   )
 
-  const isSameAsLoggedIn = computed(() => {
+  const isSameAddressAsLoggedIn = computed(() => {
     if (!coordinator.value || !address.value) return false
     return coordinator.value?.address === address.value
   })
 
   return {
     coordinator,
-    isSameAsLoggedIn,
+    isSameAddressAsLoggedIn,
     ...other
   }
 }
