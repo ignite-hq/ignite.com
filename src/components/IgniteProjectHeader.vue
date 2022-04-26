@@ -5,7 +5,6 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { isEmpty, isNil } from 'lodash'
 import { CampaignCampaignSummary } from 'tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 import { computed, reactive } from 'vue'
 
@@ -82,7 +81,7 @@ const campaignName = computed(() => {
 
 const description = computed(() => {
   const description = repository.value?.description
-  if (isNil(description) || isEmpty(description)) return defaultDescription
+  if (!description || description.length === 0) return defaultDescription
   return description
 })
 

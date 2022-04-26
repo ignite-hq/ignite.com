@@ -6,7 +6,6 @@ export default {
 
 <script lang="ts" setup>
 import { Menu, MenuButton, MenuItems } from '@headlessui/vue'
-import { isEmpty, isNil } from 'lodash'
 import { useIgnite } from 'tendermint-spn-vue'
 import { computed } from 'vue'
 
@@ -39,7 +38,7 @@ const { balances, isFetching: isFetchingBalances } = useBalances(address)
 
 // computed
 const mainCoinBalance = computed(() => {
-  if (isEmpty(balances.value) || isNil(balances.value)) return undefined
+  if (balances?.value?.length === 0 || !balances.value) return undefined
   return balances.value[0]
 })
 </script>

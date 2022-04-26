@@ -29,7 +29,6 @@
     "crypto-js": "^4.1.1",
     "gradient-avatar": "^1.0.2",
     "libsodium": "^0.7.10",
-    "lodash": "^4.17.21",
     "pinia": "^2.0.13",
     "postcss-normalize-positions": "^5.1.0",
     "tendermint-spn-ts-client": "0.0.1",
