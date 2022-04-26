@@ -151,7 +151,7 @@ const isLoading = computed(() => {
 
                 <IgniteLoader
                   v-if="isLoading"
-                  class="h-7 w-[30rem] !max-w-none"
+                  class="h-7 w-[32rem] !max-w-none"
                 />
                 <IgniteText v-else class="text-2 text-muted md:text-3">
                   {{ description }}
