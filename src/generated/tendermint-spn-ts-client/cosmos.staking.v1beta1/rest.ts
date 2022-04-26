@@ -471,7 +471,7 @@ export interface V1Beta1Params {
   unbonding_time?: string
 
   /**
-   * max_validators is the maximum number of validators.
+   * max_validators is the maximum number of ProjectValidatorsTab.
    * @format int64
    */
   max_validators?: number
@@ -546,7 +546,7 @@ export interface V1Beta1QueryDelegatorValidatorResponse {
 Query/DelegatorValidators RPC method.
 */
 export interface V1Beta1QueryDelegatorValidatorsResponse {
-  /** validators defines the the validators' info of a delegator. */
+  /** ProjectValidatorsTab defines the the ProjectValidatorsTab' info of a delegator. */
   validators?: Stakingv1Beta1Validator[]
 
   /** pagination defines the pagination in the response. */
@@ -622,7 +622,7 @@ export interface V1Beta1QueryValidatorUnbondingDelegationsResponse {
 }
 
 export interface V1Beta1QueryValidatorsResponse {
-  /** validators contains all the queried validators. */
+  /** ProjectValidatorsTab contains all the queried ProjectValidatorsTab. */
   validators?: Stakingv1Beta1Validator[]
 
   /** pagination defines the pagination in the response. */
@@ -1067,9 +1067,9 @@ delegator address.
  * 
  * @tags Query
  * @name QueryDelegatorValidators
- * @summary DelegatorValidators queries all validators info for given delegator
+ * @summary DelegatorValidators queries all ProjectValidatorsTab info for given delegator
 address.
- * @request GET:/cosmos/staking/v1beta1/delegators/{delegator_addr}/validators
+ * @request GET:/cosmos/staking/v1beta1/delegators/{delegator_addr}/ProjectValidatorsTab
  */
   queryDelegatorValidators = (
     delegator_addr: string,
@@ -1097,7 +1097,7 @@ address.
  * @name QueryDelegatorValidator
  * @summary DelegatorValidator queries validator info for given delegator validator
 pair.
- * @request GET:/cosmos/staking/v1beta1/delegators/{delegator_addr}/validators/{validator_addr}
+ * @request GET:/cosmos/staking/v1beta1/delegators/{delegator_addr}/ProjectValidatorsTab/{validator_addr}
  */
   queryDelegatorValidator = (
     delegator_addr: string,
@@ -1164,8 +1164,8 @@ pair.
    *
    * @tags Query
    * @name QueryValidators
-   * @summary Validators queries all validators that match the given status.
-   * @request GET:/cosmos/staking/v1beta1/validators
+   * @summary Validators queries all ProjectValidatorsTab that match the given status.
+   * @request GET:/cosmos/staking/v1beta1/ProjectValidatorsTab
    */
   queryValidators = (
     query?: {
@@ -1192,7 +1192,7 @@ pair.
    * @tags Query
    * @name QueryValidator
    * @summary Validator queries validator info for given validator address.
-   * @request GET:/cosmos/staking/v1beta1/validators/{validator_addr}
+   * @request GET:/cosmos/staking/v1beta1/ProjectValidatorsTab/{validator_addr}
    */
   queryValidator = (validator_addr: string, params: RequestParams = {}) =>
     this.request<V1Beta1QueryValidatorResponse, RpcStatus>({
@@ -1208,7 +1208,7 @@ pair.
    * @tags Query
    * @name QueryValidatorDelegations
    * @summary ValidatorDelegations queries delegate info for given validator.
-   * @request GET:/cosmos/staking/v1beta1/validators/{validator_addr}/delegations
+   * @request GET:/cosmos/staking/v1beta1/ProjectValidatorsTab/{validator_addr}/delegations
    */
   queryValidatorDelegations = (
     validator_addr: string,
@@ -1235,7 +1235,7 @@ pair.
    * @tags Query
    * @name QueryDelegation
    * @summary Delegation queries delegate info for given validator delegator pair.
-   * @request GET:/cosmos/staking/v1beta1/validators/{validator_addr}/delegations/{delegator_addr}
+   * @request GET:/cosmos/staking/v1beta1/ProjectValidatorsTab/{validator_addr}/delegations/{delegator_addr}
    */
   queryDelegation = (
     validator_addr: string,
@@ -1256,7 +1256,7 @@ pair.
  * @name QueryUnbondingDelegation
  * @summary UnbondingDelegation queries unbonding info for given validator delegator
 pair.
- * @request GET:/cosmos/staking/v1beta1/validators/{validator_addr}/delegations/{delegator_addr}/unbonding_delegation
+ * @request GET:/cosmos/staking/v1beta1/ProjectValidatorsTab/{validator_addr}/delegations/{delegator_addr}/unbonding_delegation
  */
   queryUnbondingDelegation = (
     validator_addr: string,
@@ -1276,7 +1276,7 @@ pair.
    * @tags Query
    * @name QueryValidatorUnbondingDelegations
    * @summary ValidatorUnbondingDelegations queries unbonding delegations of a validator.
-   * @request GET:/cosmos/staking/v1beta1/validators/{validator_addr}/unbonding_delegations
+   * @request GET:/cosmos/staking/v1beta1/ProjectValidatorsTab/{validator_addr}/unbonding_delegations
    */
   queryValidatorUnbondingDelegations = (
     validator_addr: string,
