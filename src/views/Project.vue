@@ -13,7 +13,7 @@ import ProjectOverviewTab from '~/components/project/project-tabs/ProjectOvervie
 import ProjectRequestsTab from '~/components/project/project-tabs/ProjectRequestsTab/index.vue'
 import ProjectValidatorsTab from '~/components/project/project-tabs/ProjectValidatorsTab/index.vue'
 import IgniteProjectHeader from '~/components/project/ProjectHeader/index.vue'
-import useCampaignSummary from '~/composables/useCampaignSummary'
+import useCampaignSummary from '~/composables/campaign/useCampaignSummary'
 
 const route = useRoute()
 const projectId = route.params.projectId.toString() || '0'

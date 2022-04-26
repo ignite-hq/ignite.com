@@ -4,9 +4,9 @@ import { defineComponent } from 'vue'
 import IconLink from '~/components/icons/IconLink.vue'
 import IconStack from '~/components/icons/IconStack.vue'
 import IconStage from '~/components/icons/IconStage.vue'
-import IgniteButton from '~/components/ui/atoms/IgniteButton.vue'
-import IgniteLink from '~/components/ui/atoms/IgniteLink.vue'
-import IgniteText from '~/components/ui/atoms/IgniteText.vue'
+import IgniteButton from '~/components/ui/IgniteButton.vue'
+import IgniteLink from '~/components/ui/IgniteLink.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
 
 export default defineComponent({
   name: 'ProjectHeader',

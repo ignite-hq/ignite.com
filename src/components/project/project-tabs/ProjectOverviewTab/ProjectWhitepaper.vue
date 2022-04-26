@@ -7,9 +7,9 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import IgniteButton from '~/components/ui/atoms/IgniteButton.vue'
-import IgniteHeading from '~/components/ui/atoms/IgniteHeading.vue'
-import IgniteImage from '~/components/ui/atoms/IgniteImage.vue'
+import IgniteButton from '~/components/ui/IgniteButton.vue'
+import IgniteHeading from '~/components/ui/IgniteHeading.vue'
+import IgniteImage from '~/components/ui/IgniteImage.vue'
 </script>
 
 <template>

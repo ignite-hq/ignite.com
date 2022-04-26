@@ -8,9 +8,9 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import IconSearch from '~/components/icons/IconSearch.vue'
-import IgniteHeading from '~/components/ui/atoms/IgniteHeading.vue'
-import IgniteInput from '~/components/ui/atoms/IgniteInput.vue'
-import IgniteText from '~/components/ui/atoms/IgniteText.vue'
+import IgniteHeading from '~/components/ui/IgniteHeading.vue'
+import IgniteInput from '~/components/ui/IgniteInput.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
 </script>
 
 <template>

@@ -7,9 +7,9 @@ export default {
 <script setup lang="ts">
 import { computed, PropType } from 'vue'
 
-import IgniteText from '~/components/ui/atoms/IgniteText.vue'
-import IgniteLegend from '~/components/ui/molecules/IgniteLegend.vue'
-import IgniteProgressBar from '~/components/ui/molecules/IgniteProgressBar.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
+import IgniteLegend from '~/components/common/IgniteLegend.vue'
+import IgniteProgressBar from '~/components/common/IgniteProgressBar.vue'
 import { CampaignCampaignSummary } from '~/generated/tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 import { LegendItem, ProgressBarItem } from '~/utils/types'
 

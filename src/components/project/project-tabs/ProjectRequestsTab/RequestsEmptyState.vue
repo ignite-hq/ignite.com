@@ -6,7 +6,7 @@ export default {
 
 <script lang="ts" setup>
 import IconCheckMarkThin from '~/components/icons/IconCheckMarkThin.vue'
-import IgniteText from '~/components/ui/atoms/IgniteText.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
 </script>
 
 <template>

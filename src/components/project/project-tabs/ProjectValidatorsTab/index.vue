@@ -10,10 +10,10 @@ import { useRoute } from 'vue-router'
 
 import ProjectCardIncentives from '~/components/project/ProjectList/ProjectCard/ProjectCardIncentives.vue'
 import ProjectCardShareAllocation from '~/components/project/ProjectList/ProjectCard/ProjectCardShareAllocation.vue'
-import IgniteButton from '~/components/ui/atoms/IgniteButton.vue'
-import IgniteHeading from '~/components/ui/atoms/IgniteHeading.vue'
-import IgniteText from '~/components/ui/atoms/IgniteText.vue'
-import useCampaignSummary from '~/composables/useCampaignSummary'
+import IgniteButton from '~/components/ui/IgniteButton.vue'
+import IgniteHeading from '~/components/ui/IgniteHeading.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
+import useCampaignSummary from '~/composables/campaign/useCampaignSummary'
 
 import ValidatorList from './ValidatorList.vue'
 

@@ -5,8 +5,8 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import IgniteBgWave from '~/components/ui/atoms/IgniteBgWave.vue'
-import IgniteLoader from '~/components/ui/atoms/IgniteLoader.vue'
+import IgniteBgWave from '~/components/ui/IgniteBgWave.vue'
+import IgniteLoader from '~/components/ui/IgniteLoader.vue'
 
 defineProps({
   loading: Boolean

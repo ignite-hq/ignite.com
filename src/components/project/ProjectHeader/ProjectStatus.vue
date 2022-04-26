@@ -10,8 +10,8 @@ export default defineComponent({
 import IconPlane from '~/components/icons/IconPlane.vue'
 import IconStage from '~/components/icons/IconStage.vue'
 import IconStar from '~/components/icons/IconStar.vue'
-import IgniteLink from '~/components/ui/atoms/IgniteLink.vue'
-import IgniteText from '~/components/ui/atoms/IgniteText.vue'
+import IgniteLink from '~/components/ui/IgniteLink.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
 
 defineProps({
   projectId: { type: String, required: true },

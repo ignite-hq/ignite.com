@@ -12,7 +12,7 @@ import RequestsEmptyState from '~/components/project/project-tabs/ProjectRequest
 import RequestsHeader from '~/components/project/project-tabs/ProjectRequestsTab/RequestsHeader.vue'
 import RequestsTable from '~/components/project/project-tabs/ProjectRequestsTab/RequestsTable.vue'
 import SelectedRequests from '~/components/project/project-tabs/ProjectRequestsTab/SelectedRequests.vue'
-import useProjectRequests from '~/composables/useProjectRequests'
+import useProjectRequests from '~/composables/project/useProjectRequests'
 import {
   LaunchQueryAllRequestResponse,
   LaunchRequest

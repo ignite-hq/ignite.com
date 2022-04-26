@@ -1,8 +1,8 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 
-import { LegendItem } from '../../../utils/types'
-import IgniteText from '../atoms/IgniteText.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
+import { LegendItem } from '~/utils/types'
 
 export default defineComponent({
   name: 'IgniteLegend',

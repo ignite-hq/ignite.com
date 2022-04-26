@@ -5,9 +5,9 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import IgniteHeading from '~/components/ui/atoms/IgniteHeading.vue'
-import IgniteText from '~/components/ui/atoms/IgniteText.vue'
-import IgniteDonutChart from '~/components/ui/molecules/IgniteDonutChart.vue'
+import IgniteDonutChart from '~/components/common/IgniteDonutChart.vue'
+import IgniteHeading from '~/components/ui/IgniteHeading.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
 
 const colors = [
   'rgba(9, 78, 253, 1)',

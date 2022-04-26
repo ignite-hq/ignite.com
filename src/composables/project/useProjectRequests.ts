@@ -3,11 +3,11 @@ import { useInfiniteQuery } from 'vue-query'
 
 const REQUESTS_PER_PAGE = '20'
 
-export default function useLaunchRequests(launchId: string) {
+export default function useProjectRequests(launchId: string) {
   const { queryRequestAll } = useTendermintSpnLaunch()
 
   const { data: requests, ...other } = useInfiniteQuery(
-    ['launch', launchId, 'requests'],
+    ['launches', launchId, 'requests'],
     ({ pageParam }) => {
       return queryRequestAll(launchId, {
         'pagination.limit': REQUESTS_PER_PAGE,

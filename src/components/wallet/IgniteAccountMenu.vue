@@ -10,16 +10,16 @@ import { isEmpty, isNil } from 'lodash'
 import { useIgnite } from 'tendermint-spn-vue'
 import { computed } from 'vue'
 
-import useAccount from '~/composables/useAccount'
-import useAddress from '~/composables/useAddress'
-import useBalances from '~/composables/useBalances'
+import useAccount from '~/composables/wallet/useAccount'
+import useAddress from '~/composables/wallet/useAddress'
+import useBalances from '~/composables/wallet/useBalances'
 
-import IgniteButton from '../ui/atoms/IgniteButton.vue'
-import IgniteHeading from '../ui/atoms/IgniteHeading.vue'
-import IgniteLink from '../ui/atoms/IgniteLink.vue'
-import IgniteLoader from '../ui/atoms/IgniteLoader.vue'
-import IgniteProfileIcon from '../ui/atoms/IgniteProfileIcon.vue'
-import IgniteText from '../ui/atoms/IgniteText.vue'
+import IgniteButton from '../ui/IgniteButton.vue'
+import IgniteHeading from '../ui/IgniteHeading.vue'
+import IgniteLink from '../ui/IgniteLink.vue'
+import IgniteLoader from '../ui/IgniteLoader.vue'
+import IgniteProfileIcon from '../ui/IgniteProfileIcon.vue'
+import IgniteText from '../ui/IgniteText.vue'
 
 interface Props {
   visible: boolean

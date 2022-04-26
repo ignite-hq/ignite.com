@@ -7,10 +7,10 @@ export default {
 <script lang="ts" setup>
 import { computed, PropType } from 'vue'
 
-import IgniteHeading from '~/components/ui/atoms/IgniteHeading.vue'
-import IgniteLoader from '~/components/ui/atoms/IgniteLoader.vue'
-import IgniteText from '~/components/ui/atoms/IgniteText.vue'
-import IgniteGithubRepoLink from '~/components/ui/molecules/IgniteGithubRepoLink.vue'
+import IgniteHeading from '~/components/ui/IgniteHeading.vue'
+import IgniteLoader from '~/components/ui/IgniteLoader.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
+import IgniteGithubRepoLink from '~/components/common/IgniteGithubRepoLink.vue'
 import { CampaignCampaign } from '~/generated/tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 
 // props

@@ -7,17 +7,17 @@ export default {
 <script lang="ts" setup>
 import { computed, reactive } from 'vue'
 
-import IgniteButton from '~/components/ui/atoms/IgniteButton.vue'
-import IgniteHeading from '~/components/ui/atoms/IgniteHeading.vue'
-import IgniteModal from '~/components/ui/atoms/IgniteModal.vue'
-import IgniteText from '~/components/ui/atoms/IgniteText.vue'
+import IconDenied from '~/components/icons/IconDenied.vue'
 import IconWarning from '~/components/icons/IconWarning.vue'
-import useAddress from '~/composables/useAddress'
+import IgniteButton from '~/components/ui/IgniteButton.vue'
+import IgniteHeading from '~/components/ui/IgniteHeading.vue'
+import IgniteModal from '~/components/ui/IgniteModal.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
+import useAddress from '~/composables/wallet/useAddress'
 import { useIgnite } from '~/generated/tendermint-spn-vue'
 import { useRequestsStore } from '~/stores/requests-store'
 import { oxfordComma } from '~/utils/array'
 
-import IconDenied from '~/components/icons/IconDenied.vue'
 import { getRequestsSummaries, getSettleRequestTxMessages } from './utils'
 
 enum UIStates {

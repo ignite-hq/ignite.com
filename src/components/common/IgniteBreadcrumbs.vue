@@ -7,8 +7,8 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import IgniteLink from '../atoms/IgniteLink.vue'
-import IgniteText from '../atoms/IgniteText.vue'
+import IgniteLink from '~/components/ui/IgniteLink.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
 
 defineProps({
   links: {

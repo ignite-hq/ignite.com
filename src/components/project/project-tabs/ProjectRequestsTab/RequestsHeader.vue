@@ -12,10 +12,10 @@ import {
   ListboxOptions
 } from '@headlessui/vue'
 
-import IgniteHeading from '~/components/ui/atoms/IgniteHeading.vue'
 import IconCheck from '~/components/icons/IconCheckMarkThin.vue'
 import IconFilter from '~/components/icons/IconFilter.vue'
 import IconSort from '~/components/icons/IconSort.vue'
+import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import {
   requestPageFilters,
   requestPageSorts,

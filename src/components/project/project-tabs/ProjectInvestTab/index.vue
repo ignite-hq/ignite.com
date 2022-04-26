@@ -5,7 +5,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import IgniteHeading from '~/components/ui/atoms/IgniteHeading.vue'
+import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 
 import ProjectInvestCard from './ProjectInvestCard.vue'
 import ProjectInvestStart from './ProjectInvestStart.vue'

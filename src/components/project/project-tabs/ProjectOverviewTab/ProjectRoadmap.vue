@@ -7,10 +7,10 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import IgniteHeading from '~/components/ui/atoms/IgniteHeading.vue'
-import IgniteText from '~/components/ui/atoms/IgniteText.vue'
-import IgniteRoadmap from '~/components/ui/molecules/IgniteRoadmap.vue'
-import IgniteScrollableSection from '~/components/ui/molecules/IgniteScrollableSection.vue'
+import IgniteRoadmap from '~/components/common/IgniteRoadmap.vue'
+import IgniteScrollableSection from '~/components/common/IgniteScrollableSection.vue'
+import IgniteHeading from '~/components/ui/IgniteHeading.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
 
 const roadmapItems = [
   {

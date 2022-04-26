@@ -1,8 +1,9 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 
-import { ProgressBarItem } from '../../../utils/types'
-import IgniteText from '../atoms/IgniteText.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
+import { ProgressBarItem } from '~/utils/types'
+
 import IgniteDenom from './IgniteDenom.vue'
 
 export default defineComponent({

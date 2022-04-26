@@ -33,7 +33,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import IgniteHeading from '~/components/ui/atoms/IgniteHeading.vue'
+import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 
 import SocialCard from './SocialCard.vue'
 </script>

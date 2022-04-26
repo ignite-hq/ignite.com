@@ -8,8 +8,8 @@ export default {
 import MasonryWall from '@yeger/vue-masonry-wall'
 import { computed } from 'vue'
 
-import IgniteButton from '~/components/ui/atoms/IgniteButton.vue'
-import useCampaignSummaries from '~/composables/useCampaignSummaries'
+import IgniteButton from '~/components/ui/IgniteButton.vue'
+import useCampaignSummaries from '~/composables/campaign/useCampaignSummaries'
 import {
   CampaignCampaignSummary,
   CampaignQueryCampaignSummariesResponse

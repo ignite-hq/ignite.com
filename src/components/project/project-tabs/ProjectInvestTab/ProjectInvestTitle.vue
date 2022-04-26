@@ -8,9 +8,9 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import IconPlus from '~/components/icons/IconPlus.vue'
-import IgniteHeading from '~/components/ui/atoms/IgniteHeading.vue'
-import IgniteLink from '~/components/ui/atoms/IgniteLink.vue'
-import IgniteText from '~/components/ui/atoms/IgniteText.vue'
+import IgniteHeading from '~/components/ui/IgniteHeading.vue'
+import IgniteLink from '~/components/ui/IgniteLink.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
 </script>
 
 <template>

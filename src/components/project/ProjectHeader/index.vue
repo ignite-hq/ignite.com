@@ -7,12 +7,12 @@ export default {
 <script lang="ts" setup>
 import { computed, PropType, reactive } from 'vue'
 
-import IgniteBgWave from '~/components/ui/atoms/IgniteBgWave.vue'
-import IgniteHeading from '~/components/ui/atoms/IgniteHeading.vue'
-import IgniteText from '~/components/ui/atoms/IgniteText.vue'
-import IgniteBreadcrumbs from '~/components/ui/molecules/IgniteBreadcrumbs.vue'
-import IgniteGithubRepoLink from '~/components/ui/molecules/IgniteGithubRepoLink.vue'
-import useGitHubRepository from '~/composables/useGitHubRepository'
+import IgniteBreadcrumbs from '~/components/common/IgniteBreadcrumbs.vue'
+import IgniteGithubRepoLink from '~/components/common/IgniteGithubRepoLink.vue'
+import IgniteBgWave from '~/components/ui/IgniteBgWave.vue'
+import IgniteHeading from '~/components/ui/IgniteHeading.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
+import useGitHubRepository from '~/composables/github/useGitHubRepository'
 import { CampaignCampaignSummary } from '~/generated/tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 import { getUserAndRepositoryFromUrl } from '~/utils/github'
 

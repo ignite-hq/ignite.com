@@ -5,10 +5,10 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { getUserAndRepositoryFromUrl } from '../../../utils/github'
-import IgniteLink from '../atoms/IgniteLink.vue'
-import IgniteText from '../atoms/IgniteText.vue'
 import IconGithub from '~/components/icons/IconGithub.vue'
+import IgniteLink from '~/components/ui/IgniteLink.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
+import { getUserAndRepositoryFromUrl } from '~/utils/github'
 
 const props = defineProps({
   githubUrl: { type: String, required: true }

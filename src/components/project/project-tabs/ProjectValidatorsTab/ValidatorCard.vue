@@ -4,7 +4,7 @@ import { LaunchGenesisValidator } from 'tendermint-spn-ts-client/tendermint.spn.
 import { computed, PropType } from 'vue'
 
 import validatorAvatar from '~/assets/svg/validatorAvatar.svg'
-import IgniteText from '~/components/ui/atoms/IgniteText.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
 
 const props = defineProps({
   validator: {

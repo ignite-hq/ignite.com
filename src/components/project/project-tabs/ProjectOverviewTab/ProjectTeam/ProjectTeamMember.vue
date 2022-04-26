@@ -7,10 +7,10 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import IgniteBgWave from '~/components/ui/atoms/IgniteBgWave.vue'
-import IgniteCard from '~/components/ui/atoms/IgniteCard.vue'
-import IgniteHeading from '~/components/ui/atoms/IgniteHeading.vue'
-import IgniteText from '~/components/ui/atoms/IgniteText.vue'
+import IgniteBgWave from '~/components/ui/IgniteBgWave.vue'
+import IgniteCard from '~/components/ui/IgniteCard.vue'
+import IgniteHeading from '~/components/ui/IgniteHeading.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
 
 defineProps({
   member: {

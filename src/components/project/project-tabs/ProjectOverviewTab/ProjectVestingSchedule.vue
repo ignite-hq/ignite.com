@@ -49,8 +49,8 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import IgniteHeading from '~/components/ui/atoms/IgniteHeading.vue'
-import IgniteText from '~/components/ui/atoms/IgniteText.vue'
+import IgniteHeading from '~/components/ui/IgniteHeading.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
 </script>
 
 <template>

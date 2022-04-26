@@ -7,10 +7,10 @@ export default {
 <script lang="ts" setup>
 import { computed } from 'vue'
 
-import IgniteCheckbox from '~/components/ui/atoms/IgniteCheckbox.vue'
-import IgniteLoader from '~/components/ui/atoms/IgniteLoader.vue'
-import IgniteProfileIcon from '~/components/ui/atoms/IgniteProfileIcon.vue'
-import useAddress from '~/composables/useAddress'
+import IgniteCheckbox from '~/components/ui/IgniteCheckbox.vue'
+import IgniteLoader from '~/components/ui/IgniteLoader.vue'
+import IgniteProfileIcon from '~/components/ui/IgniteProfileIcon.vue'
+import useAddress from '~/composables/wallet/useAddress'
 import {
   LaunchRequest,
   LaunchRequestContent

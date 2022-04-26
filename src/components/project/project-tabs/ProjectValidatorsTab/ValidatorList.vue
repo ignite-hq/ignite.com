@@ -5,8 +5,8 @@ import {
 } from 'tendermint-spn-ts-client/tendermint.spn.launch/rest'
 import { computed, toRef } from 'vue'
 
-import IgniteButton from '~/components/ui/atoms/IgniteButton.vue'
-import useGenesisValidatorAll from '~/composables/useGenesisValidatorAll'
+import IgniteButton from '~/components/ui/IgniteButton.vue'
+import useGenesisValidatorAll from '~/composables/validator/useGenesisValidatorAll'
 
 import ValidatorCard from './ValidatorCard.vue'
 

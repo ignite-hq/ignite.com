@@ -7,10 +7,10 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import IgniteHeading from '~/components/ui/atoms/IgniteHeading.vue'
-import IgniteText from '~/components/ui/atoms/IgniteText.vue'
-import IgniteDenom from '~/components/ui/molecules/IgniteDenom.vue'
-import IgniteProgressBar from '~/components/ui/molecules/IgniteProgressBar.vue'
+import IgniteHeading from '~/components/ui/IgniteHeading.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
+import IgniteDenom from '~/components/common/IgniteDenom.vue'
+import IgniteProgressBar from '~/components/common/IgniteProgressBar.vue'
 import { ProgressBarItem } from '~/utils/types'
 
 const progressBar = {

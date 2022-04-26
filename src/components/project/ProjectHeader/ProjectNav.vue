@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { PropType } from 'vue'
 
-import IgniteLink from '~/components/ui/atoms/IgniteLink.vue'
-import IgniteText from '~/components/ui/atoms/IgniteText.vue'
+import IgniteLink from '~/components/ui/IgniteLink.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
 
 interface NavLink {
   title: string

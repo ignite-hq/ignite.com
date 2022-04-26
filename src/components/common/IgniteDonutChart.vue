@@ -7,9 +7,9 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import IgniteBgWave from '../atoms/IgniteBgWave.vue'
-import IgniteHeading from '../atoms/IgniteHeading.vue'
-import IgniteText from '../atoms/IgniteText.vue'
+import IgniteBgWave from '~/components/ui/IgniteBgWave.vue'
+import IgniteHeading from '~/components/ui/IgniteHeading.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
 
 const props = defineProps({
   colors: {
