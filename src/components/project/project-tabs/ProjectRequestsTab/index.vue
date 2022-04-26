@@ -20,6 +20,8 @@ import {
 } from '~/generated/tendermint-spn-ts-client/tendermint.spn.launch/rest'
 import { RequestPageFilters, useRequestsStore } from '~/stores/requests-store'
 
+import RequestsTable from './RequestsTable.vue'
+
 interface Props {
   coordinatorId?: string
 }
@@ -94,7 +96,7 @@ const isLoading = computed(() => {
   <div class="container py-10 text-center">
     <RequestsHeader />
     <div>
-      <IgniteRequestsTable
+      <RequestsTable
         v-if="projectRequests.length > 0 || isLoading"
         :loading="isLoading"
         :requests="projectRequests"

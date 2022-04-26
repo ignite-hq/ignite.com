@@ -10,6 +10,7 @@ import { computed } from 'vue'
 
 import IconGithub from '~/components/icons/IconGithub.vue'
 import IgniteLink from '~/components/ui/IgniteLink.vue'
+import IgniteLoader from '~/components/ui/IgniteLoader.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import { getUserAndRepositoryFromUrl } from '~/utils/github'
 
