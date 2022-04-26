@@ -31,11 +31,13 @@ import { getTypeFromContent } from './utils'
 interface Props {
   requests: LaunchRequest[]
   loading: boolean
+  selectionDisabled: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
   requests: () => [],
-  loading: false
+  loading: false,
+  selectionDisabled: true
 })
 
 // variables
@@ -162,8 +164,14 @@ const isLoading = computed(() => {
 const showCheckbox = computed(() => {
   const isShowingClosedRequests =
     store.selectedPageFilter.id === RequestPageFilters.Closed
+  const isDisabled = props.selectionDisabled
 
-  return Boolean(address.value) && !isLoading.value && !isShowingClosedRequests
+  return (
+    Boolean(address.value) &&
+    !isLoading.value &&
+    !isShowingClosedRequests &&
+    !isDisabled
+  )
 })
 
 const showStatus = computed(() => {

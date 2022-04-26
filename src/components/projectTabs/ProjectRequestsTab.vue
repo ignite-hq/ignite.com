@@ -1,11 +1,12 @@
 <script lang="ts" setup>
-import { computed, onBeforeUnmount } from 'vue'
+import { computed, onBeforeUnmount, toRef } from 'vue'
 import { useRoute } from 'vue-router'
 
 import IgniteRequestsEmptyState from '~/components/requests/IgniteRequestsEmptyState.vue'
 import IgniteRequestsHeader from '~/components/requests/IgniteRequestsHeader.vue'
 import IgniteRequestsTable from '~/components/requests/IgniteRequestsTable.vue'
 import IgniteSelectedRequests from '~/components/requests/IgniteSelectedRequests.vue'
+import useCoordinator from '~/composables/useCoordinator'
 import useProjectRequests from '~/composables/useProjectRequests'
 import {
   LaunchQueryAllRequestResponse,
@@ -13,6 +14,12 @@ import {
   LaunchRequestStatus
 } from '~/generated/tendermint-spn-ts-client/tendermint.spn.launch/rest'
 import { RequestPageFilters, useRequestsStore } from '~/stores/requests-store'
+
+interface Props {
+  coordinatorId?: string
+}
+
+const props = defineProps<Props>()
 
 // lh
 onBeforeUnmount(() => {
@@ -24,7 +31,12 @@ const store = useRequestsStore()
 
 // composables
 const { params } = useRoute()
-const { requests, isFetching } = useProjectRequests(params.projectId.toString())
+const { requests, isFetching: isFetchingProjectRequests } = useProjectRequests(
+  params.projectId.toString()
+)
+const { isSameAsLoggedIn, isFetching: isFetchingCoordinator } = useCoordinator(
+  toRef(props, 'coordinatorId')
+)
 
 // methods
 function mergePages(
@@ -68,6 +80,10 @@ const emptyStateMessage = computed(() => {
     ? 'No pending requests'
     : 'No closed requests'
 })
+
+const isLoading = computed(() => {
+  return isFetchingProjectRequests.value || isFetchingCoordinator.value
+})
 </script>
 
 <template>
@@ -75,9 +91,10 @@ const emptyStateMessage = computed(() => {
     <IgniteRequestsHeader />
     <div>
       <IgniteRequestsTable
-        v-if="projectRequests.length > 0 || isFetching"
-        :loading="isFetching"
+        v-if="projectRequests.length > 0 || isLoading"
+        :loading="isLoading"
         :requests="projectRequests"
+        :selection-disabled="!isSameAsLoggedIn"
       />
       <IgniteRequestsEmptyState
         v-else-if="projectRequests.length <= 0"

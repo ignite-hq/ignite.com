@@ -5,7 +5,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { onBeforeMount, ref } from 'vue'
+import { computed, onBeforeMount, ref } from 'vue'
 import { onBeforeRouteUpdate, useRoute } from 'vue-router'
 
 import IgniteProjectHeader from '../components/IgniteProjectHeader.vue'
@@ -29,6 +29,10 @@ onBeforeRouteUpdate(async (to) => {
 
 // composables
 const { campaignSummary, isFetching } = useCampaignSummary(projectId)
+
+const coordinatorId = computed(() => {
+  return campaignSummary.value?.campaign?.coordinatorID
+})
 </script>
 
 <template>
@@ -41,7 +45,10 @@ const { campaignSummary, isFetching } = useCampaignSummary(projectId)
     />
     <ProjectOverviewTab v-if="tab === 'overview'" />
     <ProjectValidatorsTab v-if="tab === 'validators'" />
-    <ProjectRequestsTab v-if="tab === 'requests'" />
+    <ProjectRequestsTab
+      v-if="tab === 'requests'"
+      :coordinator-id="coordinatorId"
+    />
     <ProjectInvestTab v-if="tab === 'invest'" />
   </div>
 </template>
