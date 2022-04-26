@@ -3,7 +3,7 @@ import { useQuery } from 'vue-query'
 
 import { useTendermintSpnProfile } from '~/generated/tendermint-spn-vue'
 
-import useAddress from './useAddress'
+import useAddress from '../wallet/useAddress'
 
 export default function useCoordinator(
   coordinatorId?: Ref<string | undefined> | string
