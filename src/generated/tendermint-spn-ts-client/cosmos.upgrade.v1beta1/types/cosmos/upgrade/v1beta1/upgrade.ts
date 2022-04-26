@@ -33,7 +33,7 @@ export interface Plan {
   height: number
   /**
    * Any application specific upgrade info to be included on-chain
-   * such as a git commit that validators could automatically upgrade to
+   * such as a git commit that ProjectValidatorsTab could automatically upgrade to
    */
   info: string
   /**

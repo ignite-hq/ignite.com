@@ -19,7 +19,7 @@ export const protobufPackage = 'cosmos.staking.v1beta1'
 
 /** QueryValidatorsRequest is request type for Query/Validators RPC method. */
 export interface QueryValidatorsRequest {
-  /** status enables to query for validators matching a given status. */
+  /** status enables to query for ProjectValidatorsTab matching a given status. */
   status: string
   /** pagination defines an optional pagination for the request. */
   pagination: PageRequest | undefined
@@ -27,7 +27,7 @@ export interface QueryValidatorsRequest {
 
 /** QueryValidatorsResponse is response type for the Query/Validators RPC method */
 export interface QueryValidatorsResponse {
-  /** validators contains all the queried validators. */
+  /** ProjectValidatorsTab contains all the queried ProjectValidatorsTab. */
   validators: Validator[]
   /** pagination defines the pagination in the response. */
   pagination: PageResponse | undefined
@@ -205,7 +205,7 @@ export interface QueryDelegatorValidatorsRequest {
  * Query/DelegatorValidators RPC method.
  */
 export interface QueryDelegatorValidatorsResponse {
-  /** validators defines the the validators' info of a delegator. */
+  /** ProjectValidatorsTab defines the the ProjectValidatorsTab' info of a delegator. */
   validators: Validator[]
   /** pagination defines the pagination in the response. */
   pagination: PageResponse | undefined
@@ -2620,7 +2620,7 @@ export const QueryParamsResponse = {
 
 /** Query defines the gRPC querier service. */
 export interface Query {
-  /** Validators queries all validators that match the given status. */
+  /** Validators queries all ProjectValidatorsTab that match the given status. */
   Validators(request: QueryValidatorsRequest): Promise<QueryValidatorsResponse>
   /** Validator queries validator info for given validator address. */
   Validator(request: QueryValidatorRequest): Promise<QueryValidatorResponse>
@@ -2657,7 +2657,7 @@ export interface Query {
     request: QueryRedelegationsRequest
   ): Promise<QueryRedelegationsResponse>
   /**
-   * DelegatorValidators queries all validators info for given delegator
+   * DelegatorValidators queries all ProjectValidatorsTab info for given delegator
    * address.
    */
   DelegatorValidators(
