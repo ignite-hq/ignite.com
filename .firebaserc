@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "ignite-hq"
+  },
+  "targets": {
+    "ignite-hq": {
+      "hosting": {
+        "ignite.com": [
+          "ignite-new"
+        ]
+      }
+    }
+  }
+}
