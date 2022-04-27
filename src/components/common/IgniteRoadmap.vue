@@ -5,8 +5,9 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import IconCheck from '~/components/icons/IconCheck.vue'
-import IgniteText from '~/components/ui/IgniteText.vue'
+import IconCheck from './icons/IconCheck.vue'
+import IconCircleCanceled from './icons/IconCircleCanceled.vue'
+import IgniteText from './IgniteText.vue'
 
 defineProps({
   items: {
@@ -31,14 +32,29 @@ defineProps({
       :key="item.name"
       class="item relative inline-block min-w-[8.625rem] whitespace-normal border-t-4 pt-6 pr-7 align-top last:pr-0"
       :class="[
-        item.status === 'complited' ? 'border-primary' : 'border-border',
+        item.status === 'complited' || item.status === 'cancelled'
+          ? 'border-primary'
+          : 'border-border',
         align === 'right' ? 'last:text-right' : 'last:border-dashed'
       ]"
     >
       <IconCheck
+        v-if="item.status !== 'cancelled'"
         class="absolute -top-[0.8125rem] h-6 w-6"
         :class="[
           item.status === 'complited' || item.status === 'active'
+            ? 'text-primary'
+            : 'text-border',
+          align === 'right' && key === items.length - 1 ? 'right-0' : 'left-0'
+        ]"
+      />
+      <IconCircleCanceled
+        v-if="item.status === 'cancelled'"
+        class="absolute -top-[0.8125rem] h-6 w-6"
+        :class="[
+          item.status === 'complited' ||
+          item.status === 'active' ||
+          item.status === 'cancelled'
             ? 'text-primary'
             : 'text-border',
           align === 'right' && key === items.length - 1 ? 'right-0' : 'left-0'

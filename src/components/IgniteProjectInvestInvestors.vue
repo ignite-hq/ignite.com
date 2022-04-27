@@ -58,11 +58,11 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
+import IconOrder from './icons/IconOrder.vue'
 import IgniteButton from './IgniteButton.vue'
 import IgniteHeading from './IgniteHeading.vue'
 import IgniteNumber from './IgniteNumber.vue'
 import IgniteText from './IgniteText.vue'
-import IconOrder from './icons/IconOrder.vue'
 import IgniteDenom from './ui/IgniteDenom.vue'
 
 const curency = 'UST'
