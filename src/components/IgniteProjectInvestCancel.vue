@@ -7,6 +7,7 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
+import IgniteCard from './IgniteCard.vue'
 import IgniteHeading from './IgniteHeading.vue'
 import IgniteLink from './IgniteLink.vue'
 import IgniteText from './IgniteText.vue'
@@ -14,7 +15,7 @@ import IgniteText from './IgniteText.vue'
 
 <template>
   <div class="container-full container px-5 sm:px-5.5 lg:px-7">
-    <div class="rounded bg-bg px-5 py-7 shadow-max md:p-8 lg:p-9">
+    <IgniteCard :shadow="true" class="px-5 py-7 md:p-8 lg:p-9">
       <div
         class="grid grid-cols-1 gap-6 md:grid-cols-8 md:gap-7 lg:grid-cols-4"
       >
@@ -42,7 +43,7 @@ import IgniteText from './IgniteText.vue'
           </IgniteLink>
         </div>
       </div>
-    </div>
+    </IgniteCard>
   </div>
 </template>
 

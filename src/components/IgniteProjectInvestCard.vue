@@ -17,6 +17,7 @@ import IconClock from './icons/IconClock.vue'
 import IconDots from './icons/IconDots.vue'
 import IconStack from './icons/IconStack.vue'
 import IconUser from './icons/IconUser.vue'
+import IgniteCard from './IgniteCard.vue'
 import IgniteHeading from './IgniteHeading.vue'
 import IgniteLink from './IgniteLink.vue'
 import IgniteNumber from './IgniteNumber.vue'
@@ -42,7 +43,7 @@ const projectId = route.params.projectId.toString() || '0'
 
 <template>
   <IgniteLink :to="`/projects/${projectId}/invest/${data.id}`" class="w-full">
-    <div class="w-full rounded bg-bg py-6 px-5 shadow-max md:p-7.5">
+    <IgniteCard :shadow="true" class="w-full py-6 px-5 md:p-7.5">
       <IgniteProgressBar :items="progressBar.items" :label="false" size="xs" />
       <IgniteHeading
         as="div"
@@ -115,7 +116,7 @@ const projectId = route.params.projectId.toString() || '0'
           </IgniteHeading>
         </div>
       </div>
-    </div>
+    </IgniteCard>
   </IgniteLink>
 </template>
 

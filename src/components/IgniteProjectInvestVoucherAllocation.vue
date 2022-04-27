@@ -8,6 +8,7 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import { ProgressBarItem } from '../utils/types'
+import IgniteCard from './IgniteCard.vue'
 import IgniteHeading from './IgniteHeading.vue'
 import IgniteProgressBar from './IgniteProgressBar.vue'
 import IgniteText from './IgniteText.vue'
@@ -33,8 +34,8 @@ const progressBar = {
 
 <template>
   <div class="container-full container px-5 sm:px-5.5 lg:px-7">
-    <div
-      class="relative h-[100%] rounded border border-border bg-white-1000 px-5 py-7 sm:px-7 md:px-9 md:py-8 xl:px-10.5"
+    <IgniteCard
+      class="relative h-[100%] px-5 py-7 sm:px-7 md:px-9 md:py-8 xl:px-10.5"
     >
       <div class="grid grid-cols-1 gap-7 md:grid-cols-2">
         <div class="">
@@ -111,7 +112,7 @@ const progressBar = {
           </div>
         </div>
       </div>
-    </div>
+    </IgniteCard>
   </div>
 </template>
 

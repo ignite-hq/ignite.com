@@ -58,7 +58,7 @@ withDefaults(defineProps<Props>(), {
       [color]: !colorTypes.includes(color),
 
       // States
-      'cursor-not-allowed disabled:opacity-40': disabled
+      'pointer-events-none cursor-not-allowed disabled:bg-inactive': disabled
     }"
   >
     <slot />
