@@ -5,13 +5,13 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { computed, onBeforeUnmount } from 'vue'
+import { computed, onBeforeUnmount, toRef } from 'vue'
 import { useRoute } from 'vue-router'
 
 import RequestsEmptyState from '~/components/project/project-tabs/ProjectRequestsTab/RequestsEmptyState.vue'
 import RequestsHeader from '~/components/project/project-tabs/ProjectRequestsTab/RequestsHeader.vue'
-import RequestsTable from '~/components/project/project-tabs/ProjectRequestsTab/RequestsTable.vue'
 import SelectedRequests from '~/components/project/project-tabs/ProjectRequestsTab/SelectedRequests.vue'
+import useCoordinator from '~/composables/profile/useCoordinator'
 import useProjectRequests from '~/composables/project/useProjectRequests'
 import {
   LaunchQueryAllRequestResponse,
@@ -19,6 +19,14 @@ import {
   LaunchRequestStatus
 } from '~/generated/tendermint-spn-ts-client/tendermint.spn.launch/rest'
 import { RequestPageFilters, useRequestsStore } from '~/stores/requests-store'
+
+import RequestsTable from './RequestsTable.vue'
+
+interface Props {
+  coordinatorId?: string
+}
+
+const props = defineProps<Props>()
 
 // lh
 onBeforeUnmount(() => {
@@ -30,7 +38,11 @@ const store = useRequestsStore()
 
 // composables
 const { params } = useRoute()
-const { requests, isFetching } = useProjectRequests(params.projectId.toString())
+const { requests, isFetching: isFetchingProjectRequests } = useProjectRequests(
+  params.projectId.toString()
+)
+const { isSameAddressAsLoggedIn, isFetching: isFetchingCoordinator } =
+  useCoordinator(toRef(props, 'coordinatorId'))
 
 // methods
 function mergePages(
@@ -74,6 +86,10 @@ const emptyStateMessage = computed(() => {
     ? 'No pending requests'
     : 'No closed requests'
 })
+
+const isLoading = computed(() => {
+  return isFetchingProjectRequests.value || isFetchingCoordinator.value
+})
 </script>
 
 <template>
@@ -81,9 +97,10 @@ const emptyStateMessage = computed(() => {
     <RequestsHeader />
     <div>
       <RequestsTable
-        v-if="projectRequests.length > 0 || isFetching"
-        :loading="isFetching"
+        v-if="projectRequests.length > 0 || isLoading"
+        :loading="isLoading"
         :requests="projectRequests"
+        :selection-disabled="!isSameAddressAsLoggedIn"
       />
       <RequestsEmptyState v-else-if="projectRequests.length <= 0" class="mt-8">
         {{ emptyStateMessage }}

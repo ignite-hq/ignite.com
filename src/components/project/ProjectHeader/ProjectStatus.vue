@@ -11,6 +11,7 @@ import IconPlane from '~/components/icons/IconPlane.vue'
 import IconStage from '~/components/icons/IconStage.vue'
 import IconStar from '~/components/icons/IconStar.vue'
 import IgniteLink from '~/components/ui/IgniteLink.vue'
+import IgniteLoader from '~/components/ui/IgniteLoader.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 
 defineProps({
