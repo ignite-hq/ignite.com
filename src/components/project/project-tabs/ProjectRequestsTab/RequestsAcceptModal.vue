@@ -13,6 +13,7 @@ import IconWarning from '~/components/icons/IconWarning.vue'
 import IgniteButton from '~/components/ui/IgniteButton.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteModal from '~/components/ui/IgniteModal.vue'
+import IgniteSpinner from '~/components/ui/IgniteSpinner.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import useAddress from '~/composables/wallet/useAddress'
 import { useIgnite as useIgniteN } from '~/generated/tendermint-spn-vue'
@@ -23,6 +24,7 @@ import { getRequestsSummaries, getSettleRequestTxMessages } from './utils'
 
 enum UIStates {
   Fresh,
+  Signing,
   Success,
   Error
 }
@@ -61,7 +63,7 @@ function onClose() {
 }
 
 async function onConfirm() {
-  state.isLoading = true
+  state.currentUIState = UIStates.Signing
 
   const signerAddress = address.value
 
@@ -84,8 +86,6 @@ async function onConfirm() {
     const error = e as Error
     state.currentUIState = UIStates.Error
     state.errorMessage = error.message
-  } finally {
-    state.isLoading = false
   }
 }
 
@@ -103,6 +103,7 @@ const requestsSummaries = computed(() => {
 const isFresh = computed(() => state.currentUIState === UIStates.Fresh)
 const isSuccess = computed(() => state.currentUIState === UIStates.Success)
 const isError = computed(() => state.currentUIState === UIStates.Error)
+const isSigning = computed(() => state.currentUIState === UIStates.Signing)
 </script>
 
 <template>
@@ -111,6 +112,9 @@ const isError = computed(() => state.currentUIState === UIStates.Error)
       <div v-if="isFresh" class="flex flex-col items-center space-y-4">
         <IconWarning />
         <IgniteHeading class="text-5">Confirm acceptance</IgniteHeading>
+      </div>
+      <div v-else-if="isSigning" class="flex flex-col items-center space-y-4">
+        <IgniteHeading class="text-5">Signing</IgniteHeading>
       </div>
       <div v-else-if="isError" class="flex flex-col items-center space-y-4">
         <IconDenied />
@@ -152,7 +156,7 @@ const isError = computed(() => state.currentUIState === UIStates.Error)
             class="flex-1"
             variant="text"
             color="text-gray-0"
-            :disabled="state.isLoading"
+            :disabled="isSigning"
             @click="onClose"
           >
             Cancel
@@ -162,7 +166,7 @@ const isError = computed(() => state.currentUIState === UIStates.Error)
             color="primary"
             type="submit"
             class="flex-1"
-            :disabled="state.isLoading"
+            :disabled="isSigning"
             @click="onConfirm"
           >
             Confirm
@@ -186,6 +190,12 @@ const isError = computed(() => state.currentUIState === UIStates.Error)
         >
           Done
         </IgniteButton>
+      </div>
+    </template>
+
+    <template v-else-if="isSigning" #body>
+      <div class="mt-6 flex flex-col items-center space-y-7">
+        <IgniteSpinner />
       </div>
     </template>
 
