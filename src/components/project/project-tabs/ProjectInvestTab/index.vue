@@ -11,8 +11,12 @@ import InvestCard from './InvestCard.vue'
 import InvestStart from './InvestStart.vue'
 import InvestTitle from './InvestTitle.vue'
 import InvestVoucherAllocation from './InvestVoucherAllocation.vue'
+import useFundraisersAll from '~/composables/fundraising/useFundraisersAll'
 
-const fundraisers = [
+let { fundraisers, isFetching } = useFundraisersAll()
+console.log(fundraisers)
+
+const fundraisers2 = [
   {
     title: 'Current',
     items: [
