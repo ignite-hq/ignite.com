@@ -28,7 +28,7 @@ export function getSettleRequestTxMessages(
     const launchModule = new LaunchModule('')
     const message = launchModule.msgSettleRequest({
       value: {
-        approve: false,
+        approve,
         launchID: Number(launchID),
         requestID: Number(requestID),
         signer: signer

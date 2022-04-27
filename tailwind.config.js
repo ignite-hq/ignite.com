@@ -48,7 +48,8 @@ module.exports = {
       border: 'rgba(0, 0, 0, 0.07)',
       checkbox: '#C4C4C4',
       radio: '#C4C4C4',
-      error: '#D80228'
+      error: '#D80228',
+      negative: '#D80228'
     },
     container: {
       center: true

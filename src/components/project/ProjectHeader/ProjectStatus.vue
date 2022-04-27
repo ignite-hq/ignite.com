@@ -17,12 +17,14 @@ defineProps({
   projectId: { type: String, required: true },
   requestCount: { type: String, required: true },
   validatorCount: { type: String, required: true },
-  stargazerCount: { type: String, required: true }
+  stargazerCount: { type: String, required: true },
+  loading: { type: Boolean, default: false }
 })
 </script>
 
 <template>
-  <div class="status">
+  <IgniteLoader v-if="loading" class="h-6 w-12" />
+  <div v-else v-bind="$attrs" class="status">
     <div class="status__item" title="Stargazers">
       <IconStar class="icon" />
       <IgniteText as="span">{{ stargazerCount }}</IgniteText>

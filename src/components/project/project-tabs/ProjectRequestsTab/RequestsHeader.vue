@@ -27,7 +27,7 @@ const store = useRequestsStore()
 
 <template>
   <header class="flex items-center justify-between">
-    <IgniteHeading class="font-title">Requests</IgniteHeading>
+    <IgniteHeading class="font-title text-5">Requests</IgniteHeading>
 
     <div class="flex space-x-4">
       <Listbox v-slot="{ open }" v-model="store.selectedPageFilter">
@@ -107,7 +107,7 @@ const store = useRequestsStore()
 
 <style scoped lang="postcss">
 .requests-dropdown-button {
-  @apply flex space-x-2 rounded-2sm border border-border p-4 hover:bg-gray-30;
+  @apply flex items-center space-x-2 rounded-2sm border border-border p-4 hover:bg-gray-30;
 
   &--active {
     @apply z-10 rounded-b-none border-none hover:bg-white-1000;

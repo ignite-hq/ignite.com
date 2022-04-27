@@ -1,10 +1,10 @@
 export function getUserAndRepositoryFromUrl(githubUrl: string): {
-  githubUser: string
-  githubRepo: string
+  user: string
+  repository: string
   redirectGithubUrl: string
 } {
   if (!githubUrl) {
-    return { githubUser: '', githubRepo: '', redirectGithubUrl: '' }
+    return { user: '', repository: '', redirectGithubUrl: '' }
   }
 
   const githubUrlIndex = githubUrl.indexOf('github.com')
@@ -14,12 +14,12 @@ export function getUserAndRepositoryFromUrl(githubUrl: string): {
     : githubUrlWithoutProtocol
 
   const splitPathname = githubUrlWithoutProtocol.split('/')
-  const githubUser = splitPathname[1] ?? ''
-  const githubRepo = splitPathname[2] ?? ''
+  const user = splitPathname[1] ?? ''
+  const repository = splitPathname[2] ?? ''
 
   return {
-    githubUser,
-    githubRepo,
+    user,
+    repository,
     redirectGithubUrl: githubUrlWithProtocol
   }
 }

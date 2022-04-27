@@ -9,7 +9,6 @@ import { computed, PropType } from 'vue'
 
 import useGitHubRepository from '~/composables/github/useGitHubRepository'
 import { CampaignCampaignSummary } from '~/generated/tendermint-spn-ts-client/tendermint.spn.campaign/rest'
-import { getUserAndRepositoryFromUrl } from '~/utils/github'
 
 import ProjectCardDescription from './ProjectCardDescription.vue'
 import ProjectCardHeader from './ProjectCardHeader.vue'
@@ -27,11 +26,10 @@ const props = defineProps({
 
 // variables
 const githubUrl = props.campaignSummary?.mostRecentChain?.sourceURL ?? ''
-const { githubUser, githubRepo } = getUserAndRepositoryFromUrl(githubUrl)
 
 // composables
 const { repository, isLoading: isGitHubRepositoryLoading } =
-  useGitHubRepository(githubUser, githubRepo)
+  useGitHubRepository(githubUrl)
 
 // computed
 const isLoading = computed(function () {

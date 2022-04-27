@@ -7,7 +7,9 @@ export default function useCampaignSummary(campaignId: string) {
   const { data: campaignSummary, ...other } = useQuery(
     ['campaigns', campaignId],
     () => {
-      return queryCampaignSummary(campaignId).then((r) => r.data)
+      return queryCampaignSummary(campaignId).then(
+        (r) => r.data?.campaignSummary
+      )
     }
   )
 
