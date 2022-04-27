@@ -1,16 +1,16 @@
 <script lang="ts">
 export default {
-  name: 'ProjectInvestTab'
+  name: 'InvestTab'
 }
 </script>
 
 <script lang="ts" setup>
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 
-import ProjectInvestCard from './ProjectInvestCard.vue'
-import ProjectInvestStart from './ProjectInvestStart.vue'
-import ProjectInvestTitle from './ProjectInvestTitle.vue'
-import ProjectInvestVoucherAllocation from './ProjectInvestVoucherAllocation.vue'
+import InvestCard from './InvestCard.vue'
+import InvestStart from './InvestStart.vue'
+import InvestTitle from './InvestTitle.vue'
+import InvestVoucherAllocation from './InvestVoucherAllocation.vue'
 
 const fundraisers = [
   {
@@ -92,9 +92,9 @@ const fundraisers = [
 
 <template>
   <div>
-    <ProjectInvestTitle class="mt-8 md:mt-10.5" />
-    <ProjectInvestVoucherAllocation class="mt-7 md:mt-9" />
-    <ProjectInvestStart class="mt-8 md:mt-10.5" />
+    <InvestTitle class="mt-8 md:mt-10.5" />
+    <InvestVoucherAllocation class="mt-7 md:mt-9" />
+    <InvestStart class="mt-8 md:mt-10.5" />
 
     <div class="container-full container px-5 sm:px-5.5 lg:px-7">
       <div v-for="row in fundraisers" :key="row.title" class="mt-8 md:mt-10.5">
@@ -112,7 +112,7 @@ const fundraisers = [
             :key="`fundraisers_${row.title}_${key}`"
             class="relative z-[1]"
           >
-            <ProjectInvestCard :data="item" />
+            <InvestCard :data="item" />
           </div>
         </div>
       </div>

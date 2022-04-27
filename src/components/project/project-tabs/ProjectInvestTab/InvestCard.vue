@@ -2,7 +2,7 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'ProjectInvestTitle'
+  name: 'InvestTitle'
 })
 </script>
 
@@ -41,12 +41,14 @@ const progressBar = {
       as="div"
       class="mt-5 font-title text-4 font-semibold md:text-5"
     >
-      <IgniteNumber :number="data.raised" />
+      <IgniteNumber :number="parseInt(data.raised)" />
       {{ data.curency }}
     </IgniteHeading>
     <IgniteHeading as="div" class="mt-3 text-3 text-muted">
       Raised of
-      <strong> <IgniteNumber :number="data.goal" /> {{ data.curency }} </strong>
+      <strong>
+        <IgniteNumber :number="parseInt(data.goal)" /> {{ data.curency }}
+      </strong>
     </IgniteHeading>
     <div
       class="mt-7.5 grid grid-cols-2 gap-6 border-t border-border pt-6 sm:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4 xl:pt-7.5"
@@ -83,7 +85,7 @@ const progressBar = {
           class="mt-2 flex items-center text-2 font-semibold md:mt-3 md:text-3"
         >
           <IconUser class="mr-3" />
-          <IgniteNumber :number="data.investors" />
+          <IgniteNumber :number="parseInt(data.investors)" />
         </IgniteHeading>
       </div>
 
