@@ -1,22 +1,31 @@
 import { useTendermintSpnLaunch } from 'tendermint-spn-vue'
+import { computed, Ref, unref } from 'vue'
 import { useInfiniteQuery } from 'vue-query'
 
 const REQUESTS_PER_PAGE = '20'
 
-export default function useProjectRequests(launchId: string) {
+export default function useChainRequests(
+  launchId?: Ref<string | undefined> | string
+) {
   const { queryRequestAll } = useTendermintSpnLaunch()
+
+  const isEnabled = computed(() => {
+    return Boolean(unref(launchId))
+  })
 
   const { data: requests, ...other } = useInfiniteQuery(
     ['launches', launchId, 'requests'],
     ({ pageParam }) => {
-      return queryRequestAll(launchId, {
+      const id = unref(launchId) as string
+      return queryRequestAll(id, {
         'pagination.limit': REQUESTS_PER_PAGE,
         'pagination.key': pageParam
       }).then((r) => r.data)
     },
     {
+      enabled: isEnabled,
       getNextPageParam: (lastPage) => {
-        return lastPage.pagination?.next_key
+        return lastPage?.pagination?.next_key
       }
     }
   )
