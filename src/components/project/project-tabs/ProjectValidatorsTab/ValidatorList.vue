@@ -1,64 +1,66 @@
 <script lang="ts" setup>
-import {
-  LaunchGenesisValidator,
-  LaunchQueryGetGenesisValidatorResponse
-} from 'tendermint-spn-ts-client/tendermint.spn.launch/rest'
-import { computed, toRef } from 'vue'
+import { Validator } from 'tendermint-spn-ts-client/cosmos.staking.v1beta1'
+import { watch, ref } from 'vue'
 
-import IgniteButton from '~/components/ui/IgniteButton.vue'
-import useGenesisValidatorAll from '~/composables/validator/useGenesisValidatorAll'
-
+import useCampaignChains from '~/composables/campaign/useCampaignChains'
 import ValidatorCard from './ValidatorCard.vue'
+import { useTendermintSpnLaunch } from 'tendermint-spn-vue'
 
 const props = defineProps({
-  launchId: { type: String, required: true }
+  projectId: { type: String, required: true }
+})
+
+// variables
+const isLoading = ref(true)
+const allGenesisValidators = ref<Validator[]>([])
+
+// composables
+const { queryGenesisValidatorAll } = useTendermintSpnLaunch()
+const { campaignChains } = useCampaignChains(props.projectId)
+
+// watchers
+watch(campaignChains, (newVal) => {
+  if (newVal?.pages && newVal?.pages[0].campaignChains?.chains) {
+    getValidatorsFromAllChains(newVal.pages[0].campaignChains.chains)
+  }
 })
 
 // methods
-function mergePages(
-  pages: LaunchQueryGetGenesisValidatorResponse[] = []
-): LaunchGenesisValidator[] {
-  return pages.reduce(
-    (acc, page) => [...acc, ...(page?.genesisValidator ?? [])],
-    [] as LaunchGenesisValidator[]
+const getValidatorsFromAllChains = async (chains: string[]) => {
+  const validatorsFromAllChains = await Promise.all(
+    chains.map(async (chainId: string) => {
+      return await queryGenesisValidatorAll(chainId.toString()).then(
+        (r) => r.data
+      )
+    })
   )
+
+  const reducedValidatorsFromAllChains = validatorsFromAllChains.flatMap(
+    (chainValidators) => chainValidators?.genesisValidator || []
+  )
+
+  allGenesisValidators.value = [
+    ...new Map(
+      reducedValidatorsFromAllChains.map((validator) => [
+        validator.address,
+        validator
+      ])
+    ).values()
+  ]
+  isLoading.value = false
 }
-
-// composables
-const {
-  isLoading,
-  fetchNextPage,
-  hasNextPage,
-  isFetchingNextPage,
-  genesisValidatorAllData
-} = useGenesisValidatorAll(toRef(props, 'launchId'))
-
-const genesisValidatorsAll = computed<LaunchGenesisValidator[]>(() => {
-  return mergePages(genesisValidatorAllData.value?.pages)
-})
 </script>
 
 <template>
   <div>
     <div class="flex flex-wrap justify-center">
       <ValidatorCard
-        v-for="validator in genesisValidatorsAll"
+        v-for="validator in allGenesisValidators"
         :key="validator"
         :validator="validator"
       />
     </div>
-    <div v-if="hasNextPage">
-      <IgniteButton
-        variant="primary"
-        color="primary"
-        class="mt-4 px-6"
-        :disabled="isFetchingNextPage"
-        @click="fetchNextPage"
-      >
-        View more
-      </IgniteButton>
-    </div>
-    <div v-if="!isLoading && genesisValidatorsAll.length === 0">
+    <div v-if="!isLoading && allGenesisValidators.length === 0">
       <span>- No validators yet -</span>
     </div>
   </div>

@@ -26,7 +26,7 @@ const github = computed(() => {
 </script>
 
 <template>
-  <div class="text-center">
+  <div>
     <IgniteLoader v-if="loading" v-bind="$attrs" class="h-6 w-11" />
     <IgniteLink
       v-else-if="Boolean(githubUrl)"

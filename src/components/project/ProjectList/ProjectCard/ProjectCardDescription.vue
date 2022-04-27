@@ -7,10 +7,10 @@ export default {
 <script lang="ts" setup>
 import { computed, PropType } from 'vue'
 
+import IgniteGithubRepoLink from '~/components/common/IgniteGithubRepoLink.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteLoader from '~/components/ui/IgniteLoader.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
-import IgniteGithubRepoLink from '~/components/common/IgniteGithubRepoLink.vue'
 import { CampaignCampaign } from '~/generated/tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 
 // props
@@ -53,12 +53,14 @@ const showGitHubRepository = computed(() => {
       {{ campaignName }}
     </IgniteHeading>
 
-    <IgniteLoader v-if="isLoading" class="github-loading mx-auto" />
-    <IgniteGithubRepoLink
-      v-if="showGitHubRepository"
-      :github-url="githubUrl"
-      class="mb-7 text-2"
-    />
+    <div class="flex flex-col items-center">
+      <IgniteGithubRepoLink
+        v-if="showGitHubRepository"
+        :loading="isLoading"
+        :github-url="githubUrl"
+        class="mb-7 text-2"
+      />
+    </div>
 
     <IgniteText v-if="!isLoading" class="text-2 text-muted md:text-3">
       {{ description }}
