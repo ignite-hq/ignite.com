@@ -7,7 +7,7 @@ export default {
 <script lang="ts" setup>
 import { Coin } from '@cosmjs/amino'
 import BigNumber from 'bignumber.js'
-import { computed, reactive } from 'vue'
+import { computed, reactive, watchEffect } from 'vue'
 
 import IgniteHeading from '~/components/IgniteHeading.vue'
 import IgniteInput from '~/components/IgniteInput.vue'
@@ -17,6 +17,10 @@ import IgniteInputTime from '~/components/IgniteInputTime.vue'
 import IgniteText from '~/components/IgniteText.vue'
 import FundraiserInputRow from '~/components/invest/FundraiserInputRow.vue'
 import type { MsgCreateFixedPriceAuction } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/tx'
+import {
+  useCosmosBankV1Beta1,
+  useTendermintSpnCampaign
+} from '~/generated/tendermint-spn-vue-client'
 
 import FundraiserInfoCard from '../components/invest/FundraiserInfoCard.vue'
 import FundraiserInputSection from '../components/invest/FundraiserInputSection.vue'
@@ -41,6 +45,8 @@ interface State {
   isLoading: false
   auction?: MsgCreateFixedPriceAuction
   feeAmount?: Coin
+  totalSupply?: Coin[]
+  voucherCoin?: Coin
 }
 
 const initialState: State = {
@@ -50,33 +56,64 @@ const initialState: State = {
 }
 
 // state
-const totalSupply = 1000
-const state = reactive({ ...initialState })
-
-state.auction = {
-  auctioneer: 'spn1fpx8hs0xxktelpym44gk3s3mnk8u4p729mlv8q',
-  start_price: '10',
-  start_time: today,
-  end_time: oneYfromNow,
-  paying_coin_denom: 'SPN',
-  selling_coin: { amount: '200', denom: 'USPN' },
-  vesting_schedules: [
+const state = reactive({
+  ...initialState,
+  totalSupply: [
     {
-      release_time: twoYfromNow,
-      weight: '500000000000000000'
-    },
-    {
-      release_time: threeYfromNow,
-      weight: '500000000000000000'
+      amount: '1000',
+      denom: 'uspn'
     }
-  ]
-}
+  ],
+  voucherCoin: {
+    amount: '1000',
+    denom: 'uspn'
+  },
+  auction: {
+    auctioneer: 'spn1fpx8hs0xxktelpym44gk3s3mnk8u4p729mlv8q',
+    start_price: '10',
+    start_time: today,
+    end_time: oneYfromNow,
+    paying_coin_denom: 'SPN',
+    selling_coin: { amount: '200', denom: 'USPN' },
+    vesting_schedules: [
+      {
+        release_time: twoYfromNow,
+        weight: '500000000000000000'
+      },
+      {
+        release_time: threeYfromNow,
+        weight: '500000000000000000'
+      }
+    ]
+  }
+})
+
+// composables
+const { queryTotalSupply } = useCosmosBankV1Beta1()
+const { queryCampaignAll } = useTendermintSpnCampaign()
+
+// watch
+watchEffect(async () => {
+  const campaignAllResponse = await (await queryCampaignAll()).data.campaign
+  const totalSupplyResponse = await (await queryTotalSupply()).data.supply
+
+  // state.totalSupply = totalSupplyResponse as Coin[]
+  // state.voucherCoin = state.totalSupply[0]
+})
 
 // computed
+const voucherTotalSupply = computed<number>(() => {
+  const totalSupplyAsString = state.totalSupply?.find(
+    (i) => i.denom === state.voucherCoin?.denom
+  )?.amount
+
+  return new BigNumber(totalSupplyAsString ?? '0').toNumber()
+})
+const amountForSale = computed<number>(() =>
+  new BigNumber(state.auction?.selling_coin?.amount ?? '0').toNumber()
+)
 const amountForSaleOverTotal = computed<number>(
-  () =>
-    new BigNumber(state.auction?.selling_coin?.amount ?? '0').toNumber() /
-    totalSupply
+  () => amountForSale.value / voucherTotalSupply.value
 )
 const totalSaleValue = computed<number>(
   () =>
@@ -102,19 +139,40 @@ function handlePricePerVoucher(value: string) {
   state.auction.start_price = value
 }
 function handleStartTimeInput(value: string) {
-  console.log('handleStartTimeInput', value)
+  const newHours = value.split(':')[0]
+  const newMinutes = value.split(':')[1]
+
+  state.auction?.start_time?.setHours(Number(newHours), Number(newMinutes))
 }
 function handleEndTimeInput(value: string) {
-  console.log('handleEndTimeInput', value)
+  const newHours = value.split(':')[0]
+  const newMinutes = value.split(':')[1]
+
+  state.auction?.end_time?.setHours(Number(newHours), Number(newMinutes))
 }
 function handleDistributionTimeInput(value: string) {
   console.log('handleDistributionTimeInput', value)
 }
 function handleStartDateInput(date: string) {
-  console.log('handleStartDateInput', date)
+  const newDate = new Date(date)
+
+  state.auction?.start_time?.setDate(newDate.getDate())
+  state.auction?.start_time?.setMonth(newDate.getMonth())
+  state.auction?.start_time?.setFullYear(newDate.getFullYear())
 }
 function handleEndDateInput(date: string) {
-  console.log('handleEndDateInput', date)
+  const newDate = new Date(date)
+
+  state.auction?.end_time?.setDate(newDate.getDate())
+  state.auction?.end_time?.setMonth(newDate.getMonth())
+  state.auction?.end_time?.setFullYear(newDate.getFullYear())
+}
+function handleRegistrationDateInput(date: string) {
+  const newDate = new Date(date)
+
+  state.auction?.start_time?.setDate(newDate.getDate())
+  state.auction?.start_time?.setMonth(newDate.getMonth())
+  state.auction?.start_time?.setFullYear(newDate.getFullYear())
 }
 function handleDistributionDateInput(date: string) {
   console.log('handleDistributionDateInput', date)
@@ -122,12 +180,9 @@ function handleDistributionDateInput(date: string) {
 
 // methods
 async function publishAuction() {
-  console.log('publishAuction', state.auction)
-
   // let msg = spn.tendermintFundraising.value.msgCreateFixedPriceAuction({
   //   value: state.auction as MsgCreateFixedPriceAuction
   // })
-
   // spn.signer.value.client.signAndBroadcast(spn.signer.value.addr, [msg], 20000)
 }
 </script>
@@ -172,7 +227,7 @@ async function publishAuction() {
               <div class="ml-6 flex-row">
                 <IgniteText as="span" class="font-bold">
                   {{ amountForSaleOverTotal }} % </IgniteText
-                >of {{ totalSupply }} total supply
+                >of {{ voucherTotalSupply }} total supply
               </div>
             </div>
           </FundraiserInputRow>
@@ -320,7 +375,7 @@ async function publishAuction() {
               <div class="flex">
                 <IgniteInputDate
                   :initial-date="oneYfromNow"
-                  @input="handleEndDateInput"
+                  @input="handleRegistrationDateInput"
                 />
               </div>
             </div>
@@ -411,6 +466,8 @@ async function publishAuction() {
       :total-fee="totalFee"
       :fee-denom="state.auction?.selling_coin?.denom ?? ''"
       :total-sale-value="totalSaleValue"
+      :total-sale-amount="amountForSale"
+      :amount-sale-over-total="amountForSaleOverTotal"
       :sale-denom="state.auction?.selling_coin?.denom ?? ''"
       @publish="publishAuction"
     />

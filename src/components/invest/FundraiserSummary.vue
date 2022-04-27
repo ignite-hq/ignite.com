@@ -17,6 +17,8 @@ interface Emits {
 
 interface Props {
   totalSaleValue: number
+  amountSaleOverTotal: number
+  totalSaleAmount: number
   saleDenom: string
   totalFee: number
   feeDenom: string
@@ -88,7 +90,7 @@ const emit = defineEmits<Emits>()
           <div class="flex-col">
             <IgniteText class="text-2 text-gray-660"> Vouchers </IgniteText>
             <IgniteText class="mt-1 text-3 font-medium text-gray-0">
-              6M (3%)
+              {{ totalSaleAmount }} ({{ amountSaleOverTotal }}%)
             </IgniteText>
           </div>
           <div class="flex-col">

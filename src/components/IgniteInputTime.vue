@@ -24,7 +24,10 @@ const time = computed<string>(() => `${hour.value}:${minutes.value}`)
 function handleHourInput(evt: Event) {
   const inputEl = evt.target as HTMLInputElement
 
-  hour.value = inputEl.value
+  const newValue = Math.min(Number(inputEl.value), 24).toString()
+
+  inputEl.value = newValue
+  hour.value = newValue
 
   emit('input', time.value)
 }
@@ -32,7 +35,10 @@ function handleHourInput(evt: Event) {
 function handleMinuteInput(evt: Event) {
   const inputEl = evt.target as HTMLInputElement
 
-  minutes.value = inputEl.value
+  const newValue = Math.min(Number(inputEl.value), 59).toString()
+
+  inputEl.value = newValue
+  minutes.value = newValue
 
   emit('input', time.value)
 }
