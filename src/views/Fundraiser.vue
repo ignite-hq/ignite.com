@@ -167,13 +167,6 @@ function handleEndDateInput(date: string) {
   state.auction?.end_time?.setMonth(newDate.getMonth())
   state.auction?.end_time?.setFullYear(newDate.getFullYear())
 }
-function handleRegistrationDateInput(date: string) {
-  const newDate = new Date(date)
-
-  state.auction?.start_time?.setDate(newDate.getDate())
-  state.auction?.start_time?.setMonth(newDate.getMonth())
-  state.auction?.start_time?.setFullYear(newDate.getFullYear())
-}
 function handleDistributionDateInput(date: string) {
   console.log('handleDistributionDateInput', date)
 }
@@ -352,43 +345,6 @@ async function publishAuction() {
             Most projects choose a fundraising period of just 1 day and
             typically reach their fundraising goal within an hour. A popular
             time to start a fundraiser is 9:00am UTC+0 on a weekday.
-          </IgniteText>
-        </FundraiserInfoCard>
-      </div>
-    </FundraiserSection>
-    <!-- Registration start date -->
-    <FundraiserSection>
-      <IgniteHeading class="text-left font-title text-4 font-semibold">
-        Registration start date
-      </IgniteHeading>
-      <div class="flex grow flex-row">
-        <FundraiserInputSection>
-          <FundraiserInputRow>
-            <div class="flex-col">
-              <div>
-                <IgniteText
-                  class="text-2 font-medium text-gray-0 text-opacity-60"
-                >
-                  Date
-                </IgniteText>
-              </div>
-              <div class="flex">
-                <IgniteInputDate
-                  :initial-date="oneYfromNow"
-                  @input="handleRegistrationDateInput"
-                />
-              </div>
-            </div>
-          </FundraiserInputRow>
-        </FundraiserInputSection>
-        <FundraiserInfoCard>
-          <IgniteHeading class="font-title text-3 font-semibold">
-            Need help choosing a date?
-          </IgniteHeading>
-          <IgniteText class="mt-4 text-3 font-normal text-gray-660">
-            Because investors must register to participate in a fundraiser, most
-            projects choose at least 7 days prior to the start date to ensure
-            that investors have enough time to register.
           </IgniteText>
         </FundraiserInfoCard>
       </div>
