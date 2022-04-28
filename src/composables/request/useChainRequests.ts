@@ -1,12 +1,14 @@
 import { useTendermintSpnLaunch } from 'tendermint-spn-vue'
 import { computed, Ref, unref } from 'vue'
-import { useInfiniteQuery } from 'vue-query'
+import { QueryClient, useInfiniteQuery } from 'vue-query'
 
 const REQUESTS_PER_PAGE = '20'
 
-export default function useChainRequests(
-  launchId?: Ref<string | undefined> | string
-) {
+type LaunchIdParam = Ref<string | undefined> | string | undefined
+
+const DOMAIN = 'chain-requests'
+
+export default function useChainRequests(launchId: LaunchIdParam) {
   const { queryRequestAll } = useTendermintSpnLaunch()
 
   const isEnabled = computed(() => {
@@ -14,7 +16,7 @@ export default function useChainRequests(
   })
 
   const { data: requests, ...other } = useInfiniteQuery(
-    ['chains', launchId, 'requests'],
+    [DOMAIN, launchId],
     ({ pageParam }) => {
       const id = unref(launchId) as string
       return queryRequestAll(id, {
@@ -32,4 +34,8 @@ export default function useChainRequests(
   )
 
   return { requests, ...other }
+}
+
+export function invalidateChainRequestsQuery(queryClient: QueryClient) {
+  queryClient.invalidateQueries(DOMAIN)
 }

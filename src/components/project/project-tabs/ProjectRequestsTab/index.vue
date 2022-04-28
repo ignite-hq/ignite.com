@@ -11,8 +11,8 @@ import RequestsEmptyState from '~/components/project/project-tabs/ProjectRequest
 import RequestsHeader from '~/components/project/project-tabs/ProjectRequestsTab/RequestsHeader.vue'
 import SelectedRequests from '~/components/project/project-tabs/ProjectRequestsTab/SelectedRequests.vue'
 import IgniteButton from '~/components/ui/IgniteButton.vue'
-import useChainRequests from '~/composables/chain/useChainRequests'
 import useCoordinator from '~/composables/profile/useCoordinator'
+import useChainRequests from '~/composables/request/useChainRequests'
 import {
   LaunchQueryAllRequestResponse,
   LaunchRequest,

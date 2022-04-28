@@ -15,8 +15,8 @@ import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteModal from '~/components/ui/IgniteModal.vue'
 import IgniteSpinner from '~/components/ui/IgniteSpinner.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
+import useSettleRequests from '~/composables/request/useSettleRequests'
 import useAddress from '~/composables/wallet/useAddress'
-import { useIgnite as useIgniteN } from '~/generated/tendermint-spn-vue'
 import { useRequestsStore } from '~/stores/requests-store'
 import { addCommasToNumber } from '~/utils/number'
 
@@ -48,8 +48,8 @@ const store = useRequestsStore()
 const state = reactive({ ...initialState })
 
 // composables
-const { ignite } = useIgniteN()
 const { address } = useAddress()
+const settleRequests = useSettleRequests()
 
 // methods
 function resetState() {
@@ -67,7 +67,12 @@ async function onConfirm() {
 
   const signerAddress = address.value
 
-  if (!signerAddress) return
+  if (!signerAddress) {
+    state.currentUIState = UIStates.Error
+    state.errorMessage = 'You must connect your wallet to sign the transaction'
+
+    return
+  }
 
   const messages = getSettleRequestTxMessages(
     signerAddress,
@@ -75,18 +80,22 @@ async function onConfirm() {
     store.selectedRequests
   )
 
-  try {
-    await ignite.signer.value.client.signAndBroadcast(signerAddress, messages, {
-      amount: [],
-      gas: '200000'
-    })
-
-    state.currentUIState = UIStates.Success
-  } catch (e) {
-    const error = e as Error
-    state.currentUIState = UIStates.Error
-    state.errorMessage = error.message
-  }
+  settleRequests.mutate(
+    {
+      messages,
+      signerAddress
+    },
+    {
+      onSuccess: () => {
+        store.clearRequests()
+        state.currentUIState = UIStates.Success
+      },
+      onError: (error) => {
+        state.currentUIState = UIStates.Error
+        state.errorMessage = error.message
+      }
+    }
+  )
 }
 
 function onSuccessClose() {
@@ -114,7 +123,7 @@ const isSigning = computed(() => state.currentUIState === UIStates.Signing)
         <IgniteHeading class="text-5">Confirm acceptance</IgniteHeading>
       </div>
       <div v-else-if="isSigning" class="flex flex-col items-center space-y-4">
-        <IgniteHeading class="text-5">Signing</IgniteHeading>
+        <IgniteHeading class="text-5">Signing...</IgniteHeading>
       </div>
       <div v-else-if="isError" class="flex flex-col items-center space-y-4">
         <IconDenied />
