@@ -1,0 +1,49 @@
+<script lang="ts">
+import { defineComponent } from 'vue'
+
+export default defineComponent({
+  name: 'IgniteProjectInvestTitle'
+})
+</script>
+
+<script lang="ts" setup>
+import IgniteHeading from './IgniteHeading.vue'
+import IgniteLink from './IgniteLink.vue'
+import IgniteText from './IgniteText.vue'
+</script>
+
+<template>
+  <div class="container-full container px-5 sm:px-5.5 lg:px-7">
+    <div class="rounded bg-bg px-5 py-7 shadow-max md:p-8 lg:p-9">
+      <div
+        class="grid grid-cols-1 gap-6 md:grid-cols-8 md:gap-7 lg:grid-cols-4"
+      >
+        <div class="md:col-span-5 lg:col-span-3">
+          <IgniteHeading
+            as="div"
+            class="font-title text-4 font-semibold md:text-4"
+          >
+            Cancel fundraiser
+          </IgniteHeading>
+          <IgniteText as="div" class="mt-4 max-w-2xl text-3 text-muted">
+            Cancel this fundraiser at any time before
+            <strong>April 1, 2022</strong> at <strong>9 AM UTC+0</strong>.<br />
+            The fundraiser cannot be cancelled after it has begun.
+          </IgniteText>
+        </div>
+        <div class="flex items-start justify-end md:col-span-3 lg:col-span-1">
+          <IgniteLink
+            to="/create-fundraiser"
+            class="w-full md:w-auto"
+            type="button"
+            color="error"
+          >
+            <span>Cancel fundraiser</span>
+          </IgniteLink>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style scoped lang="postcss"></style>

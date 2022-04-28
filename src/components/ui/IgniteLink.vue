@@ -54,7 +54,7 @@ export default {
     v-bind="$attrs"
     :href="to as string"
     target="_blank"
-    class="duration-250 inline-flex items-center justify-center transition-all ease-in-out"
+    class="duration-250 transition-all ease-in-out"
     :class="[
       type === 'button' && 'rounded-sm py-5 px-5 text-3 sm:px-8.5',
       color === 'primary' &&
@@ -77,7 +77,9 @@ export default {
         isActive ? activeClass : inactiveClass,
         type === 'button' && 'rounded-sm py-5 px-5 text-3 font-medium',
         color === 'primary' &&
-          'bg-primary text-white-1000 hover:scale-105 hover:text-white-1000'
+          'bg-primary text-white-1000 hover:scale-105 hover:text-white-1000',
+        color === 'error' &&
+          'bg-error text-white-1000 hover:scale-105 hover:text-white-1000'
       ]"
       class="duration-250 inline-flex items-center justify-center transition-all ease-in-out"
       @click="navigate"

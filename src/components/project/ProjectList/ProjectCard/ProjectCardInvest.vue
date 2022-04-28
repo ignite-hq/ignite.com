@@ -6,8 +6,8 @@ export default {
 
 <script setup lang="ts">
 import { ProgressBarItem } from '../../../utils/types'
-import IgniteText from '../../ui/IgniteText.vue'
 import IgniteProgressBar from '../../ui/IgniteProgressBar.vue'
+import IgniteText from '../../ui/IgniteText.vue'
 
 const progressBar = {
   items: [
