@@ -45,7 +45,7 @@ const { validatorLaunchesCount } = useValidatorLaunchesCount(
 
     <div class="mb-2 mt-4 w-full border-b border-gray-70" />
     <IgniteText class="mb-1 text-2 leading-5 text-muted">
-      Also validates
+      Validates
     </IgniteText>
     <div>
       <IgniteText
