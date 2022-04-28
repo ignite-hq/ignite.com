@@ -8,8 +8,8 @@ export default function useValidatorLaunchesCount(operatorAddress: string) {
 
   const queryUrl =
     `${ignite.env.value.rpcURL}/tx_search?query="message.action=` +
-    `'request_add_validator' AND tendermint.spn.launch.EventRequestCreated.request ` +
-    `CONTAINS '${operatorAddress}'"`
+    `'request_add_validator' AND tendermint.spn.launch.EventValidatorAdded` +
+    `.genesisValidator CONTAINS '${operatorAddress}'"`
 
   const { data, ...other } = useQuery(
     ['validators', 'launchCount', operatorAddress],
