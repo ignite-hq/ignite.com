@@ -3,7 +3,7 @@ import { computed, PropType } from 'vue'
 import { RouterLink } from 'vue-router'
 
 type Type = 'button' | 'default'
-type Color = 'primary' | 'none'
+type Color = 'primary' | 'error' | 'none'
 
 export default {
   name: 'IgniteLink',

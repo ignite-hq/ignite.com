@@ -2,28 +2,27 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'ProjectInvestTitle'
+  name: 'IgniteProjectInvestTitle'
 })
 </script>
 
 <script lang="ts" setup>
 import { useRoute } from 'vue-router'
 
-import IgniteProgressBar from '~/components/common/IgniteProgressBar.vue'
-import IconCalendar from '~/components/icons/IconCalendar.vue'
-import IconCanceled from '~/components/icons/IconCanceled.vue'
-import IconCheckMarkThin from '~/components/icons/IconCheckMarkThin.vue'
-import IconClock from '~/components/icons/IconClock.vue'
-import IconDots from '~/components/icons/IconDots.vue'
-import IconStack from '~/components/icons/IconStack.vue'
-import IconUser from '~/components/icons/IconUser.vue'
-import IgniteHeading from '~/components/ui/IgniteHeading.vue'
-import IgniteNumber from '~/components/ui/IgniteNumber.vue'
-import IgniteText from '~/components/ui/IgniteText.vue'
-import { ProgressBarItem } from '~/utils/types'
-
+import { ProgressBarItem } from '../utils/types'
+import IconCalendar from './icons/IconCalendar.vue'
+import IconCanceled from './icons/IconCanceled.vue'
+import IconCheckMarkThin from './icons/IconCheckMarkThin.vue'
+import IconClock from './icons/IconClock.vue'
+import IconDots from './icons/IconDots.vue'
+import IconStack from './icons/IconStack.vue'
+import IconUser from './icons/IconUser.vue'
 import IgniteCard from './IgniteCard.vue'
+import IgniteHeading from './IgniteHeading.vue'
 import IgniteLink from './IgniteLink.vue'
+import IgniteNumber from './IgniteNumber.vue'
+import IgniteProgressBar from './IgniteProgressBar.vue'
+import IgniteText from './IgniteText.vue'
 
 const props = defineProps({
   data: { type: Object, required: true }
