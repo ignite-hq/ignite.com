@@ -14,18 +14,19 @@ export default function useChainRequests(
   })
 
   const { data: requests, ...other } = useInfiniteQuery(
-    ['launches', launchId, 'requests'],
+    ['chains', launchId, 'requests'],
     ({ pageParam }) => {
       const id = unref(launchId) as string
       return queryRequestAll(id, {
         'pagination.limit': REQUESTS_PER_PAGE,
-        'pagination.key': pageParam
+        'pagination.key': pageParam,
+        'pagination.count_total': true
       }).then((r) => r.data)
     },
     {
       enabled: isEnabled,
       getNextPageParam: (lastPage) => {
-        return lastPage?.pagination?.next_key
+        return lastPage.pagination?.next_key
       }
     }
   )

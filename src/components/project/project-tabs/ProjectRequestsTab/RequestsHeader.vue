@@ -16,18 +16,30 @@ import IconCheck from '~/components/icons/IconCheckMarkThin.vue'
 import IconFilter from '~/components/icons/IconFilter.vue'
 import IconSort from '~/components/icons/IconSort.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
 import {
   requestPageFilters,
   requestPageSorts,
   useRequestsStore
 } from '~/stores/requests-store'
 
+interface Props {
+  projectName: string
+}
+
+defineProps<Props>()
+
 const store = useRequestsStore()
 </script>
 
 <template>
   <header class="flex items-center justify-between">
-    <IgniteHeading class="font-title text-5">Requests</IgniteHeading>
+    <div class="space-y-2 text-left">
+      <IgniteHeading class="font-title text-5">Requests</IgniteHeading>
+      <IgniteText class="text-muted"
+        >Proposed actions submitted to {{ projectName }}</IgniteText
+      >
+    </div>
 
     <div class="flex space-x-4">
       <Listbox v-slot="{ open }" v-model="store.selectedPageFilter">
