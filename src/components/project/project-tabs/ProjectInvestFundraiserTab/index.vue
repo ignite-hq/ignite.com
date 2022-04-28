@@ -1,15 +1,21 @@
+<script lang="ts">
+export default {
+  name: 'ProjectInvestFundraiserTab'
+}
+</script>
+
 <script lang="ts" setup>
-import IconUser from '../icons/IconUser.vue'
-import IgniteCard from '../IgniteCard.vue'
-import IgniteHeading from '../IgniteHeading.vue'
-import IgniteNumber from '../IgniteNumber.vue'
-import IgniteProjectInvest from '../IgniteProjectInvest.vue'
-import IgniteProjectInvestCancel from '../IgniteProjectInvestCancel.vue'
-import IgniteProjectInvestInvestors from '../IgniteProjectInvestInvestors.vue'
-import IgniteProjectInvestSingleCard from '../IgniteProjectInvestSingleCard.vue'
-import IgniteProjectInvestValidators from '../IgniteProjectInvestValidators.vue'
-import IgniteProjectInvestVesting from '../IgniteProjectInvestVesting.vue'
-import IgniteText from '../IgniteText.vue'
+import IconUser from '~/components/icons/IconUser.vue'
+import IgniteCard from '~/components/ui/IgniteCard.vue'
+import IgniteHeading from '~/components/ui/IgniteHeading.vue'
+import IgniteNumber from '~/components/ui/IgniteNumber.vue'
+import IgniteProjectInvest from './IgniteProjectInvest.vue'
+import IgniteProjectInvestCancel from './IgniteProjectInvestCancel.vue'
+import IgniteProjectInvestInvestors from './IgniteProjectInvestInvestors.vue'
+import IgniteProjectInvestSingleCard from './IgniteProjectInvestSingleCard.vue'
+import IgniteProjectInvestValidators from './IgniteProjectInvestValidators.vue'
+import IgniteProjectInvestVesting from './IgniteProjectInvestVesting.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
 
 const roadmapItems = [
   {

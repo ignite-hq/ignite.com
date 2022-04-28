@@ -8,9 +8,9 @@ export default {
 import { onBeforeMount } from 'vue'
 import { useRoute } from 'vue-router'
 
-import IgniteProjectHeader from '../components/IgniteProjectHeader.vue'
-import ProjectInvestFundraiserTab from '../components/projectTabs/ProjectInvestFundraiserTab.vue'
-import useCampaignSummary from '../composables/useCampaignSummary'
+import IgniteProjectHeader from '~/components/project/ProjectHeader/index.vue'
+import ProjectInvestFundraiserTab from '~/components/project/project-tabs/ProjectInvestFundraiserTab/index.vue'
+import useCampaignSummary from '~/composables/campaign/useCampaignSummary'
 
 const route = useRoute()
 const projectId = route.params.projectId.toString() || '0'

@@ -43,11 +43,11 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import IgniteButton from './IgniteButton.vue'
-import IgniteHeading from './IgniteHeading.vue'
-import IgniteNumber from './IgniteNumber.vue'
-import IgniteText from './IgniteText.vue'
-import IgniteDenom from './ui/IgniteDenom.vue'
+import IgniteButton from '~/components/ui/IgniteButton.vue'
+import IgniteHeading from '~/components/ui/IgniteHeading.vue'
+import IgniteNumber from '~/components/ui/IgniteNumber.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
+import IgniteDenom from '~/components/common/IgniteDenom.vue'
 
 const curency = 'UST'
 </script>

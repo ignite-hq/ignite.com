@@ -7,10 +7,10 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import IgniteCard from './IgniteCard.vue'
-import IgniteHeading from './IgniteHeading.vue'
-import IgniteImage from './IgniteImage.vue'
-import IgniteText from './IgniteText.vue'
+import IgniteCard from '~/components/ui/IgniteCard.vue'
+import IgniteHeading from '~/components/ui/IgniteHeading.vue'
+import IgniteImage from '~/components/ui/IgniteImage.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
 
 defineProps({
   isWild: {

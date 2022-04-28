@@ -2,24 +2,24 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'IgniteProjectInvestTitle'
+  name: 'IgniteProjectInvest'
 })
 </script>
 
 <script lang="ts" setup>
-import { ProgressBarItem } from '../utils/types'
-import IconHelp from './icons/IconHelp.vue'
-import IconStack from './icons/IconStack.vue'
-import IgniteButton from './IgniteButton.vue'
-import IgniteCard from './IgniteCard.vue'
-import IgniteHeading from './IgniteHeading.vue'
-import IgniteInput from './IgniteInput.vue'
-import IgniteLink from './IgniteLink.vue'
-import IgniteNumber from './IgniteNumber.vue'
-import IgniteProgressBar from './IgniteProgressBar.vue'
-import IgniteText from './IgniteText.vue'
-import IgniteTooltip from './IgniteTooltip.vue'
-import IgniteDenom from './ui/IgniteDenom.vue'
+import { ProgressBarItem } from '~/utils/types'
+import IconHelp from '~/components/icons/IconHelp.vue'
+import IconStack from '~/components/icons/IconStack.vue'
+import IgniteButton from '~/components/ui/IgniteButton.vue'
+import IgniteCard from '~/components/ui/IgniteCard.vue'
+import IgniteHeading from '~/components/ui/IgniteHeading.vue'
+import IgniteInput from '~/components/ui/IgniteInput.vue'
+import IgniteLink from '~/components/ui/IgniteLink.vue'
+import IgniteNumber from '~/components/ui/IgniteNumber.vue'
+import IgniteProgressBar from '~/components/common/IgniteProgressBar.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
+import IgniteTooltip from '~/components/ui/IgniteTooltip.vue'
+import IgniteDenom from '~/components/common/IgniteDenom.vue'
 
 defineProps({
   status: { type: String, required: true },

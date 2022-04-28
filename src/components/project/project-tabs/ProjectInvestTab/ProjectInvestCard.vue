@@ -22,8 +22,8 @@ import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import { ProgressBarItem } from '~/utils/types'
 
-import IgniteCard from './IgniteCard.vue'
-import IgniteLink from './IgniteLink.vue'
+import IgniteCard from '~/components/ui/IgniteCard.vue'
+import IgniteLink from '~/components/ui/IgniteLink.vue'
 
 const props = defineProps({
   data: { type: Object, required: true }

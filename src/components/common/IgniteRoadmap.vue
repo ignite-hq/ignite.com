@@ -5,9 +5,9 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import IconCheck from './icons/IconCheck.vue'
-import IconCircleCanceled from './icons/IconCircleCanceled.vue'
-import IgniteText from './IgniteText.vue'
+import IconCheck from '~/components/icons/IconCheck.vue'
+import IconCircleCanceled from '~/components/icons/IconCircleCanceled.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
 
 defineProps({
   items: {
