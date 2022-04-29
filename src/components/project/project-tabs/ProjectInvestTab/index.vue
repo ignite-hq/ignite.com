@@ -12,11 +12,48 @@ import InvestStart from './InvestStart.vue'
 import InvestTitle from './InvestTitle.vue'
 import InvestVoucherAllocation from './InvestVoucherAllocation.vue'
 import useFundraisersAll from '~/composables/fundraising/useFundraisersAll'
+import { computed } from 'vue'
+import { FixedPriceAuction } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising'
+import { AuctionStatus } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/fundraising'
 
-let { fundraisers, isFetching } = useFundraisersAll()
-console.log(fundraisers)
+let { fundraisers } = useFundraisersAll()
 
-const fundraisers2 = [
+const formatAuctionStatus = (auctionType: AuctionStatus): string => {
+  if (auctionType == 'AUCTION_STATUS_UNSPECIFIED') return 'Current'
+  if (auctionType == 'AUCTION_STATUS_STANDBY') return 'Standby'
+  if (auctionType == 'AUCTION_STATUS_STARTED') return 'Current'
+  if (auctionType == 'AUCTION_STATUS_VESTING') return 'Current'
+  if (auctionType == 'AUCTION_STATUS_FINISHED') return 'Previous'
+  if (auctionType == 'AUCTION_STATUS_CANCELLED') return 'Previous'
+  return 'Current'
+}
+
+const fundraisingList = computed(() => {
+  return fundraisers?.value?.pages[0].auctions.map(
+    (auctionData: FixedPriceAuction) => {
+      const auction = auctionData.base_auction
+      console.log(auction)
+      return {
+        title: 'Current',
+        items: [
+          {
+            raised:
+              parseInt(auction.remaining_selling_coin.amount) -
+              parseInt(auction.selling_coin.amount),
+            goal: auction.selling_coin.amount,
+            curency: auction.selling_coin.denom.toUpperCase(),
+            status: formatAuctionStatus(auction.status),
+            vouchers: '6M (3%)',
+            investors: auction.allowed_biddes?.length() || 0,
+            ends: new Date(auction.end_times[0]).toLocaleDateString()
+          }
+        ]
+      }
+    }
+  )
+})
+
+/*const fundraisersData = [
   {
     title: 'Current',
     items: [
@@ -91,7 +128,7 @@ const fundraisers2 = [
       }
     ]
   }
-]
+]*/
 </script>
 
 <template>
@@ -101,7 +138,11 @@ const fundraisers2 = [
     <InvestStart class="mt-8 md:mt-10.5" />
 
     <div class="container-full container px-5 sm:px-5.5 lg:px-7">
-      <div v-for="row in fundraisers" :key="row.title" class="mt-8 md:mt-10.5">
+      <div
+        v-for="row in fundraisingList"
+        :key="row.title"
+        class="mt-8 md:mt-10.5"
+      >
         <IgniteHeading
           as="div"
           class="font-title text-4 font-semibold md:text-5"
