@@ -38,6 +38,10 @@ const coordinatorId = computed(() => {
 const launchId = computed(() => {
   return campaignSummary.value?.mostRecentChain?.launchID
 })
+
+const campaignName = computed(() => {
+  return campaignSummary.value?.campaign?.campaignName
+})
 </script>
 
 <template>
@@ -52,6 +56,7 @@ const launchId = computed(() => {
     <ProjectValidatorsTab v-if="tab === 'validators'" />
     <ProjectRequestsTab
       v-if="tab === 'requests'"
+      :project-name="campaignName"
       :launch-id="launchId"
       :coordinator-id="coordinatorId"
     />

@@ -10,8 +10,9 @@ import { computed, onBeforeUnmount, toRef } from 'vue'
 import RequestsEmptyState from '~/components/project/project-tabs/ProjectRequestsTab/RequestsEmptyState.vue'
 import RequestsHeader from '~/components/project/project-tabs/ProjectRequestsTab/RequestsHeader.vue'
 import SelectedRequests from '~/components/project/project-tabs/ProjectRequestsTab/SelectedRequests.vue'
-import useChainRequests from '~/composables/chain/useChainRequests'
+import IgniteButton from '~/components/ui/IgniteButton.vue'
 import useCoordinator from '~/composables/profile/useCoordinator'
+import useChainRequests from '~/composables/request/useChainRequests'
 import {
   LaunchQueryAllRequestResponse,
   LaunchRequest,
@@ -24,6 +25,7 @@ import RequestsTable from './RequestsTable.vue'
 interface Props {
   coordinatorId?: string
   launchId?: string
+  projectName?: string
 }
 
 const props = defineProps<Props>()
@@ -37,10 +39,14 @@ onBeforeUnmount(() => {
 const store = useRequestsStore()
 
 // composables
-const { requests, isFetching: isFetchingProjectRequests } = useChainRequests(
-  toRef(props, 'launchId')
-)
-const { isSameAddressAsLoggedIn, isFetching: isFetchingCoordinator } =
+const {
+  requests,
+  isLoading: isLoadingProjectRequests,
+  hasNextPage,
+  isFetchingNextPage,
+  fetchNextPage
+} = useChainRequests(toRef(props, 'launchId'))
+const { isSameAddressAsLoggedIn, isLoading: isLoadingCoordinator } =
   useCoordinator(toRef(props, 'coordinatorId'))
 
 // methods
@@ -87,17 +93,18 @@ const emptyStateMessage = computed(() => {
 })
 
 const isLoading = computed(() => {
-  return (
-    isFetchingProjectRequests.value ||
-    isFetchingCoordinator.value ||
+  const isInitialFetch =
+    isLoadingProjectRequests.value ||
+    isLoadingCoordinator.value ||
     !props.launchId
-  )
+
+  return isInitialFetch && !isFetchingNextPage.value
 })
 </script>
 
 <template>
   <div class="container py-10 text-center">
-    <RequestsHeader />
+    <RequestsHeader :project-name="projectName ?? ''" />
     <div>
       <RequestsTable
         v-if="projectRequests.length > 0 || isLoading"
@@ -109,6 +116,15 @@ const isLoading = computed(() => {
         {{ emptyStateMessage }}
       </RequestsEmptyState>
     </div>
+    <RequestsTable v-if="isFetchingNextPage" :show-header="false" loading />
+    <IgniteButton
+      v-if="hasNextPage && !isFetchingNextPage && projectRequests.length > 0"
+      variant="primary"
+      color="primary"
+      class="mt-8"
+      @click="() => fetchNextPage()"
+      >View More</IgniteButton
+    >
     <SelectedRequests :requests="projectRequests" />
   </div>
 </template>

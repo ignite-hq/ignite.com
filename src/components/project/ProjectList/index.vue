@@ -77,7 +77,7 @@ const campaignSummaries = computed<CampaignCampaignSummary[]>(() => {
     <div v-if="hasNextPage && !isFetchingNextPage" class="blur-box">
       <IgniteButton
         variant="primary"
-        class="view-more-btn"
+        color="primary"
         @click="() => fetchNextPage()"
         >View More</IgniteButton
       >
@@ -95,11 +95,7 @@ const campaignSummaries = computed<CampaignCampaignSummary[]>(() => {
 }
 
 .blur-box {
-  @apply -mt-11 flex h-10 w-full justify-center bg-white-1000 pt-4;
+  @apply -mt-11 flex h-10 w-full items-center justify-center bg-white-1000 pt-4;
   box-shadow: 0 0 2000px 200px #fff;
-}
-
-.view-more-btn {
-  @apply border-primary bg-primary;
 }
 </style>
