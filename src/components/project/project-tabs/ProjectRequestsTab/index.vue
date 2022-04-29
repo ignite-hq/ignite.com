@@ -6,13 +6,12 @@ export default {
 
 <script lang="ts" setup>
 import { computed, onBeforeUnmount, toRef } from 'vue'
-import { useRoute } from 'vue-router'
 
 import RequestsEmptyState from '~/components/project/project-tabs/ProjectRequestsTab/RequestsEmptyState.vue'
 import RequestsHeader from '~/components/project/project-tabs/ProjectRequestsTab/RequestsHeader.vue'
 import SelectedRequests from '~/components/project/project-tabs/ProjectRequestsTab/SelectedRequests.vue'
+import useChainRequests from '~/composables/chain/useChainRequests'
 import useCoordinator from '~/composables/profile/useCoordinator'
-import useProjectRequests from '~/composables/project/useProjectRequests'
 import {
   LaunchQueryAllRequestResponse,
   LaunchRequest,
@@ -24,6 +23,7 @@ import RequestsTable from './RequestsTable.vue'
 
 interface Props {
   coordinatorId?: string
+  launchId?: string
 }
 
 const props = defineProps<Props>()
@@ -37,9 +37,8 @@ onBeforeUnmount(() => {
 const store = useRequestsStore()
 
 // composables
-const { params } = useRoute()
-const { requests, isFetching: isFetchingProjectRequests } = useProjectRequests(
-  params.projectId.toString()
+const { requests, isFetching: isFetchingProjectRequests } = useChainRequests(
+  toRef(props, 'launchId')
 )
 const { isSameAddressAsLoggedIn, isFetching: isFetchingCoordinator } =
   useCoordinator(toRef(props, 'coordinatorId'))
@@ -88,7 +87,11 @@ const emptyStateMessage = computed(() => {
 })
 
 const isLoading = computed(() => {
-  return isFetchingProjectRequests.value || isFetchingCoordinator.value
+  return (
+    isFetchingProjectRequests.value ||
+    isFetchingCoordinator.value ||
+    !props.launchId
+  )
 })
 </script>
 

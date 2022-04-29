@@ -30,8 +30,13 @@ onBeforeRouteUpdate(async (to) => {
 // composables
 const { campaignSummary, isFetching } = useCampaignSummary(projectId)
 
+// computed
 const coordinatorId = computed(() => {
   return campaignSummary.value?.campaign?.coordinatorID
+})
+
+const launchId = computed(() => {
+  return campaignSummary.value?.mostRecentChain?.launchID
 })
 </script>
 
@@ -47,6 +52,7 @@ const coordinatorId = computed(() => {
     <ProjectValidatorsTab v-if="tab === 'validators'" />
     <ProjectRequestsTab
       v-if="tab === 'requests'"
+      :launch-id="launchId"
       :coordinator-id="coordinatorId"
     />
     <ProjectInvestTab v-if="tab === 'invest'" />
