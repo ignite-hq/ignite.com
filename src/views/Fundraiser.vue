@@ -26,6 +26,7 @@ import FundraiserInfoCard from '../components/invest/FundraiserInfoCard.vue'
 import FundraiserInputSection from '../components/invest/FundraiserInputSection.vue'
 import FundraiserSection from '../components/invest/FundraiserSection.vue'
 import FundraiserSummary from '../components/invest/FundraiserSummary.vue'
+import IgniteButton from '~/components/IgniteButton.vue'
 
 let today = new Date()
 let oneYfromNow = new Date(new Date().setFullYear(new Date().getFullYear() + 1))
@@ -39,11 +40,18 @@ enum UIStates {
   Error
 }
 
+interface ISellingCoin {
+  selling_coin: Coin
+}
+
+type NonNullableMsgCreateFixedPriceAuction =
+  NonNullable<MsgCreateFixedPriceAuction> & ISellingCoin
+
 interface State {
   currentUIState: UIStates.Fresh
   errorMessage: ''
   isLoading: false
-  auction?: MsgCreateFixedPriceAuction
+  auction: NonNullableMsgCreateFixedPriceAuction
   feeAmount?: Coin
   totalSupply?: Coin[]
   voucherCoin?: Coin
@@ -52,22 +60,7 @@ interface State {
 const initialState: State = {
   currentUIState: UIStates.Fresh,
   errorMessage: '',
-  isLoading: false
-}
-
-// state
-const state = reactive({
-  ...initialState,
-  totalSupply: [
-    {
-      amount: '1000',
-      denom: 'uspn'
-    }
-  ],
-  voucherCoin: {
-    amount: '1000',
-    denom: 'uspn'
-  },
+  isLoading: false,
   auction: {
     auctioneer: 'spn1fpx8hs0xxktelpym44gk3s3mnk8u4p729mlv8q',
     start_price: '10',
@@ -85,6 +78,21 @@ const state = reactive({
         weight: '500000000000000000'
       }
     ]
+  }
+}
+
+// state
+const state = reactive({
+  ...initialState,
+  totalSupply: [
+    {
+      amount: '1000',
+      denom: 'uspn'
+    }
+  ],
+  voucherCoin: {
+    amount: '1000',
+    denom: 'uspn'
   }
 })
 
@@ -110,15 +118,15 @@ const voucherTotalSupply = computed<number>(() => {
   return new BigNumber(totalSupplyAsString ?? '0').toNumber()
 })
 const amountForSale = computed<number>(() =>
-  new BigNumber(state.auction?.selling_coin?.amount ?? '0').toNumber()
+  new BigNumber(state.auction.selling_coin?.amount ?? '0').toNumber()
 )
 const amountForSaleOverTotal = computed<number>(
-  () => amountForSale.value / voucherTotalSupply.value
+  () => (amountForSale.value / voucherTotalSupply.value) * 100
 )
 const totalSaleValue = computed<number>(
   () =>
-    new BigNumber(state.auction?.selling_coin?.amount ?? '0').toNumber() *
-    new BigNumber(state.auction?.start_price ?? '0').toNumber()
+    new BigNumber(state.auction.selling_coin?.amount ?? '0').toNumber() *
+    new BigNumber(state.auction.start_price ?? '0').toNumber()
 )
 const totalFee = computed<number>(() => (0.3 / 100) * totalSaleValue.value)
 const totalRaisePotential = computed<number>(
@@ -131,44 +139,70 @@ function handleAmountInput(evt: Event) {
 
   const newAmount = inputEl.value
 
-  // @ts-ignore
   state.auction.selling_coin.amount = newAmount
 }
 function handlePricePerVoucher(value: string) {
-  // @ts-ignore
   state.auction.start_price = value
+}
+function handleStartDateInput(date: string) {
+  const newDate = new Date(date)
+
+  state.auction.start_time?.setDate(newDate.getDate())
+  state.auction.start_time?.setMonth(newDate.getMonth())
+  state.auction.start_time?.setFullYear(newDate.getFullYear())
 }
 function handleStartTimeInput(value: string) {
   const newHours = value.split(':')[0]
   const newMinutes = value.split(':')[1]
 
-  state.auction?.start_time?.setHours(Number(newHours), Number(newMinutes))
-}
-function handleEndTimeInput(value: string) {
-  const newHours = value.split(':')[0]
-  const newMinutes = value.split(':')[1]
-
-  state.auction?.end_time?.setHours(Number(newHours), Number(newMinutes))
-}
-function handleDistributionTimeInput(value: string) {
-  console.log('handleDistributionTimeInput', value)
-}
-function handleStartDateInput(date: string) {
-  const newDate = new Date(date)
-
-  state.auction?.start_time?.setDate(newDate.getDate())
-  state.auction?.start_time?.setMonth(newDate.getMonth())
-  state.auction?.start_time?.setFullYear(newDate.getFullYear())
+  state.auction.start_time?.setHours(Number(newHours), Number(newMinutes))
 }
 function handleEndDateInput(date: string) {
   const newDate = new Date(date)
 
-  state.auction?.end_time?.setDate(newDate.getDate())
-  state.auction?.end_time?.setMonth(newDate.getMonth())
-  state.auction?.end_time?.setFullYear(newDate.getFullYear())
+  state.auction.end_time?.setDate(newDate.getDate())
+  state.auction.end_time?.setMonth(newDate.getMonth())
+  state.auction.end_time?.setFullYear(newDate.getFullYear())
 }
-function handleDistributionDateInput(date: string) {
-  console.log('handleDistributionDateInput', date)
+function handleEndTimeInput(time: string) {
+  const newHours = time.split(':')[0]
+  const newMinutes = time.split(':')[1]
+
+  state.auction.end_time?.setHours(Number(newHours), Number(newMinutes))
+}
+function handleDistributionDateInput(date: string, index: number) {
+  const newDate = new Date(date)
+
+  state.auction.vesting_schedules[index].release_time?.setDate(
+    newDate.getDate()
+  )
+  state.auction.vesting_schedules[index].release_time?.setMonth(
+    newDate.getMonth()
+  )
+  state.auction.vesting_schedules[index].release_time?.setFullYear(
+    newDate.getFullYear()
+  )
+}
+function handleDistributionTimeInput(time: string, index: number) {
+  const newHours = time.split(':')[0]
+  const newMinutes = time.split(':')[1]
+
+  state.auction.vesting_schedules[index].release_time?.setHours(
+    Number(newHours),
+    Number(newMinutes)
+  )
+}
+function handleDistributionWeightInput(weight: string, index: number) {
+  state.auction.vesting_schedules[index].weight = weight
+}
+function handleAddDistributionClick() {
+  state.auction.vesting_schedules = [
+    ...state.auction.vesting_schedules,
+    {
+      release_time: threeYfromNow,
+      weight: '2'
+    }
+  ]
 }
 
 // methods
@@ -212,7 +246,7 @@ async function publishAuction() {
             <div class="flex items-center">
               <div class="">
                 <IgniteInput
-                  :value="state.auction?.selling_coin?.amount"
+                  :value="state.auction.selling_coin?.amount"
                   type="number"
                   @input="handleAmountInput"
                 />
@@ -235,14 +269,14 @@ async function publishAuction() {
             <div class="flex items-center">
               <div class="">
                 <IgniteInputAmount
-                  :value="state.auction?.start_price"
+                  :value="state.auction.start_price"
                   @input="handlePricePerVoucher"
                 />
               </div>
               <div class="ml-6 flex-row">
                 <IgniteText class="font-bold">
                   {{ totalSaleValue }}
-                  {{ state.auction?.selling_coin?.denom }}
+                  {{ state.auction.selling_coin?.denom }}
                 </IgniteText>
               </div>
             </div>
@@ -356,50 +390,74 @@ async function publishAuction() {
       </IgniteHeading>
       <div class="flex grow flex-row">
         <FundraiserInputSection>
-          <FundraiserInputRow>
-            <div class="flex-row">
-              <IgniteHeading as="h3"> Distribuition 1 </IgniteHeading>
-            </div>
-            <div class="col-span-2 mt-7 flex flex-row flex-wrap gap-7">
-              <!-- Date -->
-              <div class="flex-col">
-                <div>
-                  <IgniteText
-                    class="text-2 font-medium text-gray-0 text-opacity-60"
-                  >
-                    Date
-                  </IgniteText>
+          <FundraiserInputRow
+            v-for="(schedule, index) in state.auction.vesting_schedules"
+            v-bind:key="schedule.release_time?.toString()"
+          >
+            <div>
+              <div class="flex-row">
+                <IgniteText class="text-3 font-semibold text-gray-0">
+                  Distribuition {{ index + 1 }}
+                </IgniteText>
+              </div>
+              <div class="col-span-2 mt-7 flex flex-row flex-wrap gap-7">
+                <!-- Date -->
+                <div class="flex-col">
+                  <div>
+                    <IgniteText
+                      class="text-2 font-medium text-gray-0 text-opacity-60"
+                    >
+                      Date
+                    </IgniteText>
+                  </div>
+                  <div>
+                    <IgniteInputDate
+                      :initial-date="(schedule.release_time as Date)"
+                      @input="
+                        (date) => handleDistributionDateInput(date, index)
+                      "
+                    />
+                  </div>
                 </div>
-                <div>
-                  <IgniteInputDate
-                    :initial-date="today"
-                    @input="handleDistributionDateInput"
+                <!-- Time -->
+                <div class="flex-col">
+                  <div>
+                    <IgniteText
+                      class="text-2 font-medium text-gray-0 text-opacity-60"
+                    >
+                      Time
+                    </IgniteText>
+                  </div>
+                  <IgniteInputTime
+                    @input="(time) => handleDistributionTimeInput(time, index)"
                   />
                 </div>
+                <!-- Amount -->
+                <div class="flex-col">
+                  <div>
+                    <IgniteText
+                      class="text-2 font-medium text-gray-0 text-opacity-60"
+                    >
+                      Amount
+                    </IgniteText>
+                  </div>
+                  <div>
+                    <IgniteInputAmount
+                      :value="schedule.weight"
+                      @input="
+                        (amount) => handleDistributionWeightInput(amount, index)
+                      "
+                    />
+                  </div>
+                </div>
               </div>
-              <!-- Time -->
-              <div class="flex-col">
-                <div>
-                  <IgniteText
-                    class="text-2 font-medium text-gray-0 text-opacity-60"
-                  >
-                    Time
-                  </IgniteText>
-                </div>
-                <IgniteInputTime @input="handleDistributionTimeInput" />
-              </div>
-              <!-- Amount -->
-              <div class="flex-col">
-                <div>
-                  <IgniteText
-                    class="text-2 font-medium text-gray-0 text-opacity-60"
-                  >
-                    Amount
-                  </IgniteText>
-                </div>
-                <div>
-                  <IgniteInputAmount value="5" />
-                </div>
+              <div
+                class="mt-8 flex-row"
+                v-if="index + 1 === state.auction.vesting_schedules.length"
+              >
+                <IgniteButton class="px-6" @click="handleAddDistributionClick">
+                  Add Distribution
+                </IgniteButton>
               </div>
             </div>
           </FundraiserInputRow>
@@ -420,11 +478,11 @@ async function publishAuction() {
     <FundraiserSummary
       :total-raise-potential="totalRaisePotential"
       :total-fee="totalFee"
-      :fee-denom="state.auction?.selling_coin?.denom ?? ''"
+      :fee-denom="state.auction.selling_coin?.denom ?? ''"
       :total-sale-value="totalSaleValue"
       :total-sale-amount="amountForSale"
       :amount-sale-over-total="amountForSaleOverTotal"
-      :sale-denom="state.auction?.selling_coin?.denom ?? ''"
+      :sale-denom="state.auction.selling_coin?.denom ?? ''"
       @publish="publishAuction"
     />
   </div>
