@@ -52,7 +52,10 @@ const campaignName = computed(() => {
       :project-id="projectId"
       :campaign-summary="campaignSummary"
     />
-    <ProjectOverviewTab v-if="tab === 'overview'" />
+    <ProjectOverviewTab
+      v-if="tab === 'overview'"
+      :source-url="campaignSummary?.mostRecentChain?.sourceURL"
+    />
     <ProjectValidatorsTab v-if="tab === 'validators'" />
     <ProjectRequestsTab
       v-if="tab === 'requests'"

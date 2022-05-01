@@ -5,6 +5,10 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import { toRef } from 'vue'
+
+import useGitHubFile from '~/composables/github/useGitHubFile'
+
 import ProjectCards from './ProjectCards/index.vue'
 import ProjectDescription from './ProjectDescription.vue'
 import ProjectLinks from './ProjectLinks/index.vue'
@@ -13,12 +17,22 @@ import ProjectTeam from './ProjectTeam/index.vue'
 import ProjectTokenomics from './ProjectTokenomics.vue'
 import ProjectVestingSchedule from './ProjectVestingSchedule.vue'
 import ProjectWhitepaper from './ProjectWhitepaper.vue'
+
+interface Props {
+  sourceUrl?: string
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  sourceUrl: ''
+})
+
+const { file } = useGitHubFile(toRef(props, 'sourceUrl'), 'assets/readme.md')
 </script>
 
 <template>
   <div>
     <ProjectCards class="mt-8 md:mt-10.5" />
-    <ProjectDescription class="mt-8 md:mt-10.5" />
+    <ProjectDescription :raw-markdown="file" class="mt-8 md:mt-10.5" />
     <ProjectWhitepaper class="mt-8 md:mt-10.5" />
     <ProjectRoadmap class="mt-8 md:mt-12" />
     <ProjectTokenomics class="mt-8 md:mt-12" />

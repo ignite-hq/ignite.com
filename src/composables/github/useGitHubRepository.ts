@@ -25,10 +25,10 @@ async function fetchRepository(
 }
 
 export default function useGitHubRepository(
-  repoUrl?: Ref<string | undefined> | string
+  sourceUrl?: Ref<string | undefined> | string
 ) {
   const github = computed(() => {
-    const url = unref(repoUrl)
+    const url = unref(sourceUrl)
 
     if (!url) return
     return getUserAndRepositoryFromUrl(url)

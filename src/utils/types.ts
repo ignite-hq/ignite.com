@@ -1,3 +1,5 @@
+import { Ref } from 'vue'
+
 export interface ProgressBarItem {
   value: string
   bgColor?: string
@@ -18,3 +20,5 @@ export interface PaginationParams {
   'pagination.countTotal'?: boolean
   'pagination.reverse'?: boolean
 }
+
+export type RefOrValue<T> = Ref<T> | T
