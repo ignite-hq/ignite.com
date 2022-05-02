@@ -48,7 +48,7 @@ const mainCoinBalance = computed(() => {
     <MenuButton class="flex items-center space-x-4">
       <IgniteProfileIcon :address="address" />
 
-      <div>
+      <div class="text-left">
         <IgniteHeading class="text-3 font-semibold">
           {{ account?.name }}
         </IgniteHeading>
