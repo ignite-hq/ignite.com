@@ -29,27 +29,36 @@ const formatAuctionStatus = (auctionType: AuctionStatus): string => {
 }
 
 const fundraisingList = computed(() => {
-  return fundraisers?.value?.pages[0].auctions.map(
-    (auctionData: FixedPriceAuction) => {
-      const auction = auctionData.base_auction
+  return fundraisers?.value?.pages[0].auctions.reduce(
+    (acc, currentAuction: FixedPriceAuction) => {
+      const auction = currentAuction.base_auction
       console.log(auction)
-      return {
-        title: 'Current',
-        items: [
-          {
-            raised:
-              parseInt(auction.remaining_selling_coin.amount) -
-              parseInt(auction.selling_coin.amount),
-            goal: auction.selling_coin.amount,
-            curency: auction.selling_coin.denom.toUpperCase(),
-            status: formatAuctionStatus(auction.status),
-            vouchers: '6M (3%)',
-            investors: auction.allowed_biddes?.length() || 0,
-            ends: new Date(auction.end_times[0]).toLocaleDateString()
-          }
-        ]
+      const status = formatAuctionStatus(auction.status)
+      const fundraiserData = {
+        raised:
+          parseInt(auction.remaining_selling_coin.amount) -
+          parseInt(auction.selling_coin.amount),
+        goal: auction.selling_coin.amount,
+        curency: auction.selling_coin.denom.toUpperCase(),
+        status,
+        vouchers: '6M (3%)',
+        investors: auction.allowed_biddes?.length() || 0,
+        ends: auction.end_times[0]
       }
-    }
+      const statusIdx = acc.findIndex(
+        (fundraiserByStatus) => fundraiserByStatus.title === status
+      )
+      if (statusIdx < 0) {
+        acc.push({
+          title: status,
+          items: [fundraiserData]
+        })
+      } else {
+        acc[statusIdx].items.push(fundraiserData)
+      }
+      return acc
+    },
+    []
   )
 })
 

@@ -90,7 +90,9 @@ const progressBar = {
       </div>
 
       <div class="">
-        <IgniteText as="div" class="text-2 text-muted"> Ended </IgniteText>
+        <IgniteText as="div" class="text-2 text-muted">
+          {{ Date.now() < new Date(data.ends).getTime() ? 'Ends' : 'Ended' }}
+        </IgniteText>
         <IgniteHeading
           as="div"
           class="mt-2 flex items-center text-2 font-semibold md:mt-3 md:text-3"
@@ -99,7 +101,7 @@ const progressBar = {
           <span
             :class="data.status === 'Canceled' && 'text-inactive line-through'"
           >
-            {{ data.ends }}
+            {{ new Date(data.ends).toLocaleDateString() }}
           </span>
         </IgniteHeading>
       </div>
