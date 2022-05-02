@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 import { Validator } from 'tendermint-spn-ts-client/cosmos.staking.v1beta1'
-import { watch, ref } from 'vue'
+import { useTendermintSpnLaunch } from 'tendermint-spn-vue'
+import { ref, watch } from 'vue'
 
 import useCampaignChains from '~/composables/campaign/useCampaignChains'
+
 import ValidatorCard from './ValidatorCard.vue'
-import { useTendermintSpnLaunch } from 'tendermint-spn-vue'
 
 const props = defineProps({
   projectId: { type: String, required: true }

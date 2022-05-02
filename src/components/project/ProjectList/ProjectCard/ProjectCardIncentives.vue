@@ -7,9 +7,9 @@ export default {
 <script setup lang="ts">
 import { computed, PropType } from 'vue'
 
+import IgniteDenom from '~/components/common/IgniteDenom.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
-import IgniteDenom from '~/components/common/IgniteDenom.vue'
 import { CampaignCampaignSummary } from '~/generated/tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 
 const props = defineProps({
