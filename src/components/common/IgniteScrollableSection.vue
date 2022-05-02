@@ -60,7 +60,11 @@ const onRange = () => {
 <template>
   <div
     class="wrapper"
-    :class="[!(state.value * 1) && '_start', state.value * 1 === 100 && '_end']"
+    :class="[
+      state.scrollWidth <= 0 && '_no-scroll',
+      !(state.value * 1) && '_start',
+      state.value * 1 === 100 && '_end'
+    ]"
   >
     <div
       ref="section"
@@ -126,6 +130,12 @@ const onRange = () => {
     }
   }
   &._end {
+    &:after {
+      display: none;
+    }
+  }
+  &._no-scroll {
+    &:before,
     &:after {
       display: none;
     }

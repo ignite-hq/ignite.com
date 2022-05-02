@@ -7,10 +7,11 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
+import IconGithub from '~/components/icons/IconGithub.vue'
+
 import { getUserAndRepositoryFromUrl } from '../../../utils/github'
 import IgniteLink from '../atoms/IgniteLink.vue'
 import IgniteText from '../atoms/IgniteText.vue'
-import IconGithub from '~/components/icons/IconGithub.vue'
 
 const props = defineProps({
   githubUrl: { type: String, required: true }
