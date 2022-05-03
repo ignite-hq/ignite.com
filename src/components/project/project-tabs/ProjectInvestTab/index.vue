@@ -61,8 +61,8 @@ const fundraisingList = computed(() => {
         : 0
       return {
         raised:
-          parseInt(auction.remaining_selling_coin.amount) -
-          parseInt(auction.selling_coin.amount),
+          parseInt(auction.selling_coin.amount) -
+          parseInt(auction.remaining_selling_coin.amount),
         goal: auction.selling_coin.amount,
         currency: auction.selling_coin.denom.toUpperCase(),
         status: formatAuctionStatus(auction.status),
