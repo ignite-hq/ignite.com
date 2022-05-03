@@ -82,7 +82,9 @@ const progressBar = {
       </div>
 
       <div class="">
-        <IgniteText as="div" class="text-2 text-muted"> Investors </IgniteText>
+        <IgniteText as="div" class="text-2 text-muted">
+          Participants
+        </IgniteText>
         <IgniteHeading
           as="div"
           class="mt-2 flex items-center text-2 font-semibold md:mt-3 md:text-3"
