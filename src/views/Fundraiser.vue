@@ -20,12 +20,11 @@ import FundraiserSection from '~/components/invest/FundraiserSection.vue'
 import FundraiserInputSection from '~/components/invest/FundraiserInputSection.vue'
 import FundraiserInputRow from '~/components/invest/FundraiserInputRow.vue'
 import IgniteInput from '~/components/ui/IgniteInput.vue'
-import IgniteInputAmount from '~/components/IgniteInputAmount.vue'
 import FundraiserInfoCard from '~/components/invest/FundraiserInfoCard.vue'
-import IgniteInputTime from '~/components/IgniteInputTime.vue'
-import IgniteInputDate from '~/components/IgniteInputDate.vue'
 import IgniteButton from '~/components/ui/IgniteButton.vue'
 import FundraiserSummary from '~/components/invest/FundraiserSummary.vue'
+import IgniteInputAmount from '../components/ui/IgniteInputAmount.vue'
+import IgniteInputDate from '../components/ui/IgniteInputDate.vue'
 
 let today = new Date()
 let oneYfromNow = new Date(new Date().setFullYear(new Date().getFullYear() + 1))
@@ -33,6 +32,11 @@ let twoYfromNow = new Date(new Date().setFullYear(new Date().getFullYear() + 2))
 let threeYfromNow = new Date(
   new Date().setFullYear(new Date().getFullYear() + 3)
 )
+
+function pctTo18Decimals(pct: number): string {
+  return new BigNumber(pct).toPrecision(18).toString().replace('.', '')
+}
+
 enum UIStates {
   Fresh,
   Success,
@@ -46,6 +50,7 @@ interface ISellingCoin {
 type NonNullableMsgCreateFixedPriceAuction =
   NonNullable<MsgCreateFixedPriceAuction> & ISellingCoin
 
+// state
 interface State {
   currentUIState: UIStates.Fresh
   errorMessage: ''
@@ -70,17 +75,16 @@ const initialState: State = {
     vesting_schedules: [
       {
         release_time: twoYfromNow,
-        weight: '500000000000000000'
+        weight: pctTo18Decimals(50)
       },
       {
         release_time: threeYfromNow,
-        weight: '500000000000000000'
+        weight: pctTo18Decimals(50)
       }
     ]
   }
 }
 
-// state
 const state = reactive({
   ...initialState,
   totalSupply: [
@@ -143,53 +147,14 @@ function handleAmountInput(evt: Event) {
 function handlePricePerVoucher(value: string) {
   state.auction.start_price = value
 }
-function handleStartDateInput(date: string) {
-  const newDate = new Date(date)
-
-  state.auction.start_time?.setDate(newDate.getDate())
-  state.auction.start_time?.setMonth(newDate.getMonth())
-  state.auction.start_time?.setFullYear(newDate.getFullYear())
+function handleStartDateInput(date: Date) {
+  state.auction.start_time = date
 }
-function handleStartTimeInput(value: string) {
-  const newHours = value.split(':')[0]
-  const newMinutes = value.split(':')[1]
-
-  state.auction.start_time?.setHours(Number(newHours), Number(newMinutes))
+function handleEndDateInput(date: Date) {
+  state.auction.end_time = date
 }
-function handleEndDateInput(date: string) {
-  const newDate = new Date(date)
-
-  state.auction.end_time?.setDate(newDate.getDate())
-  state.auction.end_time?.setMonth(newDate.getMonth())
-  state.auction.end_time?.setFullYear(newDate.getFullYear())
-}
-function handleEndTimeInput(time: string) {
-  const newHours = time.split(':')[0]
-  const newMinutes = time.split(':')[1]
-
-  state.auction.end_time?.setHours(Number(newHours), Number(newMinutes))
-}
-function handleDistributionDateInput(date: string, index: number) {
-  const newDate = new Date(date)
-
-  state.auction.vesting_schedules[index].release_time?.setDate(
-    newDate.getDate()
-  )
-  state.auction.vesting_schedules[index].release_time?.setMonth(
-    newDate.getMonth()
-  )
-  state.auction.vesting_schedules[index].release_time?.setFullYear(
-    newDate.getFullYear()
-  )
-}
-function handleDistributionTimeInput(time: string, index: number) {
-  const newHours = time.split(':')[0]
-  const newMinutes = time.split(':')[1]
-
-  state.auction.vesting_schedules[index].release_time?.setHours(
-    Number(newHours),
-    Number(newMinutes)
-  )
+function handleDistributionDateInput(date: Date, index: number) {
+  state.auction.vesting_schedules[index].release_time = date
 }
 function handleDistributionWeightInput(weight: string, index: number) {
   state.auction.vesting_schedules[index].weight = weight
@@ -308,30 +273,13 @@ async function publishAuction() {
             <div class="grid-cols mt-7 flex flex-row flex-wrap gap-7">
               <!-- Start date -->
               <div class="flex-col">
-                <div>
-                  <IgniteText
-                    class="text-2 font-medium text-gray-0 text-opacity-60"
-                  >
-                    Date
-                  </IgniteText>
-                </div>
+                <div></div>
                 <div>
                   <IgniteInputDate
                     :initial-date="today"
                     @input="handleStartDateInput"
                   />
                 </div>
-              </div>
-              <!-- Start time -->
-              <div class="flex-col">
-                <div>
-                  <IgniteText
-                    class="text-2 font-medium text-gray-0 text-opacity-60"
-                  >
-                    Time
-                  </IgniteText>
-                </div>
-                <IgniteInputTime @input="handleStartTimeInput" />
               </div>
             </div>
           </FundraiserInputRow>
@@ -342,30 +290,13 @@ async function publishAuction() {
             <div class="col-span-2 mt-7 flex flex-row flex-wrap gap-7">
               <!-- End date -->
               <div class="flex-col">
-                <div>
-                  <IgniteText
-                    class="text-2 font-medium text-gray-0 text-opacity-60"
-                  >
-                    Date
-                  </IgniteText>
-                </div>
+                <div></div>
                 <div>
                   <IgniteInputDate
                     :initial-date="oneYfromNow"
                     @input="handleEndDateInput"
                   />
                 </div>
-              </div>
-              <!-- End time -->
-              <div class="flex-col">
-                <div>
-                  <IgniteText
-                    class="text-2 font-medium text-gray-0 text-opacity-60"
-                  >
-                    Time
-                  </IgniteText>
-                </div>
-                <IgniteInputTime @input="handleEndTimeInput" />
               </div>
             </div>
           </FundraiserInputRow>
@@ -402,13 +333,7 @@ async function publishAuction() {
               <div class="col-span-2 mt-7 flex flex-row flex-wrap gap-7">
                 <!-- Date -->
                 <div class="flex-col">
-                  <div>
-                    <IgniteText
-                      class="text-2 font-medium text-gray-0 text-opacity-60"
-                    >
-                      Date
-                    </IgniteText>
-                  </div>
+                  <div></div>
                   <div>
                     <IgniteInputDate
                       :initial-date="(schedule.release_time as Date)"
@@ -418,19 +343,7 @@ async function publishAuction() {
                     />
                   </div>
                 </div>
-                <!-- Time -->
-                <div class="flex-col">
-                  <div>
-                    <IgniteText
-                      class="text-2 font-medium text-gray-0 text-opacity-60"
-                    >
-                      Time
-                    </IgniteText>
-                  </div>
-                  <IgniteInputTime
-                    @input="(time) => handleDistributionTimeInput(time, index)"
-                  />
-                </div>
+
                 <!-- Amount -->
                 <div class="flex-col">
                   <div>
