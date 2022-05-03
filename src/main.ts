@@ -5,6 +5,7 @@ import MasonryWall from '@yeger/vue-masonry-wall'
 import { createPinia } from 'pinia'
 import { createSpn } from 'tendermint-spn-ts-client'
 import { useSpn } from 'tendermint-spn-vue-client'
+import { SetupCalendar } from 'v-calendar'
 import { createApp } from 'vue'
 import { VueQueryPlugin, VueQueryPluginOptions } from 'vue-query'
 import VueApexCharts from 'vue3-apexcharts'
@@ -74,10 +75,28 @@ const vueQueryPluginOptions: VueQueryPluginOptions = {
   }
 }
 
+const clickOutside = {
+  beforeMount: (el, binding) => {
+    el.clickOutsideEvent = (event) => {
+      // here I check that click was outside the el and his children
+      if (!(el == event.target || el.contains(event.target))) {
+        // and if it did, call method provided in attribute value
+        binding.value()
+      }
+    }
+    document.addEventListener('click', el.clickOutsideEvent)
+  },
+  unmounted: (el) => {
+    document.removeEventListener('click', el.clickOutsideEvent)
+  }
+}
+
 app
   .use(VueQueryPlugin, vueQueryPluginOptions)
   .use(createPinia())
   .use(router)
   .use(MasonryWall)
   .use(VueApexCharts)
+  .use(SetupCalendar, {})
+  .directive('click-outside', clickOutside)
   .mount('#app')
