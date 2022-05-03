@@ -10,11 +10,15 @@ export default defineComponent({
 interface Props {
   icon?: string
   placeholder?: string
+  style?: string
+  size?: string
 }
 
 withDefaults(defineProps<Props>(), {
   icon: '',
-  placeholder: ''
+  placeholder: '',
+  style: 'bg-gray-30',
+  size: 'md'
 })
 </script>
 
@@ -24,9 +28,12 @@ withDefaults(defineProps<Props>(), {
     <input
       v-bind="$props"
       :placeholder="placeholder"
-      class="h-[3rem] w-full rounded-xs bg-gray-30 px-5 text-3 font-normal"
+      class="w-full rounded-xs px-5 font-normal"
       :class="{
-        'pl-7': icon
+        'pl-7': icon,
+        'h-[3rem] text-3': size === 'md',
+        'h-[4.5rem] text-4': size === 'lg',
+        style
       }"
     />
   </div>

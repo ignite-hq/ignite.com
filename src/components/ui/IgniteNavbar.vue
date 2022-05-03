@@ -2,7 +2,7 @@
 import IconIgnite from '~/components/icons/IconIgnite.vue'
 import IgniteAccount from '~/components/wallet/IgniteAccount.vue'
 
-import IgniteLink from './IgniteLink.vue'
+import IgniteLink from '~/components/ui/IgniteLink.vue'
 
 interface Link {
   name: string

@@ -45,5 +45,10 @@ export const useRequestsStore = defineStore('RequestsStore', {
     selectedRequests: [] as LaunchRequest[],
     selectedPageFilter: requestPageFilters[0],
     selectedPageSort: requestPageSorts[0]
-  })
+  }),
+  actions: {
+    clearRequests() {
+      this.selectedRequests = []
+    }
+  }
 })

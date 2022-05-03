@@ -70,6 +70,7 @@ const fundraisingList = computed(() => {
         ? Math.round((auction.selling_coin.amount / tokenSupply) * 100)
         : 0
       return {
+        id: auction.id,
         raised:
           parseInt(auction.selling_coin.amount) -
           parseInt(auction.remaining_selling_coin.amount),

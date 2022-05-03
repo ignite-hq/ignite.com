@@ -5,11 +5,11 @@ export default {
 </script>
 
 <script setup lang="ts">
+import IgniteProgressBar from '~/components/common/IgniteProgressBar.vue'
 import IgniteButton from '~/components/ui/IgniteButton.vue'
 import IgniteCard from '~/components/ui/IgniteCard.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
-import IgniteProgressBar from '~/components/common/IgniteProgressBar.vue'
 import { ProgressBarItem } from '~/utils/types'
 
 const progressBar = {

@@ -4,7 +4,7 @@ import { defineComponent, PropType } from 'vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import { ProgressBarItem } from '~/utils/types'
 
-import IgniteDenom from './IgniteDenom.vue'
+import IgniteDenom from '~/components/common/IgniteDenom.vue'
 
 export default defineComponent({
   name: 'IgniteProgressBar',

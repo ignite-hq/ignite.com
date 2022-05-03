@@ -32,12 +32,14 @@ interface Props {
   requests: LaunchRequest[]
   loading: boolean
   selectionDisabled: boolean
+  showHeader?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
   requests: () => [],
   loading: false,
-  selectionDisabled: true
+  selectionDisabled: true,
+  showHeader: true
 })
 
 // variables
@@ -185,7 +187,7 @@ const showStatus = computed(() => {
 <template>
   <div role="table" class="responses-table">
     <!-- Header -->
-    <div role="rowgroup">
+    <div v-if="showHeader" role="rowgroup">
       <div role="row" class="responses-table-header">
         <div
           v-if="showCheckbox"
@@ -242,15 +244,17 @@ const showStatus = computed(() => {
 
         <!-- Status -->
         <div v-if="showStatus" role="cell" class="responses-table-cell">
+          <IgniteLoader v-if="isLoading" class="h-5 w-5" />
           <component
             :is="
-              request.status === LaunchRequestStatus.APPROVED
+              request?.status === LaunchRequestStatus.APPROVED
                 ? IconCheckMarkThin
                 : IconCanceled
             "
+            v-else
             :class="{
-              'text-primary': request.status === LaunchRequestStatus.APPROVED,
-              'text-negative': request.status === LaunchRequestStatus.REJECTED
+              'text-primary': request?.status === LaunchRequestStatus.APPROVED,
+              'text-negative': request?.status === LaunchRequestStatus.REJECTED
             }"
           />
         </div>
