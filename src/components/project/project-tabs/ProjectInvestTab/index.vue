@@ -46,6 +46,8 @@ watchEffect(async () => {
   totalSupply.value = await (await queryTotalSupply()).data.supply
 })
 
+const formatter = Intl.NumberFormat('en', { notation: 'compact' })
+
 const fundraisingList = computed(() => {
   return fundraisers?.value?.pages[0].auctions.map(
     (auctionData: FixedPriceAuction) => {
@@ -53,7 +55,10 @@ const fundraisingList = computed(() => {
       const token = totalSupply.value?.find(
         (token) => token.denom === auction.selling_coin.denom
       )
-      console.log(new BigNumber(token.amount ?? '0').toNumber())
+      const tokenSupply = new BigNumber(token?.amount ?? '0').toNumber()
+      const relativeSupply = tokenSupply
+        ? Math.round((auction.selling_coin.amount / tokenSupply) * 100)
+        : 0
       return {
         raised:
           parseInt(auction.remaining_selling_coin.amount) -
@@ -61,20 +66,13 @@ const fundraisingList = computed(() => {
         goal: auction.selling_coin.amount,
         currency: auction.selling_coin.denom.toUpperCase(),
         status: formatAuctionStatus(auction.status),
-        vouchers: '',
+        vouchers: `${formatter.format(tokenSupply)} (${relativeSupply}%)`,
         investors: auction.allowed_biddes?.length() || 0,
         ends: auction.end_times[0]
       }
     }
   )
 })
-
-/*watchEffect(async () => {
-  fundraisingList.value?.forEach(fundraiser => {
-    console.log(totalSupplyResponse.find(token => token.denom.toUpperCase() === fundraiser.currency))
-    fundraiser.vouchers = '123'
-  })
-})*/
 </script>
 
 <template>
@@ -82,8 +80,6 @@ const fundraisingList = computed(() => {
     <InvestTitle class="mt-8 md:mt-10.5" />
     <InvestVoucherAllocation class="mt-7 md:mt-9" />
     <InvestStart class="mt-8 md:mt-10.5" />
-    {{ statuses }}
-    {{ totalSupply }}
     <div class="container-full container px-5 sm:px-5.5 lg:px-7">
       <div v-for="status in statuses" :key="status" class="mt-8 md:mt-10.5">
         <IgniteHeading
