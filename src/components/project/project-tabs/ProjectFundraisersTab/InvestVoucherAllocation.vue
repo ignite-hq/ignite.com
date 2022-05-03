@@ -16,6 +16,7 @@ import { computed } from 'vue'
 import { FixedPriceAuction } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising'
 import { AuctionStatus } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/fundraising'
 import BigNumber from 'bignumber.js'
+import { numberFormatter, formatVoucherDenom } from '~/utils/fundraisers'
 
 const props = defineProps({
   fundraisers: { type: Object, required: false },
@@ -73,8 +74,6 @@ const calculateFundraising = (voucherAuctions: FixedPriceAuction[]): number => {
     }, 0)
 }
 
-const formatter = Intl.NumberFormat('en', { notation: 'compact' })
-
 const progressBars: ProgressBarItem[] = computed(() => {
   return (vouchers.value || []).map((voucher) => {
     const voucherAuctions = props.fundraisers?.pages[0].auctions.filter(
@@ -88,25 +87,31 @@ const progressBars: ProgressBarItem[] = computed(() => {
     )
     const tokenSupply = new BigNumber(token?.amount ?? '0').toNumber()
     return {
-      denom: voucher,
+      denom: formatVoucherDenom(voucher),
       items: [
         {
-          value: Math.round((distributedAmount / tokenSupply) * 100),
+          value: tokenSupply
+            ? Math.round((distributedAmount / tokenSupply) * 100)
+            : 0,
           amount: distributedAmount,
           bgColor: 'bg-primary',
           split: true
         },
         {
-          value: Math.round((fundraisingAmount / tokenSupply) * 100),
+          value: tokenSupply
+            ? Math.round((fundraisingAmount / tokenSupply) * 100)
+            : 0,
           amount: fundraisingAmount,
           bgColor: 'bg-secondary'
         },
         {
-          value: Math.round(
-            ((tokenSupply - distributedAmount - fundraisingAmount) /
-              tokenSupply) *
-              100
-          ),
+          value: tokenSupply
+            ? Math.round(
+                ((tokenSupply - distributedAmount - fundraisingAmount) /
+                  tokenSupply) *
+                  100
+              )
+            : 0,
           amount: tokenSupply
         }
       ] as ProgressBarItem[]
@@ -138,12 +143,12 @@ const progressBars: ProgressBarItem[] = computed(() => {
               <IgniteDenom
                 size="small"
                 modifier="avatar"
-                :denom="voucher"
-                :title="voucher"
+                :denom="formatVoucherDenom(voucher)"
+                :title="formatVoucherDenom(voucher)"
                 class="mr-3"
               />
               <IgniteHeading as="div" class="font-title text-3 md:text-4">
-                {{ voucher }}
+                {{ formatVoucherDenom(voucher) }}
               </IgniteHeading>
             </div>
           </div>
@@ -157,7 +162,7 @@ const progressBars: ProgressBarItem[] = computed(() => {
             <div class="m-auto max-w-xs">
               <IgniteProgressBar
                 :items="progressBar.items"
-                :denom="progressBar.denom"
+                :denom="formatVoucherDenom(progressBar.denom)"
               />
             </div>
             <div
@@ -165,7 +170,7 @@ const progressBars: ProgressBarItem[] = computed(() => {
             >
               <div class="p-3">
                 <IgniteHeading as="div" class="text-3 font-semibold md:text-4">
-                  {{ formatter.format(progressBar.items[0].amount) }}
+                  {{ numberFormatter.format(progressBar.items[0].amount) }}
                 </IgniteHeading>
                 <IgniteText
                   as="div"
@@ -179,7 +184,7 @@ const progressBars: ProgressBarItem[] = computed(() => {
               </div>
               <div class="p-3">
                 <IgniteHeading as="div" class="text-3 font-semibold md:text-4">
-                  {{ formatter.format(progressBar.items[1].amount) }}
+                  {{ numberFormatter.format(progressBar.items[1].amount) }}
                 </IgniteHeading>
                 <IgniteText
                   as="div"
@@ -194,7 +199,7 @@ const progressBars: ProgressBarItem[] = computed(() => {
               <div class="p-3">
                 <IgniteHeading as="div" class="text-3 font-semibold md:text-4">
                   {{
-                    formatter.format(
+                    numberFormatter.format(
                       progressBar.items[2].amount -
                         progressBar.items[0].amount -
                         progressBar.items[1].amount

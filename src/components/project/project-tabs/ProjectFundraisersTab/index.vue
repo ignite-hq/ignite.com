@@ -1,6 +1,6 @@
 <script lang="ts">
 export default {
-  name: 'InvestTab'
+  name: 'ProjectFundraisersTab'
 }
 </script>
 
@@ -18,9 +18,19 @@ import { FixedPriceAuction } from '~/generated/tendermint-spn-ts-client/tendermi
 import { AuctionStatus } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/fundraising'
 import useFundraisersAll from '~/composables/fundraising/useFundraisersAll'
 import { useCosmosBankV1Beta1 } from '~/generated/tendermint-spn-vue'
+import { CampaignCampaignSummary } from '~/generated/tendermint-spn-ts-client/tendermint.spn.campaign/rest'
+import { numberFormatter, formatVoucherDenom } from '~/utils/fundraisers'
 
 const { fundraisers } = useFundraisersAll()
 const { queryTotalSupply } = useCosmosBankV1Beta1()
+
+interface Props {
+  campaignSummary?: CampaignCampaignSummary
+}
+
+withDefaults(defineProps<Props>(), {
+  campaignSummary: () => ({})
+})
 
 const formatAuctionStatus = (auctionType: AuctionStatus): string => {
   if (auctionType == 'AUCTION_STATUS_UNSPECIFIED') return 'Current'
@@ -48,8 +58,6 @@ watchEffect(async () => {
   totalSupply.value = await (await queryTotalSupply()).data.supply
 })
 
-const formatter = Intl.NumberFormat('en', { notation: 'compact' })
-
 const fundraisingList = computed(() => {
   return fundraisers?.value?.pages[0].auctions.map(
     (auctionData: FixedPriceAuction) => {
@@ -66,10 +74,10 @@ const fundraisingList = computed(() => {
           parseInt(auction.selling_coin.amount) -
           parseInt(auction.remaining_selling_coin.amount),
         goal: auction.selling_coin.amount,
-        currency: auction.selling_coin.denom.toUpperCase(),
+        currency: formatVoucherDenom(auction.selling_coin.denom.toUpperCase()),
         status: formatAuctionStatus(auction.status),
-        vouchers: `${formatter.format(tokenSupply)} (${relativeSupply}%)`,
-        investors: auction.allowed_biddes?.length() || 0,
+        vouchers: `${numberFormatter.format(tokenSupply)} (${relativeSupply}%)`,
+        investors: auction.allowed_bidders?.length || 0,
         ends: auction.end_times[0]
       }
     }
@@ -79,13 +87,19 @@ const fundraisingList = computed(() => {
 
 <template>
   <div>
-    <InvestTitle class="mt-8 md:mt-10.5" />
+    <InvestTitle
+      :projectName="campaignSummary?.campaign?.campaignName"
+      class="mt-8 md:mt-10.5"
+    />
     <InvestVoucherAllocation
       :fundraisers="fundraisers"
       :totalSupply="totalSupply"
       class="mt-7 md:mt-9"
     />
-    <InvestStart class="mt-8 md:mt-10.5" />
+    <InvestStart
+      :projectName="campaignSummary?.campaign?.campaignName"
+      class="mt-8 md:mt-10.5"
+    />
     <div class="container-full container px-5 sm:px-5.5 lg:px-7">
       <div v-for="status in statuses" :key="status" class="mt-8 md:mt-10.5">
         <IgniteHeading

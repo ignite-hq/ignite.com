@@ -9,7 +9,7 @@ import IgniteProjectList from '~/components/project/ProjectList/index.vue'
 </script>
 
 <template>
-  <div class="container">
+  <div class="container mb-10">
     <IgniteProjectList />
   </div>
 </template>
