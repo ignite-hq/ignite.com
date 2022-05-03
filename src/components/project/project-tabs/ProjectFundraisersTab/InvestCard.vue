@@ -95,7 +95,7 @@ const projectId = route.params.projectId.toString() || '0'
 
         <div class="">
           <IgniteText as="div" class="text-2 text-muted">
-            Participants
+            {{ data.status === 'Standby' ? 'Registrants' : 'Participants' }}
           </IgniteText>
           <IgniteHeading
             as="div"

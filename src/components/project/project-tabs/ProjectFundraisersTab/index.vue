@@ -62,6 +62,7 @@ const fundraisingList = computed(() => {
   return fundraisers?.value?.pages[0].auctions.map(
     (auctionData: FixedPriceAuction) => {
       const auction = auctionData.base_auction
+      console.log(auction)
       const token = totalSupply.value?.find(
         (token) => token.denom === auction.selling_coin.denom
       )
