@@ -133,7 +133,7 @@ const progressBars: ProgressBarItem[] = computed(() => {
             <div
               v-for="voucher in vouchers"
               :key="`voucher-${voucher.denom}`"
-              class="flex items-center"
+              class="mb-2 flex items-center"
             >
               <IgniteDenom
                 size="small"
@@ -148,67 +148,69 @@ const progressBars: ProgressBarItem[] = computed(() => {
             </div>
           </div>
         </div>
-        <div
-          v-for="progressBar in progressBars"
-          :key="`progressBar-${progressBar.denom}`"
-          class=""
-        >
-          <div class="m-auto max-w-xs">
-            <IgniteProgressBar
-              :items="progressBar.items"
-              :denom="progressBar.denom"
-            />
-          </div>
+        <div class="">
           <div
-            class="mt-6 flex flex-wrap items-center justify-center gap-4 text-center lg:mt-8 lg:flex-nowrap lg:gap-7"
+            v-for="progressBar in progressBars"
+            :key="`progressBar-${progressBar.denom}`"
+            class="mb-6"
           >
-            <div class="p-3">
-              <IgniteHeading as="div" class="text-3 font-semibold md:text-4">
-                {{ formatter.format(progressBar.items[0].amount) }}
-              </IgniteHeading>
-              <IgniteText
-                as="div"
-                class="mt-3 flex items-center text-2 font-medium text-muted"
-              >
-                <span
-                  class="mr-1 inline-block h-3 w-3 rounded-circle bg-primary"
-                ></span>
-                <span>Distributed</span>
-              </IgniteText>
+            <div class="m-auto max-w-xs">
+              <IgniteProgressBar
+                :items="progressBar.items"
+                :denom="progressBar.denom"
+              />
             </div>
-            <div class="p-3">
-              <IgniteHeading as="div" class="text-3 font-semibold md:text-4">
-                {{ formatter.format(progressBar.items[1].amount) }}
-              </IgniteHeading>
-              <IgniteText
-                as="div"
-                class="mt-3 flex items-center text-2 font-medium text-muted"
-              >
-                <span
-                  class="mr-1 inline-block h-3 w-3 rounded-circle bg-secondary"
-                ></span>
-                <span>Fundraising</span>
-              </IgniteText>
-            </div>
-            <div class="p-3">
-              <IgniteHeading as="div" class="text-3 font-semibold md:text-4">
-                {{
-                  formatter.format(
-                    progressBar.items[2].amount -
-                      progressBar.items[0].amount -
-                      progressBar.items[1].amount
-                  )
-                }}
-              </IgniteHeading>
-              <IgniteText
-                as="div"
-                class="mt-3 flex items-center text-2 font-medium text-muted"
-              >
-                <span
-                  class="mr-1 inline-block h-3 w-3 rounded-circle bg-gray-50"
-                ></span>
-                <span>Undistributed</span>
-              </IgniteText>
+            <div
+              class="mt-6 flex flex-wrap items-center justify-center gap-4 text-center lg:mt-8 lg:flex-nowrap lg:gap-7"
+            >
+              <div class="p-3">
+                <IgniteHeading as="div" class="text-3 font-semibold md:text-4">
+                  {{ formatter.format(progressBar.items[0].amount) }}
+                </IgniteHeading>
+                <IgniteText
+                  as="div"
+                  class="mt-3 flex items-center text-2 font-medium text-muted"
+                >
+                  <span
+                    class="mr-1 inline-block h-3 w-3 rounded-circle bg-primary"
+                  ></span>
+                  <span>Distributed</span>
+                </IgniteText>
+              </div>
+              <div class="p-3">
+                <IgniteHeading as="div" class="text-3 font-semibold md:text-4">
+                  {{ formatter.format(progressBar.items[1].amount) }}
+                </IgniteHeading>
+                <IgniteText
+                  as="div"
+                  class="mt-3 flex items-center text-2 font-medium text-muted"
+                >
+                  <span
+                    class="mr-1 inline-block h-3 w-3 rounded-circle bg-secondary"
+                  ></span>
+                  <span>Fundraising</span>
+                </IgniteText>
+              </div>
+              <div class="p-3">
+                <IgniteHeading as="div" class="text-3 font-semibold md:text-4">
+                  {{
+                    formatter.format(
+                      progressBar.items[2].amount -
+                        progressBar.items[0].amount -
+                        progressBar.items[1].amount
+                    )
+                  }}
+                </IgniteHeading>
+                <IgniteText
+                  as="div"
+                  class="mt-3 flex items-center text-2 font-medium text-muted"
+                >
+                  <span
+                    class="mr-1 inline-block h-3 w-3 rounded-circle bg-gray-50"
+                  ></span>
+                  <span>Undistributed</span>
+                </IgniteText>
+              </div>
             </div>
           </div>
         </div>
