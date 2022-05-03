@@ -15,7 +15,7 @@
     "access": "public"
   },
   "dependencies": {
-    "tendermint-spn-client": "0.0.1",
+    "tendermint-spn-ts-client": "0.0.1",
     "buffer": "^6.0.3"
   },
   "peerDependencies": {

@@ -7,18 +7,18 @@ export default {
 <script lang="ts" setup>
 import { computed, reactive, watchEffect } from 'vue'
 
-import useAddress from '~/composables/useAddress'
-import { useSpn } from '~/generated/tendermint-spn-vue-client'
+import IconExternalArrow from '~/components/icons/IconExternalArrow.vue'
+import IconKeplr from '~/components/icons/IconKeplr.vue'
+import IconWarning from '~/components/icons/IconWarning.vue'
+import useAddress from '~/composables/wallet/useAddress'
+import { useSpn } from 'tendermint-spn-vue-client'
 
-import IconExternalArrow from '../icons/IconExternalArrow.vue'
-import IconKeplr from '../icons/IconKeplr.vue'
-import IconWarning from '../icons/IconWarning.vue'
-import IgniteButton from '../IgniteButton.vue'
-import IgniteHeading from '../IgniteHeading.vue'
-import IgniteLink from '../IgniteLink.vue'
-import IgniteModal from '../IgniteModal.vue'
-import IgniteText from '../IgniteText.vue'
+import IgniteButton from '../ui/IgniteButton.vue'
+import IgniteHeading from '../ui/IgniteHeading.vue'
+import IgniteLink from '../ui/IgniteLink.vue'
+import IgniteModal from '../ui/IgniteModal.vue'
 import IgniteSpinner from '../ui/IgniteSpinner.vue'
+import IgniteText from '../ui/IgniteText.vue'
 import IgniteAccountMenu from './IgniteAccountMenu.vue'
 
 enum ModalPage {

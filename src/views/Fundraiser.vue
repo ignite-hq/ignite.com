@@ -9,24 +9,23 @@ import { Coin } from '@cosmjs/amino'
 import BigNumber from 'bignumber.js'
 import { computed, reactive, watchEffect } from 'vue'
 
-import IgniteHeading from '~/components/IgniteHeading.vue'
-import IgniteInput from '~/components/IgniteInput.vue'
-import IgniteInputAmount from '~/components/IgniteInputAmount.vue'
-import IgniteInputDate from '~/components/IgniteInputDate.vue'
-import IgniteInputTime from '~/components/IgniteInputTime.vue'
-import IgniteText from '~/components/IgniteText.vue'
-import FundraiserInputRow from '~/components/invest/FundraiserInputRow.vue'
-import type { MsgCreateFixedPriceAuction } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/tx'
+import type { MsgCreateFixedPriceAuction } from 'tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/tx'
 import {
   useCosmosBankV1Beta1,
   useTendermintSpnCampaign
-} from '~/generated/tendermint-spn-vue-client'
-
-import FundraiserInfoCard from '../components/invest/FundraiserInfoCard.vue'
-import FundraiserInputSection from '../components/invest/FundraiserInputSection.vue'
-import FundraiserSection from '../components/invest/FundraiserSection.vue'
-import FundraiserSummary from '../components/invest/FundraiserSummary.vue'
-import IgniteButton from '~/components/IgniteButton.vue'
+} from 'tendermint-spn-vue-client'
+import IgniteHeading from '~/components/ui/IgniteHeading.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
+import FundraiserSection from '~/components/invest/FundraiserSection.vue'
+import FundraiserInputSection from '~/components/invest/FundraiserInputSection.vue'
+import FundraiserInputRow from '~/components/invest/FundraiserInputRow.vue'
+import IgniteInput from '~/components/ui/IgniteInput.vue'
+import IgniteInputAmount from '~/components/IgniteInputAmount.vue'
+import FundraiserInfoCard from '~/components/invest/FundraiserInfoCard.vue'
+import IgniteInputTime from '~/components/IgniteInputTime.vue'
+import IgniteInputDate from '~/components/IgniteInputDate.vue'
+import IgniteButton from '~/components/ui/IgniteButton.vue'
+import FundraiserSummary from '~/components/invest/FundraiserSummary.vue'
 
 let today = new Date()
 let oneYfromNow = new Date(new Date().setFullYear(new Date().getFullYear() + 1))

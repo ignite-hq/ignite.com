@@ -6,20 +6,19 @@ export default {
 
 <script lang="ts" setup>
 import { Menu, MenuButton, MenuItems } from '@headlessui/vue'
-import { isEmpty, isNil } from 'lodash'
 import { useSpn } from 'tendermint-spn-vue-client'
 import { computed } from 'vue'
 
-import useAccount from '~/composables/useAccount'
-import useAddress from '~/composables/useAddress'
-import useBalances from '~/composables/useBalances'
+import useAccount from '~/composables/wallet/useAccount'
+import useAddress from '~/composables/wallet/useAddress'
+import useBalances from '~/composables/wallet/useBalances'
 
-import IgniteButton from '../IgniteButton.vue'
-import IgniteHeading from '../IgniteHeading.vue'
-import IgniteLink from '../IgniteLink.vue'
-import IgniteLoader from '../IgniteLoader.vue'
-import IgniteProfileIcon from '../IgniteProfileIcon.vue'
-import IgniteText from '../IgniteText.vue'
+import IgniteButton from '../ui/IgniteButton.vue'
+import IgniteHeading from '../ui/IgniteHeading.vue'
+import IgniteLink from '../ui/IgniteLink.vue'
+import IgniteLoader from '../ui/IgniteLoader.vue'
+import IgniteProfileIcon from '../ui/IgniteProfileIcon.vue'
+import IgniteText from '../ui/IgniteText.vue'
 
 interface Props {
   visible: boolean
@@ -39,7 +38,7 @@ const { balances, isFetching: isFetchingBalances } = useBalances(address)
 
 // computed
 const mainCoinBalance = computed(() => {
-  if (isEmpty(balances.value) || isNil(balances.value)) return undefined
+  if (balances?.value?.length === 0 || !balances.value) return undefined
   return balances.value[0]
 })
 </script>
@@ -49,7 +48,7 @@ const mainCoinBalance = computed(() => {
     <MenuButton class="flex items-center space-x-4">
       <IgniteProfileIcon :address="address" />
 
-      <div>
+      <div class="text-left">
         <IgniteHeading class="text-3 font-semibold">
           {{ account?.name }}
         </IgniteHeading>

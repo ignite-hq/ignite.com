@@ -5,15 +5,15 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { onBeforeMount, ref } from 'vue'
+import { computed, onBeforeMount, ref } from 'vue'
 import { onBeforeRouteUpdate, useRoute } from 'vue-router'
 
-import IgniteProjectHeader from '../components/IgniteProjectHeader.vue'
-import ProjectInvestTab from '../components/projectTabs/ProjectInvestTab.vue'
-import ProjectOverviewTab from '../components/projectTabs/ProjectOverviewTab.vue'
-import ProjectRequestsTab from '../components/projectTabs/ProjectRequestsTab.vue'
-import ProjectValidatorsTab from '../components/projectTabs/ProjectValidatorsTab.vue'
-import useCampaignSummary from '../composables/useCampaignSummary'
+import ProjectInvestTab from '~/components/project/project-tabs/ProjectInvestTab/index.vue'
+import ProjectOverviewTab from '~/components/project/project-tabs/ProjectOverviewTab/index.vue'
+import ProjectRequestsTab from '~/components/project/project-tabs/ProjectRequestsTab/index.vue'
+import ProjectValidatorsTab from '~/components/project/project-tabs/ProjectValidatorsTab/index.vue'
+import IgniteProjectHeader from '~/components/project/ProjectHeader/index.vue'
+import useCampaignSummary from '~/composables/campaign/useCampaignSummary'
 
 const route = useRoute()
 const projectId = route.params.projectId.toString() || '0'
@@ -28,19 +28,38 @@ onBeforeRouteUpdate(async (to) => {
 })
 
 // composables
-const { campaignSummary } = useCampaignSummary(projectId)
+const { campaignSummary, isFetching } = useCampaignSummary(projectId)
+
+// computed
+const coordinatorId = computed(() => {
+  return campaignSummary.value?.campaign?.coordinatorID
+})
+
+const launchId = computed(() => {
+  return campaignSummary.value?.mostRecentChain?.launchID
+})
+
+const campaignName = computed(() => {
+  return campaignSummary.value?.campaign?.campaignName
+})
 </script>
 
 <template>
   <div>
     <IgniteProjectHeader
+      :loading="isFetching"
       :active-tab="tab"
       :project-id="projectId"
       :campaign-summary="campaignSummary"
     />
     <ProjectOverviewTab v-if="tab === 'overview'" />
     <ProjectValidatorsTab v-if="tab === 'validators'" />
-    <ProjectRequestsTab v-if="tab === 'requests'" />
+    <ProjectRequestsTab
+      v-if="tab === 'requests'"
+      :project-name="campaignName"
+      :launch-id="launchId"
+      :coordinator-id="coordinatorId"
+    />
     <ProjectInvestTab v-if="tab === 'invest'" />
   </div>
 </template>

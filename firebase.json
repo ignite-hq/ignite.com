@@ -1,0 +1,12 @@
+{
+  "hosting": {
+    "target": "ignite.com",
+    "public": "dist",
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
