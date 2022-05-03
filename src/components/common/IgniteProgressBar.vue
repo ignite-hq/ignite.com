@@ -43,7 +43,6 @@ export default defineComponent({
       size="small"
       class="mr-3"
     />
-
     <div
       class="ignite-progress"
       :class="inverse ? 'bg-white-1000' : 'bg-gray-50'"

@@ -1,5 +1,6 @@
 export interface ProgressBarItem {
   value: string
+  amount?: number
   bgColor?: string
   split?: boolean
   color?: string

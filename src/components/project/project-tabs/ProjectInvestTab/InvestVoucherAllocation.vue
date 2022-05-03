@@ -12,28 +12,113 @@ import IgniteProgressBar from '~/components/common/IgniteProgressBar.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import { ProgressBarItem } from '~/utils/types'
+import { computed } from 'vue'
+import { FixedPriceAuction } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising'
+import { AuctionStatus } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/fundraising'
+import BigNumber from 'bignumber.js'
 
-const progressBar = {
-  items: [
-    {
-      value: '11',
-      bgColor: 'bg-primary',
-      split: true
-    },
-    {
-      value: '9',
-      bgColor: 'bg-secondary'
-    },
-    {
-      value: '80'
-    }
-  ] as ProgressBarItem[]
+const props = defineProps({
+  fundraisers: { type: Object, required: false },
+  totalSupply: { type: Object, required: false }
+})
+
+const vouchers = computed(() => {
+  return [
+    ...new Set(
+      props.fundraisers?.pages[0].auctions.map(
+        (auctionData: FixedPriceAuction) =>
+          auctionData.base_auction.selling_coin.denom.toUpperCase()
+      )
+    )
+  ]
+})
+
+const formatAuctionStatus = (auctionType: AuctionStatus): string => {
+  if (auctionType == 'AUCTION_STATUS_UNSPECIFIED') return 'Fundraising'
+  if (auctionType == 'AUCTION_STATUS_STANDBY') return 'Fundraising'
+  if (auctionType == 'AUCTION_STATUS_STARTED') return 'Fundraising'
+  if (auctionType == 'AUCTION_STATUS_VESTING') return 'Fundraising'
+  if (auctionType == 'AUCTION_STATUS_FINISHED') return 'Distributed'
+  if (auctionType == 'AUCTION_STATUS_CANCELLED') return 'Undistributed'
+  return 'Undistributed'
 }
+
+const calculateDistributed = (voucherAuctions: FixedPriceAuction[]): number => {
+  return voucherAuctions
+    .filter(
+      (auctionData: FixedPriceAuction) =>
+        formatAuctionStatus(auctionData.base_auction.status) ===
+          'Distributed' ||
+        formatAuctionStatus(auctionData.base_auction.status) === 'Fundraising'
+    )
+    .reduce((acc, auctionData: FixedPriceAuction) => {
+      return (
+        acc +
+        (parseInt(auctionData.base_auction.selling_coin.amount) -
+          parseInt(auctionData.base_auction.remaining_selling_coin.amount))
+      )
+    }, 0)
+}
+
+const calculateFundraising = (voucherAuctions: FixedPriceAuction[]): number => {
+  return voucherAuctions
+    .filter(
+      (auctionData: FixedPriceAuction) =>
+        formatAuctionStatus(auctionData.base_auction.status) === 'Fundraising'
+    )
+    .reduce((acc, auctionData: FixedPriceAuction) => {
+      return (
+        acc + parseInt(auctionData.base_auction.remaining_selling_coin.amount)
+      )
+    }, 0)
+}
+
+const formatter = Intl.NumberFormat('en', { notation: 'compact' })
+
+const progressBars: ProgressBarItem[] = computed(() => {
+  return (vouchers.value || []).map((voucher) => {
+    const voucherAuctions = props.fundraisers?.pages[0].auctions.filter(
+      (auctionData: FixedPriceAuction) =>
+        auctionData.base_auction.selling_coin.denom.toUpperCase() === voucher
+    )
+    const distributedAmount = calculateDistributed(voucherAuctions)
+    const fundraisingAmount = calculateFundraising(voucherAuctions)
+    const token = props.totalSupply?.find(
+      (token) => token.denom.toUpperCase() === voucher
+    )
+    const tokenSupply = new BigNumber(token?.amount ?? '0').toNumber()
+    return {
+      denom: voucher,
+      items: [
+        {
+          value: Math.round((distributedAmount / tokenSupply) * 100),
+          amount: distributedAmount,
+          bgColor: 'bg-primary',
+          split: true
+        },
+        {
+          value: Math.round((fundraisingAmount / tokenSupply) * 100),
+          amount: fundraisingAmount,
+          bgColor: 'bg-secondary'
+        },
+        {
+          value: Math.round(
+            ((tokenSupply - distributedAmount - fundraisingAmount) /
+              tokenSupply) *
+              100
+          ),
+          amount: tokenSupply
+        }
+      ] as ProgressBarItem[]
+    }
+  })
+})
 </script>
 
 <template>
   <div class="container-full container px-5 sm:px-5.5 lg:px-7">
     <div
+      v-if="vouchers.length > 0"
       class="relative h-[100%] rounded border border-border bg-white-1000 px-5 py-7 sm:px-7 md:px-9 md:py-8 xl:px-10.5"
     >
       <div class="grid grid-cols-1 gap-7 md:grid-cols-2">
@@ -45,30 +130,41 @@ const progressBar = {
             Voucher allocation
           </IgniteHeading>
           <div class="mt-7">
-            <div class="flex items-center">
+            <div
+              v-for="voucher in vouchers"
+              :key="`voucher-${voucher.denom}`"
+              class="flex items-center"
+            >
               <IgniteDenom
                 size="small"
                 modifier="avatar"
-                denom="denom"
-                title="denom"
+                :denom="voucher"
+                :title="voucher"
                 class="mr-3"
               />
-              <IgniteHeading as="div" class="font-title text-3 md:text-4"
-                >vYAWP</IgniteHeading
-              >
+              <IgniteHeading as="div" class="font-title text-3 md:text-4">
+                {{ voucher }}
+              </IgniteHeading>
             </div>
           </div>
         </div>
-        <div class="">
+        <div
+          v-for="progressBar in progressBars"
+          :key="`progressBar-${progressBar.denom}`"
+          class=""
+        >
           <div class="m-auto max-w-xs">
-            <IgniteProgressBar :items="progressBar.items" denom="denom" />
+            <IgniteProgressBar
+              :items="progressBar.items"
+              :denom="progressBar.denom"
+            />
           </div>
           <div
             class="mt-6 flex flex-wrap items-center justify-center gap-4 text-center lg:mt-8 lg:flex-nowrap lg:gap-7"
           >
             <div class="p-3">
               <IgniteHeading as="div" class="text-3 font-semibold md:text-4">
-                9M
+                {{ formatter.format(progressBar.items[0].amount) }}
               </IgniteHeading>
               <IgniteText
                 as="div"
@@ -82,7 +178,7 @@ const progressBar = {
             </div>
             <div class="p-3">
               <IgniteHeading as="div" class="text-3 font-semibold md:text-4">
-                6M
+                {{ formatter.format(progressBar.items[1].amount) }}
               </IgniteHeading>
               <IgniteText
                 as="div"
@@ -96,7 +192,13 @@ const progressBar = {
             </div>
             <div class="p-3">
               <IgniteHeading as="div" class="text-3 font-semibold md:text-4">
-                85M
+                {{
+                  formatter.format(
+                    progressBar.items[2].amount -
+                      progressBar.items[0].amount -
+                      progressBar.items[1].amount
+                  )
+                }}
               </IgniteHeading>
               <IgniteText
                 as="div"

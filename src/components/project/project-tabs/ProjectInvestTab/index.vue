@@ -33,12 +33,14 @@ const formatAuctionStatus = (auctionType: AuctionStatus): string => {
 }
 
 const statuses = computed(() => {
-  return new Set(
-    fundraisers?.value?.pages[0].auctions.map(
-      (auctionData: FixedPriceAuction) =>
-        formatAuctionStatus(auctionData.base_auction.status)
+  return [
+    ...new Set(
+      fundraisers?.value?.pages[0].auctions.map(
+        (auctionData: FixedPriceAuction) =>
+          formatAuctionStatus(auctionData.base_auction.status)
+      )
     )
-  )
+  ]
 })
 
 const totalSupply = ref([])
@@ -78,7 +80,11 @@ const fundraisingList = computed(() => {
 <template>
   <div>
     <InvestTitle class="mt-8 md:mt-10.5" />
-    <InvestVoucherAllocation class="mt-7 md:mt-9" />
+    <InvestVoucherAllocation
+      :fundraisers="fundraisers"
+      :totalSupply="totalSupply"
+      class="mt-7 md:mt-9"
+    />
     <InvestStart class="mt-8 md:mt-10.5" />
     <div class="container-full container px-5 sm:px-5.5 lg:px-7">
       <div v-for="status in statuses" :key="status" class="mt-8 md:mt-10.5">
