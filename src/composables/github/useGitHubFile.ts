@@ -1,8 +1,11 @@
 import { computed, unref } from 'vue'
 import { useQuery } from 'vue-query'
 
-import { getUserAndRepositoryFromUrl } from '~/utils/github'
 import { RefOrValue } from '~/utils/types'
+
+import useGithubMetadata from './useGithubMetadata'
+
+export const STATIC_GITHUB_FILE_URL = 'https://raw.githubusercontent.com'
 
 async function fetchGitHubRawFile(
   organization: string,
@@ -10,7 +13,7 @@ async function fetchGitHubRawFile(
   filename: string
 ) {
   const res = await fetch(
-    `https://raw.githubusercontent.com/${organization}/${repositoryName}/master/${filename}`
+    `${STATIC_GITHUB_FILE_URL}/${organization}/${repositoryName}/master/${filename}`
   )
 
   return res.text()
@@ -20,12 +23,7 @@ export default function useGitHubFile(
   sourceUrl: RefOrValue<string | undefined>,
   filename: RefOrValue<string | undefined>
 ) {
-  const github = computed(() => {
-    const url = unref(sourceUrl)
-
-    if (!url) return
-    return getUserAndRepositoryFromUrl(url)
-  })
+  const { organization, repository } = useGithubMetadata(sourceUrl)
 
   const isEnabled = computed(() => {
     return Boolean(unref(sourceUrl)) && Boolean(unref(filename))
@@ -35,8 +33,8 @@ export default function useGitHubFile(
     ['github-file', sourceUrl, filename],
     () => {
       return fetchGitHubRawFile(
-        github.value?.user as string,
-        github.value?.repository as string,
+        organization.value as string,
+        repository.value as string,
         unref(filename) as string
       )
     },
@@ -45,5 +43,8 @@ export default function useGitHubFile(
     }
   )
 
-  return { file, ...other }
+  return {
+    file,
+    ...other
+  }
 }

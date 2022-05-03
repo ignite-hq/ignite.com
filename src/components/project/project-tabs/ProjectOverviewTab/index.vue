@@ -26,13 +26,21 @@ const props = withDefaults(defineProps<Props>(), {
   sourceUrl: ''
 })
 
-const { file } = useGitHubFile(toRef(props, 'sourceUrl'), 'assets/readme.md')
+const { file: readme, isLoading: isReadmeLoading } = useGitHubFile(
+  toRef(props, 'sourceUrl'),
+  'assets/readme.md'
+)
 </script>
 
 <template>
   <div>
     <ProjectCards class="mt-8 md:mt-10.5" />
-    <ProjectDescription :raw-markdown="file" class="mt-8 md:mt-10.5" />
+    <ProjectDescription
+      :raw-markdown="readme"
+      :source-url="sourceUrl"
+      class="mt-8 md:mt-10.5"
+      :loading="isReadmeLoading"
+    />
     <ProjectWhitepaper class="mt-8 md:mt-10.5" />
     <ProjectRoadmap class="mt-8 md:mt-12" />
     <ProjectTokenomics class="mt-8 md:mt-12" />

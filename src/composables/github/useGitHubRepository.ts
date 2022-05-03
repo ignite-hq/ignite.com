@@ -1,7 +1,9 @@
-import { computed, Ref, unref } from 'vue'
+import { computed, unref } from 'vue'
 import { useQuery } from 'vue-query'
 
-import { getUserAndRepositoryFromUrl } from '~/utils/github'
+import { RefOrValue } from '~/utils/types'
+
+import useGithubMetadata from './useGithubMetadata'
 
 const GITHUB_API_URL = 'https://api.github.com'
 
@@ -25,33 +27,20 @@ async function fetchRepository(
 }
 
 export default function useGitHubRepository(
-  sourceUrl?: Ref<string | undefined> | string
+  sourceUrl: RefOrValue<string | undefined>
 ) {
-  const github = computed(() => {
-    const url = unref(sourceUrl)
-
-    if (!url) return
-    return getUserAndRepositoryFromUrl(url)
-  })
-
-  const repositoryName = computed(() => {
-    return github.value?.repository
-  })
-
-  const organization = computed(() => {
-    return github.value?.user
-  })
+  const { repository, organization } = useGithubMetadata(sourceUrl)
 
   const isEnabled = computed(() => {
-    return Boolean(unref(repositoryName)) && Boolean(unref(organization))
+    return Boolean(unref(repository)) && Boolean(unref(organization))
   })
 
   const { data, ...other } = useQuery(
-    ['github', 'repositories', organization, repositoryName],
+    ['github', 'repositories', organization, repository],
     () =>
       fetchRepository(
         unref(organization) as string,
-        unref(repositoryName) as string
+        unref(repository) as string
       ),
     {
       cacheTime: ONE_DAY,
@@ -62,7 +51,7 @@ export default function useGitHubRepository(
 
   return {
     repository: data,
-    repositoryName,
+    repositoryName: repository,
     organization,
     ...other
   }
