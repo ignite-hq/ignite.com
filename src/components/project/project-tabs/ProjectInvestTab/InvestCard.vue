@@ -42,12 +42,12 @@ const progressBar = {
       class="mt-5 font-title text-4 font-semibold md:text-5"
     >
       <IgniteNumber :number="parseInt(data.raised)" />
-      {{ data.curency }}
+      {{ data.currency }}
     </IgniteHeading>
     <IgniteHeading as="div" class="mt-3 text-3 text-muted">
       Raised of
       <strong>
-        <IgniteNumber :number="parseInt(data.goal)" /> {{ data.curency }}
+        <IgniteNumber :number="parseInt(data.goal)" /> {{ data.currency }}
       </strong>
     </IgniteHeading>
     <div

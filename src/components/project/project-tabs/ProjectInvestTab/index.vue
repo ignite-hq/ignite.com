@@ -11,12 +11,16 @@ import InvestCard from './InvestCard.vue'
 import InvestStart from './InvestStart.vue'
 import InvestTitle from './InvestTitle.vue'
 import InvestVoucherAllocation from './InvestVoucherAllocation.vue'
-import useFundraisersAll from '~/composables/fundraising/useFundraisersAll'
-import { computed } from 'vue'
+import { computed, watchEffect, ref } from 'vue'
+import BigNumber from 'bignumber.js'
+
 import { FixedPriceAuction } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising'
 import { AuctionStatus } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/fundraising'
+import useFundraisersAll from '~/composables/fundraising/useFundraisersAll'
+import { useCosmosBankV1Beta1 } from '~/generated/tendermint-spn-vue'
 
-let { fundraisers } = useFundraisersAll()
+const { fundraisers } = useFundraisersAll()
+const { queryTotalSupply } = useCosmosBankV1Beta1()
 
 const formatAuctionStatus = (auctionType: AuctionStatus): string => {
   if (auctionType == 'AUCTION_STATUS_UNSPECIFIED') return 'Current'
@@ -28,116 +32,49 @@ const formatAuctionStatus = (auctionType: AuctionStatus): string => {
   return 'Current'
 }
 
+const statuses = computed(() => {
+  return new Set(
+    fundraisers?.value?.pages[0].auctions.map(
+      (auctionData: FixedPriceAuction) =>
+        formatAuctionStatus(auctionData.base_auction.status)
+    )
+  )
+})
+
+const totalSupply = ref([])
+watchEffect(async () => {
+  totalSupply.value = await (await queryTotalSupply()).data.supply
+})
+
 const fundraisingList = computed(() => {
-  return fundraisers?.value?.pages[0].auctions.reduce(
-    (acc, currentAuction: FixedPriceAuction) => {
-      const auction = currentAuction.base_auction
-      console.log(auction)
-      const status = formatAuctionStatus(auction.status)
-      const fundraiserData = {
+  return fundraisers?.value?.pages[0].auctions.map(
+    (auctionData: FixedPriceAuction) => {
+      const auction = auctionData.base_auction
+      const token = totalSupply.value?.find(
+        (token) => token.denom === auction.selling_coin.denom
+      )
+      console.log(new BigNumber(token.amount ?? '0').toNumber())
+      return {
         raised:
           parseInt(auction.remaining_selling_coin.amount) -
           parseInt(auction.selling_coin.amount),
         goal: auction.selling_coin.amount,
-        curency: auction.selling_coin.denom.toUpperCase(),
-        status,
-        vouchers: '6M (3%)',
+        currency: auction.selling_coin.denom.toUpperCase(),
+        status: formatAuctionStatus(auction.status),
+        vouchers: '',
         investors: auction.allowed_biddes?.length() || 0,
         ends: auction.end_times[0]
       }
-      const statusIdx = acc.findIndex(
-        (fundraiserByStatus) => fundraiserByStatus.title === status
-      )
-      if (statusIdx < 0) {
-        acc.push({
-          title: status,
-          items: [fundraiserData]
-        })
-      } else {
-        acc[statusIdx].items.push(fundraiserData)
-      }
-      return acc
-    },
-    []
+    }
   )
 })
 
-/*const fundraisersData = [
-  {
-    title: 'Current',
-    items: [
-      {
-        raised: '300000',
-        goal: '3000000',
-        curency: 'UST',
-        status: 'Ongoing',
-        vouchers: '6M (3%)',
-        investors: '3420',
-        ends: '03.25.2022'
-      }
-    ]
-  },
-  {
-    title: 'Current and upcoming',
-    items: [
-      {
-        raised: '300000',
-        goal: '3000000',
-        curency: 'UST',
-        status: 'Ongoing',
-        vouchers: '6M (3%)',
-        investors: '3420',
-        ends: '03.25.2022'
-      },
-      {
-        raised: '0',
-        goal: '3000000',
-        curency: 'UST',
-        status: 'Upcoming',
-        vouchers: '6M (3%)',
-        investors: '3420',
-        ends: '03.25.2022'
-      }
-    ]
-  },
-  {
-    title: 'Previous',
-    items: [
-      {
-        raised: '3000000',
-        goal: '3000000',
-        curency: 'UST',
-        status: 'Funded',
-        vouchers: '6M (3%)',
-        investors: '3420',
-        ends: '02.14.2022'
-      },
-      {
-        raised: '1500000',
-        goal: '3000000',
-        curency: 'UST',
-        status: 'Funded',
-        vouchers: '6M (3%)',
-        investors: '3420',
-        ends: '11.07.2021'
-      }
-    ]
-  },
-  {
-    title: 'Canceled',
-    items: [
-      {
-        raised: '0',
-        goal: '3000000',
-        curency: 'UST',
-        status: 'Canceled',
-        vouchers: '6M (3%)',
-        investors: '0',
-        ends: '03.25.2022'
-      }
-    ]
-  }
-]*/
+/*watchEffect(async () => {
+  fundraisingList.value?.forEach(fundraiser => {
+    console.log(totalSupplyResponse.find(token => token.denom.toUpperCase() === fundraiser.currency))
+    fundraiser.vouchers = '123'
+  })
+})*/
 </script>
 
 <template>
@@ -145,25 +82,24 @@ const fundraisingList = computed(() => {
     <InvestTitle class="mt-8 md:mt-10.5" />
     <InvestVoucherAllocation class="mt-7 md:mt-9" />
     <InvestStart class="mt-8 md:mt-10.5" />
-
+    {{ statuses }}
+    {{ totalSupply }}
     <div class="container-full container px-5 sm:px-5.5 lg:px-7">
-      <div
-        v-for="row in fundraisingList"
-        :key="row.title"
-        class="mt-8 md:mt-10.5"
-      >
+      <div v-for="status in statuses" :key="status" class="mt-8 md:mt-10.5">
         <IgniteHeading
           as="div"
           class="font-title text-4 font-semibold md:text-5"
         >
-          {{ row.title }}
+          {{ status }}
         </IgniteHeading>
         <div
           class="mt-6 grid grid-cols-1 gap-5 md:mt-8 md:gap-7 lg:grid-cols-2"
         >
           <div
-            v-for="(item, key) in row.items"
-            :key="`fundraisers_${row.title}_${key}`"
+            v-for="(item, key) in fundraisingList?.filter(
+              (fundraiser) => fundraiser.status === status
+            )"
+            :key="`fundraisers_${status}_${key}`"
             class="relative z-[1]"
           >
             <InvestCard :data="item" />
