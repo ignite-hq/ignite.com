@@ -11,8 +11,9 @@ import IgniteDenom from '~/components/common/IgniteDenom.vue'
 import IgniteProgressBar from '~/components/common/IgniteProgressBar.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
+import IgniteSelect from '~/components/ui/IgniteSelect.vue'
 import { ProgressBarItem } from '~/utils/types'
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { FixedPriceAuction } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising'
 import { AuctionStatus } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/fundraising'
 import BigNumber from 'bignumber.js'
@@ -23,6 +24,7 @@ const props = defineProps({
   totalSupply: { type: Object, required: false }
 })
 
+const selectedVoucher = ref({ value: '', label: '' })
 const vouchers = computed(() => {
   return [
     ...new Set(
@@ -32,6 +34,14 @@ const vouchers = computed(() => {
       )
     )
   ]
+})
+
+watch(vouchers, (newVal) => {
+  if (newVal[0])
+    selectedVoucher.value = {
+      value: newVal[0],
+      label: formatVoucherDenom(newVal[0])
+    }
 })
 
 const formatAuctionStatus = (auctionType: AuctionStatus): string => {
@@ -74,7 +84,7 @@ const calculateFundraising = (voucherAuctions: FixedPriceAuction[]): number => {
     }, 0)
 }
 
-const progressBars: ProgressBarItem[] = computed(() => {
+const progressBars = computed(() => {
   return (vouchers.value || []).map((voucher) => {
     const voucherAuctions = props.fundraisers?.pages[0].auctions.filter(
       (auctionData: FixedPriceAuction) =>
@@ -88,6 +98,7 @@ const progressBars: ProgressBarItem[] = computed(() => {
     const tokenSupply = new BigNumber(token?.amount ?? '0').toNumber()
     return {
       denom: formatVoucherDenom(voucher),
+      denomFull: voucher,
       items: [
         {
           value: tokenSupply
@@ -118,6 +129,12 @@ const progressBars: ProgressBarItem[] = computed(() => {
     }
   })
 })
+
+const progressBar = computed(() => {
+  return progressBars.value.find(
+    (voucher) => voucher.denomFull === selectedVoucher.value.value
+  )
+})
 </script>
 
 <template>
@@ -135,87 +152,86 @@ const progressBars: ProgressBarItem[] = computed(() => {
             Voucher allocation
           </IgniteHeading>
           <div class="mt-7">
-            <div
-              v-for="voucher in vouchers"
-              :key="`voucher-${voucher.denom}`"
-              class="mb-2 flex items-center"
+            <IgniteSelect
+              name="Voucher select"
+              v-model="selectedVoucher"
+              :items="
+                vouchers.map((voucher) => ({
+                  value: voucher,
+                  label: formatVoucherDenom(voucher)
+                }))
+              "
             >
               <IgniteDenom
                 size="small"
                 modifier="avatar"
-                :denom="formatVoucherDenom(voucher)"
-                :title="formatVoucherDenom(voucher)"
+                :denom="selectedVoucher.label"
+                :title="selectedVoucher.label"
                 class="mr-3"
               />
               <IgniteHeading as="div" class="font-title text-3 md:text-4">
-                {{ formatVoucherDenom(voucher) }}
+                {{ selectedVoucher.label }}
               </IgniteHeading>
-            </div>
+            </IgniteSelect>
           </div>
         </div>
-        <div class="">
+        <div v-if="progressBar" class="">
+          <div class="m-auto max-w-xs">
+            <IgniteProgressBar
+              :items="progressBar.items"
+              :denom="formatVoucherDenom(progressBar.denom)"
+            />
+          </div>
           <div
-            v-for="progressBar in progressBars"
-            :key="`progressBar-${progressBar.denom}`"
-            class="mb-6"
+            class="mt-6 flex flex-wrap items-center justify-center gap-4 text-center lg:mt-8 lg:flex-nowrap lg:gap-7"
           >
-            <div class="m-auto max-w-xs">
-              <IgniteProgressBar
-                :items="progressBar.items"
-                :denom="formatVoucherDenom(progressBar.denom)"
-              />
+            <div class="p-3">
+              <IgniteHeading as="div" class="text-3 font-semibold md:text-4">
+                {{ numberFormatter.format(progressBar.items[0].amount) }}
+              </IgniteHeading>
+              <IgniteText
+                as="div"
+                class="mt-3 flex items-center text-2 font-medium text-muted"
+              >
+                <span
+                  class="mr-1 inline-block h-3 w-3 rounded-circle bg-primary"
+                ></span>
+                <span>Distributed</span>
+              </IgniteText>
             </div>
-            <div
-              class="mt-6 flex flex-wrap items-center justify-center gap-4 text-center lg:mt-8 lg:flex-nowrap lg:gap-7"
-            >
-              <div class="p-3">
-                <IgniteHeading as="div" class="text-3 font-semibold md:text-4">
-                  {{ numberFormatter.format(progressBar.items[0].amount) }}
-                </IgniteHeading>
-                <IgniteText
-                  as="div"
-                  class="mt-3 flex items-center text-2 font-medium text-muted"
-                >
-                  <span
-                    class="mr-1 inline-block h-3 w-3 rounded-circle bg-primary"
-                  ></span>
-                  <span>Distributed</span>
-                </IgniteText>
-              </div>
-              <div class="p-3">
-                <IgniteHeading as="div" class="text-3 font-semibold md:text-4">
-                  {{ numberFormatter.format(progressBar.items[1].amount) }}
-                </IgniteHeading>
-                <IgniteText
-                  as="div"
-                  class="mt-3 flex items-center text-2 font-medium text-muted"
-                >
-                  <span
-                    class="mr-1 inline-block h-3 w-3 rounded-circle bg-secondary"
-                  ></span>
-                  <span>Fundraising</span>
-                </IgniteText>
-              </div>
-              <div class="p-3">
-                <IgniteHeading as="div" class="text-3 font-semibold md:text-4">
-                  {{
-                    numberFormatter.format(
-                      progressBar.items[2].amount -
-                        progressBar.items[0].amount -
-                        progressBar.items[1].amount
-                    )
-                  }}
-                </IgniteHeading>
-                <IgniteText
-                  as="div"
-                  class="mt-3 flex items-center text-2 font-medium text-muted"
-                >
-                  <span
-                    class="mr-1 inline-block h-3 w-3 rounded-circle bg-gray-50"
-                  ></span>
-                  <span>Undistributed</span>
-                </IgniteText>
-              </div>
+            <div class="p-3">
+              <IgniteHeading as="div" class="text-3 font-semibold md:text-4">
+                {{ numberFormatter.format(progressBar.items[1].amount) }}
+              </IgniteHeading>
+              <IgniteText
+                as="div"
+                class="mt-3 flex items-center text-2 font-medium text-muted"
+              >
+                <span
+                  class="mr-1 inline-block h-3 w-3 rounded-circle bg-secondary"
+                ></span>
+                <span>Fundraising</span>
+              </IgniteText>
+            </div>
+            <div class="p-3">
+              <IgniteHeading as="div" class="text-3 font-semibold md:text-4">
+                {{
+                  numberFormatter.format(
+                    progressBar.items[2].amount -
+                      progressBar.items[0].amount -
+                      progressBar.items[1].amount
+                  )
+                }}
+              </IgniteHeading>
+              <IgniteText
+                as="div"
+                class="mt-3 flex items-center text-2 font-medium text-muted"
+              >
+                <span
+                  class="mr-1 inline-block h-3 w-3 rounded-circle bg-gray-50"
+                ></span>
+                <span>Undistributed</span>
+              </IgniteText>
             </div>
           </div>
         </div>
