@@ -1,6 +1,14 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 
+export interface SocialLink {
+  title: string
+  description: string
+  cta: string
+  link: string
+  type: ProjectSocialMedia
+}
+
 export default defineComponent({
   name: 'SocialCard'
 })
@@ -15,47 +23,44 @@ import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteLink from '~/components/ui/IgniteLink.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 
+import { ProjectSocialMedia } from '../types'
 import GraphicDiscord from './GraphicDiscord.vue'
 import GraphicTelegram from './GraphicTelegram.vue'
 import GraphicTwitter from './GraphicTwitter.vue'
 
-const props = defineProps({
-  item: {
-    type: Object,
-    reqired: true
-  },
-  size: {
-    // sm, md, lg
-    type: String,
-    default: 'md'
-  }
-})
+interface Props {
+  item: SocialLink
+  size?: 'sm' | 'md' | 'lg'
+}
 
-// variables
-const DISCORD = 'discord'
-const TELEGRAM = 't.me'
-const TWITTER = 'twitter'
+const props = withDefaults(defineProps<Props>(), {
+  size: 'md'
+})
 
 // methods
 function getSocialVisual() {
   let socialIcon = ''
-  let socialGraphic = ''
-  if (props.item.link.includes(DISCORD)) {
+
+  let socialGraphic = GraphicTelegram
+
+  if (props.item.type === ProjectSocialMedia.Discord) {
     socialIcon = IconDiscord
     socialGraphic = GraphicDiscord
   }
-  if (props.item.link.includes(TELEGRAM)) {
+
+  if (props.item.type === ProjectSocialMedia.Telegram) {
     socialIcon = IconTelegram
     socialGraphic = GraphicTelegram
   }
-  if (props.item.link.includes(TWITTER)) {
+
+  if (props.item.type === ProjectSocialMedia.Twitter) {
     socialIcon = IconTwitter
     socialGraphic = GraphicTwitter
   }
+
   return { socialIcon, socialGraphic }
 }
 
-// computed
 const { socialIcon, socialGraphic } = getSocialVisual()
 </script>
 

@@ -5,9 +5,24 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import IgniteDonutChart from '~/components/common/IgniteDonutChart.vue'
+import { computed } from 'vue'
+
+import IgniteDonutChart, {
+  DonutDataItem
+} from '~/components/common/IgniteDonutChart.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
+import { isNumeric } from '~/utils/assertion'
+
+import { ProjectDistribution } from './types'
+
+interface Props {
+  distribution: ProjectDistribution[]
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  distribution: () => []
+})
 
 const colors = [
   'rgba(9, 78, 253, 1)',
@@ -18,36 +33,26 @@ const colors = [
   'rgba(9, 78, 253, 0.1)'
 ]
 
-const dataSeries = [
-  {
-    name: 'Marketing',
-    y: 5
-  },
-  {
-    name: 'Fundraiser',
-    y: 10
-  },
-  {
-    name: 'Airdrop',
-    y: 25,
-    description: 'Note or description lorem ipsum dolor sit amet.',
-    dataLabels: {
-      enabled: true
-    }
-  },
-  {
-    name: 'Community Pool',
-    y: 35
-  },
-  {
-    name: 'Public Sale',
-    y: 15
-  },
-  {
-    name: 'Core Team',
-    y: 10
+function getShare(share: string): number {
+  if (isNumeric(share)) {
+    return Number(share) > 1 ? Number(share) : Number(share) * 100
   }
-]
+
+  if (share.includes('%')) {
+    return Number(share.replace('%', ''))
+  }
+
+  return 0
+}
+
+const dataSeries = computed(() => {
+  return props.distribution.map<DonutDataItem>(({ title, share }) => {
+    return {
+      name: title,
+      y: getShare(share)
+    }
+  })
+})
 </script>
 
 <template>

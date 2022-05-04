@@ -37,8 +37,8 @@
     "postcss-normalize-positions": "^5.1.0",
     "tendermint-spn-ts-client": "0.0.1",
     "tendermint-spn-vue": "0.0.1",
-    "vue": "^3.2.6",
-    "vue-query": "^1.20.0",
+    "vue": "^3.2.33",
+    "vue-query": "^1.23.0",
     "vue-router": "^4.0.3",
     "vue3-apexcharts": "^1.4.1",
     "yamljs": "^0.3.0"

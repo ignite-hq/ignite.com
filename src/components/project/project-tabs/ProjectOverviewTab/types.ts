@@ -1,13 +1,19 @@
+export enum ProjectSocialMedia {
+  Twitter = 'twitter',
+  Discord = 'discord',
+  Telegram = 'telegram'
+}
 export interface ProjectLink {
-  type: 'twitter' | 'discord' | 'telegram'
+  type: ProjectSocialMedia
   display: boolean
   url: string
 }
 
 export interface ProjectMember {
-  name: string
-  title: string
-  description: string
+  name?: string
+  title?: string
+  description?: string
+  company?: string
 }
 
 export interface ProjectDistribution {
@@ -46,7 +52,7 @@ export interface InnerProjectYaml {
   team: {
     members: ProjectMember[]
   }
-  social_links: ProjectLink[]
+  links: ProjectLink[]
 }
 
 export interface ProjectYaml {

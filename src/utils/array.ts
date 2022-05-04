@@ -4,3 +4,7 @@ export function oxfordComma<T>(array: T[]) {
   const last = array[array.length - 1]
   return firsts.join(', ') + ' and ' + last
 }
+
+export function removeUndefinedFromArray<T>(array: T[]): T[] {
+  return array.filter(Boolean)
+}

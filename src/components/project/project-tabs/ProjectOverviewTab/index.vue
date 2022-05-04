@@ -70,12 +70,39 @@ const showWhitepaper = computed(() => {
     !isLoadingProjectConfig.value
   )
 })
+
+const showRoadmap = computed(() => {
+  return (
+    Boolean(parsedProjectConfig.value?.project?.roadmap?.milestones) &&
+    !isLoadingProjectConfig.value
+  )
+})
+
+const showTokenomics = computed(() => {
+  return (
+    Boolean(parsedProjectConfig.value?.project?.tokenomics?.distribution) &&
+    !isLoadingProjectConfig.value
+  )
+})
+
+const showTeam = computed(() => {
+  return (
+    Boolean(parsedProjectConfig.value?.project?.team?.members) &&
+    !isLoadingProjectConfig.value
+  )
+})
+
+const showLinks = computed(() => {
+  return (
+    Boolean(parsedProjectConfig.value?.project?.links) &&
+    !isLoadingProjectConfig.value
+  )
+})
 </script>
 
 <template>
-  <div>
-    {{ parsedProjectConfig }}
-    <ProjectCards class="mt-8 md:mt-10.5" />
+  <div class="pt-8 pb-10 md:pt-10.5">
+    <ProjectCards />
     <ProjectDescription
       v-if="showProjectDescription"
       :raw-markdown="readme"
@@ -90,12 +117,25 @@ const showWhitepaper = computed(() => {
       class="mt-8 md:mt-10.5"
     />
     <ProjectRoadmap
+      v-if="showRoadmap"
       :milestones="parsedProjectConfig?.project?.roadmap?.milestones"
       class="mt-8 md:mt-12"
     />
-    <ProjectTokenomics class="mt-8 md:mt-12" />
+    <ProjectTokenomics
+      v-if="showTokenomics"
+      :distribution="parsedProjectConfig?.project?.tokenomics?.distribution"
+      class="mt-8 md:mt-12"
+    />
     <ProjectVestingSchedule class="mt-8 md:mt-10.5" />
-    <ProjectTeam class="mt-8 md:mt-11" />
-    <ProjectLinks class="mt-8 mb-10 md:mt-11" />
+    <ProjectTeam
+      v-if="showTeam"
+      :members="parsedProjectConfig?.project?.team?.members"
+      class="mt-8 md:mt-11"
+    />
+    <ProjectLinks
+      v-if="showLinks"
+      :links="parsedProjectConfig?.project?.links"
+      class="mt-8 md:mt-11"
+    />
   </div>
 </template>
