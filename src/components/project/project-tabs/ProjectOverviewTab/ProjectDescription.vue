@@ -69,6 +69,10 @@ const markdown = computed(() => {
     sanitizer: (html: string) => DOMPurify.sanitize(html)
   })
 })
+
+const isEmpty = computed(() => {
+  return props.rawMarkdown === '404: Not Found'
+})
 </script>
 
 <template>
@@ -99,6 +103,8 @@ const markdown = computed(() => {
       </div>
     </div>
   </template>
+
+  <template v-else-if="isEmpty"></template>
 
   <template v-else>
     <div class="container px-5 sm:px-5.5 lg:px-7">

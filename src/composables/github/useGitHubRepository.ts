@@ -1,3 +1,4 @@
+import axios, { AxiosError } from 'axios'
 import { computed, unref } from 'vue'
 import { useQuery } from 'vue-query'
 
@@ -10,6 +11,7 @@ const GITHUB_API_URL = 'https://api.github.com'
 interface Repository {
   stargazers_count: number
   description: string
+  default_branch: string
 }
 
 const ONE_DAY = 1000 * 60 * 60 * 24
@@ -22,8 +24,10 @@ async function fetchRepository(
     ? repositoryName.replace('.git', '')
     : repositoryName
 
-  const res = await fetch(`${GITHUB_API_URL}/repos/${organization}/${repoName}`)
-  return res.json()
+  const res = await axios.get<Repository>(
+    `${GITHUB_API_URL}/repos/${organization}/${repoName}`
+  )
+  return res.data
 }
 
 export default function useGitHubRepository(
@@ -45,7 +49,12 @@ export default function useGitHubRepository(
     {
       cacheTime: ONE_DAY,
       staleTime: ONE_DAY,
-      enabled: isEnabled
+      enabled: isEnabled,
+      retry(failureCount, error: AxiosError) {
+        if (error.response?.status === 404) return false
+        else if (failureCount < 2) return true
+        else return false
+      }
     }
   )
 

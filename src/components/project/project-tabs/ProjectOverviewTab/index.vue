@@ -5,9 +5,11 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { toRef } from 'vue'
+import { computed, toRef } from 'vue'
+import yaml from 'yamljs'
 
 import useGitHubFile from '~/composables/github/useGitHubFile'
+import useGitHubRepository from '~/composables/github/useGitHubRepository'
 
 import ProjectCards from './ProjectCards/index.vue'
 import ProjectDescription from './ProjectDescription.vue'
@@ -17,6 +19,7 @@ import ProjectTeam from './ProjectTeam/index.vue'
 import ProjectTokenomics from './ProjectTokenomics.vue'
 import ProjectVestingSchedule from './ProjectVestingSchedule.vue'
 import ProjectWhitepaper from './ProjectWhitepaper.vue'
+import { ProjectYaml } from './types'
 
 interface Props {
   sourceUrl?: string
@@ -26,22 +29,66 @@ const props = withDefaults(defineProps<Props>(), {
   sourceUrl: ''
 })
 
+// composables
+const { repository, isLoading: isRepositoryLoading } = useGitHubRepository(
+  toRef(props, 'sourceUrl')
+)
+
+const defaultBranch = computed(() => {
+  return repository.value?.default_branch
+})
+
 const { file: readme, isLoading: isReadmeLoading } = useGitHubFile(
   toRef(props, 'sourceUrl'),
-  'assets/readme.md'
+  'assets/readme.md',
+  defaultBranch
 )
+
+const { file: projectConfig, isLoading: isProjectConfigLoading } =
+  useGitHubFile(toRef(props, 'sourceUrl'), 'assets/project.yml', defaultBranch)
+
+// computed
+const isLoadingDescription = computed(() => {
+  return isReadmeLoading.value || isRepositoryLoading.value
+})
+
+const isLoadingProjectConfig = computed(() => {
+  return isRepositoryLoading.value || isProjectConfigLoading.value
+})
+
+const parsedProjectConfig = computed(() => {
+  return yaml.parse(projectConfig.value ?? '') as ProjectYaml | undefined
+})
+
+const showProjectDescription = computed(() => {
+  return Boolean(readme.value) && !isLoadingDescription.value
+})
+
+const showWhitepaper = computed(() => {
+  return (
+    Boolean(parsedProjectConfig.value?.project?.whitepaper?.url) &&
+    !isLoadingProjectConfig.value
+  )
+})
 </script>
 
 <template>
   <div>
+    {{ parsedProjectConfig }}
     <ProjectCards class="mt-8 md:mt-10.5" />
     <ProjectDescription
+      v-if="showProjectDescription"
       :raw-markdown="readme"
       :source-url="sourceUrl"
       class="mt-8 md:mt-10.5"
-      :loading="isReadmeLoading"
+      :loading="isLoadingDescription"
     />
-    <ProjectWhitepaper class="mt-8 md:mt-10.5" />
+    <ProjectWhitepaper
+      v-if="showWhitepaper"
+      :whitepaper-url="parsedProjectConfig?.project?.whitepaper?.url ?? ''"
+      :loading="isLoadingProjectConfig"
+      class="mt-8 md:mt-10.5"
+    />
     <ProjectRoadmap class="mt-8 md:mt-12" />
     <ProjectTokenomics class="mt-8 md:mt-12" />
     <ProjectVestingSchedule class="mt-8 md:mt-10.5" />
