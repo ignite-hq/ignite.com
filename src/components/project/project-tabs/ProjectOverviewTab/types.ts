@@ -24,7 +24,8 @@ export interface ProjectDistribution {
 export enum RoadmapStatus {
   Completed = 'completed',
   Active = 'active',
-  Expected = 'expected'
+  Expected = 'expected',
+  Cancelled = 'cancelled'
 }
 
 export interface ProjectMilestone {

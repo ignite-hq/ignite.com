@@ -17,6 +17,7 @@ const fundraisers = [
     title: 'Current',
     items: [
       {
+        id: '1',
         raised: '300000',
         goal: '3000000',
         curency: 'UST',
@@ -31,6 +32,7 @@ const fundraisers = [
     title: 'Current and upcoming',
     items: [
       {
+        id: '2',
         raised: '300000',
         goal: '3000000',
         curency: 'UST',
@@ -40,6 +42,7 @@ const fundraisers = [
         ends: '03.25.2022'
       },
       {
+        id: '3',
         raised: '0',
         goal: '3000000',
         curency: 'UST',
@@ -54,6 +57,7 @@ const fundraisers = [
     title: 'Previous',
     items: [
       {
+        id: '4',
         raised: '3000000',
         goal: '3000000',
         curency: 'UST',
@@ -63,6 +67,7 @@ const fundraisers = [
         ends: '02.14.2022'
       },
       {
+        id: '5',
         raised: '1500000',
         goal: '3000000',
         curency: 'UST',
@@ -77,6 +82,7 @@ const fundraisers = [
     title: 'Canceled',
     items: [
       {
+        id: '6',
         raised: '0',
         goal: '3000000',
         curency: 'UST',
