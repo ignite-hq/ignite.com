@@ -126,7 +126,7 @@ const showLinks = computed(() => {
       :distribution="parsedProjectConfig?.project?.tokenomics?.distribution"
       class="mt-8 md:mt-12"
     />
-    <ProjectVestingSchedule class="mt-8 md:mt-10.5" />
+    <ProjectVestingSchedule v-if="false" class="mt-8 md:mt-10.5" />
     <ProjectTeam
       v-if="showTeam"
       :members="parsedProjectConfig?.project?.team?.members"

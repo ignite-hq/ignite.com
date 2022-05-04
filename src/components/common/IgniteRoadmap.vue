@@ -16,12 +16,14 @@ import {
 
 interface Props {
   items: ProjectMilestone[]
-  align: string
-  type: string
+  align?: 'right' | 'default'
+  type?: 'fundraiser' | 'overview'
 }
 
 withDefaults(defineProps<Props>(), {
-  items: () => []
+  items: () => [],
+  align: 'default',
+  type: 'overview'
 })
 </script>
 
