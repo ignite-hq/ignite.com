@@ -24,12 +24,20 @@ const props = defineProps<Props>()
 
 interface Emits {
   (e: 'close'): void
+  (e: 'error'): void
 }
 
 const emit = defineEmits<Emits>()
 
+// handlers
 function onClose() {
   emit('close')
+}
+function onSuccess() {
+  emit('close')
+}
+function onError() {
+  emit('error')
 }
 
 // computed
@@ -65,7 +73,7 @@ const isSigned = computed(() => props.currentUiState === UIStates.Created)
           color="primary"
           type="submit"
           class="flex-1"
-          @click="onClose"
+          @click="onError"
         >
           Done
         </IgniteButton>
@@ -90,7 +98,7 @@ const isSigned = computed(() => props.currentUiState === UIStates.Created)
           color="primary"
           type="submit"
           class="flex-1"
-          @click="onSuccessClose"
+          @click="onSuccess"
         >
           Done
         </IgniteButton>

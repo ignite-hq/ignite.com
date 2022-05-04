@@ -21,6 +21,7 @@ import type { MsgCreateFixedPriceAuction } from 'tendermint-spn-ts-client/tender
 import { useSpn } from 'tendermint-spn-vue-client'
 import { computed, reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import dayjs from 'dayjs'
 
 import FundraiserCreateModal from '~/components/invest/FundraiserCreateModal.vue'
 import FundraiserInfoCard from '~/components/invest/FundraiserInfoCard.vue'
@@ -37,26 +38,42 @@ import IgniteInputAmount from '../components/ui/IgniteInputAmount.vue'
 import IgniteInputDate from '../components/ui/IgniteInputDate.vue'
 
 const TODAY = new Date()
-const ONE_YEAR_LATER = new Date(
-  new Date().setFullYear(new Date().getFullYear() + 1)
-)
-const TWO_YEARS_LATER = new Date(
-  new Date().setFullYear(new Date().getFullYear() + 2)
-)
-const THREE_YEARS_LATER = new Date(
-  new Date().setFullYear(new Date().getFullYear() + 3)
-)
+
+const ONE_WEEK_AS_MILLI = 1000 * 60 * 60 * 24 * 7
+
+const MICRO_CONVERSION_RATE = 1000000
+function getWeeksLater(date: Date, amountOfMonths = 1): Date {
+  return dayjs(date).add(amountOfMonths, 'week').toDate()
+}
+
 const DUMMY_TOTAL_SUPPLY: Coin[] = [
-  {
-    amount: '100000',
+  toMacro({
+    amount: '100000000000000000',
     denom: 'uspn'
-  }
+  })
 ]
 
 function pctToDecimals(pct: string, decimals = 18): string {
   return new BigNumber(pct).toPrecision(decimals).toString().replace('.', '')
 }
 
+function toMicro(amount: Coin): Coin {
+  return {
+    amount: new BigNumber(amount.amount)
+      .multipliedBy(MICRO_CONVERSION_RATE)
+      .toString(),
+    denom: `u${amount.denom}`
+  }
+}
+
+function toMacro(amount: Coin): Coin {
+  return {
+    amount: new BigNumber(amount.amount)
+      .dividedBy(MICRO_CONVERSION_RATE)
+      .toString(),
+    denom: amount.denom.slice(1)
+  }
+}
 interface ISellingCoin {
   selling_coin: Coin
 }
@@ -78,16 +95,21 @@ const initialState: State = {
     auctioneer: '',
     start_price: '20',
     start_time: TODAY,
-    end_time: ONE_YEAR_LATER,
-    paying_coin_denom: 'SPN',
-    selling_coin: { amount: '20000', denom: 'uspn' },
+    end_time: getWeeksLater(TODAY, 1),
+    paying_coin_denom: 'spn',
+    selling_coin: {
+      amount: new BigNumber(DUMMY_TOTAL_SUPPLY[0].amount)
+        .dividedBy(10)
+        .toString(),
+      denom: DUMMY_TOTAL_SUPPLY[0].denom
+    },
     vesting_schedules: [
       {
-        release_time: TWO_YEARS_LATER,
+        release_time: getWeeksLater(TODAY, 2),
         weight: '50'
       },
       {
-        release_time: THREE_YEARS_LATER,
+        release_time: getWeeksLater(TODAY, 3),
         weight: '50'
       }
     ]
@@ -114,8 +136,11 @@ const voucherTotalSupply = computed<number>(() => {
 const amountForSale = computed<number>(() =>
   new BigNumber(state.auction.selling_coin?.amount ?? '0').toNumber()
 )
-const amountForSaleOverTotal = computed<number>(
-  () => (amountForSale.value / voucherTotalSupply.value) * 100
+const amountForSaleOverTotal = computed<string>(() =>
+  new BigNumber(amountForSale.value)
+    .dividedBy(voucherTotalSupply.value)
+    .multipliedBy(100)
+    .toPrecision(5)
 )
 const totalSaleValue = computed<number>(
   () =>
@@ -131,6 +156,12 @@ const showModal = computed<boolean>(() =>
     state.currentUIState
   )
 )
+const isStartEndLongerThanOneWeek = computed<boolean>(() => {
+  const startAsMilli = state.auction.start_time?.getTime() as number
+  const endAsMilli = state.auction.end_time?.getTime() as number
+
+  return endAsMilli - startAsMilli > ONE_WEEK_AS_MILLI
+})
 
 // handlers
 function handleAmountInput(evt: Event) {
@@ -162,9 +193,7 @@ function handleAddDistributionClick() {
 
   const lastScheduleDate = lastSchedule.release_time as Date
 
-  const nextScheduleDate = new Date(
-    lastScheduleDate.setFullYear(lastScheduleDate.getFullYear() + 1)
-  )
+  const nextScheduleDate = getWeeksLater(lastScheduleDate, 1)
 
   const newSchedules = [
     ...state.auction.vesting_schedules,
@@ -176,26 +205,64 @@ function handleAddDistributionClick() {
 
   state.auction.vesting_schedules = newSchedules
 }
-function handleModalClose() {
+function handleAuctionCreated() {
+  router.push('/')
+}
+function handleAuctionFailed() {
   router.push('/')
 }
 
-// spn.tendermintFundraising.value.queryAuctions().then((response) => {
-//   console.log(response.data.auctions)
-// })
+spn.tendermintFundraising.value.queryAuctions().then((response) => {
+  console.log(response.data.auctions)
+})
 
 // methods
-async function publishAuction() {
-  const payload = cloneDeep(state.auction)
+function normalizeAuction(
+  auction: MsgCreateFixedPriceAuction
+): MsgCreateFixedPriceAuction {
+  const normalized = cloneDeep(auction)
 
-  payload.vesting_schedules.forEach((schedule) => {
+  normalized.vesting_schedules.forEach((schedule) => {
     schedule.weight = pctToDecimals(schedule.weight)
   })
 
-  payload.auctioneer = spn.signer.value.addr
+  const isSellingCoinInMicroFormat = normalized.selling_coin?.denom[0] === 'u'
+
+  if (!isSellingCoinInMicroFormat) {
+    normalized.selling_coin = toMicro(normalized.selling_coin as Coin)
+  }
+
+  normalized.auctioneer = spn.signer.value.addr
+
+  return normalized
+}
+function assertAuction(auction: MsgCreateFixedPriceAuction) {
+  const startAsMilli = (auction.start_time as Date).getTime()
+  const endAsMilli = (auction.end_time as Date).getTime()
+
+  const isEndAfterStart = endAsMilli > startAsMilli
+  const isReleaseTimeAfterEnd = auction.vesting_schedules.every((schedule) => {
+    const scheduleAsMilli = (schedule.release_time as Date).getTime()
+
+    return scheduleAsMilli > endAsMilli
+  })
+
+  if (!isEndAfterStart) {
+    throw new Error('Start date must be after end date')
+  }
+  if (!isReleaseTimeAfterEnd) {
+    throw new Error('Release date must be after end date')
+  }
+}
+async function publish() {
+  const payload = normalizeAuction(state.auction)
 
   try {
-    let msg = spn.tendermintFundraising.value.msgCreateFixedPriceAuction({
+    assertAuction(payload)
+
+    console.log(' payload', payload)
+
+    const msg = spn.tendermintFundraising.value.msgCreateFixedPriceAuction({
       value: payload
     })
 
@@ -214,6 +281,8 @@ async function publishAuction() {
     state.currentUIState = UIStates.Created
   } catch (err) {
     state.currentUIState = UIStates.Error
+
+    throw err
   }
 }
 </script>
@@ -224,7 +293,8 @@ async function publishAuction() {
     <FundraiserCreateModal
       :visible="showModal"
       :current-ui-state="state.currentUIState"
-      @close="handleModalClose"
+      @close="handleAuctionCreated"
+      @error="handleAuctionFailed"
     />
     <div class="flex flex-col">
       <div class="mt-11 px-9">
@@ -319,10 +389,9 @@ async function publishAuction() {
             <div class="grid-cols mt-7 flex flex-row flex-wrap gap-7">
               <!-- Start date -->
               <div class="flex-col">
-                <div></div>
                 <div>
                   <IgniteInputDate
-                    :initial-date="TODAY"
+                    :initial-date="(state.auction.start_time as Date)"
                     @input="handleStartDateInput"
                   />
                 </div>
@@ -336,10 +405,10 @@ async function publishAuction() {
             <div class="col-span-2 mt-7 flex flex-row flex-wrap gap-7">
               <!-- End date -->
               <div class="flex-col">
-                <div></div>
                 <div>
+                  HAHAHAH {{ isStartEndLongerThanOneWeek }}
                   <IgniteInputDate
-                    :initial-date="ONE_YEAR_LATER"
+                    :initial-date="(state.auction.end_time as Date)"
                     @input="handleEndDateInput"
                   />
                 </div>
@@ -379,7 +448,6 @@ async function publishAuction() {
               <div class="col-span-2 mt-7 flex flex-row flex-wrap gap-7">
                 <!-- Date -->
                 <div class="flex-col">
-                  <div></div>
                   <div>
                     <IgniteInputDate
                       :initial-date="(schedule.release_time as Date)"
@@ -440,7 +508,7 @@ async function publishAuction() {
       :total-sale-amount="amountForSale"
       :amount-sale-over-total="amountForSaleOverTotal"
       :sale-denom="state.auction.selling_coin?.denom ?? ''"
-      @publish="publishAuction"
+      @publish="publish"
     />
   </div>
 </template>

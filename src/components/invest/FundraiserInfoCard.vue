@@ -7,7 +7,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="w-1/4 flex-col self-center">
+  <div class="w-1/4 flex-col">
     <div class="rounded-xs border border-gray-70 p-6">
       <slot />
     </div>
