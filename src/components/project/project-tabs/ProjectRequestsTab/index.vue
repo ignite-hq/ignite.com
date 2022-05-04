@@ -5,6 +5,11 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import {
+  LaunchQueryAllRequestResponse,
+  LaunchRequest,
+  LaunchRequestStatus
+} from 'tendermint-spn-ts-client/tendermint.spn.launch/rest'
 import { computed, onBeforeUnmount, toRef } from 'vue'
 
 import RequestsEmptyState from '~/components/project/project-tabs/ProjectRequestsTab/RequestsEmptyState.vue'
@@ -13,11 +18,6 @@ import SelectedRequests from '~/components/project/project-tabs/ProjectRequestsT
 import IgniteButton from '~/components/ui/IgniteButton.vue'
 import useCoordinator from '~/composables/profile/useCoordinator'
 import useChainRequests from '~/composables/request/useChainRequests'
-import {
-  LaunchQueryAllRequestResponse,
-  LaunchRequest,
-  LaunchRequestStatus
-} from 'tendermint-spn-ts-client/tendermint.spn.launch/rest'
 import { RequestPageFilters, useRequestsStore } from '~/stores/requests-store'
 
 import RequestsTable from './RequestsTable.vue'

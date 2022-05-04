@@ -1,8 +1,7 @@
 import { EncodeObject } from '@cosmjs/proto-signing'
 import { DeliverTxResponse } from '@cosmjs/stargate'
-import { useMutation, useQueryClient } from 'vue-query'
-
 import { useSpn } from 'tendermint-spn-vue-client'
+import { useMutation, useQueryClient } from 'vue-query'
 
 import { invalidateChainRequestsQuery } from './useChainRequests'
 

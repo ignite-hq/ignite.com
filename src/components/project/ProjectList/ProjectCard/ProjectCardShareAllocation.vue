@@ -5,12 +5,12 @@ export default {
 </script>
 
 <script setup lang="ts">
+import { CampaignCampaignSummary } from 'tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 import { computed, PropType } from 'vue'
 
 import IgniteLegend from '~/components/common/IgniteLegend.vue'
 import IgniteProgressBar from '~/components/common/IgniteProgressBar.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
-import { CampaignCampaignSummary } from 'tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 import { LegendItem, ProgressBarItem } from '~/utils/types'
 
 const props = defineProps({

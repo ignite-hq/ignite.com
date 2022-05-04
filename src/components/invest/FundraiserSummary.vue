@@ -7,9 +7,9 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
+import IgniteButton from '../ui/IgniteButton.vue'
 import IgniteHeading from '../ui/IgniteHeading.vue'
 import IgniteText from '../ui/IgniteText.vue'
-import IgniteButton from '../ui/IgniteButton.vue'
 interface Emits {
   (e: 'publish'): void
 }

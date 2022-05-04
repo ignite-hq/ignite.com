@@ -1,46 +1,60 @@
 <script lang="ts">
 export default {
-  name: 'FundraiserView'
+  name: 'ProjectInvestCreate'
 }
+
+enum UIStates {
+  Fresh,
+  Creating,
+  Created,
+  Error
+}
+
+export { UIStates }
 </script>
 
 <script lang="ts" setup>
 import { Coin } from '@cosmjs/amino'
 import BigNumber from 'bignumber.js'
-import { computed, reactive, watchEffect } from 'vue'
-
+import { cloneDeep } from 'lodash'
 import type { MsgCreateFixedPriceAuction } from 'tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/tx'
-import {
-  useCosmosBankV1Beta1,
-  useTendermintSpnCampaign
-} from 'tendermint-spn-vue-client'
-import IgniteHeading from '~/components/ui/IgniteHeading.vue'
-import IgniteText from '~/components/ui/IgniteText.vue'
-import FundraiserSection from '~/components/invest/FundraiserSection.vue'
-import FundraiserInputSection from '~/components/invest/FundraiserInputSection.vue'
-import FundraiserInputRow from '~/components/invest/FundraiserInputRow.vue'
-import IgniteInput from '~/components/ui/IgniteInput.vue'
+import { useSpn } from 'tendermint-spn-vue-client'
+import { computed, reactive } from 'vue'
+import { useRouter } from 'vue-router'
+
+import FundraiserCreateModal from '~/components/invest/FundraiserCreateModal.vue'
 import FundraiserInfoCard from '~/components/invest/FundraiserInfoCard.vue'
-import IgniteButton from '~/components/ui/IgniteButton.vue'
+import FundraiserInputRow from '~/components/invest/FundraiserInputRow.vue'
+import FundraiserInputSection from '~/components/invest/FundraiserInputSection.vue'
+import FundraiserSection from '~/components/invest/FundraiserSection.vue'
 import FundraiserSummary from '~/components/invest/FundraiserSummary.vue'
+import IgniteButton from '~/components/ui/IgniteButton.vue'
+import IgniteHeading from '~/components/ui/IgniteHeading.vue'
+import IgniteInput from '~/components/ui/IgniteInput.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
+
 import IgniteInputAmount from '../components/ui/IgniteInputAmount.vue'
 import IgniteInputDate from '../components/ui/IgniteInputDate.vue'
 
-let today = new Date()
-let oneYfromNow = new Date(new Date().setFullYear(new Date().getFullYear() + 1))
-let twoYfromNow = new Date(new Date().setFullYear(new Date().getFullYear() + 2))
-let threeYfromNow = new Date(
+const TODAY = new Date()
+const ONE_YEAR_LATER = new Date(
+  new Date().setFullYear(new Date().getFullYear() + 1)
+)
+const TWO_YEARS_LATER = new Date(
+  new Date().setFullYear(new Date().getFullYear() + 2)
+)
+const THREE_YEARS_LATER = new Date(
   new Date().setFullYear(new Date().getFullYear() + 3)
 )
+const DUMMY_TOTAL_SUPPLY: Coin[] = [
+  {
+    amount: '100000',
+    denom: 'uspn'
+  }
+]
 
-function pctTo18Decimals(pct: number): string {
-  return new BigNumber(pct).toPrecision(18).toString().replace('.', '')
-}
-
-enum UIStates {
-  Fresh,
-  Success,
-  Error
+function pctToDecimals(pct: string, decimals = 18): string {
+  return new BigNumber(pct).toPrecision(decimals).toString().replace('.', '')
 }
 
 interface ISellingCoin {
@@ -52,65 +66,42 @@ type NonNullableMsgCreateFixedPriceAuction =
 
 // state
 interface State {
-  currentUIState: UIStates.Fresh
-  errorMessage: ''
-  isLoading: false
+  currentUIState: UIStates
   auction: NonNullableMsgCreateFixedPriceAuction
   feeAmount?: Coin
   totalSupply?: Coin[]
   voucherCoin?: Coin
 }
-
 const initialState: State = {
   currentUIState: UIStates.Fresh,
-  errorMessage: '',
-  isLoading: false,
   auction: {
-    auctioneer: 'spn1fpx8hs0xxktelpym44gk3s3mnk8u4p729mlv8q',
-    start_price: '10',
-    start_time: today,
-    end_time: oneYfromNow,
+    auctioneer: '',
+    start_price: '20',
+    start_time: TODAY,
+    end_time: ONE_YEAR_LATER,
     paying_coin_denom: 'SPN',
-    selling_coin: { amount: '200', denom: 'USPN' },
+    selling_coin: { amount: '20000', denom: 'uspn' },
     vesting_schedules: [
       {
-        release_time: twoYfromNow,
-        weight: pctTo18Decimals(50)
+        release_time: TWO_YEARS_LATER,
+        weight: '50'
       },
       {
-        release_time: threeYfromNow,
-        weight: pctTo18Decimals(50)
+        release_time: THREE_YEARS_LATER,
+        weight: '50'
       }
     ]
-  }
+  },
+  totalSupply: DUMMY_TOTAL_SUPPLY,
+  voucherCoin: DUMMY_TOTAL_SUPPLY[0]
 }
+const state = reactive(initialState)
 
-const state = reactive({
-  ...initialState,
-  totalSupply: [
-    {
-      amount: '1000',
-      denom: 'uspn'
-    }
-  ],
-  voucherCoin: {
-    amount: '1000',
-    denom: 'uspn'
-  }
-})
+// spn
+const { spn } = useSpn()
 
 // composables
-const { queryTotalSupply } = useCosmosBankV1Beta1()
-const { queryCampaignAll } = useTendermintSpnCampaign()
-
-// watch
-watchEffect(async () => {
-  const campaignAllResponse = await (await queryCampaignAll()).data.campaign
-  const totalSupplyResponse = await (await queryTotalSupply()).data.supply
-
-  // state.totalSupply = totalSupplyResponse as Coin[]
-  // state.voucherCoin = state.totalSupply[0]
-})
+const router = useRouter()
 
 // computed
 const voucherTotalSupply = computed<number>(() => {
@@ -134,6 +125,11 @@ const totalSaleValue = computed<number>(
 const totalFee = computed<number>(() => (0.3 / 100) * totalSaleValue.value)
 const totalRaisePotential = computed<number>(
   () => totalSaleValue.value - totalFee.value
+)
+const showModal = computed<boolean>(() =>
+  [UIStates.Creating, UIStates.Created, UIStates.Error].includes(
+    state.currentUIState
+  )
 )
 
 // handlers
@@ -160,26 +156,76 @@ function handleDistributionWeightInput(weight: string, index: number) {
   state.auction.vesting_schedules[index].weight = weight
 }
 function handleAddDistributionClick() {
-  state.auction.vesting_schedules = [
+  const lastSchedule = cloneDeep(
+    state.auction.vesting_schedules[state.auction.vesting_schedules.length - 1]
+  )
+
+  const lastScheduleDate = lastSchedule.release_time as Date
+
+  const nextScheduleDate = new Date(
+    lastScheduleDate.setFullYear(lastScheduleDate.getFullYear() + 1)
+  )
+
+  const newSchedules = [
     ...state.auction.vesting_schedules,
     {
-      release_time: threeYfromNow,
-      weight: '2'
+      release_time: nextScheduleDate,
+      weight: '0'
     }
   ]
+
+  state.auction.vesting_schedules = newSchedules
 }
+function handleModalClose() {
+  router.push('/')
+}
+
+// spn.tendermintFundraising.value.queryAuctions().then((response) => {
+//   console.log(response.data.auctions)
+// })
 
 // methods
 async function publishAuction() {
-  // let msg = spn.tendermintFundraising.value.msgCreateFixedPriceAuction({
-  //   value: state.auction as MsgCreateFixedPriceAuction
-  // })
-  // spn.signer.value.client.signAndBroadcast(spn.signer.value.addr, [msg], 20000)
+  const payload = cloneDeep(state.auction)
+
+  payload.vesting_schedules.forEach((schedule) => {
+    schedule.weight = pctToDecimals(schedule.weight)
+  })
+
+  payload.auctioneer = spn.signer.value.addr
+
+  try {
+    let msg = spn.tendermintFundraising.value.msgCreateFixedPriceAuction({
+      value: payload
+    })
+
+    state.currentUIState = UIStates.Creating
+
+    const response = await spn.signer.value.client.signAndBroadcast(
+      spn.signer.value.addr,
+      [msg],
+      2000
+    )
+
+    if (response.code) {
+      throw new Error()
+    }
+
+    state.currentUIState = UIStates.Created
+  } catch (err) {
+    state.currentUIState = UIStates.Error
+  }
 }
 </script>
 
 <template>
   <div class="container">
+    <!-- MODAL  -->
+    <FundraiserCreateModal
+      :visible="showModal"
+      :current-ui-state="state.currentUIState"
+      @close="handleModalClose"
+    />
     <div class="flex flex-col">
       <div class="mt-11 px-9">
         <IgniteHeading class="text-left font-title text-7 font-semibold">
@@ -208,7 +254,7 @@ async function publishAuction() {
               </IgniteText>
             </div>
             <div class="flex items-center">
-              <div class="">
+              <div>
                 <IgniteInput
                   :value="state.auction.selling_coin?.amount"
                   type="number"
@@ -276,7 +322,7 @@ async function publishAuction() {
                 <div></div>
                 <div>
                   <IgniteInputDate
-                    :initial-date="today"
+                    :initial-date="TODAY"
                     @input="handleStartDateInput"
                   />
                 </div>
@@ -293,7 +339,7 @@ async function publishAuction() {
                 <div></div>
                 <div>
                   <IgniteInputDate
-                    :initial-date="oneYfromNow"
+                    :initial-date="ONE_YEAR_LATER"
                     @input="handleEndDateInput"
                   />
                 </div>
@@ -322,7 +368,7 @@ async function publishAuction() {
         <FundraiserInputSection>
           <FundraiserInputRow
             v-for="(schedule, index) in state.auction.vesting_schedules"
-            v-bind:key="schedule.release_time?.toString()"
+            :key="schedule.release_time?.toString()"
           >
             <div>
               <div class="flex-row">
@@ -343,7 +389,6 @@ async function publishAuction() {
                     />
                   </div>
                 </div>
-
                 <!-- Amount -->
                 <div class="flex-col">
                   <div>
@@ -364,8 +409,8 @@ async function publishAuction() {
                 </div>
               </div>
               <div
-                class="mt-8 flex-row"
                 v-if="index + 1 === state.auction.vesting_schedules.length"
+                class="mt-8 flex-row"
               >
                 <IgniteButton class="px-6" @click="handleAddDistributionClick">
                   Add Distribution

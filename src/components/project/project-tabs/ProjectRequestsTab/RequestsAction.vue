@@ -5,11 +5,11 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import { LaunchRequest } from 'tendermint-spn-ts-client/tendermint.spn.launch/rest'
 import { computed } from 'vue'
 
 import IconCoins from '~/components/icons/IconCoins.vue'
 import IconStage from '~/components/icons/IconStage.vue'
-import { LaunchRequest } from 'tendermint-spn-ts-client/tendermint.spn.launch/rest'
 import { addCommasToNumber } from '~/utils/number'
 
 import { getTypeFromContent } from './utils'

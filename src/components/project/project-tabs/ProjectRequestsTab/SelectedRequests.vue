@@ -5,12 +5,12 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import { LaunchRequest } from 'tendermint-spn-ts-client/tendermint.spn.launch/rest'
 import { ref } from 'vue'
 
 import IconAccept from '~/components/icons/IconAccept.vue'
 import IconDeny from '~/components/icons/IconDeny.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
-import { LaunchRequest } from 'tendermint-spn-ts-client/tendermint.spn.launch/rest'
 import { useRequestsStore } from '~/stores/requests-store'
 
 import RequestsAcceptModal from './RequestsAcceptModal.vue'

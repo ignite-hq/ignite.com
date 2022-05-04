@@ -5,13 +5,13 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import { useSpn } from 'tendermint-spn-vue-client'
 import { computed, reactive, watchEffect } from 'vue'
 
 import IconExternalArrow from '~/components/icons/IconExternalArrow.vue'
 import IconKeplr from '~/components/icons/IconKeplr.vue'
 import IconWarning from '~/components/icons/IconWarning.vue'
 import useAddress from '~/composables/wallet/useAddress'
-import { useSpn } from 'tendermint-spn-vue-client'
 
 import IgniteButton from '../ui/IgniteButton.vue'
 import IgniteHeading from '../ui/IgniteHeading.vue'

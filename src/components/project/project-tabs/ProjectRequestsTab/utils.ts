@@ -1,6 +1,5 @@
 import { EncodeObject } from '@cosmjs/proto-signing'
 import BigNumber from 'bignumber.js'
-
 import LaunchModule from 'tendermint-spn-ts-client/tendermint.spn.launch/module'
 import {
   LaunchRequest,

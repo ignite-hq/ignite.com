@@ -7,11 +7,12 @@ export default {
 <script lang="ts" setup>
 import 'v-calendar/dist/style.css'
 
-import IgniteSelect from './IgniteSelect.vue'
-import IgniteText from './IgniteText.vue'
-import IconCalendar from '../icons/IconCalendar.vue'
 import { DatePicker } from 'v-calendar'
 import { reactive, ref } from 'vue'
+
+import IconCalendar from '../icons/IconCalendar.vue'
+import IgniteSelect from './IgniteSelect.vue'
+import IgniteText from './IgniteText.vue'
 
 interface Emits {
   (e: 'input', value: Date): void
@@ -109,10 +110,10 @@ function handleDayClick(p: any) {
           >
           <DatePicker
             v-model="state.date"
-            @dayclick="handleDayClick"
             class="mt-3"
             :input-debounce="500"
             :timezone="state.timezone"
+            @dayclick="handleDayClick"
           >
             <template #default="{ inputValue, inputEvents }">
               <div class="relative flex items-center">
@@ -143,10 +144,10 @@ function handleDayClick(p: any) {
             <input
               class="mx-3 h-8.5 w-[3.5rem] rounded-xs border border-border bg-white-1000 px-5 text-center"
               :value="minutes"
-              @input="handleMinuteInput"
               min="0"
               max="60"
               maxlength="2"
+              @input="handleMinuteInput"
             />
             <IgniteSelect
               v-model="state.timeUnit"

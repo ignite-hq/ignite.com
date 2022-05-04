@@ -5,6 +5,11 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import {
+  LaunchRequest,
+  LaunchRequestContent,
+  LaunchRequestStatus
+} from 'tendermint-spn-ts-client/tendermint.spn.launch/rest'
 import { computed } from 'vue'
 
 import IconCanceled from '~/components/icons/IconCanceled.vue'
@@ -13,11 +18,6 @@ import IgniteCheckbox from '~/components/ui/IgniteCheckbox.vue'
 import IgniteLoader from '~/components/ui/IgniteLoader.vue'
 import IgniteProfileIcon from '~/components/ui/IgniteProfileIcon.vue'
 import useAddress from '~/composables/wallet/useAddress'
-import {
-  LaunchRequest,
-  LaunchRequestContent,
-  LaunchRequestStatus
-} from 'tendermint-spn-ts-client/tendermint.spn.launch/rest'
 import {
   RequestPageFilters,
   RequestPageSorts,

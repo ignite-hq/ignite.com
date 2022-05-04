@@ -5,6 +5,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import { CampaignCampaignSummary } from 'tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 import { computed, reactive } from 'vue'
 
 import IgniteBreadcrumbs from '~/components/common/IgniteBreadcrumbs.vue'
@@ -14,7 +15,6 @@ import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteLoader from '~/components/ui/IgniteLoader.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import useGitHubRepository from '~/composables/github/useGitHubRepository'
-import { CampaignCampaignSummary } from 'tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 
 import ProjectActions from './ProjectActions.vue'
 import ProjectNav from './ProjectNav.vue'

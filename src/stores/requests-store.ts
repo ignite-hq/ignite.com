@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-
 import { LaunchRequest } from 'tendermint-spn-ts-client/tendermint.spn.launch/rest'
 
 export enum RequestPageFilters {
