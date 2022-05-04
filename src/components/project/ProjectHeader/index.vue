@@ -136,9 +136,7 @@ const isLoading = computed(() => {
                   />
                   <ProjectStatus
                     :loading="isLoading"
-                    :project-id="
-                      campaignSummary?.mostRecentChain?.launchID ?? '0'
-                    "
+                    :project-id="projectId ?? '0'"
                     :campaign-id="campaignSummary?.campaign?.campaignID ?? '0'"
                     :validator-count="
                       campaignSummary?.mostRecentChain?.validatorNb ?? '0'
