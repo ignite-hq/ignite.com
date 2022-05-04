@@ -1,63 +1,40 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
+export default {
   name: 'ProjectRoadmap'
-})
+}
 </script>
 
 <script lang="ts" setup>
+import dayjs from 'dayjs'
+import { computed } from 'vue'
+
 import IgniteRoadmap from '~/components/common/IgniteRoadmap.vue'
 import IgniteScrollableSection from '~/components/common/IgniteScrollableSection.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 
-const roadmapItems = [
-  {
-    status: 'complited',
-    name: 'Project started',
-    date: 'November 2021'
-  },
-  {
-    status: 'complited',
-    name: 'Testnet 1',
-    date: 'November 2021'
-  },
-  {
-    status: 'complited',
-    name: 'Testnet 2',
-    date: 'December 2021'
-  },
-  {
-    status: 'complited',
-    name: 'Milestone 3',
-    date: 'January 2022',
-    description:
-      'Brief description ipsum dolor sit amet, consectetur adipiscing elit. Ut at nunc tincidunt, volutpat massa fringilla, dapibus urna.'
-  },
-  {
-    status: 'complited',
-    name: 'Testnet 3',
-    date: 'January 2022'
-  },
-  {
-    status: 'active',
-    name: 'Testnet 4',
-    date: 'February 2022'
-  },
-  {
-    name: 'Keplr integration',
-    date: 'June 2022',
-    description:
-      'Brief description ipsum dolor sit amet, consectetur adipiscing elit ut at nunc tincidunt.'
-  },
-  {
-    name: 'Mainnet',
-    date: 'Jule 2022',
-    description:
-      'Brief description ipsum dolor sit amet, consectetur adipiscing elit. Ut at nunc tincidunt, volutpat massa fringilla, dapibus urna.'
-  }
-]
+import { ProjectMilestone, RoadmapStatus } from './types'
+
+interface Props {
+  milestones: ProjectMilestone[]
+  loading?: boolean
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  milestones: () => [],
+  loading: false
+})
+
+const roadmapItems = computed<ProjectMilestone[]>(() => {
+  const possibleStatuses = Object.values(RoadmapStatus)
+
+  return props.milestones.map(({ description, date, title, status }) => ({
+    date: dayjs(date).format('MMMM YYYY'),
+    description,
+    title,
+    status: possibleStatuses.includes(status) ? status : RoadmapStatus.Expected
+  }))
+})
 </script>
 
 <template>

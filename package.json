@@ -28,6 +28,7 @@
     "buffer": "^6.0.3",
     "core-js": "^3.18.2",
     "crypto-js": "^4.1.1",
+    "dayjs": "^1.11.1",
     "gradient-avatar": "^1.0.2",
     "isomorphic-dompurify": "^0.18.0",
     "libsodium": "^0.7.10",

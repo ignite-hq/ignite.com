@@ -14,7 +14,7 @@ interface Props extends ButtonHTMLAttributes {
   color?: Colors | string
   size?: 'sm' | 'md'
   disabled?: boolean
-  as: string
+  as?: string
 }
 
 const colorTypes: string[] = ['default', 'primary', 'inherit'] as Colors[]

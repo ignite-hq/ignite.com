@@ -89,7 +89,10 @@ const showWhitepaper = computed(() => {
       :loading="isLoadingProjectConfig"
       class="mt-8 md:mt-10.5"
     />
-    <ProjectRoadmap class="mt-8 md:mt-12" />
+    <ProjectRoadmap
+      :milestones="parsedProjectConfig?.project?.roadmap?.milestones"
+      class="mt-8 md:mt-12"
+    />
     <ProjectTokenomics class="mt-8 md:mt-12" />
     <ProjectVestingSchedule class="mt-8 md:mt-10.5" />
     <ProjectTeam class="mt-8 md:mt-11" />

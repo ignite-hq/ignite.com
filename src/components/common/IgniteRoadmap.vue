@@ -8,11 +8,17 @@ export default {
 import IconCheck from '~/components/icons/IconCheck.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 
-defineProps({
-  items: {
-    type: Array,
-    required: true
-  }
+import {
+  ProjectMilestone,
+  RoadmapStatus
+} from '../project/project-tabs/ProjectOverviewTab/types'
+
+interface Props {
+  items: ProjectMilestone[]
+}
+
+withDefaults(defineProps<Props>(), {
+  items: () => []
 })
 </script>
 
@@ -20,20 +26,25 @@ defineProps({
   <ul class="whitespace-nowrap">
     <li
       v-for="item in items"
-      :key="item.name"
+      :key="item.title"
       class="item relative inline-block min-w-[8.625rem] whitespace-normal border-t-4 pt-6 pr-7 align-top last:border-dashed last:pr-0"
-      :class="item.status === 'complited' ? 'border-primary' : 'border-border'"
+      :class="
+        item.status === RoadmapStatus.Completed
+          ? 'border-primary'
+          : 'border-border'
+      "
     >
       <IconCheck
         class="absolute left-0 -top-[0.8125rem] h-6 w-6"
         :class="
-          item.status === 'complited' || item.status === 'active'
+          item.status === RoadmapStatus.Completed ||
+          item.status === RoadmapStatus.Active
             ? 'text-primary'
             : 'text-border'
         "
       />
       <IgniteText as="div" class="pt-1 text-3 font-medium">
-        {{ item.name }}
+        {{ item.title }}
       </IgniteText>
       <IgniteText as="div" class="text-2 font-normal text-muted">
         {{ item.date }}

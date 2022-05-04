@@ -15,13 +15,20 @@ export interface ProjectDistribution {
   share: string
 }
 
+export enum RoadmapStatus {
+  Completed = 'completed',
+  Active = 'active',
+  Expected = 'expected'
+}
+
 export interface ProjectMilestone {
   title: string
   /**
    * Date with format YYYY-MM-DD
    */
   date: string
-  description: string
+  description?: string
+  status: RoadmapStatus
 }
 
 export interface ProjectWhitepaper {
