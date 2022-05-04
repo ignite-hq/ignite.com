@@ -35,12 +35,12 @@ const vouchers = computed(() => {
 })
 
 const formatAuctionStatus = (auctionType: AuctionStatus): string => {
-  if (auctionType == 'AUCTION_STATUS_UNSPECIFIED') return 'Fundraising'
-  if (auctionType == 'AUCTION_STATUS_STANDBY') return 'Fundraising'
-  if (auctionType == 'AUCTION_STATUS_STARTED') return 'Fundraising'
   if (auctionType == 'AUCTION_STATUS_VESTING') return 'Fundraising'
+  if (auctionType == 'AUCTION_STATUS_STARTED') return 'Fundraising'
+  if (auctionType == 'AUCTION_STATUS_STANDBY') return 'Fundraising'
   if (auctionType == 'AUCTION_STATUS_FINISHED') return 'Distributed'
   if (auctionType == 'AUCTION_STATUS_CANCELLED') return 'Undistributed'
+  if (auctionType == 'AUCTION_STATUS_UNSPECIFIED') return 'Undistributed'
   return 'Undistributed'
 }
 

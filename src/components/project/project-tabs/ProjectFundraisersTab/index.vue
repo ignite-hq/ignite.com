@@ -33,24 +33,40 @@ withDefaults(defineProps<Props>(), {
 })
 
 const formatAuctionStatus = (auctionType: AuctionStatus): string => {
-  if (auctionType == 'AUCTION_STATUS_UNSPECIFIED') return 'Current'
-  if (auctionType == 'AUCTION_STATUS_STANDBY') return 'Standby'
-  if (auctionType == 'AUCTION_STATUS_STARTED') return 'Current'
   if (auctionType == 'AUCTION_STATUS_VESTING') return 'Current'
+  if (auctionType == 'AUCTION_STATUS_STARTED') return 'Current'
+  if (auctionType == 'AUCTION_STATUS_STANDBY') return 'Upcoming'
   if (auctionType == 'AUCTION_STATUS_FINISHED') return 'Previous'
   if (auctionType == 'AUCTION_STATUS_CANCELLED') return 'Previous'
-  return 'Current'
+  if (auctionType == 'AUCTION_STATUS_UNSPECIFIED') return 'Other'
+  return 'Other'
 }
 
-const statuses = computed(() => {
-  return [
-    ...new Set(
-      fundraisers?.value?.pages[0].auctions.map(
-        (auctionData: FixedPriceAuction) =>
-          formatAuctionStatus(auctionData.base_auction.status)
-      )
-    )
-  ]
+const statuses: string[] = computed(() => {
+  let statuses = []
+  const currentPresent = fundraisers?.value?.pages[0].auctions.find(
+    (auctionData: FixedPriceAuction) =>
+      formatAuctionStatus(auctionData.base_auction.status) === 'Current'
+  )
+  const upcomingPresent = fundraisers?.value?.pages[0].auctions.find(
+    (auctionData: FixedPriceAuction) =>
+      formatAuctionStatus(auctionData.base_auction.status) === 'Upcoming'
+  )
+  const previousPresent = fundraisers?.value?.pages[0].auctions.find(
+    (auctionData: FixedPriceAuction) =>
+      formatAuctionStatus(auctionData.base_auction.status) === 'Previous'
+  )
+  const otherPresent = fundraisers?.value?.pages[0].auctions.find(
+    (auctionData: FixedPriceAuction) =>
+      formatAuctionStatus(auctionData.base_auction.status) === 'Other'
+  )
+  if (currentPresent && upcomingPresent) statuses.push('Current and upcoming')
+  else if (currentPresent) statuses.push('Current')
+  else if (upcomingPresent) statuses.push('Upcoming')
+  if (previousPresent) statuses.push('Previous')
+  if (otherPresent) statuses.push('Other')
+
+  return statuses
 })
 
 const totalSupply = ref([])
@@ -62,7 +78,6 @@ const fundraisingList = computed(() => {
   return fundraisers?.value?.pages[0].auctions.map(
     (auctionData: FixedPriceAuction) => {
       const auction = auctionData.base_auction
-      console.log(auction)
       const token = totalSupply.value?.find(
         (token) => token.denom === auction.selling_coin.denom
       )
@@ -78,6 +93,7 @@ const fundraisingList = computed(() => {
         goal: auction.selling_coin.amount,
         currency: formatVoucherDenom(auction.selling_coin.denom.toUpperCase()),
         status: formatAuctionStatus(auction.status),
+        statusDetailed: auction.status,
         vouchers: `${numberFormatter.format(tokenSupply)} (${relativeSupply}%)`,
         investors: auction.allowed_bidders?.length || 0,
         ends: auction.end_times[0]
@@ -114,8 +130,8 @@ const fundraisingList = computed(() => {
           class="mt-6 grid grid-cols-1 gap-5 md:mt-8 md:gap-7 lg:grid-cols-2"
         >
           <div
-            v-for="(item, key) in fundraisingList?.filter(
-              (fundraiser) => fundraiser.status === status
+            v-for="(item, key) in fundraisingList?.filter((fundraiser) =>
+              status.toLowerCase().includes(fundraiser.status.toLowerCase())
             )"
             :key="`fundraisers_${status}_${key}`"
             class="relative z-[1]"

@@ -71,13 +71,30 @@ const projectId = route.params.projectId.toString() || '0'
             as="div"
             class="mt-2 flex items-center text-2 font-semibold md:mt-3 md:text-3"
           >
-            <IconDots v-if="data.status === 'Current'" class="mr-3" />
-            <IconDots v-if="data.status === 'Ongoing'" class="mr-3" />
-            <IconClock v-if="data.status === 'Upcoming'" class="mr-3" />
-            <IconClock v-if="data.status === 'Standby'" class="mr-3" />
-            <IconCheckMarkThin v-if="data.status === 'Funded'" class="mr-3" />
-            <IconCheckMarkThin v-if="data.status === 'Previous'" class="mr-3" />
-            <IconCanceled v-if="data.status === 'Canceled'" class="mr-3" />
+            <IconDots
+              v-if="data.statusDetailed === 'AUCTION_STATUS_VESTING'"
+              class="mr-3"
+            />
+            <IconDots
+              v-if="data.statusDetailed === 'AUCTION_STATUS_STARTED'"
+              class="mr-3"
+            />
+            <IconClock
+              v-if="data.statusDetailed === 'AUCTION_STATUS_STANDBY'"
+              class="mr-3"
+            />
+            <IconCheckMarkThin
+              v-if="data.statusDetailed === 'AUCTION_STATUS_FINISHED'"
+              class="mr-3"
+            />
+            <IconCanceled
+              v-if="data.statusDetailed === 'AUCTION_STATUS_CANCELLED'"
+              class="mr-3"
+            />
+            <IconCanceled
+              v-if="data.statusDetailed === 'AUCTION_STATUS_UNSPECIFIED'"
+              class="mr-3"
+            />
             {{ data.status }}
           </IgniteHeading>
         </div>
