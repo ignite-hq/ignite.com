@@ -7,6 +7,7 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
+import IgniteContainer from '~/components/ui/IgniteContainer.vue'
 import IconPlus from '~/components/icons/IconPlus.vue'
 import IgniteCard from '~/components/ui/IgniteCard.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
@@ -15,7 +16,7 @@ import IgniteText from '~/components/ui/IgniteText.vue'
 </script>
 
 <template>
-  <div class="container-full container px-5 sm:px-5.5 lg:px-7">
+  <IgniteContainer>
     <IgniteCard :shadow="true" class="px-5 py-8 text-center md:py-9 lg:py-11">
       <IgniteHeading as="div" class="font-title text-4 font-semibold md:text-5">
         Start a fundraiser
@@ -31,7 +32,7 @@ import IgniteText from '~/components/ui/IgniteText.vue'
         </IgniteLink>
       </div>
     </IgniteCard>
-  </div>
+  </IgniteContainer>
 </template>
 
 <style scoped lang="postcss"></style>

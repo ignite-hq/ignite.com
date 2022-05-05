@@ -6,8 +6,12 @@ export default defineComponent({
 })
 </script>
 
+<script lang="ts" setup>
+import IgniteContainer from '~/components/ui/IgniteContainer.vue'
+</script>
+
 <template>
-  <div class="container-full container px-5 sm:px-5.5 lg:px-7">
+  <IgniteContainer>
     <div
       class="project-description grid grid-cols-1 gap-x-6 md:gap-x-7 lg:grid-cols-12"
     >
@@ -131,7 +135,7 @@ export default defineComponent({
         volutpat. Phasellus sed auctor felis.
       </p>
     </div>
-  </div>
+  </IgniteContainer>
 </template>
 
 <style scoped lang="postcss">

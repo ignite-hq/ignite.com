@@ -7,6 +7,7 @@ export default {
 <script lang="ts" setup>
 import { computed, reactive } from 'vue'
 
+import IgniteContainer from '~/components/ui/IgniteContainer.vue'
 import IgniteBreadcrumbs from '~/components/common/IgniteBreadcrumbs.vue'
 import IgniteGithubRepoLink from '~/components/common/IgniteGithubRepoLink.vue'
 import IgniteBgWave from '~/components/ui/IgniteBgWave.vue'
@@ -93,7 +94,7 @@ const isLoading = computed(() => {
 
 <template>
   <div>
-    <div class="container-full px-6 xl:container">
+    <IgniteContainer>
       <div class="py-7.5">
         <IgniteBreadcrumbs :links="breadcrumbsLinks" />
       </div>
@@ -179,12 +180,12 @@ const isLoading = computed(() => {
           </div>
         </div>
       </div>
-    </div>
+    </IgniteContainer>
 
     <div class="border-b border-border pb-5.5 md:pb-0">
-      <div class="container-full px-6 xl:container">
+      <IgniteContainer>
         <ProjectNav :items="navigation" :active-tab="activeTab" />
-      </div>
+      </IgniteContainer>
     </div>
   </div>
 </template>

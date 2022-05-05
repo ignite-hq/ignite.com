@@ -43,6 +43,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
+import IgniteContainer from '~/components/ui/IgniteContainer.vue'
 import IgniteButton from '~/components/ui/IgniteButton.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteNumber from '~/components/ui/IgniteNumber.vue'
@@ -53,7 +54,7 @@ const curency = 'UST'
 </script>
 
 <template>
-  <div class="container-full container px-5 sm:px-5.5 lg:px-7">
+  <IgniteContainer>
     <IgniteHeading as="div" class="font-title text-5">
       Vesting schedule
     </IgniteHeading>
@@ -142,7 +143,7 @@ const curency = 'UST'
         </IgniteButton>
       </div>
     </div>
-  </div>
+  </IgniteContainer>
 </template>
 
 <style scoped lang="postcss">

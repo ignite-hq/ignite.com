@@ -49,12 +49,13 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
+import IgniteContainer from '~/components/ui/IgniteContainer.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 </script>
 
 <template>
-  <div class="container-full container px-5 sm:px-5.5 lg:px-7">
+  <IgniteContainer>
     <IgniteHeading as="div" class="text-center font-title text-5">
       Vesting schedule
     </IgniteHeading>
@@ -124,7 +125,7 @@ import IgniteText from '~/components/ui/IgniteText.vue'
         </div>
       </div>
     </div>
-  </div>
+  </IgniteContainer>
 </template>
 
 <style scoped lang="postcss">

@@ -7,6 +7,7 @@ export default {
 <script lang="ts" setup>
 import { computed, onBeforeUnmount, toRef } from 'vue'
 
+import IgniteContainer from '~/components/ui/IgniteContainer.vue'
 import RequestsEmptyState from '~/components/project/project-tabs/ProjectRequestsTab/RequestsEmptyState.vue'
 import RequestsHeader from '~/components/project/project-tabs/ProjectRequestsTab/RequestsHeader.vue'
 import SelectedRequests from '~/components/project/project-tabs/ProjectRequestsTab/SelectedRequests.vue'
@@ -103,7 +104,7 @@ const isLoading = computed(() => {
 </script>
 
 <template>
-  <div class="container py-10 text-center">
+  <IgniteContainer class="py-10 text-center">
     <RequestsHeader :project-name="projectName ?? ''" />
     <div>
       <RequestsTable
@@ -126,5 +127,5 @@ const isLoading = computed(() => {
       >View More</IgniteButton
     >
     <SelectedRequests :requests="projectRequests" />
-  </div>
+  </IgniteContainer>
 </template>

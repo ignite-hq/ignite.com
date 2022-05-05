@@ -5,6 +5,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import IgniteContainer from '~/components/ui/IgniteContainer.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 
 import ProjectInvestCard from './ProjectInvestCard.vue'
@@ -102,7 +103,7 @@ const fundraisers = [
     <ProjectInvestVoucherAllocation class="mt-7 md:mt-9" />
     <ProjectInvestStart class="mt-8 md:mt-10.5" />
 
-    <div class="container-full container px-5 sm:px-5.5 lg:px-7">
+    <IgniteContainer>
       <div v-for="row in fundraisers" :key="row.title" class="mt-8 md:mt-10.5">
         <IgniteHeading
           as="div"
@@ -122,6 +123,6 @@ const fundraisers = [
           </div>
         </div>
       </div>
-    </div>
+    </IgniteContainer>
   </div>
 </template>
