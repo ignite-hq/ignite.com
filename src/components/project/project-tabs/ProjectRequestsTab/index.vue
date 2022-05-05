@@ -9,6 +9,7 @@ import { computed, onBeforeUnmount, toRef } from 'vue'
 
 import IgniteContainer from '~/components/ui/IgniteContainer.vue'
 import RequestsEmptyState from '~/components/project/project-tabs/ProjectRequestsTab/RequestsEmptyState.vue'
+import RequestsHeaderTop from '~/components/project/project-tabs/ProjectRequestsTab/RequestsHeaderTop.vue'
 import RequestsHeader from '~/components/project/project-tabs/ProjectRequestsTab/RequestsHeader.vue'
 import SelectedRequests from '~/components/project/project-tabs/ProjectRequestsTab/SelectedRequests.vue'
 import IgniteButton from '~/components/ui/IgniteButton.vue'
@@ -105,7 +106,8 @@ const isLoading = computed(() => {
 
 <template>
   <IgniteContainer class="py-10 text-center">
-    <RequestsHeader :project-name="projectName ?? ''" />
+    <RequestsHeaderTop class="border-b border-border pb-8" />
+    <RequestsHeader :project-name="projectName ?? ''" class="mt-10.5" />
     <div>
       <RequestsTable
         v-if="projectRequests.length > 0 || isLoading"
