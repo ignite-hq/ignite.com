@@ -16,6 +16,21 @@ import IgniteProjectInvestSingleCard from './IgniteProjectInvestSingleCard.vue'
 import IgniteProjectInvestValidators from './IgniteProjectInvestValidators.vue'
 import IgniteProjectInvestVesting from './IgniteProjectInvestVesting.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
+import useFundraiser from '~/composables/fundraising/useFundraiser'
+// import { useCosmosBankV1Beta1 } from '~/generated/tendermint-spn-vue'
+import { useRoute } from 'vue-router'
+import { watchEffect } from 'vue'
+
+const route = useRoute()
+const projectId = route.params.projectId.toString() || '0'
+
+// const { querySupplyOf } = useCosmosBankV1Beta1()
+const { fundraiser } = useFundraiser(projectId)
+
+// watchers
+watchEffect(() => {
+  console.log(fundraiser)
+})
 
 const roadmapItems = [
   {
