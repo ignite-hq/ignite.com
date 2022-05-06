@@ -142,7 +142,6 @@ const fundraisingList = computed(() => {
       class="mt-8 md:mt-10.5"
     />
     <div class="container-full container px-5 sm:px-5.5 lg:px-7">
-      {{ statuses }}
       <div v-for="status in statuses" :key="status" class="mt-8 md:mt-10.5">
         <IgniteHeading
           as="div"

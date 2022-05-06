@@ -44,14 +44,22 @@ watch(vouchers, (newVal) => {
     }
 })
 
-const formatAuctionStatus = (auctionType: AuctionStatus): string => {
-  if (auctionType == 'AUCTION_STATUS_VESTING') return 'Fundraising'
-  if (auctionType == 'AUCTION_STATUS_STARTED') return 'Fundraising'
-  if (auctionType == 'AUCTION_STATUS_STANDBY') return 'Fundraising'
-  if (auctionType == 'AUCTION_STATUS_FINISHED') return 'Distributed'
-  if (auctionType == 'AUCTION_STATUS_CANCELLED') return 'Undistributed'
-  if (auctionType == 'AUCTION_STATUS_UNSPECIFIED') return 'Undistributed'
-  return 'Undistributed'
+const formatAuctionStatus = (
+  auctionType: AuctionStatus
+): AuctionHeadingStatus => {
+  switch (AuctionStatus[auctionType] as AuctionStatus) {
+    case AuctionStatus.AUCTION_STATUS_VESTING:
+    case AuctionStatus.AUCTION_STATUS_STARTED:
+    case AuctionStatus.AUCTION_STATUS_STANDBY:
+      return 'Fundraising'
+    case AuctionStatus.AUCTION_STATUS_FINISHED:
+      return 'Distributed'
+    case AuctionStatus.AUCTION_STATUS_CANCELLED:
+    case AuctionStatus.AUCTION_STATUS_UNSPECIFIED:
+      return 'Undistributed'
+    default:
+      return 'Undistributed'
+  }
 }
 
 const calculateDistributed = (voucherAuctions: FixedPriceAuction[]): number => {
