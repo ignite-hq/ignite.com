@@ -41,8 +41,6 @@ import IconCanceled from '~/components/icons/IconCanceled.vue'
 
 const TODAY = new Date()
 
-const ONE_WEEK_AS_MILLI = 1000 * 60 * 60 * 24 * 7
-
 const MICRO_CONVERSION_RATE = 1000000
 
 function getWeeksLater(date: Date, amountOfWeeks = 1): Date {
@@ -161,21 +159,6 @@ const showModal = computed<boolean>(() =>
     state.currentUIState
   )
 )
-const isStartEndLongerThanOneWeek = computed<boolean>(() => {
-  const startAsMilli = state.auction.start_time?.getTime() as number
-  const endAsMilli = state.auction.end_time?.getTime() as number
-
-  return endAsMilli - startAsMilli > ONE_WEEK_AS_MILLI
-})
-const isTotalAmountDistribuitionSafe = computed<boolean>(() => {
-  const total = state.auction.vesting_schedules
-    .map((i) => i.weight)
-    .reduce((acc, cur) =>
-      new BigNumber(acc).plus(new BigNumber(cur)).toString()
-    )
-
-  return new BigNumber(total).isLessThanOrEqualTo(100)
-})
 const nextMinDateForSchedule = computed<Date>(() => {
   const penultimateScheduleDate: number =
     state.auction.vesting_schedules.at(-2)?.release_time?.getTime() ?? 0
@@ -309,13 +292,14 @@ function cancel() {
 
 <template>
   <div class="container">
-    <!-- MODAL  -->
+    <!-- Modal -->
     <FundraiserCreateModal
       :visible="showModal"
       :current-ui-state="state.currentUIState"
       @close="handleAuctionCreated"
       @error="handleAuctionFailed"
     />
+    <!-- Header -->
     <div class="flex flex-col">
       <div class="mt-11 px-9">
         <IgniteHeading class="text-left font-title text-7 font-semibold">
@@ -354,7 +338,7 @@ function cancel() {
               <div class="ml-6 flex-row">
                 <IgniteText as="span" class="font-bold">
                   {{ amountForSaleOverTotal }} % </IgniteText
-                >of {{ voucherTotalSupply }} total supply
+                >of <IgniteNumber :number="voucherTotalSupply" /> total supply
               </div>
             </div>
           </FundraiserInputRow>
@@ -376,7 +360,7 @@ function cancel() {
               <div class="ml-6 flex-row">
                 <IgniteText class="font-bold">
                   <IgniteNumber :number="totalSaleValue" />
-                  {{ state.auction.selling_coin?.denom }}
+                  {{ state.auction.selling_coin?.denom.toUpperCase() }}
                 </IgniteText>
               </div>
             </div>
@@ -404,7 +388,9 @@ function cancel() {
         <FundraiserInputSection>
           <FundraiserInputRow>
             <div class="flex-row">
-              <IgniteHeading as="h3"> Start </IgniteHeading>
+              <IgniteText class="text-3 font-semibold text-gray-0">
+                Start
+              </IgniteText>
             </div>
             <div class="grid-cols mt-7 flex flex-row flex-wrap gap-7">
               <!-- Start date -->
@@ -420,7 +406,9 @@ function cancel() {
           </FundraiserInputRow>
           <FundraiserInputRow>
             <div class="flex-row">
-              <IgniteHeading as="h3"> End </IgniteHeading>
+              <IgniteText class="text-3 font-semibold text-gray-0">
+                End
+              </IgniteText>
             </div>
             <div
               class="col-span-2 mt-7 flex flex-row flex-wrap items-center gap-7"
@@ -428,12 +416,6 @@ function cancel() {
               <!-- End date -->
               <div class="flex-col">
                 <div>
-                  isStartEndLongerThanOneWeek:
-                  {{ isStartEndLongerThanOneWeek }}
-                  <br />
-                  isTotalAmountDistribuitionSafe:
-                  {{ isTotalAmountDistribuitionSafe }}
-                  <br />
                   <IgniteInputDate
                     :min-date="state.auction.start_time"
                     :max-date="getWeeksLater(state.auction.start_time, 1)"
@@ -545,11 +527,11 @@ function cancel() {
     <FundraiserSummary
       :total-raise-potential="totalRaisePotential"
       :total-fee="totalFee"
-      :fee-denom="state.auction.selling_coin?.denom ?? ''"
+      :fee-denom="state.auction.selling_coin?.denom.toUpperCase()"
       :total-sale-value="totalSaleValue"
       :total-sale-amount="amountForSale"
       :amount-sale-over-total="amountForSaleOverTotal"
-      :sale-denom="state.auction.selling_coin?.denom ?? ''"
+      :sale-denom="state.auction.selling_coin?.denom.toUpperCase()"
       :start-date="(state.auction.start_time as Date)"
       :end-date="(state.auction.end_time as Date)"
       @publish="publish"
