@@ -11,7 +11,6 @@ import { DatePicker } from 'v-calendar'
 import { reactive, ref } from 'vue'
 
 import IconCalendar from '../icons/IconCalendar.vue'
-import IgniteSelect from './IgniteSelect.vue'
 import IgniteText from './IgniteText.vue'
 
 interface Emits {
@@ -56,21 +55,14 @@ enum TIMEZONES {
   'Asia/Magadan' = 'UTC+11'
 }
 
-enum TIME_UNITS {
-  AM = 'AM',
-  PM = 'PM'
-}
-
 // state
 interface State {
   date: Date
   timezone: TIMEZONES
-  timeUnit: TIME_UNITS
 }
 const initialState: State = {
   date: props.initialDate ?? new Date(),
-  timezone: Intl.DateTimeFormat().resolvedOptions().timeZone as TIMEZONES,
-  timeUnit: TIME_UNITS.AM
+  timezone: Intl.DateTimeFormat().resolvedOptions().timeZone as TIMEZONES
 }
 const state = reactive({
   ...initialState
@@ -99,9 +91,6 @@ function handleMinuteInput(evt: Event) {
 }
 function handleDayClick() {
   emit('input', state.date)
-}
-function handleTimeUnitInput(unit: string) {
-  state.timeUnit = unit as TIME_UNITS
 }
 </script>
 
@@ -155,13 +144,6 @@ function handleTimeUnitInput(unit: string) {
               max="60"
               maxlength="2"
               @input="handleMinuteInput"
-            />
-            <IgniteSelect
-              :value="state.timeUnit"
-              @input="handleTimeUnitInput"
-              name="time-unit"
-              :items="Object.keys(TIME_UNITS)"
-              class="mx-3"
             />
             <!-- <IgniteSelect
               v-model="state.timezone"

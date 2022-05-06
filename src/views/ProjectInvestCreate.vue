@@ -45,8 +45,8 @@ const ONE_WEEK_AS_MILLI = 1000 * 60 * 60 * 24 * 7
 
 const MICRO_CONVERSION_RATE = 1000000
 
-function getWeeksLater(date: Date, amountOfMonths = 1): Date {
-  return dayjs(date).add(amountOfMonths, 'week').toDate()
+function getWeeksLater(date: Date, amountOfWeeks = 1): Date {
+  return dayjs(date).add(amountOfWeeks, 'week').toDate()
 }
 
 const DUMMY_TOTAL_SUPPLY: Coin[] = [
