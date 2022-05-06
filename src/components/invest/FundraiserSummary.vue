@@ -12,8 +12,11 @@ import IgniteHeading from '../ui/IgniteHeading.vue'
 import IgniteText from '../ui/IgniteText.vue'
 import IgniteNumber from '../ui/IgniteNumber.vue'
 import dayjs from 'dayjs'
+import useAddress from '~/composables/wallet/useAddress'
+
 interface Emits {
   (e: 'publish'): void
+  (e: 'cancel'): void
 }
 
 interface Props {
@@ -31,6 +34,9 @@ interface Props {
 const props = defineProps<Props>()
 
 const emit = defineEmits<Emits>()
+
+// composables
+const { address } = useAddress()
 
 // methods
 function formatRange(start: Date, end: Date): string {
@@ -138,16 +144,17 @@ function formatRange(start: Date, end: Date): string {
         </div>
       </div>
       <div class="flex w-1/2 place-content-end">
-        <IgniteButton class="px-6">
+        <IgniteButton class="px-6" @click="emit('cancel')">
           <span>Cancel</span>
         </IgniteButton>
         <IgniteButton
           variant="primary"
           color="primary"
           class="px-6"
+          :disabled="!address"
           @click="emit('publish')"
         >
-          <span>Publish</span>
+          <span>{{ !!address ? 'Publish' : 'Sign in' }}</span>
         </IgniteButton>
       </div>
     </div>

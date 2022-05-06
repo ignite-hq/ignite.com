@@ -211,18 +211,12 @@ function handleDistributionWeightInput(weight: string, index: number) {
   state.auction.vesting_schedules[index].weight = weight
 }
 function handleAddDistributionClick() {
-  const lastSchedule = cloneDeep(
-    state.auction.vesting_schedules[state.auction.vesting_schedules.length - 1]
-  )
-
-  const lastScheduleDate = lastSchedule.release_time as Date
-
-  const nextScheduleDate = getWeeksLater(lastScheduleDate, 1)
+  const lastSchedule = state.auction.vesting_schedules.at(-1)
 
   const newSchedules = [
     ...state.auction.vesting_schedules,
     {
-      release_time: nextScheduleDate,
+      release_time: getWeeksLater(lastSchedule?.release_time as Date, 1),
       weight: '0'
     }
   ]
@@ -307,6 +301,9 @@ async function publish() {
 
     throw err
   }
+}
+function cancel() {
+  router.push('/')
 }
 </script>
 
@@ -556,6 +553,7 @@ async function publish() {
       :start-date="(state.auction.start_time as Date)"
       :end-date="(state.auction.end_time as Date)"
       @publish="publish"
+      @cancel="cancel"
     />
   </div>
 </template>
