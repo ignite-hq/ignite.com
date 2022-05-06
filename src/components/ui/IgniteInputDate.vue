@@ -21,10 +21,14 @@ interface Emits {
 const emit = defineEmits<Emits>()
 
 interface Props {
+  minDate?: Date
+  maxDate?: Date
   initialDate: Date
 }
 
-const props = defineProps<Props>()
+const props = withDefaults(defineProps<Props>(), {
+  minDate: new Date()
+})
 
 enum TIMEZONES {
   'Pacific/Niue' = 'UTC-11',
@@ -98,9 +102,6 @@ function handleDayClick() {
 }
 function handleTimeUnitInput(unit: string) {
   state.timeUnit = unit as TIME_UNITS
-
-  console.log('date', state.date)
-  console.log('unit', unit)
 }
 </script>
 
@@ -115,6 +116,8 @@ function handleTimeUnitInput(unit: string) {
           <DatePicker
             v-model="state.date"
             class="mt-3"
+            :min-date="props.minDate"
+            :max-date="props.maxDate"
             :input-debounce="500"
             :timezone="state.timezone"
             @dayclick="handleDayClick"

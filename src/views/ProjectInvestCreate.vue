@@ -167,6 +167,25 @@ const isStartEndLongerThanOneWeek = computed<boolean>(() => {
 
   return endAsMilli - startAsMilli > ONE_WEEK_AS_MILLI
 })
+const isTotalAmountDistribuitionSafe = computed<boolean>(() => {
+  const total = state.auction.vesting_schedules
+    .map((i) => i.weight)
+    .reduce((acc, cur) =>
+      new BigNumber(acc).plus(new BigNumber(cur)).toString()
+    )
+
+  return new BigNumber(total).isLessThanOrEqualTo(100)
+})
+const nextMinDateForSchedule = computed<Date>(() => {
+  const penultimateScheduleDate: number =
+    state.auction.vesting_schedules.at(-2)?.release_time?.getTime() ?? 0
+
+  const auctionEndDate: number = state.auction.end_time?.getTime() ?? 0
+
+  const today = new Date().getTime()
+
+  return new Date(Math.max(penultimateScheduleDate, auctionEndDate, today))
+})
 
 // handlers
 function handleAmountInput(evt: Event) {
@@ -222,10 +241,6 @@ function handleAuctionFailed() {
   router.push('/')
 }
 
-spn.tendermintFundraising.value.queryAuctions().then((response) => {
-  console.log(response.data.auctions)
-})
-
 // methods
 function normalizeAuction(
   auction: MsgCreateFixedPriceAuction
@@ -269,8 +284,6 @@ async function publish() {
 
   try {
     assertAuction(payload)
-
-    console.log(' payload', payload)
 
     const msg = spn.tendermintFundraising.value.msgCreateFixedPriceAuction({
       value: payload
@@ -412,12 +425,21 @@ async function publish() {
             <div class="flex-row">
               <IgniteHeading as="h3"> End </IgniteHeading>
             </div>
-            <div class="col-span-2 mt-7 flex flex-row flex-wrap gap-7">
+            <div
+              class="col-span-2 mt-7 flex flex-row flex-wrap items-center gap-7"
+            >
               <!-- End date -->
               <div class="flex-col">
                 <div>
-                  isStartEndLongerThanOneWeek: {{ isStartEndLongerThanOneWeek }}
+                  isStartEndLongerThanOneWeek:
+                  {{ isStartEndLongerThanOneWeek }}
+                  <br />
+                  isTotalAmountDistribuitionSafe:
+                  {{ isTotalAmountDistribuitionSafe }}
+                  <br />
                   <IgniteInputDate
+                    :min-date="state.auction.start_time"
+                    :max-date="getWeeksLater(state.auction.start_time, 1)"
                     :initial-date="(state.auction.end_time as Date)"
                     @input="handleEndDateInput"
                   />
@@ -455,11 +477,18 @@ async function publish() {
                   Distribution {{ index + 1 }}
                 </IgniteText>
               </div>
-              <div class="col-span-2 mt-7 flex flex-row flex-wrap gap-7">
+              <div
+                class="col-span-2 mt-7 flex flex-row flex-wrap items-center gap-7"
+              >
                 <!-- Date -->
                 <div class="flex-col">
                   <div>
                     <IgniteInputDate
+                      :min-date="
+                        index === 0
+                          ? state.auction.end_time
+                          : nextMinDateForSchedule
+                      "
                       :initial-date="(schedule.release_time as Date)"
                       @input="
                         (date) => handleDistributionDateInput(date, index)
@@ -470,13 +499,11 @@ async function publish() {
                 <!-- Amount -->
                 <div class="flex-col">
                   <div>
-                    <IgniteText
-                      class="text-2 font-medium text-gray-0 text-opacity-60"
+                    <IgniteText as="label" class="block text-2 text-muted">
+                      Amount</IgniteText
                     >
-                      Amount
-                    </IgniteText>
                   </div>
-                  <div>
+                  <div class="mt-3">
                     <IgniteInputAmount
                       :value="schedule.weight"
                       @input="
