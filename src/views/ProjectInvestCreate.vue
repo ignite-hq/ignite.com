@@ -37,6 +37,7 @@ import IgniteText from '~/components/ui/IgniteText.vue'
 import IgniteInputAmount from '../components/ui/IgniteInputAmount.vue'
 import IgniteInputDate from '../components/ui/IgniteInputDate.vue'
 import IgniteNumber from '~/components/ui/IgniteNumber.vue'
+import IconCanceled from '~/components/icons/IconCanceled.vue'
 
 const TODAY = new Date()
 
@@ -208,6 +209,11 @@ function handleAddDistributionClick() {
   ]
 
   state.auction.vesting_schedules = newSchedules
+}
+function handleDeleteDistributionClick(index: number) {
+  state.auction.vesting_schedules = state.auction.vesting_schedules.filter(
+    (_, i) => i !== index
+  )
 }
 function handleAuctionCreated() {
   router.push('/')
@@ -479,6 +485,14 @@ async function publish() {
                     />
                   </div>
                 </div>
+                <div>
+                  <IgniteButton
+                    v-if="index > 0"
+                    @click="() => handleDeleteDistributionClick(index)"
+                  >
+                    <IconCanceled class="delete" />
+                  </IgniteButton>
+                </div>
               </div>
               <div
                 v-if="index + 1 === state.auction.vesting_schedules.length"
@@ -512,7 +526,15 @@ async function publish() {
       :total-sale-amount="amountForSale"
       :amount-sale-over-total="amountForSaleOverTotal"
       :sale-denom="state.auction.selling_coin?.denom ?? ''"
+      :start-date="(state.auction.start_time as Date)"
+      :end-date="(state.auction.end_time as Date)"
       @publish="publish"
     />
   </div>
 </template>
+
+<style scoped lang="postcss">
+.delete {
+  color: red;
+}
+</style>

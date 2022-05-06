@@ -63,13 +63,11 @@ interface State {
   timezone: TIMEZONES
   timeUnit: TIME_UNITS
 }
-
 const initialState: State = {
   date: props.initialDate ?? new Date(),
   timezone: Intl.DateTimeFormat().resolvedOptions().timeZone as TIMEZONES,
   timeUnit: TIME_UNITS.AM
 }
-
 const state = reactive({
   ...initialState
 })
@@ -95,8 +93,14 @@ function handleMinuteInput(evt: Event) {
 
   emit('input', state.date)
 }
-function handleDayClick(p: any) {
+function handleDayClick() {
   emit('input', state.date)
+}
+function handleTimeUnitInput(unit: string) {
+  state.timeUnit = unit as TIME_UNITS
+
+  console.log('date', state.date)
+  console.log('unit', unit)
 }
 </script>
 
@@ -150,9 +154,10 @@ function handleDayClick(p: any) {
               @input="handleMinuteInput"
             />
             <IgniteSelect
-              v-model="state.timeUnit"
-              name="amPm"
-              :items="TIME_UNITS"
+              :value="state.timeUnit"
+              @input="handleTimeUnitInput"
+              name="time-unit"
+              :items="Object.keys(TIME_UNITS)"
               class="mx-3"
             />
             <!-- <IgniteSelect

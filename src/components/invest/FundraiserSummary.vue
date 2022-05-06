@@ -11,6 +11,7 @@ import IgniteButton from '../ui/IgniteButton.vue'
 import IgniteHeading from '../ui/IgniteHeading.vue'
 import IgniteText from '../ui/IgniteText.vue'
 import IgniteNumber from '../ui/IgniteNumber.vue'
+import dayjs from 'dayjs'
 interface Emits {
   (e: 'publish'): void
 }
@@ -23,11 +24,42 @@ interface Props {
   totalFee: number
   feeDenom: string
   totalRaisePotential: number
+  startDate: Date
+  endDate: Date
 }
 
 const props = defineProps<Props>()
 
 const emit = defineEmits<Emits>()
+
+// methods
+function formatRange(start: Date, end: Date): string {
+  const startAsDayJS = dayjs(start)
+  const endAsDayJS = dayjs(end)
+
+  let formatted: string
+
+  const sameYear = startAsDayJS.year() === endAsDayJS.year()
+
+  const sameMonthAndYear =
+    sameYear && startAsDayJS.month() === endAsDayJS.month()
+
+  if (sameMonthAndYear) {
+    formatted = `${startAsDayJS.format('MMMM')} ${startAsDayJS.format(
+      'D'
+    )}-${endAsDayJS.format('D')}, ${endAsDayJS.format('YYYY')}`
+  } else if (sameYear) {
+    formatted = `${startAsDayJS.format('MMMM D')} - ${endAsDayJS.format(
+      'MMMM D'
+    )}, ${endAsDayJS.format('YYYY')}`
+  } else {
+    formatted = `${startAsDayJS.format('MMMM D, YYYY')} - ${dayjs(
+      endAsDayJS
+    ).format('MMMM D, YYYY')}`
+  }
+
+  return formatted
+}
 </script>
 
 <template>
@@ -100,7 +132,7 @@ const emit = defineEmits<Emits>()
           <div class="flex-col">
             <IgniteText class="text-2 text-gray-660"> Dates </IgniteText>
             <IgniteText class="mt-1 text-3 font-medium text-gray-0">
-              March 16-17, 2022
+              {{ formatRange(startDate, endDate) }}
             </IgniteText>
           </div>
         </div>

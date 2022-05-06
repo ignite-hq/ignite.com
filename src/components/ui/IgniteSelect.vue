@@ -1,33 +1,42 @@
 <script lang="ts">
 export default {
-  name: 'IgniteSelect',
-  props: {
-    name: String,
-    modelValue: String,
-    items: {
-      type: Object,
-      required: true
-    }
-  },
-  data() {
-    return {
-      opened: false
-    }
-  },
-  methods: {
-    toggle() {
-      this.opened = !this.opened
-    },
-
-    hide() {
-      this.opened = false
-    }
-  }
+  name: 'IgniteSelect'
 }
 </script>
 
 <script lang="ts" setup>
+import { ref } from 'vue'
 import IconCaret from '~/components/icons/IconCaret.vue'
+
+interface Emits {
+  (e: 'input', value: string): void
+}
+
+const emit = defineEmits<Emits>()
+
+interface Props {
+  name: string
+  value: string
+  items: string[]
+}
+
+defineProps<Props>()
+
+// state
+const opened = ref(false)
+
+// handlers
+function handleInput(value: string) {
+  emit('input', value)
+}
+
+// methods
+function toggle() {
+  opened.value = !opened.value
+}
+function hide() {
+  opened.value = false
+}
 </script>
 
 <template>
@@ -37,14 +46,10 @@ import IconCaret from '~/components/icons/IconCaret.vue'
       class="flex h-8.5 w-full items-center rounded-xs border border-border px-5"
       @click="toggle"
     >
-      <span class="whitespace-nowrap">{{ items[modelValue] }}</span>
+      <span class="whitespace-nowrap">{{ value }}</span>
       <IconCaret class="ml-3" :class="opened && 'rotate-180'" />
     </button>
-    <select
-      :value="modelValue"
-      class="absolute inset-0 opacity-0 md:hidden"
-      @input="$emit('update:modelValue', $event.target.value)"
-    >
+    <select :value="value" class="absolute inset-0 opacity-0 md:hidden">
       <option
         v-for="(item, key) in items"
         :key="`select_${name}_${item}`"
@@ -62,8 +67,8 @@ import IconCaret from '~/components/icons/IconCaret.vue'
         v-for="(item, key) in items"
         :key="`list_${name}_${item}`"
         class="cursor-pointer border-b border-border px-7 py-5 transition-opacity last:border-0 hover:opacity-70"
-        :class="modelValue === key && 'pointer-events-none bg-border'"
-        @click="$emit('update:modelValue', key)"
+        :class="value === key && 'pointer-events-none bg-border'"
+        @click="() => handleInput(item)"
       >
         {{ item }}
       </li>
