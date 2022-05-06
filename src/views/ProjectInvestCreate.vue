@@ -36,12 +36,14 @@ import IgniteText from '~/components/ui/IgniteText.vue'
 
 import IgniteInputAmount from '../components/ui/IgniteInputAmount.vue'
 import IgniteInputDate from '../components/ui/IgniteInputDate.vue'
+import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 
 const TODAY = new Date()
 
 const ONE_WEEK_AS_MILLI = 1000 * 60 * 60 * 24 * 7
 
 const MICRO_CONVERSION_RATE = 1000000
+
 function getWeeksLater(date: Date, amountOfMonths = 1): Date {
   return dayjs(date).add(amountOfMonths, 'week').toDate()
 }
@@ -74,6 +76,7 @@ function toMacro(amount: Coin): Coin {
     denom: amount.denom.slice(1)
   }
 }
+
 interface ISellingCoin {
   selling_coin: Coin
 }
@@ -140,7 +143,8 @@ const amountForSaleOverTotal = computed<string>(() =>
   new BigNumber(amountForSale.value)
     .dividedBy(voucherTotalSupply.value)
     .multipliedBy(100)
-    .toPrecision(5)
+    .decimalPlaces(5)
+    .toString()
 )
 const totalSaleValue = computed<number>(
   () =>
@@ -355,7 +359,7 @@ async function publish() {
               </div>
               <div class="ml-6 flex-row">
                 <IgniteText class="font-bold">
-                  {{ totalSaleValue }}
+                  <IgniteNumber :number="totalSaleValue" />
                   {{ state.auction.selling_coin?.denom }}
                 </IgniteText>
               </div>

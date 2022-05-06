@@ -10,6 +10,7 @@ export default defineComponent({
 import IgniteButton from '../ui/IgniteButton.vue'
 import IgniteHeading from '../ui/IgniteHeading.vue'
 import IgniteText from '../ui/IgniteText.vue'
+import IgniteNumber from '../ui/IgniteNumber.vue'
 interface Emits {
   (e: 'publish'): void
 }
@@ -46,7 +47,8 @@ const emit = defineEmits<Emits>()
           </div>
           <div class="flex-col">
             <IgniteText class="text-left font-title text-5 font-semibold">
-              {{ props.totalSaleValue }} {{ props.saleDenom }}
+              <IgniteNumber :number="props.totalSaleValue" />
+              {{ props.saleDenom }}
             </IgniteText>
           </div>
         </div>
@@ -58,7 +60,8 @@ const emit = defineEmits<Emits>()
           </div>
           <div class="flex-col">
             <IgniteText class="text-4 font-normal text-gray-660">
-              - {{ props.totalFee }} {{ props.saleDenom }}
+              - <IgniteNumber :number="props.totalFee" />
+              {{ props.saleDenom }}
             </IgniteText>
           </div>
         </div>
@@ -70,7 +73,7 @@ const emit = defineEmits<Emits>()
           </div>
           <div class="flex-col">
             <IgniteText class="text-4 font-normal text-gray-660">
-              {{ props.totalRaisePotential }}
+              <IgniteNumber :number="props.totalRaisePotential" />
               {{ props.saleDenom }}
             </IgniteText>
           </div>
@@ -89,7 +92,9 @@ const emit = defineEmits<Emits>()
           <div class="flex-col">
             <IgniteText class="text-2 text-gray-660"> Vouchers </IgniteText>
             <IgniteText class="mt-1 text-3 font-medium text-gray-0">
-              {{ totalSaleAmount }} ({{ amountSaleOverTotal }}%)
+              <IgniteNumber :number="props.totalSaleAmount" />
+
+              ({{ amountSaleOverTotal }}%)
             </IgniteText>
           </div>
           <div class="flex-col">
