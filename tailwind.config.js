@@ -35,6 +35,7 @@ module.exports = {
       },
       primary: '#094EFD',
       secondary: '#95DCFD',
+      green: '#00CF30',
 
       // functional colors
       bg: '#fff',

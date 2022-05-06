@@ -19,6 +19,7 @@ defineProps({
   requestCount: { type: String, required: true },
   validatorCount: { type: String, required: true },
   stargazerCount: { type: String, required: true },
+  status: { type: Boolean, default: true },
   loading: { type: Boolean, default: false }
 })
 </script>
@@ -45,7 +46,7 @@ defineProps({
       </div>
     </IgniteLink>
 
-    <div class="status__item">
+    <div v-if="status" class="status__item">
       <IgniteText as="span" class="ignite-badge">testnet</IgniteText>
     </div>
   </div>

@@ -98,9 +98,9 @@ const isLoading = computed(() => {
         <IgniteBreadcrumbs :links="breadcrumbsLinks" />
       </div>
 
-      <div class="pt-5.5 pb-8 md:pb-9">
-        <div class="grid grid-cols-1 gap-4 md:grid-cols-8 lg:grid-cols-6">
-          <div class="px-0 md:col-span-6 lg:col-span-4 xl:col-span-3">
+      <div class="pt-5.5 pb-8 lg:pb-9">
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-8 lg:grid-cols-12">
+          <div class="px-0 md:col-span-8 lg:col-span-7 xl:col-span-6">
             <div class="md:flex">
               <!-- Profile Icon -->
               <IgniteLoader
@@ -117,6 +117,9 @@ const isLoading = computed(() => {
               </div>
 
               <div class="max-w-lg">
+                <IgniteText class="text-2 text-muted">
+                  Project ID {{ projectId }}
+                </IgniteText>
                 <IgniteLoader v-if="isLoading" class="mb-6 h-8" />
                 <IgniteHeading
                   v-else
@@ -133,9 +136,7 @@ const isLoading = computed(() => {
                   />
                   <ProjectStatus
                     :loading="isLoading"
-                    :project-id="
-                      campaignSummary?.mostRecentChain?.launchID ?? '0'
-                    "
+                    :project-id="projectId ?? '0'"
                     :campaign-id="campaignSummary?.campaign?.campaignID ?? '0'"
                     :validator-count="
                       campaignSummary?.mostRecentChain?.validatorNb ?? '0'
@@ -151,33 +152,38 @@ const isLoading = computed(() => {
 
                 <IgniteLoader
                   v-if="isLoading"
-                  class="h-7 w-[32rem] !max-w-none"
+                  class="h-7 w-[32rem] !max-w-md"
                 />
-                <IgniteText v-else class="text-2 text-muted md:text-3">
+                <IgniteText v-else class="max-w-md text-2 text-muted md:text-3">
                   {{ description }}
                 </IgniteText>
+
+                <div class="mt-7">
+                  <ProjectActions />
+                </div>
               </div>
             </div>
           </div>
 
           <div
-            class="mt-6 px-0 md:col-span-2 md:mt-0 lg:col-span-1 lg:col-start-6"
+            class="-mx-6 mt-6 px-0 md:col-span-8 lg:col-span-5 lg:mx-0 lg:mt-0 xl:col-span-6"
           >
-            <ProjectActions />
+            <div
+              class="relative bg-primary pb-[56.17%] lg:rounded"
+              :class="isLoading ? 'bg-border' : 'bg-primary'"
+            >
+              <div class="absolute inset-0 z-[2] overflow-hidden">
+                <IgniteBgWave />
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="py-6 shadow-border_double">
+    <div class="border-b border-border pb-5.5 md:pb-0">
       <div class="container-full px-6 xl:container">
         <ProjectNav :items="navigation" :active-tab="activeTab" />
-      </div>
-    </div>
-
-    <div class="relative bg-primary pb-[50%] md:pb-[33.33%]">
-      <div class="absolute inset-0 z-[2] overflow-hidden">
-        <IgniteBgWave />
       </div>
     </div>
   </div>
