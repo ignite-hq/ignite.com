@@ -17,7 +17,7 @@ interface Emits {
 
 interface Props {
   totalSaleValue: number
-  amountSaleOverTotal: number
+  amountSaleOverTotal: string
   totalSaleAmount: number
   saleDenom: string
   totalFee: number

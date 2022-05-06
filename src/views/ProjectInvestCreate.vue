@@ -446,7 +446,7 @@ async function publish() {
             <div>
               <div class="flex-row">
                 <IgniteText class="text-3 font-semibold text-gray-0">
-                  Distribuition {{ index + 1 }}
+                  Distribution {{ index + 1 }}
                 </IgniteText>
               </div>
               <div class="col-span-2 mt-7 flex flex-row flex-wrap gap-7">
