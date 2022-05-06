@@ -410,7 +410,7 @@ async function publish() {
               <!-- End date -->
               <div class="flex-col">
                 <div>
-                  HAHAHAH {{ isStartEndLongerThanOneWeek }}
+                  isStartEndLongerThanOneWeek: {{ isStartEndLongerThanOneWeek }}
                   <IgniteInputDate
                     :initial-date="(state.auction.end_time as Date)"
                     @input="handleEndDateInput"
