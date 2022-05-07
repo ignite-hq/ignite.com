@@ -4,7 +4,7 @@ import { useTendermintSpnCampaign } from '~/generated/tendermint-spn-vue'
 
 const CHAINS_PER_CAMPAIGN = '100'
 
-export default function useCampaignSummary(campaignID: string) {
+export default function useCampaignChains(campaignID: string) {
   const { queryCampaignChains } = useTendermintSpnCampaign()
 
   const { data: campaignChains, ...other } = useInfiniteQuery(

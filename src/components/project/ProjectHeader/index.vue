@@ -22,7 +22,6 @@ import ProjectStatus from './ProjectStatus.vue'
 
 interface Props {
   projectId: string
-  activeTab: string
   campaignSummary?: CampaignCampaignSummary
   loading: boolean
 }
@@ -183,7 +182,7 @@ const isLoading = computed(() => {
 
     <div class="border-b border-border pb-5.5 md:pb-0">
       <div class="container-full px-6 xl:container">
-        <ProjectNav :items="navigation" :active-tab="activeTab" />
+        <ProjectNav :items="navigation" />
       </div>
     </div>
   </div>

@@ -11,6 +11,7 @@ import IgniteDenom from '~/components/common/IgniteDenom.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import { CampaignCampaignSummary } from '~/generated/tendermint-spn-ts-client/tendermint.spn.campaign/rest'
+import { getIncentivesFromRewards, isShare } from '~/utils/reward'
 
 const props = defineProps({
   campaignSummary: {
@@ -19,24 +20,15 @@ const props = defineProps({
   }
 })
 
-// methods
-function getIncentivesFromRewards(
-  rewards: CampaignCampaignSummary['rewards'] = []
-) {
-  return rewards.filter((coin) => {
-    const campaignId = props.campaignSummary.campaign?.campaignID
-    const isShare = !coin.denom?.startsWith(`v/${campaignId}`)
-    return isShare
-  })
-}
-
 // computed
 const incentive = computed(() => {
-  const incentiveCoins = getIncentivesFromRewards(props.campaignSummary.rewards)
+  const campaignId = props.campaignSummary.campaign?.campaignID
+  const rewards = props.campaignSummary?.rewards
+  const incentiveCoins = getIncentivesFromRewards(campaignId ?? '', rewards)
 
   const total = incentiveCoins.reduce((acc, coin) => {
     const campaignId = props.campaignSummary.campaign?.campaignID
-    const isIncentive = !coin.denom?.startsWith(`v/${campaignId}`)
+    const isIncentive = !isShare(campaignId ?? '', coin)
     if (isIncentive) return acc + Number(coin.amount)
     return acc
   }, 0)
@@ -50,13 +42,13 @@ const firstIncentiveDenom = computed(() => {
 })
 
 const pastIncentive = computed(() => {
-  const incentiveCoins = getIncentivesFromRewards(
-    props.campaignSummary.previousRewards
-  )
+  const campaignId = props.campaignSummary.campaign?.campaignID
+  const rewards = props.campaignSummary?.rewards
+  const incentiveCoins = getIncentivesFromRewards(campaignId ?? '', rewards)
 
   const total = incentiveCoins.reduce((acc, coin) => {
     const campaignId = props.campaignSummary.campaign?.campaignID
-    const isIncentive = !coin.denom?.startsWith(`v/${campaignId}`)
+    const isIncentive = !isShare(campaignId ?? '', coin)
     if (isIncentive) return acc + Number(coin.amount)
     return acc
   }, 0)

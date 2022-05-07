@@ -1,14 +1,25 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
+export default {
   name: 'ProjectCards'
-})
+}
 </script>
 
 <script setup lang="ts">
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+
+import useCampaignSummary from '~/composables/campaign/useCampaignSummary'
+
 import ProjectCardFundraiser from './ProjectCardFundraiser.vue'
 import ProjectCardValidator from './ProjectCardValidator.vue'
+
+const route = useRoute()
+const projectId = route.params.projectId.toString() || '0'
+const { campaignSummary, isLoading } = useCampaignSummary(projectId)
+
+const showValidatorCard = computed(() => {
+  return isLoading || Boolean(campaignSummary?.value?.rewards?.length)
+})
 </script>
 
 <template>
@@ -21,16 +32,24 @@ import ProjectCardValidator from './ProjectCardValidator.vue'
       </div>
 
       <div
+        v-if="showValidatorCard"
         class="px-0 lg:col-span-8 lg:col-start-3 xl:col-span-1 xl:col-start-auto"
       >
-        <ProjectCardValidator />
+        <ProjectCardValidator
+          :campaign-summary="campaignSummary"
+          :loading="isLoading"
+        />
       </div>
 
       <div class="px-0 lg:col-span-12 xl:col-span-2">
         <ProjectCardFundraiser :is-ongoing="true" :is-wide="true" />
       </div>
-      <div class="px-0 lg:col-span-12 xl:col-span-2">
-        <ProjectCardValidator :is-wide="true" />
+      <div v-if="showValidatorCard" class="px-0 lg:col-span-12 xl:col-span-2">
+        <ProjectCardValidator
+          :campaign-summary="campaignSummary"
+          :loading="isLoading"
+          :is-wide="true"
+        />
       </div>
     </div>
   </div>

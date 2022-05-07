@@ -17,7 +17,7 @@ import useCampaignSummary from '~/composables/campaign/useCampaignSummary'
 
 const route = useRoute()
 const projectId = route.params.projectId.toString() || '0'
-let tab = ref(route.params?.tab?.toString().toLowerCase() || 'overview')
+const tab = ref(route.params?.tab?.toString().toLowerCase() || 'overview')
 
 onBeforeMount(() => {
   window.scrollTo(0, 0)
@@ -48,7 +48,6 @@ const campaignName = computed(() => {
   <div>
     <IgniteProjectHeader
       :loading="isFetching"
-      :active-tab="tab"
       :project-id="projectId"
       :campaign-summary="campaignSummary"
     />
