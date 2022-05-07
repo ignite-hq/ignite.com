@@ -64,8 +64,11 @@ const roadmapCancelItems = [
 </script>
 
 <template>
-  <div>
-    <IgniteProjectInvestCancel class="mt-8 md:mt-10.5" />
+  <div v-if="fundraiser">
+    <IgniteProjectInvestCancel
+      :fundraiser="fundraiser"
+      class="mt-8 md:mt-10.5"
+    />
 
     <div
       class="container-full container mt-8 px-5 sm:px-5.5 md:mt-10.5 lg:px-7"

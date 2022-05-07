@@ -11,6 +11,16 @@ import IgniteCard from '~/components/ui/IgniteCard.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteLink from '~/components/ui/IgniteLink.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
+import { computed, PropType } from 'vue'
+import { FixedPriceAuction } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising'
+
+const props = defineProps({
+  fundraiser: { type: Object as PropType<FixedPriceAuction>, required: true }
+})
+
+const endDate = computed(() => {
+  return new Date(props.fundraiser.auction.base_auction.end_times[0])
+})
 </script>
 
 <template>
@@ -28,7 +38,25 @@ import IgniteText from '~/components/ui/IgniteText.vue'
           </IgniteHeading>
           <IgniteText as="div" class="mt-4 max-w-2xl text-3 text-muted">
             Cancel this fundraiser at any time before
-            <strong>April 1, 2022</strong> at <strong>9 AM UTC+0</strong>.<br />
+            <strong>
+              {{
+                new Intl.DateTimeFormat('en-US', {
+                  year: 'numeric',
+                  month: 'short',
+                  day: 'numeric'
+                }).format(endDate)
+              }}
+            </strong>
+            at
+            <strong>
+              {{
+                new Intl.DateTimeFormat('en-US', {
+                  hour: 'numeric',
+                  hour12: true,
+                  timeZoneName: 'short'
+                }).format(endDate)
+              }} </strong
+            >.<br />
             The fundraiser cannot be cancelled after it has begun.
           </IgniteText>
         </div>
