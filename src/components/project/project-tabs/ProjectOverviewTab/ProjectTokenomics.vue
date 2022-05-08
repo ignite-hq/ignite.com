@@ -11,17 +11,23 @@ import IgniteDonutChart, {
   DonutDataItem
 } from '~/components/common/IgniteDonutChart.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
+import IgniteLoader from '~/components/ui/IgniteLoader.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
+import { CampaignCampaignSummary } from '~/generated/tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 import { isNumeric } from '~/utils/assertion'
+import { addCommasToNumber } from '~/utils/number'
 
 import { ProjectDistribution } from './types'
 
 interface Props {
   distribution: ProjectDistribution[]
+  campaignSummary?: CampaignCampaignSummary
+  loading?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  distribution: () => []
+  distribution: () => [],
+  campaignSummary: undefined
 })
 
 const colors = [
@@ -53,6 +59,15 @@ const dataSeries = computed(() => {
     }
   })
 })
+
+const totalSupply = computed(() => {
+  const total = props.campaignSummary?.rewards?.reduce(
+    (acc, { amount }) => (isNumeric(amount) ? acc + Number(amount) : acc),
+    0
+  )
+
+  return addCommasToNumber(total ?? 0)
+})
 </script>
 
 <template>
@@ -60,8 +75,14 @@ const dataSeries = computed(() => {
     <IgniteHeading as="div" class="text-center font-title text-5 md:text-7">
       Tokenomics
     </IgniteHeading>
-    <IgniteText as="div" class="mt-6 text-center text-3 text-muted">
-      Planned token allocation for 200,000 tokens minted at Genesis
+    <IgniteText class="mt-6 text-center text-3 text-muted">
+      Planned token allocation for
+      <component
+        :is="loading ? IgniteLoader : 'span'"
+        :class="[loading && 'inline-block h-5 w-9 align-middle']"
+        >{{ totalSupply }}</component
+      >
+      tokens minted at Genesis
     </IgniteText>
 
     <div class="relative mt-7 md:mt-9">

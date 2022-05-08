@@ -53,7 +53,7 @@ const campaignName = computed(() => {
     />
     <ProjectOverviewTab
       v-if="tab === 'overview'"
-      :source-url="campaignSummary?.mostRecentChain?.sourceURL"
+      :campaign-summary="campaignSummary"
     />
     <ProjectValidatorsTab v-if="tab === 'validators'" />
     <ProjectRequestsTab

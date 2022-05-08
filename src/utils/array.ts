@@ -6,5 +6,5 @@ export function oxfordComma<T>(array: T[]) {
 }
 
 export function removeUndefinedFromArray<T>(array: T[]): T[] {
-  return array.filter(Boolean)
+  return array.filter((val) => val !== undefined)
 }

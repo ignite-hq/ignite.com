@@ -5,11 +5,12 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { computed, toRef } from 'vue'
+import { computed } from 'vue'
 import yaml from 'yamljs'
 
 import useGitHubFile from '~/composables/github/useGitHubFile'
 import useGitHubRepository from '~/composables/github/useGitHubRepository'
+import { CampaignCampaignSummary } from '~/generated/tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 
 import ProjectCards from './ProjectCards/index.vue'
 import ProjectDescription from './ProjectDescription.vue'
@@ -17,35 +18,39 @@ import ProjectLinks from './ProjectLinks/index.vue'
 import ProjectRoadmap from './ProjectRoadmap.vue'
 import ProjectTeam from './ProjectTeam/index.vue'
 import ProjectTokenomics from './ProjectTokenomics.vue'
-import ProjectVestingSchedule from './ProjectVestingSchedule.vue'
 import ProjectWhitepaper from './ProjectWhitepaper.vue'
 import { ProjectYaml } from './types'
 
 interface Props {
-  sourceUrl?: string
+  campaignSummary?: CampaignCampaignSummary
+  loading?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  sourceUrl: ''
+  loading: false,
+  campaignSummary: undefined
 })
 
 // composables
-const { repository, isLoading: isRepositoryLoading } = useGitHubRepository(
-  toRef(props, 'sourceUrl')
-)
+const sourceUrl = computed(() => {
+  return props.campaignSummary?.mostRecentChain?.sourceURL
+})
+
+const { repository, isLoading: isRepositoryLoading } =
+  useGitHubRepository(sourceUrl)
 
 const defaultBranch = computed(() => {
   return repository.value?.default_branch
 })
 
 const { file: readme, isLoading: isReadmeLoading } = useGitHubFile(
-  toRef(props, 'sourceUrl'),
+  sourceUrl,
   'assets/readme.md',
   defaultBranch
 )
 
 const { file: projectConfig, isLoading: isProjectConfigLoading } =
-  useGitHubFile(toRef(props, 'sourceUrl'), 'assets/project.yml', defaultBranch)
+  useGitHubFile(sourceUrl, 'assets/project.yml', defaultBranch)
 
 // computed
 const isLoadingDescription = computed(() => {
@@ -123,10 +128,11 @@ const showLinks = computed(() => {
     />
     <ProjectTokenomics
       v-if="showTokenomics"
+      :campaign-summary="campaignSummary"
+      :loading="loading"
       :distribution="parsedProjectConfig?.project?.tokenomics?.distribution"
       class="mt-8 md:mt-12"
     />
-    <ProjectVestingSchedule v-if="false" class="mt-8 md:mt-10.5" />
     <ProjectTeam
       v-if="showTeam"
       :members="parsedProjectConfig?.project?.team?.members"
