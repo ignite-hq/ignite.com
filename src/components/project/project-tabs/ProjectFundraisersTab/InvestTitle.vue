@@ -31,7 +31,7 @@ withDefaults(defineProps<Props>(), {
         >
           Fundraisers
         </IgniteHeading>
-        <IgniteText as="div" class="mt-5 text-3 text-muted">
+        <IgniteText class="mt-5 text-3 text-muted">
           Current and upcoming investment opportunities for {{ projectName }}
         </IgniteText>
       </div>

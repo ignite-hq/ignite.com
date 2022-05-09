@@ -18,17 +18,13 @@ interface Item {
 }
 
 interface Props {
-  modelValue: {
-    type: Item
-    required: true
-  }
-  items: {
-    type: Item[]
-    required: true
-  }
+  name: string
+  modelValue: Item
+  items: Item[]
 }
 
 withDefaults(defineProps<Props>(), {
+  name: 'IgniteSelect',
   value: { value: '', label: '' } as Item,
   items: () => [] as Item[]
 })
@@ -65,7 +61,7 @@ const hide = () => {
     >
       <option
         v-for="item in items"
-        :key="`select_${modelValue.value}_${item.value}`"
+        :key="`select_${name}_${item.value}`"
         :value="item"
       >
         {{ item.label }}
@@ -78,7 +74,7 @@ const hide = () => {
     >
       <li
         v-for="item in items"
-        :key="`list_${modelValue.value}_${item.value}`"
+        :key="`list_${name}_${item.value}`"
         class="cursor-pointer border-b border-border px-7 py-5 transition-opacity last:border-0 hover:opacity-70"
         :class="
           modelValue.value === item.value && 'pointer-events-none bg-border'

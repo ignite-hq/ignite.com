@@ -21,6 +21,7 @@ import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import { ProgressBarItem } from '~/utils/types'
+import { AuctionStatusLabels } from '~/utils/types'
 
 import IgniteCard from '~/components/ui/IgniteCard.vue'
 import IgniteLink from '~/components/ui/IgniteLink.vue'
@@ -53,13 +54,13 @@ const projectId = route.params.projectId.toString() || '0'
         as="div"
         class="mt-5 font-title text-4 font-semibold md:text-5"
       >
-        <IgniteNumber :number="parseInt(data.raised)" />
+        <IgniteNumber :number="Number(data.raised)" />
         {{ data.currency }}
       </IgniteHeading>
       <IgniteHeading as="div" class="mt-3 text-3 text-muted">
         Raised of
         <strong>
-          <IgniteNumber :number="parseInt(data.goal)" /> {{ data.currency }}
+          <IgniteNumber :number="Number(data.goal)" /> {{ data.currency }}
         </strong>
       </IgniteHeading>
       <div
@@ -112,14 +113,18 @@ const projectId = route.params.projectId.toString() || '0'
 
         <div class="">
           <IgniteText as="div" class="text-2 text-muted">
-            {{ data.status === 'Standby' ? 'Registrants' : 'Participants' }}
+            {{
+              data.status === AuctionStatusLabels.Upcoming
+                ? 'Registrants'
+                : 'Participants'
+            }}
           </IgniteText>
           <IgniteHeading
             as="div"
             class="mt-2 flex items-center text-2 font-semibold md:mt-3 md:text-3"
           >
             <IconUser class="mr-3" />
-            <IgniteNumber :number="parseInt(data.investors)" />
+            <IgniteNumber :number="Number(data.investors)" />
           </IgniteHeading>
         </div>
 
@@ -134,7 +139,8 @@ const projectId = route.params.projectId.toString() || '0'
             <IconCalendar class="mr-3" />
             <span
               :class="
-                data.status === 'Canceled' && 'text-inactive line-through'
+                data.statusDetailed === 'AUCTION_STATUS_CANCELLED' &&
+                'text-inactive line-through'
               "
             >
               {{ new Date(data.ends).toLocaleDateString() }}

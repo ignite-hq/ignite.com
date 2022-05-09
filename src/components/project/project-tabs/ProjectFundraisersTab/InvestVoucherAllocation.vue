@@ -13,18 +13,25 @@ import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import IgniteSelect from '~/components/ui/IgniteSelect.vue'
 import { ProgressBarItem } from '~/utils/types'
-import { computed, ref, watch } from 'vue'
+import { computed, reactive, watch } from 'vue'
 import { FixedPriceAuction } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising'
 import { AuctionStatus } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/fundraising'
 import BigNumber from 'bignumber.js'
-import { numberFormatter, formatVoucherDenom } from '~/utils/fundraisers'
+import { toCompactNumber, getDenomName } from '~/utils/fundraisers'
+import { V1Beta1Coin } from '~/generated/tendermint-spn-ts-client/cosmos.tx.v1beta1/rest'
+import { FundraisingQueryAuctionsResponse } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/rest'
 
-const props = defineProps({
-  fundraisers: { type: Object, required: false },
-  totalSupply: { type: Object, required: false }
+interface Props {
+  fundraisers: FundraisingQueryAuctionsResponse
+  totalSupply: V1Beta1Coin[]
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  fundraisers: () => ({}),
+  totalSupply: () => []
 })
 
-const selectedVoucher = ref({ value: '', label: '' })
+const selectedVoucher = reactive({ data: { value: '', label: '' } })
 const vouchers = computed(() => {
   return [
     ...new Set(
@@ -37,28 +44,31 @@ const vouchers = computed(() => {
 })
 
 watch(vouchers, (newVal) => {
-  if (newVal[0])
-    selectedVoucher.value = {
-      value: newVal[0],
-      label: formatVoucherDenom(newVal[0])
-    }
+  if (newVal[0]) selectedVoucher.data.data = newVal[0]
+  selectedVoucher.data.label = getDenomName(newVal[0])
 })
+
+enum AuctionAllocationLabel {
+  Fundraising = 'Fundraising',
+  Distributed = 'Distributed',
+  Undistributed = 'Undistributed'
+}
 
 const formatAuctionStatus = (
   auctionType: AuctionStatus
-): AuctionHeadingStatus => {
+): AuctionAllocationLabel => {
   switch (AuctionStatus[auctionType] as AuctionStatus) {
     case AuctionStatus.AUCTION_STATUS_VESTING:
     case AuctionStatus.AUCTION_STATUS_STARTED:
     case AuctionStatus.AUCTION_STATUS_STANDBY:
-      return 'Fundraising'
+      return AuctionAllocationLabel.Fundraising
     case AuctionStatus.AUCTION_STATUS_FINISHED:
-      return 'Distributed'
+      return AuctionAllocationLabel.Distributed
     case AuctionStatus.AUCTION_STATUS_CANCELLED:
     case AuctionStatus.AUCTION_STATUS_UNSPECIFIED:
-      return 'Undistributed'
+      return AuctionAllocationLabel.Undistributed
     default:
-      return 'Undistributed'
+      return AuctionAllocationLabel.Undistributed
   }
 }
 
@@ -67,14 +77,15 @@ const calculateDistributed = (voucherAuctions: FixedPriceAuction[]): number => {
     .filter(
       (auctionData: FixedPriceAuction) =>
         formatAuctionStatus(auctionData.base_auction.status) ===
-          'Distributed' ||
-        formatAuctionStatus(auctionData.base_auction.status) === 'Fundraising'
+          AuctionAllocationLabel.Distributed ||
+        formatAuctionStatus(auctionData.base_auction.status) ===
+          AuctionAllocationLabel.Fundraising
     )
     .reduce((acc, auctionData: FixedPriceAuction) => {
       return (
         acc +
-        (parseInt(auctionData.base_auction.selling_coin.amount) -
-          parseInt(auctionData.base_auction.remaining_selling_coin.amount))
+        (Number(auctionData.base_auction.selling_coin.amount) -
+          Number(auctionData.base_auction.remaining_selling_coin.amount))
       )
     }, 0)
 }
@@ -83,11 +94,12 @@ const calculateFundraising = (voucherAuctions: FixedPriceAuction[]): number => {
   return voucherAuctions
     .filter(
       (auctionData: FixedPriceAuction) =>
-        formatAuctionStatus(auctionData.base_auction.status) === 'Fundraising'
+        formatAuctionStatus(auctionData.base_auction.status) ===
+        AuctionAllocationLabel.Fundraising
     )
     .reduce((acc, auctionData: FixedPriceAuction) => {
       return (
-        acc + parseInt(auctionData.base_auction.remaining_selling_coin.amount)
+        acc + Number(auctionData.base_auction.remaining_selling_coin.amount)
       )
     }, 0)
 }
@@ -104,43 +116,42 @@ const progressBars = computed(() => {
       (token) => token.denom.toUpperCase() === voucher
     )
     const tokenSupply = new BigNumber(token?.amount ?? '0').toNumber()
+    const barDistributed = {
+      value: tokenSupply
+        ? Math.round((distributedAmount / tokenSupply) * 100)
+        : 0,
+      amount: distributedAmount,
+      bgColor: 'bg-primary',
+      split: true
+    }
+    const barFundraising = {
+      value: tokenSupply
+        ? Math.round((fundraisingAmount / tokenSupply) * 100)
+        : 0,
+      amount: fundraisingAmount,
+      bgColor: 'bg-secondary'
+    }
+    const barAvailable = {
+      value: tokenSupply
+        ? Math.round(
+            ((tokenSupply - distributedAmount - fundraisingAmount) /
+              tokenSupply) *
+              100
+          )
+        : 0,
+      amount: tokenSupply
+    }
     return {
-      denom: formatVoucherDenom(voucher),
+      denom: getDenomName(voucher),
       denomFull: voucher,
-      items: [
-        {
-          value: tokenSupply
-            ? Math.round((distributedAmount / tokenSupply) * 100)
-            : 0,
-          amount: distributedAmount,
-          bgColor: 'bg-primary',
-          split: true
-        },
-        {
-          value: tokenSupply
-            ? Math.round((fundraisingAmount / tokenSupply) * 100)
-            : 0,
-          amount: fundraisingAmount,
-          bgColor: 'bg-secondary'
-        },
-        {
-          value: tokenSupply
-            ? Math.round(
-                ((tokenSupply - distributedAmount - fundraisingAmount) /
-                  tokenSupply) *
-                  100
-              )
-            : 0,
-          amount: tokenSupply
-        }
-      ] as ProgressBarItem[]
+      items: [barDistributed, barFundraising, barAvailable] as ProgressBarItem[]
     }
   })
 })
 
 const progressBar = computed(() => {
   return progressBars.value.find(
-    (voucher) => voucher.denomFull === selectedVoucher.value.value
+    (voucher) => voucher.denomFull === selectedVoucher.value.data
   )
 })
 </script>
@@ -160,25 +171,26 @@ const progressBar = computed(() => {
             Voucher allocation
           </IgniteHeading>
           <div class="mt-7">
+            {{ selectedVoucher }}
             <IgniteSelect
-              name="Voucher select"
-              v-model="selectedVoucher"
+              :name="'Voucher select'"
+              v-model="selectedVoucher.data"
               :items="
                 vouchers.map((voucher) => ({
-                  value: voucher,
-                  label: formatVoucherDenom(voucher)
+                  data: voucher,
+                  label: getDenomName(voucher)
                 }))
               "
             >
               <IgniteDenom
                 size="small"
                 modifier="avatar"
-                :denom="selectedVoucher.label"
-                :title="selectedVoucher.label"
+                :denom="selectedVoucher.data.label"
+                :title="selectedVoucher.data.label"
                 class="mr-3"
               />
               <IgniteHeading as="div" class="font-title text-3 md:text-4">
-                {{ selectedVoucher.label }}
+                {{ selectedVoucher.data.label }}
               </IgniteHeading>
             </IgniteSelect>
           </div>
@@ -187,7 +199,7 @@ const progressBar = computed(() => {
           <div class="m-auto max-w-xs">
             <IgniteProgressBar
               :items="progressBar.items"
-              :denom="formatVoucherDenom(progressBar.denom)"
+              :denom="getDenomName(progressBar.denom)"
             />
           </div>
           <div
@@ -195,7 +207,7 @@ const progressBar = computed(() => {
           >
             <div class="p-3">
               <IgniteHeading as="div" class="text-3 font-semibold md:text-4">
-                {{ numberFormatter.format(progressBar.items[0].amount) }}
+                {{ toCompactNumber.format(progressBar.items[0].amount) }}
               </IgniteHeading>
               <IgniteText
                 as="div"
@@ -209,7 +221,7 @@ const progressBar = computed(() => {
             </div>
             <div class="p-3">
               <IgniteHeading as="div" class="text-3 font-semibold md:text-4">
-                {{ numberFormatter.format(progressBar.items[1].amount) }}
+                {{ toCompactNumber.format(progressBar.items[1].amount) }}
               </IgniteHeading>
               <IgniteText
                 as="div"
@@ -224,7 +236,7 @@ const progressBar = computed(() => {
             <div class="p-3">
               <IgniteHeading as="div" class="text-3 font-semibold md:text-4">
                 {{
-                  numberFormatter.format(
+                  toCompactNumber.format(
                     progressBar.items[2].amount -
                       progressBar.items[0].amount -
                       progressBar.items[1].amount

@@ -22,7 +22,8 @@ import { AuctionStatus } from '~/generated/tendermint-spn-ts-client/tendermint.f
 import useFundraisersAll from '~/composables/fundraising/useFundraisersAll'
 import { useCosmosBankV1Beta1 } from '~/generated/tendermint-spn-vue'
 import { CampaignCampaignSummary } from '~/generated/tendermint-spn-ts-client/tendermint.spn.campaign/rest'
-import { numberFormatter, formatVoucherDenom } from '~/utils/fundraisers'
+import { toCompactNumber, getDenomName } from '~/utils/fundraisers'
+import { AuctionStatusLabels } from '~/utils/types'
 
 const { fundraisers } = useFundraisersAll()
 const { queryTotalSupply } = useCosmosBankV1Beta1()
@@ -35,59 +36,52 @@ withDefaults(defineProps<Props>(), {
   campaignSummary: () => ({})
 })
 
-enum AuctionHeadingStatus {
-  CurrentAndUpcoming = 'Current and upcoming',
-  Current = 'Current',
-  Upcoming = 'Upcoming',
-  Previous = 'Previous',
-  Other = 'Other'
-}
-
 const formatAuctionStatus = (
   auctionType: AuctionStatus
-): AuctionHeadingStatus => {
+): AuctionStatusLabels => {
   switch (AuctionStatus[auctionType] as AuctionStatus) {
     case AuctionStatus.AUCTION_STATUS_VESTING:
     case AuctionStatus.AUCTION_STATUS_STARTED:
-      return AuctionHeadingStatus.Current
+      return AuctionStatusLabels.Current
     case AuctionStatus.AUCTION_STATUS_STANDBY:
-      return AuctionHeadingStatus.Upcoming
+      return AuctionStatusLabels.Upcoming
     case AuctionStatus.AUCTION_STATUS_FINISHED:
     case AuctionStatus.AUCTION_STATUS_CANCELLED:
-      return AuctionHeadingStatus.Previous
+      return AuctionStatusLabels.Previous
     default:
-      return AuctionHeadingStatus.Other
+      return AuctionStatusLabels.Other
   }
 }
 
 const statuses: string[] = computed(() => {
   let statuses = []
-  const currentPresent = fundraisers?.value?.pages[0].auctions.find(
+  const auctions = fundraisers?.value?.pages[0].auctions ?? []
+  const currentPresent = auctions.find(
     (auctionData: FixedPriceAuction) =>
       formatAuctionStatus(auctionData.base_auction.status) ===
-      AuctionHeadingStatus.Current
+      AuctionStatusLabels.Current
   )
-  const upcomingPresent = fundraisers?.value?.pages[0].auctions.find(
+  const upcomingPresent = auctions.find(
     (auctionData: FixedPriceAuction) =>
       formatAuctionStatus(auctionData.base_auction.status) ===
-      AuctionHeadingStatus.Upcoming
+      AuctionStatusLabels.Upcoming
   )
-  const previousPresent = fundraisers?.value?.pages[0].auctions.find(
+  const previousPresent = auctions.find(
     (auctionData: FixedPriceAuction) =>
       formatAuctionStatus(auctionData.base_auction.status) ===
-      AuctionHeadingStatus.Previous
+      AuctionStatusLabels.Previous
   )
-  const otherPresent = fundraisers?.value?.pages[0].auctions.find(
+  const otherPresent = auctions.find(
     (auctionData: FixedPriceAuction) =>
       formatAuctionStatus(auctionData.base_auction.status) ===
-      AuctionHeadingStatus.Other
+      AuctionStatusLabels.Other
   )
   if (currentPresent && upcomingPresent)
-    statuses.push(AuctionHeadingStatus.CurrentAndUpcoming)
-  else if (currentPresent) statuses.push(AuctionHeadingStatus.Current)
-  else if (upcomingPresent) statuses.push(AuctionHeadingStatus.Upcoming)
-  if (previousPresent) statuses.push(AuctionHeadingStatus.Previous)
-  if (otherPresent) statuses.push(AuctionHeadingStatus.Other)
+    statuses.push(AuctionStatusLabels.CurrentAndUpcoming)
+  else if (currentPresent) statuses.push(AuctionStatusLabels.Current)
+  else if (upcomingPresent) statuses.push(AuctionStatusLabels.Upcoming)
+  if (previousPresent) statuses.push(AuctionStatusLabels.Previous)
+  if (otherPresent) statuses.push(AuctionStatusLabels.Other)
 
   return statuses
 })
@@ -111,13 +105,13 @@ const fundraisingList = computed(() => {
       return {
         id: auction.id,
         raised:
-          parseInt(auction.selling_coin.amount) -
-          parseInt(auction.remaining_selling_coin.amount),
+          Number(auction.selling_coin.amount) -
+          Number(auction.remaining_selling_coin.amount),
         goal: auction.selling_coin.amount,
-        currency: formatVoucherDenom(auction.selling_coin.denom.toUpperCase()),
+        currency: getDenomName(auction.selling_coin.denom.toUpperCase()),
         status: formatAuctionStatus(auction.status),
         statusDetailed: auction.status,
-        vouchers: `${numberFormatter.format(tokenSupply)} (${relativeSupply}%)`,
+        vouchers: `${toCompactNumber.format(tokenSupply)} (${relativeSupply}%)`,
         investors: auction.allowed_bidders?.length || 0,
         ends: auction.end_times[0]
       }

@@ -19,3 +19,11 @@ export interface PaginationParams {
   'pagination.countTotal'?: boolean
   'pagination.reverse'?: boolean
 }
+
+export enum AuctionStatusLabels {
+  CurrentAndUpcoming = 'Current and upcoming',
+  Current = 'Current',
+  Upcoming = 'Upcoming',
+  Previous = 'Previous',
+  Other = 'Other'
+}

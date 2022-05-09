@@ -28,7 +28,7 @@ withDefaults(defineProps<Props>(), {
       <IgniteHeading as="div" class="font-title text-4 font-semibold md:text-5">
         Start a fundraiser
       </IgniteHeading>
-      <IgniteText as="div" class="mx-auto mt-3 max-w-sm text-3 text-muted">
+      <IgniteText class="mx-auto mt-3 max-w-sm text-3 text-muted">
         Create one or more fundraisers to put {{ projectName }} in front of
         qualified investors.
       </IgniteText>
