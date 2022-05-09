@@ -56,8 +56,6 @@ const voucherSummary = computed<VoucherSummary>(() => {
     return denom
   })
 
-  console.log(denoms)
-
   return { avgSharePercentage, denoms }
 })
 

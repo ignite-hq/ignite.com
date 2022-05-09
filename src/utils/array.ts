@@ -8,3 +8,10 @@ export function oxfordComma<T>(array: T[]) {
 export function removeUndefinedFromArray<T>(array: T[]): T[] {
   return array.filter((val) => val !== undefined)
 }
+
+export function mergePages<T>(data?: T[], key?: keyof T) {
+  if (!data) return []
+
+  const mergedPages = data.flatMap((page) => (key ? page[key] : page))
+  return removeUndefinedFromArray(mergedPages)
+}
