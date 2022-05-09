@@ -11,6 +11,7 @@ import IgniteDenom from '~/components/common/IgniteDenom.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import { CampaignCampaignSummary } from '~/generated/tendermint-spn-ts-client/tendermint.spn.campaign/rest'
+import { addCommasToNumber } from '~/utils/number'
 import { getIncentivesFromRewards, isShare } from '~/utils/reward'
 
 const props = defineProps({
@@ -77,14 +78,15 @@ const firstPastIncentiveDenom = computed(() => {
         class="mr-3"
       />
       <IgniteHeading class="text-center text-5 font-semibold">
-        {{ incentive.total }} {{ firstIncentiveDenom?.toUpperCase() }}
+        {{ addCommasToNumber(incentive.total) }}
+        {{ firstIncentiveDenom?.toUpperCase() }}
       </IgniteHeading>
     </div>
     <IgniteText
       v-if="pastIncentive.total > 0"
       class="text-center text-2 text-muted"
     >
-      Past incentives: {{ pastIncentive.total }}
+      Past incentives: {{ addCommasToNumber(pastIncentive.total) }}
       {{ firstPastIncentiveDenom?.toUpperCase() }}
     </IgniteText>
   </div>
