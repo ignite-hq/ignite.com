@@ -15,6 +15,7 @@ export { UIStates }
 
 <script lang="ts" setup>
 import { Coin } from '@cosmjs/amino'
+import { DeliverTxResponse } from '@cosmjs/stargate'
 import BigNumber from 'bignumber.js'
 import dayjs from 'dayjs'
 import { cloneDeep } from 'lodash'
@@ -90,6 +91,7 @@ interface State {
   feeAmount?: Coin
   totalSupply?: Coin[]
   voucherCoin?: Coin
+  errorMsg?: string
 }
 const initialState: State = {
   currentUIState: UIStates.Fresh,
@@ -207,11 +209,8 @@ function handleDeleteDistributionClick(index: number) {
     (_, i) => i !== index
   )
 }
-function handleAuctionCreated() {
-  router.push('/')
-}
-function handleAuctionFailed() {
-  router.push('/')
+function handleModalAck() {
+  location.reload()
 }
 
 // methods
@@ -254,6 +253,7 @@ function assertAuction(auction: MsgCreateFixedPriceAuction) {
 }
 async function publish() {
   const payload = normalizeAuction(state.auction)
+  let response: DeliverTxResponse
 
   try {
     assertAuction(payload)
@@ -264,21 +264,22 @@ async function publish() {
 
     state.currentUIState = UIStates.Creating
 
-    const response = await spn.signer.value.client.signAndBroadcast(
+    response = await spn.signer.value.client.signAndBroadcast(
       spn.signer.value.addr,
       [msg],
       'auto'
     )
 
     if (response.code) {
-      throw new Error()
+      throw new Error(`Errored: ${response.code}`)
     }
 
+    state.errorMsg = ''
     state.currentUIState = UIStates.Created
   } catch (err) {
+    console.error(err)
+    state.errorMsg = `${err}`
     state.currentUIState = UIStates.Error
-
-    throw err
   }
 }
 function cancel() {
@@ -292,8 +293,8 @@ function cancel() {
     <FundraiserCreateModal
       :visible="showModal"
       :current-ui-state="state.currentUIState"
-      @close="handleAuctionCreated"
-      @error="handleAuctionFailed"
+      @ack="handleModalAck"
+      :error-msg="state.errorMsg"
     />
     <!-- Header -->
     <div class="flex flex-col">
