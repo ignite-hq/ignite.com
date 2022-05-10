@@ -60,7 +60,8 @@ const githubUrl = computed(() => {
 })
 
 // composables
-const { repository, isFetching } = useGitHubRepository(githubUrl)
+const { repository, isLoading: isLoadingGithubRepository } =
+  useGitHubRepository(githubUrl)
 
 const breadcrumbsLinks = computed(() => {
   return [
@@ -87,7 +88,7 @@ const description = computed(() => {
 })
 
 const isLoading = computed(() => {
-  return isFetching.value || props.loading
+  return isLoadingGithubRepository.value || props.loading
 })
 </script>
 
