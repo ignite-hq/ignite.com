@@ -1,11 +1,4 @@
 <script lang="ts">
-export enum ProjectStatusEnvironment {
-  Mainnet,
-  Testnet,
-  NoChains,
-  Unknown
-}
-
 export default {
   name: 'ProjectStatus'
 }
@@ -20,6 +13,7 @@ import IconStar from '~/components/icons/IconStar.vue'
 import IgniteLink from '~/components/ui/IgniteLink.vue'
 import IgniteLoader from '~/components/ui/IgniteLoader.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
+import { ProjectStatusEnvironment } from '~/utils/campaign'
 
 interface Props {
   projectId: string

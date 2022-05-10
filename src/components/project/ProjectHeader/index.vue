@@ -16,10 +16,11 @@ import IgniteLoader from '~/components/ui/IgniteLoader.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import useCampaignChains from '~/composables/campaign/useCampaignChains'
 import useGitHubRepository from '~/composables/github/useGitHubRepository'
+import { getCampaignStatus } from '~/utils/campaign'
 
 import ProjectActions from './ProjectActions.vue'
 import ProjectNav from './ProjectNav.vue'
-import ProjectStatus, { ProjectStatusEnvironment } from './ProjectStatus.vue'
+import ProjectStatus from './ProjectStatus.vue'
 
 interface Props {
   projectId: string
@@ -99,17 +100,10 @@ const isLoadingProjectStatus = computed(() => {
 
 const status = computed(() => {
   const chains = campaignChains.value?.pages[0].campaignChains?.chains ?? []
-  const isMainnetInitalized = props.campaignSummary.campaign?.mainnetInitialized
+  const isMainnetInitialized =
+    props.campaignSummary.campaign?.mainnetInitialized
 
-  if (!chains.length) {
-    return ProjectStatusEnvironment.NoChains
-  }
-
-  if (isMainnetInitalized) {
-    return ProjectStatusEnvironment.Mainnet
-  }
-
-  return ProjectStatusEnvironment.Testnet
+  return getCampaignStatus(isMainnetInitialized ?? false, chains)
 })
 </script>
 

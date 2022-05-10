@@ -7,12 +7,11 @@ export default {
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import IgniteProjectStatus, {
-  ProjectStatusEnvironment
-} from '~/components/project/ProjectHeader/ProjectStatus.vue'
+import IgniteProjectStatus from '~/components/project/ProjectHeader/ProjectStatus.vue'
 import IgniteLoader from '~/components/ui/IgniteLoader.vue'
 import useCampaignChains from '~/composables/campaign/useCampaignChains'
 import { CampaignCampaignSummary } from '~/generated/tendermint-spn-ts-client/tendermint.spn.campaign/rest'
+import { getCampaignStatus } from '~/utils/campaign'
 
 interface Props {
   projectId: string
@@ -32,17 +31,10 @@ const isLoading = computed(() => {
 
 const status = computed(() => {
   const chains = campaignChains.value?.pages[0].campaignChains?.chains ?? []
-  const isMainnetInitalized = props.campaignSummary.campaign?.mainnetInitialized
+  const isMainnetInitialized =
+    props.campaignSummary.campaign?.mainnetInitialized
 
-  if (!chains.length) {
-    return ProjectStatusEnvironment.NoChains
-  }
-
-  if (isMainnetInitalized) {
-    return ProjectStatusEnvironment.Mainnet
-  }
-
-  return ProjectStatusEnvironment.Testnet
+  return getCampaignStatus(isMainnetInitialized ?? false, chains)
 })
 </script>
 
