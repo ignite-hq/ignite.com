@@ -3,34 +3,38 @@ import { unref } from 'vue'
 import Module from 'tendermint-spn-ts-client/tendermint.fundraising/module'
 import useSpn from '../use'
 
+type SendMsgCreateBatchAuctionType =
+  typeof Module.prototype.sendMsgCreateBatchAuction
+type SendMsgCancelAuctionType = typeof Module.prototype.sendMsgCancelAuction
+type SendMsgPlaceBidType = typeof Module.prototype.sendMsgPlaceBid
+type SendMsgModifyBidType = typeof Module.prototype.sendMsgModifyBid
 type SendMsgAddAllowedBidderType =
   typeof Module.prototype.sendMsgAddAllowedBidder
 type SendMsgCreateFixedPriceAuctionType =
   typeof Module.prototype.sendMsgCreateFixedPriceAuction
-type SendMsgCreateBatchAuctionType =
-  typeof Module.prototype.sendMsgCreateBatchAuction
-type SendMsgPlaceBidType = typeof Module.prototype.sendMsgPlaceBid
-type SendMsgModifyBidType = typeof Module.prototype.sendMsgModifyBid
-type SendMsgCancelAuctionType = typeof Module.prototype.sendMsgCancelAuction
 
 type QueryParamsType = typeof Module.prototype.queryParams
 type QueryAuctionsType = typeof Module.prototype.queryAuctions
 type QueryAuctionType = typeof Module.prototype.queryAuction
+type QueryAllowedBidderType = typeof Module.prototype.queryAllowedBidder
+type QueryAllowedBiddersType = typeof Module.prototype.queryAllowedBidders
 type QueryBidsType = typeof Module.prototype.queryBids
 type QueryBidType = typeof Module.prototype.queryBid
 type QueryVestingsType = typeof Module.prototype.queryVestings
 
 type Response = {
-  sendMsgAddAllowedBidder: SendMsgAddAllowedBidderType
-  sendMsgCreateFixedPriceAuction: SendMsgCreateFixedPriceAuctionType
   sendMsgCreateBatchAuction: SendMsgCreateBatchAuctionType
+  sendMsgCancelAuction: SendMsgCancelAuctionType
   sendMsgPlaceBid: SendMsgPlaceBidType
   sendMsgModifyBid: SendMsgModifyBidType
-  sendMsgCancelAuction: SendMsgCancelAuctionType
+  sendMsgAddAllowedBidder: SendMsgAddAllowedBidderType
+  sendMsgCreateFixedPriceAuction: SendMsgCreateFixedPriceAuctionType
 
   queryParams: QueryParamsType
   queryAuctions: QueryAuctionsType
   queryAuction: QueryAuctionType
+  queryAllowedBidder: QueryAllowedBidderType
+  queryAllowedBidders: QueryAllowedBiddersType
   queryBids: QueryBidsType
   queryBid: QueryBidType
   queryVestings: QueryVestingsType
@@ -40,17 +44,17 @@ function useModule(): Response {
   let { spn } = useSpn()
 
   let {
-    sendMsgAddAllowedBidder,
-
-    sendMsgCreateFixedPriceAuction,
-
     sendMsgCreateBatchAuction,
+
+    sendMsgCancelAuction,
 
     sendMsgPlaceBid,
 
     sendMsgModifyBid,
 
-    sendMsgCancelAuction,
+    sendMsgAddAllowedBidder,
+
+    sendMsgCreateFixedPriceAuction,
 
     queryParams,
 
@@ -58,12 +62,26 @@ function useModule(): Response {
 
     queryAuction,
 
+    queryAllowedBidder,
+
+    queryAllowedBidders,
+
     queryBids,
 
     queryBid,
 
     queryVestings
   } = unref(spn.tendermintFundraising)
+
+  sendMsgCreateBatchAuction = sendMsgCreateBatchAuction.bind(
+    spn.tendermintFundraising
+  )
+
+  sendMsgCancelAuction = sendMsgCancelAuction.bind(spn.tendermintFundraising)
+
+  sendMsgPlaceBid = sendMsgPlaceBid.bind(spn.tendermintFundraising)
+
+  sendMsgModifyBid = sendMsgModifyBid.bind(spn.tendermintFundraising)
 
   sendMsgAddAllowedBidder = sendMsgAddAllowedBidder.bind(
     spn.tendermintFundraising
@@ -73,21 +91,15 @@ function useModule(): Response {
     spn.tendermintFundraising
   )
 
-  sendMsgCreateBatchAuction = sendMsgCreateBatchAuction.bind(
-    spn.tendermintFundraising
-  )
-
-  sendMsgPlaceBid = sendMsgPlaceBid.bind(spn.tendermintFundraising)
-
-  sendMsgModifyBid = sendMsgModifyBid.bind(spn.tendermintFundraising)
-
-  sendMsgCancelAuction = sendMsgCancelAuction.bind(spn.tendermintFundraising)
-
   queryParams = queryParams.bind(spn.tendermintFundraising)
 
   queryAuctions = queryAuctions.bind(spn.tendermintFundraising)
 
   queryAuction = queryAuction.bind(spn.tendermintFundraising)
+
+  queryAllowedBidder = queryAllowedBidder.bind(spn.tendermintFundraising)
+
+  queryAllowedBidders = queryAllowedBidders.bind(spn.tendermintFundraising)
 
   queryBids = queryBids.bind(spn.tendermintFundraising)
 
@@ -96,23 +108,27 @@ function useModule(): Response {
   queryVestings = queryVestings.bind(spn.tendermintFundraising)
 
   return {
-    sendMsgAddAllowedBidder,
-
-    sendMsgCreateFixedPriceAuction,
-
     sendMsgCreateBatchAuction,
+
+    sendMsgCancelAuction,
 
     sendMsgPlaceBid,
 
     sendMsgModifyBid,
 
-    sendMsgCancelAuction,
+    sendMsgAddAllowedBidder,
+
+    sendMsgCreateFixedPriceAuction,
 
     queryParams,
 
     queryAuctions,
 
     queryAuction,
+
+    queryAllowedBidder,
+
+    queryAllowedBidders,
 
     queryBids,
 

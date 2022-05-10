@@ -7,12 +7,14 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
+import dayjs from 'dayjs'
+
+import useAddress from '~/composables/wallet/useAddress'
+
 import IgniteButton from '../ui/IgniteButton.vue'
 import IgniteHeading from '../ui/IgniteHeading.vue'
-import IgniteText from '../ui/IgniteText.vue'
 import IgniteNumber from '../ui/IgniteNumber.vue'
-import dayjs from 'dayjs'
-import useAddress from '~/composables/wallet/useAddress'
+import IgniteText from '../ui/IgniteText.vue'
 
 interface Emits {
   (e: 'publish'): void

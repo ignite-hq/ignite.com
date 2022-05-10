@@ -5,14 +5,13 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import IgniteLoader from '~/components/ui/IgniteLoader.vue'
-import IgniteHeading from '~/components/ui/IgniteHeading.vue'
-import IgniteText from '~/components/ui/IgniteText.vue'
+import IgniteDenom from '~/components/common/IgniteDenom.vue'
 import IgniteGithubRepoLink from '~/components/common/IgniteGithubRepoLink.vue'
 import IconStack from '~/components/icons/IconStack.vue'
-import IgniteDenom from '~/components/common/IgniteDenom.vue'
-
 import ProjectStatus from '~/components/project/ProjectHeader/ProjectStatus.vue'
+import IgniteHeading from '~/components/ui/IgniteHeading.vue'
+import IgniteLoader from '~/components/ui/IgniteLoader.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
 </script>
 
 <template>

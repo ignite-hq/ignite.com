@@ -7,15 +7,13 @@ export default {
 <script lang="ts" setup>
 import 'v-calendar/dist/style.css'
 
+import BigNumber from 'bignumber.js'
 import { DatePicker } from 'v-calendar'
 import { reactive } from 'vue'
 
 import IconCalendar from '../icons/IconCalendar.vue'
-import IgniteText from './IgniteText.vue'
 import IgniteSelect from './IgniteSelect.vue'
-import BigNumber from 'bignumber.js'
-import dayjs from 'dayjs'
-import utc from 'dayjs/plugin/utc'
+import IgniteText from './IgniteText.vue'
 
 interface Emits {
   (e: 'input', value: Date): void
@@ -86,8 +84,6 @@ function handleDayClick() {
   emit('input', state.date)
 }
 function handleTimezoneInput(value: string) {
-  dayjs.extend(utc)
-
   state.timezone = new BigNumber(value).dividedBy(60).toNumber()
 
   emit('input', state.date)
@@ -147,7 +143,6 @@ function handleTimezoneInput(value: string) {
             <IgniteSelect
               name="timezone"
               :value="formatOffsetToUTC(state.timezone)"
-              @input="handleTimezoneInput"
               :items="
                 UTC_ZONES.map((i) => ({
                   label: formatOffsetToUTC(i),
@@ -155,6 +150,7 @@ function handleTimezoneInput(value: string) {
                 }))
               "
               class="md:mt- mx-3 w-full md:w-auto"
+              @input="handleTimezoneInput"
             />
           </div>
         </div>

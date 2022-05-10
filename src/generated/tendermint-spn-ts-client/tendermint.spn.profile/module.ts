@@ -5,18 +5,12 @@ import { SigningStargateClient, DeliverTxResponse } from '@cosmjs/stargate'
 import { EncodeObject } from '@cosmjs/proto-signing'
 
 import { Api } from './rest'
-import { MsgCreateCoordinator } from './types/profile/tx'
 import { MsgUpdateCoordinatorDescription } from './types/profile/tx'
 import { MsgUpdateValidatorDescription } from './types/profile/tx'
 import { MsgAddValidatorOperatorAddress } from './types/profile/tx'
-import { MsgUpdateCoordinatorAddress } from './types/profile/tx'
 import { MsgDisableCoordinator } from './types/profile/tx'
-
-type sendMsgCreateCoordinatorParams = {
-  value: MsgCreateCoordinator
-  fee?: StdFee
-  memo?: string
-}
+import { MsgCreateCoordinator } from './types/profile/tx'
+import { MsgUpdateCoordinatorAddress } from './types/profile/tx'
 
 type sendMsgUpdateCoordinatorDescriptionParams = {
   value: MsgUpdateCoordinatorDescription
@@ -36,20 +30,22 @@ type sendMsgAddValidatorOperatorAddressParams = {
   memo?: string
 }
 
-type sendMsgUpdateCoordinatorAddressParams = {
-  value: MsgUpdateCoordinatorAddress
-  fee?: StdFee
-  memo?: string
-}
-
 type sendMsgDisableCoordinatorParams = {
   value: MsgDisableCoordinator
   fee?: StdFee
   memo?: string
 }
 
-type msgCreateCoordinatorParams = {
+type sendMsgCreateCoordinatorParams = {
   value: MsgCreateCoordinator
+  fee?: StdFee
+  memo?: string
+}
+
+type sendMsgUpdateCoordinatorAddressParams = {
+  value: MsgUpdateCoordinatorAddress
+  fee?: StdFee
+  memo?: string
 }
 
 type msgUpdateCoordinatorDescriptionParams = {
@@ -64,12 +60,16 @@ type msgAddValidatorOperatorAddressParams = {
   value: MsgAddValidatorOperatorAddress
 }
 
-type msgUpdateCoordinatorAddressParams = {
-  value: MsgUpdateCoordinatorAddress
-}
-
 type msgDisableCoordinatorParams = {
   value: MsgDisableCoordinator
+}
+
+type msgCreateCoordinatorParams = {
+  value: MsgCreateCoordinator
+}
+
+type msgUpdateCoordinatorAddressParams = {
+  value: MsgUpdateCoordinatorAddress
 }
 
 class Module extends Api<any> {
@@ -90,39 +90,6 @@ class Module extends Api<any> {
   public noSigner() {
     this._client = undefined
     this._addr = undefined
-  }
-
-  async sendMsgCreateCoordinator({
-    value,
-    fee,
-    memo
-  }: sendMsgCreateCoordinatorParams): Promise<DeliverTxResponse> {
-    if (!this._client) {
-      throw new Error(
-        'TxClient:sendMsgCreateCoordinator: Unable to sign Tx. Signer is not present.'
-      )
-    }
-    if (!this._addr) {
-      throw new Error(
-        'TxClient:sendMsgCreateCoordinator: Unable to sign Tx. Address is not present.'
-      )
-    }
-    try {
-      let msg = this.msgCreateCoordinator({
-        value: MsgCreateCoordinator.fromPartial(value)
-      })
-      return await this._client.signAndBroadcast(
-        this._addr,
-        [msg],
-        fee ? fee : { amount: [], gas: '200000' },
-        memo
-      )
-    } catch (e: any) {
-      throw new Error(
-        'TxClient:sendMsgCreateCoordinator: Could not broadcast Tx: ' +
-          e.message
-      )
-    }
   }
 
   async sendMsgUpdateCoordinatorDescription({
@@ -224,39 +191,6 @@ class Module extends Api<any> {
     }
   }
 
-  async sendMsgUpdateCoordinatorAddress({
-    value,
-    fee,
-    memo
-  }: sendMsgUpdateCoordinatorAddressParams): Promise<DeliverTxResponse> {
-    if (!this._client) {
-      throw new Error(
-        'TxClient:sendMsgUpdateCoordinatorAddress: Unable to sign Tx. Signer is not present.'
-      )
-    }
-    if (!this._addr) {
-      throw new Error(
-        'TxClient:sendMsgUpdateCoordinatorAddress: Unable to sign Tx. Address is not present.'
-      )
-    }
-    try {
-      let msg = this.msgUpdateCoordinatorAddress({
-        value: MsgUpdateCoordinatorAddress.fromPartial(value)
-      })
-      return await this._client.signAndBroadcast(
-        this._addr,
-        [msg],
-        fee ? fee : { amount: [], gas: '200000' },
-        memo
-      )
-    } catch (e: any) {
-      throw new Error(
-        'TxClient:sendMsgUpdateCoordinatorAddress: Could not broadcast Tx: ' +
-          e.message
-      )
-    }
-  }
-
   async sendMsgDisableCoordinator({
     value,
     fee,
@@ -290,15 +224,68 @@ class Module extends Api<any> {
     }
   }
 
-  msgCreateCoordinator({ value }: msgCreateCoordinatorParams): EncodeObject {
+  async sendMsgCreateCoordinator({
+    value,
+    fee,
+    memo
+  }: sendMsgCreateCoordinatorParams): Promise<DeliverTxResponse> {
+    if (!this._client) {
+      throw new Error(
+        'TxClient:sendMsgCreateCoordinator: Unable to sign Tx. Signer is not present.'
+      )
+    }
+    if (!this._addr) {
+      throw new Error(
+        'TxClient:sendMsgCreateCoordinator: Unable to sign Tx. Address is not present.'
+      )
+    }
     try {
-      return {
-        typeUrl: '/tendermint.spn.profile.MsgCreateCoordinator',
+      let msg = this.msgCreateCoordinator({
         value: MsgCreateCoordinator.fromPartial(value)
-      }
+      })
+      return await this._client.signAndBroadcast(
+        this._addr,
+        [msg],
+        fee ? fee : { amount: [], gas: '200000' },
+        memo
+      )
     } catch (e: any) {
       throw new Error(
-        'TxClient:MsgCreateCoordinator: Could not create message: ' + e.message
+        'TxClient:sendMsgCreateCoordinator: Could not broadcast Tx: ' +
+          e.message
+      )
+    }
+  }
+
+  async sendMsgUpdateCoordinatorAddress({
+    value,
+    fee,
+    memo
+  }: sendMsgUpdateCoordinatorAddressParams): Promise<DeliverTxResponse> {
+    if (!this._client) {
+      throw new Error(
+        'TxClient:sendMsgUpdateCoordinatorAddress: Unable to sign Tx. Signer is not present.'
+      )
+    }
+    if (!this._addr) {
+      throw new Error(
+        'TxClient:sendMsgUpdateCoordinatorAddress: Unable to sign Tx. Address is not present.'
+      )
+    }
+    try {
+      let msg = this.msgUpdateCoordinatorAddress({
+        value: MsgUpdateCoordinatorAddress.fromPartial(value)
+      })
+      return await this._client.signAndBroadcast(
+        this._addr,
+        [msg],
+        fee ? fee : { amount: [], gas: '200000' },
+        memo
+      )
+    } catch (e: any) {
+      throw new Error(
+        'TxClient:sendMsgUpdateCoordinatorAddress: Could not broadcast Tx: ' +
+          e.message
       )
     }
   }
@@ -351,6 +338,32 @@ class Module extends Api<any> {
     }
   }
 
+  msgDisableCoordinator({ value }: msgDisableCoordinatorParams): EncodeObject {
+    try {
+      return {
+        typeUrl: '/tendermint.spn.profile.MsgDisableCoordinator',
+        value: MsgDisableCoordinator.fromPartial(value)
+      }
+    } catch (e: any) {
+      throw new Error(
+        'TxClient:MsgDisableCoordinator: Could not create message: ' + e.message
+      )
+    }
+  }
+
+  msgCreateCoordinator({ value }: msgCreateCoordinatorParams): EncodeObject {
+    try {
+      return {
+        typeUrl: '/tendermint.spn.profile.MsgCreateCoordinator',
+        value: MsgCreateCoordinator.fromPartial(value)
+      }
+    } catch (e: any) {
+      throw new Error(
+        'TxClient:MsgCreateCoordinator: Could not create message: ' + e.message
+      )
+    }
+  }
+
   msgUpdateCoordinatorAddress({
     value
   }: msgUpdateCoordinatorAddressParams): EncodeObject {
@@ -363,19 +376,6 @@ class Module extends Api<any> {
       throw new Error(
         'TxClient:MsgUpdateCoordinatorAddress: Could not create message: ' +
           e.message
-      )
-    }
-  }
-
-  msgDisableCoordinator({ value }: msgDisableCoordinatorParams): EncodeObject {
-    try {
-      return {
-        typeUrl: '/tendermint.spn.profile.MsgDisableCoordinator',
-        value: MsgDisableCoordinator.fromPartial(value)
-      }
-    } catch (e: any) {
-      throw new Error(
-        'TxClient:MsgDisableCoordinator: Could not create message: ' + e.message
       )
     }
   }

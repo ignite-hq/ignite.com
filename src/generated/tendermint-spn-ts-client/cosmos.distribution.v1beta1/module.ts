@@ -5,16 +5,10 @@ import { SigningStargateClient, DeliverTxResponse } from '@cosmjs/stargate'
 import { EncodeObject } from '@cosmjs/proto-signing'
 
 import { Api } from './rest'
-import { MsgWithdrawValidatorCommission } from './types/cosmos/distribution/v1beta1/tx'
 import { MsgSetWithdrawAddress } from './types/cosmos/distribution/v1beta1/tx'
 import { MsgWithdrawDelegatorReward } from './types/cosmos/distribution/v1beta1/tx'
 import { MsgFundCommunityPool } from './types/cosmos/distribution/v1beta1/tx'
-
-type sendMsgWithdrawValidatorCommissionParams = {
-  value: MsgWithdrawValidatorCommission
-  fee?: StdFee
-  memo?: string
-}
+import { MsgWithdrawValidatorCommission } from './types/cosmos/distribution/v1beta1/tx'
 
 type sendMsgSetWithdrawAddressParams = {
   value: MsgSetWithdrawAddress
@@ -34,8 +28,10 @@ type sendMsgFundCommunityPoolParams = {
   memo?: string
 }
 
-type msgWithdrawValidatorCommissionParams = {
+type sendMsgWithdrawValidatorCommissionParams = {
   value: MsgWithdrawValidatorCommission
+  fee?: StdFee
+  memo?: string
 }
 
 type msgSetWithdrawAddressParams = {
@@ -48,6 +44,10 @@ type msgWithdrawDelegatorRewardParams = {
 
 type msgFundCommunityPoolParams = {
   value: MsgFundCommunityPool
+}
+
+type msgWithdrawValidatorCommissionParams = {
+  value: MsgWithdrawValidatorCommission
 }
 
 class Module extends Api<any> {
@@ -68,39 +68,6 @@ class Module extends Api<any> {
   public noSigner() {
     this._client = undefined
     this._addr = undefined
-  }
-
-  async sendMsgWithdrawValidatorCommission({
-    value,
-    fee,
-    memo
-  }: sendMsgWithdrawValidatorCommissionParams): Promise<DeliverTxResponse> {
-    if (!this._client) {
-      throw new Error(
-        'TxClient:sendMsgWithdrawValidatorCommission: Unable to sign Tx. Signer is not present.'
-      )
-    }
-    if (!this._addr) {
-      throw new Error(
-        'TxClient:sendMsgWithdrawValidatorCommission: Unable to sign Tx. Address is not present.'
-      )
-    }
-    try {
-      let msg = this.msgWithdrawValidatorCommission({
-        value: MsgWithdrawValidatorCommission.fromPartial(value)
-      })
-      return await this._client.signAndBroadcast(
-        this._addr,
-        [msg],
-        fee ? fee : { amount: [], gas: '200000' },
-        memo
-      )
-    } catch (e: any) {
-      throw new Error(
-        'TxClient:sendMsgWithdrawValidatorCommission: Could not broadcast Tx: ' +
-          e.message
-      )
-    }
   }
 
   async sendMsgSetWithdrawAddress({
@@ -202,17 +169,34 @@ class Module extends Api<any> {
     }
   }
 
-  msgWithdrawValidatorCommission({
-    value
-  }: msgWithdrawValidatorCommissionParams): EncodeObject {
+  async sendMsgWithdrawValidatorCommission({
+    value,
+    fee,
+    memo
+  }: sendMsgWithdrawValidatorCommissionParams): Promise<DeliverTxResponse> {
+    if (!this._client) {
+      throw new Error(
+        'TxClient:sendMsgWithdrawValidatorCommission: Unable to sign Tx. Signer is not present.'
+      )
+    }
+    if (!this._addr) {
+      throw new Error(
+        'TxClient:sendMsgWithdrawValidatorCommission: Unable to sign Tx. Address is not present.'
+      )
+    }
     try {
-      return {
-        typeUrl: '/cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission',
+      let msg = this.msgWithdrawValidatorCommission({
         value: MsgWithdrawValidatorCommission.fromPartial(value)
-      }
+      })
+      return await this._client.signAndBroadcast(
+        this._addr,
+        [msg],
+        fee ? fee : { amount: [], gas: '200000' },
+        memo
+      )
     } catch (e: any) {
       throw new Error(
-        'TxClient:MsgWithdrawValidatorCommission: Could not create message: ' +
+        'TxClient:sendMsgWithdrawValidatorCommission: Could not broadcast Tx: ' +
           e.message
       )
     }
@@ -256,6 +240,22 @@ class Module extends Api<any> {
     } catch (e: any) {
       throw new Error(
         'TxClient:MsgFundCommunityPool: Could not create message: ' + e.message
+      )
+    }
+  }
+
+  msgWithdrawValidatorCommission({
+    value
+  }: msgWithdrawValidatorCommissionParams): EncodeObject {
+    try {
+      return {
+        typeUrl: '/cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission',
+        value: MsgWithdrawValidatorCommission.fromPartial(value)
+      }
+    } catch (e: any) {
+      throw new Error(
+        'TxClient:MsgWithdrawValidatorCommission: Could not create message: ' +
+          e.message
       )
     }
   }
