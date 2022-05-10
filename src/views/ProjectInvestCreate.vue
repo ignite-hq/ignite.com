@@ -267,7 +267,7 @@ async function publish() {
     const response = await spn.signer.value.client.signAndBroadcast(
       spn.signer.value.addr,
       [msg],
-      2000
+      'auto'
     )
 
     if (response.code) {
