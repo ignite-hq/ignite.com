@@ -17,7 +17,7 @@ const emit = defineEmits<Emits>()
 interface Props {
   name: string
   value: string
-  items: string[]
+  items: { label: string; value: number }[]
 }
 
 defineProps<Props>()
@@ -68,9 +68,9 @@ function hide() {
         :key="`list_${name}_${item}`"
         class="cursor-pointer border-b border-border px-7 py-5 transition-opacity last:border-0 hover:opacity-70"
         :class="value === key && 'pointer-events-none bg-border'"
-        @click="() => handleInput(item)"
+        @click="() => handleInput(item.value)"
       >
-        {{ item }}
+        {{ item.label }}
       </li>
     </ul>
   </div>

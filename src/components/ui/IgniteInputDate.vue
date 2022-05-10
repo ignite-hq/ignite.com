@@ -8,10 +8,14 @@ export default {
 import 'v-calendar/dist/style.css'
 
 import { DatePicker } from 'v-calendar'
-import { reactive, ref } from 'vue'
+import { reactive } from 'vue'
 
 import IconCalendar from '../icons/IconCalendar.vue'
 import IgniteText from './IgniteText.vue'
+import IgniteSelect from './IgniteSelect.vue'
+import BigNumber from 'bignumber.js'
+import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
 
 interface Emits {
   (e: 'input', value: Date): void
@@ -26,70 +30,66 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  minDate: new Date()
+  minDate: () => new Date()
 })
 
-enum TIMEZONES {
-  'Pacific/Niue' = 'UTC-11',
-  'US/Hawaii' = 'UTC-10',
-  'America/Anchorage' = 'UTC-9',
-  'America/Los_Angeles' = 'UTC-8',
-  'America/Boise' = 'UTC-7',
-  'America/Chicago' = 'UTC-6',
-  'America/New_York' = 'UTC-5',
-  'America/Aruba' = 'UTC-4',
-  'America/Buenos_Aires' = 'UTC-3',
-  'Brazil/DeNoronha' = 'UTC-2',
-  'Atlantic/Azores' = 'UTC-1',
-  UTC = 'UTC+0',
-  'Europe/Amsterdam' = 'UTC+1',
-  'Europe/Athens' = 'UTC+2',
-  'Europe/Moscow' = 'UTC+3',
-  'Indian/Mahe' = 'UTC+4',
-  'Asia/Ashgabat' = 'UTC+5',
-  'Asia/Dhaka' = 'UTC+6',
-  'Asia/Bangkok' = 'UTC+7',
-  'Asia/Hong_Kong' = 'UTC+8',
-  'Asia/Pyongyang' = 'UTC+9',
-  'Australia/Sydney' = 'UTC+10',
-  'Asia/Magadan' = 'UTC+11'
+const UTC_ZONES: Readonly<number[]> = [
+  -11, -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
+  10, 11, 12, 13, 14
+]
+
+function formatOffsetToUTC(offset: number): string {
+  return `UTC${offset > -1 ? '+' : ''}${offset}`
 }
 
 // state
 interface State {
   date: Date
-  timezone: TIMEZONES
+  timezone: number
+  hour: string
+  minutes: string
 }
+
 const initialState: State = {
   date: props.initialDate ?? new Date(),
-  timezone: Intl.DateTimeFormat().resolvedOptions().timeZone as TIMEZONES
+  hour: props.initialDate ? props.initialDate.getHours().toString() : '10',
+  minutes: props.initialDate ? props.initialDate.getMinutes().toString() : '00',
+  timezone: new BigNumber(new Date().getTimezoneOffset())
+    .dividedBy(60)
+    .toNumber()
 }
+
 const state = reactive({
   ...initialState
 })
-const hour = ref('10')
-const minutes = ref('00')
 
 // handlers
 function handleHourInput(evt: Event) {
   const inputEl = evt.target as HTMLInputElement
 
-  hour.value = inputEl.value
+  state.hour = inputEl.value
 
-  state.date.setHours(Number(hour.value), Number(minutes.value))
+  state.date.setHours(Number(state.hour), Number(state.minutes))
 
   emit('input', state.date)
 }
 function handleMinuteInput(evt: Event) {
   const inputEl = evt.target as HTMLInputElement
 
-  minutes.value = inputEl.value
+  state.minutes = inputEl.value
 
-  state.date.setHours(Number(hour.value), Number(minutes.value))
+  state.date.setHours(Number(state.hour), Number(state.minutes))
 
   emit('input', state.date)
 }
 function handleDayClick() {
+  emit('input', state.date)
+}
+function handleTimezoneInput(value: string) {
+  dayjs.extend(utc)
+
+  state.timezone = new BigNumber(value).dividedBy(60).toNumber()
+
   emit('input', state.date)
 }
 </script>
@@ -108,7 +108,6 @@ function handleDayClick() {
             :min-date="props.minDate"
             :max-date="props.maxDate"
             :input-debounce="500"
-            :timezone="state.timezone"
             @dayclick="handleDayClick"
           >
             <template #default="{ inputValue, inputEvents }">
@@ -130,7 +129,7 @@ function handleDayClick() {
           <div class="-mx-3 mt-3 flex flex-wrap items-center md:flex-nowrap">
             <input
               class="mx-3 h-8.5 w-[3.5rem] rounded-xs border border-border bg-white-1000 px-5 text-center"
-              :value="hour"
+              :value="state.hour"
               min="0"
               max="12"
               maxlength="2"
@@ -139,18 +138,24 @@ function handleDayClick() {
             <span class="text-muted">:</span>
             <input
               class="mx-3 h-8.5 w-[3.5rem] rounded-xs border border-border bg-white-1000 px-5 text-center"
-              :value="minutes"
+              :value="state.minutes"
               min="0"
               max="60"
               maxlength="2"
               @input="handleMinuteInput"
             />
-            <!-- <IgniteSelect
-              v-model="state.timezone"
+            <IgniteSelect
               name="timezone"
-              :items="Object.keys(TIMEZONES)"
-              class="mx-3 mt-5 w-full md:mt-0 md:w-auto"
-            /> -->
+              :value="formatOffsetToUTC(state.timezone)"
+              @input="handleTimezoneInput"
+              :items="
+                UTC_ZONES.map((i) => ({
+                  label: formatOffsetToUTC(i),
+                  value: i * 60
+                }))
+              "
+              class="md:mt- mx-3 w-full md:w-auto"
+            />
           </div>
         </div>
       </div>
