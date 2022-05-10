@@ -8,10 +8,6 @@ export default {
 import { ref } from 'vue'
 import IconCaret from '~/components/icons/IconCaret.vue'
 
-interface Emits {
-  (e: 'update:modelValue', value: boolean | string | any[]): void
-}
-
 interface Item {
   value: string
   label: string
@@ -22,6 +18,11 @@ interface Props {
   modelValue: Item
   items: Item[]
 }
+
+interface Emits {
+  (e: 'update:modelValue', value: Item): void
+}
+
 
 withDefaults(defineProps<Props>(), {
   name: 'IgniteSelect',
@@ -57,12 +58,12 @@ const hide = () => {
     <select
       :value="modelValue"
       class="absolute inset-0 opacity-0 md:hidden"
-      @input="$emit('update:modelValue', $event.target.value)"
+      @input="$emit('update:modelValue', JSON.parse($event.target.value))"
     >
       <option
         v-for="item in items"
         :key="`select_${name}_${item.value}`"
-        :value="item"
+        :value="JSON.stringify(item)"
       >
         {{ item.label }}
       </option>

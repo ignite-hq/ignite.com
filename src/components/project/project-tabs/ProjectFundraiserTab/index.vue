@@ -9,13 +9,14 @@ import IconUser from '~/components/icons/IconUser.vue'
 import IgniteCard from '~/components/ui/IgniteCard.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteNumber from '~/components/ui/IgniteNumber.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
+
 import IgniteProjectInvest from './IgniteProjectInvest.vue'
 import IgniteProjectInvestCancel from './IgniteProjectInvestCancel.vue'
 import IgniteProjectInvestInvestors from './IgniteProjectInvestInvestors.vue'
 import IgniteProjectInvestSingleCard from './IgniteProjectInvestSingleCard.vue'
 import IgniteProjectInvestValidators from './IgniteProjectInvestValidators.vue'
 import IgniteProjectInvestVesting from './IgniteProjectInvestVesting.vue'
-import IgniteText from '~/components/ui/IgniteText.vue'
 
 const roadmapItems = [
   {

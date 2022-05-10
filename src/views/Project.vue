@@ -28,7 +28,8 @@ onBeforeRouteUpdate(async (to) => {
 })
 
 // composables
-const { campaignSummary, isFetching } = useCampaignSummary(projectId)
+const { campaignSummary, isLoading: isLoadingCampaignSummary } =
+  useCampaignSummary(projectId)
 
 // computed
 const coordinatorId = computed(() => {
@@ -47,7 +48,7 @@ const campaignName = computed(() => {
 <template>
   <div class="container mb-10">
     <ProjectHeader
-      :loading="isFetching"
+      :loading="isLoadingCampaignSummary"
       :active-tab="tab"
       :project-id="projectId"
       :campaign-summary="campaignSummary"

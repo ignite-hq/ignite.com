@@ -14,12 +14,10 @@ const props = withDefaults(defineProps<Props>(), {
   as: 'span',
   number: 0
 })
-
-const formattedNumber = new Intl.NumberFormat().format(props.number)
 </script>
 
 <template>
   <component :is="as">
-    {{ formattedNumber }}
+    {{ new Intl.NumberFormat().format(props.number) }}
   </component>
 </template>

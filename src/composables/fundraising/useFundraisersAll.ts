@@ -1,4 +1,4 @@
-import { useTendermintFundraising } from 'tendermint-spn-vue'
+import { useTendermintFundraising } from 'tendermint-spn-vue-client'
 import { useInfiniteQuery } from 'vue-query'
 
 const AUCTIONS_PER_PAGE = '20'

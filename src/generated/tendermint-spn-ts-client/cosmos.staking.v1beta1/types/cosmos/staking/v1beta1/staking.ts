@@ -246,7 +246,7 @@ export interface Redelegation {
 export interface Params {
   /** unbonding_time is the time duration of unbonding. */
   unbonding_time: Duration | undefined
-  /** max_validators is the maximum number of ProjectValidatorsTab. */
+  /** max_validators is the maximum number of validators. */
   max_validators: number
   /** max_entries is the max entries for either unbonding delegation or redelegation (per pair/trio). */
   max_entries: number

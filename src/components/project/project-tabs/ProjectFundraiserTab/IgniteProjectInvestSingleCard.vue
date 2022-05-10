@@ -7,7 +7,10 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { ProgressBarItem } from '~/utils/types'
+import IgniteDenom from '~/components/common/IgniteDenom.vue'
+import IgniteProgressBar from '~/components/common/IgniteProgressBar.vue'
+import IgniteRoadmap from '~/components/common/IgniteRoadmap.vue'
+import IgniteScrollableSection from '~/components/common/IgniteScrollableSection.vue'
 import IconCalendar from '~/components/icons/IconCalendar.vue'
 import IconCanceled from '~/components/icons/IconCanceled.vue'
 import IconCheckMarkThin from '~/components/icons/IconCheckMarkThin.vue'
@@ -19,11 +22,8 @@ import IconStack from '~/components/icons/IconStack.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteLink from '~/components/ui/IgniteLink.vue'
 import IgniteNumber from '~/components/ui/IgniteNumber.vue'
-import IgniteProgressBar from '~/components/common/IgniteProgressBar.vue'
-import IgniteRoadmap from '~/components/common/IgniteRoadmap.vue'
-import IgniteScrollableSection from '~/components/common/IgniteScrollableSection.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
-import IgniteDenom from '~/components/common/IgniteDenom.vue'
+import { ProgressBarItem } from '~/utils/types'
 
 defineProps({
   items: { type: Array },

@@ -9,17 +9,32 @@ import { computed } from 'vue'
 
 import IgniteProjectStatus from '~/components/project/ProjectHeader/ProjectStatus.vue'
 import IgniteLoader from '~/components/ui/IgniteLoader.vue'
+import useCampaignChains from '~/composables/campaign/useCampaignChains'
+import { CampaignCampaignSummary } from '~/generated/tendermint-spn-ts-client/tendermint.spn.campaign/rest'
+import { getCampaignStatus } from '~/utils/campaign'
 
-const props = defineProps({
-  loading: Boolean,
-  projectId: { type: String, required: true },
-  requestCount: { type: String, required: true },
-  validatorCount: { type: String, required: true },
-  stargazerCount: { type: String, required: true }
-})
+interface Props {
+  projectId: string
+  campaignSummary: CampaignCampaignSummary
+  stargazerCount: string
+  loading?: boolean
+}
+
+const props = defineProps<Props>()
+
+const { campaignChains, isLoading: isLoadingCampaignChains } =
+  useCampaignChains(props.projectId)
 
 const isLoading = computed(() => {
-  return props.loading
+  return props.loading || isLoadingCampaignChains.value
+})
+
+const status = computed(() => {
+  const chains = campaignChains.value?.pages[0].campaignChains?.chains ?? []
+  const isMainnetInitialized =
+    props.campaignSummary.campaign?.mainnetInitialized
+
+  return getCampaignStatus(isMainnetInitialized ?? false, chains)
 })
 </script>
 
@@ -27,11 +42,12 @@ const isLoading = computed(() => {
   <div>
     <IgniteLoader v-if="isLoading" class="status-loading mx-auto" />
     <IgniteProjectStatus
-      v-if="!isLoading"
+      v-else
       :project-id="projectId"
       :stargazer-count="stargazerCount"
-      :request-count="requestCount"
-      :validator-count="validatorCount"
+      :request-count="campaignSummary.mostRecentChain?.requestNb ?? '0'"
+      :validator-count="campaignSummary.mostRecentChain?.validatorNb ?? '0'"
+      :status="status"
       class="justify-center"
     />
   </div>
