@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
 
 export default defineComponent({
   name: 'ProjectInvestTitle'
@@ -20,20 +20,23 @@ import IconUser from '~/components/icons/IconUser.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
-import { ProgressBarItem } from '~/utils/types'
+import { ProgressBarItem, AuctionCardData } from '~/utils/types'
 import { AuctionStatusLabels } from '~/utils/types'
 
 import IgniteCard from '~/components/ui/IgniteCard.vue'
 import IgniteLink from '~/components/ui/IgniteLink.vue'
 
 const props = defineProps({
-  data: { type: Object, required: true }
+  data: { type: Object as PropType<AuctionCardData>, required: true }
 })
 
 const progressBar = {
   items: [
     {
-      value: ((props.data.raised / props.data.goal) * 100).toString(),
+      value: (
+        ((props.data.raised ?? 0) / Number(props.data.goal ?? 0)) *
+        100
+      ).toString(),
       bgColor: 'bg-primary'
     }
   ] as ProgressBarItem[]

@@ -14,15 +14,13 @@ import IgniteText from '~/components/ui/IgniteText.vue'
 import IgniteSelect from '~/components/ui/IgniteSelect.vue'
 import { ProgressBarItem } from '~/utils/types'
 import { computed, reactive, watch } from 'vue'
-import { FixedPriceAuction } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising'
 import { AuctionStatus } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/fundraising'
 import BigNumber from 'bignumber.js'
 import { toCompactNumber, getDenomName } from '~/utils/fundraisers'
 import { V1Beta1Coin } from '~/generated/tendermint-spn-ts-client/cosmos.tx.v1beta1/rest'
-import { FundraisingQueryAuctionsResponse } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/rest'
 
 interface Props {
-  fundraisers: FundraisingQueryAuctionsResponse
+  fundraisers: any
   totalSupply: V1Beta1Coin[]
 }
 
@@ -38,9 +36,8 @@ const vouchers = computed(() => {
   }
   return [
     ...new Set(
-      props.fundraisers?.pages[0].auctions.map(
-        (auctionData: FixedPriceAuction) =>
-          auctionData.base_auction.selling_coin.denom.toUpperCase()
+      props.fundraisers?.pages[0].auctions.map((auctionData: any) =>
+        (auctionData.base_auction.selling_coin?.denom ?? '').toUpperCase()
       )
     )
   ]
@@ -48,8 +45,8 @@ const vouchers = computed(() => {
 
 watch(vouchers, (newVal) => {
   if (newVal[0]) {
-    selectedVoucher.data.value = newVal[0]
-    selectedVoucher.data.label = getDenomName(newVal[0])
+    selectedVoucher.data.value = newVal[0] as string
+    selectedVoucher.data.label = getDenomName(newVal[0] as string)
   }
 })
 
@@ -62,6 +59,7 @@ enum AuctionAllocationLabel {
 const formatAuctionStatus = (
   auctionType: AuctionStatus
 ): AuctionAllocationLabel => {
+  // @ts-ignore
   switch (AuctionStatus[auctionType] as AuctionStatus) {
     case AuctionStatus.AUCTION_STATUS_VESTING:
     case AuctionStatus.AUCTION_STATUS_STARTED:
@@ -77,16 +75,16 @@ const formatAuctionStatus = (
   }
 }
 
-const calculateDistributed = (voucherAuctions: FixedPriceAuction[]): number => {
+const calculateDistributed = (voucherAuctions: any[]): number => {
   return voucherAuctions
     .filter(
-      (auctionData: FixedPriceAuction) =>
+      (auctionData: any) =>
         formatAuctionStatus(auctionData.base_auction.status) ===
           AuctionAllocationLabel.Distributed ||
         formatAuctionStatus(auctionData.base_auction.status) ===
           AuctionAllocationLabel.Fundraising
     )
-    .reduce((acc, auctionData: FixedPriceAuction) => {
+    .reduce((acc, auctionData: any) => {
       return (
         acc +
         (Number(auctionData.base_auction.selling_coin.amount) -
@@ -95,14 +93,14 @@ const calculateDistributed = (voucherAuctions: FixedPriceAuction[]): number => {
     }, 0)
 }
 
-const calculateFundraising = (voucherAuctions: FixedPriceAuction[]): number => {
+const calculateFundraising = (voucherAuctions: any[]): number => {
   return voucherAuctions
     .filter(
-      (auctionData: FixedPriceAuction) =>
+      (auctionData: any) =>
         formatAuctionStatus(auctionData.base_auction.status) ===
         AuctionAllocationLabel.Fundraising
     )
-    .reduce((acc, auctionData: FixedPriceAuction) => {
+    .reduce((acc, auctionData: any) => {
       return acc + Number(auctionData.remaining_selling_coin?.amount ?? 0)
     }, 0)
 }
@@ -110,42 +108,45 @@ const calculateFundraising = (voucherAuctions: FixedPriceAuction[]): number => {
 const progressBars = computed(() => {
   return (vouchers.value || []).map((voucher) => {
     const voucherAuctions = props.fundraisers?.pages[0].auctions.filter(
-      (auctionData: FixedPriceAuction) =>
+      (auctionData: any) =>
         auctionData.base_auction.selling_coin.denom.toUpperCase() === voucher
     )
     const distributedAmount = calculateDistributed(voucherAuctions)
     const fundraisingAmount = calculateFundraising(voucherAuctions)
     const token = props.totalSupply?.find(
-      (token) => token.denom.toUpperCase() === voucher
+      (token) => (token.denom ?? '').toUpperCase() === voucher
     )
     const tokenSupply = new BigNumber(token?.amount ?? '0').toNumber()
-    const barDistributed = {
-      value: tokenSupply
+    const barDistributed: ProgressBarItem = {
+      value: (tokenSupply
         ? Math.round((distributedAmount / tokenSupply) * 100)
-        : 0,
+        : 0
+      ).toString(),
       amount: distributedAmount,
       bgColor: 'bg-primary',
       split: true
     }
-    const barFundraising = {
-      value: tokenSupply
+    const barFundraising: ProgressBarItem = {
+      value: (tokenSupply
         ? Math.round((fundraisingAmount / tokenSupply) * 100)
-        : 0,
+        : 0
+      ).toString(),
       amount: fundraisingAmount,
       bgColor: 'bg-secondary'
     }
-    const barAvailable = {
-      value: tokenSupply
+    const barAvailable: ProgressBarItem = {
+      value: (tokenSupply
         ? Math.round(
             ((tokenSupply - distributedAmount - fundraisingAmount) /
               tokenSupply) *
               100
           )
-        : 0,
+        : 0
+      ).toString(),
       amount: tokenSupply
     }
     return {
-      denom: getDenomName(voucher),
+      denom: getDenomName(voucher as string),
       denomFull: voucher,
       items: [barDistributed, barFundraising, barAvailable] as ProgressBarItem[]
     }

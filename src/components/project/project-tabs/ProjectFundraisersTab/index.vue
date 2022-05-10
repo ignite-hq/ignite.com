@@ -14,17 +14,15 @@ import InvestVoucherAllocation from './InvestVoucherAllocation.vue'
 import { computed, watchEffect, ref } from 'vue'
 import BigNumber from 'bignumber.js'
 
-import {
-  BaseAuction,
-  FixedPriceAuction
-} from '~/generated/tendermint-spn-ts-client/tendermint.fundraising'
+import { BaseAuction } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising'
 import { AuctionStatus } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/fundraising'
 import useFundraisersAll from '~/composables/fundraising/useFundraisersAll'
 import { useCosmosBankV1Beta1 } from '~/generated/tendermint-spn-vue'
 import { CampaignCampaignSummary } from '~/generated/tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 import { toCompactNumber, getDenomName } from '~/utils/fundraisers'
-import { AuctionStatusLabels } from '~/utils/types'
+import { AuctionStatusLabels, AuctionCardData } from '~/utils/types'
 import { Coin } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/cosmos/base/v1beta1/coin'
+import { V1Beta1Coin } from '~/generated/tendermint-spn-ts-client/cosmos.bank.v1beta1/rest'
 
 const { fundraisers } = useFundraisersAll()
 const { queryTotalSupply } = useCosmosBankV1Beta1()
@@ -40,6 +38,7 @@ withDefaults(defineProps<Props>(), {
 const formatAuctionStatus = (
   auctionType: AuctionStatus
 ): AuctionStatusLabels => {
+  // @ts-ignore
   switch (AuctionStatus[auctionType] as AuctionStatus) {
     case AuctionStatus.AUCTION_STATUS_VESTING:
     case AuctionStatus.AUCTION_STATUS_STARTED:
@@ -54,26 +53,26 @@ const formatAuctionStatus = (
   }
 }
 
-const statuses: string[] = computed(() => {
+const statuses = computed(() => {
   let statuses = []
   const auctions = fundraisers?.value?.pages[0].auctions ?? []
   const currentPresent = auctions.find(
-    (auctionData: FixedPriceAuction) =>
+    (auctionData: any) =>
       formatAuctionStatus(auctionData.base_auction.status) ===
       AuctionStatusLabels.Current
   )
   const upcomingPresent = auctions.find(
-    (auctionData: FixedPriceAuction) =>
+    (auctionData: any) =>
       formatAuctionStatus(auctionData.base_auction.status) ===
       AuctionStatusLabels.Upcoming
   )
   const previousPresent = auctions.find(
-    (auctionData: FixedPriceAuction) =>
+    (auctionData: any) =>
       formatAuctionStatus(auctionData.base_auction.status) ===
       AuctionStatusLabels.Previous
   )
   const otherPresent = auctions.find(
-    (auctionData: FixedPriceAuction) =>
+    (auctionData: any) =>
       formatAuctionStatus(auctionData.base_auction.status) ===
       AuctionStatusLabels.Other
   )
@@ -87,37 +86,41 @@ const statuses: string[] = computed(() => {
   return statuses
 })
 
-const totalSupply = ref([])
+const totalSupply = ref<V1Beta1Coin[] | undefined>([] as V1Beta1Coin[])
 watchEffect(async () => {
   totalSupply.value = await (await queryTotalSupply()).data.supply
 })
 
 const fundraisingList = computed(() => {
-  return fundraisers?.value?.pages[0].auctions.map(
-    (auctionData: FixedPriceAuction) => {
+  return (fundraisers?.value?.pages[0].auctions || []).map(
+    (auctionData: any) => {
       const auction: BaseAuction = auctionData.base_auction
       const remainingSellingCoins: Coin | undefined =
         auctionData.remaining_selling_coin
       const token = totalSupply.value?.find(
-        (token) => token.denom === auction.selling_coin.denom
+        (token) => token.denom === auction.selling_coin?.denom
       )
       const tokenSupply = new BigNumber(token?.amount ?? '0').toNumber()
       const relativeSupply = tokenSupply
-        ? Math.round((auction.selling_coin.amount / tokenSupply) * 100)
+        ? Math.round(
+            (Number(auction.selling_coin?.amount ?? 0) / tokenSupply) * 100
+          )
         : 0
       return {
         id: auction.id,
         raised:
-          Number(auction.selling_coin.amount) -
+          Number(auction.selling_coin?.amount ?? 0) -
           Number(remainingSellingCoins?.amount ?? 0),
-        goal: auction.selling_coin.amount,
-        currency: getDenomName(auction.selling_coin.denom.toUpperCase()),
+        goal: auction.selling_coin?.amount ?? 0,
+        currency: getDenomName(
+          (auction.selling_coin?.denom ?? '').toUpperCase()
+        ),
         status: formatAuctionStatus(auction.status),
         statusDetailed: auction.status,
         vouchers: `${toCompactNumber.format(tokenSupply)} (${relativeSupply}%)`,
         investors: auction.allowed_bidders?.length || 0,
         ends: auction.end_times[0]
-      }
+      } as AuctionCardData
     }
   )
 })
