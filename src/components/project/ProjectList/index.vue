@@ -6,14 +6,14 @@ export default {
 
 <script lang="ts" setup>
 import MasonryWall from '@yeger/vue-masonry-wall'
+import {
+  CampaignCampaignSummary,
+  CampaignQueryCampaignSummariesResponse
+} from 'tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 import { computed } from 'vue'
 
 import IgniteButton from '~/components/ui/IgniteButton.vue'
 import useCampaignSummaries from '~/composables/campaign/useCampaignSummaries'
-import {
-  CampaignCampaignSummary,
-  CampaignQueryCampaignSummariesResponse
-} from '~/generated/tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 
 import IgniteProjectCard from './ProjectCard/index.vue'
 

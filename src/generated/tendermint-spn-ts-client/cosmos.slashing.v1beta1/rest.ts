@@ -422,7 +422,7 @@ export class Api<
    *
    * @tags Query
    * @name QuerySigningInfos
-   * @summary SigningInfos queries signing info of all ProjectValidatorsTab
+   * @summary SigningInfos queries signing info of all validators
    * @request GET:/cosmos/slashing/v1beta1/signing_infos
    */
   querySigningInfos = (

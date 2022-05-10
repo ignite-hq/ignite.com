@@ -3,8 +3,8 @@ import { Writer, Reader } from 'protobufjs/minimal'
 
 export const protobufPackage = 'tendermint.spn.types'
 
-/** MerkelRool represents a Merkel Root in ConsensusState */
-export interface MerkelRool {
+/** MerkleRoot represents a Merkle Root in ConsensusState */
+export interface MerkleRoot {
   hash: string
 }
 
@@ -15,7 +15,7 @@ export interface MerkelRool {
 export interface ConsensusState {
   nextValidatorsHash: string
   timestamp: string
-  root: MerkelRool | undefined
+  root: MerkleRoot | undefined
 }
 
 /** PubKey represents a public key in Validator */
@@ -39,20 +39,20 @@ export interface ValidatorSet {
   validators: Validator[]
 }
 
-const baseMerkelRool: object = { hash: '' }
+const baseMerkleRoot: object = { hash: '' }
 
-export const MerkelRool = {
-  encode(message: MerkelRool, writer: Writer = Writer.create()): Writer {
+export const MerkleRoot = {
+  encode(message: MerkleRoot, writer: Writer = Writer.create()): Writer {
     if (message.hash !== '') {
       writer.uint32(10).string(message.hash)
     }
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): MerkelRool {
+  decode(input: Reader | Uint8Array, length?: number): MerkleRoot {
     const reader = input instanceof Uint8Array ? new Reader(input) : input
     let end = length === undefined ? reader.len : reader.pos + length
-    const message = { ...baseMerkelRool } as MerkelRool
+    const message = { ...baseMerkleRoot } as MerkleRoot
     while (reader.pos < end) {
       const tag = reader.uint32()
       switch (tag >>> 3) {
@@ -67,8 +67,8 @@ export const MerkelRool = {
     return message
   },
 
-  fromJSON(object: any): MerkelRool {
-    const message = { ...baseMerkelRool } as MerkelRool
+  fromJSON(object: any): MerkleRoot {
+    const message = { ...baseMerkleRoot } as MerkleRoot
     if (object.hash !== undefined && object.hash !== null) {
       message.hash = String(object.hash)
     } else {
@@ -77,14 +77,14 @@ export const MerkelRool = {
     return message
   },
 
-  toJSON(message: MerkelRool): unknown {
+  toJSON(message: MerkleRoot): unknown {
     const obj: any = {}
     message.hash !== undefined && (obj.hash = message.hash)
     return obj
   },
 
-  fromPartial(object: DeepPartial<MerkelRool>): MerkelRool {
-    const message = { ...baseMerkelRool } as MerkelRool
+  fromPartial(object: DeepPartial<MerkleRoot>): MerkleRoot {
+    const message = { ...baseMerkleRoot } as MerkleRoot
     if (object.hash !== undefined && object.hash !== null) {
       message.hash = object.hash
     } else {
@@ -105,7 +105,7 @@ export const ConsensusState = {
       writer.uint32(18).string(message.timestamp)
     }
     if (message.root !== undefined) {
-      MerkelRool.encode(message.root, writer.uint32(26).fork()).ldelim()
+      MerkleRoot.encode(message.root, writer.uint32(26).fork()).ldelim()
     }
     return writer
   },
@@ -124,7 +124,7 @@ export const ConsensusState = {
           message.timestamp = reader.string()
           break
         case 3:
-          message.root = MerkelRool.decode(reader, reader.uint32())
+          message.root = MerkleRoot.decode(reader, reader.uint32())
           break
         default:
           reader.skipType(tag & 7)
@@ -150,7 +150,7 @@ export const ConsensusState = {
       message.timestamp = ''
     }
     if (object.root !== undefined && object.root !== null) {
-      message.root = MerkelRool.fromJSON(object.root)
+      message.root = MerkleRoot.fromJSON(object.root)
     } else {
       message.root = undefined
     }
@@ -163,7 +163,7 @@ export const ConsensusState = {
       (obj.nextValidatorsHash = message.nextValidatorsHash)
     message.timestamp !== undefined && (obj.timestamp = message.timestamp)
     message.root !== undefined &&
-      (obj.root = message.root ? MerkelRool.toJSON(message.root) : undefined)
+      (obj.root = message.root ? MerkleRoot.toJSON(message.root) : undefined)
     return obj
   },
 
@@ -183,7 +183,7 @@ export const ConsensusState = {
       message.timestamp = ''
     }
     if (object.root !== undefined && object.root !== null) {
-      message.root = MerkelRool.fromPartial(object.root)
+      message.root = MerkleRoot.fromPartial(object.root)
     } else {
       message.root = undefined
     }

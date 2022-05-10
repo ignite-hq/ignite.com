@@ -50,7 +50,7 @@ export interface QuerySigningInfosRequest {
  * method
  */
 export interface QuerySigningInfosResponse {
-  /** info is the signing info of all ProjectValidatorsTab */
+  /** info is the signing info of all validators */
   info: ValidatorSigningInfo[]
   pagination: PageResponse | undefined
 }
@@ -487,7 +487,7 @@ export interface Query {
   SigningInfo(
     request: QuerySigningInfoRequest
   ): Promise<QuerySigningInfoResponse>
-  /** SigningInfos queries signing info of all ProjectValidatorsTab */
+  /** SigningInfos queries signing info of all validators */
   SigningInfos(
     request: QuerySigningInfosRequest
   ): Promise<QuerySigningInfosResponse>

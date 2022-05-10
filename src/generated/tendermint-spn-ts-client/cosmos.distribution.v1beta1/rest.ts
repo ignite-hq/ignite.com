@@ -179,7 +179,7 @@ export interface V1Beta1QueryDelegationTotalRewardsResponse {
 Query/DelegatorValidators RPC method.
 */
 export interface V1Beta1QueryDelegatorValidatorsResponse {
-  /** ProjectValidatorsTab defines the ProjectValidatorsTab a delegator is delegating for. */
+  /** validators defines the validators a delegator is delegating for. */
   validators?: string[]
 }
 
@@ -550,8 +550,8 @@ validator.
    *
    * @tags Query
    * @name QueryDelegatorValidators
-   * @summary DelegatorValidators queries the ProjectValidatorsTab of a delegator.
-   * @request GET:/cosmos/distribution/v1beta1/delegators/{delegator_address}/ProjectValidatorsTab
+   * @summary DelegatorValidators queries the validators of a delegator.
+   * @request GET:/cosmos/distribution/v1beta1/delegators/{delegator_address}/validators
    */
   queryDelegatorValidators = (
     delegator_address: string,
@@ -605,7 +605,7 @@ validator.
    * @tags Query
    * @name QueryValidatorCommission
    * @summary ValidatorCommission queries accumulated commission for a validator.
-   * @request GET:/cosmos/distribution/v1beta1/ProjectValidatorsTab/{validator_address}/commission
+   * @request GET:/cosmos/distribution/v1beta1/validators/{validator_address}/commission
    */
   queryValidatorCommission = (
     validator_address: string,
@@ -624,7 +624,7 @@ validator.
    * @tags Query
    * @name QueryValidatorOutstandingRewards
    * @summary ValidatorOutstandingRewards queries rewards of a validator address.
-   * @request GET:/cosmos/distribution/v1beta1/ProjectValidatorsTab/{validator_address}/outstanding_rewards
+   * @request GET:/cosmos/distribution/v1beta1/validators/{validator_address}/outstanding_rewards
    */
   queryValidatorOutstandingRewards = (
     validator_address: string,
@@ -643,7 +643,7 @@ validator.
    * @tags Query
    * @name QueryValidatorSlashes
    * @summary ValidatorSlashes queries slash events of a validator.
-   * @request GET:/cosmos/distribution/v1beta1/ProjectValidatorsTab/{validator_address}/slashes
+   * @request GET:/cosmos/distribution/v1beta1/validators/{validator_address}/slashes
    */
   queryValidatorSlashes = (
     validator_address: string,

@@ -5,19 +5,20 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { computed, onBeforeUnmount, toRef } from 'vue'
-
-import RequestsEmptyState from '~/components/project/project-tabs/ProjectRequestsTab/RequestsEmptyState.vue'
-import RequestsHeader from '~/components/project/project-tabs/ProjectRequestsTab/RequestsHeader.vue'
-import SelectedRequests from '~/components/project/project-tabs/ProjectRequestsTab/SelectedRequests.vue'
-import IgniteButton from '~/components/ui/IgniteButton.vue'
-import useCoordinator from '~/composables/profile/useCoordinator'
-import useChainRequests from '~/composables/request/useChainRequests'
 import {
   LaunchQueryAllRequestResponse,
   LaunchRequest,
   LaunchRequestStatus
-} from '~/generated/tendermint-spn-ts-client/tendermint.spn.launch/rest'
+} from 'tendermint-spn-ts-client/tendermint.spn.launch/rest'
+import { computed, onBeforeUnmount, toRef } from 'vue'
+
+import RequestsEmptyState from '~/components/project/project-tabs/ProjectRequestsTab/RequestsEmptyState.vue'
+import RequestsHeader from '~/components/project/project-tabs/ProjectRequestsTab/RequestsHeader.vue'
+import RequestsHeaderTop from '~/components/project/project-tabs/ProjectRequestsTab/RequestsHeaderTop.vue'
+import SelectedRequests from '~/components/project/project-tabs/ProjectRequestsTab/SelectedRequests.vue'
+import IgniteButton from '~/components/ui/IgniteButton.vue'
+import useCoordinator from '~/composables/profile/useCoordinator'
+import useChainRequests from '~/composables/request/useChainRequests'
 import { RequestPageFilters, useRequestsStore } from '~/stores/requests-store'
 
 import RequestsTable from './RequestsTable.vue'
@@ -104,7 +105,8 @@ const isLoading = computed(() => {
 
 <template>
   <div class="container py-10 text-center">
-    <RequestsHeader :project-name="projectName ?? ''" />
+    <RequestsHeaderTop class="border-b border-border pb-8" />
+    <RequestsHeader :project-name="projectName ?? ''" class="mt-10.5" />
     <div>
       <RequestsTable
         v-if="projectRequests.length > 0 || isLoading"

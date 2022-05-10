@@ -5,10 +5,10 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import { CampaignCampaignSummary } from 'tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 import { computed, PropType } from 'vue'
 
 import useGitHubRepository from '~/composables/github/useGitHubRepository'
-import { CampaignCampaignSummary } from '~/generated/tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 
 import ProjectCardDescription from './ProjectCardDescription.vue'
 import ProjectCardHeader from './ProjectCardHeader.vue'
@@ -97,10 +97,9 @@ const showIncentives = computed(function () {
         <ProjectCardStatus
           class="project-card__row"
           :loading="isLoading"
-          :project-id="campaignSummary.campaign?.campaignID ?? '0'"
-          :validator-count="campaignSummary.mostRecentChain?.validatorNb ?? '0'"
-          :request-count="campaignSummary.mostRecentChain?.requestNb ?? '0'"
+          :campaign-summary="campaignSummary"
           :stargazer-count="repository?.stargazers_count?.toString() ?? '0'"
+          :project-id="campaignSummary.campaign?.campaignID ?? '0'"
         />
       </div>
     </div>

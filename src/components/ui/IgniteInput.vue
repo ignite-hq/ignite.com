@@ -1,9 +1,7 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
+export default {
   name: 'IgniteInput'
-})
+}
 </script>
 
 <script lang="ts" setup>
@@ -26,7 +24,7 @@ withDefaults(defineProps<Props>(), {
   <div class="relative">
     <component :is="icon" class="absolute left-4 top-1/2 -translate-y-1/2" />
     <input
-      v-bind="$props"
+      v-bind="$attrs"
       :placeholder="placeholder"
       class="w-full rounded-xs px-5 font-normal"
       :class="{

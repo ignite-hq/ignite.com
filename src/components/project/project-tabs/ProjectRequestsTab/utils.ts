@@ -1,12 +1,11 @@
 import { EncodeObject } from '@cosmjs/proto-signing'
 import BigNumber from 'bignumber.js'
-
-import LaunchModule from '~/generated/tendermint-spn-ts-client/tendermint.spn.launch/module'
+import LaunchModule from 'tendermint-spn-ts-client/tendermint.spn.launch/module'
 import {
   LaunchRequest,
   LaunchRequestContent,
   V1Beta1Coin
-} from '~/generated/tendermint-spn-ts-client/tendermint.spn.launch/rest'
+} from 'tendermint-spn-ts-client/tendermint.spn.launch/rest'
 
 type LaunchTypes = keyof LaunchRequestContent
 

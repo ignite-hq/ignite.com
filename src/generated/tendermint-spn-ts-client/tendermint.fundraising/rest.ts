@@ -103,13 +103,38 @@ export type FundraisingMsgPlaceBidResponse = object
  */
 export interface FundraisingParams {
   auction_creation_fee?: V1Beta1Coin[]
+  place_bid_fee?: V1Beta1Coin[]
+
+  /** @format int64 */
+  extended_period?: number
+}
+
+/**
+* QueryAllowedBidderResponse is the response type for the Query/AllowedBidder
+RPC method.
+*/
+export interface FundraisingQueryAllowedBidderResponse {
+  /** AllowedBidder defines an allowed bidder for the auction. */
+  allowed_bidder?: FundraisingAllowedBidder
+}
+
+/**
+* QueryAllowedBiddersResponse is the response type for the Query/AllowedBidders
+RPC method.
+*/
+export interface FundraisingQueryAllowedBiddersResponse {
+  allowed_bidders?: FundraisingAllowedBidder[]
 
   /**
-   * extended_period specifies the extended period that determines how long
-   * the extended auction round lasts.
-   * @format int64
+   * PageResponse is to be embedded in gRPC response messages where the
+   * corresponding request message has used PageRequest.
+   *
+   *  message SomeResponse {
+   *          repeated Bar results = 1;
+   *          PageResponse page = 2;
+   *  }
    */
-  extended_period?: number
+  pagination?: V1Beta1PageResponse
 }
 
 /**
@@ -761,6 +786,53 @@ export class Api<
   queryAuction = (auction_id: string, params: RequestParams = {}) =>
     this.request<FundraisingQueryAuctionResponse, RpcStatus>({
       path: `/cosmos/fundraising/v1beta1/auctions/${auction_id}`,
+      method: 'GET',
+      format: 'json',
+      ...params
+    })
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryAllowedBidders
+   * @summary AllowedBidders returns all allowed bidders for the auction.
+   * @request GET:/cosmos/fundraising/v1beta1/auctions/{auction_id}/allowed_bidders
+   */
+  queryAllowedBidders = (
+    auction_id: string,
+    query?: {
+      'pagination.key'?: string
+      'pagination.offset'?: string
+      'pagination.limit'?: string
+      'pagination.count_total'?: boolean
+      'pagination.reverse'?: boolean
+    },
+    params: RequestParams = {}
+  ) =>
+    this.request<FundraisingQueryAllowedBiddersResponse, RpcStatus>({
+      path: `/cosmos/fundraising/v1beta1/auctions/${auction_id}/allowed_bidders`,
+      method: 'GET',
+      query: query,
+      format: 'json',
+      ...params
+    })
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryAllowedBidder
+   * @summary AllowedBidder returns the specific allowed bidder information.
+   * @request GET:/cosmos/fundraising/v1beta1/auctions/{auction_id}/allowed_bidders/{bidder}
+   */
+  queryAllowedBidder = (
+    auction_id: string,
+    bidder: string,
+    params: RequestParams = {}
+  ) =>
+    this.request<FundraisingQueryAllowedBidderResponse, RpcStatus>({
+      path: `/cosmos/fundraising/v1beta1/auctions/${auction_id}/allowed_bidders/${bidder}`,
       method: 'GET',
       format: 'json',
       ...params
