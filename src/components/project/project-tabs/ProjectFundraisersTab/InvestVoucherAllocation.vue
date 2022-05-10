@@ -33,6 +33,9 @@ const props = withDefaults(defineProps<Props>(), {
 
 const selectedVoucher = reactive({ data: { value: '', label: '' } })
 const vouchers = computed(() => {
+  if (!props.fundraisers?.pages) {
+    return []
+  }
   return [
     ...new Set(
       props.fundraisers?.pages[0].auctions.map(
@@ -44,8 +47,10 @@ const vouchers = computed(() => {
 })
 
 watch(vouchers, (newVal) => {
-  if (newVal[0]) selectedVoucher.data.data = newVal[0]
-  selectedVoucher.data.label = getDenomName(newVal[0])
+  if (newVal[0]) {
+    selectedVoucher.data.data = newVal[0]
+    selectedVoucher.data.label = getDenomName(newVal[0])
+  }
 })
 
 enum AuctionAllocationLabel {
@@ -171,7 +176,6 @@ const progressBar = computed(() => {
             Voucher allocation
           </IgniteHeading>
           <div class="mt-7">
-            {{ selectedVoucher }}
             <IgniteSelect
               :name="'Voucher select'"
               v-model="selectedVoucher.data"
