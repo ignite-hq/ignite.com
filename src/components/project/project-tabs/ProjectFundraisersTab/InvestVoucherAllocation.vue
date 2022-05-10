@@ -48,7 +48,7 @@ const vouchers = computed(() => {
 
 watch(vouchers, (newVal) => {
   if (newVal[0]) {
-    selectedVoucher.data.data = newVal[0]
+    selectedVoucher.data.value = newVal[0]
     selectedVoucher.data.label = getDenomName(newVal[0])
   }
 })
@@ -90,7 +90,7 @@ const calculateDistributed = (voucherAuctions: FixedPriceAuction[]): number => {
       return (
         acc +
         (Number(auctionData.base_auction.selling_coin.amount) -
-          Number(auctionData.base_auction.remaining_selling_coin.amount))
+          Number(auctionData.remaining_selling_coin?.amount ?? 0))
       )
     }, 0)
 }
@@ -103,9 +103,7 @@ const calculateFundraising = (voucherAuctions: FixedPriceAuction[]): number => {
         AuctionAllocationLabel.Fundraising
     )
     .reduce((acc, auctionData: FixedPriceAuction) => {
-      return (
-        acc + Number(auctionData.base_auction.remaining_selling_coin.amount)
-      )
+      return acc + Number(auctionData.remaining_selling_coin?.amount ?? 0)
     }, 0)
 }
 
@@ -156,7 +154,7 @@ const progressBars = computed(() => {
 
 const progressBar = computed(() => {
   return progressBars.value.find(
-    (voucher) => voucher.denomFull === selectedVoucher.value.data
+    (voucher) => voucher.denomFull === selectedVoucher.data.value
   )
 })
 </script>
@@ -181,7 +179,7 @@ const progressBar = computed(() => {
               v-model="selectedVoucher.data"
               :items="
                 vouchers.map((voucher) => ({
-                  data: voucher,
+                  value: voucher,
                   label: getDenomName(voucher)
                 }))
               "

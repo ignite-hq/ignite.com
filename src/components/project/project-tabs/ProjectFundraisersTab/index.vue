@@ -24,6 +24,7 @@ import { useCosmosBankV1Beta1 } from '~/generated/tendermint-spn-vue'
 import { CampaignCampaignSummary } from '~/generated/tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 import { toCompactNumber, getDenomName } from '~/utils/fundraisers'
 import { AuctionStatusLabels } from '~/utils/types'
+import { Coin } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/cosmos/base/v1beta1/coin'
 
 const { fundraisers } = useFundraisersAll()
 const { queryTotalSupply } = useCosmosBankV1Beta1()
@@ -95,6 +96,8 @@ const fundraisingList = computed(() => {
   return fundraisers?.value?.pages[0].auctions.map(
     (auctionData: FixedPriceAuction) => {
       const auction: BaseAuction = auctionData.base_auction
+      const remainingSellingCoins: Coin | undefined =
+        auctionData.remaining_selling_coin
       const token = totalSupply.value?.find(
         (token) => token.denom === auction.selling_coin.denom
       )
@@ -106,7 +109,7 @@ const fundraisingList = computed(() => {
         id: auction.id,
         raised:
           Number(auction.selling_coin.amount) -
-          Number(auction.remaining_selling_coin.amount),
+          Number(remainingSellingCoins?.amount ?? 0),
         goal: auction.selling_coin.amount,
         currency: getDenomName(auction.selling_coin.denom.toUpperCase()),
         status: formatAuctionStatus(auction.status),
