@@ -20,7 +20,6 @@
     "@cosmjs/proto-signing": "0.27.0",
     "@cosmjs/stargate": "0.27.0",
     "@headlessui/vue": "^1.5.0",
-    "@types/yamljs": "^0.2.31",
     "@vueuse/core": "^8.2.5",
     "@yeger/vue-masonry-wall": "^3.0.23",
     "apexcharts": "^3.35.0",
@@ -41,8 +40,8 @@
     "vue-query": "^1.23.0",
     "vue-router": "^4.0.3",
     "vue3-apexcharts": "^1.4.1",
-    "yamljs": "^0.3.0",
-    "vue3-popper": "^1.4.2"
+    "vue3-popper": "^1.4.2",
+    "yamljs": "^0.3.0"
   },
   "workspaces": [
     "src/generated/tendermint-spn-ts-client",
@@ -56,6 +55,7 @@
     "@rollup/plugin-node-resolve": "^13.1.1",
     "@types/crypto-js": "^4.1.1",
     "@types/marked": "^4.0.3",
+    "@types/yamljs": "^0.2.31",
     "@typescript-eslint/eslint-plugin": "^5.15.0",
     "@typescript-eslint/parser": "^5.15.0",
     "@vitejs/plugin-vue": "^2.3.1",
