@@ -105,16 +105,7 @@ const initialState: State = {
         .toString(),
       denom: DUMMY_TOTAL_SUPPLY[0].denom
     },
-    vesting_schedules: [
-      {
-        release_time: getWeeksLater(TODAY, 2),
-        weight: '50'
-      },
-      {
-        release_time: getWeeksLater(TODAY, 3),
-        weight: '50'
-      }
-    ]
+    vesting_schedules: []
   },
   totalSupply: DUMMY_TOTAL_SUPPLY,
   voucherCoin: DUMMY_TOTAL_SUPPLY[0]
@@ -199,7 +190,12 @@ function handleAddDistributionClick() {
   const newSchedules = [
     ...state.auction.vesting_schedules,
     {
-      release_time: getWeeksLater(lastSchedule?.release_time as Date, 1),
+      release_time: getWeeksLater(
+        lastSchedule
+          ? (lastSchedule?.release_time as Date)
+          : (state.auction.end_time as Date),
+        1
+      ),
       weight: '0'
     }
   ]
@@ -418,7 +414,7 @@ function cancel() {
                 <div>
                   <IgniteInputDate
                     :min-date="state.auction.start_time"
-                    :max-date="getWeeksLater(state.auction.start_time, 1)"
+                    :max-date="getWeeksLater(state.auction.start_time as Date, 1)"
                     :initial-date="(state.auction.end_time as Date)"
                     @input="handleEndDateInput"
                   />
@@ -500,16 +496,16 @@ function cancel() {
                   </IgniteButton>
                 </div>
               </div>
-              <div
-                v-if="index + 1 === state.auction.vesting_schedules.length"
-                class="mt-8 flex-row"
-              >
-                <IgniteButton class="px-6" @click="handleAddDistributionClick">
-                  Add Distribution
-                </IgniteButton>
-              </div>
             </div>
           </FundraiserInputRow>
+          <FundraiserInputRow>
+            <!-- Add Distribution -->
+            <div class="mt-8 flex-row">
+              <IgniteButton class="px-6" @click="handleAddDistributionClick">
+                Add Distribution
+              </IgniteButton>
+            </div></FundraiserInputRow
+          >
         </FundraiserInputSection>
         <FundraiserInfoCard>
           <IgniteHeading class="font-title text-3 font-semibold">
