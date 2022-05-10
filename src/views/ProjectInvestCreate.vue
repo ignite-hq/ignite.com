@@ -16,13 +16,14 @@ export { UIStates }
 <script lang="ts" setup>
 import { Coin } from '@cosmjs/amino'
 import BigNumber from 'bignumber.js'
+import dayjs from 'dayjs'
 import { cloneDeep } from 'lodash'
 import type { MsgCreateFixedPriceAuction } from 'tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/tx'
 import { useSpn } from 'tendermint-spn-vue-client'
 import { computed, reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import dayjs from 'dayjs'
 
+import IconCanceled from '~/components/icons/IconCanceled.vue'
 import FundraiserCreateModal from '~/components/invest/FundraiserCreateModal.vue'
 import FundraiserInfoCard from '~/components/invest/FundraiserInfoCard.vue'
 import FundraiserInputRow from '~/components/invest/FundraiserInputRow.vue'
@@ -32,12 +33,11 @@ import FundraiserSummary from '~/components/invest/FundraiserSummary.vue'
 import IgniteButton from '~/components/ui/IgniteButton.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteInput from '~/components/ui/IgniteInput.vue'
+import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 
 import IgniteInputAmount from '../components/ui/IgniteInputAmount.vue'
 import IgniteInputDate from '../components/ui/IgniteInputDate.vue'
-import IgniteNumber from '~/components/ui/IgniteNumber.vue'
-import IconCanceled from '~/components/icons/IconCanceled.vue'
 
 const TODAY = new Date()
 
