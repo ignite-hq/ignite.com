@@ -1,4 +1,4 @@
-import { useTendermintSpnLaunch } from 'tendermint-spn-vue'
+import { useTendermintSpnLaunch } from 'tendermint-spn-vue-client'
 import { useQuery } from 'vue-query'
 
 export default function useGenesisValidatorsAll(launchID: string) {

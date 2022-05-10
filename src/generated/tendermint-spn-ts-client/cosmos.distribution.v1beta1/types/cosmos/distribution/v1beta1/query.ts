@@ -140,7 +140,7 @@ export interface QueryDelegatorValidatorsRequest {
  * Query/DelegatorValidators RPC method.
  */
 export interface QueryDelegatorValidatorsResponse {
-  /** ProjectValidatorsTab defines the ProjectValidatorsTab a delegator is delegating for. */
+  /** validators defines the validators a delegator is delegating for. */
   validators: string[]
 }
 
@@ -1656,7 +1656,7 @@ export interface Query {
   DelegationTotalRewards(
     request: QueryDelegationTotalRewardsRequest
   ): Promise<QueryDelegationTotalRewardsResponse>
-  /** DelegatorValidators queries the ProjectValidatorsTab of a delegator. */
+  /** DelegatorValidators queries the validators of a delegator. */
   DelegatorValidators(
     request: QueryDelegatorValidatorsRequest
   ): Promise<QueryDelegatorValidatorsResponse>

@@ -1,4 +1,4 @@
-import { useTendermintSpnProfile } from 'tendermint-spn-vue'
+import { useTendermintSpnProfile } from 'tendermint-spn-vue-client'
 import { computed } from 'vue'
 import { useQuery } from 'vue-query'
 

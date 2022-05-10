@@ -1,12 +1,13 @@
 /* eslint-disable */
 import { Reader, util, configure, Writer } from 'protobufjs/minimal'
 import * as Long from 'long'
-import { Params, Bid, VestingQueue } from '../fundraising/fundraising'
+import { Params } from '../fundraising/params'
 import {
   PageRequest,
   PageResponse
 } from '../cosmos/base/query/v1beta1/pagination'
 import { Any } from '../google/protobuf/any'
+import { AllowedBidder, Bid, VestingQueue } from '../fundraising/fundraising'
 
 export const protobufPackage = 'tendermint.fundraising'
 
@@ -42,6 +43,42 @@ export interface QueryAuctionRequest {
 /** QueryAuctionResponse is the response type for the Query/Auction RPC method. */
 export interface QueryAuctionResponse {
   auction: Any | undefined
+}
+
+/**
+ * QueryAllowedBidderRequest is the request type for the Query/AllowedBidder RPC
+ * method.
+ */
+export interface QueryAllowedBidderRequest {
+  auction_id: number
+  bidder: string
+}
+
+/**
+ * QueryAllowedBidderResponse is the response type for the Query/AllowedBidder
+ * RPC method.
+ */
+export interface QueryAllowedBidderResponse {
+  allowed_bidder: AllowedBidder | undefined
+}
+
+/**
+ * QueryAllowedBiddersRequest is the request type for the Query/AllowedBidders
+ * RPC method.
+ */
+export interface QueryAllowedBiddersRequest {
+  auction_id: number
+  pagination: PageRequest | undefined
+}
+
+/**
+ * QueryAllowedBiddersResponse is the response type for the Query/AllowedBidders
+ * RPC method.
+ */
+export interface QueryAllowedBiddersResponse {
+  allowed_bidders: AllowedBidder[]
+  /** pagination defines the pagination in the response */
+  pagination: PageResponse | undefined
 }
 
 /** QueryBidsRequest is request type for the Query/Bids RPC method. */
@@ -476,6 +513,362 @@ export const QueryAuctionResponse = {
       message.auction = Any.fromPartial(object.auction)
     } else {
       message.auction = undefined
+    }
+    return message
+  }
+}
+
+const baseQueryAllowedBidderRequest: object = { auction_id: 0, bidder: '' }
+
+export const QueryAllowedBidderRequest = {
+  encode(
+    message: QueryAllowedBidderRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.auction_id !== 0) {
+      writer.uint32(8).uint64(message.auction_id)
+    }
+    if (message.bidder !== '') {
+      writer.uint32(18).string(message.bidder)
+    }
+    return writer
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryAllowedBidderRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input
+    let end = length === undefined ? reader.len : reader.pos + length
+    const message = {
+      ...baseQueryAllowedBidderRequest
+    } as QueryAllowedBidderRequest
+    while (reader.pos < end) {
+      const tag = reader.uint32()
+      switch (tag >>> 3) {
+        case 1:
+          message.auction_id = longToNumber(reader.uint64() as Long)
+          break
+        case 2:
+          message.bidder = reader.string()
+          break
+        default:
+          reader.skipType(tag & 7)
+          break
+      }
+    }
+    return message
+  },
+
+  fromJSON(object: any): QueryAllowedBidderRequest {
+    const message = {
+      ...baseQueryAllowedBidderRequest
+    } as QueryAllowedBidderRequest
+    if (object.auction_id !== undefined && object.auction_id !== null) {
+      message.auction_id = Number(object.auction_id)
+    } else {
+      message.auction_id = 0
+    }
+    if (object.bidder !== undefined && object.bidder !== null) {
+      message.bidder = String(object.bidder)
+    } else {
+      message.bidder = ''
+    }
+    return message
+  },
+
+  toJSON(message: QueryAllowedBidderRequest): unknown {
+    const obj: any = {}
+    message.auction_id !== undefined && (obj.auction_id = message.auction_id)
+    message.bidder !== undefined && (obj.bidder = message.bidder)
+    return obj
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryAllowedBidderRequest>
+  ): QueryAllowedBidderRequest {
+    const message = {
+      ...baseQueryAllowedBidderRequest
+    } as QueryAllowedBidderRequest
+    if (object.auction_id !== undefined && object.auction_id !== null) {
+      message.auction_id = object.auction_id
+    } else {
+      message.auction_id = 0
+    }
+    if (object.bidder !== undefined && object.bidder !== null) {
+      message.bidder = object.bidder
+    } else {
+      message.bidder = ''
+    }
+    return message
+  }
+}
+
+const baseQueryAllowedBidderResponse: object = {}
+
+export const QueryAllowedBidderResponse = {
+  encode(
+    message: QueryAllowedBidderResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.allowed_bidder !== undefined) {
+      AllowedBidder.encode(
+        message.allowed_bidder,
+        writer.uint32(10).fork()
+      ).ldelim()
+    }
+    return writer
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryAllowedBidderResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input
+    let end = length === undefined ? reader.len : reader.pos + length
+    const message = {
+      ...baseQueryAllowedBidderResponse
+    } as QueryAllowedBidderResponse
+    while (reader.pos < end) {
+      const tag = reader.uint32()
+      switch (tag >>> 3) {
+        case 1:
+          message.allowed_bidder = AllowedBidder.decode(reader, reader.uint32())
+          break
+        default:
+          reader.skipType(tag & 7)
+          break
+      }
+    }
+    return message
+  },
+
+  fromJSON(object: any): QueryAllowedBidderResponse {
+    const message = {
+      ...baseQueryAllowedBidderResponse
+    } as QueryAllowedBidderResponse
+    if (object.allowed_bidder !== undefined && object.allowed_bidder !== null) {
+      message.allowed_bidder = AllowedBidder.fromJSON(object.allowed_bidder)
+    } else {
+      message.allowed_bidder = undefined
+    }
+    return message
+  },
+
+  toJSON(message: QueryAllowedBidderResponse): unknown {
+    const obj: any = {}
+    message.allowed_bidder !== undefined &&
+      (obj.allowed_bidder = message.allowed_bidder
+        ? AllowedBidder.toJSON(message.allowed_bidder)
+        : undefined)
+    return obj
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryAllowedBidderResponse>
+  ): QueryAllowedBidderResponse {
+    const message = {
+      ...baseQueryAllowedBidderResponse
+    } as QueryAllowedBidderResponse
+    if (object.allowed_bidder !== undefined && object.allowed_bidder !== null) {
+      message.allowed_bidder = AllowedBidder.fromPartial(object.allowed_bidder)
+    } else {
+      message.allowed_bidder = undefined
+    }
+    return message
+  }
+}
+
+const baseQueryAllowedBiddersRequest: object = { auction_id: 0 }
+
+export const QueryAllowedBiddersRequest = {
+  encode(
+    message: QueryAllowedBiddersRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.auction_id !== 0) {
+      writer.uint32(8).uint64(message.auction_id)
+    }
+    if (message.pagination !== undefined) {
+      PageRequest.encode(message.pagination, writer.uint32(18).fork()).ldelim()
+    }
+    return writer
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryAllowedBiddersRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input
+    let end = length === undefined ? reader.len : reader.pos + length
+    const message = {
+      ...baseQueryAllowedBiddersRequest
+    } as QueryAllowedBiddersRequest
+    while (reader.pos < end) {
+      const tag = reader.uint32()
+      switch (tag >>> 3) {
+        case 1:
+          message.auction_id = longToNumber(reader.uint64() as Long)
+          break
+        case 2:
+          message.pagination = PageRequest.decode(reader, reader.uint32())
+          break
+        default:
+          reader.skipType(tag & 7)
+          break
+      }
+    }
+    return message
+  },
+
+  fromJSON(object: any): QueryAllowedBiddersRequest {
+    const message = {
+      ...baseQueryAllowedBiddersRequest
+    } as QueryAllowedBiddersRequest
+    if (object.auction_id !== undefined && object.auction_id !== null) {
+      message.auction_id = Number(object.auction_id)
+    } else {
+      message.auction_id = 0
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromJSON(object.pagination)
+    } else {
+      message.pagination = undefined
+    }
+    return message
+  },
+
+  toJSON(message: QueryAllowedBiddersRequest): unknown {
+    const obj: any = {}
+    message.auction_id !== undefined && (obj.auction_id = message.auction_id)
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageRequest.toJSON(message.pagination)
+        : undefined)
+    return obj
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryAllowedBiddersRequest>
+  ): QueryAllowedBiddersRequest {
+    const message = {
+      ...baseQueryAllowedBiddersRequest
+    } as QueryAllowedBiddersRequest
+    if (object.auction_id !== undefined && object.auction_id !== null) {
+      message.auction_id = object.auction_id
+    } else {
+      message.auction_id = 0
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromPartial(object.pagination)
+    } else {
+      message.pagination = undefined
+    }
+    return message
+  }
+}
+
+const baseQueryAllowedBiddersResponse: object = {}
+
+export const QueryAllowedBiddersResponse = {
+  encode(
+    message: QueryAllowedBiddersResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    for (const v of message.allowed_bidders) {
+      AllowedBidder.encode(v!, writer.uint32(10).fork()).ldelim()
+    }
+    if (message.pagination !== undefined) {
+      PageResponse.encode(message.pagination, writer.uint32(18).fork()).ldelim()
+    }
+    return writer
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryAllowedBiddersResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input
+    let end = length === undefined ? reader.len : reader.pos + length
+    const message = {
+      ...baseQueryAllowedBiddersResponse
+    } as QueryAllowedBiddersResponse
+    message.allowed_bidders = []
+    while (reader.pos < end) {
+      const tag = reader.uint32()
+      switch (tag >>> 3) {
+        case 1:
+          message.allowed_bidders.push(
+            AllowedBidder.decode(reader, reader.uint32())
+          )
+          break
+        case 2:
+          message.pagination = PageResponse.decode(reader, reader.uint32())
+          break
+        default:
+          reader.skipType(tag & 7)
+          break
+      }
+    }
+    return message
+  },
+
+  fromJSON(object: any): QueryAllowedBiddersResponse {
+    const message = {
+      ...baseQueryAllowedBiddersResponse
+    } as QueryAllowedBiddersResponse
+    message.allowed_bidders = []
+    if (
+      object.allowed_bidders !== undefined &&
+      object.allowed_bidders !== null
+    ) {
+      for (const e of object.allowed_bidders) {
+        message.allowed_bidders.push(AllowedBidder.fromJSON(e))
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromJSON(object.pagination)
+    } else {
+      message.pagination = undefined
+    }
+    return message
+  },
+
+  toJSON(message: QueryAllowedBiddersResponse): unknown {
+    const obj: any = {}
+    if (message.allowed_bidders) {
+      obj.allowed_bidders = message.allowed_bidders.map((e) =>
+        e ? AllowedBidder.toJSON(e) : undefined
+      )
+    } else {
+      obj.allowed_bidders = []
+    }
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageResponse.toJSON(message.pagination)
+        : undefined)
+    return obj
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryAllowedBiddersResponse>
+  ): QueryAllowedBiddersResponse {
+    const message = {
+      ...baseQueryAllowedBiddersResponse
+    } as QueryAllowedBiddersResponse
+    message.allowed_bidders = []
+    if (
+      object.allowed_bidders !== undefined &&
+      object.allowed_bidders !== null
+    ) {
+      for (const e of object.allowed_bidders) {
+        message.allowed_bidders.push(AllowedBidder.fromPartial(e))
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromPartial(object.pagination)
+    } else {
+      message.pagination = undefined
     }
     return message
   }
@@ -939,6 +1332,14 @@ export interface Query {
   Auctions(request: QueryAuctionsRequest): Promise<QueryAuctionsResponse>
   /** Auction returns the specific auction. */
   Auction(request: QueryAuctionRequest): Promise<QueryAuctionResponse>
+  /** AllowedBidder returns the specific allowed bidder information. */
+  AllowedBidder(
+    request: QueryAllowedBidderRequest
+  ): Promise<QueryAllowedBidderResponse>
+  /** AllowedBidders returns all allowed bidders for the auction. */
+  AllowedBidders(
+    request: QueryAllowedBiddersRequest
+  ): Promise<QueryAllowedBiddersResponse>
   /** Bids returns all bids. */
   Bids(request: QueryBidsRequest): Promise<QueryBidsResponse>
   /** Bid returns the specific bid from the auction id and bid id. */
@@ -982,6 +1383,34 @@ export class QueryClientImpl implements Query {
       data
     )
     return promise.then((data) => QueryAuctionResponse.decode(new Reader(data)))
+  }
+
+  AllowedBidder(
+    request: QueryAllowedBidderRequest
+  ): Promise<QueryAllowedBidderResponse> {
+    const data = QueryAllowedBidderRequest.encode(request).finish()
+    const promise = this.rpc.request(
+      'tendermint.fundraising.Query',
+      'AllowedBidder',
+      data
+    )
+    return promise.then((data) =>
+      QueryAllowedBidderResponse.decode(new Reader(data))
+    )
+  }
+
+  AllowedBidders(
+    request: QueryAllowedBiddersRequest
+  ): Promise<QueryAllowedBiddersResponse> {
+    const data = QueryAllowedBiddersRequest.encode(request).finish()
+    const promise = this.rpc.request(
+      'tendermint.fundraising.Query',
+      'AllowedBidders',
+      data
+    )
+    return promise.then((data) =>
+      QueryAllowedBiddersResponse.decode(new Reader(data))
+    )
   }
 
   Bids(request: QueryBidsRequest): Promise<QueryBidsResponse> {

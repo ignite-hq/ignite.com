@@ -287,7 +287,7 @@ export interface TypesBlock {
   data?: TypesData
   evidence?: TypesEvidenceList
 
-  /** Commit contains the evidence that a block was committed by a set of ProjectValidatorsTab. */
+  /** Commit contains the evidence that a block was committed by a set of validators. */
   last_commit?: TypesCommit
 }
 
@@ -305,7 +305,7 @@ export enum TypesBlockIDFlag {
 }
 
 /**
- * Commit contains the evidence that a block was committed by a set of ProjectValidatorsTab.
+ * Commit contains the evidence that a block was committed by a set of validators.
  */
 export interface TypesCommit {
   /** @format int64 */
@@ -347,13 +347,13 @@ export interface TypesData {
  */
 export interface TypesDuplicateVoteEvidence {
   /**
-   * Vote represents a prevote, precommit, or commit vote from ProjectValidatorsTab for
+   * Vote represents a prevote, precommit, or commit vote from validators for
    * consensus.
    */
   vote_a?: TypesVote
 
   /**
-   * Vote represents a prevote, precommit, or commit vote from ProjectValidatorsTab for
+   * Vote represents a prevote, precommit, or commit vote from validators for
    * consensus.
    */
   vote_b?: TypesVote
@@ -372,7 +372,7 @@ export interface TypesEvidence {
   /** DuplicateVoteEvidence contains evidence of a validator signed two conflicting votes. */
   duplicate_vote_evidence?: TypesDuplicateVoteEvidence
 
-  /** LightClientAttackEvidence contains evidence of a set of ProjectValidatorsTab attempting to mislead a light client. */
+  /** LightClientAttackEvidence contains evidence of a set of validators attempting to mislead a light client. */
   light_client_attack_evidence?: TypesLightClientAttackEvidence
 }
 
@@ -433,7 +433,7 @@ export interface TypesLightBlock {
 }
 
 /**
- * LightClientAttackEvidence contains evidence of a set of ProjectValidatorsTab attempting to mislead a light client.
+ * LightClientAttackEvidence contains evidence of a set of validators attempting to mislead a light client.
  */
 export interface TypesLightClientAttackEvidence {
   conflicting_block?: TypesLightBlock
@@ -461,7 +461,7 @@ export interface TypesSignedHeader {
   /** Header defines the structure of a Tendermint block header. */
   header?: TypesHeader
 
-  /** Commit contains the evidence that a block was committed by a set of ProjectValidatorsTab. */
+  /** Commit contains the evidence that a block was committed by a set of validators. */
   commit?: TypesCommit
 }
 
@@ -487,7 +487,7 @@ export interface TypesValidatorSet {
 }
 
 /**
-* Vote represents a prevote, precommit, or commit vote from ProjectValidatorsTab for
+* Vote represents a prevote, precommit, or commit vote from validators for
 consensus.
 */
 export interface TypesVote {

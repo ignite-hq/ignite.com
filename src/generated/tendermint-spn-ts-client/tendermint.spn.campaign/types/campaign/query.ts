@@ -108,6 +108,14 @@ export interface QueryTotalSharesResponse {
   totalShares: number
 }
 
+export interface QueryAuctionsOfCampaignRequest {
+  campaignID: number
+}
+
+export interface QueryAuctionsOfCampaignResponse {
+  auctionIDs: number[]
+}
+
 const baseQueryGetCampaignRequest: object = { campaignID: 0 }
 
 export const QueryGetCampaignRequest = {
@@ -1833,6 +1841,160 @@ export const QueryTotalSharesResponse = {
   }
 }
 
+const baseQueryAuctionsOfCampaignRequest: object = { campaignID: 0 }
+
+export const QueryAuctionsOfCampaignRequest = {
+  encode(
+    message: QueryAuctionsOfCampaignRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.campaignID !== 0) {
+      writer.uint32(8).uint64(message.campaignID)
+    }
+    return writer
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryAuctionsOfCampaignRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input
+    let end = length === undefined ? reader.len : reader.pos + length
+    const message = {
+      ...baseQueryAuctionsOfCampaignRequest
+    } as QueryAuctionsOfCampaignRequest
+    while (reader.pos < end) {
+      const tag = reader.uint32()
+      switch (tag >>> 3) {
+        case 1:
+          message.campaignID = longToNumber(reader.uint64() as Long)
+          break
+        default:
+          reader.skipType(tag & 7)
+          break
+      }
+    }
+    return message
+  },
+
+  fromJSON(object: any): QueryAuctionsOfCampaignRequest {
+    const message = {
+      ...baseQueryAuctionsOfCampaignRequest
+    } as QueryAuctionsOfCampaignRequest
+    if (object.campaignID !== undefined && object.campaignID !== null) {
+      message.campaignID = Number(object.campaignID)
+    } else {
+      message.campaignID = 0
+    }
+    return message
+  },
+
+  toJSON(message: QueryAuctionsOfCampaignRequest): unknown {
+    const obj: any = {}
+    message.campaignID !== undefined && (obj.campaignID = message.campaignID)
+    return obj
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryAuctionsOfCampaignRequest>
+  ): QueryAuctionsOfCampaignRequest {
+    const message = {
+      ...baseQueryAuctionsOfCampaignRequest
+    } as QueryAuctionsOfCampaignRequest
+    if (object.campaignID !== undefined && object.campaignID !== null) {
+      message.campaignID = object.campaignID
+    } else {
+      message.campaignID = 0
+    }
+    return message
+  }
+}
+
+const baseQueryAuctionsOfCampaignResponse: object = { auctionIDs: 0 }
+
+export const QueryAuctionsOfCampaignResponse = {
+  encode(
+    message: QueryAuctionsOfCampaignResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    writer.uint32(10).fork()
+    for (const v of message.auctionIDs) {
+      writer.uint64(v)
+    }
+    writer.ldelim()
+    return writer
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryAuctionsOfCampaignResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input
+    let end = length === undefined ? reader.len : reader.pos + length
+    const message = {
+      ...baseQueryAuctionsOfCampaignResponse
+    } as QueryAuctionsOfCampaignResponse
+    message.auctionIDs = []
+    while (reader.pos < end) {
+      const tag = reader.uint32()
+      switch (tag >>> 3) {
+        case 1:
+          if ((tag & 7) === 2) {
+            const end2 = reader.uint32() + reader.pos
+            while (reader.pos < end2) {
+              message.auctionIDs.push(longToNumber(reader.uint64() as Long))
+            }
+          } else {
+            message.auctionIDs.push(longToNumber(reader.uint64() as Long))
+          }
+          break
+        default:
+          reader.skipType(tag & 7)
+          break
+      }
+    }
+    return message
+  },
+
+  fromJSON(object: any): QueryAuctionsOfCampaignResponse {
+    const message = {
+      ...baseQueryAuctionsOfCampaignResponse
+    } as QueryAuctionsOfCampaignResponse
+    message.auctionIDs = []
+    if (object.auctionIDs !== undefined && object.auctionIDs !== null) {
+      for (const e of object.auctionIDs) {
+        message.auctionIDs.push(Number(e))
+      }
+    }
+    return message
+  },
+
+  toJSON(message: QueryAuctionsOfCampaignResponse): unknown {
+    const obj: any = {}
+    if (message.auctionIDs) {
+      obj.auctionIDs = message.auctionIDs.map((e) => e)
+    } else {
+      obj.auctionIDs = []
+    }
+    return obj
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryAuctionsOfCampaignResponse>
+  ): QueryAuctionsOfCampaignResponse {
+    const message = {
+      ...baseQueryAuctionsOfCampaignResponse
+    } as QueryAuctionsOfCampaignResponse
+    message.auctionIDs = []
+    if (object.auctionIDs !== undefined && object.auctionIDs !== null) {
+      for (const e of object.auctionIDs) {
+        message.auctionIDs.push(e)
+      }
+    }
+    return message
+  }
+}
+
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** Queries a campaign by id. */
@@ -1875,6 +2037,10 @@ export interface Query {
   TotalShares(
     request: QueryTotalSharesRequest
   ): Promise<QueryTotalSharesResponse>
+  /** Queries a list of auction IDs of a campaign */
+  AuctionsOfCampaign(
+    request: QueryAuctionsOfCampaignRequest
+  ): Promise<QueryAuctionsOfCampaignResponse>
 }
 
 export class QueryClientImpl implements Query {
@@ -2029,6 +2195,20 @@ export class QueryClientImpl implements Query {
     )
     return promise.then((data) =>
       QueryTotalSharesResponse.decode(new Reader(data))
+    )
+  }
+
+  AuctionsOfCampaign(
+    request: QueryAuctionsOfCampaignRequest
+  ): Promise<QueryAuctionsOfCampaignResponse> {
+    const data = QueryAuctionsOfCampaignRequest.encode(request).finish()
+    const promise = this.rpc.request(
+      'tendermint.spn.campaign.Query',
+      'AuctionsOfCampaign',
+      data
+    )
+    return promise.then((data) =>
+      QueryAuctionsOfCampaignResponse.decode(new Reader(data))
     )
   }
 }

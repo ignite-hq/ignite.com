@@ -1,7 +1,6 @@
+import { useTendermintSpnProfile } from 'tendermint-spn-vue-client'
 import { computed, Ref, unref } from 'vue'
 import { useQuery } from 'vue-query'
-
-import { useTendermintSpnProfile } from '~/generated/tendermint-spn-vue'
 
 import useAddress from '../wallet/useAddress'
 
