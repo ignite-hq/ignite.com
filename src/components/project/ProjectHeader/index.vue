@@ -62,7 +62,8 @@ const githubUrl = computed(() => {
 })
 
 // composables
-const { repository, isFetching } = useGitHubRepository(githubUrl)
+const { repository, isLoading: isLoadingGithubRepository } =
+  useGitHubRepository(githubUrl)
 const { campaignChains, isLoading: isLoadingCampaignChains } =
   useCampaignChains(props.projectId)
 
@@ -91,7 +92,7 @@ const description = computed(() => {
 })
 
 const isLoading = computed(() => {
-  return isFetching.value || props.loading
+  return isLoadingGithubRepository.value || props.loading
 })
 
 const isLoadingProjectStatus = computed(() => {
