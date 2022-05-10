@@ -5,10 +5,10 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import { CampaignCampaignSummary } from 'tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 import { computed, PropType } from 'vue'
 
 import useGitHubRepository from '~/composables/github/useGitHubRepository'
-import { CampaignCampaignSummary } from '~/generated/tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 
 import ProjectCardDescription from './ProjectCardDescription.vue'
 import ProjectCardHeader from './ProjectCardHeader.vue'

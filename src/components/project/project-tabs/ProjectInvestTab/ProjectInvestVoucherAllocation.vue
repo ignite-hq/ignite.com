@@ -7,12 +7,12 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { ProgressBarItem } from '~/utils/types'
+import IgniteDenom from '~/components/common/IgniteDenom.vue'
+import IgniteProgressBar from '~/components/common/IgniteProgressBar.vue'
 import IgniteCard from '~/components/ui/IgniteCard.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
-import IgniteProgressBar from '~/components/common/IgniteProgressBar.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
-import IgniteDenom from '~/components/common/IgniteDenom.vue'
+import { ProgressBarItem } from '~/utils/types'
 
 const progressBar = {
   items: [

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { Validator } from 'tendermint-spn-ts-client/cosmos.staking.v1beta1'
-import { useTendermintSpnLaunch } from 'tendermint-spn-vue'
+import { useTendermintSpnLaunch } from 'tendermint-spn-vue-client'
 import { ref, watch } from 'vue'
 
 import useCampaignChains from '~/composables/campaign/useCampaignChains'

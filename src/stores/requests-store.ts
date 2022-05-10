@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
-
-import { LaunchRequest } from '~/generated/tendermint-spn-ts-client/tendermint.spn.launch/rest'
+import { LaunchRequest } from 'tendermint-spn-ts-client/tendermint.spn.launch/rest'
 
 export enum RequestPageFilters {
   Pending = 'pending',

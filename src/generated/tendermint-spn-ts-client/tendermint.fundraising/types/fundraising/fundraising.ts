@@ -201,21 +201,6 @@ export function addressTypeToJSON(object: AddressType): string {
   }
 }
 
-/** Params defines the set of params for the fundraising module. */
-export interface Params {
-  /**
-   * auction_creation_fee specifies the fee for fundraising creation fee.
-   * this prevents from spamming attack and it is collected in the community
-   * pool
-   */
-  auction_creation_fee: Coin[]
-  /**
-   * extended_period specifies the extended period that determines how long
-   * the extended auction round lasts.
-   */
-  extended_period: number
-}
-
 /**
  * BaseAuction defines a base auction type. It contains all the necessary fields
  * for basic auction functionality. Any custom auction type should extend this
@@ -226,15 +211,10 @@ export interface BaseAuction {
   /** id specifies index of the auction */
   id: number
   /**
-   * type specifies the auction type; type 1 is fixed price and 2 is batch
-   * auction
+   * type specifies the auction type
+   * type 1 is fixed price and 2 is batch auction
    */
   type: AuctionType
-  /**
-   * allowed_bidders specifies the bidders who are allowed to bid for the
-   * auction
-   */
-  allowed_bidders: AllowedBidder[]
   /** auctioneer specifies the bech32-encoded address that creates the auction */
   auctioneer: string
   /**
@@ -266,8 +246,6 @@ export interface BaseAuction {
   vesting_reserve_address: string
   /** vesting_schedules specifies the vesting schedules for the auction */
   vesting_schedules: VestingSchedule[]
-  /** remaining_coin specifes the remaining amount of selling coin to sell */
-  remaining_selling_coin: Coin | undefined
   /** start_time specifies the start time of the plan */
   start_time: Date | undefined
   /** end_times specifies the end time of the plan */
@@ -283,6 +261,8 @@ export interface BaseAuction {
  */
 export interface FixedPriceAuction {
   base_auction: BaseAuction | undefined
+  /** remaining_coin specifies the remaining amount of selling coin to sell */
+  remaining_selling_coin: Coin | undefined
 }
 
 /**
@@ -318,7 +298,7 @@ export interface VestingSchedule {
 
 /** VestingQueue defines the vesting queue. */
 export interface VestingQueue {
-  /** auction_id specifes the id of the auction */
+  /** auction_id specifies the id of the auction */
   auction_id: number
   /** auctioneer specifies the bech32-encoded address that creates the auction */
   auctioneer: string
@@ -367,102 +347,6 @@ export interface Bid {
   is_matched: boolean
 }
 
-const baseParams: object = { extended_period: 0 }
-
-export const Params = {
-  encode(message: Params, writer: Writer = Writer.create()): Writer {
-    for (const v of message.auction_creation_fee) {
-      Coin.encode(v!, writer.uint32(10).fork()).ldelim()
-    }
-    if (message.extended_period !== 0) {
-      writer.uint32(16).uint32(message.extended_period)
-    }
-    return writer
-  },
-
-  decode(input: Reader | Uint8Array, length?: number): Params {
-    const reader = input instanceof Uint8Array ? new Reader(input) : input
-    let end = length === undefined ? reader.len : reader.pos + length
-    const message = { ...baseParams } as Params
-    message.auction_creation_fee = []
-    while (reader.pos < end) {
-      const tag = reader.uint32()
-      switch (tag >>> 3) {
-        case 1:
-          message.auction_creation_fee.push(
-            Coin.decode(reader, reader.uint32())
-          )
-          break
-        case 2:
-          message.extended_period = reader.uint32()
-          break
-        default:
-          reader.skipType(tag & 7)
-          break
-      }
-    }
-    return message
-  },
-
-  fromJSON(object: any): Params {
-    const message = { ...baseParams } as Params
-    message.auction_creation_fee = []
-    if (
-      object.auction_creation_fee !== undefined &&
-      object.auction_creation_fee !== null
-    ) {
-      for (const e of object.auction_creation_fee) {
-        message.auction_creation_fee.push(Coin.fromJSON(e))
-      }
-    }
-    if (
-      object.extended_period !== undefined &&
-      object.extended_period !== null
-    ) {
-      message.extended_period = Number(object.extended_period)
-    } else {
-      message.extended_period = 0
-    }
-    return message
-  },
-
-  toJSON(message: Params): unknown {
-    const obj: any = {}
-    if (message.auction_creation_fee) {
-      obj.auction_creation_fee = message.auction_creation_fee.map((e) =>
-        e ? Coin.toJSON(e) : undefined
-      )
-    } else {
-      obj.auction_creation_fee = []
-    }
-    message.extended_period !== undefined &&
-      (obj.extended_period = message.extended_period)
-    return obj
-  },
-
-  fromPartial(object: DeepPartial<Params>): Params {
-    const message = { ...baseParams } as Params
-    message.auction_creation_fee = []
-    if (
-      object.auction_creation_fee !== undefined &&
-      object.auction_creation_fee !== null
-    ) {
-      for (const e of object.auction_creation_fee) {
-        message.auction_creation_fee.push(Coin.fromPartial(e))
-      }
-    }
-    if (
-      object.extended_period !== undefined &&
-      object.extended_period !== null
-    ) {
-      message.extended_period = object.extended_period
-    } else {
-      message.extended_period = 0
-    }
-    return message
-  }
-}
-
 const baseBaseAuction: object = {
   id: 0,
   type: 0,
@@ -483,50 +367,41 @@ export const BaseAuction = {
     if (message.type !== 0) {
       writer.uint32(16).int32(message.type)
     }
-    for (const v of message.allowed_bidders) {
-      AllowedBidder.encode(v!, writer.uint32(26).fork()).ldelim()
-    }
     if (message.auctioneer !== '') {
-      writer.uint32(34).string(message.auctioneer)
+      writer.uint32(26).string(message.auctioneer)
     }
     if (message.selling_reserve_address !== '') {
-      writer.uint32(42).string(message.selling_reserve_address)
+      writer.uint32(34).string(message.selling_reserve_address)
     }
     if (message.paying_reserve_address !== '') {
-      writer.uint32(50).string(message.paying_reserve_address)
+      writer.uint32(42).string(message.paying_reserve_address)
     }
     if (message.start_price !== '') {
-      writer.uint32(58).string(message.start_price)
+      writer.uint32(50).string(message.start_price)
     }
     if (message.selling_coin !== undefined) {
-      Coin.encode(message.selling_coin, writer.uint32(66).fork()).ldelim()
+      Coin.encode(message.selling_coin, writer.uint32(58).fork()).ldelim()
     }
     if (message.paying_coin_denom !== '') {
-      writer.uint32(74).string(message.paying_coin_denom)
+      writer.uint32(66).string(message.paying_coin_denom)
     }
     if (message.vesting_reserve_address !== '') {
-      writer.uint32(82).string(message.vesting_reserve_address)
+      writer.uint32(74).string(message.vesting_reserve_address)
     }
     for (const v of message.vesting_schedules) {
-      VestingSchedule.encode(v!, writer.uint32(90).fork()).ldelim()
-    }
-    if (message.remaining_selling_coin !== undefined) {
-      Coin.encode(
-        message.remaining_selling_coin,
-        writer.uint32(98).fork()
-      ).ldelim()
+      VestingSchedule.encode(v!, writer.uint32(82).fork()).ldelim()
     }
     if (message.start_time !== undefined) {
       Timestamp.encode(
         toTimestamp(message.start_time),
-        writer.uint32(106).fork()
+        writer.uint32(90).fork()
       ).ldelim()
     }
     for (const v of message.end_times) {
-      Timestamp.encode(toTimestamp(v!), writer.uint32(114).fork()).ldelim()
+      Timestamp.encode(toTimestamp(v!), writer.uint32(98).fork()).ldelim()
     }
     if (message.status !== 0) {
-      writer.uint32(120).int32(message.status)
+      writer.uint32(104).int32(message.status)
     }
     return writer
   },
@@ -535,7 +410,6 @@ export const BaseAuction = {
     const reader = input instanceof Uint8Array ? new Reader(input) : input
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseBaseAuction } as BaseAuction
-    message.allowed_bidders = []
     message.vesting_schedules = []
     message.end_times = []
     while (reader.pos < end) {
@@ -548,50 +422,42 @@ export const BaseAuction = {
           message.type = reader.int32() as any
           break
         case 3:
-          message.allowed_bidders.push(
-            AllowedBidder.decode(reader, reader.uint32())
-          )
-          break
-        case 4:
           message.auctioneer = reader.string()
           break
-        case 5:
+        case 4:
           message.selling_reserve_address = reader.string()
           break
-        case 6:
+        case 5:
           message.paying_reserve_address = reader.string()
           break
-        case 7:
+        case 6:
           message.start_price = reader.string()
           break
-        case 8:
+        case 7:
           message.selling_coin = Coin.decode(reader, reader.uint32())
           break
-        case 9:
+        case 8:
           message.paying_coin_denom = reader.string()
           break
-        case 10:
+        case 9:
           message.vesting_reserve_address = reader.string()
           break
-        case 11:
+        case 10:
           message.vesting_schedules.push(
             VestingSchedule.decode(reader, reader.uint32())
           )
           break
-        case 12:
-          message.remaining_selling_coin = Coin.decode(reader, reader.uint32())
-          break
-        case 13:
+        case 11:
           message.start_time = fromTimestamp(
             Timestamp.decode(reader, reader.uint32())
           )
           break
-        case 14:
+        case 12:
           message.end_times.push(
             fromTimestamp(Timestamp.decode(reader, reader.uint32()))
           )
           break
-        case 15:
+        case 13:
           message.status = reader.int32() as any
           break
         default:
@@ -604,7 +470,6 @@ export const BaseAuction = {
 
   fromJSON(object: any): BaseAuction {
     const message = { ...baseBaseAuction } as BaseAuction
-    message.allowed_bidders = []
     message.vesting_schedules = []
     message.end_times = []
     if (object.id !== undefined && object.id !== null) {
@@ -616,14 +481,6 @@ export const BaseAuction = {
       message.type = auctionTypeFromJSON(object.type)
     } else {
       message.type = 0
-    }
-    if (
-      object.allowed_bidders !== undefined &&
-      object.allowed_bidders !== null
-    ) {
-      for (const e of object.allowed_bidders) {
-        message.allowed_bidders.push(AllowedBidder.fromJSON(e))
-      }
     }
     if (object.auctioneer !== undefined && object.auctioneer !== null) {
       message.auctioneer = String(object.auctioneer)
@@ -680,16 +537,6 @@ export const BaseAuction = {
         message.vesting_schedules.push(VestingSchedule.fromJSON(e))
       }
     }
-    if (
-      object.remaining_selling_coin !== undefined &&
-      object.remaining_selling_coin !== null
-    ) {
-      message.remaining_selling_coin = Coin.fromJSON(
-        object.remaining_selling_coin
-      )
-    } else {
-      message.remaining_selling_coin = undefined
-    }
     if (object.start_time !== undefined && object.start_time !== null) {
       message.start_time = fromJsonTimestamp(object.start_time)
     } else {
@@ -712,13 +559,6 @@ export const BaseAuction = {
     const obj: any = {}
     message.id !== undefined && (obj.id = message.id)
     message.type !== undefined && (obj.type = auctionTypeToJSON(message.type))
-    if (message.allowed_bidders) {
-      obj.allowed_bidders = message.allowed_bidders.map((e) =>
-        e ? AllowedBidder.toJSON(e) : undefined
-      )
-    } else {
-      obj.allowed_bidders = []
-    }
     message.auctioneer !== undefined && (obj.auctioneer = message.auctioneer)
     message.selling_reserve_address !== undefined &&
       (obj.selling_reserve_address = message.selling_reserve_address)
@@ -740,10 +580,6 @@ export const BaseAuction = {
     } else {
       obj.vesting_schedules = []
     }
-    message.remaining_selling_coin !== undefined &&
-      (obj.remaining_selling_coin = message.remaining_selling_coin
-        ? Coin.toJSON(message.remaining_selling_coin)
-        : undefined)
     message.start_time !== undefined &&
       (obj.start_time =
         message.start_time !== undefined
@@ -763,7 +599,6 @@ export const BaseAuction = {
 
   fromPartial(object: DeepPartial<BaseAuction>): BaseAuction {
     const message = { ...baseBaseAuction } as BaseAuction
-    message.allowed_bidders = []
     message.vesting_schedules = []
     message.end_times = []
     if (object.id !== undefined && object.id !== null) {
@@ -775,14 +610,6 @@ export const BaseAuction = {
       message.type = object.type
     } else {
       message.type = 0
-    }
-    if (
-      object.allowed_bidders !== undefined &&
-      object.allowed_bidders !== null
-    ) {
-      for (const e of object.allowed_bidders) {
-        message.allowed_bidders.push(AllowedBidder.fromPartial(e))
-      }
     }
     if (object.auctioneer !== undefined && object.auctioneer !== null) {
       message.auctioneer = object.auctioneer
@@ -839,16 +666,6 @@ export const BaseAuction = {
         message.vesting_schedules.push(VestingSchedule.fromPartial(e))
       }
     }
-    if (
-      object.remaining_selling_coin !== undefined &&
-      object.remaining_selling_coin !== null
-    ) {
-      message.remaining_selling_coin = Coin.fromPartial(
-        object.remaining_selling_coin
-      )
-    } else {
-      message.remaining_selling_coin = undefined
-    }
     if (object.start_time !== undefined && object.start_time !== null) {
       message.start_time = object.start_time
     } else {
@@ -878,6 +695,12 @@ export const FixedPriceAuction = {
         writer.uint32(10).fork()
       ).ldelim()
     }
+    if (message.remaining_selling_coin !== undefined) {
+      Coin.encode(
+        message.remaining_selling_coin,
+        writer.uint32(18).fork()
+      ).ldelim()
+    }
     return writer
   },
 
@@ -890,6 +713,9 @@ export const FixedPriceAuction = {
       switch (tag >>> 3) {
         case 1:
           message.base_auction = BaseAuction.decode(reader, reader.uint32())
+          break
+        case 2:
+          message.remaining_selling_coin = Coin.decode(reader, reader.uint32())
           break
         default:
           reader.skipType(tag & 7)
@@ -906,6 +732,16 @@ export const FixedPriceAuction = {
     } else {
       message.base_auction = undefined
     }
+    if (
+      object.remaining_selling_coin !== undefined &&
+      object.remaining_selling_coin !== null
+    ) {
+      message.remaining_selling_coin = Coin.fromJSON(
+        object.remaining_selling_coin
+      )
+    } else {
+      message.remaining_selling_coin = undefined
+    }
     return message
   },
 
@@ -914,6 +750,10 @@ export const FixedPriceAuction = {
     message.base_auction !== undefined &&
       (obj.base_auction = message.base_auction
         ? BaseAuction.toJSON(message.base_auction)
+        : undefined)
+    message.remaining_selling_coin !== undefined &&
+      (obj.remaining_selling_coin = message.remaining_selling_coin
+        ? Coin.toJSON(message.remaining_selling_coin)
         : undefined)
     return obj
   },
@@ -924,6 +764,16 @@ export const FixedPriceAuction = {
       message.base_auction = BaseAuction.fromPartial(object.base_auction)
     } else {
       message.base_auction = undefined
+    }
+    if (
+      object.remaining_selling_coin !== undefined &&
+      object.remaining_selling_coin !== null
+    ) {
+      message.remaining_selling_coin = Coin.fromPartial(
+        object.remaining_selling_coin
+      )
+    } else {
+      message.remaining_selling_coin = undefined
     }
     return message
   }

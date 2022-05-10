@@ -5,13 +5,13 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import { useSpn } from 'tendermint-spn-vue-client'
 import { computed, reactive, watchEffect } from 'vue'
 
 import IconExternalArrow from '~/components/icons/IconExternalArrow.vue'
 import IconKeplr from '~/components/icons/IconKeplr.vue'
 import IconWarning from '~/components/icons/IconWarning.vue'
 import useAddress from '~/composables/wallet/useAddress'
-import { useIgnite } from '~/generated/tendermint-spn-vue'
 
 import IgniteButton from '../ui/IgniteButton.vue'
 import IgniteHeading from '../ui/IgniteHeading.vue'
@@ -27,8 +27,8 @@ enum ModalPage {
   Error
 }
 
-// ignite
-const { ignite, signIn, signOut } = useIgnite()
+// spn
+const { spn, signIn, signOut } = useSpn()
 
 // variables
 const initialState = {
@@ -62,18 +62,18 @@ function getInitialModalPage(isKeplrAvaliable: boolean) {
 }
 
 function resetState() {
-  state.modalPage = getInitialModalPage(ignite.keplr.value.isAvailable())
+  state.modalPage = getInitialModalPage(spn.keplr.value.isAvailable())
   state.isConnectWalletModalOpen = initialState.isConnectWalletModalOpen
 }
 
 async function tryToConnectToKeplr() {
   const { connect, getOfflineSigner, getAccParams, listenToAccChange } =
-    ignite.keplr.value
+    spn.keplr.value
 
   state.modalPage = ModalPage.Connecting
 
   const onKeplrConnect = async () => {
-    const chainId = ignite.env.value.chainID ?? ''
+    const chainId = spn.env.value.chainID ?? ''
 
     const offlineSigner = getOfflineSigner(chainId)
     signIn(offlineSigner)
@@ -88,17 +88,17 @@ async function tryToConnectToKeplr() {
 
   try {
     const stakingParams = await (
-      await ignite.cosmosStakingV1Beta1.value.queryParams()
+      await spn.cosmosStakingV1Beta1.value.queryParams()
     ).data
 
     const tokens = await (
-      await ignite.cosmosBankV1Beta1.value.queryTotalSupply()
+      await spn.cosmosBankV1Beta1.value.queryTotalSupply()
     ).data
 
     connect(onKeplrConnect, onKeplrError, {
       stakinParams: stakingParams,
       tokens,
-      env: ignite.env.value
+      env: spn.env.value
     })
   } catch (e) {
     state.modalPage = ModalPage.Error
@@ -114,7 +114,7 @@ const isErrorPage = computed(() => state.modalPage === ModalPage.Error)
 
 // watchers
 watchEffect(() => {
-  state.modalPage = getInitialModalPage(ignite.keplr.value.isAvailable())
+  state.modalPage = getInitialModalPage(spn.keplr.value.isAvailable())
 })
 </script>
 

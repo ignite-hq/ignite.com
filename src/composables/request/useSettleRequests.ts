@@ -1,8 +1,7 @@
 import { EncodeObject } from '@cosmjs/proto-signing'
 import { DeliverTxResponse } from '@cosmjs/stargate'
+import { useSpn } from 'tendermint-spn-vue-client'
 import { useMutation, useQueryClient } from 'vue-query'
-
-import { useIgnite } from '~/generated/tendermint-spn-vue'
 
 import { invalidateChainRequestsQuery } from './useChainRequests'
 
@@ -12,19 +11,15 @@ interface UseSettleRequestDTO {
 }
 
 export default function useSettleRequests() {
-  const { ignite } = useIgnite()
+  const { spn } = useSpn()
   const queryClient = useQueryClient()
 
   return useMutation<DeliverTxResponse, Error, UseSettleRequestDTO, unknown>(
     ({ signerAddress, messages }) => {
-      return ignite.signer.value.client.signAndBroadcast(
-        signerAddress,
-        messages,
-        {
-          amount: [],
-          gas: '200000'
-        }
-      )
+      return spn.signer.value.client.signAndBroadcast(signerAddress, messages, {
+        amount: [],
+        gas: '200000'
+      })
     },
     {
       onSuccess: () => {

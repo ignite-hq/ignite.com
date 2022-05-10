@@ -98,13 +98,13 @@ export interface GenesisState {
   delegator_withdraw_infos: DelegatorWithdrawInfo[]
   /** fee_pool defines the previous proposer at genesis. */
   previous_proposer: string
-  /** fee_pool defines the outstanding rewards of all ProjectValidatorsTab at genesis. */
+  /** fee_pool defines the outstanding rewards of all validators at genesis. */
   outstanding_rewards: ValidatorOutstandingRewardsRecord[]
-  /** fee_pool defines the accumulated commisions of all ProjectValidatorsTab at genesis. */
+  /** fee_pool defines the accumulated commisions of all validators at genesis. */
   validator_accumulated_commissions: ValidatorAccumulatedCommissionRecord[]
-  /** fee_pool defines the historical rewards of all ProjectValidatorsTab at genesis. */
+  /** fee_pool defines the historical rewards of all validators at genesis. */
   validator_historical_rewards: ValidatorHistoricalRewardsRecord[]
-  /** fee_pool defines the current rewards of all ProjectValidatorsTab at genesis. */
+  /** fee_pool defines the current rewards of all validators at genesis. */
   validator_current_rewards: ValidatorCurrentRewardsRecord[]
   /** fee_pool defines the delegator starting infos at genesis. */
   delegator_starting_infos: DelegatorStartingInfoRecord[]
