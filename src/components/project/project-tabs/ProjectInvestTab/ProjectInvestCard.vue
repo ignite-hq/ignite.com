@@ -17,13 +17,12 @@ import IconClock from '~/components/icons/IconClock.vue'
 import IconDots from '~/components/icons/IconDots.vue'
 import IconStack from '~/components/icons/IconStack.vue'
 import IconUser from '~/components/icons/IconUser.vue'
+import IgniteCard from '~/components/ui/IgniteCard.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
+import IgniteLink from '~/components/ui/IgniteLink.vue'
 import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import { ProgressBarItem } from '~/utils/types'
-
-import IgniteCard from '~/components/ui/IgniteCard.vue'
-import IgniteLink from '~/components/ui/IgniteLink.vue'
 
 const props = defineProps({
   data: { type: Object, required: true }

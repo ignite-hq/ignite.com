@@ -150,6 +150,10 @@ export interface CampaignQueryAllMainnetVestingAccountResponse {
   pagination?: V1Beta1PageResponse
 }
 
+export interface CampaignQueryAuctionsOfCampaignResponse {
+  auctionIDs?: string[]
+}
+
 export interface CampaignQueryCampaignSummariesResponse {
   campaignSummaries?: CampaignCampaignSummary[]
 
@@ -536,6 +540,22 @@ export class Api<
    * No description
    *
    * @tags Query
+   * @name QueryAuctionsOfCampaign
+   * @summary Queries a list of auction IDs of a campaign
+   * @request GET:/tendermint/spn/campaign/auctions_of_campaign/{campaignID}
+   */
+  queryAuctionsOfCampaign = (campaignID: string, params: RequestParams = {}) =>
+    this.request<CampaignQueryAuctionsOfCampaignResponse, RpcStatus>({
+      path: `/tendermint/spn/campaign/auctions_of_campaign/${campaignID}`,
+      method: 'GET',
+      format: 'json',
+      ...params
+    })
+
+  /**
+   * No description
+   *
+   * @tags Query
    * @name QueryCampaignAll
    * @summary Queries a list of campaign items.
    * @request GET:/tendermint/spn/campaign/campaign
@@ -638,11 +658,11 @@ export class Api<
    * @tags Query
    * @name QueryMainnetAccountAll
    * @summary Queries a list of mainnetAccount items.
-   * @request GET:/tendermint/spn/campaign/mainnet_account
+   * @request GET:/tendermint/spn/campaign/mainnet_account/{campaignID}
    */
   queryMainnetAccountAll = (
+    campaignID: string,
     query?: {
-      campaignID?: string
       'pagination.key'?: string
       'pagination.offset'?: string
       'pagination.limit'?: string
@@ -652,7 +672,7 @@ export class Api<
     params: RequestParams = {}
   ) =>
     this.request<CampaignQueryAllMainnetAccountResponse, RpcStatus>({
-      path: `/tendermint/spn/campaign/mainnet_account`,
+      path: `/tendermint/spn/campaign/mainnet_account/${campaignID}`,
       method: 'GET',
       query: query,
       format: 'json',
@@ -685,11 +705,11 @@ export class Api<
    * @tags Query
    * @name QueryMainnetVestingAccountAll
    * @summary Queries a list of mainnetVestingAccount items.
-   * @request GET:/tendermint/spn/campaign/mainnet_vesting_account
+   * @request GET:/tendermint/spn/campaign/mainnet_vesting_account/{campaignID}
    */
   queryMainnetVestingAccountAll = (
+    campaignID: string,
     query?: {
-      campaignID?: string
       'pagination.key'?: string
       'pagination.offset'?: string
       'pagination.limit'?: string
@@ -699,7 +719,7 @@ export class Api<
     params: RequestParams = {}
   ) =>
     this.request<CampaignQueryAllMainnetVestingAccountResponse, RpcStatus>({
-      path: `/tendermint/spn/campaign/mainnet_vesting_account`,
+      path: `/tendermint/spn/campaign/mainnet_vesting_account/${campaignID}`,
       method: 'GET',
       query: query,
       format: 'json',

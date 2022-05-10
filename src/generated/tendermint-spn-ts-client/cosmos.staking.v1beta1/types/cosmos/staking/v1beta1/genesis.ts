@@ -22,7 +22,7 @@ export interface GenesisState {
   last_total_power: Uint8Array
   /**
    * last_validator_powers is a special index that provides a historical list
-   * of the last-block's bonded ProjectValidatorsTab.
+   * of the last-block's bonded validators.
    */
   last_validator_powers: LastValidatorPower[]
   /** delegations defines the validator set at genesis. */

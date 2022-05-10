@@ -1,4 +1,4 @@
-import { useTendermintSpnCampaign } from 'tendermint-spn-vue'
+import { useTendermintSpnCampaign } from 'tendermint-spn-vue-client'
 import { useQuery } from 'vue-query'
 
 export default function useCampaignSummary(campaignId: string) {

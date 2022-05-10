@@ -1,14 +1,14 @@
 import { computedAsync } from '@vueuse/core'
-import { useIgnite } from 'tendermint-spn-vue'
+import { useSpn } from 'tendermint-spn-vue-client'
 
 export default function useAccount() {
-  const { ignite } = useIgnite()
+  const { spn } = useSpn()
 
   const account = computedAsync(async () => {
-    if (ignite.signer.value.addr === null) return null
+    if (spn.signer.value.addr === null) return null
 
-    const chainId = ignite.env.value.chainID ?? ''
-    const account = await ignite.keplr.value.getAccParams(chainId)
+    const chainId = spn.env.value.chainID ?? ''
+    const account = await spn.keplr.value.getAccParams(chainId)
 
     return account
   })

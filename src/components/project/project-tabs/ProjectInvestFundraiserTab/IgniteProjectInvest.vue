@@ -7,7 +7,8 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { ProgressBarItem } from '~/utils/types'
+import IgniteDenom from '~/components/common/IgniteDenom.vue'
+import IgniteProgressBar from '~/components/common/IgniteProgressBar.vue'
 import IconHelp from '~/components/icons/IconHelp.vue'
 import IconStack from '~/components/icons/IconStack.vue'
 import IgniteButton from '~/components/ui/IgniteButton.vue'
@@ -16,10 +17,9 @@ import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteInput from '~/components/ui/IgniteInput.vue'
 import IgniteLink from '~/components/ui/IgniteLink.vue'
 import IgniteNumber from '~/components/ui/IgniteNumber.vue'
-import IgniteProgressBar from '~/components/common/IgniteProgressBar.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import IgniteTooltip from '~/components/ui/IgniteTooltip.vue'
-import IgniteDenom from '~/components/common/IgniteDenom.vue'
+import { ProgressBarItem } from '~/utils/types'
 
 defineProps({
   status: { type: String, required: true },

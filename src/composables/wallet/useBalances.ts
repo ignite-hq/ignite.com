@@ -1,4 +1,4 @@
-import { useIgnite } from 'tendermint-spn-vue'
+import { useSpn } from 'tendermint-spn-vue-client'
 import { computed, ComputedRef, Ref, unref } from 'vue'
 import { useQuery } from 'vue-query'
 
@@ -8,7 +8,7 @@ type Address =
   | string
 
 export default function useBalances(address: Address) {
-  const { ignite } = useIgnite()
+  const { spn } = useSpn()
 
   const isEnabled = computed(() => {
     return Boolean(unref(address))
@@ -21,7 +21,7 @@ export default function useBalances(address: Address) {
   const { data: balances, ...other } = useQuery(
     ['balances', address],
     () => {
-      return ignite.cosmosBankV1Beta1.value
+      return spn.cosmosBankV1Beta1.value
         .queryAllBalances(addressString.value ?? '')
         .then((r) => r.data?.balances)
     },

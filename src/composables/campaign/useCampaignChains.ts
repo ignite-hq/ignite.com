@@ -1,6 +1,5 @@
+import { useTendermintSpnCampaign } from 'tendermint-spn-vue-client'
 import { useInfiniteQuery } from 'vue-query'
-
-import { useTendermintSpnCampaign } from '~/generated/tendermint-spn-vue'
 
 const CHAINS_PER_CAMPAIGN = '100'
 
