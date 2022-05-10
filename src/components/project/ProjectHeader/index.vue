@@ -13,12 +13,13 @@ import IgniteBgWave from '~/components/ui/IgniteBgWave.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteLoader from '~/components/ui/IgniteLoader.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
+import useCampaignChains from '~/composables/campaign/useCampaignChains'
 import useGitHubRepository from '~/composables/github/useGitHubRepository'
 import { CampaignCampaignSummary } from '~/generated/tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 
 import ProjectActions from './ProjectActions.vue'
 import ProjectNav from './ProjectNav.vue'
-import ProjectStatus from './ProjectStatus.vue'
+import ProjectStatus, { ProjectStatusEnvironment } from './ProjectStatus.vue'
 
 interface Props {
   projectId: string
@@ -61,6 +62,8 @@ const githubUrl = computed(() => {
 
 // composables
 const { repository, isFetching } = useGitHubRepository(githubUrl)
+const { campaignChains, isLoading: isLoadingCampaignChains } =
+  useCampaignChains(props.projectId)
 
 const breadcrumbsLinks = computed(() => {
   return [
@@ -88,6 +91,25 @@ const description = computed(() => {
 
 const isLoading = computed(() => {
   return isFetching.value || props.loading
+})
+
+const isLoadingProjectStatus = computed(() => {
+  return isLoadingCampaignChains.value || isLoading.value
+})
+
+const status = computed(() => {
+  const chains = campaignChains.value?.pages[0].campaignChains?.chains ?? []
+  const isMainnetInitalized = props.campaignSummary.campaign?.mainnetInitialized
+
+  if (!chains.length) {
+    return ProjectStatusEnvironment.NoChains
+  }
+
+  if (isMainnetInitalized) {
+    return ProjectStatusEnvironment.Mainnet
+  }
+
+  return ProjectStatusEnvironment.Testnet
 })
 </script>
 
@@ -135,9 +157,9 @@ const isLoading = computed(() => {
                     class="mb-5 text-3 lg:mb-0 lg:mr-7"
                   />
                   <ProjectStatus
-                    :loading="isLoading"
+                    :loading="isLoadingProjectStatus"
+                    :status="status"
                     :project-id="projectId ?? '0'"
-                    :campaign-id="campaignSummary?.campaign?.campaignID ?? '0'"
                     :validator-count="
                       campaignSummary?.mostRecentChain?.validatorNb ?? '0'
                     "
