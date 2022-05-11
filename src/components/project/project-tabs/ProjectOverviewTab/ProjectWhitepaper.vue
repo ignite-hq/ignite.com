@@ -10,6 +10,14 @@ export default defineComponent({
 import IgniteButton from '~/components/ui/IgniteButton.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteImage from '~/components/ui/IgniteImage.vue'
+import IgniteLoader from '~/components/ui/IgniteLoader.vue'
+
+interface Props {
+  whitepaperUrl: string
+  loading?: boolean
+}
+
+defineProps<Props>()
 </script>
 
 <template>
@@ -24,7 +32,16 @@ import IgniteImage from '~/components/ui/IgniteImage.vue'
         Learn about the vision for the project in the whitepaper.
       </div>
       <div class="mt-6">
-        <IgniteButton variant="primary" size="sm">Read whitepaper</IgniteButton>
+        <IgniteLoader v-if="loading" class="h-7" />
+        <IgniteButton
+          v-else
+          as="a"
+          variant="primary"
+          color="primary"
+          size="sm"
+          :href="whitepaperUrl"
+          >Read whitepaper</IgniteButton
+        >
       </div>
 
       <IgniteImage

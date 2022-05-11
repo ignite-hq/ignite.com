@@ -6,6 +6,7 @@ export default {
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 import IconCaret from '~/components/icons/IconCaret.vue'
 
 interface Item {
@@ -22,7 +23,6 @@ interface Props {
 interface Emits {
   (e: 'update:modelValue', value: Item): void
 }
-
 
 withDefaults(defineProps<Props>(), {
   name: 'IgniteSelect',
@@ -69,7 +69,7 @@ const hide = () => {
       </option>
     </select>
     <ul
-      class="z-1 translate-0 shadow-select absolute left-0 top-[100%] max-h-[20rem] min-w-full overflow-auto rounded-xs border border-border bg-white-1000 transition-transform"
+      class="z-1 translate-0 absolute left-0 top-[100%] max-h-[20rem] min-w-full overflow-auto rounded-xs border border-border bg-white-1000 shadow-select transition-transform"
       :class="opened ? 'hidden translate-y-3 md:block' : 'hidden'"
       @click="hide"
     >
