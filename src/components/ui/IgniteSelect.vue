@@ -6,6 +6,7 @@ export default {
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 import IconCaret from '~/components/icons/IconCaret.vue'
 
 interface Item {
