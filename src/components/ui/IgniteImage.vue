@@ -10,7 +10,7 @@ export default defineComponent({
 defineProps({
   name: {
     type: String,
-    reqired: true
+    required: true
   },
   alt: {
     type: String,
@@ -20,7 +20,7 @@ defineProps({
 
 // methods
 function getImageUrl(name: string) {
-  return new URL(`~/assets/images/${name}`, import.meta.url).href
+  return new URL(`/src/assets/images/${name}`, import.meta.url).href
 }
 </script>
 

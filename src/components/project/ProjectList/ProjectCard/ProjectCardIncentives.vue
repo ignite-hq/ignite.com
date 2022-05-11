@@ -10,7 +10,9 @@ import { computed, PropType } from 'vue'
 
 import IgniteDenom from '~/components/common/IgniteDenom.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
+import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
+import { getIncentivesFromRewards, isShare } from '~/utils/reward'
 
 const props = defineProps({
   campaignSummary: {
@@ -19,24 +21,15 @@ const props = defineProps({
   }
 })
 
-// methods
-function getIncentivesFromRewards(
-  rewards: CampaignCampaignSummary['rewards'] = []
-) {
-  return rewards.filter((coin) => {
-    const campaignId = props.campaignSummary.campaign?.campaignID
-    const isShare = !coin.denom?.startsWith(`v/${campaignId}`)
-    return isShare
-  })
-}
-
 // computed
 const incentive = computed(() => {
-  const incentiveCoins = getIncentivesFromRewards(props.campaignSummary.rewards)
+  const campaignId = props.campaignSummary.campaign?.campaignID
+  const rewards = props.campaignSummary?.rewards
+  const incentiveCoins = getIncentivesFromRewards(campaignId ?? '', rewards)
 
   const total = incentiveCoins.reduce((acc, coin) => {
     const campaignId = props.campaignSummary.campaign?.campaignID
-    const isIncentive = !coin.denom?.startsWith(`v/${campaignId}`)
+    const isIncentive = !isShare(campaignId ?? '', coin)
     if (isIncentive) return acc + Number(coin.amount)
     return acc
   }, 0)
@@ -50,13 +43,13 @@ const firstIncentiveDenom = computed(() => {
 })
 
 const pastIncentive = computed(() => {
-  const incentiveCoins = getIncentivesFromRewards(
-    props.campaignSummary.previousRewards
-  )
+  const campaignId = props.campaignSummary.campaign?.campaignID
+  const rewards = props.campaignSummary?.rewards
+  const incentiveCoins = getIncentivesFromRewards(campaignId ?? '', rewards)
 
   const total = incentiveCoins.reduce((acc, coin) => {
     const campaignId = props.campaignSummary.campaign?.campaignID
-    const isIncentive = !coin.denom?.startsWith(`v/${campaignId}`)
+    const isIncentive = !isShare(campaignId ?? '', coin)
     if (isIncentive) return acc + Number(coin.amount)
     return acc
   }, 0)
@@ -85,14 +78,15 @@ const firstPastIncentiveDenom = computed(() => {
         class="mr-3"
       />
       <IgniteHeading class="text-center text-5 font-semibold">
-        {{ incentive.total }} {{ firstIncentiveDenom?.toUpperCase() }}
+        <IgniteNumber :number="incentive.total" />
+        {{ firstIncentiveDenom?.toUpperCase() }}
       </IgniteHeading>
     </div>
     <IgniteText
       v-if="pastIncentive.total > 0"
       class="text-center text-2 text-muted"
     >
-      Past incentives: {{ pastIncentive.total }}
+      Past incentives: <IgniteNumber :number="pastIncentive.total" />
       {{ firstPastIncentiveDenom?.toUpperCase() }}
     </IgniteText>
   </div>
