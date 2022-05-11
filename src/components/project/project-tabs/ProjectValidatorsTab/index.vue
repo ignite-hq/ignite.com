@@ -7,7 +7,6 @@ export default {
 <script lang="ts" setup>
 import { useRoute } from 'vue-router'
 
-import IgniteContainer from '~/components/ui/IgniteContainer.vue'
 import ProjectCardIncentives from '~/components/project/ProjectList/ProjectCard/ProjectCardIncentives.vue'
 import ProjectCardShareAllocation from '~/components/project/ProjectList/ProjectCard/ProjectCardShareAllocation.vue'
 import IgniteButton from '~/components/ui/IgniteButton.vue'
@@ -25,7 +24,7 @@ const { campaignSummary } = useCampaignSummary(projectId)
 </script>
 
 <template>
-  <IgniteContainer class="py-10 text-center">
+  <div class="container py-10 text-center">
     <IgniteHeading class="text-center font-title text-7 font-semibold">
       Validator incentives
     </IgniteHeading>
@@ -81,5 +80,5 @@ const { campaignSummary } = useCampaignSummary(projectId)
         </IgniteButton>
       </div>
     </div>
-  </IgniteContainer>
+  </div>
 </template>

@@ -58,7 +58,6 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import IgniteContainer from '~/components/ui/IgniteContainer.vue'
 import IgniteDenom from '~/components/common/IgniteDenom.vue'
 import IconOrder from '~/components/icons/IconOrder.vue'
 import IgniteButton from '~/components/ui/IgniteButton.vue'
@@ -70,7 +69,7 @@ const curency = 'UST'
 </script>
 
 <template>
-  <IgniteContainer>
+  <div class="container">
     <div class="grid grid-cols-1 gap-6 md:grid-cols-4 md:gap-7 lg:grid-cols-12">
       <div class="px-0 md:col-span-3 lg:col-span-10">
         <IgniteHeading as="div" class="font-title text-5">
@@ -208,7 +207,7 @@ const curency = 'UST'
         </IgniteButton>
       </div>
     </div>
-  </IgniteContainer>
+  </div>
 </template>
 
 <style scoped lang="postcss">

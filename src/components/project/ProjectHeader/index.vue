@@ -8,7 +8,6 @@ export default {
 import { CampaignCampaignSummary } from 'tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 import { computed, reactive } from 'vue'
 
-import IgniteContainer from '~/components/ui/IgniteContainer.vue'
 import IgniteBreadcrumbs from '~/components/common/IgniteBreadcrumbs.vue'
 import IgniteGithubRepoLink from '~/components/common/IgniteGithubRepoLink.vue'
 import IgniteBgWave from '~/components/ui/IgniteBgWave.vue'
@@ -111,7 +110,7 @@ const status = computed(() => {
 
 <template>
   <div>
-    <IgniteContainer>
+    <div class="container">
       <div class="py-7.5">
         <IgniteBreadcrumbs :links="breadcrumbsLinks" />
       </div>
@@ -197,12 +196,12 @@ const status = computed(() => {
           </div>
         </div>
       </div>
-    </IgniteContainer>
+    </div>
 
     <div class="border-b border-border pb-5.5 md:pb-0">
-      <IgniteContainer>
+      <div class="container">
         <ProjectNav :items="navigation" :active-tab="activeTab" />
-      </IgniteContainer>
+      </div>
     </div>
   </div>
 </template>

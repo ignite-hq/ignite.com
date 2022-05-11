@@ -12,7 +12,6 @@ import {
 } from 'tendermint-spn-ts-client/tendermint.spn.launch/rest'
 import { computed, onBeforeUnmount, toRef } from 'vue'
 
-import IgniteContainer from '~/components/ui/IgniteContainer.vue'
 import RequestsEmptyState from '~/components/project/project-tabs/ProjectRequestsTab/RequestsEmptyState.vue'
 import RequestsHeader from '~/components/project/project-tabs/ProjectRequestsTab/RequestsHeader.vue'
 import RequestsHeaderTop from '~/components/project/project-tabs/ProjectRequestsTab/RequestsHeaderTop.vue'
@@ -105,7 +104,7 @@ const isLoading = computed(() => {
 </script>
 
 <template>
-  <IgniteContainer class="py-10 text-center">
+  <div class="container py-10 text-center">
     <RequestsHeaderTop class="border-b border-border pb-8" />
     <RequestsHeader :project-name="projectName ?? ''" class="mt-10.5" />
     <div>
@@ -129,5 +128,5 @@ const isLoading = computed(() => {
       >View More</IgniteButton
     >
     <SelectedRequests :requests="projectRequests" />
-  </IgniteContainer>
+  </div>
 </template>

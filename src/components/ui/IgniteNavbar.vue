@@ -2,7 +2,6 @@
 import IconIgnite from '~/components/icons/IconIgnite.vue'
 import IgniteLink from '~/components/ui/IgniteLink.vue'
 import IgniteAccount from '~/components/wallet/IgniteAccount.vue'
-import IgniteContainer from '~/components/ui/IgniteContainer.vue'
 
 interface Link {
   name: string
@@ -28,7 +27,7 @@ const links: Link[] = [
 
 <template>
   <nav class="py-6 shadow-border">
-    <IgniteContainer class="flex items-center justify-between">
+    <div class="container flex items-center justify-between">
       <div class="flex items-center space-x-8">
         <router-link :to="'/'" alt="Home" title="Home">
           <IconIgnite />
@@ -48,7 +47,7 @@ const links: Link[] = [
       </div>
 
       <IgniteAccount />
-    </IgniteContainer>
+    </div>
   </nav>
 </template>
 

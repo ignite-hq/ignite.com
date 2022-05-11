@@ -5,7 +5,6 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import IgniteContainer from '~/components/ui/IgniteContainer.vue'
 import IconUser from '~/components/icons/IconUser.vue'
 import IgniteCard from '~/components/ui/IgniteCard.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
@@ -54,23 +53,23 @@ const roadmapCancelItems = [
   <div>
     <IgniteProjectInvestCancel class="mt-8 md:mt-10.5" />
 
-    <IgniteContainer class="mt-8 md:mt-10.5">
+    <div class="container mt-8 md:mt-10.5">
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7">
         <IgniteProjectInvestSingleCard
           :items="roadmapItems"
           class="lg:col-span-2"
         />
       </div>
-    </IgniteContainer>
-    <IgniteContainer class="mt-8 md:mt-10.5">
+    </div>
+    <div class="container mt-8 md:mt-10.5">
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7">
         <IgniteProjectInvestSingleCard
           :items="roadmapCancelItems"
           class="lg:col-span-2"
         />
       </div>
-    </IgniteContainer>
-    <IgniteContainer class="mt-8 md:mt-10.5">
+    </div>
+    <div class="container mt-8 md:mt-10.5">
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7">
         <div class="flex items-end">
           <IgniteProjectInvestSingleCard size="sm" />
@@ -119,17 +118,17 @@ const roadmapCancelItems = [
           <IgniteProjectInvest status="saleCanceled" />
         </div>
       </div>
-    </IgniteContainer>
+    </div>
 
-    <IgniteContainer class="mt-8 md:mt-10.5">
+    <div class="container mt-8 md:mt-10.5">
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7">
         <div class="lg:col-span-2">
           <IgniteProjectInvestValidators :is-wild="true" />
         </div>
       </div>
-    </IgniteContainer>
+    </div>
 
-    <IgniteContainer class="mt-8 md:mt-10.5">
+    <div class="container mt-8 md:mt-10.5">
       <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:gap-7">
         <IgniteProjectInvestValidators />
         <div class="">
@@ -154,7 +153,7 @@ const roadmapCancelItems = [
           </IgniteCard>
         </div>
       </div>
-    </IgniteContainer>
+    </div>
 
     <IgniteProjectInvestInvestors class="mt-8 md:mt-10.5" />
     <IgniteProjectInvestVesting class="mt-8 md:mt-10.5" />

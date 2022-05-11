@@ -5,7 +5,6 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import IgniteContainer from '~/components/ui/IgniteContainer.vue'
 import IgniteDonutChart from '~/components/common/IgniteDonutChart.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
@@ -52,7 +51,7 @@ const dataSeries = [
 </script>
 
 <template>
-  <IgniteContainer>
+  <div class="container">
     <IgniteHeading as="div" class="text-center font-title text-5 md:text-7">
       Tokenomics
     </IgniteHeading>
@@ -63,7 +62,7 @@ const dataSeries = [
     <div class="relative mt-7 md:mt-9">
       <IgniteDonutChart :colors="colors" :data-series="dataSeries" />
     </div>
-  </IgniteContainer>
+  </div>
 </template>
 
 <style lang="postcss"></style>

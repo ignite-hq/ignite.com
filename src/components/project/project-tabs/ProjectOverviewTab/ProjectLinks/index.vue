@@ -33,14 +33,13 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import IgniteContainer from '~/components/ui/IgniteContainer.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 
 import SocialCard from './SocialCard.vue'
 </script>
 
 <template>
-  <IgniteContainer>
+  <div class="container">
     <IgniteHeading as="div" class="text-center font-title text-5 md:text-7">
       Join the community
     </IgniteHeading>
@@ -91,7 +90,7 @@ import SocialCard from './SocialCard.vue'
         </div>
       </div>
     </div>
-  </IgniteContainer>
+  </div>
 </template>
 
 <style scoped lang="postcss"></style>
