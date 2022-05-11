@@ -7,6 +7,7 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
+import IgniteContainer from '~/components/ui/IgniteContainer.vue'
 import IgniteRoadmap from '~/components/common/IgniteRoadmap.vue'
 import IgniteScrollableSection from '~/components/common/IgniteScrollableSection.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
@@ -61,7 +62,7 @@ const roadmapItems = [
 </script>
 
 <template>
-  <div class="container-full container px-5 sm:px-5.5 lg:px-7">
+  <IgniteContainer>
     <IgniteHeading as="div" class="text-center font-title text-5 md:text-7">
       Roadmap and history
     </IgniteHeading>
@@ -74,7 +75,7 @@ const roadmapItems = [
         <IgniteRoadmap :items="roadmapItems" />
       </IgniteScrollableSection>
     </div>
-  </div>
+  </IgniteContainer>
 </template>
 
 <style lang="postcss"></style>

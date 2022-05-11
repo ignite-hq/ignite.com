@@ -1,11 +1,12 @@
 <script lang="ts" setup>
+import IgniteContainer from '~/components/ui/IgniteContainer.vue'
 import ProjectList from '~/components/project/ProjectList/index.vue'
 import ProjectsHeader from '~/components/project/ProjectsHeader.vue'
 </script>
 
 <template>
-  <div class="container mb-10">
+  <IgniteContainer>
     <ProjectsHeader />
     <ProjectList />
-  </div>
+  </IgniteContainer>
 </template>

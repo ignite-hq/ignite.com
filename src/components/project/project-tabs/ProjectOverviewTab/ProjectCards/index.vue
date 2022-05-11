@@ -7,12 +7,13 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
+import IgniteContainer from '~/components/ui/IgniteContainer.vue'
 import ProjectCardFundraiser from './ProjectCardFundraiser.vue'
 import ProjectCardValidator from './ProjectCardValidator.vue'
 </script>
 
 <template>
-  <div class="container-full container px-5 sm:px-5.5 lg:px-7">
+  <IgniteContainer>
     <div class="grid grid-cols-1 gap-6 md:gap-7 lg:grid-cols-12 xl:grid-cols-2">
       <div
         class="px-0 lg:col-span-8 lg:col-start-3 xl:col-span-1 xl:col-start-auto"
@@ -33,7 +34,7 @@ import ProjectCardValidator from './ProjectCardValidator.vue'
         <ProjectCardValidator :is-wide="true" />
       </div>
     </div>
-  </div>
+  </IgniteContainer>
 </template>
 
 <style scoped lang="postcss"></style>

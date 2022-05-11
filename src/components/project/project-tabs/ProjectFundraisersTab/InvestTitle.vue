@@ -7,6 +7,7 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
+import IgniteContainer from '~/components/ui/IgniteContainer.vue'
 import IconPlus from '~/components/icons/IconPlus.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteLink from '~/components/ui/IgniteLink.vue'
@@ -22,7 +23,7 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-  <div class="container-full container px-5 sm:px-5.5 lg:px-7">
+  <IgniteContainer>
     <div class="grid grid-cols-1 gap-6 md:grid-cols-8 md:gap-7 lg:grid-cols-4">
       <div class="md:col-span-5 lg:col-span-3">
         <IgniteHeading
@@ -47,7 +48,7 @@ withDefaults(defineProps<Props>(), {
         </IgniteLink>
       </div>
     </div>
-  </div>
+  </IgniteContainer>
 </template>
 
 <style scoped lang="postcss"></style>
