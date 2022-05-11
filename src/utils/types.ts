@@ -1,7 +1,10 @@
 import { Ref } from 'vue'
 
+import { AuctionStatus } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/fundraising'
+
 export interface ProgressBarItem {
   value: string
+  amount?: number
   bgColor?: string
   split?: boolean
   color?: string
@@ -22,3 +25,23 @@ export interface PaginationParams {
 }
 
 export type RefOrValue<T> = Ref<T> | T
+
+export enum AuctionStatusLabels {
+  CurrentAndUpcoming = 'Current and upcoming',
+  Current = 'Current',
+  Upcoming = 'Upcoming',
+  Previous = 'Previous',
+  Other = 'Other'
+}
+
+export interface AuctionCardData {
+  id?: number
+  raised?: number
+  goal?: string | number
+  currency?: string
+  status?: AuctionStatusLabels
+  statusDetailed?: AuctionStatus
+  vouchers?: string
+  investors?: number
+  ends?: Date
+}

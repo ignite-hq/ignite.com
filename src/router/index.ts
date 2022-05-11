@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import Index from '../views/Index.vue'
 import Project from '../views/Project.vue'
-import ProjectInvest from '../views/ProjectInvest.vue'
+import ProjectFundraiser from '../views/ProjectFundraiser.vue'
 import ProjectInvestCreate from '../views/ProjectInvestCreate.vue'
 import Projects from '../views/Projects.vue'
 
@@ -12,7 +12,10 @@ const routes = [
   { path: '/projects', component: Projects },
   { path: '/create-fundraiser', component: ProjectInvestCreate },
   { path: '/projects/:projectId/:tab', component: Project },
-  { path: '/projects/:projectId/invest/:investId', component: ProjectInvest }
+  {
+    path: '/projects/:projectId/fundraisers/:investId',
+    component: ProjectFundraiser
+  }
 ]
 
 const router = createRouter({

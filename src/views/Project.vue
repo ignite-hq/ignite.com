@@ -8,11 +8,11 @@ export default {
 import { computed, onBeforeMount, ref } from 'vue'
 import { onBeforeRouteUpdate, useRoute } from 'vue-router'
 
-import ProjectInvestTab from '~/components/project/project-tabs/ProjectInvestTab/index.vue'
+import ProjectFundraisersTab from '~/components/project/project-tabs/ProjectFundraisersTab/index.vue'
 import ProjectOverviewTab from '~/components/project/project-tabs/ProjectOverviewTab/index.vue'
 import ProjectRequestsTab from '~/components/project/project-tabs/ProjectRequestsTab/index.vue'
 import ProjectValidatorsTab from '~/components/project/project-tabs/ProjectValidatorsTab/index.vue'
-import IgniteProjectHeader from '~/components/project/ProjectHeader/index.vue'
+import ProjectHeader from '~/components/project/ProjectHeader/index.vue'
 import useCampaignSummary from '~/composables/campaign/useCampaignSummary'
 
 const route = useRoute()
@@ -46,8 +46,8 @@ const campaignName = computed(() => {
 </script>
 
 <template>
-  <div>
-    <IgniteProjectHeader
+  <div class="container mb-10">
+    <ProjectHeader
       :loading="isLoadingCampaignSummary"
       :active-tab="tab"
       :project-id="projectId"
@@ -64,6 +64,9 @@ const campaignName = computed(() => {
       :launch-id="launchId"
       :coordinator-id="coordinatorId"
     />
-    <ProjectInvestTab v-if="tab === 'invest'" />
+    <ProjectFundraisersTab
+      v-if="tab === 'fundraisers'"
+      :campaign-summary="campaignSummary"
+    />
   </div>
 </template>
