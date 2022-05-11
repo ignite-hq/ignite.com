@@ -56,7 +56,7 @@ const mainCoinBalance = computed(() => {
 
         <IgniteLoader v-if="isFetchingBalances" class="mt-2 h-5" />
         <IgniteText v-else-if="mainCoinBalance" class="text-2 text-gray-660">
-          {{ mainCoinBalance.amount?.toUpperCase() }}
+          <IgniteNumber :number="mainCoinBalance.amount?.toUpperCase()" />
           {{ mainCoinBalance.denom?.toUpperCase() }}
         </IgniteText>
       </div>
