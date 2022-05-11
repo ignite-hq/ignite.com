@@ -63,7 +63,7 @@ export interface EvidenceParams {
 }
 
 /**
- * ValidatorParams restrict the public key types ProjectValidatorsTab can use.
+ * ValidatorParams restrict the public key types validators can use.
  * NOTE: uses ABCI pubkey naming, not Amino names.
  */
 export interface ValidatorParams {

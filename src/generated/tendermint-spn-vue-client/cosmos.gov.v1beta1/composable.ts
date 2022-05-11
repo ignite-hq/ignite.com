@@ -3,10 +3,10 @@ import { unref } from 'vue'
 import Module from 'tendermint-spn-ts-client/cosmos.gov.v1beta1/module'
 import useSpn from '../use'
 
-type SendMsgVoteType = typeof Module.prototype.sendMsgVote
 type SendMsgDepositType = typeof Module.prototype.sendMsgDeposit
-type SendMsgSubmitProposalType = typeof Module.prototype.sendMsgSubmitProposal
 type SendMsgVoteWeightedType = typeof Module.prototype.sendMsgVoteWeighted
+type SendMsgSubmitProposalType = typeof Module.prototype.sendMsgSubmitProposal
+type SendMsgVoteType = typeof Module.prototype.sendMsgVote
 
 type QueryProposalType = typeof Module.prototype.queryProposal
 type QueryProposalsType = typeof Module.prototype.queryProposals
@@ -18,10 +18,10 @@ type QueryDepositsType = typeof Module.prototype.queryDeposits
 type QueryTallyResultType = typeof Module.prototype.queryTallyResult
 
 type Response = {
-  sendMsgVote: SendMsgVoteType
   sendMsgDeposit: SendMsgDepositType
-  sendMsgSubmitProposal: SendMsgSubmitProposalType
   sendMsgVoteWeighted: SendMsgVoteWeightedType
+  sendMsgSubmitProposal: SendMsgSubmitProposalType
+  sendMsgVote: SendMsgVoteType
 
   queryProposal: QueryProposalType
   queryProposals: QueryProposalsType
@@ -37,13 +37,13 @@ function useModule(): Response {
   let { spn } = useSpn()
 
   let {
-    sendMsgVote,
-
     sendMsgDeposit,
+
+    sendMsgVoteWeighted,
 
     sendMsgSubmitProposal,
 
-    sendMsgVoteWeighted,
+    sendMsgVote,
 
     queryProposal,
 
@@ -62,13 +62,13 @@ function useModule(): Response {
     queryTallyResult
   } = unref(spn.cosmosGovV1Beta1)
 
-  sendMsgVote = sendMsgVote.bind(spn.cosmosGovV1Beta1)
-
   sendMsgDeposit = sendMsgDeposit.bind(spn.cosmosGovV1Beta1)
+
+  sendMsgVoteWeighted = sendMsgVoteWeighted.bind(spn.cosmosGovV1Beta1)
 
   sendMsgSubmitProposal = sendMsgSubmitProposal.bind(spn.cosmosGovV1Beta1)
 
-  sendMsgVoteWeighted = sendMsgVoteWeighted.bind(spn.cosmosGovV1Beta1)
+  sendMsgVote = sendMsgVote.bind(spn.cosmosGovV1Beta1)
 
   queryProposal = queryProposal.bind(spn.cosmosGovV1Beta1)
 
@@ -87,13 +87,13 @@ function useModule(): Response {
   queryTallyResult = queryTallyResult.bind(spn.cosmosGovV1Beta1)
 
   return {
-    sendMsgVote,
-
     sendMsgDeposit,
+
+    sendMsgVoteWeighted,
 
     sendMsgSubmitProposal,
 
-    sendMsgVoteWeighted,
+    sendMsgVote,
 
     queryProposal,
 

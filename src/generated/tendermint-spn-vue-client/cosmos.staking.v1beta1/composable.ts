@@ -4,10 +4,10 @@ import Module from 'tendermint-spn-ts-client/cosmos.staking.v1beta1/module'
 import useSpn from '../use'
 
 type SendMsgCreateValidatorType = typeof Module.prototype.sendMsgCreateValidator
-type SendMsgUndelegateType = typeof Module.prototype.sendMsgUndelegate
 type SendMsgEditValidatorType = typeof Module.prototype.sendMsgEditValidator
 type SendMsgBeginRedelegateType = typeof Module.prototype.sendMsgBeginRedelegate
 type SendMsgDelegateType = typeof Module.prototype.sendMsgDelegate
+type SendMsgUndelegateType = typeof Module.prototype.sendMsgUndelegate
 
 type QueryValidatorsType = typeof Module.prototype.queryValidators
 type QueryValidatorType = typeof Module.prototype.queryValidator
@@ -33,10 +33,10 @@ type QueryParamsType = typeof Module.prototype.queryParams
 
 type Response = {
   sendMsgCreateValidator: SendMsgCreateValidatorType
-  sendMsgUndelegate: SendMsgUndelegateType
   sendMsgEditValidator: SendMsgEditValidatorType
   sendMsgBeginRedelegate: SendMsgBeginRedelegateType
   sendMsgDelegate: SendMsgDelegateType
+  sendMsgUndelegate: SendMsgUndelegateType
 
   queryValidators: QueryValidatorsType
   queryValidator: QueryValidatorType
@@ -60,13 +60,13 @@ function useModule(): Response {
   let {
     sendMsgCreateValidator,
 
-    sendMsgUndelegate,
-
     sendMsgEditValidator,
 
     sendMsgBeginRedelegate,
 
     sendMsgDelegate,
+
+    sendMsgUndelegate,
 
     queryValidators,
 
@@ -99,13 +99,13 @@ function useModule(): Response {
 
   sendMsgCreateValidator = sendMsgCreateValidator.bind(spn.cosmosStakingV1Beta1)
 
-  sendMsgUndelegate = sendMsgUndelegate.bind(spn.cosmosStakingV1Beta1)
-
   sendMsgEditValidator = sendMsgEditValidator.bind(spn.cosmosStakingV1Beta1)
 
   sendMsgBeginRedelegate = sendMsgBeginRedelegate.bind(spn.cosmosStakingV1Beta1)
 
   sendMsgDelegate = sendMsgDelegate.bind(spn.cosmosStakingV1Beta1)
+
+  sendMsgUndelegate = sendMsgUndelegate.bind(spn.cosmosStakingV1Beta1)
 
   queryValidators = queryValidators.bind(spn.cosmosStakingV1Beta1)
 
@@ -152,13 +152,13 @@ function useModule(): Response {
   return {
     sendMsgCreateValidator,
 
-    sendMsgUndelegate,
-
     sendMsgEditValidator,
 
     sendMsgBeginRedelegate,
 
     sendMsgDelegate,
+
+    sendMsgUndelegate,
 
     queryValidators,
 

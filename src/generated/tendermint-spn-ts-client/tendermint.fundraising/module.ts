@@ -5,27 +5,21 @@ import { SigningStargateClient, DeliverTxResponse } from '@cosmjs/stargate'
 import { EncodeObject } from '@cosmjs/proto-signing'
 
 import { Api } from './rest'
-import { MsgAddAllowedBidder } from './types/fundraising/tx'
-import { MsgCreateFixedPriceAuction } from './types/fundraising/tx'
 import { MsgCreateBatchAuction } from './types/fundraising/tx'
+import { MsgCancelAuction } from './types/fundraising/tx'
 import { MsgPlaceBid } from './types/fundraising/tx'
 import { MsgModifyBid } from './types/fundraising/tx'
-import { MsgCancelAuction } from './types/fundraising/tx'
-
-type sendMsgAddAllowedBidderParams = {
-  value: MsgAddAllowedBidder
-  fee?: StdFee
-  memo?: string
-}
-
-type sendMsgCreateFixedPriceAuctionParams = {
-  value: MsgCreateFixedPriceAuction
-  fee?: StdFee
-  memo?: string
-}
+import { MsgAddAllowedBidder } from './types/fundraising/tx'
+import { MsgCreateFixedPriceAuction } from './types/fundraising/tx'
 
 type sendMsgCreateBatchAuctionParams = {
   value: MsgCreateBatchAuction
+  fee?: StdFee
+  memo?: string
+}
+
+type sendMsgCancelAuctionParams = {
+  value: MsgCancelAuction
   fee?: StdFee
   memo?: string
 }
@@ -42,22 +36,24 @@ type sendMsgModifyBidParams = {
   memo?: string
 }
 
-type sendMsgCancelAuctionParams = {
-  value: MsgCancelAuction
+type sendMsgAddAllowedBidderParams = {
+  value: MsgAddAllowedBidder
   fee?: StdFee
   memo?: string
 }
 
-type msgAddAllowedBidderParams = {
-  value: MsgAddAllowedBidder
-}
-
-type msgCreateFixedPriceAuctionParams = {
+type sendMsgCreateFixedPriceAuctionParams = {
   value: MsgCreateFixedPriceAuction
+  fee?: StdFee
+  memo?: string
 }
 
 type msgCreateBatchAuctionParams = {
   value: MsgCreateBatchAuction
+}
+
+type msgCancelAuctionParams = {
+  value: MsgCancelAuction
 }
 
 type msgPlaceBidParams = {
@@ -68,8 +64,12 @@ type msgModifyBidParams = {
   value: MsgModifyBid
 }
 
-type msgCancelAuctionParams = {
-  value: MsgCancelAuction
+type msgAddAllowedBidderParams = {
+  value: MsgAddAllowedBidder
+}
+
+type msgCreateFixedPriceAuctionParams = {
+  value: MsgCreateFixedPriceAuction
 }
 
 class Module extends Api<any> {
@@ -90,6 +90,131 @@ class Module extends Api<any> {
   public noSigner() {
     this._client = undefined
     this._addr = undefined
+  }
+
+  async sendMsgCreateBatchAuction({
+    value,
+    fee,
+    memo
+  }: sendMsgCreateBatchAuctionParams): Promise<DeliverTxResponse> {
+    if (!this._client) {
+      throw new Error(
+        'TxClient:sendMsgCreateBatchAuction: Unable to sign Tx. Signer is not present.'
+      )
+    }
+    if (!this._addr) {
+      throw new Error(
+        'TxClient:sendMsgCreateBatchAuction: Unable to sign Tx. Address is not present.'
+      )
+    }
+    try {
+      let msg = this.msgCreateBatchAuction({
+        value: MsgCreateBatchAuction.fromPartial(value)
+      })
+      return await this._client.signAndBroadcast(
+        this._addr,
+        [msg],
+        fee ? fee : { amount: [], gas: '200000' },
+        memo
+      )
+    } catch (e: any) {
+      throw new Error(
+        'TxClient:sendMsgCreateBatchAuction: Could not broadcast Tx: ' +
+          e.message
+      )
+    }
+  }
+
+  async sendMsgCancelAuction({
+    value,
+    fee,
+    memo
+  }: sendMsgCancelAuctionParams): Promise<DeliverTxResponse> {
+    if (!this._client) {
+      throw new Error(
+        'TxClient:sendMsgCancelAuction: Unable to sign Tx. Signer is not present.'
+      )
+    }
+    if (!this._addr) {
+      throw new Error(
+        'TxClient:sendMsgCancelAuction: Unable to sign Tx. Address is not present.'
+      )
+    }
+    try {
+      let msg = this.msgCancelAuction({
+        value: MsgCancelAuction.fromPartial(value)
+      })
+      return await this._client.signAndBroadcast(
+        this._addr,
+        [msg],
+        fee ? fee : { amount: [], gas: '200000' },
+        memo
+      )
+    } catch (e: any) {
+      throw new Error(
+        'TxClient:sendMsgCancelAuction: Could not broadcast Tx: ' + e.message
+      )
+    }
+  }
+
+  async sendMsgPlaceBid({
+    value,
+    fee,
+    memo
+  }: sendMsgPlaceBidParams): Promise<DeliverTxResponse> {
+    if (!this._client) {
+      throw new Error(
+        'TxClient:sendMsgPlaceBid: Unable to sign Tx. Signer is not present.'
+      )
+    }
+    if (!this._addr) {
+      throw new Error(
+        'TxClient:sendMsgPlaceBid: Unable to sign Tx. Address is not present.'
+      )
+    }
+    try {
+      let msg = this.msgPlaceBid({ value: MsgPlaceBid.fromPartial(value) })
+      return await this._client.signAndBroadcast(
+        this._addr,
+        [msg],
+        fee ? fee : { amount: [], gas: '200000' },
+        memo
+      )
+    } catch (e: any) {
+      throw new Error(
+        'TxClient:sendMsgPlaceBid: Could not broadcast Tx: ' + e.message
+      )
+    }
+  }
+
+  async sendMsgModifyBid({
+    value,
+    fee,
+    memo
+  }: sendMsgModifyBidParams): Promise<DeliverTxResponse> {
+    if (!this._client) {
+      throw new Error(
+        'TxClient:sendMsgModifyBid: Unable to sign Tx. Signer is not present.'
+      )
+    }
+    if (!this._addr) {
+      throw new Error(
+        'TxClient:sendMsgModifyBid: Unable to sign Tx. Address is not present.'
+      )
+    }
+    try {
+      let msg = this.msgModifyBid({ value: MsgModifyBid.fromPartial(value) })
+      return await this._client.signAndBroadcast(
+        this._addr,
+        [msg],
+        fee ? fee : { amount: [], gas: '200000' },
+        memo
+      )
+    } catch (e: any) {
+      throw new Error(
+        'TxClient:sendMsgModifyBid: Could not broadcast Tx: ' + e.message
+      )
+    }
   }
 
   async sendMsgAddAllowedBidder({
@@ -157,160 +282,6 @@ class Module extends Api<any> {
     }
   }
 
-  async sendMsgCreateBatchAuction({
-    value,
-    fee,
-    memo
-  }: sendMsgCreateBatchAuctionParams): Promise<DeliverTxResponse> {
-    if (!this._client) {
-      throw new Error(
-        'TxClient:sendMsgCreateBatchAuction: Unable to sign Tx. Signer is not present.'
-      )
-    }
-    if (!this._addr) {
-      throw new Error(
-        'TxClient:sendMsgCreateBatchAuction: Unable to sign Tx. Address is not present.'
-      )
-    }
-    try {
-      let msg = this.msgCreateBatchAuction({
-        value: MsgCreateBatchAuction.fromPartial(value)
-      })
-      return await this._client.signAndBroadcast(
-        this._addr,
-        [msg],
-        fee ? fee : { amount: [], gas: '200000' },
-        memo
-      )
-    } catch (e: any) {
-      throw new Error(
-        'TxClient:sendMsgCreateBatchAuction: Could not broadcast Tx: ' +
-          e.message
-      )
-    }
-  }
-
-  async sendMsgPlaceBid({
-    value,
-    fee,
-    memo
-  }: sendMsgPlaceBidParams): Promise<DeliverTxResponse> {
-    if (!this._client) {
-      throw new Error(
-        'TxClient:sendMsgPlaceBid: Unable to sign Tx. Signer is not present.'
-      )
-    }
-    if (!this._addr) {
-      throw new Error(
-        'TxClient:sendMsgPlaceBid: Unable to sign Tx. Address is not present.'
-      )
-    }
-    try {
-      let msg = this.msgPlaceBid({ value: MsgPlaceBid.fromPartial(value) })
-      return await this._client.signAndBroadcast(
-        this._addr,
-        [msg],
-        fee ? fee : { amount: [], gas: '200000' },
-        memo
-      )
-    } catch (e: any) {
-      throw new Error(
-        'TxClient:sendMsgPlaceBid: Could not broadcast Tx: ' + e.message
-      )
-    }
-  }
-
-  async sendMsgModifyBid({
-    value,
-    fee,
-    memo
-  }: sendMsgModifyBidParams): Promise<DeliverTxResponse> {
-    if (!this._client) {
-      throw new Error(
-        'TxClient:sendMsgModifyBid: Unable to sign Tx. Signer is not present.'
-      )
-    }
-    if (!this._addr) {
-      throw new Error(
-        'TxClient:sendMsgModifyBid: Unable to sign Tx. Address is not present.'
-      )
-    }
-    try {
-      let msg = this.msgModifyBid({ value: MsgModifyBid.fromPartial(value) })
-      return await this._client.signAndBroadcast(
-        this._addr,
-        [msg],
-        fee ? fee : { amount: [], gas: '200000' },
-        memo
-      )
-    } catch (e: any) {
-      throw new Error(
-        'TxClient:sendMsgModifyBid: Could not broadcast Tx: ' + e.message
-      )
-    }
-  }
-
-  async sendMsgCancelAuction({
-    value,
-    fee,
-    memo
-  }: sendMsgCancelAuctionParams): Promise<DeliverTxResponse> {
-    if (!this._client) {
-      throw new Error(
-        'TxClient:sendMsgCancelAuction: Unable to sign Tx. Signer is not present.'
-      )
-    }
-    if (!this._addr) {
-      throw new Error(
-        'TxClient:sendMsgCancelAuction: Unable to sign Tx. Address is not present.'
-      )
-    }
-    try {
-      let msg = this.msgCancelAuction({
-        value: MsgCancelAuction.fromPartial(value)
-      })
-      return await this._client.signAndBroadcast(
-        this._addr,
-        [msg],
-        fee ? fee : { amount: [], gas: '200000' },
-        memo
-      )
-    } catch (e: any) {
-      throw new Error(
-        'TxClient:sendMsgCancelAuction: Could not broadcast Tx: ' + e.message
-      )
-    }
-  }
-
-  msgAddAllowedBidder({ value }: msgAddAllowedBidderParams): EncodeObject {
-    try {
-      return {
-        typeUrl: '/tendermint.fundraising.MsgAddAllowedBidder',
-        value: MsgAddAllowedBidder.fromPartial(value)
-      }
-    } catch (e: any) {
-      throw new Error(
-        'TxClient:MsgAddAllowedBidder: Could not create message: ' + e.message
-      )
-    }
-  }
-
-  msgCreateFixedPriceAuction({
-    value
-  }: msgCreateFixedPriceAuctionParams): EncodeObject {
-    try {
-      return {
-        typeUrl: '/tendermint.fundraising.MsgCreateFixedPriceAuction',
-        value: MsgCreateFixedPriceAuction.fromPartial(value)
-      }
-    } catch (e: any) {
-      throw new Error(
-        'TxClient:MsgCreateFixedPriceAuction: Could not create message: ' +
-          e.message
-      )
-    }
-  }
-
   msgCreateBatchAuction({ value }: msgCreateBatchAuctionParams): EncodeObject {
     try {
       return {
@@ -320,6 +291,19 @@ class Module extends Api<any> {
     } catch (e: any) {
       throw new Error(
         'TxClient:MsgCreateBatchAuction: Could not create message: ' + e.message
+      )
+    }
+  }
+
+  msgCancelAuction({ value }: msgCancelAuctionParams): EncodeObject {
+    try {
+      return {
+        typeUrl: '/tendermint.fundraising.MsgCancelAuction',
+        value: MsgCancelAuction.fromPartial(value)
+      }
+    } catch (e: any) {
+      throw new Error(
+        'TxClient:MsgCancelAuction: Could not create message: ' + e.message
       )
     }
   }
@@ -350,15 +334,31 @@ class Module extends Api<any> {
     }
   }
 
-  msgCancelAuction({ value }: msgCancelAuctionParams): EncodeObject {
+  msgAddAllowedBidder({ value }: msgAddAllowedBidderParams): EncodeObject {
     try {
       return {
-        typeUrl: '/tendermint.fundraising.MsgCancelAuction',
-        value: MsgCancelAuction.fromPartial(value)
+        typeUrl: '/tendermint.fundraising.MsgAddAllowedBidder',
+        value: MsgAddAllowedBidder.fromPartial(value)
       }
     } catch (e: any) {
       throw new Error(
-        'TxClient:MsgCancelAuction: Could not create message: ' + e.message
+        'TxClient:MsgAddAllowedBidder: Could not create message: ' + e.message
+      )
+    }
+  }
+
+  msgCreateFixedPriceAuction({
+    value
+  }: msgCreateFixedPriceAuctionParams): EncodeObject {
+    try {
+      return {
+        typeUrl: '/tendermint.fundraising.MsgCreateFixedPriceAuction',
+        value: MsgCreateFixedPriceAuction.fromPartial(value)
+      }
+    } catch (e: any) {
+      throw new Error(
+        'TxClient:MsgCreateFixedPriceAuction: Could not create message: ' +
+          e.message
       )
     }
   }

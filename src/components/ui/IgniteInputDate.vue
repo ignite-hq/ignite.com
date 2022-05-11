@@ -8,8 +8,6 @@ export default {
 import 'v-calendar/dist/style.css'
 
 import BigNumber from 'bignumber.js'
-import dayjs from 'dayjs'
-import utc from 'dayjs/plugin/utc'
 import { DatePicker } from 'v-calendar'
 import { reactive } from 'vue'
 
@@ -86,8 +84,6 @@ function handleDayClick() {
   emit('input', state.date)
 }
 function handleTimezoneInput(value: string) {
-  dayjs.extend(utc)
-
   state.timezone = new BigNumber(value).dividedBy(60).toNumber()
 
   emit('input', state.date)
@@ -124,7 +120,7 @@ function handleTimezoneInput(value: string) {
         </div>
         <div class="mt-6 md:mt-0 md:ml-7.5">
           <IgniteText as="label" class="block text-2 text-muted"
-            >Time</IgniteText
+            >Time (24 hr format)</IgniteText
           >
           <div class="-mx-3 mt-3 flex flex-wrap items-center md:flex-nowrap">
             <input

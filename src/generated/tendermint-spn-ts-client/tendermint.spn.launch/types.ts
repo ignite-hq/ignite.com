@@ -2,6 +2,16 @@ import { Chain } from './types/launch/chain'
 import { InitialGenesis } from './types/launch/chain'
 import { DefaultInitialGenesis } from './types/launch/chain'
 import { GenesisURL } from './types/launch/chain'
+import { EventChainCreated } from './types/launch/events'
+import { EventRequestCreated } from './types/launch/events'
+import { EventRequestSettled } from './types/launch/events'
+import { EventGenesisAccountAdded } from './types/launch/events'
+import { EventVestingAccountAdded } from './types/launch/events'
+import { EventValidatorAdded } from './types/launch/events'
+import { EventAccountRemoved } from './types/launch/events'
+import { EventValidatorRemoved } from './types/launch/events'
+import { EventLaunchTriggered } from './types/launch/events'
+import { EventLaunchReverted } from './types/launch/events'
 import { RequestCounter } from './types/launch/genesis'
 import { GenesisAccount } from './types/launch/genesis_account'
 import { GenesisValidator } from './types/launch/genesis_validator'
@@ -22,6 +32,16 @@ export {
   InitialGenesis,
   DefaultInitialGenesis,
   GenesisURL,
+  EventChainCreated,
+  EventRequestCreated,
+  EventRequestSettled,
+  EventGenesisAccountAdded,
+  EventVestingAccountAdded,
+  EventValidatorAdded,
+  EventAccountRemoved,
+  EventValidatorRemoved,
+  EventLaunchTriggered,
+  EventLaunchReverted,
   RequestCounter,
   GenesisAccount,
   GenesisValidator,

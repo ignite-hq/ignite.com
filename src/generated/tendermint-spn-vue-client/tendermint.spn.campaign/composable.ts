@@ -4,19 +4,19 @@ import Module from 'tendermint-spn-ts-client/tendermint.spn.campaign/module'
 import useSpn from '../use'
 
 type SendMsgRedeemVouchersType = typeof Module.prototype.sendMsgRedeemVouchers
-type SendMsgAddSharesType = typeof Module.prototype.sendMsgAddShares
-type SendMsgBurnVouchersType = typeof Module.prototype.sendMsgBurnVouchers
-type SendMsgAddVestingOptionsType =
-  typeof Module.prototype.sendMsgAddVestingOptions
-type SendMsgCreateCampaignType = typeof Module.prototype.sendMsgCreateCampaign
-type SendMsgEditCampaignType = typeof Module.prototype.sendMsgEditCampaign
-type SendMsgMintVouchersType = typeof Module.prototype.sendMsgMintVouchers
-type SendMsgInitializeMainnetType =
-  typeof Module.prototype.sendMsgInitializeMainnet
 type SendMsgUpdateTotalSupplyType =
   typeof Module.prototype.sendMsgUpdateTotalSupply
+type SendMsgEditCampaignType = typeof Module.prototype.sendMsgEditCampaign
+type SendMsgMintVouchersType = typeof Module.prototype.sendMsgMintVouchers
+type SendMsgAddVestingOptionsType =
+  typeof Module.prototype.sendMsgAddVestingOptions
 type SendMsgUnredeemVouchersType =
   typeof Module.prototype.sendMsgUnredeemVouchers
+type SendMsgAddSharesType = typeof Module.prototype.sendMsgAddShares
+type SendMsgInitializeMainnetType =
+  typeof Module.prototype.sendMsgInitializeMainnet
+type SendMsgBurnVouchersType = typeof Module.prototype.sendMsgBurnVouchers
+type SendMsgCreateCampaignType = typeof Module.prototype.sendMsgCreateCampaign
 
 type QueryCampaignType = typeof Module.prototype.queryCampaign
 type QueryCampaignAllType = typeof Module.prototype.queryCampaignAll
@@ -31,18 +31,20 @@ type QueryCampaignSummaryType = typeof Module.prototype.queryCampaignSummary
 type QueryCampaignSummariesType = typeof Module.prototype.queryCampaignSummaries
 type QueryParamsType = typeof Module.prototype.queryParams
 type QueryTotalSharesType = typeof Module.prototype.queryTotalShares
+type QueryAuctionsOfCampaignType =
+  typeof Module.prototype.queryAuctionsOfCampaign
 
 type Response = {
   sendMsgRedeemVouchers: SendMsgRedeemVouchersType
-  sendMsgAddShares: SendMsgAddSharesType
-  sendMsgBurnVouchers: SendMsgBurnVouchersType
-  sendMsgAddVestingOptions: SendMsgAddVestingOptionsType
-  sendMsgCreateCampaign: SendMsgCreateCampaignType
+  sendMsgUpdateTotalSupply: SendMsgUpdateTotalSupplyType
   sendMsgEditCampaign: SendMsgEditCampaignType
   sendMsgMintVouchers: SendMsgMintVouchersType
-  sendMsgInitializeMainnet: SendMsgInitializeMainnetType
-  sendMsgUpdateTotalSupply: SendMsgUpdateTotalSupplyType
+  sendMsgAddVestingOptions: SendMsgAddVestingOptionsType
   sendMsgUnredeemVouchers: SendMsgUnredeemVouchersType
+  sendMsgAddShares: SendMsgAddSharesType
+  sendMsgInitializeMainnet: SendMsgInitializeMainnetType
+  sendMsgBurnVouchers: SendMsgBurnVouchersType
+  sendMsgCreateCampaign: SendMsgCreateCampaignType
 
   queryCampaign: QueryCampaignType
   queryCampaignAll: QueryCampaignAllType
@@ -55,6 +57,7 @@ type Response = {
   queryCampaignSummaries: QueryCampaignSummariesType
   queryParams: QueryParamsType
   queryTotalShares: QueryTotalSharesType
+  queryAuctionsOfCampaign: QueryAuctionsOfCampaignType
 }
 
 function useModule(): Response {
@@ -63,23 +66,23 @@ function useModule(): Response {
   let {
     sendMsgRedeemVouchers,
 
-    sendMsgAddShares,
-
-    sendMsgBurnVouchers,
-
-    sendMsgAddVestingOptions,
-
-    sendMsgCreateCampaign,
+    sendMsgUpdateTotalSupply,
 
     sendMsgEditCampaign,
 
     sendMsgMintVouchers,
 
-    sendMsgInitializeMainnet,
-
-    sendMsgUpdateTotalSupply,
+    sendMsgAddVestingOptions,
 
     sendMsgUnredeemVouchers,
+
+    sendMsgAddShares,
+
+    sendMsgInitializeMainnet,
+
+    sendMsgBurnVouchers,
+
+    sendMsgCreateCampaign,
 
     queryCampaign,
 
@@ -101,36 +104,38 @@ function useModule(): Response {
 
     queryParams,
 
-    queryTotalShares
+    queryTotalShares,
+
+    queryAuctionsOfCampaign
   } = unref(spn.tendermintSpnCampaign)
 
   sendMsgRedeemVouchers = sendMsgRedeemVouchers.bind(spn.tendermintSpnCampaign)
 
-  sendMsgAddShares = sendMsgAddShares.bind(spn.tendermintSpnCampaign)
-
-  sendMsgBurnVouchers = sendMsgBurnVouchers.bind(spn.tendermintSpnCampaign)
-
-  sendMsgAddVestingOptions = sendMsgAddVestingOptions.bind(
+  sendMsgUpdateTotalSupply = sendMsgUpdateTotalSupply.bind(
     spn.tendermintSpnCampaign
   )
-
-  sendMsgCreateCampaign = sendMsgCreateCampaign.bind(spn.tendermintSpnCampaign)
 
   sendMsgEditCampaign = sendMsgEditCampaign.bind(spn.tendermintSpnCampaign)
 
   sendMsgMintVouchers = sendMsgMintVouchers.bind(spn.tendermintSpnCampaign)
 
-  sendMsgInitializeMainnet = sendMsgInitializeMainnet.bind(
-    spn.tendermintSpnCampaign
-  )
-
-  sendMsgUpdateTotalSupply = sendMsgUpdateTotalSupply.bind(
+  sendMsgAddVestingOptions = sendMsgAddVestingOptions.bind(
     spn.tendermintSpnCampaign
   )
 
   sendMsgUnredeemVouchers = sendMsgUnredeemVouchers.bind(
     spn.tendermintSpnCampaign
   )
+
+  sendMsgAddShares = sendMsgAddShares.bind(spn.tendermintSpnCampaign)
+
+  sendMsgInitializeMainnet = sendMsgInitializeMainnet.bind(
+    spn.tendermintSpnCampaign
+  )
+
+  sendMsgBurnVouchers = sendMsgBurnVouchers.bind(spn.tendermintSpnCampaign)
+
+  sendMsgCreateCampaign = sendMsgCreateCampaign.bind(spn.tendermintSpnCampaign)
 
   queryCampaign = queryCampaign.bind(spn.tendermintSpnCampaign)
 
@@ -162,26 +167,30 @@ function useModule(): Response {
 
   queryTotalShares = queryTotalShares.bind(spn.tendermintSpnCampaign)
 
+  queryAuctionsOfCampaign = queryAuctionsOfCampaign.bind(
+    spn.tendermintSpnCampaign
+  )
+
   return {
     sendMsgRedeemVouchers,
 
-    sendMsgAddShares,
-
-    sendMsgBurnVouchers,
-
-    sendMsgAddVestingOptions,
-
-    sendMsgCreateCampaign,
+    sendMsgUpdateTotalSupply,
 
     sendMsgEditCampaign,
 
     sendMsgMintVouchers,
 
-    sendMsgInitializeMainnet,
-
-    sendMsgUpdateTotalSupply,
+    sendMsgAddVestingOptions,
 
     sendMsgUnredeemVouchers,
+
+    sendMsgAddShares,
+
+    sendMsgInitializeMainnet,
+
+    sendMsgBurnVouchers,
+
+    sendMsgCreateCampaign,
 
     queryCampaign,
 
@@ -203,7 +212,9 @@ function useModule(): Response {
 
     queryParams,
 
-    queryTotalShares
+    queryTotalShares,
+
+    queryAuctionsOfCampaign
   }
 }
 

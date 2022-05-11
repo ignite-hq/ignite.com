@@ -15,6 +15,7 @@ export { UIStates }
 
 <script lang="ts" setup>
 import { Coin } from '@cosmjs/amino'
+import { DeliverTxResponse } from '@cosmjs/stargate'
 import BigNumber from 'bignumber.js'
 import dayjs from 'dayjs'
 import { cloneDeep } from 'lodash'
@@ -34,6 +35,7 @@ import FundraiserSection from '~/components/invest/FundraiserSection.vue'
 import FundraiserSummary from '~/components/invest/FundraiserSummary.vue'
 import IgniteButton from '~/components/ui/IgniteButton.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
+import IgniteInput from '~/components/ui/IgniteInput.vue'
 import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 
@@ -91,6 +93,7 @@ interface State {
   feeAmount?: Coin
   totalSupply?: Coin[]
   voucherCoin?: Coin
+  errorMsg?: string
 }
 const initialState: State = {
   currentUIState: UIStates.Fresh,
@@ -106,16 +109,7 @@ const initialState: State = {
         .toString(),
       denom: DUMMY_TOTAL_SUPPLY[0].denom
     },
-    vesting_schedules: [
-      {
-        release_time: getWeeksLater(TODAY, 2),
-        weight: '50'
-      },
-      {
-        release_time: getWeeksLater(TODAY, 3),
-        weight: '50'
-      }
-    ]
+    vesting_schedules: []
   },
   totalSupply: DUMMY_TOTAL_SUPPLY,
   voucherCoin: DUMMY_TOTAL_SUPPLY[0]
@@ -200,7 +194,12 @@ function handleAddDistributionClick() {
   const newSchedules = [
     ...state.auction.vesting_schedules,
     {
-      release_time: getWeeksLater(lastSchedule?.release_time as Date, 1),
+      release_time: getWeeksLater(
+        lastSchedule
+          ? (lastSchedule?.release_time as Date)
+          : (state.auction.end_time as Date),
+        1
+      ),
       weight: '0'
     }
   ]
@@ -212,11 +211,8 @@ function handleDeleteDistributionClick(index: number) {
     (_, i) => i !== index
   )
 }
-function handleAuctionCreated() {
-  router.push('/')
-}
-function handleAuctionFailed() {
-  router.push('/')
+function handleModalAck() {
+  location.reload()
 }
 
 // methods
@@ -259,6 +255,7 @@ function assertAuction(auction: MsgCreateFixedPriceAuction) {
 }
 async function publish() {
   const payload = normalizeAuction(state.auction)
+  let response: DeliverTxResponse
 
   try {
     assertAuction(payload)
@@ -269,21 +266,22 @@ async function publish() {
 
     state.currentUIState = UIStates.Creating
 
-    const response = await spn.signer.value.client.signAndBroadcast(
+    response = await spn.signer.value.client.signAndBroadcast(
       spn.signer.value.addr,
       [msg],
-      2000
+      'auto'
     )
 
     if (response.code) {
-      throw new Error()
+      throw new Error(`Errored: ${response.code}`)
     }
 
+    state.errorMsg = ''
     state.currentUIState = UIStates.Created
   } catch (err) {
+    console.error(err)
+    state.errorMsg = `${err}`
     state.currentUIState = UIStates.Error
-
-    throw err
   }
 }
 function cancel() {
@@ -297,8 +295,8 @@ function cancel() {
     <FundraiserCreateModal
       :visible="showModal"
       :current-ui-state="state.currentUIState"
-      @close="handleAuctionCreated"
-      @error="handleAuctionFailed"
+      @ack="handleModalAck"
+      :error-msg="state.errorMsg"
     />
     <!-- Header -->
     <div class="flex flex-col">
@@ -444,7 +442,7 @@ function cancel() {
                 <div>
                   <IgniteInputDate
                     :min-date="state.auction.start_time"
-                    :max-date="getWeeksLater(state.auction.start_time, 1)"
+                    :max-date="getWeeksLater(state.auction.start_time as Date, 1)"
                     :initial-date="(state.auction.end_time as Date)"
                     @input="handleEndDateInput"
                   />
@@ -535,24 +533,20 @@ function cancel() {
                   </IgniteButton>
                 </div>
               </div>
-              <div
-                v-if="index + 1 === state.auction.vesting_schedules.length"
-                class="mt-8 flex-row"
-              >
-                <IgniteButton
-                  variant="light"
-                  class="border border-primary px-4"
-                  @click="handleAddDistributionClick"
-                >
-                  <IconPlus
-                    class="mr-3 h-[0.625rem] w-[0.625rem]"
-                    stroke-width="2"
-                  />
-                  <span>Add Distribution</span>
-                </IgniteButton>
-              </div>
             </div>
           </FundraiserInputRow>
+          <FundraiserInputRow>
+            <!-- Add Distribution -->
+            <div class="mt-8 flex-row">
+              <IgniteButton variant="light" class="border border-primary px-4" @click="handleAddDistributionClick">
+                <IconPlus
+                  class="mr-3 h-[0.625rem] w-[0.625rem]"
+                  stroke-width="2"
+                />
+                <span>Add Distribution</span>
+              </IgniteButton>
+            </div></FundraiserInputRow
+          >
         </FundraiserInputSection>
         <FundraiserInfoCard>
           <IgniteHeading class="font-title text-3 font-semibold">
