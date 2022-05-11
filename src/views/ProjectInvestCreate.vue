@@ -16,13 +16,16 @@ export { UIStates }
 <script lang="ts" setup>
 import { Coin } from '@cosmjs/amino'
 import BigNumber from 'bignumber.js'
+import dayjs from 'dayjs'
 import { cloneDeep } from 'lodash'
 import type { MsgCreateFixedPriceAuction } from 'tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/tx'
 import { useSpn } from 'tendermint-spn-vue-client'
 import { computed, reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import dayjs from 'dayjs'
 
+import IconCanceled from '~/components/icons/IconCanceled.vue'
+import IconPlus from '~/components/icons/IconPlus.vue'
+import IconStack from '~/components/icons/IconStack.vue'
 import FundraiserCreateModal from '~/components/invest/FundraiserCreateModal.vue'
 import FundraiserInfoCard from '~/components/invest/FundraiserInfoCard.vue'
 import FundraiserInputRow from '~/components/invest/FundraiserInputRow.vue'
@@ -31,13 +34,11 @@ import FundraiserSection from '~/components/invest/FundraiserSection.vue'
 import FundraiserSummary from '~/components/invest/FundraiserSummary.vue'
 import IgniteButton from '~/components/ui/IgniteButton.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
-import IgniteInput from '~/components/ui/IgniteInput.vue'
+import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 
-import IgniteInputAmount from '../components/ui/IgniteInputAmount.vue'
+import IgniteInputWithSwitch from '../components/common/IgniteInputWithSwitch.vue'
 import IgniteInputDate from '../components/ui/IgniteInputDate.vue'
-import IgniteNumber from '~/components/ui/IgniteNumber.vue'
-import IconCanceled from '~/components/icons/IconCanceled.vue'
 
 const TODAY = new Date()
 
@@ -327,13 +328,24 @@ function cancel() {
                 Total quantity for sale
               </IgniteText>
             </div>
-            <div class="flex items-center">
+            <div class="mt-3 flex items-center">
               <div>
-                <IgniteInput
+                <IgniteInputWithSwitch
+                  :value="state.auction.selling_coin?.amount"
+                  type="number"
+                  select-default="%"
+                  :items="[
+                    { label: IconStack, value: 'quantity' },
+                    { label: '%', value: 'percentage' }
+                  ]"
+                  class="max-w-[14.5rem]"
+                  @input="handleAmountInput"
+                />
+                <!-- <IgniteInput
                   :value="state.auction.selling_coin?.amount"
                   type="number"
                   @input="handleAmountInput"
-                />
+                /> -->
               </div>
               <div class="ml-6 flex-row">
                 <IgniteText as="span" class="font-bold">
@@ -350,10 +362,24 @@ function cancel() {
                 Price per voucher
               </IgniteText>
             </div>
-            <div class="flex items-center">
+            <div class="mt-3 flex items-center">
               <div class="">
-                <IgniteInputAmount
+                <IgniteInputWithSwitch
                   :value="state.auction.start_price"
+                  select-default="UST"
+                  :items="[
+                    {
+                      labelDenom: 'denom',
+                      label: 'UST',
+                      value: 'UST'
+                    },
+                    {
+                      labelDenom: 'denom',
+                      label: 'ATOM',
+                      value: 'ATOM'
+                    }
+                  ]"
+                  class="max-w-[14.5rem]"
                   @input="handlePricePerVoucher"
                 />
               </div>
@@ -457,46 +483,55 @@ function cancel() {
                 </IgniteText>
               </div>
               <div
-                class="col-span-2 mt-7 flex flex-row flex-wrap items-center gap-7"
+                class="col-span-2 mt-7 flex flex-row flex-wrap items-end gap-7"
               >
                 <!-- Date -->
-                <div class="flex-col">
-                  <div>
-                    <IgniteInputDate
-                      :min-date="
-                        index === 0
-                          ? state.auction.end_time
-                          : nextMinDateForSchedule
-                      "
-                      :initial-date="(schedule.release_time as Date)"
-                      @input="
-                        (date) => handleDistributionDateInput(date, index)
-                      "
-                    />
-                  </div>
+                <div>
+                  <IgniteInputDate
+                    :min-date="
+                      index === 0
+                        ? state.auction.end_time
+                        : nextMinDateForSchedule
+                    "
+                    :initial-date="(schedule.release_time as Date)"
+                    @input="(date) => handleDistributionDateInput(date, index)"
+                  />
                 </div>
                 <!-- Amount -->
-                <div class="flex-col">
+                <div>
                   <div>
                     <IgniteText as="label" class="block text-2 text-muted">
                       Amount</IgniteText
                     >
                   </div>
                   <div class="mt-3">
-                    <IgniteInputAmount
+                    <IgniteInputWithSwitch
                       :value="schedule.weight"
+                      select-default="%"
+                      :items="[
+                        { label: IconStack, value: 'quantity' },
+                        { label: '%', value: 'percentage' }
+                      ]"
+                      class="max-w-[10rem]"
                       @input="
                         (amount) => handleDistributionWeightInput(amount, index)
                       "
                     />
+                    <!-- <IgniteInputAmount
+                      :value="schedule.weight"
+                      @input="
+                        (amount) => handleDistributionWeightInput(amount, index)
+                      "
+                    /> -->
                   </div>
                 </div>
                 <div>
                   <IgniteButton
                     v-if="index > 0"
+                    class="py-5.5 text-error"
                     @click="() => handleDeleteDistributionClick(index)"
                   >
-                    <IconCanceled class="delete" />
+                    <IconCanceled stroke-width="2" class="transition-color" />
                   </IgniteButton>
                 </div>
               </div>
@@ -504,8 +539,16 @@ function cancel() {
                 v-if="index + 1 === state.auction.vesting_schedules.length"
                 class="mt-8 flex-row"
               >
-                <IgniteButton class="px-6" @click="handleAddDistributionClick">
-                  Add Distribution
+                <IgniteButton
+                  variant="light"
+                  class="border border-primary px-4"
+                  @click="handleAddDistributionClick"
+                >
+                  <IconPlus
+                    class="mr-3 h-[0.625rem] w-[0.625rem]"
+                    stroke-width="2"
+                  />
+                  <span>Add Distribution</span>
                 </IgniteButton>
               </div>
             </div>
@@ -540,8 +583,4 @@ function cancel() {
   </div>
 </template>
 
-<style scoped lang="postcss">
-.delete {
-  color: red;
-}
-</style>
+<style scoped lang="postcss"></style>

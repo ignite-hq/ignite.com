@@ -6,6 +6,8 @@ export default {
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
+import IgniteDenom from '~/components/common/IgniteDenom.vue'
 import IconCaret from '~/components/icons/IconCaret.vue'
 
 interface Emits {
@@ -17,10 +19,14 @@ const emit = defineEmits<Emits>()
 interface Props {
   name: string
   value: string
-  items: { label: string; value: number }[]
+  variants?: string
+  items: { labelDenom?: string; label: string; value: number }[]
+  isMobileNative: boolean
 }
 
-defineProps<Props>()
+withDefaults(defineProps<Props>(), {
+  isMobileNative: true
+})
 
 // state
 const opened = ref(false)
@@ -44,12 +50,17 @@ function hide() {
     <button
       v-click-outside="hide"
       class="flex h-8.5 w-full items-center rounded-xs border border-border px-5"
+      :class="variants"
       @click="toggle"
     >
       <span class="whitespace-nowrap">{{ value }}</span>
       <IconCaret class="ml-3" :class="opened && 'rotate-180'" />
     </button>
-    <select :value="value" class="absolute inset-0 opacity-0 md:hidden">
+    <select
+      :value="value"
+      class="absolute inset-0 opacity-0 md:hidden"
+      :class="isMobileNative ? 'md:hidden' : 'hidden'"
+    >
       <option
         v-for="(item, key) in items"
         :key="`select_${name}_${item}`"
@@ -60,17 +71,31 @@ function hide() {
     </select>
     <ul
       class="z-1 translate-0 absolute left-0 top-[100%] max-h-[20rem] min-w-full overflow-auto rounded-xs shadow-select transition-transform"
-      :class="opened ? 'hidden translate-y-3 md:block' : 'hidden'"
+      :class="[
+        opened && isMobileNative && 'mt-2 hidden md:block',
+        opened && !isMobileNative ? 'mt-2 block' : 'hidden'
+      ]"
       @click="hide"
     >
       <li
         v-for="(item, key) in items"
         :key="`list_${name}_${item}`"
-        class="cursor-pointer border-b border-border px-7 py-5 transition-opacity last:border-0 hover:opacity-70"
+        class="flex cursor-pointer items-center border-b border-border px-7 py-5 transition-opacity last:border-0 hover:opacity-70"
         :class="value === key && 'pointer-events-none bg-border'"
         @click="() => handleInput(item.value)"
       >
-        {{ item.label }}
+        <IgniteDenom
+          v-if="item.labelDenom"
+          modifier="avatar"
+          :denom="item.labelDenom"
+          :title="item.labelDenom"
+          size="small"
+          class="mr-3"
+        />
+        <span v-if="typeof item.label === 'string'">
+          {{ item.label }}
+        </span>
+        <component :is="item.label" v-else />
       </li>
     </ul>
   </div>
