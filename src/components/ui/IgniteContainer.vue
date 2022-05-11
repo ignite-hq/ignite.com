@@ -7,7 +7,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="container-full container px-5 sm:px-5.5 lg:px-7">
+  <div class="container px-5 sm:px-5.5 lg:px-7">
     <slot />
   </div>
 </template>
