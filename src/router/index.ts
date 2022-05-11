@@ -13,7 +13,7 @@ const routes = [
   { path: '/create-fundraiser', component: ProjectInvestCreate },
   { path: '/projects/:projectId/:tab', component: Project },
   {
-    path: '/projects/:projectId/fundraisers/:investId',
+    path: '/projects/:projectId/fundraisers/:fundraiserId',
     component: ProjectFundraiser
   }
 ]

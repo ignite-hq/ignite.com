@@ -5,52 +5,24 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import IconUser from '~/components/icons/IconUser.vue'
-import IgniteCard from '~/components/ui/IgniteCard.vue'
-import IgniteHeading from '~/components/ui/IgniteHeading.vue'
-import IgniteNumber from '~/components/ui/IgniteNumber.vue'
-import IgniteText from '~/components/ui/IgniteText.vue'
-
 import IgniteProjectInvest from './IgniteProjectInvest.vue'
 import IgniteProjectInvestCancel from './IgniteProjectInvestCancel.vue'
 import IgniteProjectInvestInvestors from './IgniteProjectInvestInvestors.vue'
 import IgniteProjectInvestSingleCard from './IgniteProjectInvestSingleCard.vue'
 import IgniteProjectInvestValidators from './IgniteProjectInvestValidators.vue'
 import IgniteProjectInvestVesting from './IgniteProjectInvestVesting.vue'
+import useFundraiser from '~/composables/fundraising/useFundraiser'
 
-const roadmapItems = [
-  {
-    status: 'complited',
-    name: 'Fundraiser published'
-  },
-  {
-    name: 'Project started',
-    date: '03.25'
-  },
-  {
-    name: 'Sale begins',
-    date: '04.01 at 9 AM UTC'
-  },
-  {
-    name: 'Sale ends',
-    date: '04.01 at 9 AM UTC'
-  }
-]
+import { useRoute } from 'vue-router'
 
-const roadmapCancelItems = [
-  {
-    status: 'complited',
-    name: 'Fundraiser published'
-  },
-  {
-    status: 'cancelled',
-    name: 'Fundraiser cancelled'
-  }
-]
+const route = useRoute()
+const fundraiserId = route.params.fundraiserId.toString() || '0'
+
+const { fundraiser } = useFundraiser(fundraiserId)
 </script>
 
 <template>
-  <div>
+  <div v-if="fundraiser">
     <IgniteProjectInvestCancel class="mt-8 md:mt-10.5" />
 
     <div
@@ -58,7 +30,7 @@ const roadmapCancelItems = [
     >
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7">
         <IgniteProjectInvestSingleCard
-          :items="roadmapItems"
+          :auction="fundraiser.auction"
           class="lg:col-span-2"
         />
       </div>
@@ -67,19 +39,6 @@ const roadmapCancelItems = [
       class="container-full container mt-8 px-5 sm:px-5.5 md:mt-10.5 lg:px-7"
     >
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7">
-        <IgniteProjectInvestSingleCard
-          :items="roadmapCancelItems"
-          class="lg:col-span-2"
-        />
-      </div>
-    </div>
-    <div
-      class="container-full container mt-8 px-5 sm:px-5.5 md:mt-10.5 lg:px-7"
-    >
-      <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7">
-        <div class="flex items-end">
-          <IgniteProjectInvestSingleCard size="sm" />
-        </div>
         <div class="mt-6 md:mt-8 lg:mt-0">
           <IgniteProjectInvest status="registrationNotOpen" />
         </div>
@@ -166,6 +125,11 @@ const roadmapCancelItems = [
     </div>
 
     <IgniteProjectInvestInvestors class="mt-8 md:mt-10.5" />
-    <IgniteProjectInvestVesting class="mt-8 md:mt-10.5" />
+    <IgniteProjectInvestVesting
+      :vesting-schedules="fundraiser.auction.base_auction.vesting_schedules"
+      :curency="fundraiser.auction.base_auction.selling_coin.denom"
+      :amount="fundraiser.auction.base_auction.selling_coin.amount"
+      class="mt-8 md:mt-10.5"
+    />
   </div>
 </template>
