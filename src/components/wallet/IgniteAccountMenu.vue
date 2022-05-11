@@ -17,6 +17,7 @@ import IgniteButton from '../ui/IgniteButton.vue'
 import IgniteHeading from '../ui/IgniteHeading.vue'
 import IgniteLink from '../ui/IgniteLink.vue'
 import IgniteLoader from '../ui/IgniteLoader.vue'
+import IgniteNumber from '../ui/IgniteNumber.vue'
 import IgniteProfileIcon from '../ui/IgniteProfileIcon.vue'
 import IgniteText from '../ui/IgniteText.vue'
 
@@ -72,7 +73,7 @@ const mainCoinBalance = computed(() => {
 
           <IgniteLoader v-if="isFetchingBalances" class="mt-2 h-5" />
           <IgniteText v-else-if="mainCoinBalance" class="text-2 text-muted">
-            {{ mainCoinBalance.amount?.toUpperCase() }}
+            <IgniteNumber :number="mainCoinBalance.amount?.toUpperCase()" />
             {{ mainCoinBalance.denom?.toUpperCase() }} · Keplr
           </IgniteText>
         </div>
