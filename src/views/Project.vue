@@ -17,7 +17,7 @@ import useCampaignSummary from '~/composables/campaign/useCampaignSummary'
 
 const route = useRoute()
 const projectId = route.params.projectId.toString() || '0'
-let tab = ref(route.params?.tab?.toString().toLowerCase() || 'overview')
+const tab = ref(route.params?.tab?.toString().toLowerCase() || 'overview')
 
 onBeforeMount(() => {
   window.scrollTo(0, 0)
@@ -53,7 +53,10 @@ const campaignName = computed(() => {
       :project-id="projectId"
       :campaign-summary="campaignSummary"
     />
-    <ProjectOverviewTab v-if="tab === 'overview'" />
+    <ProjectOverviewTab
+      v-if="tab === 'overview'"
+      :campaign-summary="campaignSummary"
+    />
     <ProjectValidatorsTab v-if="tab === 'validators'" />
     <ProjectRequestsTab
       v-if="tab === 'requests'"

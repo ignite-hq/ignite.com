@@ -10,10 +10,9 @@ interface NavLink {
 }
 
 defineProps({
-  activeTab: String,
   items: {
     type: Array as PropType<NavLink[]>,
-    requred: true,
+    required: true,
     default: () => []
   }
 })
