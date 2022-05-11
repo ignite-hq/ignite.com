@@ -142,16 +142,23 @@ function handleTimezoneInput(value: string) {
             />
             <IgniteSelect
               name="timezone"
-              :value="formatOffsetToUTC(state.timezone)"
+              :selected="{
+                label: formatOffsetToUTC(state.timezone),
+                value: `${state.timezone * 60}`
+              }"
               :items="
                 UTC_ZONES.map((i) => ({
                   label: formatOffsetToUTC(i),
-                  value: i * 60
+                  value: String(i)
                 }))
               "
               class="md:mt- mx-3 w-full md:w-auto"
               @input="handleTimezoneInput"
-            />
+            >
+              <template v-for="i in UTC_ZONES" v-slot:[String(i)]>
+                {{ formatOffsetToUTC(i) }}
+              </template></IgniteSelect
+            >
           </div>
         </div>
       </div>

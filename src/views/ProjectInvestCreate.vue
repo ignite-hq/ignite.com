@@ -26,7 +26,6 @@ import { useRouter } from 'vue-router'
 
 import IconCanceled from '~/components/icons/IconCanceled.vue'
 import IconPlus from '~/components/icons/IconPlus.vue'
-import IconStack from '~/components/icons/IconStack.vue'
 import FundraiserCreateModal from '~/components/invest/FundraiserCreateModal.vue'
 import FundraiserInfoCard from '~/components/invest/FundraiserInfoCard.vue'
 import FundraiserInputRow from '~/components/invest/FundraiserInputRow.vue'
@@ -35,12 +34,13 @@ import FundraiserSection from '~/components/invest/FundraiserSection.vue'
 import FundraiserSummary from '~/components/invest/FundraiserSummary.vue'
 import IgniteButton from '~/components/ui/IgniteButton.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
-import IgniteInput from '~/components/ui/IgniteInput.vue'
 import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 
-import IgniteInputWithSwitch from '../components/common/IgniteInputWithSwitch.vue'
 import IgniteInputDate from '../components/ui/IgniteInputDate.vue'
+import IgniteSelect from '~/components/ui/IgniteSelect.vue'
+import IgniteInput from '~/components/ui/IgniteInput.vue'
+import IgniteDenom from '~/components/common/IgniteDenom.vue'
 
 const TODAY = new Date()
 
@@ -50,11 +50,26 @@ function getWeeksLater(date: Date, amountOfWeeks = 1): Date {
   return dayjs(date).add(amountOfWeeks, 'week').toDate()
 }
 
-const DUMMY_TOTAL_SUPPLY: Coin[] = [
+const DUMMY_VOUCHERS: Coin[] = [
   toMacro({
     amount: '100000000000000000',
     denom: 'uspn'
+  }),
+  toMacro({
+    amount: '100000000000000000',
+    denom: 'utoken'
   })
+]
+
+const DUMMY_DENOMS: Coin[] = [
+  toMacro({
+    amount: '100000000000000000',
+    denom: 'uspn'
+  }),
+  {
+    amount: '10000000000',
+    denom: 'UST'
+  }
 ]
 
 function pctToDecimals(pct: string, decimals = 18): string {
@@ -79,6 +94,10 @@ function toMacro(amount: Coin): Coin {
   }
 }
 
+function coinToSelectOption(c: Coin): { label: string; value: string } {
+  return { label: c.denom.toUpperCase(), value: c.denom }
+}
+
 interface ISellingCoin {
   selling_coin: Coin
 }
@@ -91,28 +110,27 @@ interface State {
   currentUIState: UIStates
   auction: NonNullableMsgCreateFixedPriceAuction
   feeAmount?: Coin
-  totalSupply?: Coin[]
-  voucherCoin?: Coin
+  vouchersAvailable: Coin[]
+  payingDenomsAvailable: Coin[]
   errorMsg?: string
 }
+
 const initialState: State = {
   currentUIState: UIStates.Fresh,
   auction: {
     auctioneer: '',
-    start_price: '20',
+    start_price: '10',
     start_time: TODAY,
     end_time: getWeeksLater(TODAY, 1),
     paying_coin_denom: 'spn',
     selling_coin: {
-      amount: new BigNumber(DUMMY_TOTAL_SUPPLY[0].amount)
-        .dividedBy(10)
-        .toString(),
-      denom: DUMMY_TOTAL_SUPPLY[0].denom
+      amount: new BigNumber(DUMMY_VOUCHERS[0].amount).dividedBy(20).toString(),
+      denom: DUMMY_VOUCHERS[0].denom
     },
     vesting_schedules: []
   },
-  totalSupply: DUMMY_TOTAL_SUPPLY,
-  voucherCoin: DUMMY_TOTAL_SUPPLY[0]
+  vouchersAvailable: DUMMY_VOUCHERS,
+  payingDenomsAvailable: DUMMY_DENOMS
 }
 const state = reactive(initialState)
 
@@ -124,8 +142,8 @@ const router = useRouter()
 
 // computed
 const voucherTotalSupply = computed<number>(() => {
-  const totalSupplyAsString = state.totalSupply?.find(
-    (i) => i.denom === state.voucherCoin?.denom
+  const totalSupplyAsString = state.vouchersAvailable.find(
+    (i) => i.denom === state.auction.selling_coin?.denom
   )?.amount
 
   return new BigNumber(totalSupplyAsString ?? '0').toNumber()
@@ -176,6 +194,11 @@ function handleAmountInput(evt: Event) {
 function handlePricePerVoucher(value: string) {
   state.auction.start_price = value
 }
+function handlePayingDenomChange(value: string) {
+  state.auction.paying_coin_denom = (
+    state.payingDenomsAvailable.find((i) => i.denom === value) as Coin
+  ).denom
+}
 function handleStartDateInput(date: Date) {
   state.auction.start_time = date
 }
@@ -216,6 +239,52 @@ function handleModalAck() {
 }
 
 // methods
+function normalizeToAmount(evt: Event, maxDecimals = 0): string {
+  function format(value: string): string {
+    let newValue: string = value
+
+    // Replace commas
+    newValue = newValue.replace(',', '.')
+
+    // Disallow decimals if wished for
+    newValue = maxDecimals > 0 ? newValue : newValue.replace('.', '')
+
+    // Only numbers
+    newValue = newValue.replace(/[^0-9.]/g, '')
+
+    if (newValue.startsWith('.')) {
+      newValue = '0' + newValue
+    }
+
+    if (newValue.split('').filter((char) => char === '.').length > 1) {
+      // Remove subsequent separators
+      newValue = newValue.replace(/(?<=\..*)\./g, '')
+    }
+
+    let [integerDigits, fractionDigits] = newValue.split('.')
+
+    if (fractionDigits?.length > maxDecimals) {
+      newValue = `${integerDigits}.${fractionDigits.slice(0, maxDecimals)}`
+    }
+
+    return newValue
+  }
+
+  const inputEl = evt.target as HTMLInputElement
+  const value = inputEl.value
+
+  if (!value) {
+    return ''
+  }
+
+  let currentValue = value
+
+  while (parseFloat(currentValue) > Number.MAX_SAFE_INTEGER) {
+    currentValue = currentValue.slice(0, -1)
+  }
+
+  return format(currentValue)
+}
 function normalizeAuction(
   auction: MsgCreateFixedPriceAuction
 ): MsgCreateFixedPriceAuction {
@@ -327,23 +396,12 @@ function cancel() {
               </IgniteText>
             </div>
             <div class="mt-3 flex items-center">
-              <div>
-                <IgniteInputWithSwitch
+              <div class="flex max-w-[14.5rem]">
+                <IgniteInput
                   :value="state.auction.selling_coin?.amount"
-                  type="number"
-                  select-default="%"
-                  :items="[
-                    { label: IconStack, value: 'quantity' },
-                    { label: '%', value: 'percentage' }
-                  ]"
-                  class="max-w-[14.5rem]"
-                  @input="handleAmountInput"
+                  variants="text-center border border-border"
+                  @input="(evt) => handleAmountInput(evt)"
                 />
-                <!-- <IgniteInput
-                  :value="state.auction.selling_coin?.amount"
-                  type="number"
-                  @input="handleAmountInput"
-                /> -->
               </div>
               <div class="ml-6 flex-row">
                 <IgniteText as="span" class="font-bold">
@@ -362,24 +420,43 @@ function cancel() {
             </div>
             <div class="mt-3 flex items-center">
               <div class="">
-                <IgniteInputWithSwitch
-                  :value="state.auction.start_price"
-                  select-default="UST"
-                  :items="[
-                    {
-                      labelDenom: 'denom',
-                      label: 'UST',
-                      value: 'UST'
-                    },
-                    {
-                      labelDenom: 'denom',
-                      label: 'ATOM',
-                      value: 'ATOM'
-                    }
-                  ]"
-                  class="max-w-[14.5rem]"
-                  @input="handlePricePerVoucher"
-                />
+                <div class="flex max-w-[14.5rem]">
+                  <IgniteSelect
+                    :selected="
+                      coinToSelectOption({
+                        amount: '',
+                        denom: state.auction.paying_coin_denom
+                      })
+                    "
+                    :items="state.payingDenomsAvailable.map(coinToSelectOption)"
+                    variants="rounded-r-none"
+                    :is-mobile-native="false"
+                    @input="handlePayingDenomChange"
+                  >
+                    <template
+                      v-for="i in state.payingDenomsAvailable"
+                      :key="i.denom"
+                      v-slot:[i.denom]
+                    >
+                      <IgniteDenom
+                        v-if="i.denom"
+                        modifier="avatar"
+                        :denom="i.denom"
+                        :title="i.denom"
+                        size="small"
+                        class="mr-3"
+                      />
+                      {{ i.denom.toUpperCase() }}
+                    </template>
+                  </IgniteSelect>
+                  <IgniteInput
+                    :value="state.auction.start_price"
+                    variants="text-center border border-border border-l-0 rounded-l-none"
+                    @input="
+                      (evt) => handlePricePerVoucher(normalizeToAmount(evt))
+                    "
+                  />
+                </div>
               </div>
               <div class="ml-6 flex-row">
                 <IgniteText class="font-bold">
@@ -503,24 +580,19 @@ function cancel() {
                     >
                   </div>
                   <div class="mt-3">
-                    <IgniteInputWithSwitch
-                      :value="schedule.weight"
-                      select-default="%"
-                      :items="[
-                        { label: IconStack, value: 'quantity' },
-                        { label: '%', value: 'percentage' }
-                      ]"
-                      class="max-w-[10rem]"
-                      @input="
-                        (amount) => handleDistributionWeightInput(amount, index)
-                      "
-                    />
-                    <!-- <IgniteInputAmount
-                      :value="schedule.weight"
-                      @input="
-                        (amount) => handleDistributionWeightInput(amount, index)
-                      "
-                    /> -->
+                    <div class="flex max-w-[14.5rem]">
+                      <IgniteInput
+                        :value="schedule.weight"
+                        variants="text-center border border-border"
+                        @input="
+                          (evt) =>
+                            handleDistributionWeightInput(
+                              normalizeToAmount(evt),
+                              index
+                            )
+                        "
+                      />
+                    </div>
                   </div>
                 </div>
                 <div>
@@ -538,7 +610,11 @@ function cancel() {
           <FundraiserInputRow>
             <!-- Add Distribution -->
             <div class="mt-8 flex-row">
-              <IgniteButton variant="light" class="border border-primary px-4" @click="handleAddDistributionClick">
+              <IgniteButton
+                variant="light"
+                class="border border-primary px-4"
+                @click="handleAddDistributionClick"
+              >
                 <IconPlus
                   class="mr-3 h-[0.625rem] w-[0.625rem]"
                   stroke-width="2"

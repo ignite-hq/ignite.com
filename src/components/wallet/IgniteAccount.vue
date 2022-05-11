@@ -67,8 +67,7 @@ function resetState() {
 }
 
 async function tryToConnectToKeplr() {
-  const { connect, getOfflineSigner, getAccParams, listenToAccChange } =
-    spn.keplr.value
+  const { connect, getOfflineSigner, listenToAccChange } = spn.keplr.value
 
   state.modalPage = ModalPage.Connecting
 
