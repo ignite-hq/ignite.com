@@ -2,7 +2,7 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'ProjectInvestTitle'
+  name: 'InvestStart'
 })
 </script>
 
@@ -12,6 +12,14 @@ import IgniteCard from '~/components/ui/IgniteCard.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteLink from '~/components/ui/IgniteLink.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
+
+interface Props {
+  projectName?: string
+}
+
+withDefaults(defineProps<Props>(), {
+  projectName: ''
+})
 </script>
 
 <template>
@@ -20,9 +28,9 @@ import IgniteText from '~/components/ui/IgniteText.vue'
       <IgniteHeading as="div" class="font-title text-4 font-semibold md:text-5">
         Start a fundraiser
       </IgniteHeading>
-      <IgniteText as="div" class="mx-auto mt-3 max-w-sm text-3 text-muted">
-        Create one or more fundraisers to put Project Name in front of qualified
-        investors.
+      <IgniteText class="mx-auto mt-3 max-w-sm text-3 text-muted">
+        Create one or more fundraisers to put {{ projectName }} in front of
+        qualified investors.
       </IgniteText>
       <div class="mt-7">
         <IgniteLink to="/create-fundraiser" type="button" color="primary">

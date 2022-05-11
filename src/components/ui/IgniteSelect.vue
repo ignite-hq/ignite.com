@@ -6,36 +6,39 @@ export default {
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-
 import IconCaret from '~/components/icons/IconCaret.vue'
 
-interface Emits {
-  (e: 'input', value: string): void
+interface Item {
+  value: string
+  label: string
 }
-
-const emit = defineEmits<Emits>()
 
 interface Props {
   name: string
-  value: string
-  items: { label: string; value: number }[]
+  modelValue: Item
+  items: Item[]
 }
 
-defineProps<Props>()
+interface Emits {
+  (e: 'update:modelValue', value: Item): void
+}
 
-// state
+
+withDefaults(defineProps<Props>(), {
+  name: 'IgniteSelect',
+  value: { value: '', label: '' } as Item,
+  items: () => [] as Item[]
+})
+
 const opened = ref(false)
 
-// handlers
-function handleInput(value: string) {
-  emit('input', value)
-}
+defineEmits<Emits>()
 
-// methods
-function toggle() {
+const toggle = () => {
   opened.value = !opened.value
 }
-function hide() {
+
+const hide = () => {
   opened.value = false
 }
 </script>
@@ -47,29 +50,37 @@ function hide() {
       class="flex h-8.5 w-full items-center rounded-xs border border-border px-5"
       @click="toggle"
     >
-      <span class="whitespace-nowrap">{{ value }}</span>
+      <slot>
+        <span class="whitespace-nowrap">{{ modelValue.label }}</span>
+      </slot>
       <IconCaret class="ml-3" :class="opened && 'rotate-180'" />
     </button>
-    <select :value="value" class="absolute inset-0 opacity-0 md:hidden">
+    <select
+      :value="modelValue"
+      class="absolute inset-0 opacity-0 md:hidden"
+      @input="$emit('update:modelValue', JSON.parse($event.target.value))"
+    >
       <option
-        v-for="(item, key) in items"
-        :key="`select_${name}_${item}`"
-        :value="key"
+        v-for="item in items"
+        :key="`select_${name}_${item.value}`"
+        :value="JSON.stringify(item)"
       >
-        {{ item }}
+        {{ item.label }}
       </option>
     </select>
     <ul
-      class="z-1 translate-0 absolute left-0 top-[100%] max-h-[20rem] min-w-full overflow-auto rounded-xs shadow-select transition-transform"
+      class="z-1 translate-0 shadow-select absolute left-0 top-[100%] max-h-[20rem] min-w-full overflow-auto rounded-xs border border-border bg-white-1000 transition-transform"
       :class="opened ? 'hidden translate-y-3 md:block' : 'hidden'"
       @click="hide"
     >
       <li
-        v-for="(item, key) in items"
-        :key="`list_${name}_${item}`"
+        v-for="item in items"
+        :key="`list_${name}_${item.value}`"
         class="cursor-pointer border-b border-border px-7 py-5 transition-opacity last:border-0 hover:opacity-70"
-        :class="value === key && 'pointer-events-none bg-border'"
-        @click="() => handleInput(item.value)"
+        :class="
+          modelValue.value === item.value && 'pointer-events-none bg-border'
+        "
+        @click="$emit('update:modelValue', item)"
       >
         {{ item.label }}
       </li>

@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
 
 export default defineComponent({
   name: 'ProjectInvestTitle'
@@ -22,16 +22,20 @@ import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteLink from '~/components/ui/IgniteLink.vue'
 import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
-import { ProgressBarItem } from '~/utils/types'
+import { ProgressBarItem, AuctionCardData } from '~/utils/types'
+import { AuctionStatusLabels } from '~/utils/types'
 
 const props = defineProps({
-  data: { type: Object, required: true }
+  data: { type: Object as PropType<AuctionCardData>, required: true }
 })
 
 const progressBar = {
   items: [
     {
-      value: ((props.data.raised / props.data.goal) * 100).toString(),
+      value: (
+        ((props.data.raised ?? 0) / Number(props.data.goal ?? 0)) *
+        100
+      ).toString(),
       bgColor: 'bg-primary'
     }
   ] as ProgressBarItem[]
@@ -42,20 +46,23 @@ const projectId = route.params.projectId.toString() || '0'
 </script>
 
 <template>
-  <IgniteLink :to="`/projects/${projectId}/invest/${data.id}`" class="w-full">
+  <IgniteLink
+    :to="`/projects/${projectId}/fundraisers/${data.id}`"
+    class="w-full"
+  >
     <IgniteCard :shadow="true" class="w-full py-6 px-5 md:p-7.5">
       <IgniteProgressBar :items="progressBar.items" :label="false" size="xs" />
       <IgniteHeading
         as="div"
         class="mt-5 font-title text-4 font-semibold md:text-5"
       >
-        <IgniteNumber :number="data.raised" />
-        {{ data.curency }}
+        <IgniteNumber :number="Number(data.raised)" />
+        {{ data.currency }}
       </IgniteHeading>
       <IgniteHeading as="div" class="mt-3 text-3 text-muted">
         Raised of
         <strong>
-          <IgniteNumber :number="data.goal" /> {{ data.curency }}
+          <IgniteNumber :number="Number(data.goal)" /> {{ data.currency }}
         </strong>
       </IgniteHeading>
       <div
@@ -67,10 +74,30 @@ const projectId = route.params.projectId.toString() || '0'
             as="div"
             class="mt-2 flex items-center text-2 font-semibold md:mt-3 md:text-3"
           >
-            <IconDots v-if="data.status === 'Ongoing'" class="mr-3" />
-            <IconClock v-if="data.status === 'Upcoming'" class="mr-3" />
-            <IconCheckMarkThin v-if="data.status === 'Funded'" class="mr-3" />
-            <IconCanceled v-if="data.status === 'Canceled'" class="mr-3" />
+            <IconDots
+              v-if="data.statusDetailed === 'AUCTION_STATUS_VESTING'"
+              class="mr-3"
+            />
+            <IconDots
+              v-if="data.statusDetailed === 'AUCTION_STATUS_STARTED'"
+              class="mr-3"
+            />
+            <IconClock
+              v-if="data.statusDetailed === 'AUCTION_STATUS_STANDBY'"
+              class="mr-3"
+            />
+            <IconCheckMarkThin
+              v-if="data.statusDetailed === 'AUCTION_STATUS_FINISHED'"
+              class="mr-3"
+            />
+            <IconCanceled
+              v-if="data.statusDetailed === 'AUCTION_STATUS_CANCELLED'"
+              class="mr-3"
+            />
+            <IconCanceled
+              v-if="data.statusDetailed === 'AUCTION_STATUS_UNSPECIFIED'"
+              class="mr-3"
+            />
             {{ data.status }}
           </IgniteHeading>
         </div>
@@ -88,19 +115,25 @@ const projectId = route.params.projectId.toString() || '0'
 
         <div class="">
           <IgniteText as="div" class="text-2 text-muted">
-            Investors
+            {{
+              data.status === AuctionStatusLabels.Upcoming
+                ? 'Registrants'
+                : 'Participants'
+            }}
           </IgniteText>
           <IgniteHeading
             as="div"
             class="mt-2 flex items-center text-2 font-semibold md:mt-3 md:text-3"
           >
             <IconUser class="mr-3" />
-            <IgniteNumber :number="data.investors" />
+            <IgniteNumber :number="Number(data.investors)" />
           </IgniteHeading>
         </div>
 
         <div class="">
-          <IgniteText as="div" class="text-2 text-muted"> Ended </IgniteText>
+          <IgniteText as="div" class="text-2 text-muted">
+            {{ Date.now() < new Date(data.ends).getTime() ? 'Ends' : 'Ended' }}
+          </IgniteText>
           <IgniteHeading
             as="div"
             class="mt-2 flex items-center text-2 font-semibold md:mt-3 md:text-3"
@@ -108,10 +141,11 @@ const projectId = route.params.projectId.toString() || '0'
             <IconCalendar class="mr-3" />
             <span
               :class="
-                data.status === 'Canceled' && 'text-inactive line-through'
+                data.statusDetailed === 'AUCTION_STATUS_CANCELLED' &&
+                'text-inactive line-through'
               "
             >
-              {{ data.ends }}
+              {{ new Date(data.ends).toLocaleDateString() }}
             </span>
           </IgniteHeading>
         </div>

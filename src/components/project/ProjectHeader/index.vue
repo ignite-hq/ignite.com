@@ -48,8 +48,8 @@ const navigation = reactive([
     title: 'Requests'
   },
   {
-    link: `/projects/${props.projectId}/invest`,
-    title: 'Invest'
+    link: `/projects/${props.projectId}/fundraisers`,
+    title: 'Fundraisers'
   }
 ])
 
