@@ -10,8 +10,8 @@ import { computed, PropType } from 'vue'
 
 import IgniteDenom from '~/components/common/IgniteDenom.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
+import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
-import { addCommasToNumber } from '~/utils/number'
 import { getIncentivesFromRewards, isShare } from '~/utils/reward'
 
 const props = defineProps({
@@ -78,7 +78,7 @@ const firstPastIncentiveDenom = computed(() => {
         class="mr-3"
       />
       <IgniteHeading class="text-center text-5 font-semibold">
-        {{ addCommasToNumber(incentive.total) }}
+        <IgniteNumber :number="incentive.total" />
         {{ firstIncentiveDenom?.toUpperCase() }}
       </IgniteHeading>
     </div>
@@ -86,7 +86,7 @@ const firstPastIncentiveDenom = computed(() => {
       v-if="pastIncentive.total > 0"
       class="text-center text-2 text-muted"
     >
-      Past incentives: {{ addCommasToNumber(pastIncentive.total) }}
+      Past incentives: <IgniteNumber :number="pastIncentive.total" />
       {{ firstPastIncentiveDenom?.toUpperCase() }}
     </IgniteText>
   </div>

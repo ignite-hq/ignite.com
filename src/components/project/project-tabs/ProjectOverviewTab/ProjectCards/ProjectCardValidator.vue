@@ -12,9 +12,9 @@ import IgniteButton from '~/components/ui/IgniteButton.vue'
 import IgniteCard from '~/components/ui/IgniteCard.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteLoader from '~/components/ui/IgniteLoader.vue'
+import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import { CampaignCampaignSummary } from '~/generated/tendermint-spn-ts-client/tendermint.spn.campaign/rest'
-import { addCommasToNumber } from '~/utils/number'
 import {
   getIncentivesFromRewards,
   getVouchersFromRewards,
@@ -155,8 +155,8 @@ const showIncentives = computed(() => {
             class="mr-3"
           />
 
-          <IgniteHeading as="div" class="font-title text-5 md:text-6"
-            >{{ addCommasToNumber(incentiveSummary.total) }}
+          <IgniteHeading as="div" class="font-title text-5 md:text-6">
+            <IgniteNumber :number="incentiveSummary.total" />
             {{ incentiveSummary.denoms[0] }}</IgniteHeading
           >
         </div>

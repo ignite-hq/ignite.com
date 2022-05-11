@@ -15,7 +15,7 @@ import IgniteLoader from '~/components/ui/IgniteLoader.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import { CampaignCampaignSummary } from '~/generated/tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 import { isNumeric } from '~/utils/assertion'
-import { addCommasToNumber } from '~/utils/number'
+import { formatNumber } from '~/utils/number'
 
 import { ProjectDistribution } from './types'
 
@@ -66,7 +66,7 @@ const totalSupply = computed(() => {
     0
   )
 
-  return addCommasToNumber(total ?? 0)
+  return formatNumber(total ?? 0)
 })
 </script>
 
