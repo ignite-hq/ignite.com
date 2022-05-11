@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, computed } from 'vue'
 
 export default defineComponent({
   name: 'IgniteProjectInvestTitle'
@@ -17,32 +17,96 @@ import IconCheckMarkThin from '~/components/icons/IconCheckMarkThin.vue'
 import IconClock from '~/components/icons/IconClock.vue'
 import IconDots from '~/components/icons/IconDots.vue'
 import IconGuarantee from '~/components/icons/IconGuarantee.vue'
-import IconSale from '~/components/icons/IconSale.vue'
 import IconStack from '~/components/icons/IconStack.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteLink from '~/components/ui/IgniteLink.vue'
 import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
-import { ProgressBarItem } from '~/utils/types'
+import { AuctionStatus } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/fundraising'
+import { AuctionStatusLabels, ProgressBarItem } from '~/utils/types'
+import { toCompactNumber, getDenomName } from '~/utils/fundraisers'
+import useSupplyOf from '~/composables/fundraising/useSupplyOf'
 
-defineProps({
-  items: { type: Array },
+const props = defineProps({
+  auction: { type: Object },
   size: {
     type: String, // sm
     default: ''
   }
 })
 
-const progressBar = {
-  items: [
-    {
-      value: '2',
-      bgColor: 'bg-primary'
-    }
-  ] as ProgressBarItem[]
-}
+const { supply } = useSupplyOf(
+  props.auction?.base_auction.selling_coin.denom ?? ''
+)
 
-const status = 'Sale'
+const progressBar = computed(() => {
+  const items: ProgressBarItem[] = [] as ProgressBarItem[]
+  items.push({
+    value:
+      (
+        Number(props.auction?.base_auction.selling_coin.amount) -
+        Number(props.auction?.remaining_selling_coin.amount)
+      ).toString() ?? '0',
+    bgColor: 'bg-primary'
+  } as ProgressBarItem)
+  items.push({
+    value: props.auction?.remaining_selling_coin.amount ?? '0',
+    bgColor: ''
+  } as ProgressBarItem)
+  return { items }
+})
+
+const roadmapItems = computed(() => {
+  // {
+  //   status: 'completed',
+  //   name: 'Fundraiser published'
+  // },
+  // {
+  //   status: 'completed',
+  //   name: 'Project started',
+  //   date: '03.25'
+  // },
+  // {
+  //   name: 'Sale begins',
+  //   date: '04.01 at 9 AM UTC'
+  // },
+  // {
+  //   name: 'Sale ends',
+  //   date: '04.01 at 9 AM UTC'
+  // }
+  // {
+  //   status: 'complited',
+  //   name: 'Fundraiser published'
+  // },
+  // {
+  //   status: 'cancelled',
+  //   name: 'Fundraiser cancelled'
+  // }
+  return []
+})
+
+const statusDetailed = computed(() => {
+  console.log(props.auction)
+  return props.auction?.base_auction.status || ''
+})
+
+const formatAuctionStatus = (
+  auctionType: AuctionStatus
+): AuctionStatusLabels => {
+  // @ts-ignore
+  switch (AuctionStatus[auctionType] as AuctionStatus) {
+    case AuctionStatus.AUCTION_STATUS_VESTING:
+    case AuctionStatus.AUCTION_STATUS_STARTED:
+      return AuctionStatusLabels.Current
+    case AuctionStatus.AUCTION_STATUS_STANDBY:
+      return AuctionStatusLabels.Upcoming
+    case AuctionStatus.AUCTION_STATUS_FINISHED:
+    case AuctionStatus.AUCTION_STATUS_CANCELLED:
+      return AuctionStatusLabels.Previous
+    default:
+      return AuctionStatusLabels.Other
+  }
+}
 </script>
 
 <template>
@@ -67,12 +131,20 @@ const status = 'Sale'
           as="div"
           class="mt-5 font-title text-4 font-semibold md:text-5"
         >
-          <IgniteNumber :number="'0'" />
-          UST
+          <IgniteNumber
+            :number="
+              Number(auction.base_auction.selling_coin.amount) -
+              Number(auction.remaining_selling_coin.amount)
+            "
+          />
+          {{ getDenomName(auction.base_auction.selling_coin.denom) }}
         </IgniteHeading>
         <IgniteHeading as="div" class="mt-3 text-3 text-muted">
           Raised of
-          <strong> <IgniteNumber :number="'3000000'" /> UST </strong>
+          <strong>
+            <IgniteNumber :number="auction.base_auction.selling_coin.amount" />
+            {{ getDenomName(auction.base_auction.selling_coin.denom) }}
+          </strong>
         </IgniteHeading>
       </div>
       <div
@@ -95,12 +167,31 @@ const status = 'Sale'
               as="div"
               class="mt-2 flex items-center text-2 font-semibold md:mt-3 md:text-3"
             >
-              <IconDots v-if="status === 'Ongoing'" class="mr-3" />
-              <IconClock v-if="status === 'Upcoming'" class="mr-3" />
-              <IconCheckMarkThin v-if="status === 'Funded'" class="mr-3" />
-              <IconCanceled v-if="status === 'Canceled'" class="mr-3" />
-              <IconSale v-if="status === 'Sale'" class="mr-3" />
-              {{ status }}
+              <IconDots
+                v-if="statusDetailed === 'AUCTION_STATUS_VESTING'"
+                class="mr-3"
+              />
+              <IconDots
+                v-if="statusDetailed === 'AUCTION_STATUS_STARTED'"
+                class="mr-3"
+              />
+              <IconClock
+                v-if="statusDetailed === 'AUCTION_STATUS_STANDBY'"
+                class="mr-3"
+              />
+              <IconCheckMarkThin
+                v-if="statusDetailed === 'AUCTION_STATUS_FINISHED'"
+                class="mr-3"
+              />
+              <IconCanceled
+                v-if="statusDetailed === 'AUCTION_STATUS_CANCELLED'"
+                class="mr-3"
+              />
+              <IconCanceled
+                v-if="statusDetailed === 'AUCTION_STATUS_UNSPECIFIED'"
+                class="mr-3"
+              />
+              {{ formatAuctionStatus(statusDetailed) }}
             </IgniteHeading>
           </div>
 
@@ -111,8 +202,20 @@ const status = 'Sale'
               class="mt-2 flex items-center text-2 font-semibold md:mt-3 md:text-3"
             >
               <IconStack class="mr-3" />
-              6M
-              <span class="text-muted">(3%)</span>
+              {{
+                toCompactNumber.format(
+                  auction.base_auction.selling_coin?.amount ?? 0
+                )
+              }}
+              <span class="text-muted"
+                >({{
+                  Math.round(
+                    (Number(auction.base_auction.selling_coin?.amount ?? 0) /
+                      Number(supply?.amount?.amount ?? 1)) *
+                      100
+                  )
+                }}%)</span
+              >
             </IgniteHeading>
           </div>
 
@@ -127,12 +230,13 @@ const status = 'Sale'
             >
               <IgniteDenom
                 modifier="avatar"
-                denom="denom"
-                title="denom"
+                :denom="getDenomName(auction.base_auction.paying_coin_denom)"
+                :title="getDenomName(auction.base_auction.paying_coin_denom)"
                 size="small"
                 class="mr-3"
               />
-              0.5 UST
+              {{ Number(auction.base_auction.start_price) }}
+              {{ getDenomName(auction.base_auction.paying_coin_denom) }}
               <span class="ml-1 inline-block text-muted">ea.</span>
             </IgniteHeading>
           </div>
@@ -157,9 +261,13 @@ const status = 'Sale'
             </IgniteHeading>
           </div>
         </div>
-        <div v-if="items" class="relative mt-7 lg:flex lg:justify-end">
+        <div v-if="roadmapItems" class="relative mt-7 lg:flex lg:justify-end">
           <IgniteScrollableSection>
-            <IgniteRoadmap :items="items" align="right" type="fundraiser" />
+            <IgniteRoadmap
+              :items="roadmapItems"
+              align="right"
+              type="fundraiser"
+            />
           </IgniteScrollableSection>
         </div>
       </div>

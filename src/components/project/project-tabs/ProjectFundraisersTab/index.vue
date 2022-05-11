@@ -112,9 +112,7 @@ const fundraisingList = computed(() => {
           Number(auction.selling_coin?.amount ?? 0) -
           Number(remainingSellingCoins?.amount ?? 0),
         goal: auction.selling_coin?.amount ?? 0,
-        currency: getDenomName(
-          (auction.selling_coin?.denom ?? '').toUpperCase()
-        ),
+        currency: getDenomName(auction.selling_coin?.denom ?? ''),
         status: formatAuctionStatus(auction.status),
         statusDetailed: auction.status,
         vouchers: `${toCompactNumber.format(tokenSupply)} (${relativeSupply}%)`,

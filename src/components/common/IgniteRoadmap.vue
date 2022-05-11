@@ -32,7 +32,7 @@ defineProps({
       :key="item.name"
       class="item relative inline-block min-w-[8.625rem] whitespace-normal border-t-4 pt-6 pr-7 align-top last:pr-0"
       :class="[
-        item.status === 'complited' || item.status === 'cancelled'
+        item.status === 'completed' || item.status === 'cancelled'
           ? 'border-primary'
           : 'border-border',
         align === 'right' ? 'last:text-right' : 'last:border-dashed'
@@ -42,7 +42,7 @@ defineProps({
         v-if="item.status !== 'cancelled'"
         class="absolute -top-[0.8125rem] h-6 w-6"
         :class="[
-          item.status === 'complited' || item.status === 'active'
+          item.status === 'completed' || item.status === 'active'
             ? 'text-primary'
             : 'text-border',
           align === 'right' && key === items.length - 1 ? 'right-0' : 'left-0'
@@ -52,7 +52,7 @@ defineProps({
         v-if="item.status === 'cancelled'"
         class="absolute -top-[0.8125rem] h-6 w-6"
         :class="[
-          item.status === 'complited' ||
+          item.status === 'completed' ||
           item.status === 'active' ||
           item.status === 'cancelled'
             ? 'text-primary'
