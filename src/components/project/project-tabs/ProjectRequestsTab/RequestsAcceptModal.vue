@@ -13,11 +13,11 @@ import IconWarning from '~/components/icons/IconWarning.vue'
 import IgniteButton from '~/components/ui/IgniteButton.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteModal from '~/components/ui/IgniteModal.vue'
+import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import useSettleRequests from '~/composables/request/useSettleRequests'
 import useAddress from '~/composables/wallet/useAddress'
 import { useRequestsStore } from '~/stores/requests-store'
-import { addCommasToNumber } from '~/utils/number'
 
 import { getRequestsSummaries, getSettleRequestTxMessages } from './utils'
 
@@ -154,7 +154,7 @@ const isSigning = computed(() => state.currentUIState === UIStates.Signing)
         >
           Grant
           <span class="font-semibold"
-            >{{ addCommasToNumber(coin.amount ?? '') }}
+            ><IgniteNumber :number="coin.amount ?? ''" />
             {{ coin.denom?.toUpperCase() }}</span
           >
         </IgniteText>
@@ -225,7 +225,7 @@ const isSigning = computed(() => state.currentUIState === UIStates.Signing)
         class="text-center text-3 leading-normal text-muted"
       >
         <span class="font-semibold"
-          >{{ addCommasToNumber(coin.amount ?? '') }}
+          ><IgniteNumber :number="coin.amount ?? ''" />
           {{ coin.denom?.toUpperCase() }}</span
         >
         were granted

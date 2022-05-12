@@ -2,7 +2,7 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'ProjectInvestTitle'
+  name: 'InvestTitle'
 })
 </script>
 
@@ -11,6 +11,14 @@ import IconPlus from '~/components/icons/IconPlus.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteLink from '~/components/ui/IgniteLink.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
+
+interface Props {
+  projectName?: string
+}
+
+withDefaults(defineProps<Props>(), {
+  projectName: ''
+})
 </script>
 
 <template>
@@ -23,8 +31,8 @@ import IgniteText from '~/components/ui/IgniteText.vue'
         >
           Fundraisers
         </IgniteHeading>
-        <IgniteText as="div" class="mt-5 text-3 text-muted">
-          Current and upcoming investment opportunities for Strange Clan
+        <IgniteText class="mt-5 text-3 text-muted">
+          Current and upcoming investment opportunities for {{ projectName }}
         </IgniteText>
       </div>
       <div class="flex items-start justify-end md:col-span-3 lg:col-span-1">

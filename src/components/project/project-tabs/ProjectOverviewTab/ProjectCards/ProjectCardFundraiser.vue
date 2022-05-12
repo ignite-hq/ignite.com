@@ -5,12 +5,32 @@ export default {
 </script>
 
 <script setup lang="ts">
+import { computed } from 'vue'
+
 import IgniteProgressBar from '~/components/common/IgniteProgressBar.vue'
 import IgniteButton from '~/components/ui/IgniteButton.vue'
 import IgniteCard from '~/components/ui/IgniteCard.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
+import useFundraisers from '~/composables/fundraising/useFundraisers'
+import { FixedPriceAuction } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising'
+import {
+  getHumanizedAuctionStatus,
+  HumanizedAuctionStatus
+} from '~/utils/fundraising'
 import { ProgressBarItem } from '~/utils/types'
+
+interface Props {
+  isWide?: boolean
+  isOngoing?: boolean
+  coordinatorId?: string
+}
+
+withDefaults(defineProps<Props>(), {
+  isWide: false,
+  isOngoing: false,
+  coordinatorId: ''
+})
 
 const progressBar = {
   items: [
@@ -21,15 +41,21 @@ const progressBar = {
   ] as ProgressBarItem[]
 }
 
-defineProps({
-  isWide: {
-    type: Boolean,
-    default: false
-  },
-  isOngoing: {
-    type: Boolean,
-    default: false
-  }
+const { fundraisers } = useFundraisers()
+
+const currentFundraiser = computed(() => {
+  const auctions = (fundraisers.value?.pages[0].auctions ??
+    []) as FixedPriceAuction[]
+
+  const currentAuctions = auctions.filter((auction: FixedPriceAuction) => {
+    return (
+      getHumanizedAuctionStatus(
+        auction?.base_auction?.status as unknown as string
+      ) === HumanizedAuctionStatus.Current
+    )
+  })
+
+  return currentAuctions
 })
 </script>
 
@@ -39,6 +65,7 @@ defineProps({
     class="flex flex-col justify-between gap-9 px-5 pt-8 pb-7.5 sm:px-7 md:px-8 md:pt-9"
     :class="isWide && 'sm:flex-row'"
   >
+    {{ currentFundraiser }}
     <div v-if="!isOngoing" class="w-full">
       <IgniteProgressBar :items="progressBar.items" :label="false" />
       <IgniteHeading

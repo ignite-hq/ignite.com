@@ -8,16 +8,16 @@ export default {
 import { computed, onBeforeMount, ref } from 'vue'
 import { onBeforeRouteUpdate, useRoute } from 'vue-router'
 
-import ProjectInvestTab from '~/components/project/project-tabs/ProjectInvestTab/index.vue'
+import ProjectFundraisersTab from '~/components/project/project-tabs/ProjectFundraisersTab/index.vue'
 import ProjectOverviewTab from '~/components/project/project-tabs/ProjectOverviewTab/index.vue'
 import ProjectRequestsTab from '~/components/project/project-tabs/ProjectRequestsTab/index.vue'
 import ProjectValidatorsTab from '~/components/project/project-tabs/ProjectValidatorsTab/index.vue'
-import IgniteProjectHeader from '~/components/project/ProjectHeader/index.vue'
+import ProjectHeader from '~/components/project/ProjectHeader/index.vue'
 import useCampaignSummary from '~/composables/campaign/useCampaignSummary'
 
 const route = useRoute()
 const projectId = route.params.projectId.toString() || '0'
-let tab = ref(route.params?.tab?.toString().toLowerCase() || 'overview')
+const tab = ref(route.params?.tab?.toString().toLowerCase() || 'overview')
 
 onBeforeMount(() => {
   window.scrollTo(0, 0)
@@ -46,14 +46,17 @@ const campaignName = computed(() => {
 </script>
 
 <template>
-  <div>
-    <IgniteProjectHeader
+  <div class="container mb-10">
+    <ProjectHeader
       :loading="isLoadingCampaignSummary"
       :active-tab="tab"
       :project-id="projectId"
       :campaign-summary="campaignSummary"
     />
-    <ProjectOverviewTab v-if="tab === 'overview'" />
+    <ProjectOverviewTab
+      v-if="tab === 'overview'"
+      :campaign-summary="campaignSummary"
+    />
     <ProjectValidatorsTab v-if="tab === 'validators'" />
     <ProjectRequestsTab
       v-if="tab === 'requests'"
@@ -61,6 +64,9 @@ const campaignName = computed(() => {
       :launch-id="launchId"
       :coordinator-id="coordinatorId"
     />
-    <ProjectInvestTab v-if="tab === 'invest'" />
+    <ProjectFundraisersTab
+      v-if="tab === 'fundraisers'"
+      :campaign-summary="campaignSummary"
+    />
   </div>
 </template>

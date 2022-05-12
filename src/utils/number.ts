@@ -51,3 +51,9 @@ export function percentageToCosmosDecimal(pct: string): string {
 
   return cosmosDecimal
 }
+
+export function formatNumber(number: string | number): string {
+  if (!isNumeric(number)) return ''
+
+  return new Intl.NumberFormat().format(Number(number))
+}

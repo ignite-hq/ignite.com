@@ -1,9 +1,7 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
+export default {
   name: 'ProjectTeamMember'
-})
+}
 </script>
 
 <script setup lang="ts">
@@ -12,12 +10,13 @@ import IgniteCard from '~/components/ui/IgniteCard.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 
-defineProps({
-  member: {
-    type: Object,
-    reqired: true
-  }
-})
+import { ProjectMember } from '../types'
+
+interface Props {
+  member: ProjectMember
+}
+
+defineProps<Props>()
 </script>
 
 <template>
@@ -35,7 +34,7 @@ defineProps({
       {{ member.title }}
     </IgniteText>
     <IgniteText as="div" class="mt-5 text-3 text-muted">{{
-      member.info
+      member.description
     }}</IgniteText>
   </IgniteCard>
 </template>

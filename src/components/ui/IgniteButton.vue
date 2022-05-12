@@ -1,19 +1,20 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { ButtonHTMLAttributes } from 'vue'
 
-export default defineComponent({
+export default {
   name: 'IgniteButton'
-})
+}
 </script>
 
 <script lang="ts" setup>
 type Colors = 'default' | 'primary' | 'light' | 'inherit'
 
-interface Props {
+interface Props extends ButtonHTMLAttributes {
   variant?: 'default' | 'primary' | 'text'
   color?: Colors | string
   size?: 'sm' | 'md' | 'xs'
   disabled?: boolean
+  as?: string
 }
 
 const colorTypes: string[] = [
@@ -27,12 +28,14 @@ withDefaults(defineProps<Props>(), {
   variant: 'default',
   color: 'default',
   size: 'md',
-  disabled: false
+  disabled: false,
+  as: 'button'
 })
 </script>
 
 <template>
-  <button
+  <component
+    :is="as"
     v-bind="$props"
     class="duration-250 inline-flex items-center justify-center transition-all ease-in-out"
     :class="{
@@ -62,5 +65,5 @@ withDefaults(defineProps<Props>(), {
     }"
   >
     <slot />
-  </button>
+  </component>
 </template>

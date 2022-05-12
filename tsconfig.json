@@ -10,9 +10,11 @@
     "esModuleInterop": true,
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"],
     "types": ["vite/client", "node"],
+    "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "paths": {
-      "~/*": ["src/*"]
+      "~/*": ["src/*"],
+      "integrations/*": ["integrations/*"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]

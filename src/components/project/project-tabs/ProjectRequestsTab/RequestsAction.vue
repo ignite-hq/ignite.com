@@ -10,7 +10,7 @@ import { computed } from 'vue'
 
 import IconCoins from '~/components/icons/IconCoins.vue'
 import IconStage from '~/components/icons/IconStage.vue'
-import { addCommasToNumber } from '~/utils/number'
+import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 
 import { getTypeFromContent } from './utils'
 
@@ -45,7 +45,9 @@ const actionIcon = computed(() => {
   <span v-if="rawActionType === 'genesisAccount'">
     Grant
     <span class="font-semibold">
-      {{ addCommasToNumber(request.content?.genesisAccount?.coins[0].amount) }}
+      <IgniteNumber
+        :number="request.content?.genesisAccount?.coins[0].amount"
+      />
       {{ request.content?.genesisAccount?.coins[0].denom?.toUpperCase() }}
     </span>
   </span>

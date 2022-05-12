@@ -1,41 +1,74 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'ProjectLinks',
-  data() {
-    return {
-      social: [
-        {
-          title: 'Follow us on Twitter',
-          description: 'Keep up to date with the latest project developments.',
-          cta: 'Follow us',
-          link: 'https://twitter.com/'
-        },
-        {
-          title: 'Join our Discord',
-          description:
-            'Looking to get involved? Join our Discord for development help and tips.',
-          cta: 'Join our Discord',
-          link: 'https://discord.com/'
-        },
-        {
-          title: 'Chat on Telegram',
-          description:
-            'Have questions about the project? Reach out and say hello.',
-          cta: 'Say hello',
-          link: 'https://t.me/'
-        }
-      ]
-    }
-  }
-})
+export default {
+  name: 'ProjectLinks'
+}
 </script>
 
 <script setup lang="ts">
-import IgniteHeading from '~/components/ui/IgniteHeading.vue'
+import { computed } from 'vue'
 
-import SocialCard from './SocialCard.vue'
+import IgniteHeading from '~/components/ui/IgniteHeading.vue'
+import { removeUndefinedFromArray } from '~/utils/array'
+
+import { ProjectLink, ProjectSocialMedia } from '../types'
+import SocialCard, { SocialLink } from './SocialCard.vue'
+
+interface Props {
+  links: ProjectLink[]
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  links: () => []
+})
+
+function getLinkDataByType(link: ProjectLink): SocialLink | undefined {
+  const { type, display } = link
+
+  if (!display) {
+    return undefined
+  }
+
+  if (type === ProjectSocialMedia.Twitter) {
+    return {
+      title: 'Follow us on Twitter',
+      description: 'Keep up to date with the latest project developments.',
+      cta: 'Follow us',
+      link: link.url,
+      type
+    }
+  }
+
+  if (type === ProjectSocialMedia.Discord) {
+    return {
+      title: 'Join our Discord',
+      description:
+        'Looking to get involved? Join our Discord for development help and tips.',
+      cta: 'Join our Discord',
+      link: link.url,
+      type
+    }
+  }
+
+  if (type === ProjectSocialMedia.Telegram) {
+    return {
+      title: 'Chat on Telegram',
+      description: 'Have questions about the project? Reach out and say hello.',
+      cta: 'Say hello',
+      link: link.url,
+      type
+    }
+  }
+
+  return undefined
+}
+
+const social = computed(() => {
+  const formattedLinks = props.links.map<SocialLink>(
+    (link) => getLinkDataByType(link) as SocialLink
+  )
+
+  return removeUndefinedFromArray(formattedLinks)
+})
 </script>
 
 <template>
@@ -62,7 +95,8 @@ import SocialCard from './SocialCard.vue'
               (social.length === 1 && 'lg') ||
               (social.length === 2 && 'md') ||
               (social.length === 3 && key % 2 !== 0 && 'md') ||
-              (social.length === 3 && 'sm')
+              (social.length === 3 && 'sm') ||
+              'lg'
             "
           />
         </div>
@@ -84,7 +118,8 @@ import SocialCard from './SocialCard.vue'
               (social.length === 1 && 'lg') ||
               (social.length === 2 && 'md') ||
               (social.length === 3 && key % 2 !== 0 && 'md') ||
-              (social.length === 3 && 'sm')
+              (social.length === 3 && 'sm') ||
+              'lg'
             "
           />
         </div>

@@ -1,34 +1,29 @@
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
-
-import IgniteDenom from '~/components/common/IgniteDenom.vue'
-import IgniteText from '~/components/ui/IgniteText.vue'
 import { ProgressBarItem } from '~/utils/types'
 
-export default defineComponent({
-  name: 'IgniteProgressBar',
-  components: { IgniteText, IgniteDenom },
-  props: {
-    inverse: {
-      type: Boolean
-    },
-    label: {
-      type: Boolean,
-      default: true
-    },
-    items: {
-      type: Array as PropType<ProgressBarItem[]>,
-      required: true
-    },
-    denom: {
-      type: String,
-      default: ''
-    },
-    size: {
-      type: String,
-      default: ''
-    }
-  }
+export default {
+  name: 'IgniteProgressBar'
+}
+</script>
+
+<script lang="ts" setup>
+import IgniteDenom from '~/components/common/IgniteDenom.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
+
+interface Props {
+  inverse: boolean
+  label: boolean
+  items: ProgressBarItem[]
+  denom: string
+  size: 'default' | 'lg' | 'xs'
+}
+
+withDefaults(defineProps<Props>(), {
+  inverse: false,
+  label: true,
+  items: () => [],
+  denom: '',
+  size: 'default'
 })
 </script>
 
@@ -42,7 +37,6 @@ export default defineComponent({
       size="small"
       class="mr-3"
     />
-
     <div
       class="ignite-progress"
       :class="inverse ? 'bg-white-1000' : 'bg-gray-50'"
@@ -52,7 +46,8 @@ export default defineComponent({
         :key="item.name"
         class="ignite-progress__inner text-center"
         :class="[
-          label && 'h-[20px]',
+          label && size === 'default' && 'h-[20px]',
+          label && size === 'lg' && 'h-[25px]',
           !label && size === 'xs' ? 'h-3' : 'h-4',
           item.split ? 'rounded-none' : 'rounded-r-lg',
           item.bgColor,
