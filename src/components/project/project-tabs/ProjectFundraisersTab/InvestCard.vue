@@ -22,7 +22,7 @@ import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteLink from '~/components/ui/IgniteLink.vue'
 import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
-import { ProgressBarItem, AuctionCardData } from '~/utils/types'
+import { AuctionCardData, ProgressBarItem } from '~/utils/types'
 import { AuctionStatusLabels } from '~/utils/types'
 
 const props = defineProps({

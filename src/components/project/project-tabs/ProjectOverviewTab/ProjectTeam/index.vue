@@ -20,7 +20,7 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-  <div class="container-full container px-5 sm:px-5.5 lg:px-7">
+  <div class="container">
     <IgniteHeading as="div" class="text-center font-title text-5 md:text-7"
       >Team</IgniteHeading
     >
