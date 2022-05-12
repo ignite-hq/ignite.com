@@ -4,7 +4,7 @@ import ProjectsHeader from '~/components/project/ProjectsHeader.vue'
 </script>
 
 <template>
-  <div class="container mb-10">
+  <div class="container">
     <ProjectsHeader />
     <ProjectList />
   </div>

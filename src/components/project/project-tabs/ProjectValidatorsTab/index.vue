@@ -47,7 +47,7 @@ const showIncentives = computed(function () {
 </script>
 
 <template>
-  <div class="container space-y-10 py-10 text-center">
+  <div class="container py-10 text-center">
     <div v-if="showAllocation || showIncentives">
       <IgniteHeading class="text-center font-title text-7 font-semibold">
         Validator incentives

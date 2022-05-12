@@ -75,9 +75,11 @@ const isEmpty = computed(() => {
 })
 </script>
 
+<script lang="ts" setup></script>
+
 <template>
   <template v-if="loading">
-    <div class="container px-5 sm:px-5.5 lg:px-7">
+    <div class="container>
       <div class="project-description-markdown-content gap-y-8">
         <IgniteLoader class="heading h-8 w-full !max-w-xs" />
         <div class="text w-full space-y-2 !px-0">

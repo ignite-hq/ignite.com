@@ -53,9 +53,7 @@ const roadmapCancelItems = [
   <div>
     <IgniteProjectInvestCancel class="mt-8 md:mt-10.5" />
 
-    <div
-      class="container-full container mt-8 px-5 sm:px-5.5 md:mt-10.5 lg:px-7"
-    >
+    <div class="container mt-8 md:mt-10.5">
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7">
         <IgniteProjectInvestSingleCard
           :items="roadmapItems"
@@ -63,9 +61,7 @@ const roadmapCancelItems = [
         />
       </div>
     </div>
-    <div
-      class="container-full container mt-8 px-5 sm:px-5.5 md:mt-10.5 lg:px-7"
-    >
+    <div class="container mt-8 md:mt-10.5">
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7">
         <IgniteProjectInvestSingleCard
           :items="roadmapCancelItems"
@@ -73,9 +69,7 @@ const roadmapCancelItems = [
         />
       </div>
     </div>
-    <div
-      class="container-full container mt-8 px-5 sm:px-5.5 md:mt-10.5 lg:px-7"
-    >
+    <div class="container mt-8 md:mt-10.5">
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7">
         <div class="flex items-end">
           <IgniteProjectInvestSingleCard size="sm" />
@@ -126,9 +120,7 @@ const roadmapCancelItems = [
       </div>
     </div>
 
-    <div
-      class="container-full container mt-8 px-5 sm:px-5.5 md:mt-10.5 lg:px-7"
-    >
+    <div class="container mt-8 md:mt-10.5">
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7">
         <div class="lg:col-span-2">
           <IgniteProjectInvestValidators :is-wild="true" />
@@ -136,9 +128,7 @@ const roadmapCancelItems = [
       </div>
     </div>
 
-    <div
-      class="container-full container mt-8 px-5 sm:px-5.5 md:mt-10.5 lg:px-7"
-    >
+    <div class="container mt-8 md:mt-10.5">
       <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:gap-7">
         <IgniteProjectInvestValidators />
         <div class="">
