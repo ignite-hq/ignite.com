@@ -1,3 +1,5 @@
+import { Ref } from 'vue'
+
 import { AuctionStatus } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/fundraising'
 
 export interface ProgressBarItem {
@@ -21,6 +23,8 @@ export interface PaginationParams {
   'pagination.countTotal'?: boolean
   'pagination.reverse'?: boolean
 }
+
+export type RefOrValue<T> = Ref<T> | T
 
 export enum AuctionStatusLabels {
   CurrentAndUpcoming = 'Current and upcoming',

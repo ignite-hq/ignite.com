@@ -26,7 +26,7 @@ const endDate = computed(() => {
 </script>
 
 <template>
-  <div class="container-full container px-5 sm:px-5.5 lg:px-7">
+  <div class="container">
     <IgniteCard :shadow="true" class="px-5 py-7 md:p-8 lg:p-9">
       <div
         class="grid grid-cols-1 gap-6 md:grid-cols-8 md:gap-7 lg:grid-cols-4"
@@ -44,9 +44,7 @@ const endDate = computed(() => {
               {{ endDate.format('MMM D, YYYY') }}
             </strong>
             at
-            <strong>
-              {{ endDate.format('h:mm A [GMT]Z') }} </strong
-            >.<br />
+            <strong> {{ endDate.format('h:mm A [GMT]Z') }} </strong>.<br />
             The fundraiser cannot be cancelled after it has begun.
           </IgniteText>
         </div>

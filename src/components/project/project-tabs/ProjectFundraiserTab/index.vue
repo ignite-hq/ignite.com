@@ -61,9 +61,7 @@ const allowCancel = computed(() => {
       class="mt-8 md:mt-10.5"
     />
 
-    <div
-      class="container-full container mt-8 px-5 sm:px-5.5 md:mt-10.5 lg:px-7"
-    >
+    <div class="container mt-8 md:mt-10.5">
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7">
         <IgniteProjectInvestSingleCard
           :items="roadmapItems"
@@ -71,9 +69,7 @@ const allowCancel = computed(() => {
         />
       </div>
     </div>
-    <div
-      class="container-full container mt-8 px-5 sm:px-5.5 md:mt-10.5 lg:px-7"
-    >
+    <div class="container mt-8 md:mt-10.5">
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7">
         <div class="mt-6 md:mt-8 lg:mt-0">
           <IgniteProjectInvest status="registrationNotOpen" />
@@ -121,9 +117,7 @@ const allowCancel = computed(() => {
       </div>
     </div>
 
-    <div
-      class="container-full container mt-8 px-5 sm:px-5.5 md:mt-10.5 lg:px-7"
-    >
+    <div class="container mt-8 md:mt-10.5">
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7">
         <div class="lg:col-span-2">
           <IgniteProjectInvestValidators :is-wild="true" />
@@ -131,9 +125,7 @@ const allowCancel = computed(() => {
       </div>
     </div>
 
-    <!-- <div
-      class="container-full container mt-8 px-5 sm:px-5.5 md:mt-10.5 lg:px-7"
-    >
+    <!-- <div class="container mt-8 md:mt-10.5">
       <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:gap-7">
         <IgniteProjectInvestValidators />
         <div class="">

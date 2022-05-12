@@ -8,8 +8,8 @@ export default {
 import { onBeforeMount } from 'vue'
 import { useRoute } from 'vue-router'
 
-import IgniteProjectHeader from '~/components/project/ProjectHeader/index.vue'
 import ProjectFundraiserTab from '~/components/project/project-tabs/ProjectFundraiserTab/index.vue'
+import IgniteProjectHeader from '~/components/project/ProjectHeader/index.vue'
 import useCampaignSummary from '~/composables/campaign/useCampaignSummary'
 
 const route = useRoute()
@@ -26,7 +26,6 @@ const { campaignSummary } = useCampaignSummary(projectId)
 <template>
   <div>
     <IgniteProjectHeader
-      :active-tab="tab"
       :project-id="projectId"
       :campaign-summary="campaignSummary"
     />

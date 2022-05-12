@@ -20,12 +20,8 @@ export default defineComponent({
 }
 
 @keyframes shine-lines {
-  0% {
-    background-position: -100px;
-  }
-  40%,
-  100% {
-    background-position: 180px;
+  to {
+    background-position: 37.5rem 0;
   }
 }
 </style>

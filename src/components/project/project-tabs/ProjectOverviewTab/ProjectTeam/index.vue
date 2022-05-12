@@ -1,44 +1,26 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'ProjectTeam',
-
-  data() {
-    return {
-      members: [
-        {
-          name: 'Member Name',
-          company: 'Title',
-          title: 'Co-founder & CEO',
-          info: 'Bio lorem consequat efficitur iaculis. Nam eu tincidunt nunc. Cras sit amet pulvinar tortor, a porta purususi. Orci varius natoque penatibus...'
-        },
-        {
-          name: 'Member Name',
-          company: 'Title',
-          title: 'Co-founder & Head of Design',
-          info: 'Bio lorem consequat efficitur iaculis. Nam eu tincidunt nunc. Cras sit amet pulvinar tortor, a porta purususi. Orci varius natoque penatibus...'
-        },
-        {
-          name: 'Member Name',
-          company: 'Title',
-          title: 'DevOPs',
-          info: 'Bio lorem consequat efficitur iaculis. Nam eu tincidunt nunc. Cras sit amet pulvinar tortor, a porta purususi.'
-        }
-      ]
-    }
-  }
-})
+export default {
+  name: 'ProjectTeam'
+}
 </script>
 
 <script setup lang="ts">
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 
+import { ProjectMember } from '../types'
 import ProjectTeamMember from './ProjectTeamMember.vue'
+
+interface Props {
+  members: ProjectMember[]
+}
+
+withDefaults(defineProps<Props>(), {
+  members: () => []
+})
 </script>
 
 <template>
-  <div class="container-full container px-5 sm:px-5.5 lg:px-7">
+  <div class="container">
     <IgniteHeading as="div" class="text-center font-title text-5 md:text-7"
       >Team</IgniteHeading
     >
