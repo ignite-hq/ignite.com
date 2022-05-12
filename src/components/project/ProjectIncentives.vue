@@ -6,7 +6,7 @@ export default {
 
 <script setup lang="ts">
 import { CampaignCampaignSummary } from 'tendermint-spn-ts-client/tendermint.spn.campaign/rest'
-import { computed, PropType } from 'vue'
+import { computed } from 'vue'
 
 import IgniteDenom from '~/components/common/IgniteDenom.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
@@ -14,21 +14,24 @@ import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import { getIncentivesFromRewards, isShare } from '~/utils/reward'
 
-const props = defineProps({
-  campaignSummary: {
-    type: Object as PropType<CampaignCampaignSummary>,
-    default: () => ({})
-  }
+interface Props {
+  campaignSummary?: CampaignCampaignSummary
+  size: 'lg' | 'default'
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  size: 'default',
+  campaignSummary: undefined
 })
 
 // computed
 const incentive = computed(() => {
-  const campaignId = props.campaignSummary.campaign?.campaignID
+  const campaignId = props?.campaignSummary?.campaign?.campaignID
   const rewards = props.campaignSummary?.rewards
   const incentiveCoins = getIncentivesFromRewards(campaignId ?? '', rewards)
 
   const total = incentiveCoins.reduce((acc, coin) => {
-    const campaignId = props.campaignSummary.campaign?.campaignID
+    const campaignId = props?.campaignSummary?.campaign?.campaignID
     const isIncentive = !isShare(campaignId ?? '', coin)
     if (isIncentive) return acc + Number(coin.amount)
     return acc
@@ -43,12 +46,12 @@ const firstIncentiveDenom = computed(() => {
 })
 
 const pastIncentive = computed(() => {
-  const campaignId = props.campaignSummary.campaign?.campaignID
+  const campaignId = props?.campaignSummary?.campaign?.campaignID
   const rewards = props.campaignSummary?.rewards
   const incentiveCoins = getIncentivesFromRewards(campaignId ?? '', rewards)
 
   const total = incentiveCoins.reduce((acc, coin) => {
-    const campaignId = props.campaignSummary.campaign?.campaignID
+    const campaignId = props?.campaignSummary?.campaign?.campaignID
     const isIncentive = !isShare(campaignId ?? '', coin)
     if (isIncentive) return acc + Number(coin.amount)
     return acc
@@ -66,7 +69,10 @@ const firstPastIncentiveDenom = computed(() => {
 
 <template>
   <div>
-    <IgniteText class="mb-6 text-center text-2 font-medium text-muted">
+    <IgniteText
+      class="mb-6 text-center font-medium text-muted"
+      :class="{ 'text-2': size === 'default', 'text-3': size === 'lg' }"
+    >
       Incentives
     </IgniteText>
     <div class="mb-6 flex items-center justify-center">
@@ -77,7 +83,10 @@ const firstPastIncentiveDenom = computed(() => {
         :title="firstIncentiveDenom"
         class="mr-3"
       />
-      <IgniteHeading class="text-center text-5 font-semibold">
+      <IgniteHeading
+        class="text-center font-semibold"
+        :class="{ 'text-5': size === 'default', 'text-8': size === 'lg' }"
+      >
         <IgniteNumber :number="incentive.total" />
         {{ firstIncentiveDenom?.toUpperCase() }}
       </IgniteHeading>
@@ -86,7 +95,7 @@ const firstPastIncentiveDenom = computed(() => {
       v-if="pastIncentive.total > 0"
       class="text-center text-2 text-muted"
     >
-      Past incentives: <IgniteNumber :number="pastIncentive.total" />
+      Previous incentives: <IgniteNumber :number="pastIncentive.total" />
       {{ firstPastIncentiveDenom?.toUpperCase() }}
     </IgniteText>
   </div>
