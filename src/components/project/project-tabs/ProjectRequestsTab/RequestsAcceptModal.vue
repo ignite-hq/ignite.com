@@ -29,7 +29,7 @@ enum UIStates {
 }
 
 const initialState = {
-  currentUIState: UIStates.Success,
+  currentUIState: UIStates.Fresh,
   errorMessage: '',
   isLoading: false
 }
