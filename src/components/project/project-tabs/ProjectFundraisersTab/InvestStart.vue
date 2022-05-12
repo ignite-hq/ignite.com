@@ -23,7 +23,7 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-  <div class="container-full container px-5 sm:px-5.5 lg:px-7">
+  <div class="container">
     <IgniteCard :shadow="true" class="px-5 py-8 text-center md:py-9 lg:py-11">
       <IgniteHeading as="div" class="font-title text-4 font-semibold md:text-5">
         Start a fundraiser

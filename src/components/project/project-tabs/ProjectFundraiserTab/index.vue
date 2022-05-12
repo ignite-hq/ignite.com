@@ -5,7 +5,8 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import IgniteProjectInvest from './IgniteProjectInvest.vue'
+import { computed } from 'vue'
+
 import IgniteProjectInvestCancel from './IgniteProjectInvestCancel.vue'
 import IgniteProjectInvestInvestors from './IgniteProjectInvestInvestors.vue'
 import IgniteProjectInvestSingleCard from './IgniteProjectInvestSingleCard.vue'
@@ -14,20 +15,33 @@ import IgniteProjectInvestVesting from './IgniteProjectInvestVesting.vue'
 import useFundraiser from '~/composables/fundraising/useFundraiser'
 
 import { useRoute } from 'vue-router'
+import useAddress from '~/composables/wallet/useAddress'
 
 const route = useRoute()
 const fundraiserId = route.params.fundraiserId.toString() || '0'
 
+// composables
 const { fundraiser } = useFundraiser(fundraiserId)
+const { address } = useAddress()
+
+const allowCancel = computed(() => {
+  return (
+    address.value &&
+    address.value === fundraiser?.value?.auction?.base_auction?.auctioneer &&
+    fundraiser.value?.auction?.base_auction?.status === 'AUCTION_STATUS_STANDBY'
+  )
+})
 </script>
 
 <template>
   <div v-if="fundraiser">
-    <IgniteProjectInvestCancel class="mt-8 md:mt-10.5" />
+    <IgniteProjectInvestCancel
+      v-if="allowCancel"
+      :fundraiser="fundraiser"
+      class="mt-8 md:mt-10.5"
+    />
 
-    <div
-      class="container-full container mt-8 px-5 sm:px-5.5 md:mt-10.5 lg:px-7"
-    >
+    <div class="container mt-8 md:mt-10.5">
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7">
         <IgniteProjectInvestSingleCard
           :auction="fundraiser.auction"
@@ -35,14 +49,9 @@ const { fundraiser } = useFundraiser(fundraiserId)
         />
       </div>
     </div>
-    <div
-      class="container-full container mt-8 px-5 sm:px-5.5 md:mt-10.5 lg:px-7"
-    >
+    <div class="container mt-8 md:mt-10.5">
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7">
-        <div class="mt-6 md:mt-8 lg:mt-0">
-          <IgniteProjectInvest status="registrationNotOpen" />
-        </div>
-        <div class="mt-6 md:mt-8 lg:mt-0">
+        <!-- <div class="mt-6 md:mt-8 lg:mt-0">
           <IgniteProjectInvest status="registrationOpen" :wallet="false" />
         </div>
         <div class="mt-6 md:mt-8 lg:mt-0">
@@ -81,13 +90,11 @@ const { fundraiser } = useFundraiser(fundraiserId)
         </div>
         <div class="mt-6 md:mt-8 lg:mt-0">
           <IgniteProjectInvest status="saleCanceled" />
-        </div>
+        </div> -->
       </div>
     </div>
 
-    <div
-      class="container-full container mt-8 px-5 sm:px-5.5 md:mt-10.5 lg:px-7"
-    >
+    <div class="container mt-8 md:mt-10.5">
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7">
         <div class="lg:col-span-2">
           <IgniteProjectInvestValidators :is-wild="true" />
@@ -95,9 +102,7 @@ const { fundraiser } = useFundraiser(fundraiserId)
       </div>
     </div>
 
-    <div
-      class="container-full container mt-8 px-5 sm:px-5.5 md:mt-10.5 lg:px-7"
-    >
+    <!-- <div class="container mt-8 md:mt-10.5">
       <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:gap-7">
         <IgniteProjectInvestValidators />
         <div class="">
@@ -122,7 +127,7 @@ const { fundraiser } = useFundraiser(fundraiserId)
           </IgniteCard>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <IgniteProjectInvestInvestors class="mt-8 md:mt-10.5" />
     <IgniteProjectInvestVesting class="mt-8 md:mt-10.5" />

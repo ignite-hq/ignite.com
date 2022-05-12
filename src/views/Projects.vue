@@ -6,10 +6,12 @@ export default {
 
 <script lang="ts" setup>
 import IgniteProjectList from '~/components/project/ProjectList/index.vue'
+import ProjectsHeader from '~/components/project/ProjectsHeader.vue'
 </script>
 
 <template>
-  <div class="container mb-10">
+  <div class="container">
+    <ProjectsHeader />
     <IgniteProjectList />
   </div>
 </template>
