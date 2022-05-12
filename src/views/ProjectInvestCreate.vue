@@ -24,6 +24,7 @@ import { useSpn } from 'tendermint-spn-vue-client'
 import { computed, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 
+import { formatAmountInput, percentageToCosmosDecimal } from '~/utils/number'
 import IconCanceled from '~/components/icons/IconCanceled.vue'
 import IconPlus from '~/components/icons/IconPlus.vue'
 import FundraiserCreateModal from '~/components/invest/FundraiserCreateModal.vue'
@@ -45,6 +46,8 @@ import IgniteDenom from '~/components/common/IgniteDenom.vue'
 const TODAY = new Date()
 
 const MICRO_CONVERSION_RATE = 1000000
+
+const FEE_RATE = new BigNumber(0.003)
 
 function getWeeksLater(date: Date, amountOfWeeks = 1): Date {
   return dayjs(date).add(amountOfWeeks, 'week').toDate()
@@ -71,10 +74,6 @@ const DUMMY_DENOMS: Coin[] = [
     denom: 'UST'
   }
 ]
-
-function pctToDecimals(pct: string, decimals = 18): string {
-  return new BigNumber(pct).toPrecision(decimals).toString().replace('.', '')
-}
 
 function toMicro(amount: Coin): Coin {
   return {
@@ -127,7 +126,9 @@ const initialState: State = {
       amount: new BigNumber(DUMMY_VOUCHERS[0].amount).dividedBy(20).toString(),
       denom: DUMMY_VOUCHERS[0].denom
     },
-    vesting_schedules: []
+    vesting_schedules: [
+      { release_time: getWeeksLater(TODAY, 2), weight: '100' }
+    ]
   },
   vouchersAvailable: DUMMY_VOUCHERS,
   payingDenomsAvailable: DUMMY_DENOMS
@@ -163,7 +164,9 @@ const totalSaleValue = computed<number>(
     new BigNumber(state.auction.selling_coin?.amount ?? '0').toNumber() *
     new BigNumber(state.auction.start_price ?? '0').toNumber()
 )
-const totalFee = computed<number>(() => (0.3 / 100) * totalSaleValue.value)
+const totalFee = computed<number>(() =>
+  FEE_RATE.multipliedBy(totalSaleValue.value).toNumber()
+)
 const totalRaisePotential = computed<number>(
   () => totalSaleValue.value - totalFee.value
 )
@@ -239,37 +242,7 @@ function handleModalAck() {
 }
 
 // methods
-function normalizeToAmount(evt: Event, maxDecimals = 0): string {
-  function format(value: string): string {
-    let newValue: string = value
-
-    // Replace commas
-    newValue = newValue.replace(',', '.')
-
-    // Disallow decimals if wished for
-    newValue = maxDecimals > 0 ? newValue : newValue.replace('.', '')
-
-    // Only numbers
-    newValue = newValue.replace(/[^0-9.]/g, '')
-
-    if (newValue.startsWith('.')) {
-      newValue = '0' + newValue
-    }
-
-    if (newValue.split('').filter((char) => char === '.').length > 1) {
-      // Remove subsequent separators
-      newValue = newValue.replace(/(?<=\..*)\./g, '')
-    }
-
-    let [integerDigits, fractionDigits] = newValue.split('.')
-
-    if (fractionDigits?.length > maxDecimals) {
-      newValue = `${integerDigits}.${fractionDigits.slice(0, maxDecimals)}`
-    }
-
-    return newValue
-  }
-
+function normalizeToAmount(evt: Event, decimals = 0): string {
   const inputEl = evt.target as HTMLInputElement
   const value = inputEl.value
 
@@ -283,7 +256,11 @@ function normalizeToAmount(evt: Event, maxDecimals = 0): string {
     currentValue = currentValue.slice(0, -1)
   }
 
-  return format(currentValue)
+  const formatted = formatAmountInput(currentValue, decimals)
+
+  inputEl.value = formatted
+
+  return formatted
 }
 function normalizeAuction(
   auction: MsgCreateFixedPriceAuction
@@ -291,7 +268,7 @@ function normalizeAuction(
   const normalized = cloneDeep(auction)
 
   normalized.vesting_schedules.forEach((schedule) => {
-    schedule.weight = pctToDecimals(schedule.weight)
+    schedule.weight = percentageToCosmosDecimal(schedule.weight)
   })
 
   const isSellingCoinInMicroFormat = normalized.selling_coin?.denom[0] === 'u'
@@ -596,8 +573,9 @@ function cancel() {
                   </div>
                 </div>
                 <div>
+                  <!-- Add Distribution -->
                   <IgniteButton
-                    v-if="index > 0"
+                    v-if="state.auction.vesting_schedules.length > 0"
                     class="py-5.5 text-error"
                     @click="() => handleDeleteDistributionClick(index)"
                   >
@@ -611,7 +589,7 @@ function cancel() {
             <!-- Add Distribution -->
             <div class="mt-8 flex-row">
               <IgniteButton
-                variant="light"
+                variant="primary"
                 class="border border-primary px-4"
                 @click="handleAddDistributionClick"
               >

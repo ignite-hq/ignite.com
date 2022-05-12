@@ -84,7 +84,7 @@ function handleDayClick() {
   emit('input', state.date)
 }
 function handleTimezoneInput(value: string) {
-  state.timezone = new BigNumber(value).dividedBy(60).toNumber()
+  state.timezone = new BigNumber(value).toNumber()
 
   emit('input', state.date)
 }
