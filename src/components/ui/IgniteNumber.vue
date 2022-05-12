@@ -5,9 +5,11 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import { formatNumber } from '~/utils/number'
+
 interface Props {
   as?: string
-  number: number
+  number: number | string
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -18,6 +20,6 @@ const props = withDefaults(defineProps<Props>(), {
 
 <template>
   <component :is="as">
-    {{ new Intl.NumberFormat().format(props.number) }}
+    {{ formatNumber(props.number) }}
   </component>
 </template>

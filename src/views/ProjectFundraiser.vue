@@ -26,7 +26,6 @@ const { campaignSummary } = useCampaignSummary(projectId)
 <template>
   <div>
     <IgniteProjectHeader
-      :active-tab="tab"
       :project-id="projectId"
       :campaign-summary="campaignSummary"
     />

@@ -11,6 +11,7 @@ import { computed, PropType } from 'vue'
 import IgniteLegend from '~/components/common/IgniteLegend.vue'
 import IgniteProgressBar from '~/components/common/IgniteProgressBar.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
+import { getVouchersFromRewards } from '~/utils/reward'
 import { LegendItem, ProgressBarItem } from '~/utils/types'
 
 const props = defineProps({
@@ -35,21 +36,15 @@ const legend: LegendItem[] = [
   }
 ]
 
-// methods
-function getVouchersFromRewards(
-  rewards: CampaignCampaignSummary['rewards'] = []
-) {
-  return rewards.filter((coin) => {
-    const campaignId = props.campaignSummary.campaign?.campaignID
-    const isShare = coin.denom?.startsWith(`v/${campaignId}`)
-    return isShare
-  })
-}
-
 // computed
 const totalSupply = computed(() => {
-  const filteredRewards = getVouchersFromRewards(props.campaignSummary.rewards)
-  return filteredRewards.map((coin) => {
+  const campaignId = props.campaignSummary.campaign?.campaignID
+  const vouchers = getVouchersFromRewards(
+    campaignId ?? '',
+    props.campaignSummary.rewards
+  )
+
+  return vouchers.map((coin) => {
     const denom = coin.denom?.split('/')[2] ?? ''
 
     const TOTAL_SUPPLY = 100_000

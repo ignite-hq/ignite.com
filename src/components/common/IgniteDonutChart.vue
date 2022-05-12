@@ -1,9 +1,12 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+export interface DonutDataItem {
+  name: string
+  y: number
+}
 
-export default defineComponent({
+export default {
   name: 'IgniteProjectStatus'
-})
+}
 </script>
 
 <script lang="ts" setup>
@@ -11,22 +14,21 @@ import IgniteBgWave from '~/components/ui/IgniteBgWave.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 
-const props = defineProps({
-  colors: {
-    type: Array,
-    default: () => [
-      'rgba(9, 78, 253, 1)',
-      'rgba(9, 78, 253, 0.8)',
-      'rgba(9, 78, 253, 0.6)',
-      'rgba(9, 78, 253, 0.4)',
-      'rgba(9, 78, 253, 0.2)',
-      'rgba(9, 78, 253, 0.1)'
-    ]
-  },
-  dataSeries: {
-    type: Array,
-    required: true
-  }
+interface Props {
+  colors: string[]
+  dataSeries: DonutDataItem[]
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  colors: () => [
+    'rgba(9, 78, 253, 1)',
+    'rgba(9, 78, 253, 0.8)',
+    'rgba(9, 78, 253, 0.6)',
+    'rgba(9, 78, 253, 0.4)',
+    'rgba(9, 78, 253, 0.2)',
+    'rgba(9, 78, 253, 0.1)'
+  ],
+  dataSeries: () => []
 })
 
 const labels = props.dataSeries.map((item) => item.name)
@@ -55,7 +57,7 @@ const chartOptions = {
   },
   tooltip: {
     y: {
-      formatter: function (value, { series, seriesIndex, dataPointIndex, w }) {
+      formatter: function (value: number) {
         return `${value}%`
       }
     }
