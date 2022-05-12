@@ -27,12 +27,14 @@ import { AuctionStatusLabels, ProgressBarItem } from '~/utils/types'
 import { toCompactNumber, getDenomName } from '~/utils/fundraisers'
 import useTotalSupply from '~/composables/fundraising/useTotalSupply'
 
-const props = defineProps({
-  auction: { type: Object },
-  size: {
-    type: String, // sm
-    default: ''
-  }
+interface Props {
+  auction: any
+  type: string
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  auction: () => ({}),
+  size: ''
 })
 
 const { totalSupply } = useTotalSupply()
