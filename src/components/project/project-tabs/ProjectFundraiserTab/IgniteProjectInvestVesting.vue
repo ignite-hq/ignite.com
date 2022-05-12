@@ -7,16 +7,21 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
+import dayjs from 'dayjs'
+
 import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 import IgniteDenom from '~/components/common/IgniteDenom.vue'
 
 import { getDenomName } from '~/utils/fundraisers'
+import { FundraisingVestingSchedule } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/rest'
 
-defineProps({
-  vestingSchedules: { type: Array },
-  curency: { type: String },
-  amount: { type: Number }
-})
+interface Props {
+  vestingSchedules: FundraisingVestingSchedule[]
+  curency: string
+  amount: number | string
+}
+
+defineProps<Props>()
 </script>
 
 <template>
@@ -58,7 +63,7 @@ defineProps({
         <div class="pt-6 md:pt-8">
           <div
             v-for="(item, key) in vestingSchedules"
-            :key="item.dates"
+            :key="`vesting-schedule-${key}`"
             class="mt-6 border-t border-border pt-6 first:mt-0 first:border-t-0 first:pt-0 md:mt-9 md:border-t-0 md:pt-0"
           >
             <div
@@ -71,21 +76,13 @@ defineProps({
                   {{ key + 1 }}
                 </div>
                 <div v-if="item.release_time">
-                  <span class="font-semibold">{{
-                    new Intl.DateTimeFormat('en-US', {
-                      year: 'numeric',
-                      month: 'short',
-                      day: 'numeric'
-                    }).format(new Date(item.release_time))
-                  }}</span>
+                  <span class="font-semibold">
+                    {{ dayjs(item.release_time).format('MMM D, YYYY') }}
+                  </span>
                   <span class="text-muted"> at </span>
-                  <span class="font-semibold">{{
-                    new Intl.DateTimeFormat('en-US', {
-                      hour: 'numeric',
-                      hour12: true,
-                      timeZoneName: 'short'
-                    }).format(new Date(item.release_time))
-                  }}</span>
+                  <span class="font-semibold">
+                    {{ dayjs(item.release_time).format('h:mm A [GMT]Z') }}
+                  </span>
                 </div>
               </div>
               <div
