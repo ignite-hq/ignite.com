@@ -25,7 +25,7 @@ import IgniteText from '~/components/ui/IgniteText.vue'
 import { AuctionStatus } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/fundraising'
 import { AuctionStatusLabels, ProgressBarItem } from '~/utils/types'
 import { toCompactNumber, getDenomName } from '~/utils/fundraisers'
-import useSupplyOf from '~/composables/fundraising/useSupplyOf'
+import useTotalSupply from '~/composables/fundraising/useTotalSupply'
 
 const props = defineProps({
   auction: { type: Object },
@@ -35,9 +35,13 @@ const props = defineProps({
   }
 })
 
-const { supply } = useSupplyOf(
-  props.auction?.base_auction.selling_coin.denom ?? ''
-)
+const { totalSupply } = useTotalSupply()
+const supply = computed(() => {
+  if (!totalSupply.value?.supply) return 0
+  return totalSupply.value?.supply.find(
+    (token) => token.denom === props.auction?.base_auction.selling_coin.denom
+  ).amount
+})
 
 const progressBar = computed(() => {
   const items: ProgressBarItem[] = [] as ProgressBarItem[]
@@ -208,10 +212,10 @@ const formatAuctionStatus = (
                 )
               }}
               <span class="text-muted"
-                >({{
+                >&nbsp;({{
                   Math.round(
                     (Number(auction.base_auction.selling_coin?.amount ?? 0) /
-                      Number(supply?.amount?.amount ?? 1)) *
+                      supply) *
                       100
                   )
                 }}%)</span
