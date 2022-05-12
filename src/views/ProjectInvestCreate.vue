@@ -97,12 +97,12 @@ function coinToSelectOption(c: Coin): { label: string; value: string } {
   return { label: c.denom.toUpperCase(), value: c.denom }
 }
 
-interface ISellingCoin {
+interface SellingCoin {
   selling_coin: Coin
 }
 
 type NonNullableMsgCreateFixedPriceAuction =
-  NonNullable<MsgCreateFixedPriceAuction> & ISellingCoin
+  NonNullable<MsgCreateFixedPriceAuction> & SellingCoin
 
 // state
 interface State {
