@@ -19,7 +19,7 @@ import ProjectRoadmap from './ProjectRoadmap.vue'
 import ProjectTeam from './ProjectTeam/index.vue'
 import ProjectTokenomics from './ProjectTokenomics.vue'
 import ProjectWhitepaper from './ProjectWhitepaper.vue'
-import { ProjectYaml } from './types'
+import { ProjectMember, ProjectYaml } from './types'
 
 interface Props {
   campaignSummary?: CampaignCampaignSummary
@@ -65,6 +65,21 @@ const parsedProjectConfig = computed(() => {
   return yaml.parse(projectConfig.value ?? '') as ProjectYaml | undefined
 })
 
+const members = computed(() => {
+  const projectConfigMembers =
+    parsedProjectConfig?.value?.project?.team?.members
+
+  const projectName = props.campaignSummary.campaign?.campaignName
+  const campaignSummaryMembers: ProjectMember[] = [
+    {
+      name: `${projectName} Coordinator`,
+      title: 'Coordinator'
+    }
+  ]
+
+  return projectConfigMembers ?? campaignSummaryMembers
+})
+
 const showProjectDescription = computed(() => {
   return Boolean(readme.value) && !isLoadingDescription.value
 })
@@ -90,13 +105,6 @@ const showTokenomics = computed(() => {
   )
 })
 
-const showTeam = computed(() => {
-  return (
-    Boolean(parsedProjectConfig.value?.project?.team?.members) &&
-    !isLoadingProjectConfig.value
-  )
-})
-
 const showLinks = computed(() => {
   return (
     Boolean(parsedProjectConfig.value?.project?.links) &&
@@ -106,42 +114,36 @@ const showLinks = computed(() => {
 </script>
 
 <template>
-  <div class="pt-8 pb-10 md:pt-10.5">
+  <div class="space-y-8 pt-8 pb-10 md:space-y-11 md:pt-10.5">
     <ProjectCards />
     <ProjectDescription
       v-if="showProjectDescription"
       :raw-markdown="readme"
       :source-url="sourceUrl"
-      class="mt-8 md:mt-10.5"
       :loading="isLoadingDescription"
     />
     <ProjectWhitepaper
       v-if="showWhitepaper"
       :whitepaper-url="parsedProjectConfig?.project?.whitepaper?.url ?? ''"
       :loading="isLoadingProjectConfig"
-      class="mt-8 md:mt-10.5"
     />
     <ProjectRoadmap
       v-if="showRoadmap"
       :milestones="parsedProjectConfig?.project?.roadmap?.milestones"
-      class="mt-8 md:mt-12"
     />
     <ProjectTokenomics
       v-if="showTokenomics"
       :campaign-summary="campaignSummary"
       :loading="loading"
       :distribution="parsedProjectConfig?.project?.tokenomics?.distribution"
-      class="mt-8 md:mt-12"
     />
     <ProjectTeam
-      v-if="showTeam"
-      :members="parsedProjectConfig?.project?.team?.members"
-      class="mt-8 md:mt-11"
+      :members="members"
+      :loading="isLoadingProjectConfig || loading"
     />
     <ProjectLinks
       v-if="showLinks"
       :links="parsedProjectConfig?.project?.links"
-      class="mt-8 md:mt-11"
     />
   </div>
 </template>

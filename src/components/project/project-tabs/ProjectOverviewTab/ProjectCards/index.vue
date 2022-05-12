@@ -28,7 +28,7 @@ const showValidatorCard = computed(() => {
 </script>
 
 <template>
-  <div class="container">
+  <div v-if="showValidatorCard" class="container">
     <div class="grid grid-cols-1 gap-6 md:gap-7 lg:grid-cols-12 xl:grid-cols-2">
       <div
         v-if="false"
