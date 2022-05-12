@@ -5,6 +5,8 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import { computed } from 'vue'
+
 import IgniteProjectInvest from './IgniteProjectInvest.vue'
 import IgniteProjectInvestCancel from './IgniteProjectInvestCancel.vue'
 import IgniteProjectInvestInvestors from './IgniteProjectInvestInvestors.vue'
@@ -14,11 +16,14 @@ import IgniteProjectInvestVesting from './IgniteProjectInvestVesting.vue'
 import useFundraiser from '~/composables/fundraising/useFundraiser'
 
 import { useRoute } from 'vue-router'
+import useAddress from '~/composables/wallet/useAddress'
 
 const route = useRoute()
 const projectId = route.params.projectId.toString() || '0'
 
+// composables
 const { fundraiser } = useFundraiser(projectId)
+const { address } = useAddress()
 
 const roadmapItems = [
   {
@@ -38,11 +43,21 @@ const roadmapItems = [
     date: '04.01 at 9 AM UTC'
   }
 ]
+
+const allowCancel = computed(() => {
+  return (
+    address.value &&
+    address.value === fundraiser?.value?.auction?.base_auction?.auctioneer &&
+    fundraiser.value?.auction?.base_auction?.status === 'AUCTION_STATUS_STANDBY'
+  )
+})
 </script>
 
 <template>
   <div v-if="fundraiser">
+    {{ address }}
     <IgniteProjectInvestCancel
+      v-if="allowCancel"
       :fundraiser="fundraiser"
       class="mt-8 md:mt-10.5"
     />
