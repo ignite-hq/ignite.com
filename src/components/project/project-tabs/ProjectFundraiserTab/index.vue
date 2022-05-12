@@ -5,11 +5,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import IconUser from '~/components/icons/IconUser.vue'
-import IgniteCard from '~/components/ui/IgniteCard.vue'
-import IgniteHeading from '~/components/ui/IgniteHeading.vue'
-import IgniteNumber from '~/components/ui/IgniteNumber.vue'
-import IgniteText from '~/components/ui/IgniteText.vue'
+import { computed } from 'vue'
 
 import IgniteProjectInvest from './IgniteProjectInvest.vue'
 import IgniteProjectInvestCancel from './IgniteProjectInvestCancel.vue'
@@ -17,6 +13,17 @@ import IgniteProjectInvestInvestors from './IgniteProjectInvestInvestors.vue'
 import IgniteProjectInvestSingleCard from './IgniteProjectInvestSingleCard.vue'
 import IgniteProjectInvestValidators from './IgniteProjectInvestValidators.vue'
 import IgniteProjectInvestVesting from './IgniteProjectInvestVesting.vue'
+import useFundraiser from '~/composables/fundraising/useFundraiser'
+
+import { useRoute } from 'vue-router'
+import useAddress from '~/composables/wallet/useAddress'
+
+const route = useRoute()
+const projectId = route.params.projectId.toString() || '0'
+
+// composables
+const { fundraiser } = useFundraiser(projectId)
+const { address } = useAddress()
 
 const roadmapItems = [
   {
@@ -37,21 +44,22 @@ const roadmapItems = [
   }
 ]
 
-const roadmapCancelItems = [
-  {
-    status: 'complited',
-    name: 'Fundraiser published'
-  },
-  {
-    status: 'cancelled',
-    name: 'Fundraiser cancelled'
-  }
-]
+const allowCancel = computed(() => {
+  return (
+    address.value &&
+    address.value === fundraiser?.value?.auction?.base_auction?.auctioneer &&
+    fundraiser.value?.auction?.base_auction?.status === 'AUCTION_STATUS_STANDBY'
+  )
+})
 </script>
 
 <template>
-  <div>
-    <IgniteProjectInvestCancel class="mt-8 md:mt-10.5" />
+  <div v-if="fundraiser">
+    <IgniteProjectInvestCancel
+      v-if="allowCancel"
+      :fundraiser="fundraiser"
+      class="mt-8 md:mt-10.5"
+    />
 
     <div class="container mt-8 md:mt-10.5">
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7">
@@ -63,21 +71,10 @@ const roadmapCancelItems = [
     </div>
     <div class="container mt-8 md:mt-10.5">
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7">
-        <IgniteProjectInvestSingleCard
-          :items="roadmapCancelItems"
-          class="lg:col-span-2"
-        />
-      </div>
-    </div>
-    <div class="container mt-8 md:mt-10.5">
-      <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7">
-        <div class="flex items-end">
-          <IgniteProjectInvestSingleCard size="sm" />
-        </div>
         <div class="mt-6 md:mt-8 lg:mt-0">
           <IgniteProjectInvest status="registrationNotOpen" />
         </div>
-        <div class="mt-6 md:mt-8 lg:mt-0">
+        <!-- <div class="mt-6 md:mt-8 lg:mt-0">
           <IgniteProjectInvest status="registrationOpen" :wallet="false" />
         </div>
         <div class="mt-6 md:mt-8 lg:mt-0">
@@ -116,7 +113,7 @@ const roadmapCancelItems = [
         </div>
         <div class="mt-6 md:mt-8 lg:mt-0">
           <IgniteProjectInvest status="saleCanceled" />
-        </div>
+        </div> -->
       </div>
     </div>
 
@@ -128,7 +125,7 @@ const roadmapCancelItems = [
       </div>
     </div>
 
-    <div class="container mt-8 md:mt-10.5">
+    <!-- <div class="container mt-8 md:mt-10.5">
       <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:gap-7">
         <IgniteProjectInvestValidators />
         <div class="">
@@ -153,7 +150,7 @@ const roadmapCancelItems = [
           </IgniteCard>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <IgniteProjectInvestInvestors class="mt-8 md:mt-10.5" />
     <IgniteProjectInvestVesting class="mt-8 md:mt-10.5" />
