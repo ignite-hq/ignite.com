@@ -61,6 +61,7 @@ const progressBar = computed(() => {
 })
 
 const roadmapItems = computed(() => {
+  // TODO: set those programmatically
   // {
   //   status: 'completed',
   //   name: 'Fundraiser published'
