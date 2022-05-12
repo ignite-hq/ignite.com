@@ -5,24 +5,24 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import BigNumber from 'bignumber.js'
+import { computed, ref, watchEffect } from 'vue'
+
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
+import useFundraisersAll from '~/composables/fundraising/useFundraisersAll'
+import { V1Beta1Coin } from '~/generated/tendermint-spn-ts-client/cosmos.bank.v1beta1/rest'
+import { BaseAuction } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising'
+import { Coin } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/cosmos/base/v1beta1/coin'
+import { AuctionStatus } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/fundraising'
+import { CampaignCampaignSummary } from '~/generated/tendermint-spn-ts-client/tendermint.spn.campaign/rest'
+import { useCosmosBankV1Beta1 } from '~/generated/tendermint-spn-vue-client'
+import { getDenomName, toCompactNumber } from '~/utils/fundraisers'
+import { AuctionCardData, AuctionStatusLabels } from '~/utils/types'
 
 import InvestCard from './InvestCard.vue'
 import InvestStart from './InvestStart.vue'
 import InvestTitle from './InvestTitle.vue'
 import InvestVoucherAllocation from './InvestVoucherAllocation.vue'
-import { computed, watchEffect, ref } from 'vue'
-import BigNumber from 'bignumber.js'
-
-import { BaseAuction } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising'
-import { AuctionStatus } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/fundraising'
-import useFundraisersAll from '~/composables/fundraising/useFundraisersAll'
-import { useCosmosBankV1Beta1 } from '~/generated/tendermint-spn-vue-client'
-import { CampaignCampaignSummary } from '~/generated/tendermint-spn-ts-client/tendermint.spn.campaign/rest'
-import { toCompactNumber, getDenomName } from '~/utils/fundraisers'
-import { AuctionStatusLabels, AuctionCardData } from '~/utils/types'
-import { Coin } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/cosmos/base/v1beta1/coin'
-import { V1Beta1Coin } from '~/generated/tendermint-spn-ts-client/cosmos.bank.v1beta1/rest'
 
 const { fundraisers } = useFundraisersAll()
 const { queryTotalSupply } = useCosmosBankV1Beta1()
@@ -129,16 +129,16 @@ const fundraisingList = computed(() => {
 <template>
   <div>
     <InvestTitle
-      :projectName="campaignSummary?.campaign?.campaignName"
+      :project-name="campaignSummary?.campaign?.campaignName"
       class="mt-8 md:mt-10.5"
     />
     <InvestVoucherAllocation
       :fundraisers="fundraisers"
-      :totalSupply="totalSupply"
+      :total-supply="totalSupply"
       class="mt-7 md:mt-9"
     />
     <InvestStart
-      :projectName="campaignSummary?.campaign?.campaignName"
+      :project-name="campaignSummary?.campaign?.campaignName"
       class="mt-8 md:mt-10.5"
     />
     <div class="container-full container px-5 sm:px-5.5 lg:px-7">
