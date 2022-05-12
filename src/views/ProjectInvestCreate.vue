@@ -24,7 +24,7 @@ import { useSpn } from 'tendermint-spn-vue-client'
 import { computed, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 
-import { formatAmountInput, percentageToCosmosDecimal } from '~/utils/number'
+import { percentageToCosmosDecimal } from '~/utils/number'
 import IconCanceled from '~/components/icons/IconCanceled.vue'
 import IconPlus from '~/components/icons/IconPlus.vue'
 import FundraiserCreateModal from '~/components/invest/FundraiserCreateModal.vue'
@@ -185,17 +185,68 @@ const nextMinDateForSchedule = computed<Date>(() => {
 
   return new Date(Math.max(penultimateScheduleDate, auctionEndDate, today))
 })
+const isAnyVestingZero = computed<boolean>(() => {
+  return state.auction.vesting_schedules.some((schedule) => {
+    return new BigNumber(schedule.weight).isEqualTo(0)
+  })
+})
+const isVestingTotalSale = computed<boolean>(() => {
+  const totalWeight: number = new BigNumber(
+    state.auction.vesting_schedules
+      .map((i) => new BigNumber(i.weight).toNumber())
+      .reduce((acc, cur) => new BigNumber(acc).plus(cur).toNumber(), 0)
+  ).toNumber()
+
+  return totalWeight === 100
+})
+const isEndAfterStart = computed<boolean>(() => {
+  const auction = state.auction
+
+  const startAsMilli = (auction.start_time as Date).getTime()
+  const endAsMilli = (auction.end_time as Date).getTime()
+
+  return endAsMilli > startAsMilli
+})
+const isReleaseTimeAfterEnd = computed<boolean>(() => {
+  const auction = state.auction
+  const endAsMilli = (auction.end_time as Date).getTime()
+
+  return auction.vesting_schedules.every((schedule) => {
+    const scheduleAsMilli = (schedule.release_time as Date).getTime()
+
+    return scheduleAsMilli > endAsMilli
+  })
+})
+const ableToPublish = computed<boolean>(
+  () =>
+    isEndAfterStart.value &&
+    isReleaseTimeAfterEnd.value &&
+    isVestingTotalSale.value &&
+    isAnyVestingZero.value
+)
 
 // handlers
 function handleAmountInput(evt: Event) {
   const inputEl = evt.target as HTMLInputElement
+  const raw = inputEl.value
+  const numbersOnly = raw.replace(/\D/g, '')
 
-  const newAmount = inputEl.value
+  const formatted =
+    numbersOnly.length > 0 ? new BigNumber(numbersOnly).toString() : '0'
 
-  state.auction.selling_coin.amount = newAmount
+  inputEl.value = formatted
+  state.auction.selling_coin.amount = formatted
 }
-function handlePricePerVoucher(value: string) {
-  state.auction.start_price = value
+function handlePricePerVoucher(evt: Event) {
+  const inputEl = evt.target as HTMLInputElement
+  const raw = inputEl.value
+  const numbersOnly = raw.replace(/\D/g, '')
+
+  const formatted =
+    numbersOnly.length > 0 ? new BigNumber(numbersOnly).toString() : '0'
+
+  inputEl.value = formatted
+  state.auction.start_price = formatted
 }
 function handlePayingDenomChange(value: string) {
   state.auction.paying_coin_denom = (
@@ -211,8 +262,17 @@ function handleEndDateInput(date: Date) {
 function handleDistributionDateInput(date: Date, index: number) {
   state.auction.vesting_schedules[index].release_time = date
 }
-function handleDistributionWeightInput(weight: string, index: number) {
-  state.auction.vesting_schedules[index].weight = weight
+function handleDistributionWeightInput(evt: Event, index: number) {
+  const inputEl = evt.target as HTMLInputElement
+  const raw = inputEl.value
+  const numbersOnly = raw.replace(/\D/g, '')
+
+  const formatted =
+    numbersOnly.length > 0 ? new BigNumber(numbersOnly).toString() : '0'
+
+  inputEl.value = formatted
+
+  state.auction.vesting_schedules[index].weight = formatted
 }
 function handleAddDistributionClick() {
   const lastSchedule = state.auction.vesting_schedules.at(-1)
@@ -242,26 +302,6 @@ function handleModalAck() {
 }
 
 // methods
-function normalizeToAmount(evt: Event, decimals = 0): string {
-  const inputEl = evt.target as HTMLInputElement
-  const value = inputEl.value
-
-  if (!value) {
-    return ''
-  }
-
-  let currentValue = value
-
-  while (parseFloat(currentValue) > Number.MAX_SAFE_INTEGER) {
-    currentValue = currentValue.slice(0, -1)
-  }
-
-  const formatted = formatAmountInput(currentValue, decimals)
-
-  inputEl.value = formatted
-
-  return formatted
-}
 function normalizeAuction(
   auction: MsgCreateFixedPriceAuction
 ): MsgCreateFixedPriceAuction {
@@ -281,31 +321,15 @@ function normalizeAuction(
 
   return normalized
 }
-function assertAuction(auction: MsgCreateFixedPriceAuction) {
-  const startAsMilli = (auction.start_time as Date).getTime()
-  const endAsMilli = (auction.end_time as Date).getTime()
-
-  const isEndAfterStart = endAsMilli > startAsMilli
-  const isReleaseTimeAfterEnd = auction.vesting_schedules.every((schedule) => {
-    const scheduleAsMilli = (schedule.release_time as Date).getTime()
-
-    return scheduleAsMilli > endAsMilli
-  })
-
-  if (!isEndAfterStart) {
-    throw new Error('Start date must be after end date')
-  }
-  if (!isReleaseTimeAfterEnd) {
-    throw new Error('Release date must be after end date')
-  }
-}
 async function publish() {
   const payload = normalizeAuction(state.auction)
   let response: DeliverTxResponse
 
-  try {
-    assertAuction(payload)
+  if (!ableToPublish.value) {
+    throw new Error('Not able to publish: ' + state.auction)
+  }
 
+  try {
     const msg = spn.tendermintFundraising.value.msgCreateFixedPriceAuction({
       value: payload
     })
@@ -377,7 +401,7 @@ function cancel() {
                 <IgniteInput
                   :value="state.auction.selling_coin?.amount"
                   variants="text-center border border-border"
-                  @input="(evt) => handleAmountInput(evt)"
+                  @input="handleAmountInput"
                 />
               </div>
               <div class="ml-6 flex-row">
@@ -429,9 +453,7 @@ function cancel() {
                   <IgniteInput
                     :value="state.auction.start_price"
                     variants="text-center border border-border border-l-0 rounded-l-none"
-                    @input="
-                      (evt) => handlePricePerVoucher(normalizeToAmount(evt))
-                    "
+                    @input="handlePricePerVoucher"
                   />
                 </div>
               </div>
@@ -553,7 +575,7 @@ function cancel() {
                 <div>
                   <div>
                     <IgniteText as="label" class="block text-2 text-muted">
-                      Amount</IgniteText
+                      Amount %</IgniteText
                     >
                   </div>
                   <div class="mt-3">
@@ -562,11 +584,7 @@ function cancel() {
                         :value="schedule.weight"
                         variants="text-center border border-border"
                         @input="
-                          (evt) =>
-                            handleDistributionWeightInput(
-                              normalizeToAmount(evt),
-                              index
-                            )
+                          (evt) => handleDistributionWeightInput(evt, index)
                         "
                       />
                     </div>
@@ -614,6 +632,25 @@ function cancel() {
         </FundraiserInfoCard>
       </div>
     </FundraiserSection>
+    <!-- Feedbacks -->
+    <FundraiserSection>
+      <FundraiserInputRow>
+        <div class="flex">
+          <IgniteText
+            v-if="!isVestingTotalSale"
+            class="flex rounded-xs bg-error bg-opacity-70 p-4 text-gray-50"
+          >
+            Total distributed amount should be 100%
+          </IgniteText>
+          <IgniteText
+            v-if="isAnyVestingZero"
+            class="flex rounded-xs bg-error bg-opacity-70 p-4 text-gray-50"
+          >
+            Vesting amount can not be zero
+          </IgniteText>
+        </div>
+      </FundraiserInputRow>
+    </FundraiserSection>
     <!-- Fundraiser Summary -->
     <FundraiserSummary
       :total-raise-potential="totalRaisePotential"
@@ -625,6 +662,7 @@ function cancel() {
       :sale-denom="state.auction.selling_coin?.denom.toUpperCase()"
       :start-date="(state.auction.start_time as Date)"
       :end-date="(state.auction.end_time as Date)"
+      :able-to-publish="ableToPublish"
       @publish="publish"
       @cancel="cancel"
     />
