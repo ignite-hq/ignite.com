@@ -14,15 +14,15 @@ import IgniteProjectInvestSingleCard from './IgniteProjectInvestSingleCard.vue'
 import IgniteProjectInvestValidators from './IgniteProjectInvestValidators.vue'
 import IgniteProjectInvestVesting from './IgniteProjectInvestVesting.vue'
 import useFundraiser from '~/composables/fundraising/useFundraiser'
-
-import { useRoute } from 'vue-router'
 import useAddress from '~/composables/wallet/useAddress'
 
+import { useRoute } from 'vue-router'
+
 const route = useRoute()
-const projectId = route.params.projectId.toString() || '0'
+const fundraiserId = route.params.fundraiserId.toString() || '0'
 
 // composables
-const { fundraiser } = useFundraiser(projectId)
+const { fundraiser } = useFundraiser(fundraiserId)
 const { address } = useAddress()
 
 const roadmapItems = [
@@ -152,7 +152,11 @@ const allowCancel = computed(() => {
       </div>
     </div> -->
 
-    <IgniteProjectInvestInvestors class="mt-8 md:mt-10.5" />
+    <IgniteProjectInvestInvestors
+      :fundraiser-id="fundraiserId"
+      :curency="fundraiser.auction.base_auction.selling_coin.denom"
+      class="mt-8 md:mt-10.5"
+    />
     <IgniteProjectInvestVesting class="mt-8 md:mt-10.5" />
   </div>
 </template>

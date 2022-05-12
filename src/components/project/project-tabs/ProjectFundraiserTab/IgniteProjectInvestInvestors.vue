@@ -2,62 +2,13 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'IgniteProjectInvestInvestors',
-  data() {
-    return {
-      investors: [
-        {
-          dates: 'April 1, 2022',
-          time: '9:00 AM UTC',
-          investor: 'ignite103...a34h',
-          status: 'Tier 1',
-          purchased: '1000',
-          purchasedPercentage: '0.017%',
-          investment: '500'
-        },
-        {
-          dates: 'May 1, 2022',
-          time: '9:00 AM UTC',
-          investor: 'ignite193...a42v',
-          status: 'Tier 2',
-          purchased: '5000',
-          purchasedPercentage: '0.083%',
-          investment: '2500'
-        },
-        {
-          dates: 'June 1, 2022',
-          time: '9:00 AM UTC',
-          investor: 'ignite1x3...a88l',
-          status: 'Tier 3',
-          purchased: '20000',
-          purchasedPercentage: '0.33%',
-          investment: '10000'
-        },
-        {
-          dates: 'July 1, 2022',
-          time: '9:00 AM UTC',
-          investor: 'ignite1j3...ar14',
-          status: 'Tier 1',
-          purchased: '1000',
-          purchasedPercentage: '0.017%',
-          investment: '20000'
-        },
-        {
-          dates: 'August 1, 2022',
-          time: '9:00 AM UTC',
-          investor: 'ignite113...ax00',
-          status: 'Tier 3',
-          purchased: '600000',
-          purchasedPercentage: '10%',
-          investment: '300000'
-        }
-      ]
-    }
-  }
+  name: 'IgniteProjectInvestInvestors'
 })
 </script>
 
 <script setup lang="ts">
+import { computed } from 'vue'
+
 import IgniteDenom from '~/components/common/IgniteDenom.vue'
 import IconOrder from '~/components/icons/IconOrder.vue'
 import IgniteButton from '~/components/ui/IgniteButton.vue'
@@ -65,7 +16,38 @@ import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 
-const curency = 'UST'
+import { getDenomName } from '~/utils/fundraisers'
+
+import useBids from '~/composables/fundraising/useBids'
+import useTotalSupply from '~/composables/fundraising/useTotalSupply'
+import { V1Beta1Coin } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/rest'
+
+interface Props {
+  fundraiserId: string
+  currency: string
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  fundraiserId: '0',
+  currency: ''
+})
+
+// composables
+const { bids } = useBids(props.fundraiserId)
+const { totalSupply } = useTotalSupply()
+
+// computed
+const supply = computed(() => {
+  if (!totalSupply.value?.supply || !props.currency) return 0
+  return totalSupply.value?.supply.find(
+    (token: V1Beta1Coin) => token.denom === props.currency
+  ).amount
+})
+
+const investorCount = computed(() => {
+  console.log(bids.value)
+  return [...new Set(bids?.value?.bids?.map((bid) => bid.bidder))].length
+})
 </script>
 
 <template>
@@ -76,7 +58,7 @@ const curency = 'UST'
           Investors
         </IgniteHeading>
         <IgniteText as="div" class="mt-5 text-3 text-muted">
-          <IgniteNumber number="2340" as="strong" /> Active investors
+          <IgniteNumber :number="investorCount" as="strong" /> Active investors
         </IgniteText>
       </div>
       <div
@@ -124,8 +106,8 @@ const curency = 'UST'
         <!-- body -->
         <div class="pt-6 md:pt-8">
           <div
-            v-for="item in investors"
-            :key="item.dates"
+            v-for="bid in bids"
+            :key="bid.id"
             class="mt-6 border-t border-border pt-6 first:mt-0 first:border-t-0 first:pt-0 md:mt-9 md:border-t-0 md:pt-0"
           >
             <div
@@ -137,12 +119,7 @@ const curency = 'UST'
                 <IgniteText
                   as="span"
                   class="font-semibold md:block lg:inline"
-                  >{{ item.investor }}</IgniteText
-                >
-                <IgniteText
-                  as="span"
-                  class="ignite-badge ml-5 md:ml-0 md:mt-3 lg:ml-5 lg:mt-0"
-                  >{{ item.status }}</IgniteText
+                  >{{ bid.bidder }}</IgniteText
                 >
               </div>
               <div
@@ -152,9 +129,11 @@ const curency = 'UST'
                   >Vouchers Purchased:</IgniteText
                 >
                 <span class="font-medium">
-                  <IgniteNumber as="span" :number="item.purchased" />
+                  <IgniteNumber as="span" :number="bid.coin?.amount" />
                   <IgniteText as="span">
-                    ({{ item.purchasedPercentage }})</IgniteText
+                    ({{
+                      (Number(bid.coin?.amount) / Number(supply.amount)) * 100
+                    }}%)</IgniteText
                   >
                 </span>
               </div>
@@ -167,13 +146,15 @@ const curency = 'UST'
                 <span class="inline-flex items-center font-medium">
                   <IgniteDenom
                     modifier="avatar"
-                    denom="denom"
-                    title="denom"
+                    :denom="getDenomName(currency)"
+                    :title="getDenomName(currency)"
                     size="small"
                     class="mr-3 lg:mr-5"
                   />
-                  <IgniteNumber :number="item.investment" />
-                  <IgniteText as="span" class="ml-1">{{ curency }}</IgniteText>
+                  <IgniteNumber
+                    :number="Number(bid.coin?.amount) * Number(bid.price)"
+                  />
+                  <IgniteText as="span" class="ml-1">{{ currency }}</IgniteText>
                 </span>
               </div>
               <div
@@ -188,11 +169,11 @@ const curency = 'UST'
                   <IgniteText
                     as="span"
                     class="font-semibold md:block lg:inline"
-                    >{{ item.dates }}</IgniteText
+                    >{{ new Date() }}</IgniteText
                   >
                   <IgniteText as="span" class="text-muted"> at </IgniteText>
                   <IgniteText as="span" class="font-semibold">{{
-                    item.time
+                    new Date()
                   }}</IgniteText>
                 </span>
               </div>
