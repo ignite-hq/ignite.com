@@ -7,17 +7,18 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
+import BigNumber from 'bignumber.js'
+import { computed, reactive, watch } from 'vue'
+
 import IgniteDenom from '~/components/common/IgniteDenom.vue'
 import IgniteProgressBar from '~/components/common/IgniteProgressBar.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
-import IgniteText from '~/components/ui/IgniteText.vue'
 import IgniteSelect from '~/components/ui/IgniteSelect.vue'
-import { ProgressBarItem } from '~/utils/types'
-import { computed, reactive, watch } from 'vue'
-import { AuctionStatus } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/fundraising'
-import BigNumber from 'bignumber.js'
-import { toCompactNumber, getDenomName } from '~/utils/fundraisers'
+import IgniteText from '~/components/ui/IgniteText.vue'
 import { V1Beta1Coin } from '~/generated/tendermint-spn-ts-client/cosmos.tx.v1beta1/rest'
+import { AuctionStatus } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/fundraising'
+import { getDenomName, toCompactNumber } from '~/utils/fundraisers'
+import { ProgressBarItem } from '~/utils/types'
 
 interface Props {
   fundraisers: any
@@ -176,8 +177,8 @@ const progressBar = computed(() => {
           </IgniteHeading>
           <div class="mt-7">
             <IgniteSelect
-              :name="'Voucher select'"
               v-model="selectedVoucher.data"
+              :name="'Voucher select'"
               :items="
                 vouchers.map((voucher) => ({
                   value: voucher,

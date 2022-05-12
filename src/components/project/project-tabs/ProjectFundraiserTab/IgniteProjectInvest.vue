@@ -175,13 +175,13 @@ const progressBar = {
               future investing opportunities from Project Name.</span
             >
           </IgniteText>
-          <IgniteText
+          <!-- <IgniteText
             v-if="status === 'registrationNotOpen'"
             as="div"
             class="mt-3 text-error"
             >Stake at least 60 IGNT more to participate in this
             fundraiser.</IgniteText
-          >
+          > -->
         </div>
 
         <div

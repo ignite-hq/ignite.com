@@ -53,7 +53,12 @@ module.exports = {
       negative: '#D80228'
     },
     container: {
-      center: true
+      center: true,
+      padding: {
+        DEFAULT: '1rem',
+        sm: `${pxToRem(20)}rem`,
+        lg: '2rem'
+      }
     },
     fontFamily: {
       title: ['Termina', 'sans-serif']

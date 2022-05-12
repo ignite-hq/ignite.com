@@ -9,11 +9,12 @@ import { CampaignCampaignSummary } from 'tendermint-spn-ts-client/tendermint.spn
 import { computed, PropType } from 'vue'
 
 import useGitHubRepository from '~/composables/github/useGitHubRepository'
+import { hasAtLeastOneIncentive, hasAtLeastOneVoucher } from '~/utils/reward'
 
+import ProjectIncentives from '../../ProjectIncentives.vue'
+import ProjectShareAllocation from '../../ProjectShareAllocation.vue'
 import ProjectCardDescription from './ProjectCardDescription.vue'
 import ProjectCardHeader from './ProjectCardHeader.vue'
-import ProjectCardIncentives from './ProjectCardIncentives.vue'
-import ProjectCardShareAllocation from './ProjectCardShareAllocation.vue'
 import ProjectCardStatus from './ProjectCardStatus.vue'
 
 const props = defineProps({
@@ -38,31 +39,27 @@ const isLoading = computed(function () {
 
 const showAllocation = computed(function () {
   const campaignSummary = props.campaignSummary
-  const hasAtLeastOneShare = campaignSummary?.rewards?.some((supply) => {
-    const campaignId = campaignSummary.campaign?.campaignID
-    const isShare = supply.denom?.startsWith(`v/${campaignId}`)
-    return isShare
-  })
 
   return (
     !isLoading.value &&
     props.campaignSummary?.incentivized &&
-    hasAtLeastOneShare
+    hasAtLeastOneVoucher(
+      campaignSummary.campaign?.campaignID ?? '',
+      campaignSummary.rewards
+    )
   )
 })
 
 const showIncentives = computed(function () {
   const campaignSummary = props.campaignSummary
-  const hasAtLeastOneIncentive = campaignSummary?.rewards?.some((supply) => {
-    const campaignId = campaignSummary.campaign?.campaignID
-    const isIncentive = !supply.denom?.startsWith(`v/${campaignId}`)
-    return isIncentive
-  })
 
   return (
     !isLoading.value &&
     props.campaignSummary?.incentivized &&
-    hasAtLeastOneIncentive
+    hasAtLeastOneIncentive(
+      campaignSummary.campaign?.campaignID ?? '',
+      campaignSummary.rewards
+    )
   )
 })
 </script>
@@ -84,12 +81,12 @@ const showIncentives = computed(function () {
           :github-description="repository?.description ?? ''"
           class="project-card__row"
         />
-        <ProjectCardShareAllocation
+        <ProjectShareAllocation
           v-if="showAllocation"
           class="project-card__row"
           :campaign-summary="campaignSummary"
         />
-        <ProjectCardIncentives
+        <ProjectIncentives
           v-if="showIncentives"
           class="project-card__row"
           :campaign-summary="campaignSummary"
