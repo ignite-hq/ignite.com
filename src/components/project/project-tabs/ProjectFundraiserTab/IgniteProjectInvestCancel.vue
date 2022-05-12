@@ -1,5 +1,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
+import dayjs from 'dayjs'
 
 export default defineComponent({
   name: 'IgniteProjectInvestTitle'
@@ -11,14 +12,16 @@ import IgniteCard from '~/components/ui/IgniteCard.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteLink from '~/components/ui/IgniteLink.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
-import { computed, PropType } from 'vue'
+import { computed } from 'vue'
 
-const props = defineProps({
-  fundraiser: { type: Object as PropType<any>, required: true }
-})
+interface Props {
+  fundraiser: any
+}
+
+const props = defineProps<Props>()
 
 const endDate = computed(() => {
-  return new Date(props.fundraiser.auction.base_auction.start_time)
+  return dayjs(new Date(props.fundraiser.auction.base_auction.start_time))
 })
 </script>
 
@@ -38,23 +41,11 @@ const endDate = computed(() => {
           <IgniteText as="div" class="mt-4 max-w-2xl text-3 text-muted">
             Cancel this fundraiser at any time before
             <strong>
-              {{
-                new Intl.DateTimeFormat('en-US', {
-                  year: 'numeric',
-                  month: 'short',
-                  day: 'numeric'
-                }).format(endDate)
-              }}
+              {{ endDate.format('MMM D, YYYY') }}
             </strong>
             at
             <strong>
-              {{
-                new Intl.DateTimeFormat('en-US', {
-                  hour: 'numeric',
-                  hour12: true,
-                  timeZoneName: 'short'
-                }).format(endDate)
-              }} </strong
+              {{ endDate.format('h:mm A [GMT]Z') }} </strong
             >.<br />
             The fundraiser cannot be cancelled after it has begun.
           </IgniteText>
