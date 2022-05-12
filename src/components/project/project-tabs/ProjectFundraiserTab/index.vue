@@ -55,7 +55,6 @@ const allowCancel = computed(() => {
 
 <template>
   <div v-if="fundraiser">
-    {{ address }}
     <IgniteProjectInvestCancel
       v-if="allowCancel"
       :fundraiser="fundraiser"
