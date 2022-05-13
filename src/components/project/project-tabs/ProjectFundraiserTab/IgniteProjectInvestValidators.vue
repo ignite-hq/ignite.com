@@ -61,48 +61,52 @@ const isWild = false
 </script>
 
 <template>
-  <IgniteCard class="px-5 py-7 md:p-8 lg:p-9">
-    <div
+  <div>
+    <IgniteCard
       v-if="allGenesisValidators.length > 0"
-      :class="isWild && 'md:flex md:items-center md:justify-between'"
+      class="px-5 py-7 md:p-8 lg:p-9"
     >
-      <div
-        class="text-center"
-        :class="
-          !isWild ? 'mx-auto max-w-[21.5rem]' : 'max-w-xs md:mr-4 md:text-left'
-        "
-      >
-        <IgniteHeading as="div" class="font-title text-4 md:text-5">
-          Top validators
-        </IgniteHeading>
-        <IgniteText as="div" class="mt-5 text-3 text-muted">
-          Top validators are helping to support this project by securing the
-          network.
-        </IgniteText>
-      </div>
-      <div
-        class="mt-7"
-        :class="!isWild ? 'mx-auto mt-7.5 max-w-[21.5rem]' : 'md:mt-0'"
-      >
-        <ul
-          class="-m-4 flex flex-wrap justify-center md:-m-5"
-          :class="isWild && 'md:justify-center'"
+      <div :class="isWild && 'md:flex md:items-center md:justify-between'">
+        <div
+          class="text-center"
+          :class="
+            !isWild
+              ? 'mx-auto max-w-[21.5rem]'
+              : 'max-w-xs md:mr-4 md:text-left'
+          "
         >
-          <li
-            v-for="validator in allGenesisValidators.slice(0, 8)"
-            :key="`validator_${validator.address}`"
-            class="p-4 md:p-5"
+          <IgniteHeading as="div" class="font-title text-4 md:text-5">
+            Top validators
+          </IgniteHeading>
+          <IgniteText as="div" class="mt-5 text-3 text-muted">
+            Top validators are helping to support this project by securing the
+            network.
+          </IgniteText>
+        </div>
+        <div
+          class="mt-7"
+          :class="!isWild ? 'mx-auto mt-7.5 max-w-[21.5rem]' : 'md:mt-0'"
+        >
+          <ul
+            class="-m-4 flex flex-wrap justify-center md:-m-5"
+            :class="isWild && 'md:justify-center'"
           >
-            <IgniteImage
-              :name="`validators/avatar_${0}`"
-              :alt="`avatar_${validator.address}`"
-              class="block w-8"
-            />
-          </li>
-        </ul>
+            <li
+              v-for="validator in allGenesisValidators.slice(0, 8)"
+              :key="`validator_${validator.address}`"
+              class="p-4 md:p-5"
+            >
+              <IgniteImage
+                :name="`validators/avatar_${0}`"
+                :alt="`avatar_${validator.address}`"
+                class="block w-8"
+              />
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
-  </IgniteCard>
+    </IgniteCard>
+  </div>
 </template>
 
 <style scoped lang="postcss"></style>
