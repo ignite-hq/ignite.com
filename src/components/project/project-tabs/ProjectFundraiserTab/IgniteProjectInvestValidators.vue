@@ -1,5 +1,6 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
 
 export default defineComponent({
   name: 'IgniteProjectInvestValidators'
@@ -11,18 +12,60 @@ import IgniteCard from '~/components/ui/IgniteCard.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteImage from '~/components/ui/IgniteImage.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
+import useCampaignChains from '~/composables/campaign/useCampaignChains'
+import { useTendermintSpnLaunch } from '~/generated/tendermint-spn-vue-client'
+import { LaunchGenesisValidator } from '~/generated/tendermint-spn-ts-client/tendermint.spn.launch/rest'
 
-defineProps({
-  isWild: {
-    type: Boolean,
-    default: false
+const route = useRoute()
+const projectId = route.params.projectId.toString() || '0'
+
+// variables
+const allGenesisValidators = ref<LaunchGenesisValidator[]>([])
+
+// composables
+const { queryGenesisValidatorAll } = useTendermintSpnLaunch()
+const { campaignChains } = useCampaignChains(projectId)
+
+// watchers
+watch(campaignChains, (newVal) => {
+  if (newVal?.pages && newVal?.pages[0].campaignChains?.chains) {
+    getValidatorsFromAllChains(newVal.pages[0].campaignChains.chains)
   }
 })
+
+// methods
+const getValidatorsFromAllChains = async (chains: string[]) => {
+  const validatorsFromAllChains = await Promise.all(
+    chains.map(async (chainId: string) => {
+      return await queryGenesisValidatorAll(chainId.toString()).then(
+        (r) => r.data
+      )
+    })
+  )
+
+  const reducedValidatorsFromAllChains = validatorsFromAllChains.flatMap(
+    (chainValidators) => chainValidators?.genesisValidator || []
+  )
+
+  allGenesisValidators.value = [
+    ...new Map(
+      reducedValidatorsFromAllChains.map((validator) => [
+        validator.address,
+        validator
+      ])
+    ).values()
+  ]
+}
+
+const isWild = false
 </script>
 
 <template>
   <IgniteCard class="px-5 py-7 md:p-8 lg:p-9">
-    <div :class="isWild && 'md:flex md:items-center md:justify-between'">
+    <div
+      v-if="allGenesisValidators.length > 0"
+      :class="isWild && 'md:flex md:items-center md:justify-between'"
+    >
       <div
         class="text-center"
         :class="
@@ -45,10 +88,14 @@ defineProps({
           class="-m-4 flex flex-wrap justify-center md:-m-5"
           :class="isWild && 'md:justify-center'"
         >
-          <li v-for="item in 8" :key="`validator_${item}`" class="p-4 md:p-5">
+          <li
+            v-for="validator in allGenesisValidators.slice(0, 8)"
+            :key="`validator_${validator.address}`"
+            class="p-4 md:p-5"
+          >
             <IgniteImage
-              :name="`validators/avatar_${item}`"
-              :alt="`avatar_${item}`"
+              :name="`validators/avatar_${0}`"
+              :alt="`avatar_${validator.address}`"
               class="block w-8"
             />
           </li>
