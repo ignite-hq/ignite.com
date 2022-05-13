@@ -56,17 +56,17 @@ enum FundraiserStatus {
 // computed
 const status = computed(() => {
   if (
-    props.fundraiser.value.base_auction?.status === 'AUCTION_STATUS_CANCELLED'
+    props.fundraiser.value?.base_auction?.status === 'AUCTION_STATUS_CANCELLED'
   ) {
     return FundraiserStatus.saleCanceled
   }
   if (
-    props.fundraiser.value.base_auction?.status === 'AUCTION_STATUS_FINISHED'
+    props.fundraiser.value?.base_auction?.status === 'AUCTION_STATUS_FINISHED'
   ) {
     return FundraiserStatus.saleFinished
   }
   if (
-    props.fundraiser.value.base_auction?.status === 'AUCTION_STATUS_STANDBY'
+    props.fundraiser.value?.base_auction?.status === 'AUCTION_STATUS_STANDBY'
   ) {
     if (
       allowedBidders.value?.allowed_bidders?.find(
@@ -78,11 +78,11 @@ const status = computed(() => {
       return FundraiserStatus.registrationOpen
     }
   }
-  if (props.fundraiser.value.remaining_selling_coin?.amount === '0') {
+  if (props.fundraiser.value?.remaining_selling_coin?.amount === '0') {
     return FundraiserStatus.soldOut
   }
   if (
-    props.fundraiser.value.base_auction?.status === 'AUCTION_STATUS_STARTED'
+    props.fundraiser.value?.base_auction?.status === 'AUCTION_STATUS_STARTED'
   ) {
     if (
       allowedBidders.value?.allowed_bidders?.find(

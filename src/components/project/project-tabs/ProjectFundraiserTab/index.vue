@@ -72,7 +72,7 @@ const allowCancel = computed(() => {
     <div class="container mt-8 md:mt-10.5">
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7">
         <div class="mt-6 md:mt-8 lg:mt-0">
-          <IgniteProjectInvest />
+          <IgniteProjectInvest :fundraiser="fundraiser" />
         </div>
       </div>
     </div>
