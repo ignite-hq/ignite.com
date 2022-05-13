@@ -37,10 +37,6 @@ import {
   msgTypes as TendermintSpnRewardMsgTypes
 } from './tendermint.spn.reward'
 import {
-  Module as TendermintFundraising,
-  msgTypes as TendermintFundraisingMsgTypes
-} from './tendermint.fundraising'
-import {
   Module as CosmosAuthV1Beta1,
   msgTypes as CosmosAuthV1Beta1MsgTypes
 } from './cosmos.auth.v1beta1'
@@ -105,6 +101,10 @@ import {
   msgTypes as CosmosVestingV1Beta1MsgTypes
 } from './cosmos.vesting.v1beta1'
 import {
+  Module as TendermintFundraising,
+  msgTypes as TendermintFundraisingMsgTypes
+} from './tendermint.fundraising'
+import {
   Module as IbcApplicationsTransferV1,
   msgTypes as IbcApplicationsTransferV1MsgTypes
 } from './ibc.applications.transfer.v1'
@@ -133,7 +133,6 @@ const registry = new Registry([
   ...TendermintSpnParticipationMsgTypes,
   ...TendermintSpnProfileMsgTypes,
   ...TendermintSpnRewardMsgTypes,
-  ...TendermintFundraisingMsgTypes,
   ...CosmosAuthV1Beta1MsgTypes,
   ...CosmosAuthzV1Beta1MsgTypes,
   ...CosmosBankV1Beta1MsgTypes,
@@ -150,6 +149,7 @@ const registry = new Registry([
   ...CosmosTxV1Beta1MsgTypes,
   ...CosmosUpgradeV1Beta1MsgTypes,
   ...CosmosVestingV1Beta1MsgTypes,
+  ...TendermintFundraisingMsgTypes,
   ...IbcApplicationsTransferV1MsgTypes,
   ...IbcCoreChannelV1MsgTypes,
   ...IbcCoreClientV1MsgTypes,
@@ -210,14 +210,6 @@ function plugTendermintSpnReward(env: Env): {
 } {
   return {
     tendermintSpnReward: new TendermintSpnReward(env.apiURL)
-  }
-}
-
-function plugTendermintFundraising(env: Env): {
-  tendermintFundraising: TendermintFundraising
-} {
-  return {
-    tendermintFundraising: new TendermintFundraising(env.apiURL)
   }
 }
 
@@ -349,6 +341,14 @@ function plugCosmosVestingV1Beta1(env: Env): {
   }
 }
 
+function plugTendermintFundraising(env: Env): {
+  tendermintFundraising: TendermintFundraising
+} {
+  return {
+    tendermintFundraising: new TendermintFundraising(env.apiURL)
+  }
+}
+
 function plugIbcApplicationsTransferV1(env: Env): {
   ibcApplicationsTransferV1: IbcApplicationsTransferV1
 } {
@@ -396,7 +396,6 @@ type Spn = ReturnType<typeof plugTendermintSpnCampaign> &
   ReturnType<typeof plugTendermintSpnParticipation> &
   ReturnType<typeof plugTendermintSpnProfile> &
   ReturnType<typeof plugTendermintSpnReward> &
-  ReturnType<typeof plugTendermintFundraising> &
   ReturnType<typeof plugCosmosAuthV1Beta1> &
   ReturnType<typeof plugCosmosAuthzV1Beta1> &
   ReturnType<typeof plugCosmosBankV1Beta1> &
@@ -413,6 +412,7 @@ type Spn = ReturnType<typeof plugTendermintSpnCampaign> &
   ReturnType<typeof plugCosmosTxV1Beta1> &
   ReturnType<typeof plugCosmosUpgradeV1Beta1> &
   ReturnType<typeof plugCosmosVestingV1Beta1> &
+  ReturnType<typeof plugTendermintFundraising> &
   ReturnType<typeof plugIbcApplicationsTransferV1> &
   ReturnType<typeof plugIbcCoreChannelV1> &
   ReturnType<typeof plugIbcCoreClientV1> &
@@ -438,8 +438,6 @@ function createSpn(p: { env: Env }) {
     ...plugTendermintSpnProfile(p.env),
 
     ...plugTendermintSpnReward(p.env),
-
-    ...plugTendermintFundraising(p.env),
 
     ...plugCosmosAuthV1Beta1(p.env),
 
@@ -473,6 +471,8 @@ function createSpn(p: { env: Env }) {
 
     ...plugCosmosVestingV1Beta1(p.env),
 
+    ...plugTendermintFundraising(p.env),
+
     ...plugIbcApplicationsTransferV1(p.env),
 
     ...plugIbcCoreChannelV1(p.env),
@@ -505,7 +505,6 @@ export {
   plugTendermintSpnParticipation,
   plugTendermintSpnProfile,
   plugTendermintSpnReward,
-  plugTendermintFundraising,
   plugCosmosAuthV1Beta1,
   plugCosmosAuthzV1Beta1,
   plugCosmosBankV1Beta1,
@@ -522,6 +521,7 @@ export {
   plugCosmosTxV1Beta1,
   plugCosmosUpgradeV1Beta1,
   plugCosmosVestingV1Beta1,
+  plugTendermintFundraising,
   plugIbcApplicationsTransferV1,
   plugIbcCoreChannelV1,
   plugIbcCoreClientV1,

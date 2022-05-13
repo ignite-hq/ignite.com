@@ -6,8 +6,8 @@ import { EncodeObject } from '@cosmjs/proto-signing'
 
 import { Api } from './rest'
 import { MsgDeposit } from './types/cosmos/gov/v1beta1/tx'
-import { MsgVoteWeighted } from './types/cosmos/gov/v1beta1/tx'
 import { MsgSubmitProposal } from './types/cosmos/gov/v1beta1/tx'
+import { MsgVoteWeighted } from './types/cosmos/gov/v1beta1/tx'
 import { MsgVote } from './types/cosmos/gov/v1beta1/tx'
 
 type sendMsgDepositParams = {
@@ -16,14 +16,14 @@ type sendMsgDepositParams = {
   memo?: string
 }
 
-type sendMsgVoteWeightedParams = {
-  value: MsgVoteWeighted
+type sendMsgSubmitProposalParams = {
+  value: MsgSubmitProposal
   fee?: StdFee
   memo?: string
 }
 
-type sendMsgSubmitProposalParams = {
-  value: MsgSubmitProposal
+type sendMsgVoteWeightedParams = {
+  value: MsgVoteWeighted
   fee?: StdFee
   memo?: string
 }
@@ -38,12 +38,12 @@ type msgDepositParams = {
   value: MsgDeposit
 }
 
-type msgVoteWeightedParams = {
-  value: MsgVoteWeighted
-}
-
 type msgSubmitProposalParams = {
   value: MsgSubmitProposal
+}
+
+type msgVoteWeightedParams = {
+  value: MsgVoteWeighted
 }
 
 type msgVoteParams = {
@@ -100,38 +100,6 @@ class Module extends Api<any> {
     }
   }
 
-  async sendMsgVoteWeighted({
-    value,
-    fee,
-    memo
-  }: sendMsgVoteWeightedParams): Promise<DeliverTxResponse> {
-    if (!this._client) {
-      throw new Error(
-        'TxClient:sendMsgVoteWeighted: Unable to sign Tx. Signer is not present.'
-      )
-    }
-    if (!this._addr) {
-      throw new Error(
-        'TxClient:sendMsgVoteWeighted: Unable to sign Tx. Address is not present.'
-      )
-    }
-    try {
-      let msg = this.msgVoteWeighted({
-        value: MsgVoteWeighted.fromPartial(value)
-      })
-      return await this._client.signAndBroadcast(
-        this._addr,
-        [msg],
-        fee ? fee : { amount: [], gas: '200000' },
-        memo
-      )
-    } catch (e: any) {
-      throw new Error(
-        'TxClient:sendMsgVoteWeighted: Could not broadcast Tx: ' + e.message
-      )
-    }
-  }
-
   async sendMsgSubmitProposal({
     value,
     fee,
@@ -160,6 +128,38 @@ class Module extends Api<any> {
     } catch (e: any) {
       throw new Error(
         'TxClient:sendMsgSubmitProposal: Could not broadcast Tx: ' + e.message
+      )
+    }
+  }
+
+  async sendMsgVoteWeighted({
+    value,
+    fee,
+    memo
+  }: sendMsgVoteWeightedParams): Promise<DeliverTxResponse> {
+    if (!this._client) {
+      throw new Error(
+        'TxClient:sendMsgVoteWeighted: Unable to sign Tx. Signer is not present.'
+      )
+    }
+    if (!this._addr) {
+      throw new Error(
+        'TxClient:sendMsgVoteWeighted: Unable to sign Tx. Address is not present.'
+      )
+    }
+    try {
+      let msg = this.msgVoteWeighted({
+        value: MsgVoteWeighted.fromPartial(value)
+      })
+      return await this._client.signAndBroadcast(
+        this._addr,
+        [msg],
+        fee ? fee : { amount: [], gas: '200000' },
+        memo
+      )
+    } catch (e: any) {
+      throw new Error(
+        'TxClient:sendMsgVoteWeighted: Could not broadcast Tx: ' + e.message
       )
     }
   }
@@ -207,19 +207,6 @@ class Module extends Api<any> {
     }
   }
 
-  msgVoteWeighted({ value }: msgVoteWeightedParams): EncodeObject {
-    try {
-      return {
-        typeUrl: '/cosmos.gov.v1beta1.MsgVoteWeighted',
-        value: MsgVoteWeighted.fromPartial(value)
-      }
-    } catch (e: any) {
-      throw new Error(
-        'TxClient:MsgVoteWeighted: Could not create message: ' + e.message
-      )
-    }
-  }
-
   msgSubmitProposal({ value }: msgSubmitProposalParams): EncodeObject {
     try {
       return {
@@ -229,6 +216,19 @@ class Module extends Api<any> {
     } catch (e: any) {
       throw new Error(
         'TxClient:MsgSubmitProposal: Could not create message: ' + e.message
+      )
+    }
+  }
+
+  msgVoteWeighted({ value }: msgVoteWeightedParams): EncodeObject {
+    try {
+      return {
+        typeUrl: '/cosmos.gov.v1beta1.MsgVoteWeighted',
+        value: MsgVoteWeighted.fromPartial(value)
+      }
+    } catch (e: any) {
+      throw new Error(
+        'TxClient:MsgVoteWeighted: Could not create message: ' + e.message
       )
     }
   }

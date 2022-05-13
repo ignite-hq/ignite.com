@@ -3,23 +3,23 @@ import { unref } from 'vue'
 import Module from 'tendermint-spn-ts-client/tendermint.spn.launch/module'
 import useSpn from '../use'
 
-type SendMsgRequestRemoveValidatorType =
-  typeof Module.prototype.sendMsgRequestRemoveValidator
+type SendMsgEditChainType = typeof Module.prototype.sendMsgEditChain
 type SendMsgRequestAddVestingAccountType =
   typeof Module.prototype.sendMsgRequestAddVestingAccount
+type SendMsgCreateChainType = typeof Module.prototype.sendMsgCreateChain
+type SendMsgUpdateLaunchInformationType =
+  typeof Module.prototype.sendMsgUpdateLaunchInformation
 type SendMsgRequestAddAccountType =
   typeof Module.prototype.sendMsgRequestAddAccount
-type SendMsgEditChainType = typeof Module.prototype.sendMsgEditChain
+type SendMsgRequestRemoveAccountType =
+  typeof Module.prototype.sendMsgRequestRemoveAccount
+type SendMsgSettleRequestType = typeof Module.prototype.sendMsgSettleRequest
+type SendMsgRequestRemoveValidatorType =
+  typeof Module.prototype.sendMsgRequestRemoveValidator
+type SendMsgRevertLaunchType = typeof Module.prototype.sendMsgRevertLaunch
 type SendMsgTriggerLaunchType = typeof Module.prototype.sendMsgTriggerLaunch
 type SendMsgRequestAddValidatorType =
   typeof Module.prototype.sendMsgRequestAddValidator
-type SendMsgCreateChainType = typeof Module.prototype.sendMsgCreateChain
-type SendMsgSettleRequestType = typeof Module.prototype.sendMsgSettleRequest
-type SendMsgRevertLaunchType = typeof Module.prototype.sendMsgRevertLaunch
-type SendMsgRequestRemoveAccountType =
-  typeof Module.prototype.sendMsgRequestRemoveAccount
-type SendMsgUpdateLaunchInformationType =
-  typeof Module.prototype.sendMsgUpdateLaunchInformation
 
 type QueryChainType = typeof Module.prototype.queryChain
 type QueryChainAllType = typeof Module.prototype.queryChainAll
@@ -35,17 +35,17 @@ type QueryRequestAllType = typeof Module.prototype.queryRequestAll
 type QueryParamsType = typeof Module.prototype.queryParams
 
 type Response = {
-  sendMsgRequestRemoveValidator: SendMsgRequestRemoveValidatorType
-  sendMsgRequestAddVestingAccount: SendMsgRequestAddVestingAccountType
-  sendMsgRequestAddAccount: SendMsgRequestAddAccountType
   sendMsgEditChain: SendMsgEditChainType
+  sendMsgRequestAddVestingAccount: SendMsgRequestAddVestingAccountType
+  sendMsgCreateChain: SendMsgCreateChainType
+  sendMsgUpdateLaunchInformation: SendMsgUpdateLaunchInformationType
+  sendMsgRequestAddAccount: SendMsgRequestAddAccountType
+  sendMsgRequestRemoveAccount: SendMsgRequestRemoveAccountType
+  sendMsgSettleRequest: SendMsgSettleRequestType
+  sendMsgRequestRemoveValidator: SendMsgRequestRemoveValidatorType
+  sendMsgRevertLaunch: SendMsgRevertLaunchType
   sendMsgTriggerLaunch: SendMsgTriggerLaunchType
   sendMsgRequestAddValidator: SendMsgRequestAddValidatorType
-  sendMsgCreateChain: SendMsgCreateChainType
-  sendMsgSettleRequest: SendMsgSettleRequestType
-  sendMsgRevertLaunch: SendMsgRevertLaunchType
-  sendMsgRequestRemoveAccount: SendMsgRequestRemoveAccountType
-  sendMsgUpdateLaunchInformation: SendMsgUpdateLaunchInformationType
 
   queryChain: QueryChainType
   queryChainAll: QueryChainAllType
@@ -64,27 +64,27 @@ function useModule(): Response {
   let { spn } = useSpn()
 
   let {
-    sendMsgRequestRemoveValidator,
+    sendMsgEditChain,
 
     sendMsgRequestAddVestingAccount,
 
+    sendMsgCreateChain,
+
+    sendMsgUpdateLaunchInformation,
+
     sendMsgRequestAddAccount,
 
-    sendMsgEditChain,
+    sendMsgRequestRemoveAccount,
+
+    sendMsgSettleRequest,
+
+    sendMsgRequestRemoveValidator,
+
+    sendMsgRevertLaunch,
 
     sendMsgTriggerLaunch,
 
     sendMsgRequestAddValidator,
-
-    sendMsgCreateChain,
-
-    sendMsgSettleRequest,
-
-    sendMsgRevertLaunch,
-
-    sendMsgRequestRemoveAccount,
-
-    sendMsgUpdateLaunchInformation,
 
     queryChain,
 
@@ -109,11 +109,15 @@ function useModule(): Response {
     queryParams
   } = unref(spn.tendermintSpnLaunch)
 
-  sendMsgRequestRemoveValidator = sendMsgRequestRemoveValidator.bind(
+  sendMsgEditChain = sendMsgEditChain.bind(spn.tendermintSpnLaunch)
+
+  sendMsgRequestAddVestingAccount = sendMsgRequestAddVestingAccount.bind(
     spn.tendermintSpnLaunch
   )
 
-  sendMsgRequestAddVestingAccount = sendMsgRequestAddVestingAccount.bind(
+  sendMsgCreateChain = sendMsgCreateChain.bind(spn.tendermintSpnLaunch)
+
+  sendMsgUpdateLaunchInformation = sendMsgUpdateLaunchInformation.bind(
     spn.tendermintSpnLaunch
   )
 
@@ -121,25 +125,21 @@ function useModule(): Response {
     spn.tendermintSpnLaunch
   )
 
-  sendMsgEditChain = sendMsgEditChain.bind(spn.tendermintSpnLaunch)
-
-  sendMsgTriggerLaunch = sendMsgTriggerLaunch.bind(spn.tendermintSpnLaunch)
-
-  sendMsgRequestAddValidator = sendMsgRequestAddValidator.bind(
-    spn.tendermintSpnLaunch
-  )
-
-  sendMsgCreateChain = sendMsgCreateChain.bind(spn.tendermintSpnLaunch)
-
-  sendMsgSettleRequest = sendMsgSettleRequest.bind(spn.tendermintSpnLaunch)
-
-  sendMsgRevertLaunch = sendMsgRevertLaunch.bind(spn.tendermintSpnLaunch)
-
   sendMsgRequestRemoveAccount = sendMsgRequestRemoveAccount.bind(
     spn.tendermintSpnLaunch
   )
 
-  sendMsgUpdateLaunchInformation = sendMsgUpdateLaunchInformation.bind(
+  sendMsgSettleRequest = sendMsgSettleRequest.bind(spn.tendermintSpnLaunch)
+
+  sendMsgRequestRemoveValidator = sendMsgRequestRemoveValidator.bind(
+    spn.tendermintSpnLaunch
+  )
+
+  sendMsgRevertLaunch = sendMsgRevertLaunch.bind(spn.tendermintSpnLaunch)
+
+  sendMsgTriggerLaunch = sendMsgTriggerLaunch.bind(spn.tendermintSpnLaunch)
+
+  sendMsgRequestAddValidator = sendMsgRequestAddValidator.bind(
     spn.tendermintSpnLaunch
   )
 
@@ -168,27 +168,27 @@ function useModule(): Response {
   queryParams = queryParams.bind(spn.tendermintSpnLaunch)
 
   return {
-    sendMsgRequestRemoveValidator,
+    sendMsgEditChain,
 
     sendMsgRequestAddVestingAccount,
 
+    sendMsgCreateChain,
+
+    sendMsgUpdateLaunchInformation,
+
     sendMsgRequestAddAccount,
 
-    sendMsgEditChain,
+    sendMsgRequestRemoveAccount,
+
+    sendMsgSettleRequest,
+
+    sendMsgRequestRemoveValidator,
+
+    sendMsgRevertLaunch,
 
     sendMsgTriggerLaunch,
 
     sendMsgRequestAddValidator,
-
-    sendMsgCreateChain,
-
-    sendMsgSettleRequest,
-
-    sendMsgRevertLaunch,
-
-    sendMsgRequestRemoveAccount,
-
-    sendMsgUpdateLaunchInformation,
 
     queryChain,
 

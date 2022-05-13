@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+
 import { isNumeric } from './assertion'
 
 export function addCommasToNumber(number: string | number): string {

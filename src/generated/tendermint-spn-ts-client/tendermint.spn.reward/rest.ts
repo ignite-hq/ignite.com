@@ -378,7 +378,7 @@ export class HttpClient<SecurityDataType = unknown> {
 }
 
 /**
- * @title reward/genesis.proto
+ * @title reward/events.proto
  * @version version not set
  */
 export class Api<

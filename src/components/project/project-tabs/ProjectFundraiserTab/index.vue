@@ -6,6 +6,10 @@ export default {
 
 <script lang="ts" setup>
 import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+
+import useFundraiser from '~/composables/fundraising/useFundraiser'
+import useAddress from '~/composables/wallet/useAddress'
 
 import IgniteProjectInvest from './IgniteProjectInvest.vue'
 import IgniteProjectInvestCancel from './IgniteProjectInvestCancel.vue'
@@ -13,10 +17,6 @@ import IgniteProjectInvestInvestors from './IgniteProjectInvestInvestors.vue'
 import IgniteProjectInvestSingleCard from './IgniteProjectInvestSingleCard.vue'
 import IgniteProjectInvestValidators from './IgniteProjectInvestValidators.vue'
 import IgniteProjectInvestVesting from './IgniteProjectInvestVesting.vue'
-import useFundraiser from '~/composables/fundraising/useFundraiser'
-
-import { useRoute } from 'vue-router'
-import useAddress from '~/composables/wallet/useAddress'
 
 const route = useRoute()
 const projectId = route.params.projectId.toString() || '0'

@@ -11,6 +11,12 @@ export interface MainnetAccount {
   shares: Coin[]
 }
 
+export interface MainnetAccountBalance {
+  campaignID: number
+  address: string
+  coins: Coin[]
+}
+
 const baseMainnetAccount: object = { campaignID: 0, address: '' }
 
 export const MainnetAccount = {
@@ -101,6 +107,107 @@ export const MainnetAccount = {
     if (object.shares !== undefined && object.shares !== null) {
       for (const e of object.shares) {
         message.shares.push(Coin.fromPartial(e))
+      }
+    }
+    return message
+  }
+}
+
+const baseMainnetAccountBalance: object = { campaignID: 0, address: '' }
+
+export const MainnetAccountBalance = {
+  encode(
+    message: MainnetAccountBalance,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.campaignID !== 0) {
+      writer.uint32(8).uint64(message.campaignID)
+    }
+    if (message.address !== '') {
+      writer.uint32(18).string(message.address)
+    }
+    for (const v of message.coins) {
+      Coin.encode(v!, writer.uint32(26).fork()).ldelim()
+    }
+    return writer
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MainnetAccountBalance {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input
+    let end = length === undefined ? reader.len : reader.pos + length
+    const message = { ...baseMainnetAccountBalance } as MainnetAccountBalance
+    message.coins = []
+    while (reader.pos < end) {
+      const tag = reader.uint32()
+      switch (tag >>> 3) {
+        case 1:
+          message.campaignID = longToNumber(reader.uint64() as Long)
+          break
+        case 2:
+          message.address = reader.string()
+          break
+        case 3:
+          message.coins.push(Coin.decode(reader, reader.uint32()))
+          break
+        default:
+          reader.skipType(tag & 7)
+          break
+      }
+    }
+    return message
+  },
+
+  fromJSON(object: any): MainnetAccountBalance {
+    const message = { ...baseMainnetAccountBalance } as MainnetAccountBalance
+    message.coins = []
+    if (object.campaignID !== undefined && object.campaignID !== null) {
+      message.campaignID = Number(object.campaignID)
+    } else {
+      message.campaignID = 0
+    }
+    if (object.address !== undefined && object.address !== null) {
+      message.address = String(object.address)
+    } else {
+      message.address = ''
+    }
+    if (object.coins !== undefined && object.coins !== null) {
+      for (const e of object.coins) {
+        message.coins.push(Coin.fromJSON(e))
+      }
+    }
+    return message
+  },
+
+  toJSON(message: MainnetAccountBalance): unknown {
+    const obj: any = {}
+    message.campaignID !== undefined && (obj.campaignID = message.campaignID)
+    message.address !== undefined && (obj.address = message.address)
+    if (message.coins) {
+      obj.coins = message.coins.map((e) => (e ? Coin.toJSON(e) : undefined))
+    } else {
+      obj.coins = []
+    }
+    return obj
+  },
+
+  fromPartial(
+    object: DeepPartial<MainnetAccountBalance>
+  ): MainnetAccountBalance {
+    const message = { ...baseMainnetAccountBalance } as MainnetAccountBalance
+    message.coins = []
+    if (object.campaignID !== undefined && object.campaignID !== null) {
+      message.campaignID = object.campaignID
+    } else {
+      message.campaignID = 0
+    }
+    if (object.address !== undefined && object.address !== null) {
+      message.address = object.address
+    } else {
+      message.address = ''
+    }
+    if (object.coins !== undefined && object.coins !== null) {
+      for (const e of object.coins) {
+        message.coins.push(Coin.fromPartial(e))
       }
     }
     return message

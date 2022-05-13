@@ -14,6 +14,7 @@ import { EventMainnetAccountRemoved } from './types/campaign/events'
 import { EventMainnetVestingAccountCreated } from './types/campaign/events'
 import { EventMainnetVestingAccountUpdated } from './types/campaign/events'
 import { MainnetAccount } from './types/campaign/mainnet_account'
+import { MainnetAccountBalance } from './types/campaign/mainnet_account'
 import { MainnetVestingAccount } from './types/campaign/mainnet_vesting_account'
 import { ShareVestingOptions } from './types/campaign/mainnet_vesting_account'
 import { ShareDelayedVesting } from './types/campaign/mainnet_vesting_account'
@@ -37,6 +38,7 @@ export {
   EventMainnetVestingAccountCreated,
   EventMainnetVestingAccountUpdated,
   MainnetAccount,
+  MainnetAccountBalance,
   MainnetVestingAccount,
   ShareVestingOptions,
   ShareDelayedVesting,
