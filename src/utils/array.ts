@@ -17,3 +17,7 @@ export function mergePages<T>(data?: T[], key?: keyof T) {
   const mergedPages = data.flatMap((page) => (key ? page[key] : page))
   return removeUndefinedFromArray(mergedPages)
 }
+
+export function arrayNSize(size: number): undefined[] {
+  return new Array(size).fill(undefined)
+}

@@ -5,7 +5,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { computed, toRef } from 'vue'
 import yaml from 'yamljs'
 
 import useGitHubFile from '~/composables/github/useGitHubFile'
@@ -19,7 +19,7 @@ import ProjectRoadmap from './ProjectRoadmap.vue'
 import ProjectTeam from './ProjectTeam/index.vue'
 import ProjectTokenomics from './ProjectTokenomics.vue'
 import ProjectWhitepaper from './ProjectWhitepaper.vue'
-import { ProjectMember, ProjectYaml } from './types'
+import { ProjectMember, ProjectMilestone, ProjectYaml } from './types'
 
 interface Props {
   campaignSummary?: CampaignCampaignSummary
@@ -35,6 +35,8 @@ const props = withDefaults(defineProps<Props>(), {
 const sourceUrl = computed(() => {
   return props.campaignSummary?.mostRecentChain?.sourceURL
 })
+
+const loadingProp = toRef(props, 'loading')
 
 const { repository, isLoading: isRepositoryLoading } =
   useGitHubRepository(sourceUrl)
@@ -65,7 +67,7 @@ const parsedProjectConfig = computed(() => {
   return yaml.parse(projectConfig.value ?? '') as ProjectYaml | undefined
 })
 
-const members = computed(() => {
+const members = computed<ProjectMember[]>(() => {
   const projectConfigMembers =
     parsedProjectConfig?.value?.project?.team?.members
 
@@ -80,6 +82,13 @@ const members = computed(() => {
   return projectConfigMembers ?? campaignSummaryMembers
 })
 
+const roadmapItems = computed<ProjectMilestone[]>(() => {
+  const projectConfigRoadmap =
+    parsedProjectConfig?.value?.project?.roadmap.milestones
+
+  return projectConfigRoadmap ?? []
+})
+
 const showProjectDescription = computed(() => {
   return Boolean(readme.value) && !isLoadingDescription.value
 })
@@ -87,13 +96,6 @@ const showProjectDescription = computed(() => {
 const showWhitepaper = computed(() => {
   return (
     Boolean(parsedProjectConfig.value?.project?.whitepaper?.url) &&
-    !isLoadingProjectConfig.value
-  )
-})
-
-const showRoadmap = computed(() => {
-  return (
-    Boolean(parsedProjectConfig.value?.project?.roadmap?.milestones) &&
     !isLoadingProjectConfig.value
   )
 })
@@ -127,14 +129,11 @@ const showLinks = computed(() => {
       :whitepaper-url="parsedProjectConfig?.project?.whitepaper?.url ?? ''"
       :loading="isLoadingProjectConfig"
     />
-    <ProjectRoadmap
-      v-if="showRoadmap"
-      :milestones="parsedProjectConfig?.project?.roadmap?.milestones"
-    />
+    <ProjectRoadmap :loading="loadingProp" :milestones="roadmapItems" />
     <ProjectTokenomics
       v-if="showTokenomics"
       :campaign-summary="campaignSummary"
-      :loading="loading"
+      :loading="loadingProp"
       :distribution="parsedProjectConfig?.project?.tokenomics?.distribution"
     />
     <ProjectTeam

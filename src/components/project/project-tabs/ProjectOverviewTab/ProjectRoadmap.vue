@@ -48,7 +48,7 @@ const roadmapItems = computed<ProjectMilestone[]>(() => {
 
     <div class="relative mt-7 md:mt-9">
       <IgniteScrollableSection>
-        <IgniteRoadmap :items="roadmapItems" />
+        <IgniteRoadmap :items="roadmapItems" :loading="loading" />
       </IgniteScrollableSection>
     </div>
   </div>
