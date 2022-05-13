@@ -23,7 +23,7 @@ export default function (): Response {
     let stargateClient = await SigningStargateClient.connectWithSigner(
       _spnGlobal.env.rpcURL,
       offlineSigner,
-      { registry, gasPrice: GasPrice.fromString('0.03uspn') }
+      { registry, gasPrice: GasPrice.fromString('0.003uspn') }
     )
     let addr = acc.address
 

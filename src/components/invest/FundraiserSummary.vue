@@ -31,6 +31,7 @@ interface Props {
   totalRaisePotential: number
   startDate: Date
   endDate: Date
+  ableToPublish: boolean
 }
 
 const props = defineProps<Props>()
@@ -146,14 +147,18 @@ function formatRange(start: Date, end: Date): string {
         </div>
       </div>
       <div class="flex w-1/2 place-content-end">
-        <IgniteButton class="px-6" @click="emit('cancel')">
+        <IgniteButton
+          variant="primary"
+          class="mr-6 ml-6 border border-primary px-4"
+          @click="emit('cancel')"
+        >
           <span>Cancel</span>
         </IgniteButton>
         <IgniteButton
           variant="primary"
           color="primary"
           class="px-6"
-          :disabled="!address"
+          :disabled="!props.ableToPublish || !address"
           @click="emit('publish')"
         >
           <span>{{ !!address ? 'Publish' : 'Sign in' }}</span>

@@ -177,12 +177,12 @@ const progressBar = computed(() => {
           </IgniteHeading>
           <div class="mt-7">
             <IgniteSelect
-              v-model="selectedVoucher.data"
               :name="'Voucher select'"
+              :selected="selectedVoucher.data"
               :items="
                 vouchers.map((voucher) => ({
-                  value: voucher,
-                  label: getDenomName(voucher)
+                  value: voucher as string,
+                  label: getDenomName(voucher as string)
                 }))
               "
             >
