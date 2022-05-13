@@ -33,7 +33,9 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 // composables
-const { bids } = useBids(props.fundraiserId)
+const { bids, fetchNextPage, hasNextPage, isFetchingNextPage } = useBids(
+  props.fundraiserId
+)
 const { totalSupply } = useTotalSupply()
 
 // computed
@@ -182,8 +184,16 @@ const investorCount = computed(() => {
         </div>
       </div>
 
-      <div class="mt-7 text-center md:mt-8.5">
-        <IgniteButton variant="primary" color="primary" size="md">
+      <div
+        v-if="hasNextPage && !isFetchingNextPage"
+        class="mt-7 text-center md:mt-8.5"
+      >
+        <IgniteButton
+          variant="primary"
+          color="primary"
+          size="md"
+          @click="() => fetchNextPage()"
+        >
           View 40 more
         </IgniteButton>
       </div>
