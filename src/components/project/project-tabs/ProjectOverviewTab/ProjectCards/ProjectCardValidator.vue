@@ -15,16 +15,7 @@ import IgniteLoader from '~/components/ui/IgniteLoader.vue'
 import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import { CampaignCampaignSummary } from '~/generated/tendermint-spn-ts-client/tendermint.spn.campaign/rest'
-import {
-  getIncentivesFromRewards,
-  getVouchersFromRewards,
-  isShare
-} from '~/utils/reward'
-
-interface VoucherSummary {
-  denoms: string[]
-  avgSharePercentage: number
-}
+import { getIncentivesSummary, getVouchersSummary } from '~/utils/reward'
 
 interface Props {
   isWide?: boolean
@@ -38,49 +29,24 @@ const props = withDefaults(defineProps<Props>(), {
   campaignSummary: () => ({})
 })
 
-const voucherSummary = computed<VoucherSummary>(() => {
+const vouchersSummary = computed(() => {
   const campaignId = props.campaignSummary?.campaign?.campaignID
   const rewards = props.campaignSummary?.rewards
-  const vouchers = getVouchersFromRewards(campaignId ?? '', rewards)
-
-  const avgSharePercentage = vouchers.reduce((acc, coin) => {
-    const TOTAL_SUPPLY = 100_000
-
-    const currentValue = (Number(coin.amount) / TOTAL_SUPPLY) * 100
-
-    const newAvgSharePercentage = acc + currentValue / vouchers.length
-
-    return newAvgSharePercentage
-  }, 0)
-  const denoms = vouchers.map((coin) => {
-    const denom = coin.denom?.split('/')[2] ?? ''
-    return denom
-  })
-
-  return { avgSharePercentage, denoms }
+  return getVouchersSummary(campaignId ?? '', rewards)
 })
 
-const incentiveSummary = computed(() => {
+const incentivesSummary = computed(() => {
   const campaignId = props.campaignSummary?.campaign?.campaignID
   const rewards = props.campaignSummary?.rewards
-  const incentiveCoins = getIncentivesFromRewards(campaignId ?? '', rewards)
-
-  const total = incentiveCoins.reduce((acc, coin) => {
-    const isIncentive = !isShare(campaignId ?? '', coin)
-    if (isIncentive) return acc + Number(coin.amount)
-    return acc
-  }, 0)
-  const denoms = incentiveCoins.map((coin) => coin?.denom?.toUpperCase() ?? '')
-
-  return { total, denoms }
+  return getIncentivesSummary(campaignId ?? '', rewards)
 })
 
 const showVouchers = computed(() => {
-  return Boolean(voucherSummary.value.denoms.length)
+  return Boolean(vouchersSummary.value.denoms.length)
 })
 
 const showIncentives = computed(() => {
-  return Boolean(incentiveSummary.value.denoms.length)
+  return Boolean(incentivesSummary.value.denoms.length)
 })
 </script>
 
@@ -124,12 +90,12 @@ const showIncentives = computed(() => {
         <div v-else class="flex items-center justify-center">
           <IgniteDenom
             modifier="avatar"
-            :denom="voucherSummary.denoms[0]"
-            :title="voucherSummary.denoms[0]"
+            :denom="vouchersSummary.denoms[0]"
+            :title="vouchersSummary.denoms[0]"
             class="mr-3"
           />
           <IgniteHeading as="div" class="font-title text-5 md:text-6"
-            >{{ voucherSummary.avgSharePercentage }}%</IgniteHeading
+            >{{ vouchersSummary.avgSharePercentage }}%</IgniteHeading
           >
         </div>
 
@@ -150,14 +116,14 @@ const showIncentives = computed(() => {
         <div v-else class="flex items-center justify-center">
           <IgniteDenom
             modifier="avatar"
-            :denom="incentiveSummary.denoms[0]"
-            :title="incentiveSummary.denoms[0]"
+            :denom="incentivesSummary.denoms[0]"
+            :title="incentivesSummary.denoms[0]"
             class="mr-3"
           />
 
           <IgniteHeading as="div" class="font-title text-5 md:text-6">
-            <IgniteNumber :number="incentiveSummary.total" />
-            {{ incentiveSummary.denoms[0] }}</IgniteHeading
+            <IgniteNumber :number="incentivesSummary.total" />
+            {{ incentivesSummary.denoms[0] }}</IgniteHeading
           >
         </div>
         <IgniteText as="div" class="mt-5 text-center text-muted">

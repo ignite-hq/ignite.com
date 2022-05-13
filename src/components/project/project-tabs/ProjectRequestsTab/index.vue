@@ -10,7 +10,7 @@ import {
   LaunchRequest,
   LaunchRequestStatus
 } from 'tendermint-spn-ts-client/tendermint.spn.launch/rest'
-import { computed, onBeforeUnmount, toRef } from 'vue'
+import { computed, onBeforeUnmount } from 'vue'
 
 import RequestsEmptyState from '~/components/project/project-tabs/ProjectRequestsTab/RequestsEmptyState.vue'
 import RequestsHeader from '~/components/project/project-tabs/ProjectRequestsTab/RequestsHeader.vue'
@@ -19,14 +19,13 @@ import SelectedRequests from '~/components/project/project-tabs/ProjectRequestsT
 import IgniteButton from '~/components/ui/IgniteButton.vue'
 import useCoordinator from '~/composables/profile/useCoordinator'
 import useChainRequests from '~/composables/request/useChainRequests'
+import { CampaignCampaignSummary } from '~/generated/tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 import { RequestPageFilters, useRequestsStore } from '~/stores/requests-store'
 
 import RequestsTable from './RequestsTable.vue'
 
 interface Props {
-  coordinatorId?: string
-  launchId?: string
-  projectName?: string
+  campaignSummary?: CampaignCampaignSummary
 }
 
 const props = defineProps<Props>()
@@ -39,6 +38,18 @@ onBeforeUnmount(() => {
 // store
 const store = useRequestsStore()
 
+const coordinatorId = computed(() => {
+  return props.campaignSummary?.campaign?.coordinatorID
+})
+
+const launchId = computed(() => {
+  return props.campaignSummary?.mostRecentChain?.launchID
+})
+
+const projectName = computed(() => {
+  return props.campaignSummary?.campaign?.campaignName
+})
+
 // composables
 const {
   requests,
@@ -46,9 +57,9 @@ const {
   hasNextPage,
   isFetchingNextPage,
   fetchNextPage
-} = useChainRequests(toRef(props, 'launchId'))
+} = useChainRequests(launchId)
 const { isSameAddressAsLoggedIn, isLoading: isLoadingCoordinator } =
-  useCoordinator(toRef(props, 'coordinatorId'))
+  useCoordinator(coordinatorId)
 
 // methods
 function mergePages(
@@ -97,7 +108,7 @@ const isLoading = computed(() => {
   const isInitialFetch =
     isLoadingProjectRequests.value ||
     isLoadingCoordinator.value ||
-    !props.launchId
+    !launchId.value
 
   return isInitialFetch && !isFetchingNextPage.value
 })
@@ -105,7 +116,11 @@ const isLoading = computed(() => {
 
 <template>
   <div class="container py-10 text-center">
-    <RequestsHeaderTop class="border-b border-border pb-8" />
+    <RequestsHeaderTop
+      :loading="isLoading"
+      :campaign-summary="campaignSummary"
+      class="border-b border-border pb-8"
+    />
     <RequestsHeader :project-name="projectName ?? ''" class="mt-10.5" />
     <div>
       <RequestsTable
