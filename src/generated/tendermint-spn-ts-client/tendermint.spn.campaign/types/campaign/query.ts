@@ -7,7 +7,10 @@ import {
   PageResponse
 } from '../cosmos/base/query/v1beta1/pagination'
 import { CampaignChains } from '../campaign/campaign_chains'
-import { MainnetAccount } from '../campaign/mainnet_account'
+import {
+  MainnetAccount,
+  MainnetAccountBalance
+} from '../campaign/mainnet_account'
 import { MainnetVestingAccount } from '../campaign/mainnet_vesting_account'
 import { CampaignSummary } from '../campaign/campaign_summary'
 import { Params } from '../campaign/params'
@@ -55,6 +58,25 @@ export interface QueryAllMainnetAccountRequest {
 
 export interface QueryAllMainnetAccountResponse {
   mainnetAccount: MainnetAccount[]
+  pagination: PageResponse | undefined
+}
+
+export interface QueryGetMainnetAccountBalanceRequest {
+  campaignID: number
+  address: string
+}
+
+export interface QueryGetMainnetAccountBalanceResponse {
+  mainnetAccountBalance: MainnetAccountBalance | undefined
+}
+
+export interface QueryAllMainnetAccountBalanceRequest {
+  campaignID: number
+  pagination: PageRequest | undefined
+}
+
+export interface QueryAllMainnetAccountBalanceResponse {
+  mainnetAccountBalance: MainnetAccountBalance[]
   pagination: PageResponse | undefined
 }
 
@@ -913,6 +935,378 @@ export const QueryAllMainnetAccountResponse = {
     if (object.mainnetAccount !== undefined && object.mainnetAccount !== null) {
       for (const e of object.mainnetAccount) {
         message.mainnetAccount.push(MainnetAccount.fromPartial(e))
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromPartial(object.pagination)
+    } else {
+      message.pagination = undefined
+    }
+    return message
+  }
+}
+
+const baseQueryGetMainnetAccountBalanceRequest: object = {
+  campaignID: 0,
+  address: ''
+}
+
+export const QueryGetMainnetAccountBalanceRequest = {
+  encode(
+    message: QueryGetMainnetAccountBalanceRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.campaignID !== 0) {
+      writer.uint32(8).uint64(message.campaignID)
+    }
+    if (message.address !== '') {
+      writer.uint32(18).string(message.address)
+    }
+    return writer
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryGetMainnetAccountBalanceRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input
+    let end = length === undefined ? reader.len : reader.pos + length
+    const message = {
+      ...baseQueryGetMainnetAccountBalanceRequest
+    } as QueryGetMainnetAccountBalanceRequest
+    while (reader.pos < end) {
+      const tag = reader.uint32()
+      switch (tag >>> 3) {
+        case 1:
+          message.campaignID = longToNumber(reader.uint64() as Long)
+          break
+        case 2:
+          message.address = reader.string()
+          break
+        default:
+          reader.skipType(tag & 7)
+          break
+      }
+    }
+    return message
+  },
+
+  fromJSON(object: any): QueryGetMainnetAccountBalanceRequest {
+    const message = {
+      ...baseQueryGetMainnetAccountBalanceRequest
+    } as QueryGetMainnetAccountBalanceRequest
+    if (object.campaignID !== undefined && object.campaignID !== null) {
+      message.campaignID = Number(object.campaignID)
+    } else {
+      message.campaignID = 0
+    }
+    if (object.address !== undefined && object.address !== null) {
+      message.address = String(object.address)
+    } else {
+      message.address = ''
+    }
+    return message
+  },
+
+  toJSON(message: QueryGetMainnetAccountBalanceRequest): unknown {
+    const obj: any = {}
+    message.campaignID !== undefined && (obj.campaignID = message.campaignID)
+    message.address !== undefined && (obj.address = message.address)
+    return obj
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryGetMainnetAccountBalanceRequest>
+  ): QueryGetMainnetAccountBalanceRequest {
+    const message = {
+      ...baseQueryGetMainnetAccountBalanceRequest
+    } as QueryGetMainnetAccountBalanceRequest
+    if (object.campaignID !== undefined && object.campaignID !== null) {
+      message.campaignID = object.campaignID
+    } else {
+      message.campaignID = 0
+    }
+    if (object.address !== undefined && object.address !== null) {
+      message.address = object.address
+    } else {
+      message.address = ''
+    }
+    return message
+  }
+}
+
+const baseQueryGetMainnetAccountBalanceResponse: object = {}
+
+export const QueryGetMainnetAccountBalanceResponse = {
+  encode(
+    message: QueryGetMainnetAccountBalanceResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.mainnetAccountBalance !== undefined) {
+      MainnetAccountBalance.encode(
+        message.mainnetAccountBalance,
+        writer.uint32(10).fork()
+      ).ldelim()
+    }
+    return writer
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryGetMainnetAccountBalanceResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input
+    let end = length === undefined ? reader.len : reader.pos + length
+    const message = {
+      ...baseQueryGetMainnetAccountBalanceResponse
+    } as QueryGetMainnetAccountBalanceResponse
+    while (reader.pos < end) {
+      const tag = reader.uint32()
+      switch (tag >>> 3) {
+        case 1:
+          message.mainnetAccountBalance = MainnetAccountBalance.decode(
+            reader,
+            reader.uint32()
+          )
+          break
+        default:
+          reader.skipType(tag & 7)
+          break
+      }
+    }
+    return message
+  },
+
+  fromJSON(object: any): QueryGetMainnetAccountBalanceResponse {
+    const message = {
+      ...baseQueryGetMainnetAccountBalanceResponse
+    } as QueryGetMainnetAccountBalanceResponse
+    if (
+      object.mainnetAccountBalance !== undefined &&
+      object.mainnetAccountBalance !== null
+    ) {
+      message.mainnetAccountBalance = MainnetAccountBalance.fromJSON(
+        object.mainnetAccountBalance
+      )
+    } else {
+      message.mainnetAccountBalance = undefined
+    }
+    return message
+  },
+
+  toJSON(message: QueryGetMainnetAccountBalanceResponse): unknown {
+    const obj: any = {}
+    message.mainnetAccountBalance !== undefined &&
+      (obj.mainnetAccountBalance = message.mainnetAccountBalance
+        ? MainnetAccountBalance.toJSON(message.mainnetAccountBalance)
+        : undefined)
+    return obj
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryGetMainnetAccountBalanceResponse>
+  ): QueryGetMainnetAccountBalanceResponse {
+    const message = {
+      ...baseQueryGetMainnetAccountBalanceResponse
+    } as QueryGetMainnetAccountBalanceResponse
+    if (
+      object.mainnetAccountBalance !== undefined &&
+      object.mainnetAccountBalance !== null
+    ) {
+      message.mainnetAccountBalance = MainnetAccountBalance.fromPartial(
+        object.mainnetAccountBalance
+      )
+    } else {
+      message.mainnetAccountBalance = undefined
+    }
+    return message
+  }
+}
+
+const baseQueryAllMainnetAccountBalanceRequest: object = { campaignID: 0 }
+
+export const QueryAllMainnetAccountBalanceRequest = {
+  encode(
+    message: QueryAllMainnetAccountBalanceRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.campaignID !== 0) {
+      writer.uint32(8).uint64(message.campaignID)
+    }
+    if (message.pagination !== undefined) {
+      PageRequest.encode(message.pagination, writer.uint32(18).fork()).ldelim()
+    }
+    return writer
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryAllMainnetAccountBalanceRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input
+    let end = length === undefined ? reader.len : reader.pos + length
+    const message = {
+      ...baseQueryAllMainnetAccountBalanceRequest
+    } as QueryAllMainnetAccountBalanceRequest
+    while (reader.pos < end) {
+      const tag = reader.uint32()
+      switch (tag >>> 3) {
+        case 1:
+          message.campaignID = longToNumber(reader.uint64() as Long)
+          break
+        case 2:
+          message.pagination = PageRequest.decode(reader, reader.uint32())
+          break
+        default:
+          reader.skipType(tag & 7)
+          break
+      }
+    }
+    return message
+  },
+
+  fromJSON(object: any): QueryAllMainnetAccountBalanceRequest {
+    const message = {
+      ...baseQueryAllMainnetAccountBalanceRequest
+    } as QueryAllMainnetAccountBalanceRequest
+    if (object.campaignID !== undefined && object.campaignID !== null) {
+      message.campaignID = Number(object.campaignID)
+    } else {
+      message.campaignID = 0
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromJSON(object.pagination)
+    } else {
+      message.pagination = undefined
+    }
+    return message
+  },
+
+  toJSON(message: QueryAllMainnetAccountBalanceRequest): unknown {
+    const obj: any = {}
+    message.campaignID !== undefined && (obj.campaignID = message.campaignID)
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageRequest.toJSON(message.pagination)
+        : undefined)
+    return obj
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryAllMainnetAccountBalanceRequest>
+  ): QueryAllMainnetAccountBalanceRequest {
+    const message = {
+      ...baseQueryAllMainnetAccountBalanceRequest
+    } as QueryAllMainnetAccountBalanceRequest
+    if (object.campaignID !== undefined && object.campaignID !== null) {
+      message.campaignID = object.campaignID
+    } else {
+      message.campaignID = 0
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromPartial(object.pagination)
+    } else {
+      message.pagination = undefined
+    }
+    return message
+  }
+}
+
+const baseQueryAllMainnetAccountBalanceResponse: object = {}
+
+export const QueryAllMainnetAccountBalanceResponse = {
+  encode(
+    message: QueryAllMainnetAccountBalanceResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    for (const v of message.mainnetAccountBalance) {
+      MainnetAccountBalance.encode(v!, writer.uint32(10).fork()).ldelim()
+    }
+    if (message.pagination !== undefined) {
+      PageResponse.encode(message.pagination, writer.uint32(18).fork()).ldelim()
+    }
+    return writer
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryAllMainnetAccountBalanceResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input
+    let end = length === undefined ? reader.len : reader.pos + length
+    const message = {
+      ...baseQueryAllMainnetAccountBalanceResponse
+    } as QueryAllMainnetAccountBalanceResponse
+    message.mainnetAccountBalance = []
+    while (reader.pos < end) {
+      const tag = reader.uint32()
+      switch (tag >>> 3) {
+        case 1:
+          message.mainnetAccountBalance.push(
+            MainnetAccountBalance.decode(reader, reader.uint32())
+          )
+          break
+        case 2:
+          message.pagination = PageResponse.decode(reader, reader.uint32())
+          break
+        default:
+          reader.skipType(tag & 7)
+          break
+      }
+    }
+    return message
+  },
+
+  fromJSON(object: any): QueryAllMainnetAccountBalanceResponse {
+    const message = {
+      ...baseQueryAllMainnetAccountBalanceResponse
+    } as QueryAllMainnetAccountBalanceResponse
+    message.mainnetAccountBalance = []
+    if (
+      object.mainnetAccountBalance !== undefined &&
+      object.mainnetAccountBalance !== null
+    ) {
+      for (const e of object.mainnetAccountBalance) {
+        message.mainnetAccountBalance.push(MainnetAccountBalance.fromJSON(e))
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromJSON(object.pagination)
+    } else {
+      message.pagination = undefined
+    }
+    return message
+  },
+
+  toJSON(message: QueryAllMainnetAccountBalanceResponse): unknown {
+    const obj: any = {}
+    if (message.mainnetAccountBalance) {
+      obj.mainnetAccountBalance = message.mainnetAccountBalance.map((e) =>
+        e ? MainnetAccountBalance.toJSON(e) : undefined
+      )
+    } else {
+      obj.mainnetAccountBalance = []
+    }
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageResponse.toJSON(message.pagination)
+        : undefined)
+    return obj
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryAllMainnetAccountBalanceResponse>
+  ): QueryAllMainnetAccountBalanceResponse {
+    const message = {
+      ...baseQueryAllMainnetAccountBalanceResponse
+    } as QueryAllMainnetAccountBalanceResponse
+    message.mainnetAccountBalance = []
+    if (
+      object.mainnetAccountBalance !== undefined &&
+      object.mainnetAccountBalance !== null
+    ) {
+      for (const e of object.mainnetAccountBalance) {
+        message.mainnetAccountBalance.push(MainnetAccountBalance.fromPartial(e))
       }
     }
     if (object.pagination !== undefined && object.pagination !== null) {
@@ -2015,6 +2409,14 @@ export interface Query {
   MainnetAccountAll(
     request: QueryAllMainnetAccountRequest
   ): Promise<QueryAllMainnetAccountResponse>
+  /** Queries a mainnetAccountBalance by index. */
+  MainnetAccountBalance(
+    request: QueryGetMainnetAccountBalanceRequest
+  ): Promise<QueryGetMainnetAccountBalanceResponse>
+  /** Queries a list of mainnetAccountBalance items. */
+  MainnetAccountBalanceAll(
+    request: QueryAllMainnetAccountBalanceRequest
+  ): Promise<QueryAllMainnetAccountBalanceResponse>
   /** Queries a mainnetVestingAccount by index. */
   MainnetVestingAccount(
     request: QueryGetMainnetVestingAccountRequest
@@ -2115,6 +2517,34 @@ export class QueryClientImpl implements Query {
     )
     return promise.then((data) =>
       QueryAllMainnetAccountResponse.decode(new Reader(data))
+    )
+  }
+
+  MainnetAccountBalance(
+    request: QueryGetMainnetAccountBalanceRequest
+  ): Promise<QueryGetMainnetAccountBalanceResponse> {
+    const data = QueryGetMainnetAccountBalanceRequest.encode(request).finish()
+    const promise = this.rpc.request(
+      'tendermint.spn.campaign.Query',
+      'MainnetAccountBalance',
+      data
+    )
+    return promise.then((data) =>
+      QueryGetMainnetAccountBalanceResponse.decode(new Reader(data))
+    )
+  }
+
+  MainnetAccountBalanceAll(
+    request: QueryAllMainnetAccountBalanceRequest
+  ): Promise<QueryAllMainnetAccountBalanceResponse> {
+    const data = QueryAllMainnetAccountBalanceRequest.encode(request).finish()
+    const promise = this.rpc.request(
+      'tendermint.spn.campaign.Query',
+      'MainnetAccountBalanceAll',
+      data
+    )
+    return promise.then((data) =>
+      QueryAllMainnetAccountBalanceResponse.decode(new Reader(data))
     )
   }
 

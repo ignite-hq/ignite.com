@@ -155,7 +155,7 @@ function handleTimezoneInput(value: string) {
               class="md:mt- mx-3 w-full md:w-auto"
               @input="handleTimezoneInput"
             >
-              <template v-for="i in UTC_ZONES" v-slot:[String(i)]>
+              <template v-for="i in UTC_ZONES" #[String(i)]>
                 {{ formatOffsetToUTC(i) }}
               </template></IgniteSelect
             >

@@ -3,15 +3,15 @@ import { unref } from 'vue'
 import Module from 'tendermint-spn-ts-client/cosmos.feegrant.v1beta1/module'
 import useSpn from '../use'
 
-type SendMsgGrantAllowanceType = typeof Module.prototype.sendMsgGrantAllowance
 type SendMsgRevokeAllowanceType = typeof Module.prototype.sendMsgRevokeAllowance
+type SendMsgGrantAllowanceType = typeof Module.prototype.sendMsgGrantAllowance
 
 type QueryAllowanceType = typeof Module.prototype.queryAllowance
 type QueryAllowancesType = typeof Module.prototype.queryAllowances
 
 type Response = {
-  sendMsgGrantAllowance: SendMsgGrantAllowanceType
   sendMsgRevokeAllowance: SendMsgRevokeAllowanceType
+  sendMsgGrantAllowance: SendMsgGrantAllowanceType
 
   queryAllowance: QueryAllowanceType
   queryAllowances: QueryAllowancesType
@@ -21,29 +21,29 @@ function useModule(): Response {
   let { spn } = useSpn()
 
   let {
-    sendMsgGrantAllowance,
-
     sendMsgRevokeAllowance,
+
+    sendMsgGrantAllowance,
 
     queryAllowance,
 
     queryAllowances
   } = unref(spn.cosmosFeegrantV1Beta1)
 
-  sendMsgGrantAllowance = sendMsgGrantAllowance.bind(spn.cosmosFeegrantV1Beta1)
-
   sendMsgRevokeAllowance = sendMsgRevokeAllowance.bind(
     spn.cosmosFeegrantV1Beta1
   )
+
+  sendMsgGrantAllowance = sendMsgGrantAllowance.bind(spn.cosmosFeegrantV1Beta1)
 
   queryAllowance = queryAllowance.bind(spn.cosmosFeegrantV1Beta1)
 
   queryAllowances = queryAllowances.bind(spn.cosmosFeegrantV1Beta1)
 
   return {
-    sendMsgGrantAllowance,
-
     sendMsgRevokeAllowance,
+
+    sendMsgGrantAllowance,
 
     queryAllowance,
 

@@ -3,26 +3,30 @@ import { unref } from 'vue'
 import Module from 'tendermint-spn-ts-client/tendermint.spn.campaign/module'
 import useSpn from '../use'
 
+type SendMsgCreateCampaignType = typeof Module.prototype.sendMsgCreateCampaign
 type SendMsgRedeemVouchersType = typeof Module.prototype.sendMsgRedeemVouchers
-type SendMsgUpdateTotalSupplyType =
-  typeof Module.prototype.sendMsgUpdateTotalSupply
-type SendMsgEditCampaignType = typeof Module.prototype.sendMsgEditCampaign
-type SendMsgMintVouchersType = typeof Module.prototype.sendMsgMintVouchers
-type SendMsgAddVestingOptionsType =
-  typeof Module.prototype.sendMsgAddVestingOptions
 type SendMsgUnredeemVouchersType =
   typeof Module.prototype.sendMsgUnredeemVouchers
 type SendMsgAddSharesType = typeof Module.prototype.sendMsgAddShares
+type SendMsgBurnVouchersType = typeof Module.prototype.sendMsgBurnVouchers
+type SendMsgEditCampaignType = typeof Module.prototype.sendMsgEditCampaign
+type SendMsgUpdateTotalSupplyType =
+  typeof Module.prototype.sendMsgUpdateTotalSupply
+type SendMsgAddVestingOptionsType =
+  typeof Module.prototype.sendMsgAddVestingOptions
+type SendMsgMintVouchersType = typeof Module.prototype.sendMsgMintVouchers
 type SendMsgInitializeMainnetType =
   typeof Module.prototype.sendMsgInitializeMainnet
-type SendMsgBurnVouchersType = typeof Module.prototype.sendMsgBurnVouchers
-type SendMsgCreateCampaignType = typeof Module.prototype.sendMsgCreateCampaign
 
 type QueryCampaignType = typeof Module.prototype.queryCampaign
 type QueryCampaignAllType = typeof Module.prototype.queryCampaignAll
 type QueryCampaignChainsType = typeof Module.prototype.queryCampaignChains
 type QueryMainnetAccountType = typeof Module.prototype.queryMainnetAccount
 type QueryMainnetAccountAllType = typeof Module.prototype.queryMainnetAccountAll
+type QueryMainnetAccountBalanceType =
+  typeof Module.prototype.queryMainnetAccountBalance
+type QueryMainnetAccountBalanceAllType =
+  typeof Module.prototype.queryMainnetAccountBalanceAll
 type QueryMainnetVestingAccountType =
   typeof Module.prototype.queryMainnetVestingAccount
 type QueryMainnetVestingAccountAllType =
@@ -35,22 +39,24 @@ type QueryAuctionsOfCampaignType =
   typeof Module.prototype.queryAuctionsOfCampaign
 
 type Response = {
+  sendMsgCreateCampaign: SendMsgCreateCampaignType
   sendMsgRedeemVouchers: SendMsgRedeemVouchersType
-  sendMsgUpdateTotalSupply: SendMsgUpdateTotalSupplyType
-  sendMsgEditCampaign: SendMsgEditCampaignType
-  sendMsgMintVouchers: SendMsgMintVouchersType
-  sendMsgAddVestingOptions: SendMsgAddVestingOptionsType
   sendMsgUnredeemVouchers: SendMsgUnredeemVouchersType
   sendMsgAddShares: SendMsgAddSharesType
-  sendMsgInitializeMainnet: SendMsgInitializeMainnetType
   sendMsgBurnVouchers: SendMsgBurnVouchersType
-  sendMsgCreateCampaign: SendMsgCreateCampaignType
+  sendMsgEditCampaign: SendMsgEditCampaignType
+  sendMsgUpdateTotalSupply: SendMsgUpdateTotalSupplyType
+  sendMsgAddVestingOptions: SendMsgAddVestingOptionsType
+  sendMsgMintVouchers: SendMsgMintVouchersType
+  sendMsgInitializeMainnet: SendMsgInitializeMainnetType
 
   queryCampaign: QueryCampaignType
   queryCampaignAll: QueryCampaignAllType
   queryCampaignChains: QueryCampaignChainsType
   queryMainnetAccount: QueryMainnetAccountType
   queryMainnetAccountAll: QueryMainnetAccountAllType
+  queryMainnetAccountBalance: QueryMainnetAccountBalanceType
+  queryMainnetAccountBalanceAll: QueryMainnetAccountBalanceAllType
   queryMainnetVestingAccount: QueryMainnetVestingAccountType
   queryMainnetVestingAccountAll: QueryMainnetVestingAccountAllType
   queryCampaignSummary: QueryCampaignSummaryType
@@ -64,25 +70,25 @@ function useModule(): Response {
   let { spn } = useSpn()
 
   let {
+    sendMsgCreateCampaign,
+
     sendMsgRedeemVouchers,
-
-    sendMsgUpdateTotalSupply,
-
-    sendMsgEditCampaign,
-
-    sendMsgMintVouchers,
-
-    sendMsgAddVestingOptions,
 
     sendMsgUnredeemVouchers,
 
     sendMsgAddShares,
 
-    sendMsgInitializeMainnet,
-
     sendMsgBurnVouchers,
 
-    sendMsgCreateCampaign,
+    sendMsgEditCampaign,
+
+    sendMsgUpdateTotalSupply,
+
+    sendMsgAddVestingOptions,
+
+    sendMsgMintVouchers,
+
+    sendMsgInitializeMainnet,
 
     queryCampaign,
 
@@ -93,6 +99,10 @@ function useModule(): Response {
     queryMainnetAccount,
 
     queryMainnetAccountAll,
+
+    queryMainnetAccountBalance,
+
+    queryMainnetAccountBalanceAll,
 
     queryMainnetVestingAccount,
 
@@ -109,19 +119,9 @@ function useModule(): Response {
     queryAuctionsOfCampaign
   } = unref(spn.tendermintSpnCampaign)
 
+  sendMsgCreateCampaign = sendMsgCreateCampaign.bind(spn.tendermintSpnCampaign)
+
   sendMsgRedeemVouchers = sendMsgRedeemVouchers.bind(spn.tendermintSpnCampaign)
-
-  sendMsgUpdateTotalSupply = sendMsgUpdateTotalSupply.bind(
-    spn.tendermintSpnCampaign
-  )
-
-  sendMsgEditCampaign = sendMsgEditCampaign.bind(spn.tendermintSpnCampaign)
-
-  sendMsgMintVouchers = sendMsgMintVouchers.bind(spn.tendermintSpnCampaign)
-
-  sendMsgAddVestingOptions = sendMsgAddVestingOptions.bind(
-    spn.tendermintSpnCampaign
-  )
 
   sendMsgUnredeemVouchers = sendMsgUnredeemVouchers.bind(
     spn.tendermintSpnCampaign
@@ -129,13 +129,23 @@ function useModule(): Response {
 
   sendMsgAddShares = sendMsgAddShares.bind(spn.tendermintSpnCampaign)
 
-  sendMsgInitializeMainnet = sendMsgInitializeMainnet.bind(
+  sendMsgBurnVouchers = sendMsgBurnVouchers.bind(spn.tendermintSpnCampaign)
+
+  sendMsgEditCampaign = sendMsgEditCampaign.bind(spn.tendermintSpnCampaign)
+
+  sendMsgUpdateTotalSupply = sendMsgUpdateTotalSupply.bind(
     spn.tendermintSpnCampaign
   )
 
-  sendMsgBurnVouchers = sendMsgBurnVouchers.bind(spn.tendermintSpnCampaign)
+  sendMsgAddVestingOptions = sendMsgAddVestingOptions.bind(
+    spn.tendermintSpnCampaign
+  )
 
-  sendMsgCreateCampaign = sendMsgCreateCampaign.bind(spn.tendermintSpnCampaign)
+  sendMsgMintVouchers = sendMsgMintVouchers.bind(spn.tendermintSpnCampaign)
+
+  sendMsgInitializeMainnet = sendMsgInitializeMainnet.bind(
+    spn.tendermintSpnCampaign
+  )
 
   queryCampaign = queryCampaign.bind(spn.tendermintSpnCampaign)
 
@@ -146,6 +156,14 @@ function useModule(): Response {
   queryMainnetAccount = queryMainnetAccount.bind(spn.tendermintSpnCampaign)
 
   queryMainnetAccountAll = queryMainnetAccountAll.bind(
+    spn.tendermintSpnCampaign
+  )
+
+  queryMainnetAccountBalance = queryMainnetAccountBalance.bind(
+    spn.tendermintSpnCampaign
+  )
+
+  queryMainnetAccountBalanceAll = queryMainnetAccountBalanceAll.bind(
     spn.tendermintSpnCampaign
   )
 
@@ -172,25 +190,25 @@ function useModule(): Response {
   )
 
   return {
+    sendMsgCreateCampaign,
+
     sendMsgRedeemVouchers,
-
-    sendMsgUpdateTotalSupply,
-
-    sendMsgEditCampaign,
-
-    sendMsgMintVouchers,
-
-    sendMsgAddVestingOptions,
 
     sendMsgUnredeemVouchers,
 
     sendMsgAddShares,
 
-    sendMsgInitializeMainnet,
-
     sendMsgBurnVouchers,
 
-    sendMsgCreateCampaign,
+    sendMsgEditCampaign,
+
+    sendMsgUpdateTotalSupply,
+
+    sendMsgAddVestingOptions,
+
+    sendMsgMintVouchers,
+
+    sendMsgInitializeMainnet,
 
     queryCampaign,
 
@@ -201,6 +219,10 @@ function useModule(): Response {
     queryMainnetAccount,
 
     queryMainnetAccountAll,
+
+    queryMainnetAccountBalance,
+
+    queryMainnetAccountBalanceAll,
 
     queryMainnetVestingAccount,
 
