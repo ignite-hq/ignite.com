@@ -43,7 +43,7 @@ function toggle() {
       </router-link>
 
       <div
-        class="absolute inset-x-0 top-0 origin-top-right space-y-7 bg-bg px-5 pt-10 pb-6 shadow transition-all md:relative md:flex md:w-full md:items-center md:justify-between md:space-y-0 md:space-x-6 md:p-0"
+        class="absolute inset-x-0 top-0 origin-top-right space-y-7 bg-bg px-5 pt-10 pb-6 shadow transition-all md:relative md:flex md:w-full md:scale-100 md:items-center md:justify-between md:space-y-0 md:space-x-6 md:p-0 md:opacity-100"
         :class="opened ? 'scale-100 opacity-100' : 'scale-0 opacity-0'"
       >
         <ul
