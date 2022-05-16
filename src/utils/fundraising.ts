@@ -1,4 +1,7 @@
-import { AuctionStatus } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/fundraising'
+import {
+  AuctionStatus,
+  FixedPriceAuction
+} from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/fundraising'
 
 export enum HumanizedAuctionStatus {
   CurrentAndUpcoming = 'Current and upcoming',
@@ -8,9 +11,9 @@ export enum HumanizedAuctionStatus {
   Other = 'Other'
 }
 
-export const getHumanizedAuctionStatus = (
+export function getHumanizedAuctionStatus(
   auctionType?: string
-): HumanizedAuctionStatus => {
+): HumanizedAuctionStatus {
   const type = AuctionStatus[auctionType as any] as unknown as AuctionStatus
 
   switch (type) {
@@ -35,3 +38,16 @@ export function getDenomName(voucherDenom: string): string {
 export const toCompactNumber: Intl.NumberFormat = Intl.NumberFormat('en', {
   notation: 'compact'
 })
+
+export function getAuctionsByStatus(
+  status: HumanizedAuctionStatus,
+  auctions: FixedPriceAuction[]
+) {
+  return auctions.filter((auction: FixedPriceAuction) => {
+    return (
+      getHumanizedAuctionStatus(
+        auction?.base_auction?.status as unknown as string
+      ) === status
+    )
+  })
+}
