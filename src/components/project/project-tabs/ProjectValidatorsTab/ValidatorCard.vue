@@ -5,6 +5,7 @@ import { computed, PropType } from 'vue'
 
 import validatorAvatar from '~/assets/svg/validatorAvatar.svg'
 import IgniteText from '~/components/ui/IgniteText.vue'
+import useValidatorLaunchesCount from '~/composables/validator/useValidatorLaunchesCount'
 
 const props = defineProps({
   validator: {
@@ -19,6 +20,9 @@ const validatorData = computed<LaunchGenesisValidator>(() => {
     details: JSON.parse(atob(props.validator.genTx))
   }
 })
+const { validatorLaunchesCount } = useValidatorLaunchesCount(
+  validatorData.value.address
+)
 </script>
 
 <template>
@@ -41,15 +45,16 @@ const validatorData = computed<LaunchGenesisValidator>(() => {
 
     <div class="mb-2 mt-4 w-full border-b border-gray-70" />
     <IgniteText class="mb-1 text-2 leading-5 text-muted">
-      Also validates
+      Validates
     </IgniteText>
     <div>
-      <a
-        href="#"
-        class="inline-block text-2 text-primary hover:underline hover:brightness-90 active:brightness-75"
+      <IgniteText
+        class="inline-block text-2 font-semibold leading-5 text-muted"
       >
-        0 other projects
-      </a>
+        {{ validatorLaunchesCount }} project{{
+          validatorLaunchesCount > 1 ? 's' : ''
+        }}
+      </IgniteText>
     </div>
   </div>
 </template>
