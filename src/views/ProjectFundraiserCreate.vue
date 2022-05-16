@@ -43,6 +43,8 @@ import IgniteSelect from '~/components/ui/IgniteSelect.vue'
 import IgniteInput from '~/components/ui/IgniteInput.vue'
 import IgniteDenom from '~/components/common/IgniteDenom.vue'
 import useBalances from '~/composables/wallet/useBalances'
+import useTotalSupply from '~/composables/fundraising/useTotalSupply'
+import IgniteSpinner from '~/components/ui/IgniteSpinner.vue'
 
 const TODAY = new Date()
 
@@ -51,17 +53,6 @@ const FEE_RATE = new BigNumber(0.003)
 function getWeeksLater(date: Date, amountOfWeeks = 1): Date {
   return dayjs(date).add(amountOfWeeks, 'week').toDate()
 }
-
-const DUMMY_DENOMS: Coin[] = [
-  {
-    amount: '100000000000000000',
-    denom: 'uspn'
-  },
-  {
-    amount: '10000000000',
-    denom: 'UST'
-  }
-]
 
 function coinToSelectOption(c: Coin): { label: string; value: string } {
   return { label: c.denom.toUpperCase(), value: c.denom }
@@ -72,36 +63,57 @@ const { spn } = useSpn()
 
 // composables
 const router = useRouter()
-const { balances } = useBalances(spn.signer.value.addr)
+const {
+  balances,
+  isFetching: isFetchingBalances,
+  isFetched: isFetchedBalances
+} = useBalances(spn.signer.value.addr)
+const {
+  totalSupply,
+  isFetching: isFetchingTotalSupply,
+  isFetched: isFetchedTotalSupply
+} = useTotalSupply()
 
 // state
 interface State {
   currentUIState: UIStates
   auction: MsgCreateFixedPriceAuction
   feeAmount?: Coin
-  payingDenomsAvailable: Coin[]
   errorMsg?: string
 }
+
+const initialSellingCoin =
+  isFetchedBalances.value && balances.value && balances.value.length > 0
+    ? {
+        amount: '0',
+        denom: balances.value[0].denom as string
+      }
+    : undefined
+
+const filteredInitalTotalSupply: Coin[] = isFetchedTotalSupply.value
+  ? (totalSupply.value?.supply?.filter(
+      (i) => i.denom !== initialSellingCoin?.denom
+    ) as Coin[])
+  : []
+
+const initialPayingDenom =
+  isFetchedTotalSupply.value && filteredInitalTotalSupply.length > 0
+    ? filteredInitalTotalSupply[0].denom
+    : ''
 
 const initialState: State = {
   currentUIState: UIStates.Fresh,
   auction: {
     auctioneer: '',
-    start_price: '10',
+    start_price: '1',
     start_time: TODAY,
     end_time: getWeeksLater(TODAY, 1),
-    paying_coin_denom: DUMMY_DENOMS[0].denom,
-    selling_coin: balances.value
-      ? {
-          amount: '0',
-          denom: balances.value[0].denom as string
-        }
-      : undefined,
+    paying_coin_denom: initialPayingDenom,
+    selling_coin: initialSellingCoin,
     vesting_schedules: [
       { release_time: getWeeksLater(TODAY, 2), weight: '100' }
     ]
-  },
-  payingDenomsAvailable: DUMMY_DENOMS
+  }
 }
 const state = reactive(initialState)
 
@@ -113,12 +125,12 @@ onMounted(() => {
 })
 
 // computed
-const voucherTotalSupply = computed<number>(() => {
-  const totalSupplyAsString = balances.value?.find(
-    (i) => i.denom === state.auction.selling_coin?.denom
-  )?.amount
+const filterdTotalSupplyCoins = computed<Coin[]>(() => {
+  const filtered = totalSupply.value?.supply?.filter(
+    (i) => i.denom !== state.auction.selling_coin?.denom
+  ) as Coin[]
 
-  return new BigNumber(totalSupplyAsString ?? '0').toNumber()
+  return filtered ?? []
 })
 const amountForSale = computed<number>(() =>
   new BigNumber(state.auction.selling_coin?.amount ?? '0').toNumber()
@@ -198,13 +210,43 @@ const isSellingDenomSameAsPayingDenom = computed<boolean>(() => {
     state.auction.paying_coin_denom.toUpperCase()
   )
 })
+const balanceFromSellingCoin = computed<number>(() => {
+  const sellingDenom = state.auction.selling_coin?.denom
+
+  const balance = balances.value?.find((i) => i.denom === sellingDenom) as Coin
+
+  return balance ? new BigNumber(balance.amount).toNumber() : 0
+})
+const voucherTotalSupply = computed<number>(() => {
+  const totalSupplyAsString = balanceFromSellingCoin.value
+
+  return new BigNumber(totalSupplyAsString ?? '0').toNumber()
+})
+const isSellingAmountGreaterThanBalance = computed<boolean>(() => {
+  return new BigNumber(
+    state.auction.selling_coin?.amount as string
+  ).isGreaterThan(balanceFromSellingCoin.value)
+})
+const isSellingAmountGreaterThanZero = computed<boolean>(() =>
+  new BigNumber(state.auction.selling_coin?.amount as string).isGreaterThan(0)
+)
+const hasAnyBalance = computed<boolean>(
+  () =>
+    (isFetchedBalances.value && balances.value && balances.value.length > 0) ||
+    false
+)
 const ableToPublish = computed<boolean>(
   () =>
     isEndAfterStart.value &&
     isReleaseTimeAfterEnd.value &&
     isVestingTotalSale.value &&
     allVestingWeightsGreaterThanZero.value &&
-    !isSellingDenomSameAsPayingDenom.value
+    !isSellingDenomSameAsPayingDenom.value &&
+    !isSellingAmountGreaterThanBalance.value &&
+    isSellingAmountGreaterThanZero.value
+)
+const isLoadingCriticalData = computed<boolean>(
+  () => isFetchingBalances.value || isFetchingTotalSupply.value
 )
 
 // handlers
@@ -237,7 +279,7 @@ function handleSellingDenomChange(value: string) {
 }
 function handlePayingDenomChange(value: string) {
   state.auction.paying_coin_denom = (
-    state.payingDenomsAvailable.find((i) => i.denom === value) as Coin
+    totalSupply.value?.supply?.find((i) => i.denom === value) as Coin
   ).denom
 }
 function handleStartDateInput(date: Date) {
@@ -285,7 +327,7 @@ function handleDeleteDistributionClick(index: number) {
   )
 }
 function handleModalAck() {
-  location.reload()
+  router.push('/')
 }
 
 // methods
@@ -347,7 +389,9 @@ function cancel() {
 </script>
 
 <template>
-  <div class="container">
+  <!-- Spinner -->
+  <IgniteSpinner v-if="isLoadingCriticalData" />
+  <div class="container" v-else>
     <!-- Modal -->
     <FundraiserCreateModal
       :visible="showModal"
@@ -375,6 +419,7 @@ function cancel() {
       </IgniteHeading>
       <div class="flex grow flex-row">
         <FundraiserInputSection>
+          <!-- Selling coin -->
           <FundraiserInputRow>
             <div>
               <IgniteText
@@ -384,7 +429,7 @@ function cancel() {
               </IgniteText>
             </div>
 
-            <div class="mt-3 flex items-center">
+            <div class="mt-3 flex items-center" v-if="hasAnyBalance">
               <div
                 class="flex max-w-[14.5rem]"
                 v-if="balances && balances.length > 0"
@@ -402,7 +447,7 @@ function cancel() {
                   @input="handleSellingDenomChange"
                 >
                   <template
-                    v-for="i in state.payingDenomsAvailable"
+                    v-for="i in (balances as Coin[])"
                     :key="i.denom"
                     v-slot:[i.denom]
                   >
@@ -414,7 +459,7 @@ function cancel() {
                       size="small"
                       class="mr-3"
                     />
-                    {{ i.denom.toUpperCase() }}
+                    {{ i.denom?.toUpperCase() }}
                   </template>
                 </IgniteSelect>
                 <IgniteInput
@@ -423,14 +468,15 @@ function cancel() {
                   @input="handleAmountInput"
                 />
               </div>
-
               <div class="ml-6 flex-row">
                 <IgniteText as="span" class="font-bold">
                   {{ amountForSaleOverTotal }} % </IgniteText
                 >of <IgniteNumber :number="voucherTotalSupply" /> total supply
               </div>
             </div>
+            <div v-else>Your balance is empty.</div>
           </FundraiserInputRow>
+          <!-- Paying coin -->
           <FundraiserInputRow>
             <div>
               <IgniteText
@@ -449,13 +495,15 @@ function cancel() {
                         denom: state.auction.paying_coin_denom
                       })
                     "
-                    :items="state.payingDenomsAvailable.map(coinToSelectOption)"
+                    :items="
+                      filterdTotalSupplyCoins.map(i => coinToSelectOption(i as Coin))
+                    "
                     variants="rounded-r-none"
                     :is-mobile-native="false"
                     @input="handlePayingDenomChange"
                   >
                     <template
-                      v-for="i in state.payingDenomsAvailable"
+                      v-for="i in filterdTotalSupplyCoins"
                       :key="i.denom"
                       #[i.denom]
                     >
@@ -467,7 +515,7 @@ function cancel() {
                         size="small"
                         class="mr-3"
                       />
-                      {{ i.denom.toUpperCase() }}
+                      {{ i.denom?.toUpperCase() }}
                     </template>
                   </IgniteSelect>
                   <IgniteInput
@@ -480,7 +528,7 @@ function cancel() {
               <div class="ml-6 flex-row">
                 <IgniteText class="font-bold">
                   <IgniteNumber :number="totalSaleValue" />
-                  {{ state.auction.selling_coin?.denom.toUpperCase() }}
+                  {{ state.auction.paying_coin_denom.toUpperCase() }}
                 </IgniteText>
               </div>
             </div>
@@ -684,6 +732,18 @@ function cancel() {
             class="flex rounded-xs bg-error bg-opacity-70 p-4 text-gray-50"
           >
             Voucher denom and paying denom must be different
+          </IgniteText>
+          <IgniteText
+            v-if="isSellingAmountGreaterThanBalance"
+            class="flex rounded-xs bg-error bg-opacity-70 p-4 text-gray-50"
+          >
+            Total quantity for sale can not be greater than total supply
+          </IgniteText>
+          <IgniteText
+            v-if="!isSellingAmountGreaterThanZero"
+            class="flex rounded-xs bg-error bg-opacity-70 p-4 text-gray-50"
+          >
+            Total quantity for sale can not be 0
           </IgniteText>
         </div>
       </FundraiserInputRow>
