@@ -51,46 +51,9 @@ const allowCancel = computed(() => {
     </div>
     <div class="container mt-8 md:mt-10.5">
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7">
-        <!-- <div class="mt-6 md:mt-8 lg:mt-0">
-          <IgniteProjectInvest status="registrationOpen" :wallet="false" />
-        </div>
         <div class="mt-6 md:mt-8 lg:mt-0">
-          <IgniteProjectInvest status="registrationOpen" :wallet="true" />
+          <IgniteProjectInvest :fundraiser="fundraiser" />
         </div>
-        <div class="mt-6 md:mt-8 lg:mt-0">
-          <IgniteProjectInvest status="selectTier" :sufficient="true" />
-        </div>
-        <div class="mt-6 md:mt-8 lg:mt-0">
-          <IgniteProjectInvest status="selectTier" :sufficient="false" />
-        </div>
-        <div class="mt-6 md:mt-8 lg:mt-0">
-          <IgniteProjectInvest status="registrationConfirmed" />
-        </div>
-        <div class="mt-6 md:mt-8 lg:mt-0">
-          <IgniteProjectInvest status="saleStarted" />
-        </div>
-        <div class="mt-6 md:mt-8 lg:mt-0">
-          <IgniteProjectInvest status="saleStartedNotRegistered" />
-        </div>
-        <div class="mt-6 md:mt-8 lg:mt-0">
-          <IgniteProjectInvest status="saleOngoing" :invested="false" />
-        </div>
-        <div class="mt-6 md:mt-8 lg:mt-0">
-          <IgniteProjectInvest status="saleOngoing" :invested="true" />
-        </div>
-
-        <div class="mt-6 md:mt-8 lg:mt-0">
-          <IgniteProjectInvest status="saleEnded" />
-        </div>
-        <div class="mt-6 md:mt-8 lg:mt-0">
-          <IgniteProjectInvest status="soldOut" />
-        </div>
-        <div class="mt-6 md:mt-8 lg:mt-0">
-          <IgniteProjectInvest status="saleFinished" />
-        </div>
-        <div class="mt-6 md:mt-8 lg:mt-0">
-          <IgniteProjectInvest status="saleCanceled" />
-        </div> -->
       </div>
     </div>
 
