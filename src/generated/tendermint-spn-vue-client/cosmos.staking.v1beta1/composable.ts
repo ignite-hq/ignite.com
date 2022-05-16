@@ -3,11 +3,11 @@ import { unref } from 'vue'
 import Module from 'tendermint-spn-ts-client/cosmos.staking.v1beta1/module'
 import useSpn from '../use'
 
-type SendMsgCreateValidatorType = typeof Module.prototype.sendMsgCreateValidator
-type SendMsgEditValidatorType = typeof Module.prototype.sendMsgEditValidator
-type SendMsgBeginRedelegateType = typeof Module.prototype.sendMsgBeginRedelegate
-type SendMsgDelegateType = typeof Module.prototype.sendMsgDelegate
 type SendMsgUndelegateType = typeof Module.prototype.sendMsgUndelegate
+type SendMsgBeginRedelegateType = typeof Module.prototype.sendMsgBeginRedelegate
+type SendMsgEditValidatorType = typeof Module.prototype.sendMsgEditValidator
+type SendMsgCreateValidatorType = typeof Module.prototype.sendMsgCreateValidator
+type SendMsgDelegateType = typeof Module.prototype.sendMsgDelegate
 
 type QueryValidatorsType = typeof Module.prototype.queryValidators
 type QueryValidatorType = typeof Module.prototype.queryValidator
@@ -32,11 +32,11 @@ type QueryPoolType = typeof Module.prototype.queryPool
 type QueryParamsType = typeof Module.prototype.queryParams
 
 type Response = {
-  sendMsgCreateValidator: SendMsgCreateValidatorType
-  sendMsgEditValidator: SendMsgEditValidatorType
-  sendMsgBeginRedelegate: SendMsgBeginRedelegateType
-  sendMsgDelegate: SendMsgDelegateType
   sendMsgUndelegate: SendMsgUndelegateType
+  sendMsgBeginRedelegate: SendMsgBeginRedelegateType
+  sendMsgEditValidator: SendMsgEditValidatorType
+  sendMsgCreateValidator: SendMsgCreateValidatorType
+  sendMsgDelegate: SendMsgDelegateType
 
   queryValidators: QueryValidatorsType
   queryValidator: QueryValidatorType
@@ -58,15 +58,15 @@ function useModule(): Response {
   let { spn } = useSpn()
 
   let {
-    sendMsgCreateValidator,
-
-    sendMsgEditValidator,
+    sendMsgUndelegate,
 
     sendMsgBeginRedelegate,
 
-    sendMsgDelegate,
+    sendMsgEditValidator,
 
-    sendMsgUndelegate,
+    sendMsgCreateValidator,
+
+    sendMsgDelegate,
 
     queryValidators,
 
@@ -97,15 +97,15 @@ function useModule(): Response {
     queryParams
   } = unref(spn.cosmosStakingV1Beta1)
 
-  sendMsgCreateValidator = sendMsgCreateValidator.bind(spn.cosmosStakingV1Beta1)
-
-  sendMsgEditValidator = sendMsgEditValidator.bind(spn.cosmosStakingV1Beta1)
+  sendMsgUndelegate = sendMsgUndelegate.bind(spn.cosmosStakingV1Beta1)
 
   sendMsgBeginRedelegate = sendMsgBeginRedelegate.bind(spn.cosmosStakingV1Beta1)
 
-  sendMsgDelegate = sendMsgDelegate.bind(spn.cosmosStakingV1Beta1)
+  sendMsgEditValidator = sendMsgEditValidator.bind(spn.cosmosStakingV1Beta1)
 
-  sendMsgUndelegate = sendMsgUndelegate.bind(spn.cosmosStakingV1Beta1)
+  sendMsgCreateValidator = sendMsgCreateValidator.bind(spn.cosmosStakingV1Beta1)
+
+  sendMsgDelegate = sendMsgDelegate.bind(spn.cosmosStakingV1Beta1)
 
   queryValidators = queryValidators.bind(spn.cosmosStakingV1Beta1)
 
@@ -150,15 +150,15 @@ function useModule(): Response {
   queryParams = queryParams.bind(spn.cosmosStakingV1Beta1)
 
   return {
-    sendMsgCreateValidator,
-
-    sendMsgEditValidator,
+    sendMsgUndelegate,
 
     sendMsgBeginRedelegate,
 
-    sendMsgDelegate,
+    sendMsgEditValidator,
 
-    sendMsgUndelegate,
+    sendMsgCreateValidator,
+
+    sendMsgDelegate,
 
     queryValidators,
 

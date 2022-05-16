@@ -3,14 +3,14 @@ import { unref } from 'vue'
 import Module from 'tendermint-spn-ts-client/cosmos.distribution.v1beta1/module'
 import useSpn from '../use'
 
-type SendMsgSetWithdrawAddressType =
-  typeof Module.prototype.sendMsgSetWithdrawAddress
-type SendMsgWithdrawDelegatorRewardType =
-  typeof Module.prototype.sendMsgWithdrawDelegatorReward
 type SendMsgFundCommunityPoolType =
   typeof Module.prototype.sendMsgFundCommunityPool
+type SendMsgWithdrawDelegatorRewardType =
+  typeof Module.prototype.sendMsgWithdrawDelegatorReward
 type SendMsgWithdrawValidatorCommissionType =
   typeof Module.prototype.sendMsgWithdrawValidatorCommission
+type SendMsgSetWithdrawAddressType =
+  typeof Module.prototype.sendMsgSetWithdrawAddress
 
 type QueryParamsType = typeof Module.prototype.queryParams
 type QueryValidatorOutstandingRewardsType =
@@ -28,10 +28,10 @@ type QueryDelegatorWithdrawAddressType =
 type QueryCommunityPoolType = typeof Module.prototype.queryCommunityPool
 
 type Response = {
-  sendMsgSetWithdrawAddress: SendMsgSetWithdrawAddressType
-  sendMsgWithdrawDelegatorReward: SendMsgWithdrawDelegatorRewardType
   sendMsgFundCommunityPool: SendMsgFundCommunityPoolType
+  sendMsgWithdrawDelegatorReward: SendMsgWithdrawDelegatorRewardType
   sendMsgWithdrawValidatorCommission: SendMsgWithdrawValidatorCommissionType
+  sendMsgSetWithdrawAddress: SendMsgSetWithdrawAddressType
 
   queryParams: QueryParamsType
   queryValidatorOutstandingRewards: QueryValidatorOutstandingRewardsType
@@ -48,13 +48,13 @@ function useModule(): Response {
   let { spn } = useSpn()
 
   let {
-    sendMsgSetWithdrawAddress,
+    sendMsgFundCommunityPool,
 
     sendMsgWithdrawDelegatorReward,
 
-    sendMsgFundCommunityPool,
-
     sendMsgWithdrawValidatorCommission,
+
+    sendMsgSetWithdrawAddress,
 
     queryParams,
 
@@ -75,7 +75,7 @@ function useModule(): Response {
     queryCommunityPool
   } = unref(spn.cosmosDistributionV1Beta1)
 
-  sendMsgSetWithdrawAddress = sendMsgSetWithdrawAddress.bind(
+  sendMsgFundCommunityPool = sendMsgFundCommunityPool.bind(
     spn.cosmosDistributionV1Beta1
   )
 
@@ -83,11 +83,11 @@ function useModule(): Response {
     spn.cosmosDistributionV1Beta1
   )
 
-  sendMsgFundCommunityPool = sendMsgFundCommunityPool.bind(
+  sendMsgWithdrawValidatorCommission = sendMsgWithdrawValidatorCommission.bind(
     spn.cosmosDistributionV1Beta1
   )
 
-  sendMsgWithdrawValidatorCommission = sendMsgWithdrawValidatorCommission.bind(
+  sendMsgSetWithdrawAddress = sendMsgSetWithdrawAddress.bind(
     spn.cosmosDistributionV1Beta1
   )
 
@@ -124,13 +124,13 @@ function useModule(): Response {
   queryCommunityPool = queryCommunityPool.bind(spn.cosmosDistributionV1Beta1)
 
   return {
-    sendMsgSetWithdrawAddress,
+    sendMsgFundCommunityPool,
 
     sendMsgWithdrawDelegatorReward,
 
-    sendMsgFundCommunityPool,
-
     sendMsgWithdrawValidatorCommission,
+
+    sendMsgSetWithdrawAddress,
 
     queryParams,
 

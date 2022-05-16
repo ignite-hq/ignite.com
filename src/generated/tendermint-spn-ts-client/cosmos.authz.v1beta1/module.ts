@@ -5,15 +5,9 @@ import { SigningStargateClient, DeliverTxResponse } from '@cosmjs/stargate'
 import { EncodeObject } from '@cosmjs/proto-signing'
 
 import { Api } from './rest'
-import { MsgExec } from './types/cosmos/authz/v1beta1/tx'
 import { MsgGrant } from './types/cosmos/authz/v1beta1/tx'
 import { MsgRevoke } from './types/cosmos/authz/v1beta1/tx'
-
-type sendMsgExecParams = {
-  value: MsgExec
-  fee?: StdFee
-  memo?: string
-}
+import { MsgExec } from './types/cosmos/authz/v1beta1/tx'
 
 type sendMsgGrantParams = {
   value: MsgGrant
@@ -27,8 +21,10 @@ type sendMsgRevokeParams = {
   memo?: string
 }
 
-type msgExecParams = {
+type sendMsgExecParams = {
   value: MsgExec
+  fee?: StdFee
+  memo?: string
 }
 
 type msgGrantParams = {
@@ -37,6 +33,10 @@ type msgGrantParams = {
 
 type msgRevokeParams = {
   value: MsgRevoke
+}
+
+type msgExecParams = {
+  value: MsgExec
 }
 
 class Module extends Api<any> {
@@ -57,36 +57,6 @@ class Module extends Api<any> {
   public noSigner() {
     this._client = undefined
     this._addr = undefined
-  }
-
-  async sendMsgExec({
-    value,
-    fee,
-    memo
-  }: sendMsgExecParams): Promise<DeliverTxResponse> {
-    if (!this._client) {
-      throw new Error(
-        'TxClient:sendMsgExec: Unable to sign Tx. Signer is not present.'
-      )
-    }
-    if (!this._addr) {
-      throw new Error(
-        'TxClient:sendMsgExec: Unable to sign Tx. Address is not present.'
-      )
-    }
-    try {
-      let msg = this.msgExec({ value: MsgExec.fromPartial(value) })
-      return await this._client.signAndBroadcast(
-        this._addr,
-        [msg],
-        fee ? fee : { amount: [], gas: '200000' },
-        memo
-      )
-    } catch (e: any) {
-      throw new Error(
-        'TxClient:sendMsgExec: Could not broadcast Tx: ' + e.message
-      )
-    }
   }
 
   async sendMsgGrant({
@@ -149,15 +119,32 @@ class Module extends Api<any> {
     }
   }
 
-  msgExec({ value }: msgExecParams): EncodeObject {
+  async sendMsgExec({
+    value,
+    fee,
+    memo
+  }: sendMsgExecParams): Promise<DeliverTxResponse> {
+    if (!this._client) {
+      throw new Error(
+        'TxClient:sendMsgExec: Unable to sign Tx. Signer is not present.'
+      )
+    }
+    if (!this._addr) {
+      throw new Error(
+        'TxClient:sendMsgExec: Unable to sign Tx. Address is not present.'
+      )
+    }
     try {
-      return {
-        typeUrl: '/cosmos.authz.v1beta1.MsgExec',
-        value: MsgExec.fromPartial(value)
-      }
+      let msg = this.msgExec({ value: MsgExec.fromPartial(value) })
+      return await this._client.signAndBroadcast(
+        this._addr,
+        [msg],
+        fee ? fee : { amount: [], gas: '200000' },
+        memo
+      )
     } catch (e: any) {
       throw new Error(
-        'TxClient:MsgExec: Could not create message: ' + e.message
+        'TxClient:sendMsgExec: Could not broadcast Tx: ' + e.message
       )
     }
   }
@@ -184,6 +171,19 @@ class Module extends Api<any> {
     } catch (e: any) {
       throw new Error(
         'TxClient:MsgRevoke: Could not create message: ' + e.message
+      )
+    }
+  }
+
+  msgExec({ value }: msgExecParams): EncodeObject {
+    try {
+      return {
+        typeUrl: '/cosmos.authz.v1beta1.MsgExec',
+        value: MsgExec.fromPartial(value)
+      }
+    } catch (e: any) {
+      throw new Error(
+        'TxClient:MsgExec: Could not create message: ' + e.message
       )
     }
   }

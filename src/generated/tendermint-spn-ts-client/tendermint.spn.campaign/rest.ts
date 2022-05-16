@@ -17,6 +17,9 @@ export interface CampaignCampaign {
   /** @format uint64 */
   coordinatorID?: string
 
+  /** @format int64 */
+  createdAt?: string
+
   /** @format uint64 */
   mainnetID?: string
   mainnetInitialized?: boolean
@@ -48,6 +51,13 @@ export interface CampaignMainnetAccount {
   campaignID?: string
   address?: string
   shares?: V1Beta1Coin[]
+}
+
+export interface CampaignMainnetAccountBalance {
+  /** @format uint64 */
+  campaignID?: string
+  address?: string
+  coins?: V1Beta1Coin[]
 }
 
 export interface CampaignMainnetVestingAccount {
@@ -120,6 +130,21 @@ export interface CampaignQueryAllCampaignResponse {
   pagination?: V1Beta1PageResponse
 }
 
+export interface CampaignQueryAllMainnetAccountBalanceResponse {
+  mainnetAccountBalance?: CampaignMainnetAccountBalance[]
+
+  /**
+   * PageResponse is to be embedded in gRPC response messages where the
+   * corresponding request message has used PageRequest.
+   *
+   *  message SomeResponse {
+   *          repeated Bar results = 1;
+   *          PageResponse page = 2;
+   *  }
+   */
+  pagination?: V1Beta1PageResponse
+}
+
 export interface CampaignQueryAllMainnetAccountResponse {
   mainnetAccount?: CampaignMainnetAccount[]
 
@@ -179,6 +204,10 @@ export interface CampaignQueryGetCampaignChainsResponse {
 
 export interface CampaignQueryGetCampaignResponse {
   campaign?: CampaignCampaign
+}
+
+export interface CampaignQueryGetMainnetAccountBalanceResponse {
+  mainnetAccountBalance?: CampaignMainnetAccountBalance
 }
 
 export interface CampaignQueryGetMainnetAccountResponse {
@@ -694,6 +723,53 @@ export class Api<
   ) =>
     this.request<CampaignQueryGetMainnetAccountResponse, RpcStatus>({
       path: `/tendermint/spn/campaign/mainnet_account/${campaignID}/${address}`,
+      method: 'GET',
+      format: 'json',
+      ...params
+    })
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryMainnetAccountBalanceAll
+   * @summary Queries a list of mainnetAccountBalance items.
+   * @request GET:/tendermint/spn/campaign/mainnet_account_balance/{campaignID}
+   */
+  queryMainnetAccountBalanceAll = (
+    campaignID: string,
+    query?: {
+      'pagination.key'?: string
+      'pagination.offset'?: string
+      'pagination.limit'?: string
+      'pagination.count_total'?: boolean
+      'pagination.reverse'?: boolean
+    },
+    params: RequestParams = {}
+  ) =>
+    this.request<CampaignQueryAllMainnetAccountBalanceResponse, RpcStatus>({
+      path: `/tendermint/spn/campaign/mainnet_account_balance/${campaignID}`,
+      method: 'GET',
+      query: query,
+      format: 'json',
+      ...params
+    })
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryMainnetAccountBalance
+   * @summary Queries a mainnetAccountBalance by index.
+   * @request GET:/tendermint/spn/campaign/mainnet_account_balance/{campaignID}/{address}
+   */
+  queryMainnetAccountBalance = (
+    campaignID: string,
+    address: string,
+    params: RequestParams = {}
+  ) =>
+    this.request<CampaignQueryGetMainnetAccountBalanceResponse, RpcStatus>({
+      path: `/tendermint/spn/campaign/mainnet_account_balance/${campaignID}/${address}`,
       method: 'GET',
       format: 'json',
       ...params

@@ -9,6 +9,7 @@ export interface Campaign {
   campaignID: number
   campaignName: string
   coordinatorID: number
+  createdAt: number
   mainnetID: number
   mainnetInitialized: boolean
   totalSupply: Coin[]
@@ -20,6 +21,7 @@ const baseCampaign: object = {
   campaignID: 0,
   campaignName: '',
   coordinatorID: 0,
+  createdAt: 0,
   mainnetID: 0,
   mainnetInitialized: false
 }
@@ -35,20 +37,23 @@ export const Campaign = {
     if (message.coordinatorID !== 0) {
       writer.uint32(24).uint64(message.coordinatorID)
     }
+    if (message.createdAt !== 0) {
+      writer.uint32(32).int64(message.createdAt)
+    }
     if (message.mainnetID !== 0) {
-      writer.uint32(32).uint64(message.mainnetID)
+      writer.uint32(40).uint64(message.mainnetID)
     }
     if (message.mainnetInitialized === true) {
-      writer.uint32(40).bool(message.mainnetInitialized)
+      writer.uint32(48).bool(message.mainnetInitialized)
     }
     for (const v of message.totalSupply) {
-      Coin.encode(v!, writer.uint32(50).fork()).ldelim()
-    }
-    for (const v of message.allocatedShares) {
       Coin.encode(v!, writer.uint32(58).fork()).ldelim()
     }
+    for (const v of message.allocatedShares) {
+      Coin.encode(v!, writer.uint32(66).fork()).ldelim()
+    }
     if (message.metadata.length !== 0) {
-      writer.uint32(66).bytes(message.metadata)
+      writer.uint32(74).bytes(message.metadata)
     }
     return writer
   },
@@ -72,18 +77,21 @@ export const Campaign = {
           message.coordinatorID = longToNumber(reader.uint64() as Long)
           break
         case 4:
-          message.mainnetID = longToNumber(reader.uint64() as Long)
+          message.createdAt = longToNumber(reader.int64() as Long)
           break
         case 5:
-          message.mainnetInitialized = reader.bool()
+          message.mainnetID = longToNumber(reader.uint64() as Long)
           break
         case 6:
-          message.totalSupply.push(Coin.decode(reader, reader.uint32()))
+          message.mainnetInitialized = reader.bool()
           break
         case 7:
-          message.allocatedShares.push(Coin.decode(reader, reader.uint32()))
+          message.totalSupply.push(Coin.decode(reader, reader.uint32()))
           break
         case 8:
+          message.allocatedShares.push(Coin.decode(reader, reader.uint32()))
+          break
+        case 9:
           message.metadata = reader.bytes()
           break
         default:
@@ -112,6 +120,11 @@ export const Campaign = {
       message.coordinatorID = Number(object.coordinatorID)
     } else {
       message.coordinatorID = 0
+    }
+    if (object.createdAt !== undefined && object.createdAt !== null) {
+      message.createdAt = Number(object.createdAt)
+    } else {
+      message.createdAt = 0
     }
     if (object.mainnetID !== undefined && object.mainnetID !== null) {
       message.mainnetID = Number(object.mainnetID)
@@ -152,6 +165,7 @@ export const Campaign = {
       (obj.campaignName = message.campaignName)
     message.coordinatorID !== undefined &&
       (obj.coordinatorID = message.coordinatorID)
+    message.createdAt !== undefined && (obj.createdAt = message.createdAt)
     message.mainnetID !== undefined && (obj.mainnetID = message.mainnetID)
     message.mainnetInitialized !== undefined &&
       (obj.mainnetInitialized = message.mainnetInitialized)
@@ -194,6 +208,11 @@ export const Campaign = {
       message.coordinatorID = object.coordinatorID
     } else {
       message.coordinatorID = 0
+    }
+    if (object.createdAt !== undefined && object.createdAt !== null) {
+      message.createdAt = object.createdAt
+    } else {
+      message.createdAt = 0
     }
     if (object.mainnetID !== undefined && object.mainnetID !== null) {
       message.mainnetID = object.mainnetID

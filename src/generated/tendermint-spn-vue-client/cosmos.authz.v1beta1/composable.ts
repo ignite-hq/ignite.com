@@ -3,18 +3,18 @@ import { unref } from 'vue'
 import Module from 'tendermint-spn-ts-client/cosmos.authz.v1beta1/module'
 import useSpn from '../use'
 
-type SendMsgExecType = typeof Module.prototype.sendMsgExec
 type SendMsgGrantType = typeof Module.prototype.sendMsgGrant
 type SendMsgRevokeType = typeof Module.prototype.sendMsgRevoke
+type SendMsgExecType = typeof Module.prototype.sendMsgExec
 
 type QueryGrantsType = typeof Module.prototype.queryGrants
 type QueryGranterGrantsType = typeof Module.prototype.queryGranterGrants
 type QueryGranteeGrantsType = typeof Module.prototype.queryGranteeGrants
 
 type Response = {
-  sendMsgExec: SendMsgExecType
   sendMsgGrant: SendMsgGrantType
   sendMsgRevoke: SendMsgRevokeType
+  sendMsgExec: SendMsgExecType
 
   queryGrants: QueryGrantsType
   queryGranterGrants: QueryGranterGrantsType
@@ -25,11 +25,11 @@ function useModule(): Response {
   let { spn } = useSpn()
 
   let {
-    sendMsgExec,
-
     sendMsgGrant,
 
     sendMsgRevoke,
+
+    sendMsgExec,
 
     queryGrants,
 
@@ -38,11 +38,11 @@ function useModule(): Response {
     queryGranteeGrants
   } = unref(spn.cosmosAuthzV1Beta1)
 
-  sendMsgExec = sendMsgExec.bind(spn.cosmosAuthzV1Beta1)
-
   sendMsgGrant = sendMsgGrant.bind(spn.cosmosAuthzV1Beta1)
 
   sendMsgRevoke = sendMsgRevoke.bind(spn.cosmosAuthzV1Beta1)
+
+  sendMsgExec = sendMsgExec.bind(spn.cosmosAuthzV1Beta1)
 
   queryGrants = queryGrants.bind(spn.cosmosAuthzV1Beta1)
 
@@ -51,11 +51,11 @@ function useModule(): Response {
   queryGranteeGrants = queryGranteeGrants.bind(spn.cosmosAuthzV1Beta1)
 
   return {
-    sendMsgExec,
-
     sendMsgGrant,
 
     sendMsgRevoke,
+
+    sendMsgExec,
 
     queryGrants,
 

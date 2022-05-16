@@ -6,43 +6,23 @@ export default {
 
 <script lang="ts" setup>
 import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 
-import IgniteProjectInvest from './IgniteProjectInvest.vue'
+import useFundraiser from '~/composables/fundraising/useFundraiser'
+import useAddress from '~/composables/wallet/useAddress'
+
 import IgniteProjectInvestCancel from './IgniteProjectInvestCancel.vue'
 import IgniteProjectInvestInvestors from './IgniteProjectInvestInvestors.vue'
 import IgniteProjectInvestSingleCard from './IgniteProjectInvestSingleCard.vue'
 import IgniteProjectInvestValidators from './IgniteProjectInvestValidators.vue'
 import IgniteProjectInvestVesting from './IgniteProjectInvestVesting.vue'
-import useFundraiser from '~/composables/fundraising/useFundraiser'
-
-import { useRoute } from 'vue-router'
-import useAddress from '~/composables/wallet/useAddress'
 
 const route = useRoute()
-const projectId = route.params.projectId.toString() || '0'
+const fundraiserId = route.params.fundraiserId.toString() || '0'
 
 // composables
-const { fundraiser } = useFundraiser(projectId)
+const { fundraiser } = useFundraiser(fundraiserId)
 const { address } = useAddress()
-
-const roadmapItems = [
-  {
-    status: 'complited',
-    name: 'Fundraiser published'
-  },
-  {
-    name: 'Project started',
-    date: '03.25'
-  },
-  {
-    name: 'Sale begins',
-    date: '04.01 at 9 AM UTC'
-  },
-  {
-    name: 'Sale ends',
-    date: '04.01 at 9 AM UTC'
-  }
-]
 
 const allowCancel = computed(() => {
   return (
@@ -64,7 +44,7 @@ const allowCancel = computed(() => {
     <div class="container mt-8 md:mt-10.5">
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7">
         <IgniteProjectInvestSingleCard
-          :items="roadmapItems"
+          :auction="fundraiser.auction"
           class="lg:col-span-2"
         />
       </div>
@@ -116,6 +96,3 @@ const allowCancel = computed(() => {
     <IgniteProjectInvestVesting class="mt-8 md:mt-10.5" />
   </div>
 </template>
-
-function useBids(fundraiserId: any, value: string|undefined): { bids: any } {
-throw new Error('Function not implemented.') }
