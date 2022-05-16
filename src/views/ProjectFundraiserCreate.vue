@@ -46,8 +46,6 @@ import useBalances from '~/composables/wallet/useBalances'
 
 const TODAY = new Date()
 
-const MICRO_CONVERSION_RATE = 1000000
-
 const FEE_RATE = new BigNumber(0.003)
 
 function getWeeksLater(date: Date, amountOfWeeks = 1): Date {
@@ -55,33 +53,15 @@ function getWeeksLater(date: Date, amountOfWeeks = 1): Date {
 }
 
 const DUMMY_DENOMS: Coin[] = [
-  toMacro({
+  {
     amount: '100000000000000000',
     denom: 'uspn'
-  }),
+  },
   {
     amount: '10000000000',
     denom: 'UST'
   }
 ]
-
-function toMicro(amount: Coin): Coin {
-  return {
-    amount: new BigNumber(amount.amount)
-      .multipliedBy(MICRO_CONVERSION_RATE)
-      .toString(),
-    denom: `u${amount.denom}`
-  }
-}
-
-function toMacro(amount: Coin): Coin {
-  return {
-    amount: new BigNumber(amount.amount)
-      .dividedBy(MICRO_CONVERSION_RATE)
-      .toString(),
-    denom: amount.denom.slice(1)
-  }
-}
 
 function coinToSelectOption(c: Coin): { label: string; value: string } {
   return { label: c.denom.toUpperCase(), value: c.denom }
@@ -110,12 +90,10 @@ const initialState: State = {
     start_price: '10',
     start_time: TODAY,
     end_time: getWeeksLater(TODAY, 1),
-    paying_coin_denom: 'spn',
+    paying_coin_denom: DUMMY_DENOMS[0].denom,
     selling_coin: balances.value
       ? {
-          amount: new BigNumber(balances.value[0].amount as string)
-            .dividedBy(100)
-            .toString(),
+          amount: '0',
           denom: balances.value[0].denom as string
         }
       : undefined,
@@ -214,12 +192,19 @@ const isReleaseTimeAfterEnd = computed<boolean>(() => {
     return scheduleAsMilli > endAsMilli
   })
 })
+const isSellingDenomSameAsPayingDenom = computed<boolean>(() => {
+  return (
+    state.auction.selling_coin?.denom.toUpperCase() ===
+    state.auction.paying_coin_denom.toUpperCase()
+  )
+})
 const ableToPublish = computed<boolean>(
   () =>
     isEndAfterStart.value &&
     isReleaseTimeAfterEnd.value &&
     isVestingTotalSale.value &&
-    allVestingWeightsGreaterThanZero.value
+    allVestingWeightsGreaterThanZero.value &&
+    !isSellingDenomSameAsPayingDenom.value
 )
 
 // handlers
@@ -316,7 +301,7 @@ function normalizeAuction(
   const isSellingCoinInMicroFormat = normalized.selling_coin?.denom[0] === 'u'
 
   if (!isSellingCoinInMicroFormat) {
-    normalized.selling_coin = toMicro(normalized.selling_coin as Coin)
+    normalized.selling_coin = normalized.selling_coin as Coin
   }
 
   normalized.auctioneer = spn.signer.value.addr
@@ -693,6 +678,12 @@ function cancel() {
             class="flex rounded-xs bg-error bg-opacity-70 p-4 text-gray-50"
           >
             Fundraising end date must be later than start date.
+          </IgniteText>
+          <IgniteText
+            v-if="isSellingDenomSameAsPayingDenom"
+            class="flex rounded-xs bg-error bg-opacity-70 p-4 text-gray-50"
+          >
+            Voucher denom and paying denom must be different
           </IgniteText>
         </div>
       </FundraiserInputRow>
