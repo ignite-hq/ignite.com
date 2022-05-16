@@ -7,7 +7,6 @@ export default {
 <script lang="ts" setup>
 import { computed } from 'vue'
 
-import IconDenied from '~/components/icons/IconDenied.vue'
 import IconSuccessCheck from '~/components/icons/IconSuccessCheck.vue'
 import IgniteButton from '~/components/ui/IgniteButton.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
@@ -16,28 +15,30 @@ import IgniteSpinner from '~/components/ui/IgniteSpinner.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import { UIStates } from '~/views/ProjectInvestCreate.vue'
 
+import IconWarning from '../icons/IconWarning.vue'
+
 interface Props {
   currentUiState: UIStates
+  errorMsg?: string
 }
 
 const props = defineProps<Props>()
 
 interface Emits {
-  (e: 'close'): void
-  (e: 'error'): void
+  (e: 'ack'): void
 }
 
 const emit = defineEmits<Emits>()
 
 // handlers
 function onClose() {
-  emit('close')
+  emit('ack')
 }
 function onSuccess() {
-  emit('close')
+  emit('ack')
 }
 function onError() {
-  emit('error')
+  emit('ack')
 }
 
 // computed
@@ -54,8 +55,8 @@ const isSigned = computed(() => props.currentUiState === UIStates.Created)
         <IgniteHeading class="text-5">Waiting for approval...</IgniteHeading>
       </div>
       <div v-else-if="isError" class="flex flex-col items-center space-y-4">
-        <IconDenied />
-        <IgniteHeading class="text-5">Something went wrong!</IgniteHeading>
+        <IconWarning />
+        <IgniteHeading class="text-5">Publication failed</IgniteHeading>
       </div>
       <div v-else-if="isSigned" class="flex flex-col items-center space-y-4">
         <IconSuccessCheck />
@@ -64,7 +65,8 @@ const isSigned = computed(() => props.currentUiState === UIStates.Created)
     </template>
 
     <template v-if="isError" #body>
-      <IgniteText class="text-center text-3 leading-normal text-muted">
+      <IgniteText class="mt-5 text-center text-3 leading-normal text-muted">
+        {{ props.errorMsg }}
       </IgniteText>
 
       <div class="mt-7 flex space-x-4">
@@ -75,20 +77,20 @@ const isSigned = computed(() => props.currentUiState === UIStates.Created)
           class="flex-1"
           @click="onError"
         >
-          Done
+          Ok
         </IgniteButton>
       </div>
     </template>
 
     <template v-else-if="isSigning" #body>
-      <div class="mt-6 flex flex-col items-center space-y-7">
+      <IgniteText class="mt-5 text-center text-3 leading-normal text-muted">
         Approve the transaction to publish your fundraiser with your Wallet Name
         wallet.
-      </div>
+      </IgniteText>
     </template>
 
     <template v-else-if="isSigned" #body>
-      <IgniteText class="text-center text-3 leading-normal text-muted">
+      <IgniteText class="mt-5 text-center text-3 leading-normal text-muted">
         You have published the fundraiser for Project Name.
       </IgniteText>
 

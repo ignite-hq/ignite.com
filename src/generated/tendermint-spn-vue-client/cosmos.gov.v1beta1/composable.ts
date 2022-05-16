@@ -4,8 +4,8 @@ import Module from 'tendermint-spn-ts-client/cosmos.gov.v1beta1/module'
 import useSpn from '../use'
 
 type SendMsgDepositType = typeof Module.prototype.sendMsgDeposit
-type SendMsgVoteWeightedType = typeof Module.prototype.sendMsgVoteWeighted
 type SendMsgSubmitProposalType = typeof Module.prototype.sendMsgSubmitProposal
+type SendMsgVoteWeightedType = typeof Module.prototype.sendMsgVoteWeighted
 type SendMsgVoteType = typeof Module.prototype.sendMsgVote
 
 type QueryProposalType = typeof Module.prototype.queryProposal
@@ -19,8 +19,8 @@ type QueryTallyResultType = typeof Module.prototype.queryTallyResult
 
 type Response = {
   sendMsgDeposit: SendMsgDepositType
-  sendMsgVoteWeighted: SendMsgVoteWeightedType
   sendMsgSubmitProposal: SendMsgSubmitProposalType
+  sendMsgVoteWeighted: SendMsgVoteWeightedType
   sendMsgVote: SendMsgVoteType
 
   queryProposal: QueryProposalType
@@ -39,9 +39,9 @@ function useModule(): Response {
   let {
     sendMsgDeposit,
 
-    sendMsgVoteWeighted,
-
     sendMsgSubmitProposal,
+
+    sendMsgVoteWeighted,
 
     sendMsgVote,
 
@@ -64,9 +64,9 @@ function useModule(): Response {
 
   sendMsgDeposit = sendMsgDeposit.bind(spn.cosmosGovV1Beta1)
 
-  sendMsgVoteWeighted = sendMsgVoteWeighted.bind(spn.cosmosGovV1Beta1)
-
   sendMsgSubmitProposal = sendMsgSubmitProposal.bind(spn.cosmosGovV1Beta1)
+
+  sendMsgVoteWeighted = sendMsgVoteWeighted.bind(spn.cosmosGovV1Beta1)
 
   sendMsgVote = sendMsgVote.bind(spn.cosmosGovV1Beta1)
 
@@ -89,9 +89,9 @@ function useModule(): Response {
   return {
     sendMsgDeposit,
 
-    sendMsgVoteWeighted,
-
     sendMsgSubmitProposal,
+
+    sendMsgVoteWeighted,
 
     sendMsgVote,
 

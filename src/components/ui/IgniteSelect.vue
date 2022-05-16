@@ -9,36 +9,42 @@ import { ref } from 'vue'
 
 import IconCaret from '~/components/icons/IconCaret.vue'
 
-interface Item {
-  value: string
-  label: string
+interface Emits {
+  (e: 'input', value: string): void
 }
+
+const emit = defineEmits<Emits>()
 
 interface Props {
-  name: string
-  modelValue: Item
-  items: Item[]
-}
-
-interface Emits {
-  (e: 'update:modelValue', value: Item): void
+  selected: {
+    label: string
+    value: string
+  }
+  variants?: string
+  items: {
+    label: string
+    value: string
+  }[]
+  isMobileNative: boolean
 }
 
 withDefaults(defineProps<Props>(), {
-  name: 'IgniteSelect',
-  value: { value: '', label: '' } as Item,
-  items: () => [] as Item[]
+  isMobileNative: true
 })
 
+// state
 const opened = ref(false)
 
-defineEmits<Emits>()
-
-const toggle = () => {
-  opened.value = !opened.value
+// handlers
+function handleInput(value: string) {
+  emit('input', value)
 }
 
-const hide = () => {
+// methods
+function toggle() {
+  opened.value = !opened.value
+}
+function hide() {
   opened.value = false
 }
 </script>
@@ -48,41 +54,37 @@ const hide = () => {
     <button
       v-click-outside="hide"
       class="flex h-8.5 w-full items-center rounded-xs border border-border px-5"
+      :class="variants"
       @click="toggle"
     >
-      <slot>
-        <span class="whitespace-nowrap">{{ modelValue.label }}</span>
-      </slot>
+      <span class="whitespace-nowrap">{{ selected.label }}</span>
       <IconCaret class="ml-3" :class="opened && 'rotate-180'" />
     </button>
     <select
-      :value="modelValue"
+      :value="selected.label"
       class="absolute inset-0 opacity-0 md:hidden"
-      @input="$emit('update:modelValue', JSON.parse($event.target.value))"
+      :class="isMobileNative ? 'md:hidden' : 'hidden'"
     >
-      <option
-        v-for="item in items"
-        :key="`select_${name}_${item.value}`"
-        :value="JSON.stringify(item)"
-      >
-        {{ item.label }}
+      <option v-for="i in items" :key="`select_${i.value}`" :value="i.value">
+        {{ i.label }}
       </option>
     </select>
     <ul
-      class="z-1 translate-0 absolute left-0 top-[100%] max-h-[20rem] min-w-full overflow-auto rounded-xs border border-border bg-white-1000 shadow-select transition-transform"
-      :class="opened ? 'hidden translate-y-3 md:block' : 'hidden'"
+      class="z-1 translate-0 absolute left-0 top-[100%] z-10 max-h-[20rem] min-w-full overflow-auto rounded-xs bg-white-1000 shadow-select transition-transform"
+      :class="[
+        opened && isMobileNative && 'mt-2 hidden md:block',
+        opened && !isMobileNative ? 'mt-2 block' : 'hidden'
+      ]"
       @click="hide"
     >
       <li
-        v-for="item in items"
-        :key="`list_${name}_${item.value}`"
-        class="cursor-pointer border-b border-border px-7 py-5 transition-opacity last:border-0 hover:opacity-70"
-        :class="
-          modelValue.value === item.value && 'pointer-events-none bg-border'
-        "
-        @click="$emit('update:modelValue', item)"
+        v-for="i in items"
+        :key="`list_${i.value}`"
+        class="flex cursor-pointer items-center border-b border-border px-7 py-5 transition-opacity last:border-0 hover:opacity-70"
+        :class="selected.value === i.value && 'pointer-events-none bg-border'"
+        @click="() => handleInput(i.value)"
       >
-        {{ item.label }}
+        <slot :name="i.value"></slot>
       </li>
     </ul>
   </div>

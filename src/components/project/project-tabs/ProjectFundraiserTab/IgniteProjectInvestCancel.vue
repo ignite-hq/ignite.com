@@ -1,6 +1,6 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
 import dayjs from 'dayjs'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'IgniteProjectInvestTitle'
@@ -8,11 +8,12 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
+import { computed } from 'vue'
+
 import IgniteCard from '~/components/ui/IgniteCard.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteLink from '~/components/ui/IgniteLink.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
-import { computed } from 'vue'
 
 interface Props {
   fundraiser: any

@@ -15,6 +15,7 @@ export { UIStates }
 
 <script lang="ts" setup>
 import { Coin } from '@cosmjs/amino'
+import { DeliverTxResponse } from '@cosmjs/stargate'
 import BigNumber from 'bignumber.js'
 import dayjs from 'dayjs'
 import { cloneDeep } from 'lodash'
@@ -23,7 +24,9 @@ import { useSpn } from 'tendermint-spn-vue-client'
 import { computed, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 
+import IgniteDenom from '~/components/common/IgniteDenom.vue'
 import IconCanceled from '~/components/icons/IconCanceled.vue'
+import IconPlus from '~/components/icons/IconPlus.vue'
 import FundraiserCreateModal from '~/components/invest/FundraiserCreateModal.vue'
 import FundraiserInfoCard from '~/components/invest/FundraiserInfoCard.vue'
 import FundraiserInputRow from '~/components/invest/FundraiserInputRow.vue'
@@ -34,29 +37,43 @@ import IgniteButton from '~/components/ui/IgniteButton.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteInput from '~/components/ui/IgniteInput.vue'
 import IgniteNumber from '~/components/ui/IgniteNumber.vue'
+import IgniteSelect from '~/components/ui/IgniteSelect.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
+import { percentageToCosmosDecimal } from '~/utils/number'
 
-import IgniteInputAmount from '../components/ui/IgniteInputAmount.vue'
 import IgniteInputDate from '../components/ui/IgniteInputDate.vue'
 
 const TODAY = new Date()
 
 const MICRO_CONVERSION_RATE = 1000000
 
+const FEE_RATE = new BigNumber(0.003)
+
 function getWeeksLater(date: Date, amountOfWeeks = 1): Date {
   return dayjs(date).add(amountOfWeeks, 'week').toDate()
 }
 
-const DUMMY_TOTAL_SUPPLY: Coin[] = [
+const DUMMY_VOUCHERS: Coin[] = [
   toMacro({
     amount: '100000000000000000',
     denom: 'uspn'
+  }),
+  toMacro({
+    amount: '100000000000000000',
+    denom: 'utoken'
   })
 ]
 
-function pctToDecimals(pct: string, decimals = 18): string {
-  return new BigNumber(pct).toPrecision(decimals).toString().replace('.', '')
-}
+const DUMMY_DENOMS: Coin[] = [
+  toMacro({
+    amount: '100000000000000000',
+    denom: 'uspn'
+  }),
+  {
+    amount: '10000000000',
+    denom: 'UST'
+  }
+]
 
 function toMicro(amount: Coin): Coin {
   return {
@@ -76,39 +93,45 @@ function toMacro(amount: Coin): Coin {
   }
 }
 
-interface ISellingCoin {
+function coinToSelectOption(c: Coin): { label: string; value: string } {
+  return { label: c.denom.toUpperCase(), value: c.denom }
+}
+
+interface SellingCoin {
   selling_coin: Coin
 }
 
 type NonNullableMsgCreateFixedPriceAuction =
-  NonNullable<MsgCreateFixedPriceAuction> & ISellingCoin
+  NonNullable<MsgCreateFixedPriceAuction> & SellingCoin
 
 // state
 interface State {
   currentUIState: UIStates
   auction: NonNullableMsgCreateFixedPriceAuction
   feeAmount?: Coin
-  totalSupply?: Coin[]
-  voucherCoin?: Coin
+  vouchersAvailable: Coin[]
+  payingDenomsAvailable: Coin[]
+  errorMsg?: string
 }
+
 const initialState: State = {
   currentUIState: UIStates.Fresh,
   auction: {
     auctioneer: '',
-    start_price: '20',
+    start_price: '10',
     start_time: TODAY,
     end_time: getWeeksLater(TODAY, 1),
     paying_coin_denom: 'spn',
     selling_coin: {
-      amount: new BigNumber(DUMMY_TOTAL_SUPPLY[0].amount)
-        .dividedBy(10)
-        .toString(),
-      denom: DUMMY_TOTAL_SUPPLY[0].denom
+      amount: new BigNumber(DUMMY_VOUCHERS[0].amount).dividedBy(20).toString(),
+      denom: DUMMY_VOUCHERS[0].denom
     },
-    vesting_schedules: []
+    vesting_schedules: [
+      { release_time: getWeeksLater(TODAY, 2), weight: '100' }
+    ]
   },
-  totalSupply: DUMMY_TOTAL_SUPPLY,
-  voucherCoin: DUMMY_TOTAL_SUPPLY[0]
+  vouchersAvailable: DUMMY_VOUCHERS,
+  payingDenomsAvailable: DUMMY_DENOMS
 }
 const state = reactive(initialState)
 
@@ -120,8 +143,8 @@ const router = useRouter()
 
 // computed
 const voucherTotalSupply = computed<number>(() => {
-  const totalSupplyAsString = state.totalSupply?.find(
-    (i) => i.denom === state.voucherCoin?.denom
+  const totalSupplyAsString = state.vouchersAvailable.find(
+    (i) => i.denom === state.auction.selling_coin?.denom
   )?.amount
 
   return new BigNumber(totalSupplyAsString ?? '0').toNumber()
@@ -141,7 +164,9 @@ const totalSaleValue = computed<number>(
     new BigNumber(state.auction.selling_coin?.amount ?? '0').toNumber() *
     new BigNumber(state.auction.start_price ?? '0').toNumber()
 )
-const totalFee = computed<number>(() => (0.3 / 100) * totalSaleValue.value)
+const totalFee = computed<number>(() =>
+  FEE_RATE.multipliedBy(totalSaleValue.value).toNumber()
+)
 const totalRaisePotential = computed<number>(
   () => totalSaleValue.value - totalFee.value
 )
@@ -160,17 +185,73 @@ const nextMinDateForSchedule = computed<Date>(() => {
 
   return new Date(Math.max(penultimateScheduleDate, auctionEndDate, today))
 })
+const isAnyVestingZero = computed<boolean>(() => {
+  return state.auction.vesting_schedules.some((schedule) => {
+    return new BigNumber(schedule.weight).isEqualTo(0)
+  })
+})
+const isVestingTotalSale = computed<boolean>(() => {
+  const totalWeight: number = new BigNumber(
+    state.auction.vesting_schedules
+      .map((i) => new BigNumber(i.weight).toNumber())
+      .reduce((acc, cur) => new BigNumber(acc).plus(cur).toNumber(), 0)
+  ).toNumber()
+
+  return totalWeight === 100
+})
+const isEndAfterStart = computed<boolean>(() => {
+  const auction = state.auction
+
+  const startAsMilli = (auction.start_time as Date).getTime()
+  const endAsMilli = (auction.end_time as Date).getTime()
+
+  return endAsMilli > startAsMilli
+})
+const isReleaseTimeAfterEnd = computed<boolean>(() => {
+  const auction = state.auction
+  const endAsMilli = (auction.end_time as Date).getTime()
+
+  return auction.vesting_schedules.every((schedule) => {
+    const scheduleAsMilli = (schedule.release_time as Date).getTime()
+
+    return scheduleAsMilli > endAsMilli
+  })
+})
+const ableToPublish = computed<boolean>(
+  () =>
+    isEndAfterStart.value &&
+    isReleaseTimeAfterEnd.value &&
+    isVestingTotalSale.value &&
+    isAnyVestingZero.value
+)
 
 // handlers
 function handleAmountInput(evt: Event) {
   const inputEl = evt.target as HTMLInputElement
+  const raw = inputEl.value
+  const numbersOnly = raw.replace(/\D/g, '')
 
-  const newAmount = inputEl.value
+  const formatted =
+    numbersOnly.length > 0 ? new BigNumber(numbersOnly).toString() : '0'
 
-  state.auction.selling_coin.amount = newAmount
+  inputEl.value = formatted
+  state.auction.selling_coin.amount = formatted
 }
-function handlePricePerVoucher(value: string) {
-  state.auction.start_price = value
+function handlePricePerVoucher(evt: Event) {
+  const inputEl = evt.target as HTMLInputElement
+  const raw = inputEl.value
+  const numbersOnly = raw.replace(/\D/g, '')
+
+  const formatted =
+    numbersOnly.length > 0 ? new BigNumber(numbersOnly).toString() : '0'
+
+  inputEl.value = formatted
+  state.auction.start_price = formatted
+}
+function handlePayingDenomChange(value: string) {
+  state.auction.paying_coin_denom = (
+    state.payingDenomsAvailable.find((i) => i.denom === value) as Coin
+  ).denom
 }
 function handleStartDateInput(date: Date) {
   state.auction.start_time = date
@@ -181,8 +262,17 @@ function handleEndDateInput(date: Date) {
 function handleDistributionDateInput(date: Date, index: number) {
   state.auction.vesting_schedules[index].release_time = date
 }
-function handleDistributionWeightInput(weight: string, index: number) {
-  state.auction.vesting_schedules[index].weight = weight
+function handleDistributionWeightInput(evt: Event, index: number) {
+  const inputEl = evt.target as HTMLInputElement
+  const raw = inputEl.value
+  const numbersOnly = raw.replace(/\D/g, '')
+
+  const formatted =
+    numbersOnly.length > 0 ? new BigNumber(numbersOnly).toString() : '0'
+
+  inputEl.value = formatted
+
+  state.auction.vesting_schedules[index].weight = formatted
 }
 function handleAddDistributionClick() {
   const lastSchedule = state.auction.vesting_schedules.at(-1)
@@ -207,11 +297,8 @@ function handleDeleteDistributionClick(index: number) {
     (_, i) => i !== index
   )
 }
-function handleAuctionCreated() {
-  router.push('/')
-}
-function handleAuctionFailed() {
-  router.push('/')
+function handleModalAck() {
+  location.reload()
 }
 
 // methods
@@ -221,7 +308,7 @@ function normalizeAuction(
   const normalized = cloneDeep(auction)
 
   normalized.vesting_schedules.forEach((schedule) => {
-    schedule.weight = pctToDecimals(schedule.weight)
+    schedule.weight = percentageToCosmosDecimal(schedule.weight)
   })
 
   const isSellingCoinInMicroFormat = normalized.selling_coin?.denom[0] === 'u'
@@ -234,51 +321,37 @@ function normalizeAuction(
 
   return normalized
 }
-function assertAuction(auction: MsgCreateFixedPriceAuction) {
-  const startAsMilli = (auction.start_time as Date).getTime()
-  const endAsMilli = (auction.end_time as Date).getTime()
-
-  const isEndAfterStart = endAsMilli > startAsMilli
-  const isReleaseTimeAfterEnd = auction.vesting_schedules.every((schedule) => {
-    const scheduleAsMilli = (schedule.release_time as Date).getTime()
-
-    return scheduleAsMilli > endAsMilli
-  })
-
-  if (!isEndAfterStart) {
-    throw new Error('Start date must be after end date')
-  }
-  if (!isReleaseTimeAfterEnd) {
-    throw new Error('Release date must be after end date')
-  }
-}
 async function publish() {
   const payload = normalizeAuction(state.auction)
+  let response: DeliverTxResponse
+
+  if (!ableToPublish.value) {
+    throw new Error('Not able to publish: ' + state.auction)
+  }
 
   try {
-    assertAuction(payload)
-
     const msg = spn.tendermintFundraising.value.msgCreateFixedPriceAuction({
       value: payload
     })
 
     state.currentUIState = UIStates.Creating
 
-    const response = await spn.signer.value.client.signAndBroadcast(
+    response = await spn.signer.value.client.signAndBroadcast(
       spn.signer.value.addr,
       [msg],
       'auto'
     )
 
     if (response.code) {
-      throw new Error()
+      throw new Error(`Errored: ${response.code}`)
     }
 
+    state.errorMsg = ''
     state.currentUIState = UIStates.Created
   } catch (err) {
+    console.error(err)
+    state.errorMsg = `${err}`
     state.currentUIState = UIStates.Error
-
-    throw err
   }
 }
 function cancel() {
@@ -292,8 +365,8 @@ function cancel() {
     <FundraiserCreateModal
       :visible="showModal"
       :current-ui-state="state.currentUIState"
-      @close="handleAuctionCreated"
-      @error="handleAuctionFailed"
+      :error-msg="state.errorMsg"
+      @ack="handleModalAck"
     />
     <!-- Header -->
     <div class="flex flex-col">
@@ -323,11 +396,11 @@ function cancel() {
                 Total quantity for sale
               </IgniteText>
             </div>
-            <div class="flex items-center">
-              <div>
+            <div class="mt-3 flex items-center">
+              <div class="flex max-w-[14.5rem]">
                 <IgniteInput
                   :value="state.auction.selling_coin?.amount"
-                  type="number"
+                  variants="text-center border border-border"
                   @input="handleAmountInput"
                 />
               </div>
@@ -346,12 +419,43 @@ function cancel() {
                 Price per voucher
               </IgniteText>
             </div>
-            <div class="flex items-center">
+            <div class="mt-3 flex items-center">
               <div class="">
-                <IgniteInputAmount
-                  :value="state.auction.start_price"
-                  @input="handlePricePerVoucher"
-                />
+                <div class="flex max-w-[14.5rem]">
+                  <IgniteSelect
+                    :selected="
+                      coinToSelectOption({
+                        amount: '',
+                        denom: state.auction.paying_coin_denom
+                      })
+                    "
+                    :items="state.payingDenomsAvailable.map(coinToSelectOption)"
+                    variants="rounded-r-none"
+                    :is-mobile-native="false"
+                    @input="handlePayingDenomChange"
+                  >
+                    <template
+                      v-for="i in state.payingDenomsAvailable"
+                      :key="i.denom"
+                      #[i.denom]
+                    >
+                      <IgniteDenom
+                        v-if="i.denom"
+                        modifier="avatar"
+                        :denom="i.denom"
+                        :title="i.denom"
+                        size="small"
+                        class="mr-3"
+                      />
+                      {{ i.denom.toUpperCase() }}
+                    </template>
+                  </IgniteSelect>
+                  <IgniteInput
+                    :value="state.auction.start_price"
+                    variants="text-center border border-border border-l-0 rounded-l-none"
+                    @input="handlePricePerVoucher"
+                  />
+                </div>
               </div>
               <div class="ml-6 flex-row">
                 <IgniteText class="font-bold">
@@ -453,46 +557,47 @@ function cancel() {
                 </IgniteText>
               </div>
               <div
-                class="col-span-2 mt-7 flex flex-row flex-wrap items-center gap-7"
+                class="col-span-2 mt-7 flex flex-row flex-wrap items-end gap-7"
               >
                 <!-- Date -->
-                <div class="flex-col">
-                  <div>
-                    <IgniteInputDate
-                      :min-date="
-                        index === 0
-                          ? state.auction.end_time
-                          : nextMinDateForSchedule
-                      "
-                      :initial-date="(schedule.release_time as Date)"
-                      @input="
-                        (date) => handleDistributionDateInput(date, index)
-                      "
-                    />
-                  </div>
+                <div>
+                  <IgniteInputDate
+                    :min-date="
+                      index === 0
+                        ? state.auction.end_time
+                        : nextMinDateForSchedule
+                    "
+                    :initial-date="(schedule.release_time as Date)"
+                    @input="(date) => handleDistributionDateInput(date, index)"
+                  />
                 </div>
                 <!-- Amount -->
-                <div class="flex-col">
+                <div>
                   <div>
                     <IgniteText as="label" class="block text-2 text-muted">
-                      Amount</IgniteText
+                      Amount %</IgniteText
                     >
                   </div>
                   <div class="mt-3">
-                    <IgniteInputAmount
-                      :value="schedule.weight"
-                      @input="
-                        (amount) => handleDistributionWeightInput(amount, index)
-                      "
-                    />
+                    <div class="flex max-w-[14.5rem]">
+                      <IgniteInput
+                        :value="schedule.weight"
+                        variants="text-center border border-border"
+                        @input="
+                          (evt) => handleDistributionWeightInput(evt, index)
+                        "
+                      />
+                    </div>
                   </div>
                 </div>
                 <div>
+                  <!-- Add Distribution -->
                   <IgniteButton
-                    v-if="index > 0"
+                    v-if="state.auction.vesting_schedules.length > 0"
+                    class="py-5.5 text-error"
                     @click="() => handleDeleteDistributionClick(index)"
                   >
-                    <IconCanceled class="delete" />
+                    <IconCanceled stroke-width="2" class="transition-color" />
                   </IgniteButton>
                 </div>
               </div>
@@ -501,8 +606,16 @@ function cancel() {
           <FundraiserInputRow>
             <!-- Add Distribution -->
             <div class="mt-8 flex-row">
-              <IgniteButton class="px-6" @click="handleAddDistributionClick">
-                Add Distribution
+              <IgniteButton
+                variant="primary"
+                class="border border-primary px-4"
+                @click="handleAddDistributionClick"
+              >
+                <IconPlus
+                  class="mr-3 h-[0.625rem] w-[0.625rem]"
+                  stroke-width="2"
+                />
+                <span>Add Distribution</span>
               </IgniteButton>
             </div></FundraiserInputRow
           >
@@ -519,6 +632,25 @@ function cancel() {
         </FundraiserInfoCard>
       </div>
     </FundraiserSection>
+    <!-- Feedbacks -->
+    <FundraiserSection>
+      <FundraiserInputRow>
+        <div class="flex">
+          <IgniteText
+            v-if="!isVestingTotalSale"
+            class="flex rounded-xs bg-error bg-opacity-70 p-4 text-gray-50"
+          >
+            Total distributed amount should be 100%
+          </IgniteText>
+          <IgniteText
+            v-if="isAnyVestingZero"
+            class="flex rounded-xs bg-error bg-opacity-70 p-4 text-gray-50"
+          >
+            Vesting amount can not be zero
+          </IgniteText>
+        </div>
+      </FundraiserInputRow>
+    </FundraiserSection>
     <!-- Fundraiser Summary -->
     <FundraiserSummary
       :total-raise-potential="totalRaisePotential"
@@ -530,14 +662,11 @@ function cancel() {
       :sale-denom="state.auction.selling_coin?.denom.toUpperCase()"
       :start-date="(state.auction.start_time as Date)"
       :end-date="(state.auction.end_time as Date)"
+      :able-to-publish="ableToPublish"
       @publish="publish"
       @cancel="cancel"
     />
   </div>
 </template>
 
-<style scoped lang="postcss">
-.delete {
-  color: red;
-}
-</style>
+<style scoped lang="postcss"></style>

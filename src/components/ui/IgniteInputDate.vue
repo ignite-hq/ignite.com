@@ -84,7 +84,7 @@ function handleDayClick() {
   emit('input', state.date)
 }
 function handleTimezoneInput(value: string) {
-  state.timezone = new BigNumber(value).dividedBy(60).toNumber()
+  state.timezone = new BigNumber(value).toNumber()
 
   emit('input', state.date)
 }
@@ -120,7 +120,7 @@ function handleTimezoneInput(value: string) {
         </div>
         <div class="mt-6 md:mt-0 md:ml-7.5">
           <IgniteText as="label" class="block text-2 text-muted"
-            >Time</IgniteText
+            >Time (24 hr format)</IgniteText
           >
           <div class="-mx-3 mt-3 flex flex-wrap items-center md:flex-nowrap">
             <input
@@ -142,16 +142,23 @@ function handleTimezoneInput(value: string) {
             />
             <IgniteSelect
               name="timezone"
-              :value="formatOffsetToUTC(state.timezone)"
+              :selected="{
+                label: formatOffsetToUTC(state.timezone),
+                value: `${state.timezone * 60}`
+              }"
               :items="
                 UTC_ZONES.map((i) => ({
                   label: formatOffsetToUTC(i),
-                  value: i * 60
+                  value: String(i)
                 }))
               "
               class="md:mt- mx-3 w-full md:w-auto"
               @input="handleTimezoneInput"
-            />
+            >
+              <template v-for="i in UTC_ZONES" #[String(i)]>
+                {{ formatOffsetToUTC(i) }}
+              </template></IgniteSelect
+            >
           </div>
         </div>
       </div>

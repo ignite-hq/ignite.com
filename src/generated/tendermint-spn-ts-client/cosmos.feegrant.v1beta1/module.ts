@@ -5,14 +5,8 @@ import { SigningStargateClient, DeliverTxResponse } from '@cosmjs/stargate'
 import { EncodeObject } from '@cosmjs/proto-signing'
 
 import { Api } from './rest'
-import { MsgGrantAllowance } from './types/cosmos/feegrant/v1beta1/tx'
 import { MsgRevokeAllowance } from './types/cosmos/feegrant/v1beta1/tx'
-
-type sendMsgGrantAllowanceParams = {
-  value: MsgGrantAllowance
-  fee?: StdFee
-  memo?: string
-}
+import { MsgGrantAllowance } from './types/cosmos/feegrant/v1beta1/tx'
 
 type sendMsgRevokeAllowanceParams = {
   value: MsgRevokeAllowance
@@ -20,12 +14,18 @@ type sendMsgRevokeAllowanceParams = {
   memo?: string
 }
 
-type msgGrantAllowanceParams = {
+type sendMsgGrantAllowanceParams = {
   value: MsgGrantAllowance
+  fee?: StdFee
+  memo?: string
 }
 
 type msgRevokeAllowanceParams = {
   value: MsgRevokeAllowance
+}
+
+type msgGrantAllowanceParams = {
+  value: MsgGrantAllowance
 }
 
 class Module extends Api<any> {
@@ -46,38 +46,6 @@ class Module extends Api<any> {
   public noSigner() {
     this._client = undefined
     this._addr = undefined
-  }
-
-  async sendMsgGrantAllowance({
-    value,
-    fee,
-    memo
-  }: sendMsgGrantAllowanceParams): Promise<DeliverTxResponse> {
-    if (!this._client) {
-      throw new Error(
-        'TxClient:sendMsgGrantAllowance: Unable to sign Tx. Signer is not present.'
-      )
-    }
-    if (!this._addr) {
-      throw new Error(
-        'TxClient:sendMsgGrantAllowance: Unable to sign Tx. Address is not present.'
-      )
-    }
-    try {
-      let msg = this.msgGrantAllowance({
-        value: MsgGrantAllowance.fromPartial(value)
-      })
-      return await this._client.signAndBroadcast(
-        this._addr,
-        [msg],
-        fee ? fee : { amount: [], gas: '200000' },
-        memo
-      )
-    } catch (e: any) {
-      throw new Error(
-        'TxClient:sendMsgGrantAllowance: Could not broadcast Tx: ' + e.message
-      )
-    }
   }
 
   async sendMsgRevokeAllowance({
@@ -112,15 +80,34 @@ class Module extends Api<any> {
     }
   }
 
-  msgGrantAllowance({ value }: msgGrantAllowanceParams): EncodeObject {
+  async sendMsgGrantAllowance({
+    value,
+    fee,
+    memo
+  }: sendMsgGrantAllowanceParams): Promise<DeliverTxResponse> {
+    if (!this._client) {
+      throw new Error(
+        'TxClient:sendMsgGrantAllowance: Unable to sign Tx. Signer is not present.'
+      )
+    }
+    if (!this._addr) {
+      throw new Error(
+        'TxClient:sendMsgGrantAllowance: Unable to sign Tx. Address is not present.'
+      )
+    }
     try {
-      return {
-        typeUrl: '/cosmos.feegrant.v1beta1.MsgGrantAllowance',
+      let msg = this.msgGrantAllowance({
         value: MsgGrantAllowance.fromPartial(value)
-      }
+      })
+      return await this._client.signAndBroadcast(
+        this._addr,
+        [msg],
+        fee ? fee : { amount: [], gas: '200000' },
+        memo
+      )
     } catch (e: any) {
       throw new Error(
-        'TxClient:MsgGrantAllowance: Could not create message: ' + e.message
+        'TxClient:sendMsgGrantAllowance: Could not broadcast Tx: ' + e.message
       )
     }
   }
@@ -134,6 +121,19 @@ class Module extends Api<any> {
     } catch (e: any) {
       throw new Error(
         'TxClient:MsgRevokeAllowance: Could not create message: ' + e.message
+      )
+    }
+  }
+
+  msgGrantAllowance({ value }: msgGrantAllowanceParams): EncodeObject {
+    try {
+      return {
+        typeUrl: '/cosmos.feegrant.v1beta1.MsgGrantAllowance',
+        value: MsgGrantAllowance.fromPartial(value)
+      }
+    } catch (e: any) {
+      throw new Error(
+        'TxClient:MsgGrantAllowance: Could not create message: ' + e.message
       )
     }
   }

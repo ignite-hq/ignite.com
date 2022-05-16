@@ -3,18 +3,18 @@ import { unref } from 'vue'
 import Module from 'tendermint-spn-ts-client/tendermint.spn.profile/module'
 import useSpn from '../use'
 
-type SendMsgUpdateCoordinatorDescriptionType =
-  typeof Module.prototype.sendMsgUpdateCoordinatorDescription
 type SendMsgUpdateValidatorDescriptionType =
   typeof Module.prototype.sendMsgUpdateValidatorDescription
+type SendMsgUpdateCoordinatorDescriptionType =
+  typeof Module.prototype.sendMsgUpdateCoordinatorDescription
 type SendMsgAddValidatorOperatorAddressType =
   typeof Module.prototype.sendMsgAddValidatorOperatorAddress
-type SendMsgDisableCoordinatorType =
-  typeof Module.prototype.sendMsgDisableCoordinator
 type SendMsgCreateCoordinatorType =
   typeof Module.prototype.sendMsgCreateCoordinator
 type SendMsgUpdateCoordinatorAddressType =
   typeof Module.prototype.sendMsgUpdateCoordinatorAddress
+type SendMsgDisableCoordinatorType =
+  typeof Module.prototype.sendMsgDisableCoordinator
 
 type QueryValidatorType = typeof Module.prototype.queryValidator
 type QueryValidatorAllType = typeof Module.prototype.queryValidatorAll
@@ -26,12 +26,12 @@ type QueryCoordinatorByAddressType =
   typeof Module.prototype.queryCoordinatorByAddress
 
 type Response = {
-  sendMsgUpdateCoordinatorDescription: SendMsgUpdateCoordinatorDescriptionType
   sendMsgUpdateValidatorDescription: SendMsgUpdateValidatorDescriptionType
+  sendMsgUpdateCoordinatorDescription: SendMsgUpdateCoordinatorDescriptionType
   sendMsgAddValidatorOperatorAddress: SendMsgAddValidatorOperatorAddressType
-  sendMsgDisableCoordinator: SendMsgDisableCoordinatorType
   sendMsgCreateCoordinator: SendMsgCreateCoordinatorType
   sendMsgUpdateCoordinatorAddress: SendMsgUpdateCoordinatorAddressType
+  sendMsgDisableCoordinator: SendMsgDisableCoordinatorType
 
   queryValidator: QueryValidatorType
   queryValidatorAll: QueryValidatorAllType
@@ -45,17 +45,17 @@ function useModule(): Response {
   let { spn } = useSpn()
 
   let {
-    sendMsgUpdateCoordinatorDescription,
-
     sendMsgUpdateValidatorDescription,
 
-    sendMsgAddValidatorOperatorAddress,
+    sendMsgUpdateCoordinatorDescription,
 
-    sendMsgDisableCoordinator,
+    sendMsgAddValidatorOperatorAddress,
 
     sendMsgCreateCoordinator,
 
     sendMsgUpdateCoordinatorAddress,
+
+    sendMsgDisableCoordinator,
 
     queryValidator,
 
@@ -70,18 +70,14 @@ function useModule(): Response {
     queryCoordinatorByAddress
   } = unref(spn.tendermintSpnProfile)
 
-  sendMsgUpdateCoordinatorDescription =
-    sendMsgUpdateCoordinatorDescription.bind(spn.tendermintSpnProfile)
-
   sendMsgUpdateValidatorDescription = sendMsgUpdateValidatorDescription.bind(
     spn.tendermintSpnProfile
   )
 
-  sendMsgAddValidatorOperatorAddress = sendMsgAddValidatorOperatorAddress.bind(
-    spn.tendermintSpnProfile
-  )
+  sendMsgUpdateCoordinatorDescription =
+    sendMsgUpdateCoordinatorDescription.bind(spn.tendermintSpnProfile)
 
-  sendMsgDisableCoordinator = sendMsgDisableCoordinator.bind(
+  sendMsgAddValidatorOperatorAddress = sendMsgAddValidatorOperatorAddress.bind(
     spn.tendermintSpnProfile
   )
 
@@ -90,6 +86,10 @@ function useModule(): Response {
   )
 
   sendMsgUpdateCoordinatorAddress = sendMsgUpdateCoordinatorAddress.bind(
+    spn.tendermintSpnProfile
+  )
+
+  sendMsgDisableCoordinator = sendMsgDisableCoordinator.bind(
     spn.tendermintSpnProfile
   )
 
@@ -110,17 +110,17 @@ function useModule(): Response {
   )
 
   return {
-    sendMsgUpdateCoordinatorDescription,
-
     sendMsgUpdateValidatorDescription,
 
-    sendMsgAddValidatorOperatorAddress,
+    sendMsgUpdateCoordinatorDescription,
 
-    sendMsgDisableCoordinator,
+    sendMsgAddValidatorOperatorAddress,
 
     sendMsgCreateCoordinator,
 
     sendMsgUpdateCoordinatorAddress,
+
+    sendMsgDisableCoordinator,
 
     queryValidator,
 
