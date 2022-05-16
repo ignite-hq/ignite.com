@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'IgniteProjectInvest'
@@ -20,12 +20,94 @@ import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import IgniteTooltip from '~/components/ui/IgniteTooltip.vue'
 import { ProgressBarItem } from '~/utils/types'
+import { useRoute } from 'vue-router'
 
-defineProps({
-  status: { type: String, required: true },
-  wallet: { type: Boolean },
-  invested: { type: Boolean },
-  sufficient: { type: Boolean }
+import useAddress from '~/composables/wallet/useAddress'
+import useBids from '~/composables/fundraising/useBids'
+import useAllowedBidders from '~/composables/fundraising/useAllowedBidders'
+
+const route = useRoute()
+const fundraiserId = route.params.fundraiserId.toString() || '0'
+
+interface Props {
+  fundraiser: any
+}
+
+const props = defineProps<Props>()
+
+// composables
+const { address } = useAddress()
+const { bids } = useBids(fundraiserId, address.value)
+const { allowedBidders } = useAllowedBidders(fundraiserId)
+
+enum FundraiserStatus {
+  registrationOpen = 'registrationOpen',
+  registrationConfirmed = 'registrationConfirmed',
+  saleStarted = 'saleStarted',
+  saleStartedNotRegistered = 'saleStartedNotRegistered',
+  saleOngoing = 'saleOngoing', // unused?
+  saleEnded = 'saleEnded', // unused?
+  soldOut = 'soldOut',
+  saleFinished = 'saleFinished',
+  saleCanceled = 'saleCanceled',
+  selectTier = 'selectTier' // TODO after tiers added to CLI?
+}
+
+// computed
+const status = computed(() => {
+  if (
+    props.fundraiser.value?.base_auction?.status === 'AUCTION_STATUS_CANCELLED'
+  ) {
+    return FundraiserStatus.saleCanceled
+  }
+  if (
+    props.fundraiser.value?.base_auction?.status === 'AUCTION_STATUS_FINISHED'
+  ) {
+    return FundraiserStatus.saleFinished
+  }
+  if (
+    props.fundraiser.value?.base_auction?.status === 'AUCTION_STATUS_STANDBY'
+  ) {
+    if (
+      allowedBidders.value?.allowed_bidders?.find(
+        (bidder) => bidder.bidder === address.value
+      )
+    ) {
+      return FundraiserStatus.registrationConfirmed
+    } else {
+      return FundraiserStatus.registrationOpen
+    }
+  }
+  if (props.fundraiser.value?.remaining_selling_coin?.amount === '0') {
+    return FundraiserStatus.soldOut
+  }
+  if (
+    props.fundraiser.value?.base_auction?.status === 'AUCTION_STATUS_STARTED'
+  ) {
+    if (
+      allowedBidders.value?.allowed_bidders?.find(
+        (bidder) => bidder.bidder === address.value
+      )
+    ) {
+      return FundraiserStatus.saleStarted
+    } else {
+      return FundraiserStatus.saleStartedNotRegistered
+    }
+  }
+  return FundraiserStatus.registrationOpen
+})
+
+const wallet = computed(() => {
+  return !!address.value
+})
+
+const invested = computed(() => {
+  return (bids.value?.bids?.length ?? 0) > 0
+})
+
+const sufficient = computed(() => {
+  // TODO: check if staked SPN amount is sufficient
+  return true
 })
 
 const progressBar = {

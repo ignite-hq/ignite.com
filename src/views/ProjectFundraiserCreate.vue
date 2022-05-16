@@ -24,7 +24,6 @@ import { useSpn } from 'tendermint-spn-vue-client'
 import { computed, onMounted, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 
-import { percentageToCosmosDecimal } from '~/utils/number'
 import IconCanceled from '~/components/icons/IconCanceled.vue'
 import IconPlus from '~/components/icons/IconPlus.vue'
 import FundraiserCreateModal from '~/components/invest/FundraiserCreateModal.vue'
@@ -37,6 +36,7 @@ import IgniteButton from '~/components/ui/IgniteButton.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
+import { percentageToCosmosDecimal } from '~/utils/number'
 
 import IgniteInputDate from '../components/ui/IgniteInputDate.vue'
 import IgniteSelect from '~/components/ui/IgniteSelect.vue'
@@ -352,8 +352,8 @@ function cancel() {
     <FundraiserCreateModal
       :visible="showModal"
       :current-ui-state="state.currentUIState"
-      @ack="handleModalAck"
       :error-msg="state.errorMsg"
+      @ack="handleModalAck"
     />
     <!-- Header -->
     <div class="flex flex-col">
@@ -457,7 +457,7 @@ function cancel() {
                     <template
                       v-for="i in state.payingDenomsAvailable"
                       :key="i.denom"
-                      v-slot:[i.denom]
+                      #[i.denom]
                     >
                       <IgniteDenom
                         v-if="i.denom"

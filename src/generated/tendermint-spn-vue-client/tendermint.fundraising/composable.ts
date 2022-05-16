@@ -3,15 +3,15 @@ import { unref } from 'vue'
 import Module from 'tendermint-spn-ts-client/tendermint.fundraising/module'
 import useSpn from '../use'
 
-type SendMsgCreateBatchAuctionType =
-  typeof Module.prototype.sendMsgCreateBatchAuction
-type SendMsgCancelAuctionType = typeof Module.prototype.sendMsgCancelAuction
-type SendMsgPlaceBidType = typeof Module.prototype.sendMsgPlaceBid
-type SendMsgModifyBidType = typeof Module.prototype.sendMsgModifyBid
 type SendMsgAddAllowedBidderType =
   typeof Module.prototype.sendMsgAddAllowedBidder
 type SendMsgCreateFixedPriceAuctionType =
   typeof Module.prototype.sendMsgCreateFixedPriceAuction
+type SendMsgPlaceBidType = typeof Module.prototype.sendMsgPlaceBid
+type SendMsgCreateBatchAuctionType =
+  typeof Module.prototype.sendMsgCreateBatchAuction
+type SendMsgCancelAuctionType = typeof Module.prototype.sendMsgCancelAuction
+type SendMsgModifyBidType = typeof Module.prototype.sendMsgModifyBid
 
 type QueryParamsType = typeof Module.prototype.queryParams
 type QueryAuctionsType = typeof Module.prototype.queryAuctions
@@ -23,12 +23,12 @@ type QueryBidType = typeof Module.prototype.queryBid
 type QueryVestingsType = typeof Module.prototype.queryVestings
 
 type Response = {
-  sendMsgCreateBatchAuction: SendMsgCreateBatchAuctionType
-  sendMsgCancelAuction: SendMsgCancelAuctionType
-  sendMsgPlaceBid: SendMsgPlaceBidType
-  sendMsgModifyBid: SendMsgModifyBidType
   sendMsgAddAllowedBidder: SendMsgAddAllowedBidderType
   sendMsgCreateFixedPriceAuction: SendMsgCreateFixedPriceAuctionType
+  sendMsgPlaceBid: SendMsgPlaceBidType
+  sendMsgCreateBatchAuction: SendMsgCreateBatchAuctionType
+  sendMsgCancelAuction: SendMsgCancelAuctionType
+  sendMsgModifyBid: SendMsgModifyBidType
 
   queryParams: QueryParamsType
   queryAuctions: QueryAuctionsType
@@ -44,17 +44,17 @@ function useModule(): Response {
   let { spn } = useSpn()
 
   let {
+    sendMsgAddAllowedBidder,
+
+    sendMsgCreateFixedPriceAuction,
+
+    sendMsgPlaceBid,
+
     sendMsgCreateBatchAuction,
 
     sendMsgCancelAuction,
 
-    sendMsgPlaceBid,
-
     sendMsgModifyBid,
-
-    sendMsgAddAllowedBidder,
-
-    sendMsgCreateFixedPriceAuction,
 
     queryParams,
 
@@ -73,16 +73,6 @@ function useModule(): Response {
     queryVestings
   } = unref(spn.tendermintFundraising)
 
-  sendMsgCreateBatchAuction = sendMsgCreateBatchAuction.bind(
-    spn.tendermintFundraising
-  )
-
-  sendMsgCancelAuction = sendMsgCancelAuction.bind(spn.tendermintFundraising)
-
-  sendMsgPlaceBid = sendMsgPlaceBid.bind(spn.tendermintFundraising)
-
-  sendMsgModifyBid = sendMsgModifyBid.bind(spn.tendermintFundraising)
-
   sendMsgAddAllowedBidder = sendMsgAddAllowedBidder.bind(
     spn.tendermintFundraising
   )
@@ -90,6 +80,16 @@ function useModule(): Response {
   sendMsgCreateFixedPriceAuction = sendMsgCreateFixedPriceAuction.bind(
     spn.tendermintFundraising
   )
+
+  sendMsgPlaceBid = sendMsgPlaceBid.bind(spn.tendermintFundraising)
+
+  sendMsgCreateBatchAuction = sendMsgCreateBatchAuction.bind(
+    spn.tendermintFundraising
+  )
+
+  sendMsgCancelAuction = sendMsgCancelAuction.bind(spn.tendermintFundraising)
+
+  sendMsgModifyBid = sendMsgModifyBid.bind(spn.tendermintFundraising)
 
   queryParams = queryParams.bind(spn.tendermintFundraising)
 
@@ -108,17 +108,17 @@ function useModule(): Response {
   queryVestings = queryVestings.bind(spn.tendermintFundraising)
 
   return {
+    sendMsgAddAllowedBidder,
+
+    sendMsgCreateFixedPriceAuction,
+
+    sendMsgPlaceBid,
+
     sendMsgCreateBatchAuction,
 
     sendMsgCancelAuction,
 
-    sendMsgPlaceBid,
-
     sendMsgModifyBid,
-
-    sendMsgAddAllowedBidder,
-
-    sendMsgCreateFixedPriceAuction,
 
     queryParams,
 

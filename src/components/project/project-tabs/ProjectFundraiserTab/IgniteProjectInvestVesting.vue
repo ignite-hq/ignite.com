@@ -2,54 +2,26 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'IgniteProjectStatus',
-  data() {
-    return {
-      schedule: [
-        {
-          dates: 'April 1, 2022',
-          time: '9:00 AM UTC',
-          percentage: '10%',
-          amount: '300000'
-        },
-        {
-          dates: 'May 1, 2022',
-          time: '9:00 AM UTC',
-          percentage: '10%',
-          amount: '300000'
-        },
-        {
-          dates: 'June 1, 2022',
-          time: '9:00 AM UTC',
-          percentage: '10%',
-          amount: '300000'
-        },
-        {
-          dates: 'July 1, 2022',
-          time: '9:00 AM UTC',
-          percentage: '10%',
-          amount: '300000'
-        },
-        {
-          dates: 'August 1, 2022',
-          time: '9:00 AM UTC',
-          percentage: '10%',
-          amount: '300000'
-        }
-      ]
-    }
-  }
+  name: 'IgniteProjectInvestVesting'
 })
 </script>
 
-<script setup lang="ts">
-import IgniteDenom from '~/components/common/IgniteDenom.vue'
-import IgniteButton from '~/components/ui/IgniteButton.vue'
-import IgniteHeading from '~/components/ui/IgniteHeading.vue'
-import IgniteNumber from '~/components/ui/IgniteNumber.vue'
-import IgniteText from '~/components/ui/IgniteText.vue'
+<script lang="ts" setup>
+import dayjs from 'dayjs'
 
-const curency = 'UST'
+import IgniteNumber from '~/components/ui/IgniteNumber.vue'
+import IgniteDenom from '~/components/common/IgniteDenom.vue'
+
+import { getDenomName } from '~/utils/fundraisers'
+import { FundraisingVestingSchedule } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/rest'
+
+interface Props {
+  vestingSchedules: FundraisingVestingSchedule[]
+  curency: string
+  amount: number | string
+}
+
+defineProps<Props>()
 </script>
 
 <template>
@@ -90,8 +62,8 @@ const curency = 'UST'
         <!-- body -->
         <div class="pt-6 md:pt-8">
           <div
-            v-for="(item, key) in schedule"
-            :key="item.dates"
+            v-for="(item, key) in vestingSchedules"
+            :key="`vesting-schedule-${key}`"
             class="mt-6 border-t border-border pt-6 first:mt-0 first:border-t-0 first:pt-0 md:mt-9 md:border-t-0 md:pt-0"
           >
             <div
@@ -103,17 +75,21 @@ const curency = 'UST'
                 >
                   {{ key + 1 }}
                 </div>
-                <div>
-                  <span class="font-semibold">{{ item.dates }}</span>
+                <div v-if="item.release_time">
+                  <span class="font-semibold">
+                    {{ dayjs(item.release_time).format('MMM D, YYYY') }}
+                  </span>
                   <span class="text-muted"> at </span>
-                  <span class="font-semibold">{{ item.time }}</span>
+                  <span class="font-semibold">
+                    {{ dayjs(item.release_time).format('h:mm A [GMT]Z') }}
+                  </span>
                 </div>
               </div>
               <div
                 class="mt-4 w-full px-5 text-muted md:mt-0 md:w-[11rem] md:shrink-0 md:text-center lg:w-[15rem]"
               >
                 <strong class="mr-1 inline-block md:hidden">Percentage:</strong>
-                <span>{{ item.percentage }}</span>
+                <span>{{ Number(item.weight) * 100 }}%</span>
               </div>
               <div
                 class="mt-4 w-full px-5 text-muted md:mt-0 md:w-[13rem] md:shrink-0 md:text-center lg:w-[15rem]"
@@ -122,24 +98,20 @@ const curency = 'UST'
                 <span class="inline-flex items-center">
                   <IgniteDenom
                     modifier="avatar"
-                    denom="denom"
-                    title="denom"
+                    :denom="getDenomName(curency)"
+                    :title="getDenomName(curency)"
                     size="small"
                     class="mr-3 lg:mr-5"
                   />
-                  <IgniteNumber :number="item.amount" />
-                  <span class="ml-1">{{ curency }}</span>
+                  <IgniteNumber
+                    :number="Number(item.weight) * Number(amount)"
+                  />
+                  <span class="ml-1">{{ getDenomName(curency) }}</span>
                 </span>
               </div>
             </div>
           </div>
         </div>
-      </div>
-
-      <div class="mt-7 text-center md:mt-8.5">
-        <IgniteButton variant="primary" color="primary" size="md">
-          View 5 more
-        </IgniteButton>
       </div>
     </div>
   </div>

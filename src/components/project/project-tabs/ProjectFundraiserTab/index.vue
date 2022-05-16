@@ -6,43 +6,23 @@ export default {
 
 <script lang="ts" setup>
 import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 
-import IgniteProjectInvest from './IgniteProjectInvest.vue'
+import useFundraiser from '~/composables/fundraising/useFundraiser'
+import useAddress from '~/composables/wallet/useAddress'
+
 import IgniteProjectInvestCancel from './IgniteProjectInvestCancel.vue'
 import IgniteProjectInvestInvestors from './IgniteProjectInvestInvestors.vue'
 import IgniteProjectInvestSingleCard from './IgniteProjectInvestSingleCard.vue'
 import IgniteProjectInvestValidators from './IgniteProjectInvestValidators.vue'
 import IgniteProjectInvestVesting from './IgniteProjectInvestVesting.vue'
-import useFundraiser from '~/composables/fundraising/useFundraiser'
-
-import { useRoute } from 'vue-router'
-import useAddress from '~/composables/wallet/useAddress'
 
 const route = useRoute()
-const projectId = route.params.projectId.toString() || '0'
+const fundraiserId = route.params.fundraiserId.toString() || '0'
 
 // composables
-const { fundraiser } = useFundraiser(projectId)
+const { fundraiser } = useFundraiser(fundraiserId)
 const { address } = useAddress()
-
-const roadmapItems = [
-  {
-    status: 'complited',
-    name: 'Fundraiser published'
-  },
-  {
-    name: 'Project started',
-    date: '03.25'
-  },
-  {
-    name: 'Sale begins',
-    date: '04.01 at 9 AM UTC'
-  },
-  {
-    name: 'Sale ends',
-    date: '04.01 at 9 AM UTC'
-  }
-]
 
 const allowCancel = computed(() => {
   return (
@@ -64,7 +44,7 @@ const allowCancel = computed(() => {
     <div class="container mt-8 md:mt-10.5">
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7">
         <IgniteProjectInvestSingleCard
-          :items="roadmapItems"
+          :auction="fundraiser.auction"
           class="lg:col-span-2"
         />
       </div>
@@ -72,48 +52,8 @@ const allowCancel = computed(() => {
     <div class="container mt-8 md:mt-10.5">
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7">
         <div class="mt-6 md:mt-8 lg:mt-0">
-          <IgniteProjectInvest status="registrationNotOpen" />
+          <IgniteProjectInvest :fundraiser="fundraiser" />
         </div>
-        <!-- <div class="mt-6 md:mt-8 lg:mt-0">
-          <IgniteProjectInvest status="registrationOpen" :wallet="false" />
-        </div>
-        <div class="mt-6 md:mt-8 lg:mt-0">
-          <IgniteProjectInvest status="registrationOpen" :wallet="true" />
-        </div>
-        <div class="mt-6 md:mt-8 lg:mt-0">
-          <IgniteProjectInvest status="selectTier" :sufficient="true" />
-        </div>
-        <div class="mt-6 md:mt-8 lg:mt-0">
-          <IgniteProjectInvest status="selectTier" :sufficient="false" />
-        </div>
-        <div class="mt-6 md:mt-8 lg:mt-0">
-          <IgniteProjectInvest status="registrationConfirmed" />
-        </div>
-        <div class="mt-6 md:mt-8 lg:mt-0">
-          <IgniteProjectInvest status="saleStarted" />
-        </div>
-        <div class="mt-6 md:mt-8 lg:mt-0">
-          <IgniteProjectInvest status="saleStartedNotRegistered" />
-        </div>
-        <div class="mt-6 md:mt-8 lg:mt-0">
-          <IgniteProjectInvest status="saleOngoing" :invested="false" />
-        </div>
-        <div class="mt-6 md:mt-8 lg:mt-0">
-          <IgniteProjectInvest status="saleOngoing" :invested="true" />
-        </div>
-
-        <div class="mt-6 md:mt-8 lg:mt-0">
-          <IgniteProjectInvest status="saleEnded" />
-        </div>
-        <div class="mt-6 md:mt-8 lg:mt-0">
-          <IgniteProjectInvest status="soldOut" />
-        </div>
-        <div class="mt-6 md:mt-8 lg:mt-0">
-          <IgniteProjectInvest status="saleFinished" />
-        </div>
-        <div class="mt-6 md:mt-8 lg:mt-0">
-          <IgniteProjectInvest status="saleCanceled" />
-        </div> -->
       </div>
     </div>
 
@@ -153,6 +93,11 @@ const allowCancel = computed(() => {
     </div> -->
 
     <IgniteProjectInvestInvestors class="mt-8 md:mt-10.5" />
-    <IgniteProjectInvestVesting class="mt-8 md:mt-10.5" />
+    <IgniteProjectInvestVesting
+      :vesting-schedules="fundraiser.auction.base_auction.vesting_schedules"
+      :curency="fundraiser.auction.base_auction.selling_coin.denom"
+      :amount="fundraiser.auction.base_auction.selling_coin.amount"
+      class="mt-8 md:mt-10.5"
+    />
   </div>
 </template>
