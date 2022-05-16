@@ -124,10 +124,8 @@ function handleTimezoneInput(value: string) {
           >
           <div class="-mx-3 mt-3 flex flex-wrap items-center md:flex-nowrap">
             <input
-              class="mx-3 h-8.5 w-[3.5rem] rounded-xs border border-border bg-white-1000 px-5 text-center"
+              class="mx-3 h-8.5 rounded-xs border border-border bg-white-1000 px-5 text-center"
               :value="state.hour"
-              min="0"
-              max="12"
               maxlength="2"
               @input="handleHourInput"
             />
@@ -135,8 +133,6 @@ function handleTimezoneInput(value: string) {
             <input
               class="mx-3 h-8.5 w-[3.5rem] rounded-xs border border-border bg-white-1000 px-5 text-center"
               :value="state.minutes"
-              min="0"
-              max="60"
               maxlength="2"
               @input="handleMinuteInput"
             />

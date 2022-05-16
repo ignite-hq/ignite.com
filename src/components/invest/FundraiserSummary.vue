@@ -25,9 +25,9 @@ interface Props {
   totalSaleValue: number
   amountSaleOverTotal: string
   totalSaleAmount: number
-  saleDenom: string
+  saleDenom: string | undefined
   totalFee: number
-  feeDenom: string
+  feeDenom: string | undefined
   totalRaisePotential: number
   startDate: Date
   endDate: Date
