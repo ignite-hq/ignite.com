@@ -27,6 +27,12 @@ enum ModalPage {
   Error
 }
 
+interface Emits {
+  (e: 'connect'): void
+}
+
+const emit = defineEmits<Emits>()
+
 // spn
 const { spn, signIn, signOut } = useSpn()
 
@@ -79,6 +85,8 @@ async function tryToConnectToKeplr() {
 
     listenToAccChange(onKeplrConnect)
     resetState()
+
+    emit('connect')
   }
 
   const onKeplrError = (): void => {

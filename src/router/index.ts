@@ -3,18 +3,23 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Index from '../views/Index.vue'
 import Project from '../views/Project.vue'
 import ProjectFundraiser from '../views/ProjectFundraiser.vue'
-import ProjectInvestCreate from '../views/ProjectInvestCreate.vue'
+import ProjectFundraiserCreate from '../views/ProjectFundraiserCreate.vue'
 import Projects from '../views/Projects.vue'
+import Signin from '../views/SignIn.vue'
 
 const routerHistory = createWebHistory()
 const routes = [
   { path: '/', component: Index },
   { path: '/projects', component: Projects },
-  { path: '/create-fundraiser', component: ProjectInvestCreate },
+  { path: '/create-fundraiser', component: ProjectFundraiserCreate },
   { path: '/projects/:projectId/:tab', component: Project },
   {
     path: '/projects/:projectId/fundraisers/:fundraiserId',
     component: ProjectFundraiser
+  },
+  {
+    path: '/sign-in',
+    component: Signin
   }
 ]
 

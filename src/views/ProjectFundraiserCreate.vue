@@ -1,6 +1,6 @@
 <script lang="ts">
 export default {
-  name: 'ProjectInvestCreate'
+  name: 'ProjectFundraiserCreate'
 }
 
 enum UIStates {
@@ -21,10 +21,9 @@ import dayjs from 'dayjs'
 import { cloneDeep } from 'lodash'
 import type { MsgCreateFixedPriceAuction } from 'tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/tx'
 import { useSpn } from 'tendermint-spn-vue-client'
-import { computed, reactive } from 'vue'
+import { computed, onMounted, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 
-import IgniteDenom from '~/components/common/IgniteDenom.vue'
 import IconCanceled from '~/components/icons/IconCanceled.vue'
 import IconPlus from '~/components/icons/IconPlus.vue'
 import FundraiserCreateModal from '~/components/invest/FundraiserCreateModal.vue'
@@ -35,17 +34,19 @@ import FundraiserSection from '~/components/invest/FundraiserSection.vue'
 import FundraiserSummary from '~/components/invest/FundraiserSummary.vue'
 import IgniteButton from '~/components/ui/IgniteButton.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
-import IgniteInput from '~/components/ui/IgniteInput.vue'
 import IgniteNumber from '~/components/ui/IgniteNumber.vue'
-import IgniteSelect from '~/components/ui/IgniteSelect.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import { percentageToCosmosDecimal } from '~/utils/number'
 
 import IgniteInputDate from '../components/ui/IgniteInputDate.vue'
+import IgniteSelect from '~/components/ui/IgniteSelect.vue'
+import IgniteInput from '~/components/ui/IgniteInput.vue'
+import IgniteDenom from '~/components/common/IgniteDenom.vue'
+import useBalances from '~/composables/wallet/useBalances'
+import useTotalSupply from '~/composables/fundraising/useTotalSupply'
+import IgniteSpinner from '~/components/ui/IgniteSpinner.vue'
 
 const TODAY = new Date()
-
-const MICRO_CONVERSION_RATE = 1000000
 
 const FEE_RATE = new BigNumber(0.003)
 
@@ -53,101 +54,83 @@ function getWeeksLater(date: Date, amountOfWeeks = 1): Date {
   return dayjs(date).add(amountOfWeeks, 'week').toDate()
 }
 
-const DUMMY_VOUCHERS: Coin[] = [
-  toMacro({
-    amount: '100000000000000000',
-    denom: 'uspn'
-  }),
-  toMacro({
-    amount: '100000000000000000',
-    denom: 'utoken'
-  })
-]
-
-const DUMMY_DENOMS: Coin[] = [
-  toMacro({
-    amount: '100000000000000000',
-    denom: 'uspn'
-  }),
-  {
-    amount: '10000000000',
-    denom: 'UST'
-  }
-]
-
-function toMicro(amount: Coin): Coin {
-  return {
-    amount: new BigNumber(amount.amount)
-      .multipliedBy(MICRO_CONVERSION_RATE)
-      .toString(),
-    denom: `u${amount.denom}`
-  }
-}
-
-function toMacro(amount: Coin): Coin {
-  return {
-    amount: new BigNumber(amount.amount)
-      .dividedBy(MICRO_CONVERSION_RATE)
-      .toString(),
-    denom: amount.denom.slice(1)
-  }
-}
-
 function coinToSelectOption(c: Coin): { label: string; value: string } {
   return { label: c.denom.toUpperCase(), value: c.denom }
 }
-
-interface SellingCoin {
-  selling_coin: Coin
-}
-
-type NonNullableMsgCreateFixedPriceAuction =
-  NonNullable<MsgCreateFixedPriceAuction> & SellingCoin
-
-// state
-interface State {
-  currentUIState: UIStates
-  auction: NonNullableMsgCreateFixedPriceAuction
-  feeAmount?: Coin
-  vouchersAvailable: Coin[]
-  payingDenomsAvailable: Coin[]
-  errorMsg?: string
-}
-
-const initialState: State = {
-  currentUIState: UIStates.Fresh,
-  auction: {
-    auctioneer: '',
-    start_price: '10',
-    start_time: TODAY,
-    end_time: getWeeksLater(TODAY, 1),
-    paying_coin_denom: 'spn',
-    selling_coin: {
-      amount: new BigNumber(DUMMY_VOUCHERS[0].amount).dividedBy(20).toString(),
-      denom: DUMMY_VOUCHERS[0].denom
-    },
-    vesting_schedules: [
-      { release_time: getWeeksLater(TODAY, 2), weight: '100' }
-    ]
-  },
-  vouchersAvailable: DUMMY_VOUCHERS,
-  payingDenomsAvailable: DUMMY_DENOMS
-}
-const state = reactive(initialState)
 
 // spn
 const { spn } = useSpn()
 
 // composables
 const router = useRouter()
+const {
+  balances,
+  isFetching: isFetchingBalances,
+  isFetched: isFetchedBalances
+} = useBalances(spn.signer.value.addr)
+const {
+  totalSupply,
+  isFetching: isFetchingTotalSupply,
+  isFetched: isFetchedTotalSupply
+} = useTotalSupply()
+
+// state
+interface State {
+  currentUIState: UIStates
+  auction: MsgCreateFixedPriceAuction
+  feeAmount?: Coin
+  errorMsg?: string
+}
+
+const initialSellingCoin =
+  isFetchedBalances.value && balances.value && balances.value.length > 0
+    ? {
+        amount: '0',
+        denom: balances.value[0].denom as string
+      }
+    : undefined
+
+const filteredInitalTotalSupply: Coin[] = isFetchedTotalSupply.value
+  ? (totalSupply.value?.supply?.filter(
+      (i) => i.denom !== initialSellingCoin?.denom
+    ) as Coin[])
+  : []
+
+const initialPayingDenom =
+  isFetchedTotalSupply.value && filteredInitalTotalSupply.length > 0
+    ? filteredInitalTotalSupply[0].denom
+    : ''
+
+const initialState: State = {
+  currentUIState: UIStates.Fresh,
+  auction: {
+    auctioneer: '',
+    start_price: '1',
+    start_time: TODAY,
+    end_time: getWeeksLater(TODAY, 1),
+    paying_coin_denom: initialPayingDenom,
+    selling_coin: initialSellingCoin,
+    vesting_schedules: [
+      { release_time: getWeeksLater(TODAY, 2), weight: '100' }
+    ]
+  }
+}
+const state = reactive(initialState)
+
+// lifecycles
+onMounted(() => {
+  if (!spn.signer.value.addr) {
+    router.push(`sign-in`)
+  }
+})
 
 // computed
-const voucherTotalSupply = computed<number>(() => {
-  const totalSupplyAsString = state.vouchersAvailable.find(
-    (i) => i.denom === state.auction.selling_coin?.denom
-  )?.amount
+const filterdTotalSupplyCoins = computed<Coin[]>(() => {
+  const filtered = totalSupply.value?.supply?.filter(
+    (i) => i.denom !== state.auction.selling_coin?.denom
+  ) as Coin[]
 
-  return new BigNumber(totalSupplyAsString ?? '0').toNumber()
+  return filtered ?? []
 })
 const amountForSale = computed<number>(() =>
   new BigNumber(state.auction.selling_coin?.amount ?? '0').toNumber()
@@ -185,12 +168,16 @@ const nextMinDateForSchedule = computed<Date>(() => {
 
   return new Date(Math.max(penultimateScheduleDate, auctionEndDate, today))
 })
-const isAnyVestingZero = computed<boolean>(() => {
-  return state.auction.vesting_schedules.some((schedule) => {
-    return new BigNumber(schedule.weight).isEqualTo(0)
+const allVestingWeightsGreaterThanZero = computed<boolean>(() => {
+  return state.auction.vesting_schedules.every((schedule) => {
+    return new BigNumber(schedule.weight).isGreaterThan(0)
   })
 })
 const isVestingTotalSale = computed<boolean>(() => {
+  if (state.auction.vesting_schedules.length === 0) {
+    return true
+  }
+
   const totalWeight: number = new BigNumber(
     state.auction.vesting_schedules
       .map((i) => new BigNumber(i.weight).toNumber())
@@ -217,12 +204,49 @@ const isReleaseTimeAfterEnd = computed<boolean>(() => {
     return scheduleAsMilli > endAsMilli
   })
 })
+const isSellingDenomSameAsPayingDenom = computed<boolean>(() => {
+  return (
+    state.auction.selling_coin?.denom.toUpperCase() ===
+    state.auction.paying_coin_denom.toUpperCase()
+  )
+})
+const balanceFromSellingCoin = computed<number>(() => {
+  const sellingDenom = state.auction.selling_coin?.denom
+
+  const balance = balances.value?.find((i) => i.denom === sellingDenom) as Coin
+
+  return balance ? new BigNumber(balance.amount).toNumber() : 0
+})
+const voucherTotalSupply = computed<number>(() => {
+  const totalSupplyAsString = balanceFromSellingCoin.value
+
+  return new BigNumber(totalSupplyAsString ?? '0').toNumber()
+})
+const isSellingAmountGreaterThanBalance = computed<boolean>(() => {
+  return new BigNumber(
+    state.auction.selling_coin?.amount as string
+  ).isGreaterThan(balanceFromSellingCoin.value)
+})
+const isSellingAmountGreaterThanZero = computed<boolean>(() =>
+  new BigNumber(state.auction.selling_coin?.amount as string).isGreaterThan(0)
+)
+const hasAnyBalance = computed<boolean>(
+  () =>
+    (isFetchedBalances.value && balances.value && balances.value.length > 0) ||
+    false
+)
 const ableToPublish = computed<boolean>(
   () =>
     isEndAfterStart.value &&
     isReleaseTimeAfterEnd.value &&
     isVestingTotalSale.value &&
-    isAnyVestingZero.value
+    allVestingWeightsGreaterThanZero.value &&
+    !isSellingDenomSameAsPayingDenom.value &&
+    !isSellingAmountGreaterThanBalance.value &&
+    isSellingAmountGreaterThanZero.value
+)
+const isLoadingCriticalData = computed<boolean>(
+  () => isFetchingBalances.value || isFetchingTotalSupply.value
 )
 
 // handlers
@@ -248,9 +272,14 @@ function handlePricePerVoucher(evt: Event) {
   inputEl.value = formatted
   state.auction.start_price = formatted
 }
+function handleSellingDenomChange(value: string) {
+  state.auction.selling_coin = balances.value?.find(
+    (i) => i.denom === value
+  ) as Coin
+}
 function handlePayingDenomChange(value: string) {
   state.auction.paying_coin_denom = (
-    state.payingDenomsAvailable.find((i) => i.denom === value) as Coin
+    totalSupply.value?.supply?.find((i) => i.denom === value) as Coin
   ).denom
 }
 function handleStartDateInput(date: Date) {
@@ -298,7 +327,7 @@ function handleDeleteDistributionClick(index: number) {
   )
 }
 function handleModalAck() {
-  location.reload()
+  router.push('/')
 }
 
 // methods
@@ -314,7 +343,7 @@ function normalizeAuction(
   const isSellingCoinInMicroFormat = normalized.selling_coin?.denom[0] === 'u'
 
   if (!isSellingCoinInMicroFormat) {
-    normalized.selling_coin = toMicro(normalized.selling_coin as Coin)
+    normalized.selling_coin = normalized.selling_coin as Coin
   }
 
   normalized.auctioneer = spn.signer.value.addr
@@ -360,7 +389,9 @@ function cancel() {
 </script>
 
 <template>
-  <div class="container">
+  <!-- Spinner -->
+  <IgniteSpinner v-if="isLoadingCriticalData" />
+  <div class="container" v-else>
     <!-- Modal -->
     <FundraiserCreateModal
       :visible="showModal"
@@ -388,6 +419,7 @@ function cancel() {
       </IgniteHeading>
       <div class="flex grow flex-row">
         <FundraiserInputSection>
+          <!-- Selling coin -->
           <FundraiserInputRow>
             <div>
               <IgniteText
@@ -396,11 +428,43 @@ function cancel() {
                 Total quantity for sale
               </IgniteText>
             </div>
-            <div class="mt-3 flex items-center">
-              <div class="flex max-w-[14.5rem]">
+
+            <div class="mt-3 flex items-center" v-if="hasAnyBalance">
+              <div
+                class="flex max-w-[14.5rem]"
+                v-if="balances && balances.length > 0"
+              >
+                <IgniteSelect
+                  :selected="
+                    coinToSelectOption({
+                      amount: '',
+                      denom: state.auction.selling_coin?.denom as string
+                    })
+                  "
+                  :items="(balances as Coin[]).map(i => coinToSelectOption(i as Coin))"
+                  variants="rounded-r-none"
+                  :is-mobile-native="false"
+                  @input="handleSellingDenomChange"
+                >
+                  <template
+                    v-for="i in (balances as Coin[])"
+                    :key="i.denom"
+                    v-slot:[i.denom]
+                  >
+                    <IgniteDenom
+                      v-if="i.denom"
+                      modifier="avatar"
+                      :denom="i.denom"
+                      :title="i.denom"
+                      size="small"
+                      class="mr-3"
+                    />
+                    {{ i.denom?.toUpperCase() }}
+                  </template>
+                </IgniteSelect>
                 <IgniteInput
-                  :value="state.auction.selling_coin?.amount"
-                  variants="text-center border border-border"
+                  :value="(state.auction.selling_coin?.amount as string)"
+                  variants="text-center border border-border border-l-0 rounded-l-none"
                   @input="handleAmountInput"
                 />
               </div>
@@ -410,7 +474,9 @@ function cancel() {
                 >of <IgniteNumber :number="voucherTotalSupply" /> total supply
               </div>
             </div>
+            <div v-else>Your balance is empty.</div>
           </FundraiserInputRow>
+          <!-- Paying coin -->
           <FundraiserInputRow>
             <div>
               <IgniteText
@@ -429,13 +495,15 @@ function cancel() {
                         denom: state.auction.paying_coin_denom
                       })
                     "
-                    :items="state.payingDenomsAvailable.map(coinToSelectOption)"
+                    :items="
+                      filterdTotalSupplyCoins.map(i => coinToSelectOption(i as Coin))
+                    "
                     variants="rounded-r-none"
                     :is-mobile-native="false"
                     @input="handlePayingDenomChange"
                   >
                     <template
-                      v-for="i in state.payingDenomsAvailable"
+                      v-for="i in filterdTotalSupplyCoins"
                       :key="i.denom"
                       #[i.denom]
                     >
@@ -447,7 +515,7 @@ function cancel() {
                         size="small"
                         class="mr-3"
                       />
-                      {{ i.denom.toUpperCase() }}
+                      {{ i.denom?.toUpperCase() }}
                     </template>
                   </IgniteSelect>
                   <IgniteInput
@@ -460,7 +528,7 @@ function cancel() {
               <div class="ml-6 flex-row">
                 <IgniteText class="font-bold">
                   <IgniteNumber :number="totalSaleValue" />
-                  {{ state.auction.selling_coin?.denom.toUpperCase() }}
+                  {{ state.auction.paying_coin_denom.toUpperCase() }}
                 </IgniteText>
               </div>
             </div>
@@ -518,7 +586,6 @@ function cancel() {
                 <div>
                   <IgniteInputDate
                     :min-date="state.auction.start_time"
-                    :max-date="getWeeksLater(state.auction.start_time as Date, 1)"
                     :initial-date="(state.auction.end_time as Date)"
                     @input="handleEndDateInput"
                   />
@@ -643,10 +710,40 @@ function cancel() {
             Total distributed amount should be 100%
           </IgniteText>
           <IgniteText
-            v-if="isAnyVestingZero"
+            v-if="!allVestingWeightsGreaterThanZero"
             class="flex rounded-xs bg-error bg-opacity-70 p-4 text-gray-50"
           >
             Vesting amount can not be zero
+          </IgniteText>
+          <IgniteText
+            v-if="!isReleaseTimeAfterEnd"
+            class="flex rounded-xs bg-error bg-opacity-70 p-4 text-gray-50"
+          >
+            Vesting distribution can not be earlier than Fundraising end date.
+          </IgniteText>
+          <IgniteText
+            v-if="!isEndAfterStart"
+            class="flex rounded-xs bg-error bg-opacity-70 p-4 text-gray-50"
+          >
+            Fundraising end date must be later than start date.
+          </IgniteText>
+          <IgniteText
+            v-if="isSellingDenomSameAsPayingDenom"
+            class="flex rounded-xs bg-error bg-opacity-70 p-4 text-gray-50"
+          >
+            Voucher denom and paying denom must be different
+          </IgniteText>
+          <IgniteText
+            v-if="isSellingAmountGreaterThanBalance"
+            class="flex rounded-xs bg-error bg-opacity-70 p-4 text-gray-50"
+          >
+            Total quantity for sale can not be greater than total supply
+          </IgniteText>
+          <IgniteText
+            v-if="!isSellingAmountGreaterThanZero"
+            class="flex rounded-xs bg-error bg-opacity-70 p-4 text-gray-50"
+          >
+            Total quantity for sale can not be 0
           </IgniteText>
         </div>
       </FundraiserInputRow>
