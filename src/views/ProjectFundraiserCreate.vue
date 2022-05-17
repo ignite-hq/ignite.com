@@ -45,10 +45,9 @@ import IgniteDenom from '~/components/common/IgniteDenom.vue'
 import useBalances from '~/composables/wallet/useBalances'
 import useTotalSupply from '~/composables/fundraising/useTotalSupply'
 import IgniteSpinner from '~/components/ui/IgniteSpinner.vue'
+import IgniteFeedback from '../components/ui/IgniteFeedback.vue'
 
 const TODAY = new Date()
-
-const FEE_RATE = new BigNumber(0.003)
 
 function getWeeksLater(date: Date, amountOfWeeks = 1): Date {
   return dayjs(date).add(amountOfWeeks, 'week').toDate()
@@ -145,12 +144,6 @@ const totalSaleValue = computed<number>(
     new BigNumber(state.auction.selling_coin?.amount ?? '0').toNumber() *
     new BigNumber(state.auction.start_price ?? '0').toNumber()
 )
-const totalFee = computed<number>(() =>
-  FEE_RATE.multipliedBy(totalSaleValue.value).toNumber()
-)
-const totalRaisePotential = computed<number>(
-  () => totalSaleValue.value - totalFee.value
-)
 const showModal = computed<boolean>(() =>
   [UIStates.Creating, UIStates.Created, UIStates.Error].includes(
     state.currentUIState
@@ -228,6 +221,9 @@ const isSellingAmountGreaterThanBalance = computed<boolean>(() => {
 const isSellingAmountGreaterThanZero = computed<boolean>(() =>
   new BigNumber(state.auction.selling_coin?.amount as string).isGreaterThan(0)
 )
+const isVoucherPriceGreaterThanZero = computed<boolean>(() =>
+  new BigNumber(state.auction.start_price).isGreaterThan(0)
+)
 const hasAnyBalance = computed<boolean>(
   () =>
     (isFetchedBalances.value && balances.value && balances.value.length > 0) ||
@@ -241,7 +237,8 @@ const ableToPublish = computed<boolean>(
     allVestingWeightsGreaterThanZero.value &&
     !isSellingDenomSameAsPayingDenom.value &&
     !isSellingAmountGreaterThanBalance.value &&
-    isSellingAmountGreaterThanZero.value
+    isSellingAmountGreaterThanZero.value &&
+    isVoucherPriceGreaterThanZero.value
 )
 const isLoadingCriticalData = computed<boolean>(
   () => isFetchingBalances.value || isFetchingTotalSupply.value
@@ -428,10 +425,7 @@ function cancel() {
             </div>
 
             <div class="mt-3 flex items-center" v-if="hasAnyBalance">
-              <div
-                class="flex max-w-[14.5rem]"
-                v-if="balances && balances.length > 0"
-              >
+              <div class="flex max-w-[14.5rem]">
                 <IgniteSelect
                   :selected="
                     coinToSelectOption({
@@ -466,13 +460,28 @@ function cancel() {
                   @input="handleAmountInput"
                 />
               </div>
-              <div class="ml-6 flex-row">
+              <div class="ml-6">
                 <IgniteText as="span" class="font-bold">
                   {{ amountForSaleOverTotal }} % </IgniteText
                 >of <IgniteNumber :number="voucherTotalSupply" /> total supply
               </div>
             </div>
             <div v-else>Your balance is empty.</div>
+            <!-- Feedbacks -->
+            <div class="mt-4 flex-row">
+              <IgniteFeedback
+                v-if="!isSellingAmountGreaterThanZero"
+                text="Total quantity for sale can not be 0"
+              />
+              <IgniteFeedback
+                v-if="isSellingDenomSameAsPayingDenom"
+                text="Voucher denom and paying denom must be different"
+              />
+              <IgniteFeedback
+                v-if="isSellingAmountGreaterThanBalance"
+                text="Total quantity for sale can not be greater than total supply"
+              />
+            </div>
           </FundraiserInputRow>
           <!-- Paying coin -->
           <FundraiserInputRow>
@@ -484,51 +493,57 @@ function cancel() {
               </IgniteText>
             </div>
             <div class="mt-3 flex items-center">
-              <div class="">
-                <div class="flex max-w-[14.5rem]">
-                  <IgniteSelect
-                    :selected="
-                      coinToSelectOption({
-                        amount: '',
-                        denom: state.auction.paying_coin_denom
-                      })
-                    "
-                    :items="
+              <div class="flex max-w-[14.5rem]">
+                <IgniteSelect
+                  :selected="
+                    coinToSelectOption({
+                      amount: '',
+                      denom: state.auction.paying_coin_denom
+                    })
+                  "
+                  :items="
                       filterdTotalSupplyCoins.map(i => coinToSelectOption(i as Coin))
                     "
-                    variants="rounded-r-none"
-                    :is-mobile-native="false"
-                    @input="handlePayingDenomChange"
+                  variants="rounded-r-none"
+                  :is-mobile-native="false"
+                  @input="handlePayingDenomChange"
+                >
+                  <template
+                    v-for="i in filterdTotalSupplyCoins"
+                    :key="i.denom"
+                    #[i.denom]
                   >
-                    <template
-                      v-for="i in filterdTotalSupplyCoins"
-                      :key="i.denom"
-                      #[i.denom]
-                    >
-                      <IgniteDenom
-                        v-if="i.denom"
-                        modifier="avatar"
-                        :denom="i.denom"
-                        :title="i.denom"
-                        size="small"
-                        class="mr-3"
-                      />
-                      {{ i.denom?.toUpperCase() }}
-                    </template>
-                  </IgniteSelect>
-                  <IgniteInput
-                    :value="state.auction.start_price"
-                    variants="text-center border border-border border-l-0 rounded-l-none"
-                    @input="handlePricePerVoucher"
-                  />
-                </div>
+                    <IgniteDenom
+                      v-if="i.denom"
+                      modifier="avatar"
+                      :denom="i.denom"
+                      :title="i.denom"
+                      size="small"
+                      class="mr-3"
+                    />
+                    {{ i.denom?.toUpperCase() }}
+                  </template>
+                </IgniteSelect>
+                <IgniteInput
+                  :value="state.auction.start_price"
+                  variants="text-center border border-border border-l-0 rounded-l-none"
+                  @input="handlePricePerVoucher"
+                />
               </div>
+
               <div class="ml-6 flex-row">
                 <IgniteText class="font-bold">
                   <IgniteNumber :number="totalSaleValue" />
                   {{ state.auction.paying_coin_denom.toUpperCase() }}
                 </IgniteText>
               </div>
+            </div>
+            <!-- Feedbacks -->
+            <div class="mt-4 flex-row">
+              <IgniteFeedback
+                v-if="!isVoucherPriceGreaterThanZero"
+                text="Price per voucher can not be 0"
+              />
             </div>
           </FundraiserInputRow>
         </FundraiserInputSection>
@@ -588,6 +603,13 @@ function cancel() {
                     @input="handleEndDateInput"
                   />
                 </div>
+                <!-- Feedbacks -->
+                <IgniteText
+                  v-if="!isEndAfterStart"
+                  class="flex rounded-xs bg-error bg-opacity-70 p-4 text-gray-50"
+                >
+                  Fundraising end date must be later than start date.
+                </IgniteText>
               </div>
             </div>
           </FundraiserInputRow>
@@ -674,6 +696,19 @@ function cancel() {
             </div>
           </FundraiserInputRow>
           <FundraiserInputRow>
+            <!-- Feedbacks -->
+            <IgniteFeedback
+              v-if="!isVestingTotalSale"
+              text="Total distributed amount should be 100%"
+            />
+            <IgniteFeedback
+              v-if="!allVestingWeightsGreaterThanZero"
+              text="Vesting amount can not be zero"
+            />
+            <IgniteFeedback
+              v-if="!isReleaseTimeAfterEnd"
+              text=" Vesting distribution can not be earlier than Fundraising end date."
+            />
             <!-- Add Distribution -->
             <div class="mt-8 flex-row">
               <IgniteButton
@@ -702,60 +737,8 @@ function cancel() {
         </FundraiserInfoCard>
       </div>
     </FundraiserSection>
-    <!-- Feedbacks -->
-    <FundraiserSection>
-      <FundraiserInputRow>
-        <div class="flex">
-          <IgniteText
-            v-if="!isVestingTotalSale"
-            class="flex rounded-xs bg-error bg-opacity-70 p-4 text-gray-50"
-          >
-            Total distributed amount should be 100%
-          </IgniteText>
-          <IgniteText
-            v-if="!allVestingWeightsGreaterThanZero"
-            class="flex rounded-xs bg-error bg-opacity-70 p-4 text-gray-50"
-          >
-            Vesting amount can not be zero
-          </IgniteText>
-          <IgniteText
-            v-if="!isReleaseTimeAfterEnd"
-            class="flex rounded-xs bg-error bg-opacity-70 p-4 text-gray-50"
-          >
-            Vesting distribution can not be earlier than Fundraising end date.
-          </IgniteText>
-          <IgniteText
-            v-if="!isEndAfterStart"
-            class="flex rounded-xs bg-error bg-opacity-70 p-4 text-gray-50"
-          >
-            Fundraising end date must be later than start date.
-          </IgniteText>
-          <IgniteText
-            v-if="isSellingDenomSameAsPayingDenom"
-            class="flex rounded-xs bg-error bg-opacity-70 p-4 text-gray-50"
-          >
-            Voucher denom and paying denom must be different
-          </IgniteText>
-          <IgniteText
-            v-if="isSellingAmountGreaterThanBalance"
-            class="flex rounded-xs bg-error bg-opacity-70 p-4 text-gray-50"
-          >
-            Total quantity for sale can not be greater than total supply
-          </IgniteText>
-          <IgniteText
-            v-if="!isSellingAmountGreaterThanZero"
-            class="flex rounded-xs bg-error bg-opacity-70 p-4 text-gray-50"
-          >
-            Total quantity for sale can not be 0
-          </IgniteText>
-        </div>
-      </FundraiserInputRow>
-    </FundraiserSection>
     <!-- Fundraiser Summary -->
     <FundraiserSummary
-      :total-raise-potential="totalRaisePotential"
-      :total-fee="totalFee"
-      :fee-denom="state.auction.selling_coin?.denom.toUpperCase()"
       :total-sale-value="totalSaleValue"
       :total-sale-amount="amountForSale"
       :amount-sale-over-total="amountForSaleOverTotal"
