@@ -218,6 +218,9 @@ const isSellingAmountGreaterThanBalance = computed<boolean>(() => {
     state.auction.selling_coin?.amount as string
   ).isGreaterThan(balanceFromSellingCoin.value)
 })
+const isSellingAmountGreaterThan33Pct = computed<boolean>(() =>
+  new BigNumber(amountForSaleOverTotal.value).isGreaterThan(33)
+)
 const isSellingAmountGreaterThanZero = computed<boolean>(() =>
   new BigNumber(state.auction.selling_coin?.amount as string).isGreaterThan(0)
 )
@@ -471,6 +474,10 @@ function cancel() {
             <!-- Feedbacks -->
             <div class="mt-4 flex-row">
               <IgniteFeedback
+                v-if="isSellingAmountGreaterThan33Pct"
+                text="It is not advised to offer more than 33% of total supply."
+              />
+              <IgniteFeedback
                 v-if="!isSellingAmountGreaterThanZero"
                 text="Total quantity for sale can not be 0"
               />
@@ -480,7 +487,7 @@ function cancel() {
               />
               <IgniteFeedback
                 v-if="isSellingAmountGreaterThanBalance"
-                text="Total quantity for sale can not be greater than total supply"
+                text="The amount entered is greater than the total supply"
               />
             </div>
           </FundraiserInputRow>

@@ -10,16 +10,18 @@ import { formatNumber } from '~/utils/number'
 interface Props {
   as?: string
   number: number | string
+  notation: 'standard' | 'scientific' | 'engineering' | 'compact'
 }
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   as: 'span',
-  number: 0
+  number: 0,
+  notation: 'standard'
 })
 </script>
 
 <template>
   <component :is="as">
-    {{ formatNumber(props.number) }}
+    {{ formatNumber(number, notation) }}
   </component>
 </template>
