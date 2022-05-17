@@ -79,8 +79,8 @@ function formatRange(start: Date, end: Date): string {
           Fundraiser Summary
         </IgniteHeading>
       </div>
-      <div class="flex grow flex-col">
-        <div class="flex flex-row items-center justify-between">
+      <div class="flex grow flex-col justify-center">
+        <!-- <div class="flex flex-row items-center justify-between">
           <div class="flex-col">
             <IgniteText class="text-3 font-medium text-gray-660">
               Raising
@@ -105,8 +105,8 @@ function formatRange(start: Date, end: Date): string {
               {{ props.feeDenom }}
             </IgniteText>
           </div>
-        </div>
-        <div class="mt-6 flex flex-row items-center justify-between">
+        </div> -->
+        <div class="flex flex-row items-center justify-between">
           <div class="flex-col">
             <IgniteText class="text-3 font-medium text-gray-660">
               Total raise potential

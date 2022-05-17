@@ -110,9 +110,7 @@ const initialState: State = {
     end_time: getWeeksLater(TODAY, 1),
     paying_coin_denom: initialPayingDenom,
     selling_coin: initialSellingCoin,
-    vesting_schedules: [
-      { release_time: getWeeksLater(TODAY, 2), weight: '100' }
-    ]
+    vesting_schedules: []
   }
 }
 const state = reactive(initialState)
@@ -608,9 +606,14 @@ function cancel() {
     </FundraiserSection>
     <!-- Vesting schedule -->
     <FundraiserSection>
-      <IgniteHeading class="text-left font-title text-4 font-semibold">
-        Vesting schedule
-      </IgniteHeading>
+      <div class="flex items-center">
+        <IgniteHeading class="text-left font-title text-4 font-semibold">
+          Vesting schedule
+        </IgniteHeading>
+        <IgniteText class="ml-5 text-2 font-medium text-gray-660">
+          Optional
+        </IgniteText>
+      </div>
       <div class="flex grow flex-row">
         <FundraiserInputSection>
           <FundraiserInputRow
@@ -756,7 +759,7 @@ function cancel() {
       :total-sale-value="totalSaleValue"
       :total-sale-amount="amountForSale"
       :amount-sale-over-total="amountForSaleOverTotal"
-      :sale-denom="state.auction.selling_coin?.denom.toUpperCase()"
+      :sale-denom="state.auction.paying_coin_denom.toUpperCase()"
       :start-date="(state.auction.start_time as Date)"
       :end-date="(state.auction.end_time as Date)"
       :able-to-publish="ableToPublish"
