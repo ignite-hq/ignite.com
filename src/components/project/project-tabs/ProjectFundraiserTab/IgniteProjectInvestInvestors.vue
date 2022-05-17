@@ -96,12 +96,6 @@ const investorCount = computed(() => {
             >
               Investment
             </IgniteText>
-            <IgniteText
-              as="div"
-              class="hidden w-full shrink-0 px-5 md:block md:w-[25%] xl:w-[18.75rem]"
-            >
-              Purchase Date
-            </IgniteText>
           </div>
         </div>
 
@@ -159,26 +153,6 @@ const investorCount = computed(() => {
                   <IgniteText as="span" class="ml-1">{{ currency }}</IgniteText>
                 </span>
               </div>
-              <div
-                class="mt-4 w-full px-5 md:mt-0 md:w-[25%] md:shrink-0 xl:w-[18.75rem]"
-              >
-                <IgniteText
-                  as="strong"
-                  class="mr-1 inline-block text-muted md:hidden"
-                  >Purchase Date:</IgniteText
-                >
-                <span>
-                  <IgniteText
-                    as="span"
-                    class="font-semibold md:block lg:inline"
-                    >{{ new Date() }}</IgniteText
-                  >
-                  <IgniteText as="span" class="text-muted"> at </IgniteText>
-                  <IgniteText as="span" class="font-semibold">{{
-                    new Date()
-                  }}</IgniteText>
-                </span>
-              </div>
             </div>
           </div>
         </div>
@@ -194,7 +168,7 @@ const investorCount = computed(() => {
           size="md"
           @click="() => fetchNextPage()"
         >
-          View 40 more
+          View more
         </IgniteButton>
       </div>
     </div>
