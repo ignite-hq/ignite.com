@@ -229,8 +229,12 @@ const hasAnyBalance = computed<boolean>(
     (isFetchedBalances.value && balances.value && balances.value.length > 0) ||
     false
 )
+const isLoadingCriticalData = computed<boolean>(
+  () => isFetchingBalances.value || isFetchingTotalSupply.value
+)
 const ableToPublish = computed<boolean>(
   () =>
+    !isLoadingCriticalData.value &&
     isEndAfterStart.value &&
     isReleaseTimeAfterEnd.value &&
     isVestingTotalSale.value &&
@@ -239,9 +243,6 @@ const ableToPublish = computed<boolean>(
     !isSellingAmountGreaterThanBalance.value &&
     isSellingAmountGreaterThanZero.value &&
     isVoucherPriceGreaterThanZero.value
-)
-const isLoadingCriticalData = computed<boolean>(
-  () => isFetchingBalances.value || isFetchingTotalSupply.value
 )
 
 // handlers
