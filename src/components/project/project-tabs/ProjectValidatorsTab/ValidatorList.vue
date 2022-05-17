@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { Validator } from 'tendermint-spn-ts-client/cosmos.staking.v1beta1'
 import { useTendermintSpnLaunch } from 'tendermint-spn-vue-client'
-import { ref, watch } from 'vue'
+import { ref, onMounted } from 'vue'
 
 import useCampaignChains from '~/composables/campaign/useCampaignChains'
 
@@ -19,10 +19,15 @@ const allGenesisValidators = ref<Validator[]>([])
 const { queryGenesisValidatorAll } = useTendermintSpnLaunch()
 const { campaignChains } = useCampaignChains(props.projectId)
 
-// watchers
-watch(campaignChains, (newVal) => {
-  if (newVal?.pages && newVal?.pages[0].campaignChains?.chains) {
-    getValidatorsFromAllChains(newVal.pages[0].campaignChains.chains)
+// lifecycle
+onMounted(() => {
+  if (
+    campaignChains.value?.pages &&
+    campaignChains.value?.pages[0].campaignChains?.chains
+  ) {
+    getValidatorsFromAllChains(
+      campaignChains.value.pages[0].campaignChains.chains
+    )
   }
 })
 
@@ -48,7 +53,6 @@ const getValidatorsFromAllChains = async (chains: string[]) => {
       ])
     ).values()
   ]
-  isLoading.value = false
 }
 </script>
 
