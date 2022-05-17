@@ -5,13 +5,78 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import dayjs from 'dayjs'
+import { computed } from 'vue'
+
 import IgniteDenom from '~/components/common/IgniteDenom.vue'
 import IgniteGithubRepoLink from '~/components/common/IgniteGithubRepoLink.vue'
 import IconStack from '~/components/icons/IconStack.vue'
 import ProjectStatus from '~/components/project/ProjectHeader/ProjectStatus.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteLoader from '~/components/ui/IgniteLoader.vue'
+import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
+import useCampaignChains from '~/composables/campaign/useCampaignChains'
+import { CampaignCampaignSummary } from '~/generated/tendermint-spn-ts-client/tendermint.spn.campaign/rest'
+import { getCampaignStatus, ProjectStatusEnvironment } from '~/utils/campaign'
+import { getIncentivesSummary, getVouchersSummary } from '~/utils/reward'
+
+interface Props {
+  campaignSummary?: CampaignCampaignSummary
+  loading?: boolean
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  loading: false,
+  campaignSummary: undefined
+})
+
+const projectId = computed(() => {
+  return props.campaignSummary?.campaign?.campaignID
+})
+
+const { campaignChains, isLoading: isLoadingCampaignChains } =
+  useCampaignChains(projectId)
+
+const isLoading = computed(() => {
+  return props.loading || isLoadingCampaignChains.value
+})
+
+const status = computed(() => {
+  const chains = campaignChains.value?.pages[0].campaignChains?.chains ?? []
+  const isMainnetInitialized =
+    props.campaignSummary.campaign?.mainnetInitialized
+
+  return getCampaignStatus(isMainnetInitialized ?? false, chains)
+})
+
+const isMainnet = computed(() => {
+  return status.value === ProjectStatusEnvironment.Mainnet
+})
+
+const isTestnet = computed(() => {
+  return status.value === ProjectStatusEnvironment.Testnet
+})
+
+const vouchersSummary = computed(() => {
+  const campaignId = props.campaignSummary?.campaign?.campaignID
+  const rewards = props.campaignSummary?.rewards
+  return getVouchersSummary(campaignId ?? '', rewards)
+})
+
+const incentivesSummary = computed(() => {
+  const campaignId = props.campaignSummary?.campaign?.campaignID
+  const rewards = props.campaignSummary?.rewards
+  return getIncentivesSummary(campaignId ?? '', rewards)
+})
+
+const showVouchers = computed(() => {
+  return Boolean(vouchersSummary.value.denoms.length)
+})
+
+const showIncentives = computed(() => {
+  return Boolean(incentivesSummary.value.denoms.length)
+})
 </script>
 
 <template>
@@ -33,12 +98,11 @@ import IgniteText from '~/components/ui/IgniteText.vue'
         />
         <ProjectStatus
           :loading="isLoading"
-          :project-id="6"
+          :project-id="projectId ?? ''"
           :campaign-id="'0'"
           :validator-count="'0'"
           :request-count="'0'"
           :stargazer-count="'0'"
-          :status="false"
         />
       </div>
 
@@ -52,49 +116,58 @@ import IgniteText from '~/components/ui/IgniteText.vue'
     <div
       class="-mx-6 mt-7 flex flex-wrap md:flex-nowrap xl:col-span-8 xl:mt-0 xl:items-end xl:justify-end"
     >
-      <div class="mb-6 px-6 md:mb-0">
+      <div v-if="isMainnet || isTestnet" class="mb-6 px-6 md:mb-0">
         <IgniteText as="div" class="text-2 text-muted">Type</IgniteText>
-        <IgniteText as="div" class="ignite-badge text-medium mt-2 text-4"
-          >testnet</IgniteText
-        >
+        <IgniteText as="div" class="ignite-badge text-medium mt-2 text-4">{{
+          isMainnet ? 'Mainnet' : 'Testnet'
+        }}</IgniteText>
       </div>
       <div class="mb-6 px-6 md:mb-0">
         <IgniteText as="div" class="text-2 text-muted">Launched</IgniteText>
-        <IgniteText as="div" class="text-medium mt-2 py-1 text-4"
-          >02.14.2022</IgniteText
-        >
+        <IgniteText as="div" class="text-medium mt-2 py-1 text-4">{{
+          dayjs
+            .unix(Number(campaignSummary?.campaign?.createdAt))
+            .format('DD.MM.YYYY')
+        }}</IgniteText>
       </div>
       <div class="mb-6 px-6 md:mb-0">
         <IgniteText as="div" class="text-2 text-muted">Status</IgniteText>
         <div class="mt-2 flex items-center">
           <div
-            class="mr-3 flex h-5 w-5 items-center justify-center rounded-circle border border-border after:h-[0.625rem] after:w-[0.625rem] after:rounded-circle after:bg-green"
+            class="mr-3 flex h-5 w-5 items-center justify-center rounded-circle border border-border after:h-[0.625rem] after:w-[0.625rem] after:rounded-circle after:bg-primary"
           ></div>
-          <IgniteText as="div" class="text-medium py-1 text-4"
-            >Active</IgniteText
-          >
+          <IgniteText as="div" class="text-medium py-1 text-4">{{
+            isMainnet ? 'Awaiting launch' : 'Accepting requests'
+          }}</IgniteText>
         </div>
       </div>
-      <div class="mb-6 px-6 md:mb-0">
+
+      <div v-if="showVouchers" class="mb-6 px-6 md:mb-0">
         <IgniteText as="div" class="text-2 text-muted"
           >Share allocation</IgniteText
         >
         <div class="mt-2 flex items-center">
           <IconStack class="mr-3" />
-          <IgniteText as="div" class="text-medium py-1 text-4">20%</IgniteText>
+          <IgniteText as="div" class="text-medium py-1 text-4"
+            >{{ vouchersSummary.avgSharePercentage }}%</IgniteText
+          >
         </div>
       </div>
-      <div class="px-6">
+
+      <div v-if="showIncentives" class="px-6">
         <IgniteText as="div" class="text-2 text-muted">Incentives</IgniteText>
         <div class="mt-2 flex items-center">
           <IgniteDenom
             modifier="avatar"
-            denom="denom"
-            title="denom"
+            :denom="incentivesSummary?.denoms[0]"
+            :title="incentivesSummary?.denoms[0]"
             size="small"
             class="mr-3"
           />
-          <IgniteText as="div" class="text-medium py-1 text-4">$40k</IgniteText>
+          <IgniteText as="div" class="text-medium py-1 text-4"
+            ><IgniteNumber :number="incentivesSummary.total" />
+            {{ incentivesSummary.denoms[0] }}</IgniteText
+          >
         </div>
       </div>
     </div>
