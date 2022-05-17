@@ -44,8 +44,8 @@ import IgniteInput from '~/components/ui/IgniteInput.vue'
 import IgniteDenom from '~/components/common/IgniteDenom.vue'
 import useBalances from '~/composables/wallet/useBalances'
 import useTotalSupply from '~/composables/fundraising/useTotalSupply'
-import IgniteSpinner from '~/components/ui/IgniteSpinner.vue'
 import IgniteFeedback from '../components/ui/IgniteFeedback.vue'
+import IgniteLoader from '~/components/ui/IgniteLoader.vue'
 
 const TODAY = new Date()
 
@@ -389,8 +389,7 @@ function cancel() {
 
 <template>
   <!-- Spinner -->
-  <IgniteSpinner v-if="isLoadingCriticalData" />
-  <div class="container" v-else>
+  <div class="container">
     <!-- Modal -->
     <FundraiserCreateModal
       :visible="showModal"
@@ -430,39 +429,52 @@ function cancel() {
 
             <div class="mt-3 flex items-center" v-if="hasAnyBalance">
               <div class="flex max-w-[14.5rem]">
-                <IgniteSelect
-                  :selected="
-                    coinToSelectOption({
-                      amount: '',
-                      denom: state.auction.selling_coin?.denom as string
-                    })
-                  "
-                  :items="(balances as Coin[]).map(i => coinToSelectOption(i as Coin))"
-                  variants="rounded-r-none"
-                  :is-mobile-native="false"
-                  @input="handleSellingDenomChange"
+                <!-- Skeleton loading balances -->
+                <div
+                  class="w-1/2 rounded-xs rounded-r-none border border-r-0 border-gray-70 p-2"
+                  v-if="isFetchingBalances"
                 >
-                  <template
-                    v-for="i in (balances as Coin[])"
-                    :key="i.denom"
-                    v-slot:[i.denom]
+                  <IgniteLoader class="h-full w-full rounded-xs" />
+                </div>
+                <!-- Input -->
+                <div class="flex w-1/2" v-else>
+                  <IgniteSelect
+                    :selected="
+                       coinToSelectOption({
+                         amount: '',
+                         denom: state.auction.selling_coin?.denom as string
+                       })
+                     "
+                    :items="(balances as Coin[]).map(i => coinToSelectOption(i as Coin))"
+                    variants="rounded-r-none"
+                    class="w-full"
+                    :is-mobile-native="false"
+                    @input="handleSellingDenomChange"
                   >
-                    <IgniteDenom
-                      v-if="i.denom"
-                      modifier="avatar"
-                      :denom="i.denom"
-                      :title="i.denom"
-                      size="small"
-                      class="mr-3"
-                    />
-                    {{ i.denom?.toUpperCase() }}
-                  </template>
-                </IgniteSelect>
-                <IgniteInput
-                  :value="(state.auction.selling_coin?.amount as string)"
-                  variants="text-center border border-border border-l-0 rounded-l-none"
-                  @input="handleAmountInput"
-                />
+                    <template
+                      v-for="i in (balances as Coin[])"
+                      :key="i.denom"
+                      v-slot:[i.denom]
+                    >
+                      <IgniteDenom
+                        v-if="i.denom"
+                        modifier="avatar"
+                        :denom="i.denom"
+                        :title="i.denom"
+                        size="small"
+                        class="mr-3"
+                      />
+                      {{ i.denom?.toUpperCase() }}
+                    </template>
+                  </IgniteSelect>
+                </div>
+                <div class="flex w-1/2">
+                  <IgniteInput
+                    :value="(state.auction.selling_coin?.amount as string)"
+                    variants="text-center border border-border border-l-0 rounded-l-none"
+                    @input="handleAmountInput"
+                  />
+                </div>
               </div>
               <div class="ml-6">
                 <IgniteText as="span" class="font-bold">
@@ -502,43 +514,56 @@ function cancel() {
             </div>
             <div class="mt-3 flex items-center">
               <div class="flex max-w-[14.5rem]">
-                <IgniteSelect
-                  :selected="
-                    coinToSelectOption({
-                      amount: '',
-                      denom: state.auction.paying_coin_denom
-                    })
-                  "
-                  :items="
+                <!-- Skeleton loading balances -->
+
+                <div
+                  class="w-1/2 rounded-xs rounded-r-none border border-r-0 border-gray-70 p-2"
+                  v-if="isFetchingTotalSupply"
+                >
+                  <IgniteLoader class="h-full w-full rounded-xs" />
+                </div>
+                <!-- Input -->
+                <div class="flex w-1/2" v-else>
+                  <IgniteSelect
+                    :selected="
+                      coinToSelectOption({
+                        amount: '',
+                        denom: state.auction.paying_coin_denom
+                      })
+                    "
+                    :items="
                       filterdTotalSupplyCoins.map(i => coinToSelectOption(i as Coin))
                     "
-                  variants="rounded-r-none"
-                  :is-mobile-native="false"
-                  @input="handlePayingDenomChange"
-                >
-                  <template
-                    v-for="i in filterdTotalSupplyCoins"
-                    :key="i.denom"
-                    #[i.denom]
+                    variants="rounded-r-none"
+                    class="w-full"
+                    :is-mobile-native="false"
+                    @input="handlePayingDenomChange"
                   >
-                    <IgniteDenom
-                      v-if="i.denom"
-                      modifier="avatar"
-                      :denom="i.denom"
-                      :title="i.denom"
-                      size="small"
-                      class="mr-3"
-                    />
-                    {{ i.denom?.toUpperCase() }}
-                  </template>
-                </IgniteSelect>
-                <IgniteInput
-                  :value="state.auction.start_price"
-                  variants="text-center border border-border border-l-0 rounded-l-none"
-                  @input="handlePricePerVoucher"
-                />
+                    <template
+                      v-for="i in filterdTotalSupplyCoins"
+                      :key="i.denom"
+                      #[i.denom]
+                    >
+                      <IgniteDenom
+                        v-if="i.denom"
+                        modifier="avatar"
+                        :denom="i.denom"
+                        :title="i.denom"
+                        size="small"
+                        class="mr-3"
+                      />
+                      {{ i.denom?.toUpperCase() }}
+                    </template>
+                  </IgniteSelect>
+                </div>
+                <div class="flex w-1/2">
+                  <IgniteInput
+                    :value="state.auction.start_price"
+                    variants="text-center border border-border border-l-0 rounded-l-none"
+                    @input="handlePricePerVoucher"
+                  />
+                </div>
               </div>
-
               <div class="ml-6 flex-row">
                 <IgniteText class="font-bold">
                   <IgniteNumber :number="totalSaleValue" />
