@@ -5,6 +5,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import dayjs from 'dayjs'
 import { computed } from 'vue'
 
 import IgniteDenom from '~/components/common/IgniteDenom.vue'
@@ -123,9 +124,9 @@ const showIncentives = computed(() => {
       </div>
       <div class="mb-6 px-6 md:mb-0">
         <IgniteText as="div" class="text-2 text-muted">Launched</IgniteText>
-        <IgniteText as="div" class="text-medium mt-2 py-1 text-4"
-          >02.14.2022</IgniteText
-        >
+        <IgniteText as="div" class="text-medium mt-2 py-1 text-4">{{
+          dayjs(campaignSummary?.campaign?.createdAt).format('DD.MM.YYYY')
+        }}</IgniteText>
       </div>
       <div class="mb-6 px-6 md:mb-0">
         <IgniteText as="div" class="text-2 text-muted">Status</IgniteText>
