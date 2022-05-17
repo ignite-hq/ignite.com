@@ -125,7 +125,9 @@ const showIncentives = computed(() => {
       <div class="mb-6 px-6 md:mb-0">
         <IgniteText as="div" class="text-2 text-muted">Launched</IgniteText>
         <IgniteText as="div" class="text-medium mt-2 py-1 text-4">{{
-          dayjs(campaignSummary?.campaign?.createdAt).format('DD.MM.YYYY')
+          dayjs
+            .unix(Number(campaignSummary?.campaign?.createdAt))
+            .format('DD.MM.YYYY')
         }}</IgniteText>
       </div>
       <div class="mb-6 px-6 md:mb-0">
