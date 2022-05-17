@@ -519,7 +519,12 @@ const progressBar = {
           />
           UST
         </IgniteText>
-        <IgniteInput placeholder="0" style="bg-bg" size="lg" class="w-full" />
+        <IgniteInput
+          placeholder="0"
+          variants="bg-bg"
+          size="lg"
+          class="w-full"
+        />
         <IgniteText
           as="div"
           class="flex flex-col justify-center px-5 pb-5 text-3 font-medium text-primary md:py-0 md:pl-2 md:pr-5"
