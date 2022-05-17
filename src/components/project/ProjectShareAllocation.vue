@@ -11,6 +11,7 @@ import { computed } from 'vue'
 import IgniteLegend from '~/components/common/IgniteLegend.vue'
 import IgniteProgressBar from '~/components/common/IgniteProgressBar.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
+import { roundToTwoDecimals } from '~/utils/number'
 import { getVouchersFromRewards } from '~/utils/reward'
 import { LegendItem, ProgressBarItem } from '~/utils/types'
 
@@ -66,16 +67,16 @@ const totalSupply = computed(() => {
       denom,
       items: [
         {
-          value: pastValue.toString(),
+          value: roundToTwoDecimals(pastValue).toString(),
           bgColor: 'bg-secondary',
           split: true
         },
         {
-          value: currentValue.toString(),
+          value: roundToTwoDecimals(currentValue).toString(),
           bgColor: 'bg-primary'
         },
         {
-          value: futureValue.toString()
+          value: roundToTwoDecimals(futureValue).toString()
         }
       ] as ProgressBarItem[]
     }

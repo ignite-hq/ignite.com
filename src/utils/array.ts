@@ -5,8 +5,10 @@ export function oxfordComma<T>(array: T[]) {
   return firsts.join(', ') + ' and ' + last
 }
 
-export function removeUndefinedFromArray<T>(array: T[]): T[] {
-  return array.filter((val) => val !== undefined)
+export function removeUndefinedFromArray<T>(
+  array: T[]
+): Exclude<T, undefined>[] {
+  return array.filter((val) => val !== undefined) as Exclude<T, undefined>[]
 }
 
 export function mergePages<T>(data?: T[], key?: keyof T) {
