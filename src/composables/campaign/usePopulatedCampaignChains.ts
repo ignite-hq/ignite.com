@@ -28,12 +28,12 @@ export default function usePopulatedCampaignChains(
 
       const chainIds = data.campaignChains.chains
 
-      const auctionPromises =
+      const chainPromises =
         chainIds?.map((chainId) =>
           queryChain(chainId).then((r) => r.data.chain)
         ) ?? []
 
-      const chains = await Promise.all(auctionPromises)
+      const chains = await Promise.all(chainPromises)
 
       return {
         campaignID: data.campaignChains.campaignID,
