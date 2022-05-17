@@ -47,7 +47,6 @@ const supply = computed(() => {
 })
 
 const investorCount = computed(() => {
-  console.log(bids.value)
   return [...new Set(bids?.value?.bids?.map((bid) => bid.bidder))].length
 })
 </script>
