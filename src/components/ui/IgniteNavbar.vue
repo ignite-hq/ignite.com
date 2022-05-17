@@ -33,12 +33,21 @@ const links: Link[] = [
 function toggle() {
   opened.value = !opened.value
 }
+function hide() {
+  opened.value = false
+}
 </script>
 
 <template>
   <nav class="relative border-b border-border py-6">
     <div class="container flex items-center justify-between md:space-x-8">
-      <router-link :to="'/'" alt="Home" title="Home" class="relative z-[1]">
+      <router-link
+        :to="'/'"
+        @click="hide"
+        alt="Home"
+        title="Home"
+        class="relative z-[1]"
+      >
         <IconIgnite />
       </router-link>
 
@@ -53,6 +62,7 @@ function toggle() {
             <IgniteLink
               class="text-muted hover:text-primary"
               :to="link.path"
+              @click="hide"
               active-class="text-primary"
             >
               {{ link.name }}
