@@ -53,6 +53,7 @@ const getValidatorsFromAllChains = async (chains: string[]) => {
       ])
     ).values()
   ]
+  isLoading.value = false
 }
 </script>
 
