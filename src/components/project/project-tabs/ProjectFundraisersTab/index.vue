@@ -16,7 +16,7 @@ import { Coin } from '~/generated/tendermint-spn-ts-client/tendermint.fundraisin
 import { AuctionStatus } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/fundraising'
 import { CampaignCampaignSummary } from '~/generated/tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 import { useCosmosBankV1Beta1 } from '~/generated/tendermint-spn-vue-client'
-import { getDenomName, toCompactNumber } from '~/utils/fundraisers'
+import { getDenomName, toCompactNumber } from '~/utils/fundraising'
 import { AuctionCardData, AuctionStatusLabels } from '~/utils/types'
 
 import InvestCard from './InvestCard.vue'

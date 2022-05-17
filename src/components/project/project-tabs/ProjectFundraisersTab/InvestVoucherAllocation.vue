@@ -17,7 +17,7 @@ import IgniteSelect from '~/components/ui/IgniteSelect.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import { V1Beta1Coin } from '~/generated/tendermint-spn-ts-client/cosmos.tx.v1beta1/rest'
 import { AuctionStatus } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/fundraising'
-import { getDenomName, toCompactNumber } from '~/utils/fundraisers'
+import { getDenomName, toCompactNumber } from '~/utils/fundraising'
 import { ProgressBarItem } from '~/utils/types'
 
 interface Props {

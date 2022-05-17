@@ -9,12 +9,11 @@ import dayjs from 'dayjs'
 import { computed, toRef } from 'vue'
 import yaml from 'yamljs'
 
-import useChain from '~/composables/chain/useChain'
+import usePopulatedCampaignChains from '~/composables/campaign/usePopulatedCampaignChains'
 import useGitHubFile from '~/composables/github/useGitHubFile'
 import useGitHubRepository from '~/composables/github/useGitHubRepository'
 import { CampaignCampaignSummary } from '~/generated/tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 import { LaunchChain } from '~/generated/tendermint-spn-ts-client/tendermint.spn.launch/rest'
-import { removeUndefinedFromArray } from '~/utils/array'
 
 import ProjectCards from './ProjectCards/index.vue'
 import ProjectDescription from './ProjectDescription.vue'
@@ -63,11 +62,12 @@ const { file: readme, isLoading: isReadmeLoading } = useGitHubFile(
 const { file: projectConfig, isLoading: isProjectConfigLoading } =
   useGitHubFile(sourceUrl, 'assets/project.yml', defaultBranch)
 
-const mostRecentChainId = computed(() => {
-  return props.campaignSummary.mostRecentChain?.launchID
+const campaignId = computed(() => {
+  return props.campaignSummary?.campaign?.campaignID
 })
 
-const { chain, isLoading: isLoadingChain } = useChain(mostRecentChainId)
+const { campaignChains, isLoading: isLoadingCampaignChains } =
+  usePopulatedCampaignChains(campaignId)
 
 // methods
 
@@ -75,36 +75,44 @@ function getMilestoneDate(unix: number) {
   return dayjs.unix(unix).format('YYYY-MM-DD')
 }
 
-function getLaunchMilestones(chain?: LaunchChain) {
-  if (!chain) return []
-
-  const testnetMilestone: ProjectMilestone = {
-    title: 'Testnet launched',
+function getChainMilestone(
+  index: number,
+  length: number,
+  chain: LaunchChain
+): ProjectMilestone {
+  const milestone: ProjectMilestone = {
+    title: chain.isMainnet ? 'Mainnet launched' : `Testnet ${index + 1}`,
     date: getMilestoneDate(Number(chain.createdAt)),
-    status: chain.launchTriggered
-      ? RoadmapStatus.Completed
-      : RoadmapStatus.Active
+    status:
+      index === length - 1 ? RoadmapStatus.Active : RoadmapStatus.Completed
   }
 
-  const mainnetMilestone: ProjectMilestone | undefined = chain.launchTriggered
-    ? {
-        title: 'Mainnet launched',
-        date: getMilestoneDate(Number(chain.launchTimestamp)),
-        status: RoadmapStatus.Active
-      }
-    : undefined
-
-  const milestones = removeUndefinedFromArray([
-    testnetMilestone,
-    mainnetMilestone
-  ])
-
-  return milestones
+  return milestone
 }
 
 // computed
 const isLoadingDescription = computed(() => {
-  return isReadmeLoading.value || isRepositoryLoading.value
+  return (
+    isReadmeLoading.value ||
+    isRepositoryLoading.value ||
+    isProjectConfigLoading.value
+  )
+})
+
+const isLoadingRoadmap = computed(() => {
+  return (
+    isLoadingCampaignChains.value ||
+    isProjectConfigLoading.value ||
+    loadingProp.value
+  )
+})
+
+const isLoadingTokenomics = computed(() => {
+  return isProjectConfigLoading.value || loadingProp.value
+})
+
+const isLoadingTeam = computed(() => {
+  return isLoadingProjectConfig.value || loadingProp.value
 })
 
 const isLoadingProjectConfig = computed(() => {
@@ -119,7 +127,7 @@ const members = computed<ProjectMember[]>(() => {
   const projectConfigMembers =
     parsedProjectConfig?.value?.project?.team?.members
 
-  const projectName = props.campaignSummary.campaign?.campaignName
+  const projectName = props.campaignSummary?.campaign?.campaignName
   const campaignSummaryMembers: ProjectMember[] = [
     {
       name: `${projectName} Coordinator`,
@@ -134,9 +142,10 @@ const roadmapItems = computed<ProjectMilestone[]>(() => {
   const projectConfigRoadmap =
     parsedProjectConfig?.value?.project?.roadmap.milestones
 
-  const mostRecentChainMilestones: ProjectMilestone[] = getLaunchMilestones(
-    chain.value
-  )
+  const chainsMilestones: ProjectMilestone[] =
+    campaignChains.value?.chains?.map((chain, index, array) =>
+      getChainMilestone(index, array.length, chain)
+    ) ?? []
 
   const campaignSummaryMilestones: ProjectMilestone[] = [
     {
@@ -146,34 +155,34 @@ const roadmapItems = computed<ProjectMilestone[]>(() => {
       ),
       status: RoadmapStatus.Completed
     },
-    ...mostRecentChainMilestones
+    ...chainsMilestones
   ]
 
   return projectConfigRoadmap ?? campaignSummaryMilestones
 })
 
 const showProjectDescription = computed(() => {
-  return Boolean(readme.value) && !isLoadingDescription.value
+  return Boolean(readme.value) || isLoadingDescription.value
 })
 
 const showWhitepaper = computed(() => {
   return (
-    Boolean(parsedProjectConfig.value?.project?.whitepaper?.url) &&
-    !isLoadingProjectConfig.value
+    Boolean(parsedProjectConfig.value?.project?.whitepaper?.url) ||
+    isLoadingProjectConfig.value
   )
 })
 
 const showTokenomics = computed(() => {
   return (
-    Boolean(parsedProjectConfig.value?.project?.tokenomics?.distribution) &&
-    !isLoadingProjectConfig.value
+    Boolean(parsedProjectConfig.value?.project?.tokenomics?.distribution) ||
+    isLoadingProjectConfig.value
   )
 })
 
 const showLinks = computed(() => {
   return (
-    Boolean(parsedProjectConfig.value?.project?.links) &&
-    !isLoadingProjectConfig.value
+    Boolean(parsedProjectConfig.value?.project?.links) ||
+    isLoadingProjectConfig.value
   )
 })
 </script>
@@ -193,19 +202,17 @@ const showLinks = computed(() => {
       :loading="isLoadingProjectConfig"
     />
     <ProjectRoadmap
-      :loading="isLoadingChain || loadingProp"
+      :loading="isLoadingRoadmap"
+      :project-name="campaignSummary?.campaign?.campaignName ?? ''"
       :milestones="roadmapItems"
     />
     <ProjectTokenomics
       v-if="showTokenomics"
       :campaign-summary="campaignSummary"
-      :loading="loadingProp"
+      :loading="isLoadingTokenomics"
       :distribution="parsedProjectConfig?.project?.tokenomics?.distribution"
     />
-    <ProjectTeam
-      :members="members"
-      :loading="isLoadingProjectConfig || loadingProp"
-    />
+    <ProjectTeam :members="members" :loading="isLoadingTeam" />
     <ProjectLinks
       v-if="showLinks"
       :links="parsedProjectConfig?.project?.links"

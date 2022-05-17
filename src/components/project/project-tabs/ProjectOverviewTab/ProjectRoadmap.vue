@@ -17,6 +17,7 @@ import { ProjectMilestone, RoadmapStatus } from './types'
 
 interface Props {
   milestones: ProjectMilestone[]
+  projectName: string
   loading?: boolean
 }
 
@@ -43,7 +44,7 @@ const roadmapItems = computed<ProjectMilestone[]>(() => {
       Roadmap and history
     </IgniteHeading>
     <IgniteText as="div" class="mt-6 text-center text-3 text-muted">
-      Key milestones for the Project Name project
+      Key milestones for the {{ projectName }} project
     </IgniteText>
 
     <div class="relative mt-7 md:mt-9">

@@ -99,7 +99,7 @@ const isLoadingProjectStatus = computed(() => {
 })
 
 const status = computed(() => {
-  const chains = campaignChains.value?.pages[0].campaignChains?.chains ?? []
+  const chains = campaignChains?.value?.chains ?? []
   const isMainnetInitialized =
     props.campaignSummary.campaign?.mainnetInitialized
 
