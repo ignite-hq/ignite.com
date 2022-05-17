@@ -12,6 +12,13 @@ export function getVouchersFromRewards(
   return rewards.filter((coin) => isShare(campaignId, coin))
 }
 
+export function getIncentivesFromRewards(
+  campaignId: string,
+  rewards: CampaignCampaignSummary['rewards'] = []
+) {
+  return rewards.filter((coin) => !isShare(campaignId, coin))
+}
+
 export function hasAtLeastOneVoucher(
   campaignId: string,
   rewards: CampaignCampaignSummary['rewards'] = []
@@ -22,13 +29,6 @@ export function hasAtLeastOneVoucher(
   })
 }
 
-export function getIncentivesFromRewards(
-  campaignId: string,
-  rewards: CampaignCampaignSummary['rewards'] = []
-) {
-  return rewards.filter((coin) => !isShare(campaignId, coin))
-}
-
 export function hasAtLeastOneIncentive(
   campaignId: string,
   rewards: CampaignCampaignSummary['rewards'] = []
@@ -37,4 +37,43 @@ export function hasAtLeastOneIncentive(
     const isIncentive = !supply.denom?.startsWith(`v/${campaignId}`)
     return isIncentive
   })
+}
+
+export function getIncentivesSummary(
+  campaignId: string,
+  rewards: CampaignCampaignSummary['rewards']
+) {
+  const incentiveCoins = getIncentivesFromRewards(campaignId ?? '', rewards)
+
+  const total = incentiveCoins.reduce((acc, coin) => {
+    const isIncentive = !isShare(campaignId ?? '', coin)
+    if (isIncentive) return acc + Number(coin.amount)
+    return acc
+  }, 0)
+  const denoms = incentiveCoins.map((coin) => coin?.denom?.toUpperCase() ?? '')
+
+  return { total, denoms }
+}
+
+export function getVouchersSummary(
+  campaignId: string,
+  rewards: CampaignCampaignSummary['rewards']
+) {
+  const vouchers = getVouchersFromRewards(campaignId ?? '', rewards)
+
+  const avgSharePercentage = vouchers.reduce((acc, coin) => {
+    const TOTAL_SUPPLY = 100_000
+
+    const currentValue = (Number(coin.amount) / TOTAL_SUPPLY) * 100
+
+    const newAvgSharePercentage = acc + currentValue / vouchers.length
+
+    return newAvgSharePercentage
+  }, 0)
+  const denoms = vouchers.map((coin) => {
+    const denom = coin.denom?.split('/')[2] ?? ''
+    return denom
+  })
+
+  return { avgSharePercentage, denoms }
 }

@@ -28,6 +28,7 @@ import IgniteText from '~/components/ui/IgniteText.vue'
       <IgniteInput
         type="text"
         placeholder="Find a project"
+        variants="bg-gray-30"
         :icon="IconSearch"
       />
     </div>

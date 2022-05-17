@@ -5,7 +5,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { computed, onBeforeMount, ref } from 'vue'
+import { onBeforeMount, ref } from 'vue'
 import { onBeforeRouteUpdate, useRoute } from 'vue-router'
 
 import ProjectFundraisersTab from '~/components/project/project-tabs/ProjectFundraisersTab/index.vue'
@@ -30,19 +30,6 @@ onBeforeRouteUpdate(async (to) => {
 // composables
 const { campaignSummary, isLoading: isLoadingCampaignSummary } =
   useCampaignSummary(projectId)
-
-// computed
-const coordinatorId = computed(() => {
-  return campaignSummary.value?.campaign?.coordinatorID
-})
-
-const launchId = computed(() => {
-  return campaignSummary.value?.mostRecentChain?.launchID
-})
-
-const campaignName = computed(() => {
-  return campaignSummary.value?.campaign?.campaignName
-})
 </script>
 
 <template>
@@ -60,9 +47,7 @@ const campaignName = computed(() => {
     <ProjectValidatorsTab v-if="tab === 'validators'" />
     <ProjectRequestsTab
       v-if="tab === 'requests'"
-      :project-name="campaignName"
-      :launch-id="launchId"
-      :coordinator-id="coordinatorId"
+      :campaign-summary="campaignSummary"
     />
     <ProjectFundraisersTab
       v-if="tab === 'fundraisers'"
