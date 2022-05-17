@@ -92,7 +92,11 @@ const allowCancel = computed(() => {
       </div>
     </div> -->
 
-    <IgniteProjectInvestInvestors class="mt-8 md:mt-10.5" />
+    <IgniteProjectInvestInvestors
+      :fundraiser-id="fundraiserId"
+      :curency="fundraiser.auction.base_auction.selling_coin.denom"
+      class="mt-8 md:mt-10.5"
+    />
     <IgniteProjectInvestVesting
       :vesting-schedules="fundraiser.auction.base_auction.vesting_schedules"
       :curency="fundraiser.auction.base_auction.selling_coin.denom"
