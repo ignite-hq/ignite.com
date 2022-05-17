@@ -45,10 +45,6 @@ const supply = computed(() => {
     (token: V1Beta1Coin) => token.denom === props.currency
   ).amount
 })
-
-const investorCount = computed(() => {
-  return [...new Set(bids?.value?.bids?.map((bid) => bid.bidder))].length
-})
 </script>
 
 <template>
@@ -59,7 +55,8 @@ const investorCount = computed(() => {
           Investors
         </IgniteHeading>
         <IgniteText as="div" class="mt-5 text-3 text-muted">
-          <IgniteNumber :number="investorCount" as="strong" /> Active investors
+          <IgniteNumber :number="bids.pagination.total" as="strong" /> Active
+          investors
         </IgniteText>
       </div>
       <div
