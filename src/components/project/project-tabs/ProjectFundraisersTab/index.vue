@@ -9,7 +9,7 @@ import BigNumber from 'bignumber.js'
 import { computed, ref, watchEffect } from 'vue'
 
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
-import useFundraisersAll from '~/composables/fundraising/useFundraisersAll'
+import useFundraisersForCampaign from '~/composables/fundraising/useFundraisersForCampaign'
 import { V1Beta1Coin } from '~/generated/tendermint-spn-ts-client/cosmos.bank.v1beta1/rest'
 import { BaseAuction } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising'
 import { Coin } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/cosmos/base/v1beta1/coin'
@@ -23,8 +23,12 @@ import InvestCard from './InvestCard.vue'
 import InvestStart from './InvestStart.vue'
 import InvestTitle from './InvestTitle.vue'
 import InvestVoucherAllocation from './InvestVoucherAllocation.vue'
+import { useRoute } from 'vue-router'
 
-const { fundraisers } = useFundraisersAll()
+const route = useRoute()
+const projectId = route.params.projectId.toString() || '0'
+
+const { fundraisers } = useFundraisersForCampaign(projectId)
 const { queryTotalSupply } = useCosmosBankV1Beta1()
 
 interface Props {
