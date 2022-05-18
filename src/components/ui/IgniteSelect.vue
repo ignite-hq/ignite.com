@@ -26,10 +26,12 @@ interface Props {
     value: string
   }[]
   isMobileNative: boolean
+  disabled: boolean
 }
 
 withDefaults(defineProps<Props>(), {
-  isMobileNative: true
+  isMobileNative: true,
+  disabled: false
 })
 
 // state
@@ -53,8 +55,9 @@ function hide() {
   <div class="z-1 relative">
     <button
       v-click-outside="hide"
-      class="flex h-8.5 w-full items-center rounded-xs border border-border px-5"
+      class="flex h-8.5 w-full items-center rounded-xs border border-border px-5 disabled:bg-border disabled:text-inactive"
       :class="variants"
+      :disabled="disabled"
       @click="toggle"
     >
       <span class="whitespace-nowrap">{{ selected.label }}</span>
@@ -64,6 +67,7 @@ function hide() {
       :value="selected.label"
       class="absolute inset-0 opacity-0 md:hidden"
       :class="isMobileNative ? 'md:hidden' : 'hidden'"
+      :disabled="disabled"
     >
       <option v-for="i in items" :key="`select_${i.value}`" :value="i.value">
         {{ i.label }}

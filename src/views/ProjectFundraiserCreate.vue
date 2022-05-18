@@ -24,6 +24,7 @@ import { useSpn } from 'tendermint-spn-vue-client'
 import { computed, onMounted, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 
+import IgniteDenom from '~/components/common/IgniteDenom.vue'
 import IconCanceled from '~/components/icons/IconCanceled.vue'
 import IconPlus from '~/components/icons/IconPlus.vue'
 import FundraiserCreateModal from '~/components/invest/FundraiserCreateModal.vue'
@@ -34,17 +35,16 @@ import FundraiserSection from '~/components/invest/FundraiserSection.vue'
 import FundraiserSummary from '~/components/invest/FundraiserSummary.vue'
 import IgniteButton from '~/components/ui/IgniteButton.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
+import IgniteInput from '~/components/ui/IgniteInput.vue'
 import IgniteNumber from '~/components/ui/IgniteNumber.vue'
+import IgniteSelect from '~/components/ui/IgniteSelect.vue'
+import IgniteSpinner from '~/components/ui/IgniteSpinner.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
+import useTotalSupply from '~/composables/fundraising/useTotalSupply'
+import useBalances from '~/composables/wallet/useBalances'
 import { percentageToCosmosDecimal } from '~/utils/number'
 
 import IgniteInputDate from '../components/ui/IgniteInputDate.vue'
-import IgniteSelect from '~/components/ui/IgniteSelect.vue'
-import IgniteInput from '~/components/ui/IgniteInput.vue'
-import IgniteDenom from '~/components/common/IgniteDenom.vue'
-import useBalances from '~/composables/wallet/useBalances'
-import useTotalSupply from '~/composables/fundraising/useTotalSupply'
-import IgniteSpinner from '~/components/ui/IgniteSpinner.vue'
 
 const TODAY = new Date()
 
@@ -391,7 +391,7 @@ function cancel() {
 <template>
   <!-- Spinner -->
   <IgniteSpinner v-if="isLoadingCriticalData" />
-  <div class="container" v-else>
+  <div v-else class="container">
     <!-- Modal -->
     <FundraiserCreateModal
       :visible="showModal"
@@ -429,10 +429,10 @@ function cancel() {
               </IgniteText>
             </div>
 
-            <div class="mt-3 flex items-center" v-if="hasAnyBalance">
+            <div v-if="hasAnyBalance" class="mt-3 flex items-center">
               <div
-                class="flex max-w-[14.5rem]"
                 v-if="balances && balances.length > 0"
+                class="flex max-w-[14.5rem]"
               >
                 <IgniteSelect
                   :selected="
@@ -449,7 +449,7 @@ function cancel() {
                   <template
                     v-for="i in (balances as Coin[])"
                     :key="i.denom"
-                    v-slot:[i.denom]
+                    #[i.denom]
                   >
                     <IgniteDenom
                       v-if="i.denom"

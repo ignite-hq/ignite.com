@@ -5,9 +5,10 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import IgniteAccount from '~/components/wallet/IgniteAccount.vue'
-import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import { useRoute, useRouter } from 'vue-router'
+
+import IgniteHeading from '~/components/ui/IgniteHeading.vue'
+import IgniteAccount from '~/components/wallet/IgniteAccount.vue'
 
 // composables
 const router = useRouter()
