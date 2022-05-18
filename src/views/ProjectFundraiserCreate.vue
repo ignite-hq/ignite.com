@@ -47,12 +47,27 @@ import useTotalSupply from '~/composables/fundraising/useTotalSupply'
 import IgniteFeedback from '../components/ui/IgniteFeedback.vue'
 import IgniteLoader from '~/components/ui/IgniteLoader.vue'
 
-const TODAY = new Date()
+// types
+type FixedPriceAuction = MsgCreateFixedPriceAuction
 
+// utils
+function dateAsUTC(date: Date): Date {
+  return new Date(
+    Date.UTC(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate(),
+      date.getHours(),
+      date.getMinutes(),
+      0,
+      0
+    )
+  )
+}
+const TODAY = new Date()
 function getWeeksLater(date: Date, amountOfWeeks = 1): Date {
   return dayjs(date).add(amountOfWeeks, 'week').toDate()
 }
-
 function coinToSelectOption(c: Coin): { label: string; value: string } {
   return { label: c.denom.toUpperCase(), value: c.denom }
 }
@@ -76,11 +91,10 @@ const {
 // state
 interface State {
   currentUIState: UIStates
-  auction: MsgCreateFixedPriceAuction
+  auction: FixedPriceAuction
   feeAmount?: Coin
   errorMsg?: string
 }
-
 const initialSellingCoin =
   isFetchedBalances.value && balances.value && balances.value.length > 0
     ? {
@@ -88,18 +102,15 @@ const initialSellingCoin =
         denom: balances.value[0].denom as string
       }
     : undefined
-
 const filteredInitalTotalSupply: Coin[] = isFetchedTotalSupply.value
   ? (totalSupply.value?.supply?.filter(
       (i) => i.denom !== initialSellingCoin?.denom
     ) as Coin[])
   : []
-
 const initialPayingDenom =
   isFetchedTotalSupply.value && filteredInitalTotalSupply.length > 0
     ? filteredInitalTotalSupply[0].denom
     : ''
-
 const initialState: State = {
   currentUIState: UIStates.Fresh,
   auction: {
@@ -331,19 +342,17 @@ function handleModalAck() {
 
 // methods
 function normalizeAuction(
-  auction: MsgCreateFixedPriceAuction
+  auction: FixedPriceAuction
 ): MsgCreateFixedPriceAuction {
-  const normalized = cloneDeep(auction)
+  const normalized: MsgCreateFixedPriceAuction = cloneDeep(auction)
 
   normalized.vesting_schedules.forEach((schedule) => {
     schedule.weight = percentageToCosmosDecimal(schedule.weight)
+    schedule.release_time = dateAsUTC(schedule.release_time as Date)
   })
 
-  const isSellingCoinInMicroFormat = normalized.selling_coin?.denom[0] === 'u'
-
-  if (!isSellingCoinInMicroFormat) {
-    normalized.selling_coin = normalized.selling_coin as Coin
-  }
+  normalized.start_time = dateAsUTC(auction.start_time as Date)
+  normalized.end_time = dateAsUTC(auction.end_time as Date)
 
   normalized.auctioneer = spn.signer.value.addr
 
@@ -486,7 +495,10 @@ function cancel() {
             <!-- Feedbacks -->
             <div class="mt-4 flex-row">
               <IgniteFeedback
-                v-if="isSellingAmountGreaterThan33Pct"
+                v-if="
+                  isSellingAmountGreaterThan33Pct &&
+                  !isSellingAmountGreaterThanBalance
+                "
                 text="It is not advised to offer more than 33% of total supply."
               />
               <IgniteFeedback
@@ -573,6 +585,13 @@ function cancel() {
             </div>
             <!-- Feedbacks -->
             <div class="mt-4 flex-row">
+              <div class="flex flex-nowrap">
+                <IgniteText class="text-2 font-semibold"> Note:</IgniteText>
+                <IgniteText class="text-2 font-light">
+                  &nbsp;Price per voucher will not be disclosed until fundraiser
+                  starts.
+                </IgniteText>
+              </div>
               <IgniteFeedback
                 v-if="!isVoucherPriceGreaterThanZero"
                 text="Price per voucher can not be 0"
@@ -682,7 +701,7 @@ function cancel() {
                 </IgniteText>
               </div>
               <div
-                class="col-span-2 mt-7 flex flex-row flex-wrap items-end gap-7"
+                class="col-span-2 mt-7 flex flex-row flex-wrap items-start gap-7"
               >
                 <!-- Date -->
                 <div>
@@ -695,6 +714,7 @@ function cancel() {
                     :initial-date="(schedule.release_time as Date)"
                     @input="(date) => handleDistributionDateInput(date, index)"
                   />
+                  <div></div>
                 </div>
                 <!-- Amount -->
                 <div>
@@ -704,7 +724,7 @@ function cancel() {
                     >
                   </div>
                   <div class="mt-3">
-                    <div class="flex max-w-[14.5rem]">
+                    <div class="flex max-w-[7rem]">
                       <IgniteInput
                         :value="schedule.weight"
                         variants="text-center border border-border"
@@ -713,9 +733,16 @@ function cancel() {
                         "
                       />
                     </div>
+                    <!-- Feedbacks -->
+                    <div class="mt-4">
+                      <IgniteFeedback
+                        v-if="Number(schedule.weight) === 0"
+                        text="Can not be zero"
+                      />
+                    </div>
                   </div>
                 </div>
-                <div>
+                <div class="flex self-center">
                   <!-- Add Distribution -->
                   <IgniteButton
                     v-if="state.auction.vesting_schedules.length > 0"
@@ -729,14 +756,10 @@ function cancel() {
             </div>
           </FundraiserInputRow>
           <FundraiserInputRow>
-            <!-- Feedbacks -->
+            <!-- Generic Feedbacks -->
             <IgniteFeedback
               v-if="!isVestingTotalSale"
               text="Total distributed amount should be 100%"
-            />
-            <IgniteFeedback
-              v-if="!allVestingWeightsGreaterThanZero"
-              text="Vesting amount can not be zero"
             />
             <IgniteFeedback
               v-if="!isReleaseTimeAfterEnd"

@@ -85,7 +85,7 @@ function formatRange(start: Date, end: Date): string {
           </div>
           <div class="flex-col">
             <IgniteText class="text-4 font-normal text-gray-660">
-              <IgniteNumber :number="props.totalSaleValue" notation="compact" />
+              <IgniteNumber :number="props.totalSaleValue" />
               {{ props.saleDenom }}
             </IgniteText>
           </div>
