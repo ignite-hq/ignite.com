@@ -2,7 +2,7 @@ import {
   useTendermintSpnCampaign,
   useTendermintSpnLaunch
 } from 'tendermint-spn-vue-client'
-import { unref } from 'vue'
+import { computed, unref } from 'vue'
 import { useQuery } from 'vue-query'
 
 import { RefOrValue } from '~/utils/types'
@@ -12,6 +12,10 @@ export default function useGenesisValidatorAllChains(
 ) {
   const { queryCampaignChains } = useTendermintSpnCampaign()
   const { queryGenesisValidatorAll } = useTendermintSpnLaunch()
+
+  const isEnabled = computed(() => {
+    return Boolean(unref(campaignID))
+  })
 
   const { data: campaignValidators, ...other } = useQuery(
     ['campaignValidators', 'populated', campaignID],
@@ -34,7 +38,7 @@ export default function useGenesisValidatorAllChains(
         (chainValidators) => chainValidators?.genesisValidator || []
       )
 
-      const uniqueValidators = [
+      return [
         ...new Map(
           reducedValidatorsFromAllChains.map((validator) => [
             validator.address,
@@ -42,10 +46,9 @@ export default function useGenesisValidatorAllChains(
           ])
         )
       ]
-
-      return {
-        validators: uniqueValidators
-      }
+    },
+    {
+      enabled: isEnabled
     }
   )
 
