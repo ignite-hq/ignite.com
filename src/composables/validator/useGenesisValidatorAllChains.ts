@@ -38,7 +38,7 @@ export default function useGenesisValidatorAllChains(
         (chainValidators) => chainValidators?.genesisValidator || []
       )
 
-      return [
+      const uniqueValidators = [
         ...new Map(
           reducedValidatorsFromAllChains.map((validator) => [
             validator.address,
@@ -46,6 +46,8 @@ export default function useGenesisValidatorAllChains(
           ])
         )
       ]
+
+      return uniqueValidators
     },
     {
       enabled: isEnabled
