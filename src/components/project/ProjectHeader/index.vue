@@ -182,7 +182,7 @@ const status = computed(() => {
           </div>
 
           <div
-            class="-mx-6 mt-6 px-0 md:col-span-8 lg:col-span-5 lg:mx-0 lg:mt-0 xl:col-span-6"
+            class="-mx-5 mt-6 px-0 md:col-span-8 lg:col-span-5 lg:mx-0 lg:mt-0 xl:col-span-6"
           >
             <div
               class="relative bg-primary pb-[56.17%] lg:rounded"

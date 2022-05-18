@@ -8,7 +8,7 @@ export default defineComponent({
 
 <template>
   <div class="w-1/4 flex-col">
-    <div class="rounded-xs border border-gray-70 p-6">
+    <div class="rounded-xs border border-border p-6">
       <slot />
     </div>
   </div>

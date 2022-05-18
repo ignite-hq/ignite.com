@@ -33,7 +33,7 @@ const { campaignSummary, isLoading: isLoadingCampaignSummary } =
 </script>
 
 <template>
-  <div class="container mb-10">
+  <div>
     <ProjectHeader
       :loading="isLoadingCampaignSummary"
       :active-tab="tab"
