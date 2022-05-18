@@ -1,12 +1,44 @@
-import { useTendermintSpnCampaign } from 'tendermint-spn-vue-client'
+import {
+  useTendermintFundraising,
+  useTendermintSpnCampaign
+} from 'tendermint-spn-vue-client'
+import { computed, unref } from 'vue'
 import { useQuery } from 'vue-query'
 
-export default function useFundraisersForCampaign(projectId: string) {
-  const { queryAuctionsOfCampaign } = useTendermintSpnCampaign()
+import { RefOrValue } from '~/utils/types'
 
-  const { data, ...other } = useQuery(['fundraisers', 'all'], () => {
-    return queryAuctionsOfCampaign(projectId).then((r) => r.data)
+export default function useFundraisersForCampaign(
+  campaignID: RefOrValue<string | undefined>
+) {
+  const { queryAuctionsOfCampaign } = useTendermintSpnCampaign()
+  const { queryAuction } = useTendermintFundraising()
+
+  const isEnabled = computed(() => {
+    return Boolean(unref(campaignID))
   })
 
-  return { fundraisers: data, ...other }
+  const { data: fundraisers, ...other } = useQuery(
+    ['campaignFundraisers', 'populated', campaignID],
+    async () => {
+      const { data } = await queryAuctionsOfCampaign(
+        unref(campaignID) as string
+      )
+
+      if (!data.auctionIDs) throw new Error('Failed to fetch auction IDs')
+
+      const fundraisersPromises =
+        data.auctionIDs?.map((auctionId) =>
+          queryAuction(auctionId).then((r) => r.data)
+        ) ?? []
+
+      const fundraisers = await Promise.all(fundraisersPromises)
+
+      return fundraisers
+    },
+    {
+      enabled: isEnabled
+    }
+  )
+
+  return { fundraisers, ...other }
 }

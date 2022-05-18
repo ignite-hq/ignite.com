@@ -24,20 +24,27 @@ import InvestStart from './InvestStart.vue'
 import InvestTitle from './InvestTitle.vue'
 import InvestVoucherAllocation from './InvestVoucherAllocation.vue'
 import { useRoute } from 'vue-router'
-
-const route = useRoute()
-const projectId = route.params.projectId.toString() || '0'
-
-const { fundraisers } = useFundraisersForCampaign(projectId)
-const { queryTotalSupply } = useCosmosBankV1Beta1()
+import useCoordinator from '~/composables/profile/useCoordinator'
 
 interface Props {
   campaignSummary?: CampaignCampaignSummary
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   campaignSummary: () => ({})
 })
+
+const route = useRoute()
+const projectId = route.params.projectId.toString() || '0'
+
+const coordinatorId = computed(() => {
+  return props.campaignSummary?.campaign?.coordinatorID
+})
+
+const { fundraisers } = useFundraisersForCampaign(projectId)
+const { queryTotalSupply } = useCosmosBankV1Beta1()
+const { isSameAddressAsLoggedIn: coordinatorView } =
+  useCoordinator(coordinatorId)
 
 const formatAuctionStatus = (
   auctionType: AuctionStatus
@@ -56,10 +63,10 @@ const formatAuctionStatus = (
       return AuctionStatusLabels.Other
   }
 }
-
+// computed
 const statuses = computed(() => {
   let statuses = []
-  const auctions = fundraisers?.value?.pages[0].auctions ?? []
+  const auctions = fundraisers?.value ?? []
   const currentPresent = auctions.find(
     (auctionData: any) =>
       formatAuctionStatus(auctionData.base_auction.status) ===
@@ -96,35 +103,33 @@ watchEffect(async () => {
 })
 
 const fundraisingList = computed(() => {
-  return (fundraisers?.value?.pages[0].auctions || []).map(
-    (auctionData: any) => {
-      const auction: BaseAuction = auctionData.base_auction
-      const remainingSellingCoins: Coin | undefined =
-        auctionData.remaining_selling_coin
-      const token = totalSupply.value?.find(
-        (token) => token.denom === auction.selling_coin?.denom
-      )
-      const tokenSupply = new BigNumber(token?.amount ?? '0').toNumber()
-      const relativeSupply = tokenSupply
-        ? Math.round(
-            (Number(auction.selling_coin?.amount ?? 0) / tokenSupply) * 100
-          )
-        : 0
-      return {
-        id: auction.id,
-        raised:
-          Number(auction.selling_coin?.amount ?? 0) -
-          Number(remainingSellingCoins?.amount ?? 0),
-        goal: auction.selling_coin?.amount ?? 0,
-        currency: getDenomName(auction.selling_coin?.denom ?? ''),
-        status: formatAuctionStatus(auction.status),
-        statusDetailed: auction.status,
-        vouchers: `${toCompactNumber.format(tokenSupply)} (${relativeSupply}%)`,
-        investors: auction.allowed_bidders?.length || 0,
-        ends: auction.end_times[0]
-      } as AuctionCardData
-    }
-  )
+  return (fundraisers?.value || []).map((auctionData: any) => {
+    const auction: BaseAuction = auctionData.base_auction
+    const remainingSellingCoins: Coin | undefined =
+      auctionData.remaining_selling_coin
+    const token = totalSupply.value?.find(
+      (token) => token.denom === auction.selling_coin?.denom
+    )
+    const tokenSupply = new BigNumber(token?.amount ?? '0').toNumber()
+    const relativeSupply = tokenSupply
+      ? Math.round(
+          (Number(auction.selling_coin?.amount ?? 0) / tokenSupply) * 100
+        )
+      : 0
+    return {
+      id: auction.id,
+      raised:
+        Number(auction.selling_coin?.amount ?? 0) -
+        Number(remainingSellingCoins?.amount ?? 0),
+      goal: auction.selling_coin?.amount ?? 0,
+      currency: getDenomName(auction.selling_coin?.denom ?? ''),
+      status: formatAuctionStatus(auction.status),
+      statusDetailed: auction.status,
+      vouchers: `${toCompactNumber.format(tokenSupply)} (${relativeSupply}%)`,
+      investors: auction.allowed_bidders?.length || 0,
+      ends: auction.end_times[0]
+    } as AuctionCardData
+  })
 })
 </script>
 
@@ -132,6 +137,7 @@ const fundraisingList = computed(() => {
   <div>
     <InvestTitle
       :project-name="campaignSummary?.campaign?.campaignName"
+      :allow-create="coordinatorView"
       class="mt-8 md:mt-10.5"
     />
     <InvestVoucherAllocation
@@ -140,6 +146,7 @@ const fundraisingList = computed(() => {
       class="mt-7 md:mt-9"
     />
     <InvestStart
+      v-if="coordinatorView && fundraisers?.length === 0"
       :project-name="campaignSummary?.campaign?.campaignName"
       class="mt-8 md:mt-10.5"
     />
@@ -168,6 +175,9 @@ const fundraisingList = computed(() => {
           </div>
         </div>
       </div>
+    </div>
+    <div v-if="fundraisers?.length === 0" class="text-center">
+      <span>- No fundraisers yet -</span>
     </div>
   </div>
 </template>
