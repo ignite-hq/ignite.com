@@ -20,7 +20,11 @@ import { getDenomName } from '~/utils/fundraisers'
 
 import useBids from '~/composables/fundraising/useBids'
 import useTotalSupply from '~/composables/fundraising/useTotalSupply'
-import { V1Beta1Coin } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/rest'
+import {
+  FundraisingBid,
+  FundraisingQueryBidsResponse,
+  V1Beta1Coin
+} from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/rest'
 
 interface Props {
   fundraiserId: string
@@ -33,12 +37,29 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 // composables
-const { bids, fetchNextPage, hasNextPage, isFetchingNextPage } = useBids(
-  props.fundraiserId
-)
+const { bidsAll, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
+  useBids(props.fundraiserId)
 const { totalSupply } = useTotalSupply()
 
+// methods
+function mergePages(
+  pages: FundraisingQueryBidsResponse[] = []
+): FundraisingBid[] {
+  return pages.reduce(
+    (acc, page) => [...acc, ...(page?.bids ?? [])],
+    [] as FundraisingBid[]
+  )
+}
+
 // computed
+const bids = computed<FundraisingBid[]>(() => {
+  if (isLoading.value) {
+    return []
+  }
+
+  return mergePages(bidsAll.value?.pages)
+})
+
 const supply = computed(() => {
   if (!totalSupply.value?.supply || !props.currency) return 0
   return totalSupply.value?.supply.find(
@@ -55,8 +76,8 @@ const supply = computed(() => {
           Investors
         </IgniteHeading>
         <IgniteText as="div" class="mt-5 text-3 text-muted">
-          <IgniteNumber :number="bids.pagination.total" as="strong" /> Active
-          investors
+          <IgniteNumber :number="bids.pages?.pagination?.total" as="strong" />
+          Active investors
         </IgniteText>
       </div>
       <div
@@ -98,7 +119,7 @@ const supply = computed(() => {
         <!-- body -->
         <div class="pt-6 md:pt-8">
           <div
-            v-for="bid in bids"
+            v-for="bid in bids.pages"
             :key="bid.id"
             class="mt-6 border-t border-border pt-6 first:mt-0 first:border-t-0 first:pt-0 md:mt-9 md:border-t-0 md:pt-0"
           >

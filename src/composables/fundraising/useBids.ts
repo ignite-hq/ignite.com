@@ -22,5 +22,5 @@ export default function useBids(auctionId: string, bidder?: string) {
     }
   )
 
-  return { bids: data, ...other }
+  return { bidsAll: data, ...other }
 }
