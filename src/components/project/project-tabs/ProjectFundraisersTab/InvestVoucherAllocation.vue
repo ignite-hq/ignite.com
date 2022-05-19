@@ -8,7 +8,7 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import BigNumber from 'bignumber.js'
-import { computed, reactive, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 
 import IgniteDenom from '~/components/common/IgniteDenom.vue'
 import IgniteProgressBar from '~/components/common/IgniteProgressBar.vue'
@@ -30,7 +30,7 @@ const props = withDefaults(defineProps<Props>(), {
   totalSupply: () => []
 })
 
-const selectedVoucher = reactive({ data: { value: '', label: '' } })
+const selectedVoucherDenom = ref('')
 const vouchers = computed(() => {
   if (!props.fundraisers?.pages) {
     return []
@@ -46,8 +46,7 @@ const vouchers = computed(() => {
 
 watch(vouchers, (newVal) => {
   if (newVal[0]) {
-    selectedVoucher.data.value = newVal[0] as string
-    selectedVoucher.data.label = getDenomName(newVal[0] as string)
+    selectedVoucherDenom.value = newVal[0] as string
   }
 })
 
@@ -156,7 +155,7 @@ const progressBars = computed(() => {
 
 const progressBar = computed(() => {
   return progressBars.value.find(
-    (voucher) => voucher.denomFull === selectedVoucher.data.value
+    (voucher) => voucher.denomFull === selectedVoucherDenom.value
   )
 })
 </script>
@@ -178,23 +177,26 @@ const progressBar = computed(() => {
           <div class="mt-7">
             <IgniteSelect
               :name="'Voucher select'"
-              :selected="selectedVoucher.data"
+              :selected="{
+                value: selectedVoucher.data,
+                label: getDenomName(selectedVoucherDenom)
+              }"
               :items="
                 vouchers.map((voucher) => ({
                   value: voucher as string,
-                  label: getDenomName(voucher as string)
+                  label: getDenomName(voucher)
                 }))
               "
             >
               <IgniteDenom
                 size="small"
                 modifier="avatar"
-                :denom="selectedVoucher.data.label"
-                :title="selectedVoucher.data.label"
+                :denom="getDenomName(selectedVoucherDenom)"
+                :title="getDenomName(selectedVoucherDenom)"
                 class="mr-3"
               />
               <IgniteHeading as="div" class="font-title text-3 md:text-4">
-                {{ selectedVoucher.data.label }}
+                {{ getDenomName(selectedVoucherDenom) }}
               </IgniteHeading>
             </IgniteSelect>
           </div>
