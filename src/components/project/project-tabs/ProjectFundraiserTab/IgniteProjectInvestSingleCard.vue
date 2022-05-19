@@ -24,8 +24,12 @@ import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import useTotalSupply from '~/composables/fundraising/useTotalSupply'
 import { AuctionStatus } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/fundraising'
-import { getDenomName, toCompactNumber } from '~/utils/fundraising'
-import { AuctionStatusLabels, ProgressBarItem } from '~/utils/types'
+import {
+  getDenomName,
+  HumanizedAuctionStatus,
+  toCompactNumber
+} from '~/utils/fundraising'
+import { ProgressBarItem } from '~/utils/types'
 
 interface Props {
   auction: any
@@ -99,19 +103,19 @@ const statusDetailed = computed(() => {
 
 const formatAuctionStatus = (
   auctionType: AuctionStatus
-): AuctionStatusLabels => {
+): HumanizedAuctionStatus => {
   // @ts-ignore
   switch (AuctionStatus[auctionType] as AuctionStatus) {
     case AuctionStatus.AUCTION_STATUS_VESTING:
     case AuctionStatus.AUCTION_STATUS_STARTED:
-      return AuctionStatusLabels.Current
+      return HumanizedAuctionStatus.Current
     case AuctionStatus.AUCTION_STATUS_STANDBY:
-      return AuctionStatusLabels.Upcoming
+      return HumanizedAuctionStatus.Upcoming
     case AuctionStatus.AUCTION_STATUS_FINISHED:
     case AuctionStatus.AUCTION_STATUS_CANCELLED:
-      return AuctionStatusLabels.Previous
+      return HumanizedAuctionStatus.Previous
     default:
-      return AuctionStatusLabels.Other
+      return HumanizedAuctionStatus.Other
   }
 }
 </script>
