@@ -45,12 +45,11 @@ function mergePages(
 }
 
 // computed
-const isProjectListEmpty = computed<number>(() => {
-  return (
+const isListEmpty = computed<boolean>(
+  () =>
     isFetched.value &&
     Number(allCampaignSummaries.value?.pages[0].pagination?.total) === 0
-  )
-})
+)
 const campaignSummaries = computed<CampaignCampaignSummary[]>(() => {
   if (isLoading.value) {
     return skeletons
@@ -82,7 +81,7 @@ const campaignSummaries = computed<CampaignCampaignSummary[]>(() => {
       </MasonryWall>
     </div>
 
-    <div v-if="isProjectListEmpty">
+    <div v-if="isListEmpty">
       <IgniteText> No projects </IgniteText>
     </div>
 
