@@ -19,16 +19,17 @@ import { V1Beta1Coin } from '~/generated/tendermint-spn-ts-client/cosmos.tx.v1be
 import { AuctionStatus } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/fundraising'
 import { getDenomName, toCompactNumber } from '~/utils/fundraising'
 import { ProgressBarItem } from '~/utils/types'
+import useTotalSupply from '~/composables/fundraising/useTotalSupply'
 
 interface Props {
   fundraisers: any
-  totalSupply: V1Beta1Coin[]
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  fundraisers: () => ({}),
-  totalSupply: () => []
+  fundraisers: () => ({})
 })
+
+const { totalSupply } = useTotalSupply()
 
 const selectedVoucherDenom = ref('')
 const vouchers = computed(() => {
@@ -37,7 +38,7 @@ const vouchers = computed(() => {
   }
   return [
     ...new Set(
-      props.fundraisers?.pages[0].auctions.map((auctionData: any) =>
+      props.fundraisers?.auctions.map((auctionData: any) =>
         (auctionData.base_auction.selling_coin?.denom ?? '').toUpperCase()
       )
     )
@@ -107,16 +108,19 @@ const calculateFundraising = (voucherAuctions: any[]): number => {
 
 const progressBars = computed(() => {
   return (vouchers.value || []).map((voucher) => {
-    const voucherAuctions = props.fundraisers?.pages[0].auctions.filter(
+    const voucherAuctions = props.fundraisers?.auctions.filter(
       (auctionData: any) =>
         auctionData.base_auction.selling_coin.denom.toUpperCase() === voucher
     )
+
     const distributedAmount = calculateDistributed(voucherAuctions)
     const fundraisingAmount = calculateFundraising(voucherAuctions)
-    const token = props.totalSupply?.find(
-      (token) => (token.denom ?? '').toUpperCase() === voucher
+
+    const token = totalSupply?.find(
+      (token: V1Beta1Coin) => (token.denom ?? '').toUpperCase() === voucher
     )
     const tokenSupply = new BigNumber(token?.amount ?? '0').toNumber()
+
     const barDistributed: ProgressBarItem = {
       value: (tokenSupply
         ? Math.round((distributedAmount / tokenSupply) * 100)
@@ -126,6 +130,7 @@ const progressBars = computed(() => {
       bgColor: 'bg-primary',
       split: true
     }
+
     const barFundraising: ProgressBarItem = {
       value: (tokenSupply
         ? Math.round((fundraisingAmount / tokenSupply) * 100)
@@ -134,6 +139,7 @@ const progressBars = computed(() => {
       amount: fundraisingAmount,
       bgColor: 'bg-secondary'
     }
+
     const barAvailable: ProgressBarItem = {
       value: (tokenSupply
         ? Math.round(
@@ -145,6 +151,7 @@ const progressBars = computed(() => {
       ).toString(),
       amount: tokenSupply
     }
+
     return {
       denom: getDenomName(voucher as string),
       denomFull: voucher,

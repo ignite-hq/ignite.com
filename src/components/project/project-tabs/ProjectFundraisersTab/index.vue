@@ -19,10 +19,8 @@ import InvestCard from './InvestCard.vue'
 import InvestStart from './InvestStart.vue'
 import InvestTitle from './InvestTitle.vue'
 import InvestVoucherAllocation from './InvestVoucherAllocation.vue'
-import useTotalSupply from '~/composables/fundraising/useTotalSupply'
 
 const { fundraisers } = useFundraisersAll()
-const { totalSupply } = useTotalSupply()
 
 interface Props {
   campaignSummary?: CampaignCampaignSummary
@@ -72,11 +70,7 @@ const statuses = computed(() => {
       :project-name="campaignSummary?.campaign?.campaignName"
       class="mt-8 md:mt-10.5"
     />
-    <InvestVoucherAllocation
-      :fundraisers="fundraisers"
-      :total-supply="totalSupply"
-      class="mt-7 md:mt-9"
-    />
+    <InvestVoucherAllocation :fundraisers="fundraisers" class="mt-7 md:mt-9" />
     <InvestStart
       :project-name="campaignSummary?.campaign?.campaignName"
       class="mt-8 md:mt-10.5"
