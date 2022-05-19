@@ -26,6 +26,8 @@ import useTotalSupply from '~/composables/fundraising/useTotalSupply'
 import { AuctionStatus } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/fundraising'
 import { getDenomName, toCompactNumber } from '~/utils/fundraising'
 import { AuctionStatusLabels, ProgressBarItem } from '~/utils/types'
+import { ProjectMilestone, RoadmapStatus } from '../ProjectOverviewTab/types'
+import dayjs from 'dayjs'
 
 interface Props {
   auction: any
@@ -41,7 +43,7 @@ const { totalSupply } = useTotalSupply()
 const supply = computed(() => {
   if (!totalSupply.value?.supply) return 0
   return totalSupply.value?.supply.find(
-    (token) => token.denom === props.auction?.base_auction.selling_coin.denom
+    (token) => token.denom === props.auction?.base_auction?.selling_coin?.denom
   ).amount
 })
 
@@ -62,34 +64,43 @@ const progressBar = computed(() => {
   return { items }
 })
 
-const roadmapItems = computed(() => {
-  // TODO: set those programmatically
-  // {
-  //   status: 'completed',
-  //   name: 'Fundraiser published'
-  // },
-  // {
-  //   status: 'completed',
-  //   name: 'Project started',
-  //   date: '03.25'
-  // },
-  // {
-  //   name: 'Sale begins',
-  //   date: '04.01 at 9 AM UTC'
-  // },
-  // {
-  //   name: 'Sale ends',
-  //   date: '04.01 at 9 AM UTC'
-  // }
-  // {
-  //   status: 'complited',
-  //   name: 'Fundraiser published'
-  // },
-  // {
-  //   status: 'cancelled',
-  //   name: 'Fundraiser cancelled'
-  // }
-  return []
+function getMilestoneDate(unix: number) {
+  if (!unix) return ''
+  return dayjs.unix(unix).format('MMM D, YYYY [at] h:mm A [GMT]Z')
+}
+
+const roadmapItems = computed<ProjectMilestone[]>(() => {
+  const items: ProjectMilestone[] = [] as ProjectMilestone[]
+  const TODAY = new Date().getTime()
+  /*
+  Fundraiser published
+  Registration begins
+  Fundraiser begins
+  Fundraiser ends
+  Fundraiser cancelled
+  */
+  items.push({
+    status: RoadmapStatus.Completed,
+    title: 'Fundraiser published',
+    date: getMilestoneDate(props.auction?.base_auction?.start_time ?? '')
+  })
+  if (props.auction?.base_auction?.status === 'AUCTION_STATUS_CANCELLED') {
+    items.push({
+      status: RoadmapStatus.Completed,
+      title: 'Fundraiser cancelled',
+      date: getMilestoneDate(props.auction?.base_auction?.start_time ?? '')
+    })
+  } else {
+    items.push({
+      status:
+        Number(props.auction?.base_auction?.end_time) > TODAY
+          ? RoadmapStatus.Completed
+          : RoadmapStatus.Expected,
+      title: 'Fundraiser ends',
+      date: getMilestoneDate(props.auction?.base_auction?.end_time ?? '')
+    })
+  }
+  return items
 })
 
 const statusDetailed = computed(() => {
