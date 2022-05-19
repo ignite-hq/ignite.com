@@ -45,7 +45,7 @@ const mainCoinBalance = computed(() => {
 </script>
 
 <template>
-  <Menu as="div" class="relative z-50">
+  <Menu as="div" class="relative">
     <MenuButton class="flex items-center space-x-4">
       <IgniteProfileIcon :address="address" />
 

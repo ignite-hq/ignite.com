@@ -44,16 +44,30 @@ import IgniteInput from '~/components/ui/IgniteInput.vue'
 import IgniteDenom from '~/components/common/IgniteDenom.vue'
 import useBalances from '~/composables/wallet/useBalances'
 import useTotalSupply from '~/composables/fundraising/useTotalSupply'
-import IgniteSpinner from '~/components/ui/IgniteSpinner.vue'
+import IgniteFeedback from '../components/ui/IgniteFeedback.vue'
+import IgniteLoader from '~/components/ui/IgniteLoader.vue'
 
+// types
+type FixedPriceAuction = MsgCreateFixedPriceAuction
+
+// utils
+function dateAsUTC(date: Date): Date {
+  return new Date(
+    Date.UTC(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate(),
+      date.getHours(),
+      date.getMinutes(),
+      0,
+      0
+    )
+  )
+}
 const TODAY = new Date()
-
-const FEE_RATE = new BigNumber(0.003)
-
 function getWeeksLater(date: Date, amountOfWeeks = 1): Date {
   return dayjs(date).add(amountOfWeeks, 'week').toDate()
 }
-
 function coinToSelectOption(c: Coin): { label: string; value: string } {
   return { label: c.denom.toUpperCase(), value: c.denom }
 }
@@ -77,11 +91,10 @@ const {
 // state
 interface State {
   currentUIState: UIStates
-  auction: MsgCreateFixedPriceAuction
+  auction: FixedPriceAuction
   feeAmount?: Coin
   errorMsg?: string
 }
-
 const initialSellingCoin =
   isFetchedBalances.value && balances.value && balances.value.length > 0
     ? {
@@ -89,18 +102,15 @@ const initialSellingCoin =
         denom: balances.value[0].denom as string
       }
     : undefined
-
 const filteredInitalTotalSupply: Coin[] = isFetchedTotalSupply.value
   ? (totalSupply.value?.supply?.filter(
       (i) => i.denom !== initialSellingCoin?.denom
     ) as Coin[])
   : []
-
 const initialPayingDenom =
   isFetchedTotalSupply.value && filteredInitalTotalSupply.length > 0
     ? filteredInitalTotalSupply[0].denom
     : ''
-
 const initialState: State = {
   currentUIState: UIStates.Fresh,
   auction: {
@@ -110,9 +120,7 @@ const initialState: State = {
     end_time: getWeeksLater(TODAY, 1),
     paying_coin_denom: initialPayingDenom,
     selling_coin: initialSellingCoin,
-    vesting_schedules: [
-      { release_time: getWeeksLater(TODAY, 2), weight: '100' }
-    ]
+    vesting_schedules: []
   }
 }
 const state = reactive(initialState)
@@ -146,12 +154,6 @@ const totalSaleValue = computed<number>(
   () =>
     new BigNumber(state.auction.selling_coin?.amount ?? '0').toNumber() *
     new BigNumber(state.auction.start_price ?? '0').toNumber()
-)
-const totalFee = computed<number>(() =>
-  FEE_RATE.multipliedBy(totalSaleValue.value).toNumber()
-)
-const totalRaisePotential = computed<number>(
-  () => totalSaleValue.value - totalFee.value
 )
 const showModal = computed<boolean>(() =>
   [UIStates.Creating, UIStates.Created, UIStates.Error].includes(
@@ -227,26 +229,34 @@ const isSellingAmountGreaterThanBalance = computed<boolean>(() => {
     state.auction.selling_coin?.amount as string
   ).isGreaterThan(balanceFromSellingCoin.value)
 })
+const isSellingAmountGreaterThan33Pct = computed<boolean>(() =>
+  new BigNumber(amountForSaleOverTotal.value).isGreaterThan(33)
+)
 const isSellingAmountGreaterThanZero = computed<boolean>(() =>
   new BigNumber(state.auction.selling_coin?.amount as string).isGreaterThan(0)
+)
+const isVoucherPriceGreaterThanZero = computed<boolean>(() =>
+  new BigNumber(state.auction.start_price).isGreaterThan(0)
 )
 const hasAnyBalance = computed<boolean>(
   () =>
     (isFetchedBalances.value && balances.value && balances.value.length > 0) ||
     false
 )
+const isLoadingCriticalData = computed<boolean>(
+  () => isFetchingBalances.value || isFetchingTotalSupply.value
+)
 const ableToPublish = computed<boolean>(
   () =>
+    !isLoadingCriticalData.value &&
     isEndAfterStart.value &&
     isReleaseTimeAfterEnd.value &&
     isVestingTotalSale.value &&
     allVestingWeightsGreaterThanZero.value &&
     !isSellingDenomSameAsPayingDenom.value &&
     !isSellingAmountGreaterThanBalance.value &&
-    isSellingAmountGreaterThanZero.value
-)
-const isLoadingCriticalData = computed<boolean>(
-  () => isFetchingBalances.value || isFetchingTotalSupply.value
+    isSellingAmountGreaterThanZero.value &&
+    isVoucherPriceGreaterThanZero.value
 )
 
 // handlers
@@ -332,19 +342,17 @@ function handleModalAck() {
 
 // methods
 function normalizeAuction(
-  auction: MsgCreateFixedPriceAuction
+  auction: FixedPriceAuction
 ): MsgCreateFixedPriceAuction {
-  const normalized = cloneDeep(auction)
+  const normalized: MsgCreateFixedPriceAuction = cloneDeep(auction)
 
   normalized.vesting_schedules.forEach((schedule) => {
     schedule.weight = percentageToCosmosDecimal(schedule.weight)
+    schedule.release_time = dateAsUTC(schedule.release_time as Date)
   })
 
-  const isSellingCoinInMicroFormat = normalized.selling_coin?.denom[0] === 'u'
-
-  if (!isSellingCoinInMicroFormat) {
-    normalized.selling_coin = normalized.selling_coin as Coin
-  }
+  normalized.start_time = dateAsUTC(auction.start_time as Date)
+  normalized.end_time = dateAsUTC(auction.end_time as Date)
 
   normalized.auctioneer = spn.signer.value.addr
 
@@ -390,8 +398,7 @@ function cancel() {
 
 <template>
   <!-- Spinner -->
-  <IgniteSpinner v-if="isLoadingCriticalData" />
-  <div class="container" v-else>
+  <div class="container">
     <!-- Modal -->
     <FundraiserCreateModal
       :visible="showModal"
@@ -430,51 +437,83 @@ function cancel() {
             </div>
 
             <div class="mt-3 flex items-center" v-if="hasAnyBalance">
-              <div
-                class="flex max-w-[14.5rem]"
-                v-if="balances && balances.length > 0"
-              >
-                <IgniteSelect
-                  :selected="
-                    coinToSelectOption({
-                      amount: '',
-                      denom: state.auction.selling_coin?.denom as string
-                    })
-                  "
-                  :items="(balances as Coin[]).map(i => coinToSelectOption(i as Coin))"
-                  variants="rounded-r-none"
-                  :is-mobile-native="false"
-                  @input="handleSellingDenomChange"
+              <div class="flex max-w-[14.5rem]">
+                <!-- Skeleton loading balances -->
+                <div
+                  class="w-1/2 rounded-xs rounded-r-none border border-r-0 border-gray-70 p-2"
+                  v-if="isFetchingBalances"
                 >
-                  <template
-                    v-for="i in (balances as Coin[])"
-                    :key="i.denom"
-                    v-slot:[i.denom]
+                  <IgniteLoader class="h-full w-full rounded-xs" />
+                </div>
+                <!-- Input -->
+                <div class="flex w-1/2" v-else>
+                  <IgniteSelect
+                    :selected="
+                       coinToSelectOption({
+                         amount: '',
+                         denom: state.auction.selling_coin?.denom as string
+                       })
+                     "
+                    :items="(balances as Coin[]).map(i => coinToSelectOption(i as Coin))"
+                    variants="rounded-r-none"
+                    class="w-full"
+                    :is-mobile-native="false"
+                    @input="handleSellingDenomChange"
                   >
-                    <IgniteDenom
-                      v-if="i.denom"
-                      modifier="avatar"
-                      :denom="i.denom"
-                      :title="i.denom"
-                      size="small"
-                      class="mr-3"
-                    />
-                    {{ i.denom?.toUpperCase() }}
-                  </template>
-                </IgniteSelect>
-                <IgniteInput
-                  :value="(state.auction.selling_coin?.amount as string)"
-                  variants="text-center border border-border border-l-0 rounded-l-none"
-                  @input="handleAmountInput"
-                />
+                    <template
+                      v-for="i in (balances as Coin[])"
+                      :key="i.denom"
+                      v-slot:[i.denom]
+                    >
+                      <IgniteDenom
+                        v-if="i.denom"
+                        modifier="avatar"
+                        :denom="i.denom"
+                        :title="i.denom"
+                        size="small"
+                        class="mr-3"
+                      />
+                      {{ i.denom?.toUpperCase() }}
+                    </template>
+                  </IgniteSelect>
+                </div>
+                <div class="flex w-1/2">
+                  <IgniteInput
+                    :value="(state.auction.selling_coin?.amount as string)"
+                    variants="text-center border border-border border-l-0 rounded-l-none"
+                    @input="handleAmountInput"
+                  />
+                </div>
               </div>
-              <div class="ml-6 flex-row">
+              <div class="ml-6">
                 <IgniteText as="span" class="font-bold">
                   {{ amountForSaleOverTotal }} % </IgniteText
                 >of <IgniteNumber :number="voucherTotalSupply" /> total supply
               </div>
             </div>
             <div v-else>Your balance is empty.</div>
+            <!-- Feedbacks -->
+            <div class="mt-4 flex-row">
+              <IgniteFeedback
+                v-if="
+                  isSellingAmountGreaterThan33Pct &&
+                  !isSellingAmountGreaterThanBalance
+                "
+                text="It is not advised to offer more than 33% of total supply."
+              />
+              <IgniteFeedback
+                v-if="!isSellingAmountGreaterThanZero"
+                text="Total quantity for sale can not be 0"
+              />
+              <IgniteFeedback
+                v-if="isSellingDenomSameAsPayingDenom"
+                text="Voucher denom and paying denom must be different"
+              />
+              <IgniteFeedback
+                v-if="isSellingAmountGreaterThanBalance"
+                text="The amount entered is greater than the total supply"
+              />
+            </div>
           </FundraiserInputRow>
           <!-- Paying coin -->
           <FundraiserInputRow>
@@ -486,8 +525,17 @@ function cancel() {
               </IgniteText>
             </div>
             <div class="mt-3 flex items-center">
-              <div class="">
-                <div class="flex max-w-[14.5rem]">
+              <div class="flex max-w-[14.5rem]">
+                <!-- Skeleton loading balances -->
+
+                <div
+                  class="w-1/2 rounded-xs rounded-r-none border border-r-0 border-gray-70 p-2"
+                  v-if="isFetchingTotalSupply"
+                >
+                  <IgniteLoader class="h-full w-full rounded-xs" />
+                </div>
+                <!-- Input -->
+                <div class="flex w-1/2" v-else>
                   <IgniteSelect
                     :selected="
                       coinToSelectOption({
@@ -499,6 +547,7 @@ function cancel() {
                       filterdTotalSupplyCoins.map(i => coinToSelectOption(i as Coin))
                     "
                     variants="rounded-r-none"
+                    class="w-full"
                     :is-mobile-native="false"
                     @input="handlePayingDenomChange"
                   >
@@ -518,6 +567,8 @@ function cancel() {
                       {{ i.denom?.toUpperCase() }}
                     </template>
                   </IgniteSelect>
+                </div>
+                <div class="flex w-1/2">
                   <IgniteInput
                     :value="state.auction.start_price"
                     variants="text-center border border-border border-l-0 rounded-l-none"
@@ -531,6 +582,20 @@ function cancel() {
                   {{ state.auction.paying_coin_denom.toUpperCase() }}
                 </IgniteText>
               </div>
+            </div>
+            <!-- Feedbacks -->
+            <div class="mt-4 flex-row">
+              <div class="flex flex-nowrap">
+                <IgniteText class="text-2 font-semibold"> Note:</IgniteText>
+                <IgniteText class="text-2 font-light">
+                  &nbsp;Price per voucher will not be disclosed until fundraiser
+                  starts.
+                </IgniteText>
+              </div>
+              <IgniteFeedback
+                v-if="!isVoucherPriceGreaterThanZero"
+                text="Price per voucher can not be 0"
+              />
             </div>
           </FundraiserInputRow>
         </FundraiserInputSection>
@@ -590,6 +655,13 @@ function cancel() {
                     @input="handleEndDateInput"
                   />
                 </div>
+                <!-- Feedbacks -->
+                <IgniteText
+                  v-if="!isEndAfterStart"
+                  class="flex rounded-xs bg-error bg-opacity-70 p-4 text-gray-50"
+                >
+                  Fundraising end date must be later than start date.
+                </IgniteText>
               </div>
             </div>
           </FundraiserInputRow>
@@ -608,9 +680,14 @@ function cancel() {
     </FundraiserSection>
     <!-- Vesting schedule -->
     <FundraiserSection>
-      <IgniteHeading class="text-left font-title text-4 font-semibold">
-        Vesting schedule
-      </IgniteHeading>
+      <div class="flex items-center">
+        <IgniteHeading class="text-left font-title text-4 font-semibold">
+          Vesting schedule
+        </IgniteHeading>
+        <IgniteText class="ml-5 text-2 font-medium text-gray-660">
+          Optional
+        </IgniteText>
+      </div>
       <div class="flex grow flex-row">
         <FundraiserInputSection>
           <FundraiserInputRow
@@ -624,7 +701,7 @@ function cancel() {
                 </IgniteText>
               </div>
               <div
-                class="col-span-2 mt-7 flex flex-row flex-wrap items-end gap-7"
+                class="col-span-2 mt-7 flex flex-row flex-wrap items-start gap-7"
               >
                 <!-- Date -->
                 <div>
@@ -637,6 +714,7 @@ function cancel() {
                     :initial-date="(schedule.release_time as Date)"
                     @input="(date) => handleDistributionDateInput(date, index)"
                   />
+                  <div></div>
                 </div>
                 <!-- Amount -->
                 <div>
@@ -646,7 +724,7 @@ function cancel() {
                     >
                   </div>
                   <div class="mt-3">
-                    <div class="flex max-w-[14.5rem]">
+                    <div class="flex max-w-[7rem]">
                       <IgniteInput
                         :value="schedule.weight"
                         variants="text-center border border-border"
@@ -655,9 +733,16 @@ function cancel() {
                         "
                       />
                     </div>
+                    <!-- Feedbacks -->
+                    <div class="mt-4">
+                      <IgniteFeedback
+                        v-if="Number(schedule.weight) === 0"
+                        text="Can not be zero"
+                      />
+                    </div>
                   </div>
                 </div>
-                <div>
+                <div class="flex self-center">
                   <!-- Add Distribution -->
                   <IgniteButton
                     v-if="state.auction.vesting_schedules.length > 0"
@@ -671,6 +756,15 @@ function cancel() {
             </div>
           </FundraiserInputRow>
           <FundraiserInputRow>
+            <!-- Generic Feedbacks -->
+            <IgniteFeedback
+              v-if="!isVestingTotalSale"
+              text="Total distributed amount should be 100%"
+            />
+            <IgniteFeedback
+              v-if="!isReleaseTimeAfterEnd"
+              text=" Vesting distribution can not be earlier than Fundraising end date."
+            />
             <!-- Add Distribution -->
             <div class="mt-8 flex-row">
               <IgniteButton
@@ -699,64 +793,12 @@ function cancel() {
         </FundraiserInfoCard>
       </div>
     </FundraiserSection>
-    <!-- Feedbacks -->
-    <FundraiserSection>
-      <FundraiserInputRow>
-        <div class="flex">
-          <IgniteText
-            v-if="!isVestingTotalSale"
-            class="flex rounded-xs bg-error bg-opacity-70 p-4 text-gray-50"
-          >
-            Total distributed amount should be 100%
-          </IgniteText>
-          <IgniteText
-            v-if="!allVestingWeightsGreaterThanZero"
-            class="flex rounded-xs bg-error bg-opacity-70 p-4 text-gray-50"
-          >
-            Vesting amount can not be zero
-          </IgniteText>
-          <IgniteText
-            v-if="!isReleaseTimeAfterEnd"
-            class="flex rounded-xs bg-error bg-opacity-70 p-4 text-gray-50"
-          >
-            Vesting distribution can not be earlier than Fundraising end date.
-          </IgniteText>
-          <IgniteText
-            v-if="!isEndAfterStart"
-            class="flex rounded-xs bg-error bg-opacity-70 p-4 text-gray-50"
-          >
-            Fundraising end date must be later than start date.
-          </IgniteText>
-          <IgniteText
-            v-if="isSellingDenomSameAsPayingDenom"
-            class="flex rounded-xs bg-error bg-opacity-70 p-4 text-gray-50"
-          >
-            Voucher denom and paying denom must be different
-          </IgniteText>
-          <IgniteText
-            v-if="isSellingAmountGreaterThanBalance"
-            class="flex rounded-xs bg-error bg-opacity-70 p-4 text-gray-50"
-          >
-            Total quantity for sale can not be greater than total supply
-          </IgniteText>
-          <IgniteText
-            v-if="!isSellingAmountGreaterThanZero"
-            class="flex rounded-xs bg-error bg-opacity-70 p-4 text-gray-50"
-          >
-            Total quantity for sale can not be 0
-          </IgniteText>
-        </div>
-      </FundraiserInputRow>
-    </FundraiserSection>
     <!-- Fundraiser Summary -->
     <FundraiserSummary
-      :total-raise-potential="totalRaisePotential"
-      :total-fee="totalFee"
-      :fee-denom="state.auction.selling_coin?.denom.toUpperCase()"
       :total-sale-value="totalSaleValue"
       :total-sale-amount="amountForSale"
       :amount-sale-over-total="amountForSaleOverTotal"
-      :sale-denom="state.auction.selling_coin?.denom.toUpperCase()"
+      :sale-denom="state.auction.paying_coin_denom.toUpperCase()"
       :start-date="(state.auction.start_time as Date)"
       :end-date="(state.auction.end_time as Date)"
       :able-to-publish="ableToPublish"

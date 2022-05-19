@@ -1,10 +1,8 @@
 import { useTendermintSpnCampaign } from 'tendermint-spn-vue-client'
 import { computed, unref } from 'vue'
-import { useInfiniteQuery } from 'vue-query'
+import { useQuery } from 'vue-query'
 
 import { RefOrValue } from '~/utils/types'
-
-const CHAINS_PER_CAMPAIGN = '100'
 
 export default function useCampaignChains(
   campaignID: RefOrValue<string | undefined>
@@ -15,13 +13,12 @@ export default function useCampaignChains(
     return Boolean(unref(campaignID))
   })
 
-  const { data: campaignChains, ...other } = useInfiniteQuery(
+  const { data: campaignChains, ...other } = useQuery(
     ['campaignChains', campaignID],
-    ({ pageParam }) => {
-      return queryCampaignChains(unref(campaignID) as string, {
-        'pagination.limit': CHAINS_PER_CAMPAIGN,
-        'pagination.key': pageParam
-      }).then((r) => r.data)
+    () => {
+      return queryCampaignChains(unref(campaignID) as string).then(
+        (r) => r.data.campaignChains
+      )
     },
     {
       enabled: isEnabled

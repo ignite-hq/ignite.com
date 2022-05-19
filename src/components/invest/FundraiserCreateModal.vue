@@ -83,14 +83,14 @@ const isSigned = computed(() => props.currentUiState === UIStates.Created)
 
     <template v-else-if="isSigning" #body>
       <IgniteText class="mt-5 text-center text-3 leading-normal text-muted">
-        Approve the transaction to publish your fundraiser with your Wallet Name
+        Approve the transaction to publish your fundraiser with your Keplr
         wallet.
       </IgniteText>
     </template>
 
     <template v-else-if="isSigned" #body>
       <IgniteText class="mt-5 text-center text-3 leading-normal text-muted">
-        You have published the fundraiser for Project Name.
+        You have published the fundraiser.
       </IgniteText>
 
       <div class="mt-7 flex space-x-4">

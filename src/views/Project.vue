@@ -43,6 +43,7 @@ const { campaignSummary, isLoading: isLoadingCampaignSummary } =
     <ProjectOverviewTab
       v-if="tab === 'overview'"
       :campaign-summary="campaignSummary"
+      :loading="isLoadingCampaignSummary"
     />
     <ProjectValidatorsTab v-if="tab === 'validators'" />
     <ProjectRequestsTab

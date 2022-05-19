@@ -49,6 +49,7 @@ module.exports = {
       border: 'rgba(0, 0, 0, 0.07)',
       checkbox: '#C4C4C4',
       radio: '#C4C4C4',
+      warning: '#FC8C0B',
       error: '#D80228',
       negative: '#D80228'
     },

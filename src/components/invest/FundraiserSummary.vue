@@ -26,9 +26,6 @@ interface Props {
   amountSaleOverTotal: string
   totalSaleAmount: number
   saleDenom: string | undefined
-  totalFee: number
-  feeDenom: string | undefined
-  totalRaisePotential: number
   startDate: Date
   endDate: Date
   ableToPublish: boolean
@@ -79,34 +76,8 @@ function formatRange(start: Date, end: Date): string {
           Fundraiser Summary
         </IgniteHeading>
       </div>
-      <div class="flex grow flex-col">
+      <div class="flex grow flex-col justify-center">
         <div class="flex flex-row items-center justify-between">
-          <div class="flex-col">
-            <IgniteText class="text-3 font-medium text-gray-660">
-              Raising
-            </IgniteText>
-          </div>
-          <div class="flex-col">
-            <IgniteText class="text-left font-title text-5 font-semibold">
-              <IgniteNumber :number="props.totalSaleValue" />
-              {{ props.saleDenom }}
-            </IgniteText>
-          </div>
-        </div>
-        <div class="mt-6 flex flex-row items-center justify-between">
-          <div class="flex-col">
-            <IgniteText class="text-3 font-medium text-gray-660">
-              Fee
-            </IgniteText>
-          </div>
-          <div class="flex-col">
-            <IgniteText class="text-4 font-normal text-gray-660">
-              - <IgniteNumber :number="props.totalFee" />
-              {{ props.feeDenom }}
-            </IgniteText>
-          </div>
-        </div>
-        <div class="mt-6 flex flex-row items-center justify-between">
           <div class="flex-col">
             <IgniteText class="text-3 font-medium text-gray-660">
               Total raise potential
@@ -114,7 +85,7 @@ function formatRange(start: Date, end: Date): string {
           </div>
           <div class="flex-col">
             <IgniteText class="text-4 font-normal text-gray-660">
-              <IgniteNumber :number="props.totalRaisePotential" />
+              <IgniteNumber :number="props.totalSaleValue" />
               {{ props.saleDenom }}
             </IgniteText>
           </div>
@@ -125,16 +96,12 @@ function formatRange(start: Date, end: Date): string {
       <div class="flex w-1/2">
         <div class="flex grid-cols-3 gap-6">
           <div class="flex-col">
-            <IgniteText class="text-2 text-gray-660"> Type </IgniteText>
-            <IgniteText class="mt-1 text-3 font-medium text-gray-0">
-              Sale
-            </IgniteText>
-          </div>
-          <div class="flex-col">
             <IgniteText class="text-2 text-gray-660"> Vouchers </IgniteText>
             <IgniteText class="mt-1 text-3 font-medium text-gray-0">
-              <IgniteNumber :number="props.totalSaleAmount" />
-
+              <IgniteNumber
+                :number="props.totalSaleAmount"
+                notation="compact"
+              />
               ({{ amountSaleOverTotal }}%)
             </IgniteText>
           </div>

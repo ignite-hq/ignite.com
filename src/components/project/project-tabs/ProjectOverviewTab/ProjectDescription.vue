@@ -22,7 +22,8 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   rawMarkdown: '',
-  sourceUrl: ''
+  sourceUrl: '',
+  loading: false
 })
 
 const { organization, repository } = useGithubMetadata(
@@ -36,6 +37,8 @@ function relativeImageToAbsolute(href: string | null) {
 }
 
 const markdown = computed(() => {
+  if (!props.rawMarkdown) return ''
+
   marked.use({
     renderer: {
       image(href, title, text) {
@@ -74,8 +77,6 @@ const isEmpty = computed(() => {
   return props.rawMarkdown === '404: Not Found'
 })
 </script>
-
-<script lang="ts" setup></script>
 
 <template>
   <template v-if="loading">
