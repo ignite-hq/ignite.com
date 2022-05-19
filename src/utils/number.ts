@@ -65,9 +65,16 @@ export function percentageToCosmosDecimal(pct: string): string {
 
   return cosmosDecimal
 }
-
-export function formatNumber(number: string | number): string {
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat
+// 1000 -> 1,000
+// 1000000 -> 1M
+export function formatNumber(
+  number: string | number,
+  notation: 'standard' | 'scientific' | 'engineering' | 'compact' = 'standard'
+): string {
   if (!isNumeric(number)) return ''
 
-  return new Intl.NumberFormat().format(Number(number))
+  return new Intl.NumberFormat(navigator.language, {
+    notation
+  }).format(Number(number))
 }
