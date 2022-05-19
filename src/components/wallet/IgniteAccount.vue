@@ -6,7 +6,7 @@ export default {
 
 <script lang="ts" setup>
 import { useSpn } from 'tendermint-spn-vue-client'
-import { computed, reactive, watchEffect } from 'vue'
+import { computed, onBeforeMount, reactive, watchEffect } from 'vue'
 
 import IconExternalArrow from '~/components/icons/IconExternalArrow.vue'
 import IconKeplr from '~/components/icons/IconKeplr.vue'
@@ -111,6 +111,11 @@ async function tryToConnectToKeplr() {
     state.modalPage = ModalPage.Error
   }
 }
+
+// lifecycle
+onBeforeMount(() => {
+  tryToConnectToKeplr()
+})
 
 // computed
 const isInstallPage = computed(() => state.modalPage === ModalPage.Install)
