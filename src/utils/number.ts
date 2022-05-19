@@ -9,6 +9,19 @@ export function addCommasToNumber(number: string | number): string {
   return parts.join('.')
 }
 
+export const roundNumber = (precision: number, value: number | string) => {
+  if (!isNumeric(value)) return 0
+  const numberToRound = Number(value)
+  const multiplier = Math.pow(10, precision || 0)
+  return Math.round(numberToRound * multiplier) / multiplier
+}
+
+export function roundToTwoDecimals(value: number): number {
+  if (!isNumeric(value)) return 0
+  const number = Number(value)
+  return roundNumber(2, number + Number.EPSILON)
+}
+
 export function formatAmountInput(value: string, decimals = 0): string {
   let newValue: string = value
 
