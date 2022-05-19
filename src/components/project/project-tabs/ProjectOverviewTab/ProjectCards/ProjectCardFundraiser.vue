@@ -2,7 +2,6 @@
 export enum ProjectCardFundraiserState {
   Upcoming,
   Ongoing,
-  Ended,
   RegistrationOpen
 }
 
@@ -12,16 +11,20 @@ export default {
 </script>
 
 <script setup lang="ts">
+import Countdown from '@chenfengyuan/vue-countdown'
+import BigNumber from 'bignumber.js'
 import dayjs from 'dayjs'
-import { computed } from 'vue'
+import { computed, ref, watchEffect } from 'vue'
 
 import IgniteProgressBar from '~/components/common/IgniteProgressBar.vue'
 import IgniteButton from '~/components/ui/IgniteButton.vue'
 import IgniteCard from '~/components/ui/IgniteCard.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
+import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import { FixedPriceAuction } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising'
-import { amountOfDaysFromNow } from '~/utils/date'
+import { amountOfDaysFromNow, amountOfMillisecondsFromNow } from '~/utils/date'
+import { getDenomName } from '~/utils/fundraising'
 import { ProgressBarItem } from '~/utils/types'
 
 interface ProjectCardAuctions {
@@ -44,14 +47,7 @@ const props = withDefaults(defineProps<Props>(), {
   projectName: ''
 })
 
-const progressBar = {
-  items: [
-    {
-      value: '10',
-      bgColor: 'bg-primary'
-    }
-  ] as ProgressBarItem[]
-}
+const countdown = ref<number>()
 
 function sortByStartDate(auctions: FixedPriceAuction[]) {
   return auctions.sort((a, b) => {
@@ -86,12 +82,46 @@ const isUpcoming = computed(() => {
   return props.state === ProjectCardFundraiserState.Upcoming
 })
 
-const hasEnded = computed(() => {
-  return props.state === ProjectCardFundraiserState.Ended
-})
-
 const isRegistrationOpen = computed(() => {
   return props.state === ProjectCardFundraiserState.RegistrationOpen
+})
+
+const currentAuction = computed(() => {
+  const { current } = props.auctions
+  const [currentAuction] = sortByStartDate(current)
+
+  return currentAuction
+})
+
+const upcomingAuction = computed(() => {
+  const { upcoming } = props.auctions
+  const [upcomingAuction] = sortByStartDate(upcoming)
+
+  return upcomingAuction
+})
+
+const raisedCoins = computed(() => {
+  const totalSupply = new BigNumber(
+    currentAuction.value.base_auction?.selling_coin?.amount ?? ''
+  )
+  const coinsLeft = new BigNumber(
+    currentAuction.value.remaining_selling_coin?.amount ?? ''
+  )
+  const raisedAmount = totalSupply.minus(coinsLeft).abs()
+
+  return {
+    amount: raisedAmount.toString(),
+    percentage: raisedAmount.dividedBy(totalSupply).times(100).toString()
+  }
+})
+
+const remainingCoinProgressBar = computed<ProgressBarItem[]>(() => {
+  return [
+    {
+      value: raisedCoins.value.percentage,
+      bgColor: 'bg-primary'
+    }
+  ]
 })
 
 const timeDescription = computed(() => {
@@ -131,33 +161,31 @@ const timeDescription = computed(() => {
 })
 
 const timeLeft = computed(() => {
+  const auction = isUpcoming.value
+    ? upcomingAuction.value
+    : currentAuction.value
+  const startTime = auction.base_auction?.start_time
+  const endTime = auction?.base_auction?.end_times?.[0]
+
+  return displayTimeLeft(isUpcoming.value ? startTime : endTime)
+})
+
+watchEffect(() => {
   if (isUpcoming.value) {
-    const { upcoming } = props.auctions
-    const [upcomingAuction] = sortByStartDate(upcoming)
+    const startTime = upcomingAuction.value?.base_auction?.start_time
 
-    if (!upcomingAuction) {
-      return ''
+    if (amountOfDaysFromNow(startTime) === 0) {
+      countdown.value = amountOfMillisecondsFromNow(startTime)
     }
-
-    const startTime = upcomingAuction?.base_auction?.start_time
-
-    return displayTimeLeft(startTime)
   }
 
-  if (isRegistrationOpen.value) {
-    const { current } = props.auctions
-    const [currentAuction] = sortByStartDate(current)
+  if (isOngoing.value) {
+    const endTime = currentAuction.value?.base_auction?.end_times?.[0]
 
-    if (!currentAuction) {
-      return ''
+    if (amountOfDaysFromNow(endTime) === 0) {
+      countdown.value = amountOfMillisecondsFromNow(endTime)
     }
-
-    const startTime = currentAuction?.base_auction?.start_time
-
-    return displayTimeLeft(startTime)
   }
-
-  return 'Sale ends in'
 })
 </script>
 
@@ -168,28 +196,20 @@ const timeLeft = computed(() => {
     :class="isWide && 'sm:flex-row'"
   >
     <div v-if="isOngoing" class="w-full">
-      <IgniteProgressBar :items="progressBar.items" :label="false" />
+      <IgniteProgressBar :items="remainingCoinProgressBar" :label="false" />
       <IgniteHeading
         as="div"
         class="mt-6 font-title text-5 font-semibold md:text-7"
       >
-        300,000 UST
+        <IgniteNumber :number="raisedCoins.amount" />
+        {{
+          getDenomName(currentAuction.base_auction?.selling_coin?.denom ?? '')
+        }}
       </IgniteHeading>
       <IgniteText as="div" class="mt-5 text-3 text-muted">
-        raised of 3,000,000 UST
-      </IgniteText>
-    </div>
-
-    <div v-if="hasEnded" class="w-full">
-      <IgniteProgressBar :items="progressBar.items" :label="false" />
-      <IgniteHeading
-        as="div"
-        class="mt-6 font-title text-5 font-semibold md:text-7"
-      >
-        300,000 UST
-      </IgniteHeading>
-      <IgniteText as="div" class="mt-5 text-3 text-muted">
-        raised of 3,000,000 UST
+        raised of
+        <IgniteNumber :number="currentAuction.remaining_selling_coin?.amount" />
+        {{ getDenomName(currentAuction.remaining_selling_coin?.denom ?? '') }}
       </IgniteText>
     </div>
 
@@ -248,7 +268,16 @@ const timeLeft = computed(() => {
         <IgniteText as="div" class="mb-2 text-2 text-muted">{{
           timeDescription
         }}</IgniteText>
-        <IgniteHeading as="div" class="font-title text-4">{{
+
+        <IgniteHeading v-if="Boolean(countdown)" class="font-title text-4">
+          <Countdown v-slot="{ hours, minutes, seconds }" :time="countdown">
+            {{ hours.toString().padStart(2, '0') }}:{{
+              minutes.toString().padStart(2, '0')
+            }}:{{ seconds.toString().padStart(2, '0') }}
+          </Countdown>
+        </IgniteHeading>
+
+        <IgniteHeading v-else as="p" class="font-title text-4">{{
           timeLeft
         }}</IgniteHeading>
       </div>

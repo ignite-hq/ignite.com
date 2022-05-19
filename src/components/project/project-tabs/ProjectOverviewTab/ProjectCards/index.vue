@@ -16,7 +16,9 @@ import {
   HumanizedAuctionStatus
 } from '~/utils/fundraising'
 
-import ProjectCardFundraiser from './ProjectCardFundraiser.vue'
+import ProjectCardFundraiser, {
+  ProjectCardFundraiserState
+} from './ProjectCardFundraiser.vue'
 import ProjectCardValidator from './ProjectCardValidator.vue'
 
 const route = useRoute()
@@ -37,16 +39,11 @@ const auctions = computed(() => {
     HumanizedAuctionStatus.Upcoming,
     auctionsToFilter
   )
-  const endedAuctions = getAuctionsByStatus(
-    HumanizedAuctionStatus.Previous,
-    auctionsToFilter
-  )
 
   return {
     all: auctionsToFilter,
     current: currentAuctions,
-    upcoming: upcomingAuctions,
-    ended: endedAuctions
+    upcoming: upcomingAuctions
   }
 })
 
@@ -61,8 +58,7 @@ const showValidatorCard = computed(() => {
 const showFundraiserCard = computed(() => {
   return (
     Boolean(auctions.value.current.length) ||
-    Boolean(auctions.value.upcoming.length) ||
-    Boolean(auctions.value.ended.length)
+    Boolean(auctions.value.upcoming.length)
   )
 })
 </script>
@@ -78,6 +74,11 @@ const showFundraiserCard = computed(() => {
           :auctions="auctions"
           :project-name="campaignSummary?.campaign?.campaignName"
           :coordinator-id="coordinatorId"
+          :state="
+            auctions.current.length > 0
+              ? ProjectCardFundraiserState.Ongoing
+              : ProjectCardFundraiserState.Upcoming
+          "
         />
       </div>
 
@@ -99,6 +100,11 @@ const showFundraiserCard = computed(() => {
           :auctions="auctions"
           :project-name="campaignSummary?.campaign?.campaignName"
           :coordinator-id="coordinatorId"
+          :state="
+            auctions.current.length > 0
+              ? ProjectCardFundraiserState.Ongoing
+              : ProjectCardFundraiserState.Upcoming
+          "
           is-wide
         />
       </div>
