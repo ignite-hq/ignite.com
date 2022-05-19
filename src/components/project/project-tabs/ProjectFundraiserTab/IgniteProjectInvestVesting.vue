@@ -12,7 +12,7 @@ import dayjs from 'dayjs'
 import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 import IgniteDenom from '~/components/common/IgniteDenom.vue'
 
-import { getDenomName } from '~/utils/fundraisers'
+import { getDenomName } from '~/utils/fundraising'
 import { FundraisingVestingSchedule } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/rest'
 
 interface Props {
