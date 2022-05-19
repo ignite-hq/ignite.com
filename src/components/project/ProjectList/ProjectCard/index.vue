@@ -67,7 +67,7 @@ const showIncentives = computed(function () {
 <template>
   <router-link
     :to="{
-      path: `/projects/${campaignSummary.campaign?.campaignID ?? '0'}/overview`
+      path: `/projects/${campaignSummary.campaign?.campaignID}/overview`
     }"
     :class="isLoading ? 'pointer-events-none cursor-default' : 'cursor-pointer'"
   >
@@ -92,11 +92,12 @@ const showIncentives = computed(function () {
           :campaign-summary="campaignSummary"
         />
         <ProjectCardStatus
+          v-if="campaignSummary.campaign?.campaignID"
           class="project-card__row"
           :loading="isLoading"
           :campaign-summary="campaignSummary"
           :stargazer-count="repository?.stargazers_count?.toString() ?? '0'"
-          :project-id="campaignSummary.campaign?.campaignID ?? '0'"
+          :project-id="campaignSummary.campaign?.campaignID"
         />
       </div>
     </div>

@@ -122,8 +122,9 @@ const showLaunched = computed(() => {
           class="mb-5 text-3 md:mb-0 md:mr-7"
         />
         <ProjectStatus
+          v-if="projectId"
           :loading="isLoading"
-          :project-id="projectId ?? ''"
+          :project-id="projectId"
           :campaign-id="'0'"
           :validator-count="'0'"
           :request-count="'0'"
