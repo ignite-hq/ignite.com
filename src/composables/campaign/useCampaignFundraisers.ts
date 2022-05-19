@@ -20,6 +20,9 @@ export default function useCampaignFundraisers(campaignId: RefOrValue<string>) {
     ['campaigns', 'fundraisers', campaignId],
     async () => {
       const { data } = await queryAuctionsOfCampaign(unref(campaignId))
+
+      if (!data.auctionIDs) throw new Error('Failed to fetch auction IDs')
+
       const auctionIds = data.auctionIDs
 
       const auctionPromises =
