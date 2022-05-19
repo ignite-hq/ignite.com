@@ -5,18 +5,21 @@ export default {
 </script>
 
 <script setup lang="ts">
+import dayjs from 'dayjs'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 
 import useCampaignFundraisers from '~/composables/campaign/useCampaignFundraisers'
 import useCampaignSummary from '~/composables/campaign/useCampaignSummary'
 import { FixedPriceAuction } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising'
+import { amountOfDaysFromNow } from '~/utils/date'
 import {
   getAuctionsByStatus,
   HumanizedAuctionStatus
 } from '~/utils/fundraising'
 
 import ProjectCardFundraiser, {
+  ProjectCardAuctions,
   ProjectCardFundraiserState
 } from './ProjectCardFundraiser.vue'
 import ProjectCardValidator from './ProjectCardValidator.vue'
@@ -28,22 +31,44 @@ const { campaignSummary, isLoading: isLoadingCampaignSummaries } =
   useCampaignSummary(projectId)
 const { fundraisers } = useCampaignFundraisers(projectId)
 
-const auctions = computed(() => {
-  const auctionsToFilter = (fundraisers.value ?? []) as FixedPriceAuction[]
+function sortByStartDate(auctions: FixedPriceAuction[]) {
+  return auctions.sort((a, b) => {
+    return (
+      dayjs(a?.base_auction?.start_time).unix() -
+      dayjs(b?.base_auction?.start_time).unix()
+    )
+  })
+}
+
+const auctions = computed<ProjectCardAuctions>(() => {
+  const auctions = (fundraisers.value ?? []) as FixedPriceAuction[]
+  const sortedAuctions = sortByStartDate(auctions)
 
   const currentAuctions = getAuctionsByStatus(
     HumanizedAuctionStatus.Current,
-    auctionsToFilter
+    sortedAuctions
   )
-  const upcomingAuctions = getAuctionsByStatus(
+  const auctionsWithUpcomingStatus = getAuctionsByStatus(
     HumanizedAuctionStatus.Upcoming,
-    auctionsToFilter
+    sortedAuctions
+  )
+
+  const REGISTRATION_TERM = 7
+
+  const openRegistrationAuctions = auctionsWithUpcomingStatus.filter(
+    ({ base_auction }) =>
+      amountOfDaysFromNow(base_auction?.start_time) <= REGISTRATION_TERM
+  )
+  const upcomingAuctions = auctionsWithUpcomingStatus.filter(
+    ({ base_auction }) =>
+      amountOfDaysFromNow(base_auction?.start_time) > REGISTRATION_TERM
   )
 
   return {
-    all: auctionsToFilter,
+    all: sortedAuctions,
     current: currentAuctions,
-    upcoming: upcomingAuctions
+    upcoming: upcomingAuctions,
+    openRegistration: openRegistrationAuctions
   }
 })
 
@@ -58,7 +83,8 @@ const showValidatorCard = computed(() => {
 const showFundraiserCard = computed(() => {
   return (
     Boolean(auctions.value.current.length) ||
-    Boolean(auctions.value.upcoming.length)
+    Boolean(auctions.value.upcoming.length) ||
+    Boolean(auctions.value.openRegistration.length)
   )
 })
 </script>

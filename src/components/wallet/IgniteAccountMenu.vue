@@ -21,14 +21,6 @@ import IgniteNumber from '../ui/IgniteNumber.vue'
 import IgniteProfileIcon from '../ui/IgniteProfileIcon.vue'
 import IgniteText from '../ui/IgniteText.vue'
 
-interface Props {
-  visible: boolean
-}
-
-withDefaults(defineProps<Props>(), {
-  visible: false
-})
-
 // ignite
 const { signOut } = useSpn()
 
