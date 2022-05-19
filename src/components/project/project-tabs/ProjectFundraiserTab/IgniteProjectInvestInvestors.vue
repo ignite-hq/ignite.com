@@ -15,12 +15,10 @@ import IgniteButton from '~/components/ui/IgniteButton.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
-
-import { getDenomName } from '~/utils/fundraisers'
-
 import useBids from '~/composables/fundraising/useBids'
 import useTotalSupply from '~/composables/fundraising/useTotalSupply'
 import { V1Beta1Coin } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/rest'
+import { getDenomName } from '~/utils/fundraising'
 
 interface Props {
   fundraiserId: string
