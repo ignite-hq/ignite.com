@@ -153,7 +153,7 @@ const status = computed(() => {
                   <ProjectStatus
                     :loading="isLoadingProjectStatus"
                     :status="status"
-                    :project-id="projectId ?? '0'"
+                    :project-id="projectId"
                     :validator-count="
                       campaignSummary?.mostRecentChain?.validatorNb ?? '0'
                     "
