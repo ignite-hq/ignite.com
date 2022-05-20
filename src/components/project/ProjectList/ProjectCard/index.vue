@@ -110,7 +110,7 @@ const showIncentives = computed(function () {
   box-shadow: 16px 32px 128px 8px rgba(0, 0, 0, 0.07);
 
   &__row {
-    @apply border-t border-gray-70 py-7 px-6 md:px-7.5;
+    @apply border-t border-border py-7 px-6 md:px-7.5;
     &:first-child {
       @apply border-t-0 pt-8.5;
     }
