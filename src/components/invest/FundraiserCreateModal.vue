@@ -14,7 +14,7 @@ import IgniteModal from '~/components/ui/IgniteModal.vue'
 import IgniteSpinner from '~/components/ui/IgniteSpinner.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import { UIStates } from '~/views/ProjectFundraiserCreate.vue'
-import IconWarning from '../icons/IconWarning.vue'
+import IconWarning from '~/components/icons/IconWarning.vue'
 
 interface Props {
   currentUiState: UIStates

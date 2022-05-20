@@ -7,8 +7,10 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="w-1/4 flex-col">
-    <div class="rounded-xs border border-border p-6">
+  <div class="mt-7 md:col-span-5 md:row-span-2 md:mt-0 lg:col-span-4">
+    <div
+      class="ml-auto max-w-[25rem] rounded-xs border border-border p-5 md:p-6"
+    >
       <slot />
     </div>
   </div>

@@ -10,7 +10,7 @@ import 'v-calendar/dist/style.css'
 import { DatePicker } from 'v-calendar'
 import { reactive } from 'vue'
 
-import IconCalendar from '../icons/IconCalendar.vue'
+import IconCalendar from '~/components/icons/IconCalendar.vue'
 import IgniteText from './IgniteText.vue'
 
 function initializeDate(date: Date): Date {
@@ -79,7 +79,7 @@ function handleDayClick() {
 <template>
   <div>
     <div class="z-1 relative">
-      <div class="text-left md:flex">
+      <div class="items-end text-left md:flex">
         <div class="">
           <IgniteText as="label" class="block text-2 text-muted"
             >Date</IgniteText

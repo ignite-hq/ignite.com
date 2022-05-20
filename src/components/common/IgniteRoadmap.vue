@@ -14,7 +14,7 @@ import {
   ProjectMilestone,
   RoadmapStatus
 } from '../project/project-tabs/ProjectOverviewTab/types'
-import IgniteLoader from '../ui/IgniteLoader.vue'
+import IgniteLoader from '~/components/ui/IgniteLoader.vue'
 
 interface Props {
   items: ProjectMilestone[]
