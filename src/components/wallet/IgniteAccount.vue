@@ -13,12 +13,12 @@ import IconKeplr from '~/components/icons/IconKeplr.vue'
 import IconWarning from '~/components/icons/IconWarning.vue'
 import useAddress from '~/composables/wallet/useAddress'
 
-import IgniteButton from '../ui/IgniteButton.vue'
-import IgniteHeading from '../ui/IgniteHeading.vue'
-import IgniteLink from '../ui/IgniteLink.vue'
-import IgniteModal from '../ui/IgniteModal.vue'
-import IgniteSpinner from '../ui/IgniteSpinner.vue'
-import IgniteText from '../ui/IgniteText.vue'
+import IgniteButton from '~/components/ui/IgniteButton.vue'
+import IgniteHeading from '~/components/ui/IgniteHeading.vue'
+import IgniteLink from '~/components/ui/IgniteLink.vue'
+import IgniteModal from '~/components/ui/IgniteModal.vue'
+import IgniteSpinner from '~/components/ui/IgniteSpinner.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
 import IgniteAccountMenu from './IgniteAccountMenu.vue'
 
 enum ModalPage {

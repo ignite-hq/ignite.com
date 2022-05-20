@@ -60,7 +60,7 @@ const showIncentives = computed(function () {
         <IgniteLoader v-if="isLoading" class="m-4 h-12 w-full !max-w-2xl" />
         <div
           v-else-if="Boolean(campaignSummary) && showIncentives"
-          class="m-4 flex w-full max-w-2xl flex-col justify-center rounded border border-gray-70 p-5"
+          class="m-4 flex w-full max-w-2xl flex-col justify-center rounded border border-border p-5"
         >
           <ProjectIncentives size="lg" :campaign-summary="campaignSummary" />
         </div>
@@ -68,7 +68,7 @@ const showIncentives = computed(function () {
         <IgniteLoader v-if="isLoading" class="m-4 h-12 w-full !max-w-2xl" />
         <div
           v-else-if="Boolean(campaignSummary) && showAllocation"
-          class="m-4 flex w-full max-w-2xl flex-col justify-center rounded border border-gray-70 p-5"
+          class="m-4 flex w-full max-w-2xl flex-col justify-center rounded border border-border p-5"
         >
           <ProjectShareAllocation
             size="lg"

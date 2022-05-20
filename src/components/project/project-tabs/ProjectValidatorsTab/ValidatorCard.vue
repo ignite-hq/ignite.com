@@ -23,7 +23,7 @@ const validatorData = computed<LaunchGenesisValidator>(() => {
 
 <template>
   <div
-    class="mx-2 mb-6 flex flex-col justify-start rounded border border-gray-70 p-5 text-left"
+    class="mx-2 mb-6 flex flex-col justify-start rounded border border-border p-5 text-left"
     style="width: 292px"
   >
     <img
@@ -39,7 +39,7 @@ const validatorData = computed<LaunchGenesisValidator>(() => {
       {{ validatorData.details.body?.messages[0]?.description?.details || '-' }}
     </IgniteText>
 
-    <div class="mb-2 mt-4 w-full border-b border-gray-70" />
+    <div class="mb-2 mt-4 w-full border-b border-border" />
     <IgniteText class="mb-1 text-2 leading-5 text-muted">
       Also validates
     </IgniteText>

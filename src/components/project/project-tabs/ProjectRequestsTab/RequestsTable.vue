@@ -296,7 +296,7 @@ const showStatus = computed(() => {
 }
 
 .responses-table-column-cell {
-  @apply border-b border-gray-70 px-4 py-6 pl-8 text-left font-medium text-muted;
+  @apply border-b border-border px-4 py-6 pl-8 text-left font-medium text-muted;
 }
 
 .responses-table-body {
