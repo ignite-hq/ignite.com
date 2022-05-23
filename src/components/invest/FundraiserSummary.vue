@@ -9,14 +9,13 @@ export default defineComponent({
 <script lang="ts" setup>
 import dayjs from 'dayjs'
 
-import useAddress from '~/composables/wallet/useAddress'
-
+import IconCalendar from '~/components/icons/IconCalendar.vue'
+import IconStack from '~/components/icons/IconStack.vue'
 import IgniteButton from '~/components/ui/IgniteButton.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
-import IconCalendar from '~/components/icons/IconCalendar.vue'
-import IconStack from '~/components/icons/IconStack.vue'
+import useAddress from '~/composables/wallet/useAddress'
 
 interface Emits {
   (e: 'publish'): void

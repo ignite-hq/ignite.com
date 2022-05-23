@@ -11,14 +11,14 @@ import { computed, onBeforeMount, reactive, watchEffect } from 'vue'
 import IconExternalArrow from '~/components/icons/IconExternalArrow.vue'
 import IconKeplr from '~/components/icons/IconKeplr.vue'
 import IconWarning from '~/components/icons/IconWarning.vue'
-import useAddress from '~/composables/wallet/useAddress'
-
 import IgniteButton from '~/components/ui/IgniteButton.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteLink from '~/components/ui/IgniteLink.vue'
 import IgniteModal from '~/components/ui/IgniteModal.vue'
 import IgniteSpinner from '~/components/ui/IgniteSpinner.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
+import useAddress from '~/composables/wallet/useAddress'
+
 import IgniteAccountMenu from './IgniteAccountMenu.vue'
 
 enum ModalPage {

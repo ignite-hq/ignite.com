@@ -5,8 +5,8 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import IgniteText from '~/components/ui/IgniteText.vue'
 import IconWarning from '~/components/icons/IconWarningTriangle.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
 
 interface Props {
   text: string

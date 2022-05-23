@@ -9,10 +9,6 @@ import { Menu, MenuButton, MenuItems } from '@headlessui/vue'
 import { useSpn } from 'tendermint-spn-vue-client'
 import { computed } from 'vue'
 
-import useAccount from '~/composables/wallet/useAccount'
-import useAddress from '~/composables/wallet/useAddress'
-import useBalances from '~/composables/wallet/useBalances'
-
 import IgniteButton from '~/components/ui/IgniteButton.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteLink from '~/components/ui/IgniteLink.vue'
@@ -20,6 +16,9 @@ import IgniteLoader from '~/components/ui/IgniteLoader.vue'
 import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 import IgniteProfileIcon from '~/components/ui/IgniteProfileIcon.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
+import useAccount from '~/composables/wallet/useAccount'
+import useAddress from '~/composables/wallet/useAddress'
+import useBalances from '~/composables/wallet/useBalances'
 
 interface Props {
   visible: boolean

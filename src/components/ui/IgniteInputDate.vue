@@ -11,6 +11,7 @@ import { DatePicker } from 'v-calendar'
 import { reactive } from 'vue'
 
 import IconCalendar from '~/components/icons/IconCalendar.vue'
+
 import IgniteText from './IgniteText.vue'
 
 function initializeDate(date: Date): Date {

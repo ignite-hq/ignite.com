@@ -8,15 +8,15 @@ export default {
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 
+import ProjectIncentives from '~/components/project/ProjectIncentives.vue'
 import IgniteButton from '~/components/ui/IgniteButton.vue'
+import IgniteCard from '~/components/ui/IgniteCard.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteLoader from '~/components/ui/IgniteLoader.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
-import IgniteCard from '~/components/ui/IgniteCard.vue'
 import useCampaignSummary from '~/composables/campaign/useCampaignSummary'
 import { hasAtLeastOneIncentive, hasAtLeastOneVoucher } from '~/utils/reward'
 
-import ProjectIncentives from '~/components/project/ProjectIncentives.vue'
 import ProjectShareAllocation from '../../ProjectShareAllocation.vue'
 import ValidatorList from './ValidatorList.vue'
 
