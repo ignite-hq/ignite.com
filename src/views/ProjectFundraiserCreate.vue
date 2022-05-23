@@ -47,6 +47,7 @@ import IgniteText from '~/components/ui/IgniteText.vue'
 import useTotalSupply from '~/composables/fundraising/useTotalSupply'
 import useBalances from '~/composables/wallet/useBalances'
 import { percentageToCosmosDecimal } from '~/utils/number'
+import { getDenomName } from '~/utils/fundraising'
 
 // types
 type FixedPriceAuction = MsgCreateFixedPriceAuction
@@ -564,7 +565,7 @@ function cancel() {
               </IgniteText>
             </div>
             <div class="mt-3 flex items-center">
-              <div class="flex max-w-[14.5rem]">
+              <div class="flex max-w-[15.5rem]">
                 <!-- Skeleton loading balances -->
                 <div
                   v-if="isFetchingTotalSupply"
@@ -589,6 +590,17 @@ function cancel() {
                     :is-mobile-native="false"
                     @input="handlePayingDenomChange"
                   >
+                    <template #selected>
+                      <IgniteDenom
+                        v-if="state.auction.paying_coin_denom"
+                        modifier="avatar"
+                        :denom="getDenomName(state.auction.paying_coin_denom)"
+                        :title="state.auction.paying_coin_denom"
+                        size="small"
+                        class="mr-3"
+                      />
+                      {{ getDenomName(state.auction.paying_coin_denom) }}
+                    </template>
                     <template
                       v-for="i in filterdTotalSupplyCoins"
                       :key="i.denom"
@@ -597,12 +609,12 @@ function cancel() {
                       <IgniteDenom
                         v-if="i.denom"
                         modifier="avatar"
-                        :denom="i.denom"
+                        :denom="getDenomName(i.denom)"
                         :title="i.denom"
                         size="small"
                         class="mr-3"
                       />
-                      {{ i.denom?.toUpperCase() }}
+                      {{ getDenomName(i.denom) }}
                     </template>
                   </IgniteSelect>
                 </div>
@@ -617,7 +629,7 @@ function cancel() {
               <div class="ml-6 flex-row">
                 <IgniteText class="font-bold">
                   <IgniteNumber :number="totalSaleValue" />
-                  {{ state.auction.paying_coin_denom.toUpperCase() }}
+                  {{ getDenomName(state.auction.paying_coin_denom) }}
                 </IgniteText>
               </div>
             </div>
