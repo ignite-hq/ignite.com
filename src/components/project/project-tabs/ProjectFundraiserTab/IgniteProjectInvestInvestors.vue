@@ -17,7 +17,11 @@ import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import useBids from '~/composables/fundraising/useBids'
 import useTotalSupply from '~/composables/fundraising/useTotalSupply'
-import { V1Beta1Coin } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/rest'
+import {
+  FundraisingBid,
+  FundraisingQueryBidsResponse,
+  V1Beta1Coin
+} from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/rest'
 import { getDenomName } from '~/utils/fundraising'
 
 interface Props {
@@ -36,12 +40,26 @@ const { bids, fetchNextPage, hasNextPage, isFetchingNextPage } = useBids(
 )
 const { totalSupply } = useTotalSupply()
 
+// methods
+function mergePages(
+  pages: FundraisingQueryBidsResponse[] = []
+): FundraisingBid[] {
+  return pages?.reduce(
+    (acc, page) => [...acc, ...(page?.bids ?? [])],
+    [] as FundraisingBid[]
+  )
+}
+
 // computed
 const supply = computed(() => {
   if (!totalSupply.value?.supply || !props.currency) return 0
   return totalSupply.value?.supply.find(
     (token: V1Beta1Coin) => token.denom === props.currency
   ).amount
+})
+
+const mergedBids = computed<FundraisingBid[]>(() => {
+  return mergePages(bids.value?.pages)
 })
 </script>
 
@@ -53,8 +71,11 @@ const supply = computed(() => {
           Investors
         </IgniteHeading>
         <IgniteText as="div" class="mt-5 text-3 text-muted">
-          <IgniteNumber :number="bids.pagination.total" as="strong" /> Active
-          investors
+          <IgniteNumber
+            :number="bids?.pages[0]?.pagination?.total"
+            as="strong"
+          />
+          Active investors
         </IgniteText>
       </div>
       <div
@@ -96,7 +117,7 @@ const supply = computed(() => {
         <!-- body -->
         <div class="pt-6 md:pt-8">
           <div
-            v-for="bid in bids"
+            v-for="bid in mergedBids"
             :key="bid.id"
             class="mt-6 border-t border-border pt-6 first:mt-0 first:border-t-0 first:pt-0 md:mt-9 md:border-t-0 md:pt-0"
           >

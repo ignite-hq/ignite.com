@@ -1,7 +1,7 @@
 <script lang="ts">
 import BigNumber from 'bignumber.js'
 import { V1Beta1Coin } from 'node_modules/tendermint-spn-ts-client/tendermint.fundraising/rest'
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, toRefs } from 'vue'
 
 export default defineComponent({
   name: 'ProjectInvestTitle'
@@ -25,7 +25,12 @@ import IgniteLink from '~/components/ui/IgniteLink.vue'
 import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import useTotalSupply from '~/composables/fundraising/useTotalSupply'
-import { getDenomName, HumanizedAuctionStatus } from '~/utils/fundraising'
+import {
+  getDenomName,
+  getHumanizedAuctionStatus,
+  HumanizedAuctionStatus,
+  toCompactNumber
+} from '~/utils/fundraising'
 import { ProgressBarItem } from '~/utils/types'
 
 interface Props {
@@ -53,7 +58,7 @@ const currency = computed<string>(() => {
 })
 
 const tokenSupply = computed<number>(() => {
-  const token = totalSupply.value?.find(
+  const token = totalSupply.value?.supply?.find(
     (token: V1Beta1Coin) => token.denom === base_auction.selling_coin?.denom
   )
   return new BigNumber(token?.amount ?? '0').toNumber()

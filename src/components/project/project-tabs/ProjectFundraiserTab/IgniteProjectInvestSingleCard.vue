@@ -23,10 +23,9 @@ import IgniteLink from '~/components/ui/IgniteLink.vue'
 import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import useTotalSupply from '~/composables/fundraising/useTotalSupply'
-import { AuctionStatus } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/fundraising'
 import {
   getDenomName,
-  HumanizedAuctionStatus,
+  getHumanizedAuctionStatus,
   toCompactNumber
 } from '~/utils/fundraising'
 import { ProgressBarItem } from '~/utils/types'
@@ -95,29 +94,6 @@ const roadmapItems = computed(() => {
   // }
   return []
 })
-
-const statusDetailed = computed(() => {
-  console.log(props.auction)
-  return props.auction?.base_auction.status || ''
-})
-
-const formatAuctionStatus = (
-  auctionType: AuctionStatus
-): HumanizedAuctionStatus => {
-  // @ts-ignore
-  switch (AuctionStatus[auctionType] as AuctionStatus) {
-    case AuctionStatus.AUCTION_STATUS_VESTING:
-    case AuctionStatus.AUCTION_STATUS_STARTED:
-      return HumanizedAuctionStatus.Current
-    case AuctionStatus.AUCTION_STATUS_STANDBY:
-      return HumanizedAuctionStatus.Upcoming
-    case AuctionStatus.AUCTION_STATUS_FINISHED:
-    case AuctionStatus.AUCTION_STATUS_CANCELLED:
-      return HumanizedAuctionStatus.Previous
-    default:
-      return HumanizedAuctionStatus.Other
-  }
-}
 </script>
 
 <template>
@@ -179,30 +155,36 @@ const formatAuctionStatus = (
               class="mt-2 flex items-center text-2 font-semibold md:mt-3 md:text-3"
             >
               <IconDots
-                v-if="statusDetailed === 'AUCTION_STATUS_VESTING'"
+                v-if="auction?.base_auction.status === 'AUCTION_STATUS_VESTING'"
                 class="mr-3"
               />
               <IconDots
-                v-if="statusDetailed === 'AUCTION_STATUS_STARTED'"
+                v-if="auction?.base_auction.status === 'AUCTION_STATUS_STARTED'"
                 class="mr-3"
               />
               <IconClock
-                v-if="statusDetailed === 'AUCTION_STATUS_STANDBY'"
+                v-if="auction?.base_auction.status === 'AUCTION_STATUS_STANDBY'"
                 class="mr-3"
               />
               <IconCheckMarkThin
-                v-if="statusDetailed === 'AUCTION_STATUS_FINISHED'"
+                v-if="
+                  auction?.base_auction.status === 'AUCTION_STATUS_FINISHED'
+                "
                 class="mr-3"
               />
               <IconCanceled
-                v-if="statusDetailed === 'AUCTION_STATUS_CANCELLED'"
+                v-if="
+                  auction?.base_auction.status === 'AUCTION_STATUS_CANCELLED'
+                "
                 class="mr-3"
               />
               <IconCanceled
-                v-if="statusDetailed === 'AUCTION_STATUS_UNSPECIFIED'"
+                v-if="
+                  auction?.base_auction.status === 'AUCTION_STATUS_UNSPECIFIED'
+                "
                 class="mr-3"
               />
-              {{ formatAuctionStatus(statusDetailed) }}
+              {{ getHumanizedAuctionStatus(auction?.base_auction.status) }}
             </IgniteHeading>
           </div>
 

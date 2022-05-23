@@ -5,7 +5,7 @@ export default function useFundraisersAll() {
   const { queryAuctions } = useTendermintFundraising()
 
   const { data, ...other } = useQuery(['fundraisers', 'all'], () => {
-    return queryAuctions().then((r) => r.data)
+    return queryAuctions().then((r) => r.data.auctions)
   })
 
   return { fundraisers: data, ...other }

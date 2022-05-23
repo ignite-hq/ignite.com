@@ -32,7 +32,7 @@ withDefaults(defineProps<Props>(), {
 
 const statuses = computed(() => {
   let statuses = []
-  const auctions = fundraisers?.value?.auctions ?? []
+  const auctions = fundraisers?.value ?? []
   const currentPresent = auctions.find(
     (auctionData: any) =>
       getHumanizedAuctionStatus(auctionData.base_auction.status) ===
@@ -87,12 +87,15 @@ const statuses = computed(() => {
           class="mt-6 grid grid-cols-1 gap-5 md:mt-8 md:gap-7 lg:grid-cols-2"
         >
           <div
-            v-for="(fundraiser, key) in fundraisers?.auctions?.filter(
-              (fundraiser) =>
-                status
-                  .toString()
-                  .toLowerCase()
-                  .includes(formatAuctionStatus(fundraiser.status))
+            v-for="(fundraiser, key) in fundraisers?.filter((fundraiser) =>
+              status
+                .toString()
+                .toLowerCase()
+                .includes(
+                  getHumanizedAuctionStatus(
+                    fundraiser.base_auction.status
+                  ).toLowerCase()
+                )
             )"
             :key="`fundraisers_${status}_${key}`"
             class="relative z-[1]"
