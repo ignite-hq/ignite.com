@@ -2,13 +2,15 @@
 export enum ProjectCardFundraiserState {
   Upcoming,
   Ongoing,
-  RegistrationOpen
+  RegistrationOpen,
+  Ended
 }
 
 export interface ProjectCardAuctions {
   current: FixedPriceAuction[]
   upcoming: FixedPriceAuction[]
   openRegistration: FixedPriceAuction[]
+  ended: FixedPriceAuction[]
 }
 
 export default {
@@ -32,7 +34,7 @@ import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import { FixedPriceAuction } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising'
 import { amountOfDaysFromNow, amountOfMillisecondsFromNow } from '~/utils/date'
-import { getDenomName } from '~/utils/fundraising'
+import { getDenomName, getRegistrationStartDate } from '~/utils/fundraising'
 import { ProgressBarItem } from '~/utils/types'
 
 interface Props {
@@ -63,14 +65,14 @@ function displayTimeLeft(date?: string | Date) {
   }
 
   if (daysUntilAuction > 0) {
-    return `${daysUntilAuction} days`
+    return `${daysUntilAuction} day${daysUntilAuction > 1 ? 's' : ''}`
   }
 
   return dayjs(date).format('HH:MM:ss')
 }
 
 const state = computed<ProjectCardFundraiserState>(() => {
-  const { current, upcoming, openRegistration } = props.auctions
+  const { current, upcoming, openRegistration, ended } = props.auctions
 
   if (current.length > 0) {
     return ProjectCardFundraiserState.Ongoing
@@ -82,6 +84,10 @@ const state = computed<ProjectCardFundraiserState>(() => {
 
   if (upcoming.length > 0) {
     return ProjectCardFundraiserState.Upcoming
+  }
+
+  if (ended.length > 0) {
+    return ProjectCardFundraiserState.Ended
   }
 
   return ProjectCardFundraiserState.Upcoming
@@ -99,11 +105,16 @@ const isRegistrationOpen = computed(() => {
   return state.value === ProjectCardFundraiserState.RegistrationOpen
 })
 
+const hasEnded = computed(() => {
+  return state.value === ProjectCardFundraiserState.Ended
+})
+
 const focusedAuction = computed(() => {
-  const { upcoming, openRegistration, current } = props.auctions
+  const { upcoming, openRegistration, current, ended } = props.auctions
   const [currentAuction] = current
   const [openRegistrationAuction] = openRegistration
   const [upcomingAuction] = upcoming
+  const [endedAuction] = ended
 
   if (isOngoing.value) {
     return currentAuction
@@ -115,6 +126,10 @@ const focusedAuction = computed(() => {
 
   if (isUpcoming.value) {
     return upcomingAuction
+  }
+
+  if (hasEnded.value) {
+    return endedAuction
   }
 
   return undefined
@@ -146,8 +161,10 @@ const remainingCoinProgressBar = computed<ProgressBarItem[]>(() => {
 
 const timeDescription = computed(() => {
   if (isUpcoming.value) {
-    const startTime = focusedAuction.value?.base_auction?.start_time
-    return amountOfDaysFromNow(startTime) > 7
+    const registrationStartTime = getRegistrationStartDate(
+      focusedAuction.value?.base_auction?.start_time ?? ''
+    )
+    return amountOfDaysFromNow(registrationStartTime) > 7
       ? 'Registration opens'
       : 'Registration begins in'
   }
@@ -160,24 +177,39 @@ const timeDescription = computed(() => {
     return 'Sale ends in'
   }
 
+  if (hasEnded.value) {
+    return ''
+  }
+
   return ''
 })
 
-const timeLeft = computed(() => {
+const saleDescription = computed(() => {
   const startTime = focusedAuction.value?.base_auction?.start_time
+  const registrationStartTime = getRegistrationStartDate(startTime ?? '')
   const endTime = focusedAuction.value?.base_auction?.end_times?.[0]
 
-  return displayTimeLeft(
-    isRegistrationOpen.value || isUpcoming.value ? startTime : endTime
-  )
+  let dateToDisplay = startTime
+
+  if (isRegistrationOpen.value) dateToDisplay = startTime
+  else if (isUpcoming.value) dateToDisplay = registrationStartTime
+  else if (isOngoing.value) dateToDisplay = endTime
+
+  if (hasEnded.value) {
+    return raisedCoins.value.percentage === '100' ? 'Sold out' : 'Sale ended'
+  }
+
+  return displayTimeLeft(dateToDisplay)
 })
 
 watchEffect(() => {
   if (isUpcoming.value) {
-    const startTime = focusedAuction.value?.base_auction?.start_time
+    const registrationStartTime = getRegistrationStartDate(
+      focusedAuction.value?.base_auction?.start_time ?? ''
+    )
 
-    if (amountOfDaysFromNow(startTime) === 0) {
-      countdown.value = amountOfMillisecondsFromNow(startTime)
+    if (amountOfDaysFromNow(registrationStartTime) === 0) {
+      countdown.value = amountOfMillisecondsFromNow(registrationStartTime)
     }
   }
 
@@ -230,7 +262,7 @@ watchEffect(() => {
         as="div"
         class="mr-8 max-w-sm font-title text-5 font-semibold md:text-7"
       >
-        How to participate
+        Upcoming fundraiser
       </IgniteHeading>
       <div class="mt-6 w-full" :class="isWide && 'xl:mt-2'">
         <IgniteText
@@ -254,7 +286,7 @@ watchEffect(() => {
         as="div"
         class="mr-8 max-w-sm font-title text-5 font-semibold md:text-7"
       >
-        Registration to participate
+        Registration now open
       </IgniteHeading>
       <div class="mt-6 w-full" :class="isWide && 'xl:mt-2'">
         <IgniteText
@@ -291,7 +323,7 @@ watchEffect(() => {
         </IgniteHeading>
 
         <IgniteHeading v-else as="p" class="font-title text-4">{{
-          timeLeft
+          saleDescription
         }}</IgniteHeading>
       </div>
       <div class="mt-4" :class="!isWide ? ['sm:mt-0', 'sm:mr-6'] : 'sm:mt-6'">

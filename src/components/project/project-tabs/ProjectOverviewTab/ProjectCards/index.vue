@@ -15,8 +15,10 @@ import useCampaignSummary from '~/composables/campaign/useCampaignSummary'
 import { FixedPriceAuction } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising'
 import { amountOfDaysFromNow } from '~/utils/date'
 import {
+  ENDED_TERM_DAYS,
   getAuctionsByStatus,
-  HumanizedAuctionStatus
+  HumanizedAuctionStatus,
+  REGISTRATION_TERM_DAYS
 } from '~/utils/fundraising'
 
 import ProjectCardFundraiser, {
@@ -33,44 +35,59 @@ const { campaignSummary, isLoading: isLoadingCampaignSummaries } =
 const { fundraisers, isLoading: isLoadingCampaignFundraisers } =
   useCampaignFundraisers(projectId)
 
-function sortByStartDate(auctions: FixedPriceAuction[]) {
+function sortByStartDate(
+  auctions: FixedPriceAuction[],
+  direction: 'asc' | 'desc' = 'asc'
+) {
+  const directionMultiplier = direction === 'asc' ? 1 : -1
+
   return auctions.sort((a, b) => {
     return (
-      dayjs(a?.base_auction?.start_time).unix() -
-      dayjs(b?.base_auction?.start_time).unix()
+      (dayjs(a?.base_auction?.start_time).unix() -
+        dayjs(b?.base_auction?.start_time).unix()) *
+      directionMultiplier
     )
   })
 }
 
 const auctions = computed<ProjectCardAuctions>(() => {
   const auctions = (fundraisers.value ?? []) as FixedPriceAuction[]
-  const sortedAuctions = sortByStartDate(auctions)
+  const sortedAuctionsAsc = sortByStartDate(auctions, 'asc')
+  const sortedAuctionsDesc = sortByStartDate(auctions, 'desc')
 
   const currentAuctions = getAuctionsByStatus(
     HumanizedAuctionStatus.Current,
-    sortedAuctions
+    sortedAuctionsAsc
   )
   const auctionsWithUpcomingStatus = getAuctionsByStatus(
     HumanizedAuctionStatus.Upcoming,
-    sortedAuctions
+    sortedAuctionsAsc
   )
-
-  const REGISTRATION_TERM = 7
+  const auctionsWithPreviousStatus = getAuctionsByStatus(
+    HumanizedAuctionStatus.Previous,
+    sortedAuctionsDesc
+  )
 
   const openRegistrationAuctions = auctionsWithUpcomingStatus.filter(
     ({ base_auction }) =>
-      amountOfDaysFromNow(base_auction?.start_time) <= REGISTRATION_TERM
+      amountOfDaysFromNow(base_auction?.start_time) <= REGISTRATION_TERM_DAYS
   )
   const upcomingAuctions = auctionsWithUpcomingStatus.filter(
     ({ base_auction }) =>
-      amountOfDaysFromNow(base_auction?.start_time) > REGISTRATION_TERM
+      amountOfDaysFromNow(base_auction?.start_time) > REGISTRATION_TERM_DAYS
+  )
+  const endedAuctions = auctionsWithPreviousStatus.filter(
+    ({ base_auction }) =>
+      Math.abs(amountOfDaysFromNow(base_auction?.end_times[0])) <=
+      ENDED_TERM_DAYS
   )
 
   return {
-    all: sortedAuctions,
+    all: sortedAuctionsAsc,
     current: currentAuctions,
     upcoming: upcomingAuctions,
-    openRegistration: openRegistrationAuctions
+    openRegistration: openRegistrationAuctions,
+    ended: endedAuctions
   }
 })
 

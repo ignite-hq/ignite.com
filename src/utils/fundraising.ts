@@ -1,3 +1,5 @@
+import dayjs from 'dayjs'
+
 import {
   AuctionStatus,
   FixedPriceAuction
@@ -50,4 +52,13 @@ export function getAuctionsByStatus(
       ) === status
     )
   })
+}
+
+export const REGISTRATION_TERM_DAYS = 7
+export const ENDED_TERM_DAYS = 7
+
+export function getRegistrationStartDate(startDate: string | number | Date) {
+  const date = dayjs(startDate)
+
+  return date.subtract(REGISTRATION_TERM_DAYS, 'days').toDate()
 }
