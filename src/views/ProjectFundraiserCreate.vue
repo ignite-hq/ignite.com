@@ -24,6 +24,8 @@ import { useSpn } from 'tendermint-spn-vue-client'
 import { computed, onMounted, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 
+import IgniteBreadcrumbs from '~/components/common/IgniteBreadcrumbs.vue'
+import IgniteDenom from '~/components/common/IgniteDenom.vue'
 import IconCanceled from '~/components/icons/IconCanceled.vue'
 import IconPlus from '~/components/icons/IconPlus.vue'
 import FundraiserCreateModal from '~/components/invest/FundraiserCreateModal.vue'
@@ -33,21 +35,19 @@ import FundraiserInputSection from '~/components/invest/FundraiserInputSection.v
 import FundraiserSection from '~/components/invest/FundraiserSection.vue'
 import FundraiserSummary from '~/components/invest/FundraiserSummary.vue'
 import IgniteButton from '~/components/ui/IgniteButton.vue'
-import IgniteHeading from '~/components/ui/IgniteHeading.vue'
-import IgniteNumber from '~/components/ui/IgniteNumber.vue'
-import IgniteText from '~/components/ui/IgniteText.vue'
-import { percentageToCosmosDecimal } from '~/utils/number'
-
-import IgniteInputDate from '~/components/ui/IgniteInputDate.vue'
-import IgniteSelect from '~/components/ui/IgniteSelect.vue'
-import IgniteInput from '~/components/ui/IgniteInput.vue'
-import IgniteDenom from '~/components/common/IgniteDenom.vue'
-import useBalances from '~/composables/wallet/useBalances'
-import useTotalSupply from '~/composables/fundraising/useTotalSupply'
 import IgniteFeedback from '~/components/ui/IgniteFeedback.vue'
-import IgniteLoader from '~/components/ui/IgniteLoader.vue'
-import IgniteBreadcrumbs from '~/components/common/IgniteBreadcrumbs.vue'
+import IgniteHeading from '~/components/ui/IgniteHeading.vue'
+import IgniteInput from '~/components/ui/IgniteInput.vue'
+import IgniteInputDate from '~/components/ui/IgniteInputDate.vue'
 import IgniteLink from '~/components/ui/IgniteLink.vue'
+import IgniteLoader from '~/components/ui/IgniteLoader.vue'
+import IgniteNumber from '~/components/ui/IgniteNumber.vue'
+import IgniteSelect from '~/components/ui/IgniteSelect.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
+import useTotalSupply from '~/composables/fundraising/useTotalSupply'
+import useBalances from '~/composables/wallet/useBalances'
+import { percentageToCosmosDecimal } from '~/utils/number'
+import { getDenomName } from '~/utils/fundraising'
 
 // types
 type FixedPriceAuction = MsgCreateFixedPriceAuction
@@ -476,17 +476,17 @@ function cancel() {
               </IgniteText>
             </div>
 
-            <div class="mt-3 flex items-center" v-if="hasAnyBalance">
+            <div v-if="hasAnyBalance" class="mt-3 flex items-center">
               <div class="flex max-w-[14.5rem]">
                 <!-- Skeleton loading balances -->
                 <div
-                  class="w-1/2 rounded-xs rounded-r-none border border-r-0 border-border p-2"
                   v-if="isFetchingBalances"
+                  class="w-1/2 rounded-xs rounded-r-none border border-r-0 border-border p-2"
                 >
                   <IgniteLoader class="h-full w-full rounded-xs" />
                 </div>
                 <!-- Input -->
-                <div class="flex w-1/2" v-else>
+                <div v-else class="flex w-1/2">
                   <IgniteSelect
                     :selected="
                       coinToSelectOption({
@@ -503,7 +503,7 @@ function cancel() {
                     <template
                       v-for="i in (balances as Coin[])"
                       :key="i.denom"
-                      v-slot:[i.denom]
+                      #[i.denom]
                     >
                       <IgniteDenom
                         v-if="i.denom"
@@ -565,16 +565,16 @@ function cancel() {
               </IgniteText>
             </div>
             <div class="mt-3 flex items-center">
-              <div class="flex max-w-[14.5rem]">
+              <div class="flex max-w-[15.5rem]">
                 <!-- Skeleton loading balances -->
                 <div
-                  class="w-1/2 rounded-xs rounded-r-none border border-r-0 border-border p-2"
                   v-if="isFetchingTotalSupply"
+                  class="w-1/2 rounded-xs rounded-r-none border border-r-0 border-border p-2"
                 >
                   <IgniteLoader class="h-full w-full rounded-xs" />
                 </div>
                 <!-- Input -->
-                <div class="flex w-1/2" v-else>
+                <div v-else class="flex w-1/2">
                   <IgniteSelect
                     :selected="
                       coinToSelectOption({
@@ -590,6 +590,17 @@ function cancel() {
                     :is-mobile-native="false"
                     @input="handlePayingDenomChange"
                   >
+                    <template #selected>
+                      <IgniteDenom
+                        v-if="state.auction.paying_coin_denom"
+                        modifier="avatar"
+                        :denom="getDenomName(state.auction.paying_coin_denom)"
+                        :title="state.auction.paying_coin_denom"
+                        size="small"
+                        class="mr-3"
+                      />
+                      {{ getDenomName(state.auction.paying_coin_denom) }}
+                    </template>
                     <template
                       v-for="i in filterdTotalSupplyCoins"
                       :key="i.denom"
@@ -598,12 +609,12 @@ function cancel() {
                       <IgniteDenom
                         v-if="i.denom"
                         modifier="avatar"
-                        :denom="i.denom"
+                        :denom="getDenomName(i.denom)"
                         :title="i.denom"
                         size="small"
                         class="mr-3"
                       />
-                      {{ i.denom?.toUpperCase() }}
+                      {{ getDenomName(i.denom) }}
                     </template>
                   </IgniteSelect>
                 </div>
@@ -618,7 +629,7 @@ function cancel() {
               <div class="ml-6 flex-row">
                 <IgniteText class="font-bold">
                   <IgniteNumber :number="totalSaleValue" />
-                  {{ state.auction.paying_coin_denom.toUpperCase() }}
+                  {{ getDenomName(state.auction.paying_coin_denom) }}
                 </IgniteText>
               </div>
             </div>
@@ -809,13 +820,13 @@ function cancel() {
           <FundraiserInputRow>
             <!-- Generic Feedbacks -->
             <IgniteFeedback
-              class="mb-4"
               v-if="!isVestingTotalSale"
+              class="mb-4"
               text="Total distributed amount should be 100%"
             />
             <IgniteFeedback
-              class="mb-4"
               v-if="!isReleaseTimeAfterEnd"
+              class="mb-4"
               text=" Vesting distribution can not be earlier than Fundraising end date."
             />
             <!-- Add Distribution -->

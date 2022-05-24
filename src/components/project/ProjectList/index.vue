@@ -13,10 +13,10 @@ import {
 import { computed } from 'vue'
 
 import IgniteButton from '~/components/ui/IgniteButton.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
 import useCampaignSummaries from '~/composables/campaign/useCampaignSummaries'
 
 import IgniteProjectCard from './ProjectCard/index.vue'
-import IgniteText from '~/components/ui/IgniteText.vue'
 
 // variables
 const columnWidth = 330

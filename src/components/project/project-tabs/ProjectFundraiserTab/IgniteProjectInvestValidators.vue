@@ -13,8 +13,8 @@ import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteImage from '~/components/ui/IgniteImage.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import useCampaignChains from '~/composables/campaign/useCampaignChains'
-import { useTendermintSpnLaunch } from '~/generated/tendermint-spn-vue-client'
 import { LaunchGenesisValidator } from '~/generated/tendermint-spn-ts-client/tendermint.spn.launch/rest'
+import { useTendermintSpnLaunch } from '~/generated/tendermint-spn-vue-client'
 
 const route = useRoute()
 const projectId = route.params.projectId.toString() || '0'
