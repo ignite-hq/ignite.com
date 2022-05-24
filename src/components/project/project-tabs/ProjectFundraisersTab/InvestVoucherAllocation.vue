@@ -181,7 +181,7 @@ const progressBar = computed(() => {
           >
             Voucher allocation
           </IgniteHeading>
-          <div class="mt-7">
+          <div class="mt-7 max-w-[20rem]">
             <IgniteSelect
               :name="'Voucher select'"
               :selected="{
@@ -194,17 +194,31 @@ const progressBar = computed(() => {
                   label: getDenomName(voucher)
                 }))
               "
+              :is-mobile-native="false"
             >
-              <IgniteDenom
-                size="small"
-                modifier="avatar"
-                :denom="getDenomName(selectedVoucherDenom)"
-                :title="getDenomName(selectedVoucherDenom)"
-                class="mr-3"
-              />
-              <IgniteHeading as="div" class="font-title text-3 md:text-4">
+              <template #selected>
+                <IgniteDenom
+                  v-if="selectedVoucherDenom"
+                  modifier="avatar"
+                  :denom="getDenomName(selectedVoucherDenom)"
+                  :title="getDenomName(selectedVoucherDenom)"
+                  size="small"
+                  class="mr-3"
+                />
                 {{ getDenomName(selectedVoucherDenom) }}
-              </IgniteHeading>
+              </template>
+              <template v-for="voucher in vouchers" :key="voucher" #[voucher]>
+                <div class="flex w-full items-center justify-between gap-4">
+                  <IgniteHeading
+                    as="span"
+                    class="font-title text-3 md:text-4"
+                    >{{ getDenomName(voucher as string) }}</IgniteHeading
+                  >
+                  <IgniteText as="span" class="text-2 text-muted"
+                    >444.44B minted</IgniteText
+                  >
+                </div>
+              </template>
             </IgniteSelect>
           </div>
         </div>

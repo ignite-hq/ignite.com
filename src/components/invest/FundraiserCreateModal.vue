@@ -8,13 +8,13 @@ export default {
 import { computed } from 'vue'
 
 import IconSuccessCheck from '~/components/icons/IconSuccessCheck.vue'
+import IconWarning from '~/components/icons/IconWarning.vue'
 import IgniteButton from '~/components/ui/IgniteButton.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteModal from '~/components/ui/IgniteModal.vue'
 import IgniteSpinner from '~/components/ui/IgniteSpinner.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import { UIStates } from '~/views/ProjectFundraiserCreate.vue'
-import IconWarning from '../icons/IconWarning.vue'
 
 interface Props {
   currentUiState: UIStates

@@ -53,12 +53,14 @@ function hide() {
   <div class="z-1 relative">
     <button
       v-click-outside="hide"
-      class="flex h-8.5 w-full items-center rounded-xs border border-border px-5"
+      class="flex h-8.5 w-full items-center justify-between rounded-xs border border-border px-5"
       :class="variants"
       @click="toggle"
     >
-      <span class="whitespace-nowrap">{{ selected.label }}</span>
-      <IconCaret class="ml-3" :class="opened && 'rotate-180'" />
+      <span class="flex whitespace-nowrap"
+        ><slot name="selected">{{ selected.label }}</slot></span
+      >
+      <IconCaret class="ml-3 shrink-0" :class="opened && 'rotate-180'" />
     </button>
     <select
       :value="selected.label"
@@ -69,25 +71,39 @@ function hide() {
         {{ i.label }}
       </option>
     </select>
-    <ul
-      class="z-1 translate-0 absolute left-0 top-[100%] z-10 max-h-[20rem] min-w-full overflow-auto rounded-xs bg-white-1000 shadow-select transition-transform"
-      :class="[
-        opened && isMobileNative && 'mt-2 hidden md:block',
-        opened && !isMobileNative ? 'mt-2 block' : 'hidden'
-      ]"
-      @click="hide"
-    >
-      <li
-        v-for="i in items"
-        :key="`list_${i.value}`"
-        class="flex cursor-pointer items-center border-b border-border px-7 py-5 transition-opacity last:border-0 hover:opacity-70"
-        :class="selected.value === i.value && 'pointer-events-none bg-border'"
-        @click="() => handleInput(i.value)"
+
+    <Transition>
+      <ul
+        v-if="opened"
+        class="z-1 translate-0 absolute left-0 top-[100%] z-10 max-h-[20rem] min-w-full overflow-auto rounded-xs bg-white-1000 shadow-select transition-transform"
+        :class="[
+          isMobileNative && 'mt-2 hidden md:block',
+          !isMobileNative ? 'mt-2 block' : 'hidden'
+        ]"
+        @click="hide"
       >
-        <slot :name="i.value"></slot>
-      </li>
-    </ul>
+        <li
+          v-for="i in items"
+          :key="`list_${i.value}`"
+          class="flex cursor-pointer items-center border-b border-border px-7 py-5 transition-opacity last:border-0 hover:opacity-70"
+          :class="selected.value === i.value && 'pointer-events-none bg-border'"
+          @click="() => handleInput(i.value)"
+        >
+          <slot :name="i.value"></slot>
+        </li>
+      </ul>
+    </Transition>
   </div>
 </template>
 
-<style scoped lang="postcss"></style>
+<style scoped lang="postcss">
+.v-enter-active,
+.v-leave-active {
+  @apply transition-all;
+}
+
+.v-enter-from,
+.v-leave-to {
+  @apply -translate-y-2 opacity-0;
+}
+</style>

@@ -1,5 +1,6 @@
-import { useCosmosBankV1Beta1 } from '~/generated/tendermint-spn-vue-client'
 import { useQuery } from 'vue-query'
+
+import { useCosmosBankV1Beta1 } from '~/generated/tendermint-spn-vue-client'
 
 export default function useTotalSupply() {
   const { queryTotalSupply } = useCosmosBankV1Beta1()

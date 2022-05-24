@@ -7,7 +7,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="flex w-3/4 flex-col">
+  <div class="md:col-span-7 lg:col-span-8">
     <slot />
   </div>
 </template>
