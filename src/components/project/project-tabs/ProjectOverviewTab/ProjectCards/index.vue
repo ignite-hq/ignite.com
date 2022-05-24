@@ -9,6 +9,7 @@ import dayjs from 'dayjs'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 
+import IgniteLoader from '~/components/ui/IgniteLoader.vue'
 import useCampaignFundraisers from '~/composables/campaign/useCampaignFundraisers'
 import useCampaignSummary from '~/composables/campaign/useCampaignSummary'
 import { FixedPriceAuction } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising'
@@ -29,7 +30,8 @@ const projectId = route.params.projectId.toString() || '0'
 
 const { campaignSummary, isLoading: isLoadingCampaignSummaries } =
   useCampaignSummary(projectId)
-const { fundraisers } = useCampaignFundraisers(projectId)
+const { fundraisers, isLoading: isLoadingCampaignFundraisers } =
+  useCampaignFundraisers(projectId)
 
 function sortByStartDate(auctions: FixedPriceAuction[]) {
   return auctions.sort((a, b) => {
@@ -76,27 +78,34 @@ const coordinatorId = computed(() => {
   return campaignSummary.value?.campaign?.coordinatorID
 })
 
+const isLoading = computed(() => {
+  return isLoadingCampaignSummaries.value || isLoadingCampaignFundraisers.value
+})
+
 const showValidatorCard = computed(() => {
-  return Boolean(campaignSummary?.value?.rewards?.length)
+  return Boolean(campaignSummary?.value?.rewards?.length) || isLoading.value
 })
 
 const showFundraiserCard = computed(() => {
   return (
     Boolean(auctions.value.current.length) ||
     Boolean(auctions.value.upcoming.length) ||
-    Boolean(auctions.value.openRegistration.length)
+    Boolean(auctions.value.openRegistration.length) ||
+    isLoading.value
   )
 })
 </script>
 
 <template>
-  <div v-if="showValidatorCard" class="container">
+  <div v-if="showValidatorCard || showFundraiserCard" class="container">
     <div class="grid grid-cols-1 gap-6 md:gap-7 lg:grid-cols-12 xl:grid-cols-2">
       <div
         v-if="showFundraiserCard && showValidatorCard"
         class="px-0 lg:col-span-8 lg:col-start-3 xl:col-span-1 xl:col-start-auto"
       >
+        <IgniteLoader v-if="isLoading" class="h-[26rem] w-full !max-w-none" />
         <ProjectCardFundraiser
+          v-else
           :auctions="auctions"
           :project-name="campaignSummary?.campaign?.campaignName"
           :coordinator-id="coordinatorId"
@@ -112,14 +121,16 @@ const showFundraiserCard = computed(() => {
         v-if="showValidatorCard && showFundraiserCard"
         class="px-0 lg:col-span-8 lg:col-start-3 xl:col-span-1 xl:col-start-auto"
       >
+        <IgniteLoader v-if="isLoading" class="h-[26rem] w-full !max-w-none" />
         <ProjectCardValidator
+          v-else
           :campaign-summary="campaignSummary"
           :loading="isLoadingCampaignSummaries"
         />
       </div>
 
       <div
-        v-if="showFundraiserCard && !showValidatorCard"
+        v-if="showFundraiserCard && !showValidatorCard && !isLoading"
         class="px-0 lg:col-span-12 xl:col-span-2"
       >
         <ProjectCardFundraiser
