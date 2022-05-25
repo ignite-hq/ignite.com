@@ -22,7 +22,7 @@ import { ProgressBarItem } from '~/utils/types'
 import useTotalSupply from '~/composables/fundraising/useTotalSupply'
 
 interface Props {
-  fundraisers: any
+  fundraisers: FixedPriceAuction
 }
 
 const props = withDefaults(defineProps<Props>(), {

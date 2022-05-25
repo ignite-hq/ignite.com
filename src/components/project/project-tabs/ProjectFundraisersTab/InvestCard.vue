@@ -34,7 +34,7 @@ import {
 import { ProgressBarItem } from '~/utils/types'
 
 interface Props {
-  fundraiser: any
+  fundraiser: FixedPriceAuction
 }
 
 const props = defineProps<Props>()
