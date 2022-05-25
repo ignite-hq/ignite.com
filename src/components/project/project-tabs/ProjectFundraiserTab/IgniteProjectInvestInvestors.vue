@@ -19,10 +19,10 @@ import useBids from '~/composables/fundraising/useBids'
 import useTotalSupply from '~/composables/fundraising/useTotalSupply'
 import {
   FundraisingBid,
-  FundraisingQueryBidsResponse,
   V1Beta1Coin
 } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/rest'
 import { getDenomName } from '~/utils/fundraising'
+import { mergePages } from '~/utils/array'
 
 interface Props {
   fundraiserId: string
@@ -40,16 +40,6 @@ const { bids, fetchNextPage, hasNextPage, isFetchingNextPage } = useBids(
 )
 const { totalSupply } = useTotalSupply()
 
-// methods
-function mergePages(
-  pages: FundraisingQueryBidsResponse[] = []
-): FundraisingBid[] {
-  return pages?.reduce(
-    (acc, page) => [...acc, ...(page?.bids ?? [])],
-    [] as FundraisingBid[]
-  )
-}
-
 // computed
 const supply = computed(() => {
   if (!totalSupply.value?.supply || !props.currency) return 0
@@ -59,7 +49,7 @@ const supply = computed(() => {
 })
 
 const mergedBids = computed<FundraisingBid[]>(() => {
-  return mergePages(bids.value?.pages)
+  return mergePages(bids.value?.pages, 'bids')
 })
 </script>
 
