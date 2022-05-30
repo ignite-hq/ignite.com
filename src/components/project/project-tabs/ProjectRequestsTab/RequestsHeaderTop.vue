@@ -16,7 +16,7 @@ import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteLoader from '~/components/ui/IgniteLoader.vue'
 import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
-import useCampaignChains from '~/composables/campaign/useCampaignChains'
+import usePopulatedCampaignChains from '~/composables/campaign/usePopulatedCampaignChains'
 import { CampaignCampaignSummary } from '~/generated/tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 import { getCampaignStatus, ProjectStatusEnvironment } from '~/utils/campaign'
 import { getIncentivesSummary, getVouchersSummary } from '~/utils/reward'
@@ -36,14 +36,15 @@ const projectId = computed(() => {
 })
 
 const { campaignChains, isLoading: isLoadingCampaignChains } =
-  useCampaignChains(projectId)
+  usePopulatedCampaignChains(projectId)
 
 const isLoading = computed(() => {
   return props.loading || isLoadingCampaignChains.value
 })
 
 const status = computed(() => {
-  const chains = campaignChains.value?.pages[0].campaignChains?.chains ?? []
+  const chains =
+    campaignChains.value?.chains.map(({ launchID }) => launchID ?? '') ?? []
   const isMainnetInitialized =
     props.campaignSummary.campaign?.mainnetInitialized
 
@@ -70,12 +71,36 @@ const incentivesSummary = computed(() => {
   return getIncentivesSummary(campaignId ?? '', rewards)
 })
 
+const mostRecentChain = computed(() => {
+  return campaignChains.value?.chains.find(
+    ({ launchID }) =>
+      launchID === props.campaignSummary.mostRecentChain?.launchID
+  )
+})
+
+const statusText = computed(() => {
+  if (mostRecentChain.value?.launchTriggered) {
+    const launchTimestamp = dayjs.unix(
+      Number(mostRecentChain.value?.launchTimestamp)
+    )
+    return dayjs().isAfter(launchTimestamp)
+      ? 'Launching soon'
+      : 'Awaiting Launch'
+  }
+
+  return 'Accepting requests'
+})
+
 const showVouchers = computed(() => {
   return Boolean(vouchersSummary.value.denoms.length)
 })
 
 const showIncentives = computed(() => {
   return Boolean(incentivesSummary.value.denoms.length)
+})
+
+const showLaunched = computed(() => {
+  return Boolean(mostRecentChain.value?.launchTriggered)
 })
 </script>
 
@@ -97,8 +122,9 @@ const showIncentives = computed(() => {
           class="mb-5 text-3 md:mb-0 md:mr-7"
         />
         <ProjectStatus
+          v-if="projectId"
           :loading="isLoading"
-          :project-id="projectId ?? ''"
+          :project-id="projectId"
           :campaign-id="'0'"
           :validator-count="'0'"
           :request-count="'0'"
@@ -122,14 +148,16 @@ const showIncentives = computed(() => {
           isMainnet ? 'Mainnet' : 'Testnet'
         }}</IgniteText>
       </div>
-      <div class="mb-6 px-6 md:mb-0">
+
+      <div v-if="showLaunched" class="mb-6 px-6 md:mb-0">
         <IgniteText as="div" class="text-2 text-muted">Launched</IgniteText>
         <IgniteText as="div" class="text-medium mt-2 py-1 text-4">{{
           dayjs
-            .unix(Number(campaignSummary?.campaign?.createdAt))
+            .unix(Number(mostRecentChain?.launchTimestamp))
             .format('DD.MM.YYYY')
         }}</IgniteText>
       </div>
+
       <div class="mb-6 px-6 md:mb-0">
         <IgniteText as="div" class="text-2 text-muted">Status</IgniteText>
         <div class="mt-2 flex items-center">
@@ -137,7 +165,7 @@ const showIncentives = computed(() => {
             class="mr-3 flex h-5 w-5 items-center justify-center rounded-circle border border-border after:h-[0.625rem] after:w-[0.625rem] after:rounded-circle after:bg-primary"
           ></div>
           <IgniteText as="div" class="text-medium py-1 text-4">{{
-            isMainnet ? 'Awaiting launch' : 'Accepting requests'
+            statusText
           }}</IgniteText>
         </div>
       </div>

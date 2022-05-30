@@ -4,6 +4,8 @@ import { LaunchGenesisValidator } from 'tendermint-spn-ts-client/tendermint.spn.
 import { computed, PropType } from 'vue'
 
 import validatorAvatar from '~/assets/svg/validatorAvatar.svg'
+import IgniteCard from '~/components/ui/IgniteCard.vue'
+import IgniteLink from '~/components/ui/IgniteLink.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 
 const props = defineProps({
@@ -22,35 +24,34 @@ const validatorData = computed<LaunchGenesisValidator>(() => {
 </script>
 
 <template>
-  <div
-    class="mx-2 mb-6 flex flex-col justify-start rounded border border-gray-70 p-5 text-left"
-    style="width: 292px"
-  >
-    <img
-      :src="validatorAvatar"
-      style="width: 80px; height: 80px"
-      class="mb-6"
-    />
+  <div class="w-full flex-none p-4 md:w-[50%] md:p-5 lg:w-[33.33%] xl:w-[25%]">
+    <IgniteCard class="flex flex-col justify-between p-5 text-left md:p-6">
+      <div>
+        <img :src="validatorAvatar" class="h-9.5 w-9.5 rounded-circle" />
 
-    <IgniteText class="mb-4 text-4 font-bold">
-      {{ validatorData.details.body?.messages[0]?.description?.moniker || '-' }}
-    </IgniteText>
-    <IgniteText class="break-words text-2 leading-5 text-muted">
-      {{ validatorData.details.body?.messages[0]?.description?.details || '-' }}
-    </IgniteText>
+        <IgniteText class="mt-6 text-4 font-bold">
+          {{
+            validatorData.details.body?.messages[0]?.description?.moniker || '-'
+          }}
+        </IgniteText>
+        <IgniteText class="mt-5 break-words pb-4 text-2 leading-5 text-muted">
+          {{
+            validatorData.details.body?.messages[0]?.description?.details || '-'
+          }}
+        </IgniteText>
+      </div>
 
-    <div class="mb-2 mt-4 w-full border-b border-gray-70" />
-    <IgniteText class="mb-1 text-2 leading-5 text-muted">
-      Also validates
-    </IgniteText>
-    <div>
-      <a
-        href="#"
-        class="inline-block text-2 text-primary hover:underline hover:brightness-90 active:brightness-75"
-      >
-        0 other projects
-      </a>
-    </div>
+      <div class="mt-8 border-t border-border pt-6">
+        <IgniteText class="text-2 leading-5 text-muted">
+          Also validates
+        </IgniteText>
+        <div class="mt-3">
+          <IgniteLink to="#" class="text-primary">
+            0 other projects
+          </IgniteLink>
+        </div>
+      </div>
+    </IgniteCard>
   </div>
 </template>
 

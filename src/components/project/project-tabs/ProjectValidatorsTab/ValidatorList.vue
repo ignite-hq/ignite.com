@@ -16,16 +16,20 @@ const { campaignValidators, isLoading } = useGenesisValidatorAllChains(
 </script>
 
 <template>
-  <div>
-    <div class="flex flex-wrap justify-center">
-      <ValidatorCard
-        v-for="validator in campaignValidators"
-        :key="validator[0]"
-        :validator="validator[1]"
-      />
-    </div>
-    <div v-if="!isLoading && campaignValidators?.length === 0">
-      <span>- No validators yet -</span>
-    </div>
+  <div
+    v-if="!isLoading && allGenesisValidators.length === 0"
+    class="mt-6 empty:m-0 md:mt-9"
+  >
+    <span>- No validators yet -</span>
+  </div>
+  <div
+    v-else
+    class="-m-4 mt-6 flex flex-wrap justify-center empty:m-0 md:-m-5 md:mt-9"
+  >
+    <ValidatorCard
+      v-for="validator in campaignValidators"
+      :key="validator[0]"
+      :validator="validator[1]"
+    />
   </div>
 </template>

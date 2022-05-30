@@ -121,7 +121,7 @@ const isLoading = computed(() => {
       :campaign-summary="campaignSummary"
       class="border-b border-border pb-8"
     />
-    <RequestsHeader :project-name="projectName ?? ''" class="mt-10.5" />
+    <RequestsHeader :project-name="projectName ?? ''" class="mt-8 md:mt-10.5" />
     <div>
       <RequestsTable
         v-if="projectRequests.length > 0 || isLoading"
@@ -133,6 +133,7 @@ const isLoading = computed(() => {
         {{ emptyStateMessage }}
       </RequestsEmptyState>
     </div>
+
     <RequestsTable v-if="isFetchingNextPage" :show-header="false" loading />
     <IgniteButton
       v-if="hasNextPage && !isFetchingNextPage && projectRequests.length > 0"

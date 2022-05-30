@@ -9,11 +9,10 @@ export default defineComponent({
 <script lang="ts" setup>
 import dayjs from 'dayjs'
 
-import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 import IgniteDenom from '~/components/common/IgniteDenom.vue'
-
-import { getDenomName } from '~/utils/fundraisers'
+import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 import { FundraisingVestingSchedule } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/rest'
+import { getDenomName } from '~/utils/fundraising'
 
 interface Props {
   vestingSchedules: FundraisingVestingSchedule[]

@@ -1,13 +1,28 @@
 import { useTendermintSpnLaunch } from 'tendermint-spn-vue-client'
-import { Ref } from 'vue'
+import { computed, unref } from 'vue'
 import { useQuery } from 'vue-query'
 
-export default function useChain(launchId: Ref<string>) {
+import { RefOrValue } from '~/utils/types'
+
+export default function useChain(launchId: RefOrValue<string | undefined>) {
   const { queryChain } = useTendermintSpnLaunch()
 
-  const { data, ...other } = useQuery(['chains', launchId], () => {
-    return queryChain(launchId.value).then((r) => r.data)
+  const isEnabled = computed(() => {
+    return Boolean(unref(launchId))
   })
 
-  return { chainData: data, ...other }
+  const { data: chain, ...other } = useQuery(
+    ['chains', launchId],
+    () => {
+      const id = unref(launchId)
+      if (!id) throw new Error('No launch id found')
+
+      return queryChain(id).then((r) => r.data.chain)
+    },
+    {
+      enabled: isEnabled
+    }
+  )
+
+  return { chain, ...other }
 }

@@ -7,6 +7,8 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
+import { useRoute } from 'vue-router'
+
 import IgniteDenom from '~/components/common/IgniteDenom.vue'
 import IgniteProgressBar from '~/components/common/IgniteProgressBar.vue'
 import IconHelp from '~/components/icons/IconHelp.vue'
@@ -19,12 +21,10 @@ import IgniteLink from '~/components/ui/IgniteLink.vue'
 import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import IgniteTooltip from '~/components/ui/IgniteTooltip.vue'
-import { ProgressBarItem } from '~/utils/types'
-import { useRoute } from 'vue-router'
-
-import useAddress from '~/composables/wallet/useAddress'
-import useBids from '~/composables/fundraising/useBids'
 import useAllowedBidders from '~/composables/fundraising/useAllowedBidders'
+import useBids from '~/composables/fundraising/useBids'
+import useAddress from '~/composables/wallet/useAddress'
+import { ProgressBarItem } from '~/utils/types'
 
 const route = useRoute()
 const fundraiserId = route.params.fundraiserId.toString() || '0'

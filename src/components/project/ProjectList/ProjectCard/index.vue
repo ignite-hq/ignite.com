@@ -67,7 +67,7 @@ const showIncentives = computed(function () {
 <template>
   <router-link
     :to="{
-      path: `/projects/${campaignSummary.campaign?.campaignID ?? '0'}/overview`
+      path: `/projects/${campaignSummary.campaign?.campaignID}/overview`
     }"
     :class="isLoading ? 'pointer-events-none cursor-default' : 'cursor-pointer'"
   >
@@ -92,11 +92,12 @@ const showIncentives = computed(function () {
           :campaign-summary="campaignSummary"
         />
         <ProjectCardStatus
+          v-if="campaignSummary.campaign?.campaignID"
           class="project-card__row"
           :loading="isLoading"
           :campaign-summary="campaignSummary"
           :stargazer-count="repository?.stargazers_count?.toString() ?? '0'"
-          :project-id="campaignSummary.campaign?.campaignID ?? '0'"
+          :project-id="campaignSummary.campaign?.campaignID"
         />
       </div>
     </div>
@@ -109,7 +110,7 @@ const showIncentives = computed(function () {
   box-shadow: 16px 32px 128px 8px rgba(0, 0, 0, 0.07);
 
   &__row {
-    @apply border-t border-gray-70 py-7 px-6 md:px-7.5;
+    @apply border-t border-border py-7 px-6 md:px-7.5;
     &:first-child {
       @apply border-t-0 pt-8.5;
     }

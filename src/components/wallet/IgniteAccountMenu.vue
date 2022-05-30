@@ -9,17 +9,16 @@ import { Menu, MenuButton, MenuItems } from '@headlessui/vue'
 import { useSpn } from 'tendermint-spn-vue-client'
 import { computed } from 'vue'
 
+import IgniteButton from '~/components/ui/IgniteButton.vue'
+import IgniteHeading from '~/components/ui/IgniteHeading.vue'
+import IgniteLink from '~/components/ui/IgniteLink.vue'
+import IgniteLoader from '~/components/ui/IgniteLoader.vue'
+import IgniteNumber from '~/components/ui/IgniteNumber.vue'
+import IgniteProfileIcon from '~/components/ui/IgniteProfileIcon.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
 import useAccount from '~/composables/wallet/useAccount'
 import useAddress from '~/composables/wallet/useAddress'
 import useBalances from '~/composables/wallet/useBalances'
-
-import IgniteButton from '../ui/IgniteButton.vue'
-import IgniteHeading from '../ui/IgniteHeading.vue'
-import IgniteLink from '../ui/IgniteLink.vue'
-import IgniteLoader from '../ui/IgniteLoader.vue'
-import IgniteNumber from '../ui/IgniteNumber.vue'
-import IgniteProfileIcon from '../ui/IgniteProfileIcon.vue'
-import IgniteText from '../ui/IgniteText.vue'
 
 interface Props {
   visible: boolean
@@ -45,7 +44,7 @@ const mainCoinBalance = computed(() => {
 </script>
 
 <template>
-  <Menu as="div" class="relative z-50">
+  <Menu as="div" class="relative">
     <MenuButton class="flex items-center space-x-4">
       <IgniteProfileIcon :address="address" />
 
@@ -55,7 +54,7 @@ const mainCoinBalance = computed(() => {
         </IgniteHeading>
 
         <IgniteLoader v-if="isFetchingBalances" class="mt-2 h-5" />
-        <IgniteText v-else-if="mainCoinBalance" class="text-2 text-gray-660">
+        <IgniteText v-else-if="mainCoinBalance" class="text-2 text-muted">
           <IgniteNumber :number="mainCoinBalance.amount?.toUpperCase()" />
           {{ mainCoinBalance.denom?.toUpperCase() }}
         </IgniteText>
