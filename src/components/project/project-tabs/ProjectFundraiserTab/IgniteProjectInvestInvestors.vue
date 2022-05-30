@@ -22,7 +22,6 @@ import {
   V1Beta1Coin
 } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/rest'
 import { mergePages } from '~/utils/array'
-import { V1Beta1Coin } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/rest'
 import { getDenomName } from '~/utils/fundraising'
 
 interface Props {
