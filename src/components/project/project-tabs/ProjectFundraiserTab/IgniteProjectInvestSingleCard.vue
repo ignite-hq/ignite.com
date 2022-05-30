@@ -32,12 +32,12 @@ import { ProgressBarItem } from '~/utils/types'
 import { FixedPriceAuction } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising'
 
 interface Props {
-  auction: FixedPriceAuction
+  fundraiser: FixedPriceAuction
   type: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  auction: () => ({}),
+  fundraiser: () => ({}),
   size: ''
 })
 
@@ -45,7 +45,7 @@ const { totalSupply } = useTotalSupply()
 const supply = computed(() => {
   if (!totalSupply.value?.supply) return 0
   return totalSupply.value?.supply.find(
-    (token) => token.denom === props.auction?.base_auction.selling_coin.denom
+    (token) => token.denom === props.fundraiser?.base_auction.selling_coin.denom
   ).amount
 })
 
@@ -54,13 +54,13 @@ const progressBar = computed(() => {
   items.push({
     value:
       (
-        Number(props.auction?.base_auction.selling_coin.amount) -
-        Number(props.auction?.remaining_selling_coin.amount)
+        Number(props.fundraiser?.base_auction.selling_coin.amount) -
+        Number(props.fundraiser?.remaining_selling_coin.amount)
       ).toString() ?? '0',
     bgColor: 'bg-primary'
   } as ProgressBarItem)
   items.push({
-    value: props.auction?.remaining_selling_coin.amount ?? '0',
+    value: props.fundraiser?.remaining_selling_coin.amount ?? '0',
     bgColor: ''
   } as ProgressBarItem)
   return { items }
@@ -121,17 +121,19 @@ const roadmapItems = computed(() => {
         >
           <IgniteNumber
             :number="
-              Number(auction.base_auction.selling_coin.amount) -
-              Number(auction.remaining_selling_coin.amount)
+              Number(fundraiser.base_auction.selling_coin.amount) -
+              Number(fundraiser.remaining_selling_coin.amount)
             "
           />
-          {{ getDenomName(auction.base_auction.selling_coin.denom) }}
+          {{ getDenomName(fundraiser.base_auction.selling_coin.denom) }}
         </IgniteHeading>
         <IgniteHeading as="div" class="mt-3 text-3 text-muted">
           Raised of
           <strong>
-            <IgniteNumber :number="auction.base_auction.selling_coin.amount" />
-            {{ getDenomName(auction.base_auction.selling_coin.denom) }}
+            <IgniteNumber
+              :number="fundraiser.base_auction.selling_coin.amount"
+            />
+            {{ getDenomName(fundraiser.base_auction.selling_coin.denom) }}
           </strong>
         </IgniteHeading>
       </div>
@@ -156,36 +158,43 @@ const roadmapItems = computed(() => {
               class="mt-2 flex items-center text-2 font-semibold md:mt-3 md:text-3"
             >
               <IconDots
-                v-if="auction?.base_auction.status === 'AUCTION_STATUS_VESTING'"
+                v-if="
+                  fundraiser?.base_auction.status === 'AUCTION_STATUS_VESTING'
+                "
                 class="mr-3"
               />
               <IconDots
-                v-if="auction?.base_auction.status === 'AUCTION_STATUS_STARTED'"
+                v-if="
+                  fundraiser?.base_auction.status === 'AUCTION_STATUS_STARTED'
+                "
                 class="mr-3"
               />
               <IconClock
-                v-if="auction?.base_auction.status === 'AUCTION_STATUS_STANDBY'"
+                v-if="
+                  fundraiser?.base_auction.status === 'AUCTION_STATUS_STANDBY'
+                "
                 class="mr-3"
               />
               <IconCheckMarkThin
                 v-if="
-                  auction?.base_auction.status === 'AUCTION_STATUS_FINISHED'
+                  fundraiser?.base_auction.status === 'AUCTION_STATUS_FINISHED'
                 "
                 class="mr-3"
               />
               <IconCanceled
                 v-if="
-                  auction?.base_auction.status === 'AUCTION_STATUS_CANCELLED'
+                  fundraiser?.base_auction.status === 'AUCTION_STATUS_CANCELLED'
                 "
                 class="mr-3"
               />
               <IconCanceled
                 v-if="
-                  auction?.base_auction.status === 'AUCTION_STATUS_UNSPECIFIED'
+                  fundraiser?.base_auction.status ===
+                  'AUCTION_STATUS_UNSPECIFIED'
                 "
                 class="mr-3"
               />
-              {{ getHumanizedAuctionStatus(auction?.base_auction.status) }}
+              {{ getHumanizedAuctionStatus(fundraiser?.base_auction.status) }}
             </IgniteHeading>
           </div>
 
@@ -198,13 +207,13 @@ const roadmapItems = computed(() => {
               <IconStack class="mr-3" />
               {{
                 toCompactNumber.format(
-                  auction.base_auction.selling_coin?.amount ?? 0
+                  fundraiser.base_auction.selling_coin?.amount ?? 0
                 )
               }}
               <span class="text-muted"
                 >&nbsp;({{
                   Math.round(
-                    (Number(auction.base_auction.selling_coin?.amount ?? 0) /
+                    (Number(fundraiser.base_auction.selling_coin?.amount ?? 0) /
                       supply) *
                       100
                   )
@@ -224,13 +233,13 @@ const roadmapItems = computed(() => {
             >
               <IgniteDenom
                 modifier="avatar"
-                :denom="getDenomName(auction.base_auction.paying_coin_denom)"
-                :title="getDenomName(auction.base_auction.paying_coin_denom)"
+                :denom="getDenomName(fundraiser.base_auction.paying_coin_denom)"
+                :title="getDenomName(fundraiser.base_auction.paying_coin_denom)"
                 size="small"
                 class="mr-3"
               />
-              {{ Number(auction.base_auction.start_price) }}
-              {{ getDenomName(auction.base_auction.paying_coin_denom) }}
+              {{ Number(fundraiser.base_auction.start_price) }}
+              {{ getDenomName(fundraiser.base_auction.paying_coin_denom) }}
               <span class="ml-1 inline-block text-muted">ea.</span>
             </IgniteHeading>
           </div>
