@@ -5,7 +5,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import IgniteNavbar from './components/ui/IgniteNavbar.vue'
+import IgniteNavbar from './components/common/IgniteNavbar.vue'
 </script>
 
 <template>

@@ -6,19 +6,19 @@ export default {
 
 <script lang="ts" setup>
 import { useSpn } from 'tendermint-spn-vue-client'
-import { computed, reactive, watchEffect } from 'vue'
+import { computed, onBeforeMount, reactive, watchEffect } from 'vue'
 
 import IconExternalArrow from '~/components/icons/IconExternalArrow.vue'
 import IconKeplr from '~/components/icons/IconKeplr.vue'
 import IconWarning from '~/components/icons/IconWarning.vue'
+import IgniteButton from '~/components/ui/IgniteButton.vue'
+import IgniteHeading from '~/components/ui/IgniteHeading.vue'
+import IgniteLink from '~/components/ui/IgniteLink.vue'
+import IgniteModal from '~/components/ui/IgniteModal.vue'
+import IgniteSpinner from '~/components/ui/IgniteSpinner.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
 import useAddress from '~/composables/wallet/useAddress'
 
-import IgniteButton from '../ui/IgniteButton.vue'
-import IgniteHeading from '../ui/IgniteHeading.vue'
-import IgniteLink from '../ui/IgniteLink.vue'
-import IgniteModal from '../ui/IgniteModal.vue'
-import IgniteSpinner from '../ui/IgniteSpinner.vue'
-import IgniteText from '../ui/IgniteText.vue'
 import IgniteAccountMenu from './IgniteAccountMenu.vue'
 
 enum ModalPage {
@@ -111,6 +111,11 @@ async function tryToConnectToKeplr() {
     state.modalPage = ModalPage.Error
   }
 }
+
+// lifecycle
+onBeforeMount(() => {
+  tryToConnectToKeplr()
+})
 
 // computed
 const isInstallPage = computed(() => state.modalPage === ModalPage.Install)

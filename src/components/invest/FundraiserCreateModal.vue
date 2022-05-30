@@ -8,13 +8,13 @@ export default {
 import { computed } from 'vue'
 
 import IconSuccessCheck from '~/components/icons/IconSuccessCheck.vue'
+import IconWarning from '~/components/icons/IconWarning.vue'
 import IgniteButton from '~/components/ui/IgniteButton.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteModal from '~/components/ui/IgniteModal.vue'
 import IgniteSpinner from '~/components/ui/IgniteSpinner.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import { UIStates } from '~/views/ProjectFundraiserCreate.vue'
-import IconWarning from '../icons/IconWarning.vue'
 
 interface Props {
   currentUiState: UIStates
@@ -83,14 +83,14 @@ const isSigned = computed(() => props.currentUiState === UIStates.Created)
 
     <template v-else-if="isSigning" #body>
       <IgniteText class="mt-5 text-center text-3 leading-normal text-muted">
-        Approve the transaction to publish your fundraiser with your Wallet Name
+        Approve the transaction to publish your fundraiser with your Keplr
         wallet.
       </IgniteText>
     </template>
 
     <template v-else-if="isSigned" #body>
       <IgniteText class="mt-5 text-center text-3 leading-normal text-muted">
-        You have published the fundraiser for Project Name.
+        You have published the fundraiser.
       </IgniteText>
 
       <div class="mt-7 flex space-x-4">

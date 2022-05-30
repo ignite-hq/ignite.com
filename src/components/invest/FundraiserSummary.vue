@@ -9,12 +9,13 @@ export default defineComponent({
 <script lang="ts" setup>
 import dayjs from 'dayjs'
 
+import IconCalendar from '~/components/icons/IconCalendar.vue'
+import IconStack from '~/components/icons/IconStack.vue'
+import IgniteButton from '~/components/ui/IgniteButton.vue'
+import IgniteHeading from '~/components/ui/IgniteHeading.vue'
+import IgniteNumber from '~/components/ui/IgniteNumber.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
 import useAddress from '~/composables/wallet/useAddress'
-
-import IgniteButton from '../ui/IgniteButton.vue'
-import IgniteHeading from '../ui/IgniteHeading.vue'
-import IgniteNumber from '../ui/IgniteNumber.vue'
-import IgniteText from '../ui/IgniteText.vue'
 
 interface Emits {
   (e: 'publish'): void
@@ -26,9 +27,6 @@ interface Props {
   amountSaleOverTotal: string
   totalSaleAmount: number
   saleDenom: string | undefined
-  totalFee: number
-  feeDenom: string | undefined
-  totalRaisePotential: number
   startDate: Date
   endDate: Date
   ableToPublish: boolean
@@ -72,97 +70,73 @@ function formatRange(start: Date, end: Date): string {
 </script>
 
 <template>
-  <div class="mt-10 bg-gray-30 p-9">
-    <div class="flex grow flex-row">
-      <div class="flex grow flex-col">
-        <IgniteHeading class="text-left font-title text-7 font-semibold">
-          Fundraiser Summary
-        </IgniteHeading>
-      </div>
-      <div class="flex grow flex-col">
-        <div class="flex flex-row items-center justify-between">
-          <div class="flex-col">
-            <IgniteText class="text-3 font-medium text-gray-660">
-              Raising
-            </IgniteText>
+  <div class="mt-9 bg-gray-30 py-8 md:mt-10 md:py-9.5">
+    <div class="container">
+      <div class="grid grid-cols-1 md:grid-cols-12">
+        <div class="flex flex-col justify-between md:col-span-7 lg:col-span-8">
+          <IgniteHeading
+            class="text-left font-title text-5 font-semibold md:text-7"
+          >
+            Fundraiser Summary
+          </IgniteHeading>
+
+          <div class="mt-7 flex flex-col gap-5 sm:flex-row md:mt-9 md:gap-7">
+            <div class="flex-col">
+              <IgniteText class="text-2 text-muted"> Vouchers </IgniteText>
+              <IgniteText
+                class="mt-1 flex items-center text-3 font-medium text-gray-0"
+              >
+                <IconStack class="mr-3" stroke-width="1.3" />
+                <IgniteNumber
+                  :number="props.totalSaleAmount"
+                  notation="compact"
+                />
+                ({{ amountSaleOverTotal }}%)
+              </IgniteText>
+            </div>
+            <div class="flex-col">
+              <IgniteText class="text-2 text-muted"> Dates </IgniteText>
+              <IgniteText
+                class="mt-1 flex items-center text-3 font-medium text-gray-0"
+              >
+                <IconCalendar class="mr-3" stroke-width="1.3" />
+                {{ formatRange(startDate, endDate) }}
+              </IgniteText>
+            </div>
           </div>
-          <div class="flex-col">
-            <IgniteText class="text-left font-title text-5 font-semibold">
+        </div>
+
+        <div
+          class="mt-7 flex flex-col justify-between md:col-span-5 md:mt-0 lg:col-span-4"
+        >
+          <div class="flex flex-row items-center justify-between">
+            <IgniteText class="text-3 font-medium text-muted">
+              Total raise potential
+            </IgniteText>
+            <IgniteText class="text-4 font-normal text-muted">
               <IgniteNumber :number="props.totalSaleValue" />
               {{ props.saleDenom }}
             </IgniteText>
           </div>
-        </div>
-        <div class="mt-6 flex flex-row items-center justify-between">
-          <div class="flex-col">
-            <IgniteText class="text-3 font-medium text-gray-660">
-              Fee
-            </IgniteText>
-          </div>
-          <div class="flex-col">
-            <IgniteText class="text-4 font-normal text-gray-660">
-              - <IgniteNumber :number="props.totalFee" />
-              {{ props.feeDenom }}
-            </IgniteText>
-          </div>
-        </div>
-        <div class="mt-6 flex flex-row items-center justify-between">
-          <div class="flex-col">
-            <IgniteText class="text-3 font-medium text-gray-660">
-              Total raise potential
-            </IgniteText>
-          </div>
-          <div class="flex-col">
-            <IgniteText class="text-4 font-normal text-gray-660">
-              <IgniteNumber :number="props.totalRaisePotential" />
-              {{ props.saleDenom }}
-            </IgniteText>
+          <div class="mt-7 flex place-content-end md:mt-9">
+            <IgniteButton
+              variant="primary"
+              class="mr-6 !py-4 !px-6 !font-medium"
+              @click="emit('cancel')"
+            >
+              <span>Cancel</span>
+            </IgniteButton>
+            <IgniteButton
+              variant="primary"
+              color="primary"
+              class="!py-4 !px-6 !font-medium"
+              :disabled="!props.ableToPublish || !address"
+              @click="emit('publish')"
+            >
+              <span>{{ !!address ? 'Publish' : 'Sign in' }}</span>
+            </IgniteButton>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="mt-9 flex grow flex-row justify-between">
-      <div class="flex w-1/2">
-        <div class="flex grid-cols-3 gap-6">
-          <div class="flex-col">
-            <IgniteText class="text-2 text-gray-660"> Type </IgniteText>
-            <IgniteText class="mt-1 text-3 font-medium text-gray-0">
-              Sale
-            </IgniteText>
-          </div>
-          <div class="flex-col">
-            <IgniteText class="text-2 text-gray-660"> Vouchers </IgniteText>
-            <IgniteText class="mt-1 text-3 font-medium text-gray-0">
-              <IgniteNumber :number="props.totalSaleAmount" />
-
-              ({{ amountSaleOverTotal }}%)
-            </IgniteText>
-          </div>
-          <div class="flex-col">
-            <IgniteText class="text-2 text-gray-660"> Dates </IgniteText>
-            <IgniteText class="mt-1 text-3 font-medium text-gray-0">
-              {{ formatRange(startDate, endDate) }}
-            </IgniteText>
-          </div>
-        </div>
-      </div>
-      <div class="flex w-1/2 place-content-end">
-        <IgniteButton
-          variant="primary"
-          class="mr-6 ml-6 border border-primary px-4"
-          @click="emit('cancel')"
-        >
-          <span>Cancel</span>
-        </IgniteButton>
-        <IgniteButton
-          variant="primary"
-          color="primary"
-          class="px-6"
-          :disabled="!props.ableToPublish || !address"
-          @click="emit('publish')"
-        >
-          <span>{{ !!address ? 'Publish' : 'Sign in' }}</span>
-        </IgniteButton>
       </div>
     </div>
   </div>

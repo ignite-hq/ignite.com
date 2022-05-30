@@ -8,7 +8,9 @@ export default {
 import BigNumber from 'bignumber.js'
 import { computed, ref, watchEffect } from 'vue'
 
+import IgniteCard from '~/components/ui/IgniteCard.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
 import useFundraisersAll from '~/composables/fundraising/useFundraisersAll'
 import { V1Beta1Coin } from '~/generated/tendermint-spn-ts-client/cosmos.bank.v1beta1/rest'
 import { BaseAuction } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising'
@@ -16,7 +18,7 @@ import { Coin } from '~/generated/tendermint-spn-ts-client/tendermint.fundraisin
 import { AuctionStatus } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/fundraising'
 import { CampaignCampaignSummary } from '~/generated/tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 import { useCosmosBankV1Beta1 } from '~/generated/tendermint-spn-vue-client'
-import { getDenomName, toCompactNumber } from '~/utils/fundraisers'
+import { getDenomName, toCompactNumber } from '~/utils/fundraising'
 import { AuctionCardData, AuctionStatusLabels } from '~/utils/types'
 
 import InvestCard from './InvestCard.vue'
@@ -139,7 +141,7 @@ const fundraisingList = computed(() => {
       :project-name="campaignSummary?.campaign?.campaignName"
       class="mt-8 md:mt-10.5"
     />
-    <div class="container-full container px-5 sm:px-5.5 lg:px-7">
+    <div class="container">
       <div v-for="status in statuses" :key="status" class="mt-8 md:mt-10.5">
         <IgniteHeading
           as="div"
@@ -164,6 +166,29 @@ const fundraisingList = computed(() => {
           </div>
         </div>
       </div>
+    </div>
+
+    <div class="z-1 container relative mt-8 md:mt-10.5">
+      <IgniteCard
+        class="flex flex-col p-6 md:flex-row md:items-center md:justify-between md:gap-7 md:p-7.5 lg:p-9 xl:pr-11"
+      >
+        <div class="">
+          <IgniteHeading class="font-title text-5 md:text-7"
+            >Distribution</IgniteHeading
+          >
+          <IgniteText class="mt-5 max-w-xl text-muted">
+            At the close of this fundraiser, vouchers are immediately
+            distributed to participants and contributed funds are released to
+            the project.
+          </IgniteText>
+        </div>
+        <div class="mt-7 md:mt-0">
+          <IgniteHeading class="whitespace-nowrap text-5 font-bold md:text-7"
+            >April 25, 2022</IgniteHeading
+          >
+          <IgniteHeading class="text-4 font-semibold">9 AM UTC</IgniteHeading>
+        </div>
+      </IgniteCard>
     </div>
   </div>
 </template>

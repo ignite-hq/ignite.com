@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 import IconIgnite from '~/components/icons/IconIgnite.vue'
 import IgniteButton from '~/components/ui/IgniteButton.vue'
 import IgniteLink from '~/components/ui/IgniteLink.vue'
@@ -43,16 +44,16 @@ function hide() {
     <div class="container flex items-center justify-between md:space-x-8">
       <router-link
         :to="'/'"
-        @click="hide"
         alt="Home"
         title="Home"
         class="relative z-[1]"
+        @click="hide"
       >
         <IconIgnite />
       </router-link>
 
       <div
-        class="absolute inset-x-0 top-0 origin-top-right space-y-7 bg-bg px-5 pt-10 pb-6 shadow transition-all md:relative md:flex md:w-full md:scale-100 md:items-center md:justify-between md:space-y-0 md:space-x-6 md:p-0 md:opacity-100"
+        class="absolute inset-x-0 top-0 z-[2] origin-top-right space-y-7 bg-bg px-5 pt-10 pb-6 shadow transition-all md:relative md:flex md:w-full md:scale-100 md:items-center md:justify-between md:space-y-0 md:space-x-6 md:p-0 md:opacity-100"
         :class="opened ? 'scale-100 opacity-100' : 'scale-0 opacity-0'"
       >
         <ul
@@ -62,8 +63,8 @@ function hide() {
             <IgniteLink
               class="text-muted hover:text-primary"
               :to="link.path"
-              @click="hide"
               active-class="text-primary"
+              @click="hide"
             >
               {{ link.name }}
             </IgniteLink>
@@ -74,8 +75,8 @@ function hide() {
       </div>
 
       <IgniteButton
-        @click="toggle"
         class="relative z-[1] h-2 w-[1.125rem] before:absolute before:top-[50%] before:left-[50%] before:-ml-5.5 before:-mt-5.5 before:h-7.5 before:w-7.5 md:hidden"
+        @click="toggle"
       >
         <i
           class="absolute top-[50%] left-0 h-[1px] w-[1.125rem] bg-text transition-all"

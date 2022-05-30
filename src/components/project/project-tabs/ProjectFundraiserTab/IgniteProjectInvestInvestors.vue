@@ -15,9 +15,6 @@ import IgniteButton from '~/components/ui/IgniteButton.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
-
-import { getDenomName } from '~/utils/fundraisers'
-
 import useBids from '~/composables/fundraising/useBids'
 import useTotalSupply from '~/composables/fundraising/useTotalSupply'
 import {
@@ -25,6 +22,8 @@ import {
   V1Beta1Coin
 } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/rest'
 import { mergePages } from '~/utils/array'
+import { V1Beta1Coin } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/rest'
+import { getDenomName } from '~/utils/fundraising'
 
 interface Props {
   fundraiserId: string
@@ -42,7 +41,7 @@ const { bids, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
 const { totalSupply } = useTotalSupply()
 
 // computed
-const bids = computed<FundraisingBid[]>(() => {
+const bidsAll = computed<FundraisingBid[]>(() => {
   if (isLoading.value) {
     return []
   }
@@ -109,7 +108,7 @@ const supply = computed(() => {
         <!-- body -->
         <div class="pt-6 md:pt-8">
           <div
-            v-for="bid in bids.pages"
+            v-for="bid in bidsAll"
             :key="bid.id"
             class="mt-6 border-t border-border pt-6 first:mt-0 first:border-t-0 first:pt-0 md:mt-9 md:border-t-0 md:pt-0"
           >

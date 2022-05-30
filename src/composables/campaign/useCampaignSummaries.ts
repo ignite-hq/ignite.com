@@ -12,7 +12,8 @@ export default function useCampaignSummaries() {
       return queryCampaignSummaries({
         'pagination.limit': CAMPAIGNS_PER_PAGE,
         'pagination.key': pageParam,
-        'pagination.reverse': true
+        'pagination.reverse': true,
+        'pagination.count_total': true
       }).then((r) => r.data)
     },
     {

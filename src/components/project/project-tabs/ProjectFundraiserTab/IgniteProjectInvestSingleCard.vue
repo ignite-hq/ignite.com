@@ -1,9 +1,9 @@
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { computed } from 'vue'
 
-export default defineComponent({
+export default {
   name: 'IgniteProjectInvestTitle'
-})
+}
 </script>
 
 <script lang="ts" setup>
@@ -22,10 +22,10 @@ import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteLink from '~/components/ui/IgniteLink.vue'
 import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
-import { AuctionStatus } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/fundraising'
-import { AuctionStatusLabels, ProgressBarItem } from '~/utils/types'
-import { toCompactNumber, getDenomName } from '~/utils/fundraisers'
 import useTotalSupply from '~/composables/fundraising/useTotalSupply'
+import { AuctionStatus } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/fundraising'
+import { getDenomName, toCompactNumber } from '~/utils/fundraising'
+import { AuctionStatusLabels, ProgressBarItem } from '~/utils/types'
 
 interface Props {
   auction: any
