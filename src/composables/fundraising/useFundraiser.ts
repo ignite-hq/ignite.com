@@ -1,7 +1,7 @@
 import { useTendermintFundraising } from 'tendermint-spn-vue-client'
 import { useQuery } from 'vue-query'
 
-export default function useFundraisersAll(auctionId: string) {
+export default function useFundraiser(auctionId: string) {
   const { queryAuction } = useTendermintFundraising()
 
   const { data, ...other } = useQuery(['fundraiser', auctionId], () => {

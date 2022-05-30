@@ -16,17 +16,20 @@ import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteSelect from '~/components/ui/IgniteSelect.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import { V1Beta1Coin } from '~/generated/tendermint-spn-ts-client/cosmos.tx.v1beta1/rest'
-import { AuctionStatus } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/fundraising'
+import {
+  AuctionStatus,
+  FixedPriceAuction
+} from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/fundraising'
 import { getDenomName, toCompactNumber } from '~/utils/fundraising'
 import { ProgressBarItem } from '~/utils/types'
 import useTotalSupply from '~/composables/fundraising/useTotalSupply'
 
 interface Props {
-  fundraisers: FixedPriceAuction
+  fundraisers: FixedPriceAuction[]
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  fundraisers: () => ({})
+  fundraisers: () => [] as FixedPriceAuction[]
 })
 
 const { totalSupply } = useTotalSupply()

@@ -21,8 +21,8 @@ import {
   FundraisingBid,
   V1Beta1Coin
 } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/rest'
-import { getDenomName } from '~/utils/fundraising'
 import { mergePages } from '~/utils/array'
+import { getDenomName } from '~/utils/fundraising'
 
 interface Props {
   fundraiserId: string
@@ -35,9 +35,8 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 // composables
-const { bids, fetchNextPage, hasNextPage, isFetchingNextPage } = useBids(
-  props.fundraiserId
-)
+const { bids, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
+  useBids(props.fundraiserId)
 const { totalSupply } = useTotalSupply()
 
 // computed
@@ -60,11 +59,8 @@ const mergedBids = computed<FundraisingBid[]>(() => {
         <IgniteHeading as="div" class="font-title text-5">
           Investors
         </IgniteHeading>
-        <IgniteText as="div" class="mt-5 text-3 text-muted">
-          <IgniteNumber
-            :number="bids?.pages[0]?.pagination?.total"
-            as="strong"
-          />
+        <IgniteText v-if="!isLoading" as="div" class="mt-5 text-3 text-muted">
+          <IgniteNumber :number="bids.pages?.pagination?.total" as="strong" />
           Active investors
         </IgniteText>
       </div>

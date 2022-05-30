@@ -29,9 +29,10 @@ import {
   toCompactNumber
 } from '~/utils/fundraising'
 import { ProgressBarItem } from '~/utils/types'
+import { FixedPriceAuction } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising'
 
 interface Props {
-  auction: any
+  auction: FixedPriceAuction
   type: string
 }
 
