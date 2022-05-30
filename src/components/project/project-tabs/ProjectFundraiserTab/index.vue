@@ -64,8 +64,8 @@ const allowCancel = computed(() => {
 
     <div
       v-if="
-        fundraiser.auction.base_auction.status === 'AUCTION_STATUS_STANDBY' &&
-        allowedBidders.length > 0
+        fundraiser?.auction?.base_auction?.status ===
+          'AUCTION_STATUS_STANDBY' && allowedBidders.length > 0
       "
       class="container mt-8 md:mt-10.5"
     >
