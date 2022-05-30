@@ -57,7 +57,7 @@ const bids = computed<FundraisingBid[]>(() => {
     return []
   }
 
-  return mergePages(bidsAll.value?.pages)
+  return mergePages(bidsAll.value?.pages, "bids")
 })
 
 const supply = computed(() => {
