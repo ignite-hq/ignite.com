@@ -16,6 +16,14 @@ import useCampaignChains from '~/composables/campaign/useCampaignChains'
 import { LaunchGenesisValidator } from '~/generated/tendermint-spn-ts-client/tendermint.spn.launch/rest'
 import { useTendermintSpnLaunch } from '~/generated/tendermint-spn-vue-client'
 
+interface Props {
+  isWild?: boolean
+}
+
+withDefaults(defineProps<Props>(), {
+  isWild: false
+})
+
 const route = useRoute()
 const projectId = route.params.projectId.toString() || '0'
 
@@ -56,16 +64,11 @@ const getValidatorsFromAllChains = async (chains: string[]) => {
     ).values()
   ]
 }
-
-const isWild = false
 </script>
 
 <template>
   <div>
-    <IgniteCard
-      v-if="allGenesisValidators.length > 0"
-      class="px-5 py-7 md:p-8 lg:p-9"
-    >
+    <IgniteCard class="px-5 py-7 md:p-8 lg:p-9">
       <div :class="isWild && 'md:flex md:items-center md:justify-between'">
         <div
           class="text-center"

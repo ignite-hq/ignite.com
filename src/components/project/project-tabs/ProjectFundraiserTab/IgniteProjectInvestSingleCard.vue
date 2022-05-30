@@ -93,7 +93,6 @@ const roadmapItems = computed(() => {
 })
 
 const statusDetailed = computed(() => {
-  console.log(props.auction)
   return props.auction?.base_auction.status || ''
 })
 

@@ -17,7 +17,11 @@ import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import useBids from '~/composables/fundraising/useBids'
 import useTotalSupply from '~/composables/fundraising/useTotalSupply'
-import { V1Beta1Coin } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/rest'
+import {
+  FundraisingBid,
+  V1Beta1Coin
+} from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/rest'
+import { mergePages } from '~/utils/array'
 import { getDenomName } from '~/utils/fundraising'
 
 interface Props {
@@ -31,12 +35,19 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 // composables
-const { bids, fetchNextPage, hasNextPage, isFetchingNextPage } = useBids(
-  props.fundraiserId
-)
+const { bids, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
+  useBids(props.fundraiserId)
 const { totalSupply } = useTotalSupply()
 
 // computed
+const bidsAll = computed<FundraisingBid[]>(() => {
+  if (isLoading.value) {
+    return []
+  }
+
+  return mergePages(bids.value?.pages, 'bids')
+})
+
 const supply = computed(() => {
   if (!totalSupply.value?.supply || !props.currency) return 0
   return totalSupply.value?.supply.find(
@@ -53,8 +64,8 @@ const supply = computed(() => {
           Investors
         </IgniteHeading>
         <IgniteText as="div" class="mt-5 text-3 text-muted">
-          <IgniteNumber :number="bids.pagination.total" as="strong" /> Active
-          investors
+          <IgniteNumber :number="bids.pages?.pagination?.total" as="strong" />
+          Active investors
         </IgniteText>
       </div>
       <div
@@ -96,7 +107,7 @@ const supply = computed(() => {
         <!-- body -->
         <div class="pt-6 md:pt-8">
           <div
-            v-for="bid in bids"
+            v-for="bid in bidsAll"
             :key="bid.id"
             class="mt-6 border-t border-border pt-6 first:mt-0 first:border-t-0 first:pt-0 md:mt-9 md:border-t-0 md:pt-0"
           >
