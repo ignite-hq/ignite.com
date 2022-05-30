@@ -40,19 +40,15 @@ const { bids, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
 const { totalSupply } = useTotalSupply()
 
 // computed
-const bidsAll = computed<FundraisingBid[]>(() => {
-  if (isLoading.value) {
-    return []
-  }
-
-  return mergePages(bids.value?.pages, 'bids')
-})
-
 const supply = computed(() => {
   if (!totalSupply.value?.supply || !props.currency) return 0
   return totalSupply.value?.supply.find(
     (token: V1Beta1Coin) => token.denom === props.currency
   ).amount
+})
+
+const mergedBids = computed<FundraisingBid[]>(() => {
+  return mergePages(bids.value?.pages, 'bids')
 })
 </script>
 
@@ -63,7 +59,7 @@ const supply = computed(() => {
         <IgniteHeading as="div" class="font-title text-5">
           Investors
         </IgniteHeading>
-        <IgniteText as="div" class="mt-5 text-3 text-muted">
+        <IgniteText v-if="!isLoading" as="div" class="mt-5 text-3 text-muted">
           <IgniteNumber :number="bids.pages?.pagination?.total" as="strong" />
           Active investors
         </IgniteText>
@@ -107,7 +103,7 @@ const supply = computed(() => {
         <!-- body -->
         <div class="pt-6 md:pt-8">
           <div
-            v-for="bid in bidsAll"
+            v-for="bid in mergedBids"
             :key="bid.id"
             class="mt-6 border-t border-border pt-6 first:mt-0 first:border-t-0 first:pt-0 md:mt-9 md:border-t-0 md:pt-0"
           >

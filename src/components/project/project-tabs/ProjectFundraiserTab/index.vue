@@ -42,14 +42,14 @@ const allowCancel = computed(() => {
   <div v-if="fundraiser">
     <IgniteProjectInvestCancel
       v-if="allowCancel"
-      :fundraiser="fundraiser"
+      :fundraiser="fundraiser.auction"
       class="mt-8 md:mt-10.5"
     />
 
     <div class="container mt-8 md:mt-10.5">
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7">
         <IgniteProjectInvestSingleCard
-          :auction="fundraiser.auction"
+          :fundraiser="fundraiser.auction"
           class="lg:col-span-2"
         />
       </div>
@@ -57,7 +57,7 @@ const allowCancel = computed(() => {
     <div class="container mt-8 md:mt-10.5">
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7">
         <div class="mt-6 md:mt-8 lg:mt-0">
-          <IgniteProjectInvest :fundraiser="fundraiser" />
+          <IgniteProjectInvest :fundraiser="fundraiser.auction" />
         </div>
       </div>
     </div>
@@ -65,7 +65,8 @@ const allowCancel = computed(() => {
     <div
       v-if="
         fundraiser?.auction?.base_auction?.status ===
-          'AUCTION_STATUS_STANDBY' && allowedBidders.length > 0
+          'AUCTION_STATUS_STANDBY' &&
+        allowedBidders?.allowed_bidders?.length > 0
       "
       class="container mt-8 md:mt-10.5"
     >

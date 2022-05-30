@@ -5,24 +5,15 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import BigNumber from 'bignumber.js'
-import { computed, ref, watchEffect } from 'vue'
+import { computed } from 'vue'
 
 import IgniteCard from '~/components/ui/IgniteCard.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
-import IgniteText from '~/components/ui/IgniteText.vue'
-import useCampaignFundraisers from '~/composables/fundraising/useCampaignFundraisers'
-import { V1Beta1Coin } from '~/generated/tendermint-spn-ts-client/cosmos.bank.v1beta1/rest'
-import {
-  BaseAuction,
-  FixedPriceAuction
-} from '~/generated/tendermint-spn-ts-client/tendermint.fundraising'
-import { Coin } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/cosmos/base/v1beta1/coin'
-import { AuctionStatus } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/fundraising'
 import { CampaignCampaignSummary } from '~/generated/tendermint-spn-ts-client/tendermint.spn.campaign/rest'
-import { useCosmosBankV1Beta1 } from '~/generated/tendermint-spn-vue-client'
-import { getDenomName, toCompactNumber } from '~/utils/fundraising'
-import { AuctionCardData, AuctionStatusLabels } from '~/utils/types'
+import {
+  getHumanizedAuctionStatus,
+  HumanizedAuctionStatus
+} from '~/utils/fundraising'
 
 import InvestCard from './InvestCard.vue'
 import InvestStart from './InvestStart.vue'
@@ -30,6 +21,8 @@ import InvestTitle from './InvestTitle.vue'
 import InvestVoucherAllocation from './InvestVoucherAllocation.vue'
 import { useRoute } from 'vue-router'
 import useCoordinator from '~/composables/profile/useCoordinator'
+import useCampaignFundraisers from '~/composables/fundraising/useCampaignFundraisers'
+import { FixedPriceAuction } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising'
 
 interface Props {
   campaignSummary?: CampaignCampaignSummary
@@ -47,94 +40,40 @@ const coordinatorId = computed(() => {
 })
 
 const { fundraisers } = useCampaignFundraisers(projectId)
-const { queryTotalSupply } = useCosmosBankV1Beta1()
 const { isSameAddressAsLoggedIn: coordinatorView } =
   useCoordinator(coordinatorId)
 
-const formatAuctionStatus = (
-  auctionType: AuctionStatus
-): AuctionStatusLabels => {
-  // @ts-ignore
-  switch (AuctionStatus[auctionType] as AuctionStatus) {
-    case AuctionStatus.AUCTION_STATUS_VESTING:
-    case AuctionStatus.AUCTION_STATUS_STARTED:
-      return AuctionStatusLabels.Current
-    case AuctionStatus.AUCTION_STATUS_STANDBY:
-      return AuctionStatusLabels.Upcoming
-    case AuctionStatus.AUCTION_STATUS_FINISHED:
-    case AuctionStatus.AUCTION_STATUS_CANCELLED:
-      return AuctionStatusLabels.Previous
-    default:
-      return AuctionStatusLabels.Other
-  }
-}
-// computed
 const statuses = computed(() => {
-  let statuses = []
+  const statuses = []
   const auctions = fundraisers?.value ?? []
   const currentPresent = auctions.find(
     ({ auction }: FixedPriceAuction) =>
-      formatAuctionStatus(auction.base_auction.status) ===
-      AuctionStatusLabels.Current
+      getHumanizedAuctionStatus(auction.base_auction.status) ===
+      HumanizedAuctionStatus.Current
   )
   const upcomingPresent = auctions.find(
     ({ auction }: FixedPriceAuction) =>
-      formatAuctionStatus(auction.base_auction.status) ===
-      AuctionStatusLabels.Upcoming
+      getHumanizedAuctionStatus(auction.base_auction.status) ===
+      HumanizedAuctionStatus.Upcoming
   )
   const previousPresent = auctions.find(
     ({ auction }: FixedPriceAuction) =>
-      formatAuctionStatus(auction.base_auction.status) ===
-      AuctionStatusLabels.Previous
+      getHumanizedAuctionStatus(auction.base_auction.status) ===
+      HumanizedAuctionStatus.Previous
   )
   const otherPresent = auctions.find(
     ({ auction }: FixedPriceAuction) =>
-      formatAuctionStatus(auction.base_auction.status) ===
-      AuctionStatusLabels.Other
+      getHumanizedAuctionStatus(auction.base_auction.status) ===
+      HumanizedAuctionStatus.Other
   )
   if (currentPresent && upcomingPresent)
-    statuses.push(AuctionStatusLabels.CurrentAndUpcoming)
-  else if (currentPresent) statuses.push(AuctionStatusLabels.Current)
-  else if (upcomingPresent) statuses.push(AuctionStatusLabels.Upcoming)
-  if (previousPresent) statuses.push(AuctionStatusLabels.Previous)
-  if (otherPresent) statuses.push(AuctionStatusLabels.Other)
+    statuses.push(HumanizedAuctionStatus.CurrentAndUpcoming)
+  else if (currentPresent) statuses.push(HumanizedAuctionStatus.Current)
+  else if (upcomingPresent) statuses.push(HumanizedAuctionStatus.Upcoming)
+  if (previousPresent) statuses.push(HumanizedAuctionStatus.Previous)
+  if (otherPresent) statuses.push(HumanizedAuctionStatus.Other)
 
   return statuses
-})
-
-const totalSupply = ref<V1Beta1Coin[] | undefined>([] as V1Beta1Coin[])
-watchEffect(async () => {
-  totalSupply.value = await (await queryTotalSupply()).data.supply
-})
-
-const fundraisingList = computed(() => {
-  return (fundraisers?.value || []).map(({ auction }: FixedPriceAuction) => {
-    const baseAuction: BaseAuction = auction.base_auction
-    const remainingSellingCoins: Coin | undefined =
-      auction.remaining_selling_coin
-    const token = totalSupply.value?.find(
-      (token) => token.denom === baseAuction.selling_coin?.denom
-    )
-    const tokenSupply = new BigNumber(token?.amount ?? '0').toNumber()
-    const relativeSupply = tokenSupply
-      ? Math.round(
-          (Number(baseAuction.selling_coin?.amount ?? 0) / tokenSupply) * 100
-        )
-      : 0
-    return {
-      id: baseAuction.id,
-      raised:
-        Number(baseAuction.selling_coin?.amount ?? 0) -
-        Number(remainingSellingCoins?.amount ?? 0),
-      goal: baseAuction.selling_coin?.amount ?? 0,
-      currency: getDenomName(baseAuction.selling_coin?.denom ?? ''),
-      status: formatAuctionStatus(baseAuction.status),
-      statusDetailed: baseAuction.status,
-      vouchers: `${toCompactNumber.format(tokenSupply)} (${relativeSupply}%)`,
-      investors: auction.allowed_bidders?.length || 0,
-      ends: baseAuction.end_times[0]
-    } as AuctionCardData
-  })
 })
 </script>
 
@@ -145,11 +84,7 @@ const fundraisingList = computed(() => {
       :allow-create="coordinatorView"
       class="mt-8 md:mt-10.5"
     />
-    <InvestVoucherAllocation
-      :fundraisers="fundraisers"
-      :total-supply="totalSupply"
-      class="mt-7 md:mt-9"
-    />
+    <InvestVoucherAllocation :fundraisers="fundraisers" class="mt-7 md:mt-9" />
     <InvestStart
       v-if="coordinatorView && fundraisers?.length === 0"
       :project-name="campaignSummary?.campaign?.campaignName"
@@ -167,16 +102,20 @@ const fundraisingList = computed(() => {
           class="mt-6 grid grid-cols-1 gap-5 md:mt-8 md:gap-7 lg:grid-cols-2"
         >
           <div
-            v-for="(item, key) in fundraisingList?.filter((fundraiser) =>
+            v-for="(fundraiser, key) in fundraisers?.filter((fundraiser) =>
               status
                 .toString()
                 .toLowerCase()
-                .includes(fundraiser.status.toString().toLowerCase())
+                .includes(
+                  getHumanizedAuctionStatus(
+                    fundraiser.auction.base_auction.status
+                  ).toLowerCase()
+                )
             )"
             :key="`fundraisers_${status}_${key}`"
             class="relative z-[1]"
           >
-            <InvestCard :data="item" />
+            <InvestCard :fundraiser="fundraiser.auction" />
           </div>
         </div>
       </div>
