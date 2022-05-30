@@ -11,9 +11,12 @@ import { computed, ref, watchEffect } from 'vue'
 import IgniteCard from '~/components/ui/IgniteCard.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
-import useFundraisersForCampaign from '~/composables/fundraising/useFundraisersForCampaign'
+import useCampaignFundraisers from '~/composables/fundraising/useCampaignFundraisers'
 import { V1Beta1Coin } from '~/generated/tendermint-spn-ts-client/cosmos.bank.v1beta1/rest'
-import { BaseAuction } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising'
+import {
+  BaseAuction,
+  FixedPriceAuction
+} from '~/generated/tendermint-spn-ts-client/tendermint.fundraising'
 import { Coin } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/cosmos/base/v1beta1/coin'
 import { AuctionStatus } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/fundraising'
 import { CampaignCampaignSummary } from '~/generated/tendermint-spn-ts-client/tendermint.spn.campaign/rest'
@@ -43,7 +46,7 @@ const coordinatorId = computed(() => {
   return props.campaignSummary?.campaign?.coordinatorID
 })
 
-const { fundraisers } = useFundraisersForCampaign(projectId)
+const { fundraisers } = useCampaignFundraisers(projectId)
 const { queryTotalSupply } = useCosmosBankV1Beta1()
 const { isSameAddressAsLoggedIn: coordinatorView } =
   useCoordinator(coordinatorId)
@@ -70,23 +73,23 @@ const statuses = computed(() => {
   let statuses = []
   const auctions = fundraisers?.value ?? []
   const currentPresent = auctions.find(
-    (auctionData: any) =>
-      formatAuctionStatus(auctionData.base_auction.status) ===
+    ({ auction }: FixedPriceAuction) =>
+      formatAuctionStatus(auction.base_auction.status) ===
       AuctionStatusLabels.Current
   )
   const upcomingPresent = auctions.find(
-    (auctionData: any) =>
-      formatAuctionStatus(auctionData.base_auction.status) ===
+    ({ auction }: FixedPriceAuction) =>
+      formatAuctionStatus(auction.base_auction.status) ===
       AuctionStatusLabels.Upcoming
   )
   const previousPresent = auctions.find(
-    (auctionData: any) =>
-      formatAuctionStatus(auctionData.base_auction.status) ===
+    ({ auction }: FixedPriceAuction) =>
+      formatAuctionStatus(auction.base_auction.status) ===
       AuctionStatusLabels.Previous
   )
   const otherPresent = auctions.find(
-    (auctionData: any) =>
-      formatAuctionStatus(auctionData.base_auction.status) ===
+    ({ auction }: FixedPriceAuction) =>
+      formatAuctionStatus(auction.base_auction.status) ===
       AuctionStatusLabels.Other
   )
   if (currentPresent && upcomingPresent)
@@ -105,31 +108,31 @@ watchEffect(async () => {
 })
 
 const fundraisingList = computed(() => {
-  return (fundraisers?.value || []).map((auctionData: any) => {
-    const auction: BaseAuction = auctionData.base_auction
+  return (fundraisers?.value || []).map(({ auction }: FixedPriceAuction) => {
+    const baseAuction: BaseAuction = auction.base_auction
     const remainingSellingCoins: Coin | undefined =
-      auctionData.remaining_selling_coin
+      auction.remaining_selling_coin
     const token = totalSupply.value?.find(
-      (token) => token.denom === auction.selling_coin?.denom
+      (token) => token.denom === baseAuction.selling_coin?.denom
     )
     const tokenSupply = new BigNumber(token?.amount ?? '0').toNumber()
     const relativeSupply = tokenSupply
       ? Math.round(
-          (Number(auction.selling_coin?.amount ?? 0) / tokenSupply) * 100
+          (Number(baseAuction.selling_coin?.amount ?? 0) / tokenSupply) * 100
         )
       : 0
     return {
-      id: auction.id,
+      id: baseAuction.id,
       raised:
-        Number(auction.selling_coin?.amount ?? 0) -
+        Number(baseAuction.selling_coin?.amount ?? 0) -
         Number(remainingSellingCoins?.amount ?? 0),
-      goal: auction.selling_coin?.amount ?? 0,
-      currency: getDenomName(auction.selling_coin?.denom ?? ''),
-      status: formatAuctionStatus(auction.status),
-      statusDetailed: auction.status,
+      goal: baseAuction.selling_coin?.amount ?? 0,
+      currency: getDenomName(baseAuction.selling_coin?.denom ?? ''),
+      status: formatAuctionStatus(baseAuction.status),
+      statusDetailed: baseAuction.status,
       vouchers: `${toCompactNumber.format(tokenSupply)} (${relativeSupply}%)`,
       investors: auction.allowed_bidders?.length || 0,
-      ends: auction.end_times[0]
+      ends: baseAuction.end_times[0]
     } as AuctionCardData
   })
 })

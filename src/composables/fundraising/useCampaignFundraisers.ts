@@ -7,7 +7,7 @@ import { useQuery } from 'vue-query'
 
 import { RefOrValue } from '~/utils/types'
 
-export default function useFundraisersForCampaign(
+export default function useCampaignFundraisers(
   campaignID: RefOrValue<string | undefined>
 ) {
   const { queryAuctionsOfCampaign } = useTendermintSpnCampaign()
