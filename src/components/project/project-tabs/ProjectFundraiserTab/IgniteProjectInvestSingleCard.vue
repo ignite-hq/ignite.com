@@ -43,7 +43,7 @@ const props = withDefaults(defineProps<Props>(), {
   size: ''
 })
 
-const TODAY = new Date().getTime()
+const TODAY = dayjs()
 
 const { totalSupply } = useTotalSupply()
 const supply = computed(() => {
@@ -71,22 +71,22 @@ const progressBar = computed(() => {
   return { items }
 })
 
-function getMilestoneDate(unix: string) {
-  if (!unix) return ''
-  return dayjs.unix(Number(unix)).format('MMM D, YYYY [at] h:mm A [GMT]Z')
+function getMilestoneDate(date: Date) {
+  if (!date) return ''
+  return dayjs(date).format('DD.MM [at] h A [GMT]Z')
 }
 
-function isMilestoneCompleted(date: string): RoadmapStatus {
-  return Number(date ?? 0) > TODAY
+function isMilestoneCompleted(date: Date): RoadmapStatus {
+  return dayjs(date).isBefore(TODAY)
     ? RoadmapStatus.Completed
     : RoadmapStatus.Expected
 }
 
-function formatMilestone(title: string, date: number | Date): ProjectMilestone {
+function formatMilestone(title: string, date: Date): ProjectMilestone {
   return {
-    status: isMilestoneCompleted(Number(date).toString()),
+    status: isMilestoneCompleted(date),
     title,
-    date: getMilestoneDate(Number(date).toString())
+    date: getMilestoneDate(date)
   }
 }
 
@@ -103,10 +103,9 @@ const roadmapItems = computed<ProjectMilestone[]>(() => {
     })
   } else {
     if (props.fundraiser?.base_auction?.start_time) {
-      const startDate = dayjs
-        .unix(Number(props.fundraiser?.base_auction?.start_time))
+      const startDate = dayjs(props.fundraiser?.base_auction?.start_time)
         .subtract(7, 'days')
-        .valueOf()
+        .toISOString()
       items.push(formatMilestone('Registration opens', startDate))
       items.push(
         formatMilestone(
