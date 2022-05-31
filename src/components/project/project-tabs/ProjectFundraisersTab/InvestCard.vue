@@ -1,11 +1,10 @@
 <script lang="ts">
 import BigNumber from 'bignumber.js'
-import { V1Beta1Coin } from 'node_modules/tendermint-spn-ts-client/tendermint.fundraising/rest'
-import { defineComponent, computed, toRefs } from 'vue'
+import { computed, toRefs } from 'vue'
 
-export default defineComponent({
+export default {
   name: 'ProjectInvestTitle'
-})
+}
 </script>
 
 <script lang="ts" setup>
@@ -25,6 +24,8 @@ import IgniteLink from '~/components/ui/IgniteLink.vue'
 import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import useTotalSupply from '~/composables/fundraising/useTotalSupply'
+import { FixedPriceAuction } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising'
+import { V1Beta1Coin } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/rest'
 import {
   getDenomName,
   getHumanizedAuctionStatus,

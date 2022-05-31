@@ -21,7 +21,7 @@ import dayjs from 'dayjs'
 import { cloneDeep } from 'lodash'
 import type { MsgCreateFixedPriceAuction } from 'tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/tx'
 import { useSpn } from 'tendermint-spn-vue-client'
-import { computed, onMounted, reactive } from 'vue'
+import { computed, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 
 import IgniteBreadcrumbs from '~/components/common/IgniteBreadcrumbs.vue'
@@ -46,8 +46,8 @@ import IgniteSelect from '~/components/ui/IgniteSelect.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import useTotalSupply from '~/composables/fundraising/useTotalSupply'
 import useBalances from '~/composables/wallet/useBalances'
-import { percentageToCosmosDecimal } from '~/utils/number'
 import { getDenomName } from '~/utils/fundraising'
+import { percentageToCosmosDecimal } from '~/utils/number'
 
 // types
 type FixedPriceAuction = MsgCreateFixedPriceAuction
@@ -89,6 +89,7 @@ const {
   isFetching: isFetchingTotalSupply,
   isFetched: isFetchedTotalSupply
 } = useTotalSupply()
+
 const breadcrumbsLinks = computed(() => {
   return [
     {
@@ -138,13 +139,6 @@ const initialState: State = {
   }
 }
 const state = reactive(initialState)
-
-// lifecycles
-onMounted(() => {
-  if (!spn.signer.value.addr) {
-    router.push(`sign-in`)
-  }
-})
 
 // computed
 const filterdTotalSupplyCoins = computed<Coin[]>(() => {
@@ -275,6 +269,8 @@ const ableToPublish = computed<boolean>(
 
 // handlers
 function handleAmountInput(evt: Event) {
+  if (!state.auction.selling_coin) return
+
   const inputEl = evt.target as HTMLInputElement
   const raw = inputEl.value
   const numbersOnly = raw.replace(/\D/g, '')
@@ -285,6 +281,7 @@ function handleAmountInput(evt: Event) {
   inputEl.value = formatted
   state.auction.selling_coin.amount = formatted
 }
+
 function handlePricePerVoucher(evt: Event) {
   const inputEl = evt.target as HTMLInputElement
   const raw = inputEl.value
@@ -350,6 +347,7 @@ function handleDeleteDistributionClick(index: number) {
     (_, i) => i !== index
   )
 }
+
 function handleModalAck() {
   router.push('/')
 }
@@ -372,6 +370,7 @@ function normalizeAuction(
 
   return normalized
 }
+
 async function publish() {
   const payload = normalizeAuction(state.auction)
   let response: DeliverTxResponse
@@ -405,6 +404,7 @@ async function publish() {
     state.currentUIState = UIStates.Error
   }
 }
+
 function cancel() {
   router.push('/')
 }

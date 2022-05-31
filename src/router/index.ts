@@ -5,7 +5,7 @@ import Project from '../views/Project.vue'
 import ProjectFundraiser from '../views/ProjectFundraiser.vue'
 import ProjectFundraiserCreate from '../views/ProjectFundraiserCreate.vue'
 import Projects from '../views/Projects.vue'
-import Signin from '../views/SignIn.vue'
+import SignIn from '../views/SignIn.vue'
 
 const routerHistory = createWebHistory()
 const routes = [
@@ -19,7 +19,7 @@ const routes = [
   },
   {
     path: '/sign-in',
-    component: Signin
+    component: SignIn
   }
 ]
 
