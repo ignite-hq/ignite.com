@@ -21,7 +21,7 @@ import dayjs from 'dayjs'
 import { cloneDeep } from 'lodash'
 import type { MsgCreateFixedPriceAuction } from 'tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/tx'
 import { useSpn } from 'tendermint-spn-vue-client'
-import { computed, reactive } from 'vue'
+import { computed, onMounted, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 
 import IgniteBreadcrumbs from '~/components/common/IgniteBreadcrumbs.vue'
@@ -84,6 +84,7 @@ const {
   isFetching: isFetchingBalances,
   isFetched: isFetchedBalances
 } = useBalances(spn.signer.value.addr)
+
 const {
   totalSupply,
   isFetching: isFetchingTotalSupply,
@@ -110,6 +111,7 @@ interface State {
   feeAmount?: Coin
   errorMsg?: string
 }
+
 const initialSellingCoin =
   isFetchedBalances.value && balances.value && balances.value.length > 0
     ? {
@@ -117,15 +119,18 @@ const initialSellingCoin =
         denom: balances.value[0].denom as string
       }
     : undefined
+
 const filteredInitalTotalSupply: Coin[] = isFetchedTotalSupply.value
   ? (totalSupply.value?.supply?.filter(
       (i) => i.denom !== initialSellingCoin?.denom
     ) as Coin[])
   : []
+
 const initialPayingDenom =
   isFetchedTotalSupply.value && filteredInitalTotalSupply.length > 0
     ? filteredInitalTotalSupply[0].denom
     : ''
+
 const initialState: State = {
   currentUIState: UIStates.Fresh,
   auction: {
@@ -139,6 +144,13 @@ const initialState: State = {
   }
 }
 const state = reactive(initialState)
+
+// lifecycles
+onMounted(() => {
+  if (!spn.signer.value.addr) {
+    router.push(`sign-in`)
+  }
+})
 
 // computed
 const filterdTotalSupplyCoins = computed<Coin[]>(() => {
@@ -488,7 +500,7 @@ function cancel() {
                 <!-- Input -->
                 <div v-else class="flex w-1/2">
                   <IgniteSelect
-                    :selected="
+                    :model-value="
                       coinToSelectOption({
                         amount: '',
                         denom: state.auction.selling_coin?.denom as string
@@ -498,7 +510,7 @@ function cancel() {
                     variants="rounded-r-none"
                     class="w-full"
                     :is-mobile-native="false"
-                    @input="handleSellingDenomChange"
+                    @update:model-value="handleSellingDenomChange"
                   >
                     <template
                       v-for="i in (balances as Coin[])"
@@ -576,7 +588,7 @@ function cancel() {
                 <!-- Input -->
                 <div v-else class="flex w-1/2">
                   <IgniteSelect
-                    :selected="
+                    :model-value="
                       coinToSelectOption({
                         amount: '',
                         denom: state.auction.paying_coin_denom
@@ -588,7 +600,7 @@ function cancel() {
                     variants="rounded-r-none"
                     class="w-full"
                     :is-mobile-native="false"
-                    @input="handlePayingDenomChange"
+                    @update:model-value="handlePayingDenomChange"
                   >
                     <template #selected>
                       <IgniteDenom
@@ -833,10 +845,11 @@ function cancel() {
             <div>
               <IgniteButton
                 variant="primary"
-                class="h-8 border border-primary !px-4 font-normal"
+                class="h-8 border border-primary !px-4 font-normal hover:text-primary"
                 @click="handleAddDistributionClick"
               >
                 <IconPlus
+                  aria-hidden
                   class="mr-3 h-[0.625rem] w-[0.625rem]"
                   stroke-width="2"
                 />

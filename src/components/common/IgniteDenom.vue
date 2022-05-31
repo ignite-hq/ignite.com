@@ -32,15 +32,15 @@ const sizeClassObject = computed(() => {
 </script>
 
 <template>
-  <span v-if="modifier === 'base'">
+  <span v-if="modifier === 'base'" class="text-gray-0">
     {{ denom.toUpperCase() }}
   </span>
-  <span v-else-if="modifier === 'path'">
+  <span v-else-if="modifier === 'path'" class="text-gray-0">
     {{ denom }}
   </span>
   <div
     v-else-if="modifier === 'avatar'"
-    :class="[sizeClassObject, 'token-avatar']"
+    :class="[sizeClassObject, 'token-avatar text-gray-0']"
   >
     {{ denom.slice(0, 1) }}
   </div>
