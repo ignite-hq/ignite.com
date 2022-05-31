@@ -33,18 +33,18 @@ const store = useRequestsStore()
 </script>
 
 <template>
-  <header class="flex items-center justify-between">
+  <header class="flex flex-col items-center justify-between md:flex-row">
     <div class="space-y-2 text-left">
       <IgniteHeading class="font-title text-5">Requests</IgniteHeading>
-      <IgniteText class="text-muted"
+      <IgniteText class="mt-5 text-muted"
         >Proposed actions submitted to {{ projectName }}</IgniteText
       >
     </div>
 
-    <div class="flex space-x-4">
+    <div class="mt-6 flex space-x-4 md:mt-0">
       <Listbox v-slot="{ open }" v-model="store.selectedPageFilter">
         <div
-          class="relative flex flex-col items-end"
+          class="relative flex flex-col items-end rounded-2sm"
           :class="{ 'shadow-dropdown': open }"
         >
           <ListboxButton
@@ -80,7 +80,7 @@ const store = useRequestsStore()
 
       <Listbox v-slot="{ open }" v-model="store.selectedPageSort">
         <div
-          class="relative flex flex-col items-end"
+          class="relative flex flex-col items-end rounded-2sm"
           :class="{ 'shadow-dropdown': open }"
         >
           <ListboxButton
@@ -122,7 +122,7 @@ const store = useRequestsStore()
   @apply flex items-center space-x-2 rounded-2sm border border-border p-4 hover:bg-gray-30;
 
   &--active {
-    @apply z-10 rounded-b-none border-none hover:bg-white-1000;
+    @apply z-10 rounded-b-none border-white-1000 hover:bg-white-1000;
   }
 }
 

@@ -14,10 +14,12 @@ import IgniteText from '~/components/ui/IgniteText.vue'
 
 interface Props {
   projectName?: string
+  allowCreate?: boolean
 }
 
 withDefaults(defineProps<Props>(), {
-  projectName: ''
+  projectName: '',
+  allowCreate: false
 })
 </script>
 
@@ -35,7 +37,10 @@ withDefaults(defineProps<Props>(), {
           Current and upcoming investment opportunities for {{ projectName }}
         </IgniteText>
       </div>
-      <div class="flex items-start justify-end md:col-span-3 lg:col-span-1">
+      <div
+        v-if="allowCreate"
+        class="flex items-start justify-end md:col-span-3 lg:col-span-1"
+      >
         <IgniteLink
           to="/create-fundraiser"
           class="w-full md:w-auto"

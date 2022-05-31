@@ -8,7 +8,7 @@
   >
     <path
       d="M5 6H13M6 9H12M7 12H11M17 9C17 13.4183 13.4183 17 9 17C4.58172 17 1 13.4183 1 9C1 4.58172 4.58172 1 9 1C13.4183 1 17 4.58172 17 9Z"
-      stroke="#094EFD"
+      stroke="currentColor"
       stroke-miterlimit="10"
       stroke-linecap="round"
       stroke-linejoin="round"

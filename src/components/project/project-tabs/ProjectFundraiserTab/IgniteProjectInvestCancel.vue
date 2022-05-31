@@ -14,15 +14,16 @@ import IgniteCard from '~/components/ui/IgniteCard.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteLink from '~/components/ui/IgniteLink.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
+import { FixedPriceAuction } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising'
 
 interface Props {
-  fundraiser: any
+  fundraiser: FixedPriceAuction
 }
 
 const props = defineProps<Props>()
 
 const endDate = computed(() => {
-  return dayjs(new Date(props.fundraiser.auction.base_auction.start_time))
+  return dayjs(new Date(props.fundraiser.base_auction.start_time))
 })
 </script>
 
