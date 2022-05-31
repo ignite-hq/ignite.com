@@ -110,7 +110,7 @@ const roadmapItems = computed<ProjectMilestone[]>(() => {
       items.push(formatMilestone('Registration opens', startDate))
       items.push(
         formatMilestone(
-          'Registration opens',
+          'Registration begins',
           props.fundraiser.base_auction.start_time
         )
       )
