@@ -7,6 +7,7 @@ export default {
 <script lang="ts" setup>
 import IconCheck from '~/components/icons/IconCheck.vue'
 import IconCircleCanceled from '~/components/icons/IconCircleCanceled.vue'
+import IgniteLoader from '~/components/ui/IgniteLoader.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import { arrayNSize } from '~/utils/array'
 
@@ -14,7 +15,6 @@ import {
   ProjectMilestone,
   RoadmapStatus
 } from '../project/project-tabs/ProjectOverviewTab/types'
-import IgniteLoader from '../ui/IgniteLoader.vue'
 
 interface Props {
   items: ProjectMilestone[]

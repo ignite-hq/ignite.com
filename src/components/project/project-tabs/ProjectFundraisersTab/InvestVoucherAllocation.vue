@@ -8,7 +8,7 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import BigNumber from 'bignumber.js'
-import { computed, reactive, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 
 import IgniteDenom from '~/components/common/IgniteDenom.vue'
 import IgniteProgressBar from '~/components/common/IgniteProgressBar.vue'
@@ -16,28 +16,32 @@ import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteSelect from '~/components/ui/IgniteSelect.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import { V1Beta1Coin } from '~/generated/tendermint-spn-ts-client/cosmos.tx.v1beta1/rest'
-import { AuctionStatus } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/fundraising'
+import {
+  AuctionStatus,
+  FixedPriceAuction
+} from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/fundraising'
 import { getDenomName, toCompactNumber } from '~/utils/fundraising'
 import { ProgressBarItem } from '~/utils/types'
+import useTotalSupply from '~/composables/fundraising/useTotalSupply'
 
 interface Props {
-  fundraisers: any
-  totalSupply: V1Beta1Coin[]
+  fundraisers: FixedPriceAuction[]
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  fundraisers: () => ({}),
-  totalSupply: () => []
+  fundraisers: () => [] as FixedPriceAuction[]
 })
 
-const selectedVoucher = reactive({ data: { value: '', label: '' } })
+const { totalSupply } = useTotalSupply()
+
+const selectedVoucherDenom = ref('')
 const vouchers = computed(() => {
   if (!props.fundraisers?.pages) {
     return []
   }
   return [
     ...new Set(
-      props.fundraisers?.pages[0].auctions.map((auctionData: any) =>
+      props.fundraisers?.auctions.map((auctionData: any) =>
         (auctionData.base_auction.selling_coin?.denom ?? '').toUpperCase()
       )
     )
@@ -46,8 +50,7 @@ const vouchers = computed(() => {
 
 watch(vouchers, (newVal) => {
   if (newVal[0]) {
-    selectedVoucher.data.value = newVal[0] as string
-    selectedVoucher.data.label = getDenomName(newVal[0] as string)
+    selectedVoucherDenom.value = newVal[0] as string
   }
 })
 
@@ -108,16 +111,19 @@ const calculateFundraising = (voucherAuctions: any[]): number => {
 
 const progressBars = computed(() => {
   return (vouchers.value || []).map((voucher) => {
-    const voucherAuctions = props.fundraisers?.pages[0].auctions.filter(
+    const voucherAuctions = props.fundraisers?.auctions.filter(
       (auctionData: any) =>
         auctionData.base_auction.selling_coin.denom.toUpperCase() === voucher
     )
+
     const distributedAmount = calculateDistributed(voucherAuctions)
     const fundraisingAmount = calculateFundraising(voucherAuctions)
-    const token = props.totalSupply?.find(
-      (token) => (token.denom ?? '').toUpperCase() === voucher
+
+    const token = totalSupply?.find(
+      (token: V1Beta1Coin) => (token.denom ?? '').toUpperCase() === voucher
     )
     const tokenSupply = new BigNumber(token?.amount ?? '0').toNumber()
+
     const barDistributed: ProgressBarItem = {
       value: (tokenSupply
         ? Math.round((distributedAmount / tokenSupply) * 100)
@@ -127,6 +133,7 @@ const progressBars = computed(() => {
       bgColor: 'bg-primary',
       split: true
     }
+
     const barFundraising: ProgressBarItem = {
       value: (tokenSupply
         ? Math.round((fundraisingAmount / tokenSupply) * 100)
@@ -135,6 +142,7 @@ const progressBars = computed(() => {
       amount: fundraisingAmount,
       bgColor: 'bg-secondary'
     }
+
     const barAvailable: ProgressBarItem = {
       value: (tokenSupply
         ? Math.round(
@@ -146,6 +154,7 @@ const progressBars = computed(() => {
       ).toString(),
       amount: tokenSupply
     }
+
     return {
       denom: getDenomName(voucher as string),
       denomFull: voucher,
@@ -156,7 +165,7 @@ const progressBars = computed(() => {
 
 const progressBar = computed(() => {
   return progressBars.value.find(
-    (voucher) => voucher.denomFull === selectedVoucher.data.value
+    (voucher) => voucher.denomFull === selectedVoucherDenom.value
   )
 })
 </script>
@@ -175,27 +184,44 @@ const progressBar = computed(() => {
           >
             Voucher allocation
           </IgniteHeading>
-          <div class="mt-7">
+          <div class="mt-7 max-w-[20rem]">
             <IgniteSelect
               :name="'Voucher select'"
-              :selected="selectedVoucher.data"
+              :selected="{
+                value: selectedVoucher.data,
+                label: getDenomName(selectedVoucherDenom)
+              }"
               :items="
                 vouchers.map((voucher) => ({
                   value: voucher as string,
-                  label: getDenomName(voucher as string)
+                  label: getDenomName(voucher)
                 }))
               "
+              :is-mobile-native="false"
             >
-              <IgniteDenom
-                size="small"
-                modifier="avatar"
-                :denom="selectedVoucher.data.label"
-                :title="selectedVoucher.data.label"
-                class="mr-3"
-              />
-              <IgniteHeading as="div" class="font-title text-3 md:text-4">
-                {{ selectedVoucher.data.label }}
-              </IgniteHeading>
+              <template #selected>
+                <IgniteDenom
+                  v-if="selectedVoucherDenom"
+                  modifier="avatar"
+                  :denom="getDenomName(selectedVoucherDenom)"
+                  :title="getDenomName(selectedVoucherDenom)"
+                  size="small"
+                  class="mr-3"
+                />
+                {{ getDenomName(selectedVoucherDenom) }}
+              </template>
+              <template v-for="voucher in vouchers" :key="voucher" #[voucher]>
+                <div class="flex w-full items-center justify-between gap-4">
+                  <IgniteHeading
+                    as="span"
+                    class="font-title text-3 md:text-4"
+                    >{{ getDenomName(voucher as string) }}</IgniteHeading
+                  >
+                  <IgniteText as="span" class="text-2 text-muted"
+                    >444.44B minted</IgniteText
+                  >
+                </div>
+              </template>
             </IgniteSelect>
           </div>
         </div>

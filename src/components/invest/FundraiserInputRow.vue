@@ -7,7 +7,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="mt-9 flex-row">
+  <div class="mt-8 first:mt-7 md:mt-9 md:first:mt-8">
     <slot />
   </div>
 </template>

@@ -7,8 +7,10 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="mt-10 px-9">
-    <div class="flex grow flex-col">
+  <div
+    class="border-b border-border pt-8 pb-9 last:border-0 last:pb-0 md:pt-9.5 md:pb-10"
+  >
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-12">
       <slot />
     </div>
   </div>

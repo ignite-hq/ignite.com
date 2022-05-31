@@ -23,27 +23,34 @@ import IgniteLink from '~/components/ui/IgniteLink.vue'
 import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import useTotalSupply from '~/composables/fundraising/useTotalSupply'
-import { AuctionStatus } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/fundraising'
-import { getDenomName, toCompactNumber } from '~/utils/fundraising'
-import { AuctionStatusLabels, ProgressBarItem } from '~/utils/types'
+import {
+  getDenomName,
+  getHumanizedAuctionStatus,
+  toCompactNumber
+} from '~/utils/fundraising'
+import { ProgressBarItem } from '~/utils/types'
+import { FixedPriceAuction } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising'
 import { ProjectMilestone, RoadmapStatus } from '../ProjectOverviewTab/types'
 import dayjs from 'dayjs'
 
 interface Props {
-  auction: any
+  fundraiser: FixedPriceAuction
   type: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  auction: () => ({}),
+  fundraiser: () => ({}),
   size: ''
 })
+
+const TODAY = new Date().getTime()
 
 const { totalSupply } = useTotalSupply()
 const supply = computed(() => {
   if (!totalSupply.value?.supply) return 0
   return totalSupply.value?.supply.find(
-    (token) => token.denom === props.auction?.base_auction?.selling_coin?.denom
+    (token) =>
+      token.denom === props.fundraiser?.base_auction?.selling_coin?.denom
   ).amount
 })
 
@@ -52,79 +59,75 @@ const progressBar = computed(() => {
   items.push({
     value:
       (
-        Number(props.auction?.base_auction.selling_coin.amount) -
-        Number(props.auction?.remaining_selling_coin.amount)
+        Number(props.fundraiser?.base_auction.selling_coin.amount) -
+        Number(props.fundraiser?.remaining_selling_coin.amount)
       ).toString() ?? '0',
     bgColor: 'bg-primary'
   } as ProgressBarItem)
   items.push({
-    value: props.auction?.remaining_selling_coin.amount ?? '0',
+    value: props.fundraiser?.remaining_selling_coin.amount ?? '0',
     bgColor: ''
   } as ProgressBarItem)
   return { items }
 })
 
-function getMilestoneDate(unix: number) {
+function getMilestoneDate(unix: string) {
   if (!unix) return ''
-  return dayjs.unix(unix).format('MMM D, YYYY [at] h:mm A [GMT]Z')
+  return dayjs.unix(Number(unix)).format('MMM D, YYYY [at] h:mm A [GMT]Z')
+}
+
+function isMilestoneCompleted(date: string): RoadmapStatus {
+  return Number(date ?? 0) > TODAY
+    ? RoadmapStatus.Completed
+    : RoadmapStatus.Expected
+}
+
+function formatMilestone(title: string, date: number | Date): ProjectMilestone {
+  return {
+    status: isMilestoneCompleted(Number(date).toString()),
+    title,
+    date: getMilestoneDate(Number(date).toString())
+  }
 }
 
 const roadmapItems = computed<ProjectMilestone[]>(() => {
   const items: ProjectMilestone[] = [] as ProjectMilestone[]
-  const TODAY = new Date().getTime()
-  /*
-  Fundraiser published
-  Registration begins
-  Fundraiser begins
-  Fundraiser ends
-  Fundraiser cancelled
-  */
   items.push({
     status: RoadmapStatus.Completed,
-    title: 'Fundraiser published',
-    date: getMilestoneDate(props.auction?.base_auction?.start_time ?? '')
+    title: 'Fundraiser published'
   })
-  if (props.auction?.base_auction?.status === 'AUCTION_STATUS_CANCELLED') {
+  if (props.fundraiser?.base_auction?.status === 'AUCTION_STATUS_CANCELLED') {
     items.push({
       status: RoadmapStatus.Completed,
-      title: 'Fundraiser cancelled',
-      date: getMilestoneDate(props.auction?.base_auction?.start_time ?? '')
+      title: 'Fundraiser cancelled'
     })
   } else {
-    items.push({
-      status:
-        Number(props.auction?.base_auction?.end_time) > TODAY
-          ? RoadmapStatus.Completed
-          : RoadmapStatus.Expected,
-      title: 'Fundraiser ends',
-      date: getMilestoneDate(props.auction?.base_auction?.end_time ?? '')
-    })
+    if (props.fundraiser?.base_auction?.start_time) {
+      const startDate = dayjs
+        .unix(Number(props.fundraiser?.base_auction?.start_time))
+        .subtract(7, 'days')
+        .valueOf()
+      items.push(formatMilestone('Registration opens', startDate))
+    }
+    if (props.fundraiser?.base_auction?.start_time) {
+      items.push(
+        formatMilestone(
+          'Registration opens',
+          props.fundraiser.base_auction.start_time
+        )
+      )
+    }
+    if (props.fundraiser?.base_auction?.end_times[0]) {
+      items.push(
+        formatMilestone(
+          'Fundraiser ends',
+          props.fundraiser.base_auction.end_times[0]
+        )
+      )
+    }
   }
   return items
 })
-
-const statusDetailed = computed(() => {
-  console.log(props.auction)
-  return props.auction?.base_auction.status || ''
-})
-
-const formatAuctionStatus = (
-  auctionType: AuctionStatus
-): AuctionStatusLabels => {
-  // @ts-ignore
-  switch (AuctionStatus[auctionType] as AuctionStatus) {
-    case AuctionStatus.AUCTION_STATUS_VESTING:
-    case AuctionStatus.AUCTION_STATUS_STARTED:
-      return AuctionStatusLabels.Current
-    case AuctionStatus.AUCTION_STATUS_STANDBY:
-      return AuctionStatusLabels.Upcoming
-    case AuctionStatus.AUCTION_STATUS_FINISHED:
-    case AuctionStatus.AUCTION_STATUS_CANCELLED:
-      return AuctionStatusLabels.Previous
-    default:
-      return AuctionStatusLabels.Other
-  }
-}
 </script>
 
 <template>
@@ -151,17 +154,19 @@ const formatAuctionStatus = (
         >
           <IgniteNumber
             :number="
-              Number(auction.base_auction.selling_coin.amount) -
-              Number(auction.remaining_selling_coin.amount)
+              Number(fundraiser.base_auction.selling_coin.amount) -
+              Number(fundraiser.remaining_selling_coin.amount)
             "
           />
-          {{ getDenomName(auction.base_auction.selling_coin.denom) }}
+          {{ getDenomName(fundraiser.base_auction.selling_coin.denom) }}
         </IgniteHeading>
         <IgniteHeading as="div" class="mt-3 text-3 text-muted">
           Raised of
           <strong>
-            <IgniteNumber :number="auction.base_auction.selling_coin.amount" />
-            {{ getDenomName(auction.base_auction.selling_coin.denom) }}
+            <IgniteNumber
+              :number="fundraiser.base_auction.selling_coin.amount"
+            />
+            {{ getDenomName(fundraiser.base_auction.selling_coin.denom) }}
           </strong>
         </IgniteHeading>
       </div>
@@ -186,30 +191,43 @@ const formatAuctionStatus = (
               class="mt-2 flex items-center text-2 font-semibold md:mt-3 md:text-3"
             >
               <IconDots
-                v-if="statusDetailed === 'AUCTION_STATUS_VESTING'"
+                v-if="
+                  fundraiser?.base_auction.status === 'AUCTION_STATUS_VESTING'
+                "
                 class="mr-3"
               />
               <IconDots
-                v-if="statusDetailed === 'AUCTION_STATUS_STARTED'"
+                v-if="
+                  fundraiser?.base_auction.status === 'AUCTION_STATUS_STARTED'
+                "
                 class="mr-3"
               />
               <IconClock
-                v-if="statusDetailed === 'AUCTION_STATUS_STANDBY'"
+                v-if="
+                  fundraiser?.base_auction.status === 'AUCTION_STATUS_STANDBY'
+                "
                 class="mr-3"
               />
               <IconCheckMarkThin
-                v-if="statusDetailed === 'AUCTION_STATUS_FINISHED'"
+                v-if="
+                  fundraiser?.base_auction.status === 'AUCTION_STATUS_FINISHED'
+                "
                 class="mr-3"
               />
               <IconCanceled
-                v-if="statusDetailed === 'AUCTION_STATUS_CANCELLED'"
+                v-if="
+                  fundraiser?.base_auction.status === 'AUCTION_STATUS_CANCELLED'
+                "
                 class="mr-3"
               />
               <IconCanceled
-                v-if="statusDetailed === 'AUCTION_STATUS_UNSPECIFIED'"
+                v-if="
+                  fundraiser?.base_auction.status ===
+                  'AUCTION_STATUS_UNSPECIFIED'
+                "
                 class="mr-3"
               />
-              {{ formatAuctionStatus(statusDetailed) }}
+              {{ getHumanizedAuctionStatus(fundraiser?.base_auction.status) }}
             </IgniteHeading>
           </div>
 
@@ -222,13 +240,13 @@ const formatAuctionStatus = (
               <IconStack class="mr-3" />
               {{
                 toCompactNumber.format(
-                  auction.base_auction.selling_coin?.amount ?? 0
+                  fundraiser.base_auction.selling_coin?.amount ?? 0
                 )
               }}
               <span class="text-muted"
                 >&nbsp;({{
                   Math.round(
-                    (Number(auction.base_auction.selling_coin?.amount ?? 0) /
+                    (Number(fundraiser.base_auction.selling_coin?.amount ?? 0) /
                       supply) *
                       100
                   )
@@ -248,13 +266,13 @@ const formatAuctionStatus = (
             >
               <IgniteDenom
                 modifier="avatar"
-                :denom="getDenomName(auction.base_auction.paying_coin_denom)"
-                :title="getDenomName(auction.base_auction.paying_coin_denom)"
+                :denom="getDenomName(fundraiser.base_auction.paying_coin_denom)"
+                :title="getDenomName(fundraiser.base_auction.paying_coin_denom)"
                 size="small"
                 class="mr-3"
               />
-              {{ Number(auction.base_auction.start_price) }}
-              {{ getDenomName(auction.base_auction.paying_coin_denom) }}
+              {{ Number(fundraiser.base_auction.start_price) }}
+              {{ getDenomName(fundraiser.base_auction.paying_coin_denom) }}
               <span class="ml-1 inline-block text-muted">ea.</span>
             </IgniteHeading>
           </div>

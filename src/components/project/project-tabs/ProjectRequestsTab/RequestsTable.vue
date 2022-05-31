@@ -17,6 +17,7 @@ import IconCheckMarkThin from '~/components/icons/IconCheckMarkThin.vue'
 import IgniteCheckbox from '~/components/ui/IgniteCheckbox.vue'
 import IgniteLoader from '~/components/ui/IgniteLoader.vue'
 import IgniteProfileIcon from '~/components/ui/IgniteProfileIcon.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
 import useAddress from '~/composables/wallet/useAddress'
 import {
   RequestPageFilters,
@@ -211,17 +212,23 @@ const showStatus = computed(() => {
 
         <div role="columnheader" class="responses-table-column-cell flex-1">
           <IgniteLoader v-if="isLoading" class="h-5" />
-          <span v-if="!isLoading">Action</span>
+          <IgniteText v-if="!isLoading" as="span">Action</IgniteText>
         </div>
 
-        <div role="columnheader" class="responses-table-column-cell flex-1">
+        <div
+          role="columnheader"
+          class="responses-table-column-cell hidden flex-1 md:block"
+        >
           <IgniteLoader v-if="isLoading" class="h-5" />
-          <span v-if="!isLoading">Type</span>
+          <IgniteText v-if="!isLoading" as="span">Type</IgniteText>
         </div>
 
-        <div role="columnheader" class="responses-table-column-cell flex-1">
+        <div
+          role="columnheader"
+          class="responses-table-column-cell hidden flex-1 md:block"
+        >
           <IgniteLoader v-if="isLoading" class="h-5" />
-          <span v-if="!isLoading">Requestor</span>
+          <IgniteText v-if="!isLoading" as="span">Requestor</IgniteText>
         </div>
       </div>
     </div>
@@ -266,16 +273,33 @@ const showStatus = computed(() => {
         </div>
 
         <!-- Type -->
-        <div role="cell" class="responses-table-cell flex-1">
+        <div role="cell" class="responses-table-cell w-full md:flex-1">
           <IgniteLoader v-if="isLoading" class="h-5 w-full" />
-          <span v-if="!isLoading">{{ getHumanizedType(request.content) }}</span>
+          <IgniteText
+            v-if="!isLoading"
+            as="span"
+            class="text-2 font-semibold text-muted md:hidden"
+            >Type:</IgniteText
+          >
+          <IgniteText v-if="!isLoading" as="span" class="text-muted">{{
+            getHumanizedType(request.content)
+          }}</IgniteText>
         </div>
 
         <!-- Requestor -->
-        <div role="cell" class="responses-table-cell flex-1 font-semibold">
+        <div role="cell" class="responses-table-cell w-full md:flex-1">
           <IgniteLoader v-if="isLoading" class="h-5 w-full" />
-          <span v-if="!isLoading" class="flex items-center space-x-4">
-            <IgniteProfileIcon :address="request.creator" />
+          <IgniteText
+            v-if="!isLoading"
+            as="span"
+            class="text-2 font-semibold text-muted md:hidden"
+            >Requestor:</IgniteText
+          >
+          <span
+            v-if="!isLoading"
+            class="flex items-center space-x-4 font-semibold"
+          >
+            <IgniteProfileIcon :address="request.creator" class="shrink-0" />
             <span>{{
               request.creator ? getShortAddress(request.creator) : 'Unknown'
             }}</span>
@@ -296,7 +320,7 @@ const showStatus = computed(() => {
 }
 
 .responses-table-column-cell {
-  @apply border-b border-gray-70 px-4 py-6 pl-8 text-left font-medium text-muted;
+  @apply border-b border-border px-3 py-6 text-left font-medium text-muted first:pl-4 md:px-5 md:first:pl-6;
 }
 
 .responses-table-body {
@@ -304,10 +328,10 @@ const showStatus = computed(() => {
 }
 
 .responses-table-row {
-  @apply relative flex rounded-[16px] py-2 hover:bg-[#F9F9F9];
+  @apply relative flex flex-wrap border-b border-border py-2 transition-colors hover:rounded hover:border-transparent hover:bg-[#F9F9F9] md:flex-nowrap md:border-b-0;
 }
 
 .responses-table-cell {
-  @apply flex items-center space-x-4 overflow-hidden p-4 py-6 pl-8;
+  @apply flex items-center space-x-4 overflow-hidden px-3 py-3 text-left first:pl-4 md:px-5 md:py-6 md:first:pl-6;
 }
 </style>

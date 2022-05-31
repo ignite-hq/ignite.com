@@ -13,6 +13,7 @@ import {
 import { computed } from 'vue'
 
 import IgniteButton from '~/components/ui/IgniteButton.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
 import useCampaignSummaries from '~/composables/campaign/useCampaignSummaries'
 
 import IgniteProjectCard from './ProjectCard/index.vue'
@@ -26,6 +27,7 @@ const skeletons = new Array(6).fill({ loading: true })
 // composables
 const {
   isLoading,
+  isFetched,
   allCampaignSummaries,
   fetchNextPage,
   hasNextPage,
@@ -43,6 +45,11 @@ function mergePages(
 }
 
 // computed
+const isListEmpty = computed<boolean>(
+  () =>
+    isFetched.value &&
+    Number(allCampaignSummaries.value?.pages[0].pagination?.total) === 0
+)
 const campaignSummaries = computed<CampaignCampaignSummary[]>(() => {
   if (isLoading.value) {
     return skeletons
@@ -72,6 +79,10 @@ const campaignSummaries = computed<CampaignCampaignSummary[]>(() => {
           />
         </template>
       </MasonryWall>
+    </div>
+
+    <div v-if="isListEmpty">
+      <IgniteText> No projects </IgniteText>
     </div>
 
     <div v-if="hasNextPage && !isFetchingNextPage" class="blur-box">
