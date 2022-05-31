@@ -108,8 +108,6 @@ const roadmapItems = computed<ProjectMilestone[]>(() => {
         .subtract(7, 'days')
         .valueOf()
       items.push(formatMilestone('Registration opens', startDate))
-    }
-    if (props.fundraiser?.base_auction?.start_time) {
       items.push(
         formatMilestone(
           'Registration opens',
