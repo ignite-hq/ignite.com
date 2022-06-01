@@ -210,7 +210,7 @@ watchEffect(() => {
       >
         <IgniteLink
           to="https://help.keplr.app/troubleshooting"
-          class="space-x-3"
+          class="flex items-center space-x-3"
         >
           <span>Keplr troubleshooting</span> <IconExternalArrow />
         </IgniteLink>
