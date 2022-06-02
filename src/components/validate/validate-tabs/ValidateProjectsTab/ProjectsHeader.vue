@@ -22,6 +22,12 @@ import { useRequestsStore } from '~/stores/requests-store'
 
 const store = useRequestsStore()
 
+interface Props {
+  projectLength: string
+}
+
+defineProps<Props>()
+
 const projectPageFilters = [
   { id: 'all', name: 'All projects' },
   { id: 'acceptingRequests', name: 'Accepting requests' },
@@ -38,7 +44,7 @@ const selectedProjectSort = [
   <header class="flex flex-col items-center justify-between md:flex-row">
     <div class="space-y-2 text-left">
       <IgniteText class="text-muted"
-        >Currently validating 30 projects</IgniteText
+        >Currently validating {{ projectLength }} projects</IgniteText
       >
     </div>
 

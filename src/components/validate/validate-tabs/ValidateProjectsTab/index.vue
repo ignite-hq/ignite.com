@@ -6,6 +6,7 @@ export default {
 
 <script lang="ts" setup>
 import IgniteButton from '~/components/ui/IgniteButton.vue'
+import ProjectEmptyState from '~/components/common/IgniteEmptyState.vue'
 
 import ProjectCard from './ProjectCard.vue'
 import ProjectsHeader from './ProjectsHeader.vue'
@@ -201,7 +202,7 @@ const projects = [
 
 <template>
   <div class="container mt-7.5">
-    <ProjectsHeader />
+    <ProjectsHeader :projectLength="projects.length" />
 
     <div class="mt-7">
       <ProjectCard
@@ -209,6 +210,8 @@ const projects = [
         :key="project.name"
         :project="project"
       />
+
+      <ProjectEmptyState>Empty text</ProjectEmptyState>
     </div>
 
     <div class="mt-8 text-center md:mt-10">
