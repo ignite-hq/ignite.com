@@ -19,35 +19,182 @@ const projects = [
       status: 'Accepting requests',
       date: 'June 20, 2022',
       validators: '20 accepted validators',
-      rewards: [{ count: '20K UST' }, { count: '20% vTOKEN' }]
+      rewards: [
+        { denom: 'U', count: '20K UST' },
+        { denom: 'T', count: '20% vTOKEN' }
+      ]
     },
-    fundraisers: {},
-    distribution: {},
-    vouchers: {}
+    distribution: {
+      progressBar: [
+        {
+          value: 10,
+          bgColor: 'bg-secondary',
+          split: true
+        },
+        {
+          value: 40,
+          bgColor: 'bg-primary'
+        },
+        {
+          value: '50'
+        }
+      ],
+      legend: [
+        {
+          name: 'Yours',
+          color: 'bg-secondary'
+        },
+        {
+          name: 'Distributed',
+          color: 'bg-primary'
+        },
+        {
+          name: 'Undistributed'
+        }
+      ]
+    },
+    vouchers: {
+      name: 'vYAWP',
+      count: '4',
+      percent: '4.00'
+    }
   },
   {
     name: 'Archway',
     status: 'Accepted',
-    testnet: {},
-    fundraisers: {},
-    distribution: {},
-    vouchers: {}
+    testnet: {
+      name: '2th Testnet',
+      status: 'Accepting requests',
+      date: 'June 20, 2022',
+      validators: '20 accepted validators',
+      rewards: [
+        { denom: 'U', count: '20K UST' },
+        { denom: 'T', count: '20% vTOKEN' }
+      ]
+    },
+    fundraisers: {
+      ongoing: 1,
+      upcoming: 1,
+      count: '0',
+      name: 'TOKEN'
+    },
+    distribution: {
+      progressBar: [
+        {
+          value: 40,
+          bgColor: 'bg-primary'
+        },
+        {
+          value: '60'
+        }
+      ],
+      legend: [
+        {
+          name: 'Distributed',
+          color: 'bg-primary'
+        },
+        {
+          name: 'Undistributed'
+        }
+      ]
+    },
+    vouchers: {
+      name: 'vARCH',
+      count: '20,000',
+      percent: '0.003'
+    }
   },
   {
     name: 'Ignition #1',
     status: 'Accepted',
-    testnet: {},
-    fundraisers: {},
-    distribution: {},
-    vouchers: {}
+    testnet: {
+      name: '1th Testnet',
+      status: 'Accepting requests',
+      date: 'June 20, 2022',
+      validators: '20 accepted validators',
+      rewards: [
+        { denom: 'U', count: '20K UST' },
+        { denom: 'T', count: '20% vTOKEN' }
+      ]
+    },
+    distribution: {
+      progressBar: [
+        {
+          value: 10,
+          bgColor: 'bg-secondary',
+          split: true
+        },
+        {
+          value: 40,
+          bgColor: 'bg-primary'
+        },
+        {
+          value: '50'
+        }
+      ],
+      legend: [
+        {
+          name: 'Yours',
+          color: 'bg-secondary'
+        },
+        {
+          name: 'Distributed',
+          color: 'bg-primary'
+        },
+        {
+          name: 'Undistributed'
+        }
+      ]
+    },
+    vouchers: {
+      name: 'vTOKEN',
+      count: '1,000,000',
+      percent: '0.8'
+    }
   },
   {
     name: 'Chihuahua',
     status: 'Validating',
-    testnet: {},
-    fundraisers: {},
-    distribution: {},
-    vouchers: {}
+    testnet: {
+      name: 'Mainnet',
+      status: 'Accepting requests',
+      date: 'June 20, 2022',
+      validators: '20 accepted validators'
+    },
+    distribution: {
+      progressBar: [
+        {
+          value: 20,
+          bgColor: 'bg-secondary',
+          split: true
+        },
+        {
+          value: 45,
+          bgColor: 'bg-primary'
+        },
+        {
+          value: '35'
+        }
+      ],
+      legend: [
+        {
+          name: 'Yours',
+          color: 'bg-secondary'
+        },
+        {
+          name: 'Distributed',
+          color: 'bg-primary'
+        },
+        {
+          name: 'Undistributed'
+        }
+      ]
+    },
+    vouchers: {
+      name: 'vHUAHUA',
+      count: '400,000',
+      percent: '4.125'
+    }
   }
 ]
 </script>
