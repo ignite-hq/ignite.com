@@ -36,9 +36,11 @@ defineProps({
           </div>
         </div>
 
-        <IgniteHeading as="div" class="mt-5 text-center font-title text-5">{{
-          project.name
-        }}</IgniteHeading>
+        <IgniteHeading
+          as="div"
+          class="mt-5 text-center font-title text-4 xl:text-5"
+          >{{ project.name }}</IgniteHeading
+        >
         <IgniteText
           as="div"
           class="mt-5 flex items-center rounded-xs bg-gray-30 p-5 text-2"
