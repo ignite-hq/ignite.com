@@ -43,7 +43,8 @@ export const useRequestsStore = defineStore('RequestsStore', {
   state: () => ({
     selectedRequests: [] as LaunchRequest[],
     selectedPageFilter: requestPageFilters[0],
-    selectedPageSort: requestPageSorts[0]
+    selectedPageSort: requestPageSorts[0],
+    selectedChain: '' as string
   }),
   actions: {
     clearRequests() {

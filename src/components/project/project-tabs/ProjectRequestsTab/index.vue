@@ -6,21 +6,21 @@ export default {
 
 <script lang="ts" setup>
 import {
-  LaunchQueryAllRequestResponse,
   LaunchRequest,
   LaunchRequestStatus
 } from 'tendermint-spn-ts-client/tendermint.spn.launch/rest'
-import { computed, onBeforeUnmount } from 'vue'
+import { computed, onBeforeUnmount, watchEffect } from 'vue'
 
 import RequestsEmptyState from '~/components/project/project-tabs/ProjectRequestsTab/RequestsEmptyState.vue'
 import RequestsHeader from '~/components/project/project-tabs/ProjectRequestsTab/RequestsHeader.vue'
-import RequestsHeaderTop from '~/components/project/project-tabs/ProjectRequestsTab/RequestsHeaderTop.vue'
+import RequestsTableHeader from '~/components/project/project-tabs/ProjectRequestsTab/RequestsTableHeader.vue'
 import SelectedRequests from '~/components/project/project-tabs/ProjectRequestsTab/SelectedRequests.vue'
 import IgniteButton from '~/components/ui/IgniteButton.vue'
 import useCoordinator from '~/composables/profile/useCoordinator'
 import useChainRequests from '~/composables/request/useChainRequests'
 import { CampaignCampaignSummary } from '~/generated/tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 import { RequestPageFilters, useRequestsStore } from '~/stores/requests-store'
+import { mergePagesByKey } from '~/utils/array'
 
 import RequestsTable from './RequestsTable.vue'
 
@@ -42,12 +42,16 @@ const coordinatorId = computed(() => {
   return props.campaignSummary?.campaign?.coordinatorID
 })
 
-const launchId = computed(() => {
+const chainId = computed(() => {
   return props.campaignSummary?.mostRecentChain?.launchID
 })
 
 const projectName = computed(() => {
   return props.campaignSummary?.campaign?.campaignName
+})
+
+const selectedChain = computed(() => {
+  return store.selectedChain
 })
 
 // composables
@@ -57,20 +61,18 @@ const {
   hasNextPage,
   isFetchingNextPage,
   fetchNextPage
-} = useChainRequests(launchId)
+} = useChainRequests(selectedChain)
 const { isSameAddressAsLoggedIn, isLoading: isLoadingCoordinator } =
   useCoordinator(coordinatorId)
 
-// methods
-function mergePages(
-  pages: LaunchQueryAllRequestResponse[] = []
-): LaunchRequest[] {
-  return pages?.reduce(
-    (acc, page) => [...acc, ...(page?.request ?? [])],
-    [] as LaunchRequest[]
-  )
-}
+// watchers
+watchEffect(() => {
+  if (chainId.value && !store.selectedChain) {
+    store.selectedChain = chainId.value
+  }
+})
 
+// methods
 function filterRequests(
   requests: LaunchRequest[],
   filterBy: RequestPageFilters
@@ -93,7 +95,7 @@ function filterRequests(
 
 // computed
 const projectRequests = computed(() => {
-  const mergedRequests = mergePages(requests.value?.pages)
+  const mergedRequests = mergePagesByKey(requests.value?.pages, 'request')
 
   return filterRequests(mergedRequests, store.selectedPageFilter.id)
 })
@@ -108,7 +110,7 @@ const isLoading = computed(() => {
   const isInitialFetch =
     isLoadingProjectRequests.value ||
     isLoadingCoordinator.value ||
-    !launchId.value
+    !chainId.value
 
   return isInitialFetch && !isFetchingNextPage.value
 })
@@ -116,12 +118,15 @@ const isLoading = computed(() => {
 
 <template>
   <div class="container py-10 text-center">
-    <RequestsHeaderTop
+    <RequestsHeader
       :loading="isLoading"
       :campaign-summary="campaignSummary"
       class="border-b border-border pb-8"
     />
-    <RequestsHeader :project-name="projectName ?? ''" class="mt-8 md:mt-10.5" />
+    <RequestsTableHeader
+      :project-name="projectName ?? ''"
+      class="mt-8 md:mt-10.5"
+    />
     <div>
       <RequestsTable
         v-if="projectRequests.length > 0 || isLoading"
