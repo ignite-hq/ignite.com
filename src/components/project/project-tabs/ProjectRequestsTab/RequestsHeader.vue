@@ -121,6 +121,14 @@ const showLaunched = computed(() => {
       <IgniteText class="text-2 text-muted">Launch ID 4</IgniteText>
       <IgniteLoader v-if="isLoading" class="mt-5 h-8" />
 
+      <IgniteHeading
+        v-else-if="chainsForDropdown.length === 1"
+        class="mt-5 flex items-center font-title text-7 font-semibold xl:text-8"
+      >
+        {{ isMainnet ? 'Mainnet' : 'Testnet' }}
+        {{ currentChain?.index! + 1 }}
+      </IgniteHeading>
+
       <Listbox v-else v-slot="{ open }" v-model="store.selectedChain">
         <div class="relative">
           <ListboxButton
