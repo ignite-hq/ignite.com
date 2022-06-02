@@ -46,8 +46,8 @@ import IgniteSelect from '~/components/ui/IgniteSelect.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import useTotalSupply from '~/composables/fundraising/useTotalSupply'
 import useBalances from '~/composables/wallet/useBalances'
-import { percentageToCosmosDecimal } from '~/utils/number'
 import { getDenomName } from '~/utils/fundraising'
+import { percentageToCosmosDecimal } from '~/utils/number'
 
 // types
 type FixedPriceAuction = MsgCreateFixedPriceAuction
