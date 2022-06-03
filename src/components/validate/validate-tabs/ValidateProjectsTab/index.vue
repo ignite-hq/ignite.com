@@ -61,6 +61,220 @@ const projects = [
     }
   },
   {
+    name: 'Strange Clan',
+    status: 'Node offline',
+    statusAlert: 'Risk of getting slashed',
+    testnet: {
+      name: '4th Testnet',
+      status: 'Accepting requests',
+      date: 'June 20, 2022',
+      validators: '20 accepted validators',
+      rewards: [
+        { denom: 'U', count: '20K UST' },
+        { denom: 'T', count: '20% vTOKEN' }
+      ]
+    }
+  },
+  {
+    isHidden: true,
+    name: 'Strange Clan',
+    status: 'Accepted',
+    testnet: {
+      name: '4th Testnet',
+      status: 'Accepting requests',
+      date: 'June 20, 2022',
+      validators: '20 accepted validators',
+      rewards: [
+        { denom: 'U', count: '20K UST' },
+        { denom: 'T', count: '20% vTOKEN' }
+      ]
+    },
+    distribution: {
+      progressBar: [
+        {
+          value: 10,
+          bgColor: 'bg-secondary',
+          split: true
+        },
+        {
+          value: 40,
+          bgColor: 'bg-primary'
+        },
+        {
+          value: '50'
+        }
+      ],
+      legend: [
+        {
+          name: 'Yours',
+          color: 'bg-secondary'
+        },
+        {
+          name: 'Distributed',
+          color: 'bg-primary'
+        },
+        {
+          name: 'Undistributed'
+        }
+      ]
+    },
+    vouchers: {
+      name: 'vYAWP',
+      count: '4',
+      percent: '4.00'
+    }
+  },
+  {
+    name: 'Strange Clan',
+    status: 'Chain halted',
+    testnet: {
+      name: '4th Testnet',
+      status: 'Accepting requests',
+      date: 'June 20, 2022',
+      validators: '20 accepted validators',
+      rewards: [
+        { denom: 'U', count: '20K UST' },
+        { denom: 'T', count: '20% vTOKEN' }
+      ]
+    },
+    distribution: {
+      progressBar: [
+        {
+          value: 10,
+          bgColor: 'bg-secondary',
+          split: true
+        },
+        {
+          value: 40,
+          bgColor: 'bg-primary'
+        },
+        {
+          value: '50'
+        }
+      ],
+      legend: [
+        {
+          name: 'Yours',
+          color: 'bg-secondary'
+        },
+        {
+          name: 'Distributed',
+          color: 'bg-primary'
+        },
+        {
+          name: 'Undistributed'
+        }
+      ]
+    },
+    vouchers: {
+      name: 'vYAWP',
+      count: '4',
+      percent: '4.00'
+    }
+  },
+  {
+    name: 'Strange Clan',
+    status: 'Node launch required',
+    statusAlert: 'Risk of getting slashed'
+  },
+  {
+    name: 'Strange Clan',
+    status: 'Declined',
+    testnet: {
+      name: '4th Testnet',
+      status: 'Accepting requests',
+      date: 'June 20, 2022',
+      validators: '20 accepted validators',
+      rewards: [
+        { denom: 'U', count: '20K UST' },
+        { denom: 'T', count: '20% vTOKEN' }
+      ]
+    },
+    distribution: {
+      progressBar: [
+        {
+          value: 10,
+          bgColor: 'bg-secondary',
+          split: true
+        },
+        {
+          value: 40,
+          bgColor: 'bg-primary'
+        },
+        {
+          value: '50'
+        }
+      ],
+      legend: [
+        {
+          name: 'Yours',
+          color: 'bg-secondary'
+        },
+        {
+          name: 'Distributed',
+          color: 'bg-primary'
+        },
+        {
+          name: 'Undistributed'
+        }
+      ]
+    },
+    vouchers: {
+      name: 'vYAWP',
+      count: '4',
+      percent: '4.00'
+    }
+  },
+  {
+    name: 'Strange Clan',
+    status: 'Declined',
+    statusAlert: 'Alert text',
+    testnet: {
+      name: '4th Testnet',
+      status: 'Accepting requests',
+      date: 'June 20, 2022',
+      validators: '20 accepted validators',
+      rewards: [
+        { denom: 'U', count: '20K UST' },
+        { denom: 'T', count: '20% vTOKEN' }
+      ]
+    },
+    distribution: {
+      progressBar: [
+        {
+          value: 10,
+          bgColor: 'bg-secondary',
+          split: true
+        },
+        {
+          value: 40,
+          bgColor: 'bg-primary'
+        },
+        {
+          value: '50'
+        }
+      ],
+      legend: [
+        {
+          name: 'Yours',
+          color: 'bg-secondary'
+        },
+        {
+          name: 'Distributed',
+          color: 'bg-primary'
+        },
+        {
+          name: 'Undistributed'
+        }
+      ]
+    },
+    vouchers: {
+      name: 'vYAWP',
+      count: '4',
+      percent: '4.00'
+    }
+  },
+  {
     name: 'Archway',
     status: 'Accepted',
     testnet: {

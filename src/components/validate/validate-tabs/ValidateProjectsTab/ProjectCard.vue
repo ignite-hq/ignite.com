@@ -2,30 +2,46 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'ProjectCard'
+  name: 'ProjectCard',
+  components: { IconCanceled }
 })
 </script>
 
 <script lang="ts" setup>
+import { computed } from 'vue'
+
 import IgniteDenom from '~/components/common/IgniteDenom.vue'
 import IgniteLegend from '~/components/common/IgniteLegend.vue'
 import IgniteProgressBar from '~/components/common/IgniteProgressBar.vue'
+import IconCanceled from '~/components/icons/IconCanceled.vue'
+import IconCanceledCircle from '~/components/icons/IconCanceledCircle.vue'
 import IconClock from '~/components/icons/IconClock.vue'
+import IconReload from '~/components/icons/IconReload.vue'
 import IconRocket from '~/components/icons/IconRocket.vue'
 import IconStage from '~/components/icons/IconStage.vue'
+import IconWarningTriangle from '~/components/icons/IconWarningTriangle.vue'
 import IgniteBgWave from '~/components/ui/IgniteBgWave.vue'
+import IgniteButton from '~/components/ui/IgniteButton.vue'
 import IgniteCard from '~/components/ui/IgniteCard.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteLink from '~/components/ui/IgniteLink.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 
-defineProps({
+const props = defineProps({
   project: { type: Object, required: true }
+})
+
+const component = computed(() => {
+  return props.project.isHidden ? 'div' : IgniteLink
 })
 </script>
 
 <template>
-  <IgniteLink to="/projects" class="mb-7 w-full last:mb-0">
+  <component
+    :is="component"
+    to="/projects"
+    class="relative z-[1] mb-7 w-full last:mb-0"
+  >
     <IgniteCard :shadow="true" class="flex w-full flex-col lg:flex-row">
       <div
         class="flex shrink-0 flex-col items-center justify-center px-5 py-7 md:px-9 md:py-8 lg:w-[15rem] lg:px-6 lg:py-8 xl:w-[23.875rem] xl:px-7.5 xl:py-8"
@@ -46,20 +62,46 @@ defineProps({
           class="mt-5 flex items-center rounded-xs bg-gray-30 p-5 text-2"
         >
           <IconClock
-            v-if="project.status === 'Accepted'"
+            v-if="
+              project.status === 'Accepted' ||
+              project.status === 'Node launch required'
+            "
             stroke-width="1.2"
             class="mr-3"
           />
+          <IconCanceledCircle
+            v-if="project.status === 'Declined'"
+            class="mr-3"
+          />
           <div
-            v-if="project.status === 'Validating'"
-            class="relative mr-3 h-5 w-5 rounded-circle border border-border after:absolute after:top-[0.125rem] after:left-[0.125rem] after:h-[0.625rem] after:w-[0.625rem] after:rounded-circle after:bg-primary"
+            v-if="
+              project.status === 'Validating' ||
+              project.status === 'Node offline' ||
+              project.status === 'Chain halted'
+            "
+            class="relative mr-3 h-5 w-5 rounded-circle border border-border after:absolute after:top-[0.125rem] after:left-[0.125rem] after:h-[0.625rem] after:w-[0.625rem] after:rounded-circle"
+            :class="[
+              project.status === 'Validating' && 'after:bg-primary',
+              project.status === 'Node offline' && 'after:bg-warning',
+              project.status === 'Chain halted' && 'after:bg-error'
+            ]"
           />
           {{ project.status }}
+        </IgniteText>
+        <IgniteText
+          v-if="project.statusAlert"
+          as="div"
+          class="mt-5 flex items-center text-2 text-error"
+        >
+          <IconWarningTriangle class="mr-3" />
+          {{ project.statusAlert }}
         </IgniteText>
       </div>
 
       <div
+        v-if="project.testnet"
         class="border-y border-border px-5 py-7 md:w-full md:px-9 md:py-8 lg:border-y-0 lg:border-x lg:px-6 lg:py-8 xl:px-7.5 xl:py-8"
+        :class="!project.distribution && '!border-r-0'"
       >
         <IgniteText as="div" class="font-semibold">{{
           project.testnet.name
@@ -127,6 +169,7 @@ defineProps({
       </div>
 
       <div
+        v-if="project.distribution"
         class="px-5 py-7 md:w-full md:px-9 md:py-8 lg:px-6 lg:py-8 xl:px-7.5 xl:py-8"
       >
         <IgniteText as="div" class="font-semibold"
@@ -165,7 +208,19 @@ defineProps({
         </div>
       </div>
     </IgniteCard>
-  </IgniteLink>
+    <div
+      v-if="project.isHidden"
+      class="absolute inset-0 flex flex-col items-center justify-center bg-white-1000/95"
+    >
+      <IgniteHeading as="div" class="text-4 font-semibold"
+        >Project hidden</IgniteHeading
+      >
+      <IgniteButton class="mt-6 !text-muted hover:scale-105">
+        <IconReload class="mr-3" />
+        Undo
+      </IgniteButton>
+    </div>
+  </component>
 </template>
 
 <style scoped lang="postcss"></style>
