@@ -186,7 +186,7 @@ const showLaunched = computed(() => {
         />
       </div>
 
-      <IgniteLoader v-if="isLoading" class="mt-7 h-7 w-[32rem] !max-w-none" />
+      <IgniteLoader v-if="isLoading" class="mt-7 h-8 w-[32rem] !max-w-none" />
       <IgniteText v-else class="mt-7 max-w-[21.25rem] text-2 text-muted">
         Final testnet before our upcoming mainnet launch with incentivized
         rewards for helping to test the network.
@@ -196,60 +196,66 @@ const showLaunched = computed(() => {
     <div
       class="-mx-6 mt-7 flex flex-wrap md:flex-nowrap xl:col-span-8 xl:mt-0 xl:items-end xl:justify-end"
     >
-      <div v-if="isMainnet || isTestnet" class="mb-6 px-6 md:mb-0">
-        <IgniteText as="div" class="text-2 text-muted">Type</IgniteText>
-        <IgniteText as="div" class="ignite-badge text-medium mt-2 text-4">{{
-          isMainnet ? 'Mainnet' : 'Testnet'
-        }}</IgniteText>
+      <div v-if="isLoading" class="px-6 md:mb-0">
+        <IgniteLoader class="h-8 w-screen !max-w-md" />
       </div>
 
-      <div v-if="showLaunched" class="mb-6 px-6 md:mb-0">
-        <IgniteText as="div" class="text-2 text-muted">Launched</IgniteText>
-        <IgniteText as="div" class="text-medium mt-2 py-1 text-4">{{
-          dayjs
-            .unix(Number(currentChain?.chain?.launchTimestamp))
-            .format('DD.MM.YYYY')
-        }}</IgniteText>
-      </div>
-
-      <div class="mb-6 px-6 md:mb-0">
-        <IgniteText as="div" class="text-2 text-muted">Status</IgniteText>
-        <div class="mt-2 flex items-center">
-          <div
-            class="mr-3 flex h-5 w-5 items-center justify-center rounded-circle border border-border after:h-[0.625rem] after:w-[0.625rem] after:rounded-circle after:bg-primary"
-          ></div>
-          <IgniteText as="div" class="text-medium py-1 text-4">{{
-            statusText
+      <div v-else class="flex items-center">
+        <div v-if="isMainnet || isTestnet" class="mb-6 px-6 md:mb-0">
+          <IgniteText as="div" class="text-2 text-muted">Type</IgniteText>
+          <IgniteText as="div" class="ignite-badge text-medium mt-2 text-4">{{
+            isMainnet ? 'Mainnet' : 'Testnet'
           }}</IgniteText>
         </div>
-      </div>
 
-      <div v-if="showVouchers" class="mb-6 px-6 md:mb-0">
-        <IgniteText as="div" class="text-2 text-muted"
-          >Share allocation</IgniteText
-        >
-        <div class="mt-2 flex items-center">
-          <IconStack class="mr-3" />
-          <IgniteText as="div" class="text-medium py-1 text-4"
-            >{{ vouchersSummary.avgSharePercentage }}%</IgniteText
-          >
+        <div v-if="showLaunched" class="mb-6 px-6 md:mb-0">
+          <IgniteText as="div" class="text-2 text-muted">Launched</IgniteText>
+          <IgniteText as="div" class="text-medium mt-2 py-1 text-4">{{
+            dayjs
+              .unix(Number(currentChain?.chain?.launchTimestamp))
+              .format('DD.MM.YYYY')
+          }}</IgniteText>
         </div>
-      </div>
 
-      <div v-if="showIncentives" class="px-6">
-        <IgniteText as="div" class="text-2 text-muted">Incentives</IgniteText>
-        <div class="mt-2 flex items-center">
-          <IgniteDenom
-            modifier="avatar"
-            :denom="incentivesSummary?.denoms[0]"
-            :title="incentivesSummary?.denoms[0]"
-            size="small"
-            class="mr-3"
-          />
-          <IgniteText as="div" class="text-medium py-1 text-4"
-            ><IgniteNumber :number="incentivesSummary.total" />
-            {{ incentivesSummary.denoms[0] }}</IgniteText
+        <div class="mb-6 px-6 md:mb-0">
+          <IgniteText as="div" class="text-2 text-muted">Status</IgniteText>
+          <div class="mt-2 flex items-center">
+            <div
+              class="mr-3 flex h-5 w-5 items-center justify-center rounded-circle border border-border after:h-[0.625rem] after:w-[0.625rem] after:rounded-circle after:bg-primary"
+            ></div>
+            <IgniteText as="div" class="text-medium py-1 text-4">{{
+              statusText
+            }}</IgniteText>
+          </div>
+        </div>
+
+        <div v-if="showVouchers" class="mb-6 px-6 md:mb-0">
+          <IgniteText as="div" class="text-2 text-muted"
+            >Share allocation</IgniteText
           >
+          <div class="mt-2 flex items-center">
+            <IconStack class="mr-3" />
+            <IgniteText as="div" class="text-medium py-1 text-4"
+              >{{ vouchersSummary.avgSharePercentage }}%</IgniteText
+            >
+          </div>
+        </div>
+
+        <div v-if="showIncentives" class="px-6">
+          <IgniteText as="div" class="text-2 text-muted">Incentives</IgniteText>
+          <div class="mt-2 flex items-center">
+            <IgniteDenom
+              modifier="avatar"
+              :denom="incentivesSummary?.denoms[0]"
+              :title="incentivesSummary?.denoms[0]"
+              size="small"
+              class="mr-3"
+            />
+            <IgniteText as="div" class="text-medium py-1 text-4"
+              ><IgniteNumber :number="incentivesSummary.total" />
+              {{ incentivesSummary.denoms[0] }}</IgniteText
+            >
+          </div>
         </div>
       </div>
     </div>
