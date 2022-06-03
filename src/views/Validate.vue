@@ -15,6 +15,7 @@ import IgniteImage from '~/components/ui/IgniteImage.vue'
 import IgniteLink from '~/components/ui/IgniteLink.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import ValidateProjectsTab from '~/components/validate/validate-tabs/ValidateProjectsTab/index.vue'
+import ValidateRequestsTab from '~/components/validate/validate-tabs/ValidateRequestsTab/index.vue'
 import ValidateHeader from '~/components/validate/ValidateHeader/index.vue'
 
 const route = useRoute()
@@ -33,9 +34,7 @@ onBeforeRouteUpdate(async (to) => {
   <div>
     <ValidateHeader :active-tab="tab" />
     <ValidateProjectsTab v-if="tab === 'projects'" />
-    <!-- 
-    <ValidateProjectsTab v-if="tab === 'projects'" />
-    <ValidateRequestsTab v-if="tab === 'requests'" /> -->
+    <ValidateRequestsTab v-if="tab === 'requests'" />
 
     <div class="container mt-10 md:mt-12">
       <IgniteCard
