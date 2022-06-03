@@ -18,6 +18,7 @@ import IgniteModal from '~/components/ui/IgniteModal.vue'
 import IgniteSpinner from '~/components/ui/IgniteSpinner.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import useAddress from '~/composables/wallet/useAddress'
+import useConnectWallet from '~/composables/wallet/useConnectWallet'
 import useHasConnectedWallet from '~/composables/wallet/useHasConnectedWallet'
 
 import IgniteAccountMenu from './IgniteAccountMenu.vue'
@@ -35,7 +36,19 @@ interface Emits {
 const emit = defineEmits<Emits>()
 
 // spn
-const { spn, signIn, signOut } = useSpn()
+const { spn } = useSpn()
+const { tryToConnectToKeplr, onSignOut } = useConnectWallet({
+  onConnecting: () => {
+    state.modalPage = ModalPage.Connecting
+  },
+  onConnect: () => {
+    emit('connect')
+    resetState()
+  },
+  onError: () => {
+    state.modalPage = ModalPage.Error
+  }
+})
 
 // variables
 const initialState = {
@@ -62,7 +75,7 @@ function onOpenModal() {
 
 function onCancel() {
   resetState()
-  signOut()
+  onSignOut()
 }
 
 function getInitialModalPage(isKeplrAvaliable: boolean) {
@@ -72,47 +85,6 @@ function getInitialModalPage(isKeplrAvaliable: boolean) {
 function resetState() {
   state.modalPage = getInitialModalPage(spn.keplr.value.isAvailable())
   state.isConnectWalletModalOpen = initialState.isConnectWalletModalOpen
-}
-
-async function tryToConnectToKeplr() {
-  const { connect, getOfflineSigner, listenToAccChange } = spn.keplr.value
-
-  state.modalPage = ModalPage.Connecting
-
-  const onKeplrConnect = async () => {
-    const chainId = spn.env.value.chainID ?? ''
-
-    const offlineSigner = getOfflineSigner(chainId)
-    signIn(offlineSigner)
-
-    listenToAccChange(onKeplrConnect)
-    resetState()
-
-    if (!hasConnectedWallet.value) hasConnectedWallet.value = true
-    emit('connect')
-  }
-
-  const onKeplrError = (): void => {
-    state.modalPage = ModalPage.Error
-  }
-
-  try {
-    const stakingParams = await (
-      await spn.cosmosStakingV1Beta1.value.queryParams()
-    ).data
-
-    const tokens = await (
-      await spn.cosmosBankV1Beta1.value.queryTotalSupply()
-    ).data
-
-    connect(onKeplrConnect, onKeplrError, {
-      stakinParams: stakingParams,
-      tokens,
-      env: spn.env.value
-    })
-  } catch (e) {
-    state.modalPage = ModalPage.Error
-  }
 }
 
 // lifecycle

@@ -21,7 +21,7 @@ import dayjs from 'dayjs'
 import { cloneDeep } from 'lodash'
 import type { MsgCreateFixedPriceAuction } from 'tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/tx'
 import { useSpn } from 'tendermint-spn-vue-client'
-import { computed, onMounted, reactive } from 'vue'
+import { computed, reactive, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
 
 import IgniteBreadcrumbs from '~/components/common/IgniteBreadcrumbs.vue'
@@ -47,6 +47,9 @@ import IgniteText from '~/components/ui/IgniteText.vue'
 import useTotalSupply from '~/composables/fundraising/useTotalSupply'
 import useAddress from '~/composables/wallet/useAddress'
 import useBalances from '~/composables/wallet/useBalances'
+import useConnectWallet, {
+  ConnectionState
+} from '~/composables/wallet/useConnectWallet'
 import { getDenomName } from '~/utils/fundraising'
 import { percentageToCosmosDecimal } from '~/utils/number'
 
@@ -77,19 +80,20 @@ function coinToSelectOption(c: Coin): { label: string; value: string } {
 
 // spn
 const { spn } = useSpn()
+const { tryToConnectToKeplr, connectionState } = useConnectWallet()
 
 // composables
 const { address } = useAddress()
 const router = useRouter()
 const {
   balances,
-  isFetching: isFetchingBalances,
+  isLoading: isLoadingBalances,
   isFetched: isFetchedBalances
 } = useBalances(address)
 
 const {
   totalSupply,
-  isFetching: isFetchingTotalSupply,
+  isLoading: isLoadingTotalSupply,
   isFetched: isFetchedTotalSupply
 } = useTotalSupply()
 
@@ -148,9 +152,23 @@ const initialState: State = {
 const state = reactive(initialState)
 
 // lifecycles
-onMounted(() => {
-  if (!spn.signer.value.addr) {
-    router.push(`sign-in`)
+watchEffect(() => {
+  const isFresh = connectionState.value === ConnectionState.Fresh
+  const isConnected = connectionState.value === ConnectionState.Connected
+  const isConnecting = connectionState.value === ConnectionState.Connecting
+  const isError = connectionState.value === ConnectionState.Error
+  const isDisconnected = connectionState.value === ConnectionState.Disconnected
+
+  if (isConnected || isConnecting) {
+    return
+  }
+
+  if (isFresh) {
+    return tryToConnectToKeplr()
+  }
+
+  if (isError || isDisconnected) {
+    return router.push(`sign-in`)
   }
 })
 
@@ -266,7 +284,7 @@ const hasAnyBalance = computed<boolean>(
     false
 )
 const isLoadingCriticalData = computed<boolean>(
-  () => isFetchingBalances.value || isFetchingTotalSupply.value
+  () => isLoadingBalances.value || isLoadingTotalSupply.value
 )
 const ableToPublish = computed<boolean>(
   () =>
@@ -494,18 +512,18 @@ function cancel() {
               <div class="flex max-w-[14.5rem]">
                 <!-- Skeleton loading balances -->
                 <div
-                  v-if="isFetchingBalances"
+                  v-if="isLoadingBalances"
                   class="w-1/2 rounded-xs rounded-r-none border border-r-0 border-border p-2"
                 >
                   <IgniteLoader class="h-full w-full rounded-xs" />
                 </div>
                 <!-- Input -->
-                <div v-else class="flex w-1/2">
+                <div v-else-if="balances" class="flex w-1/2">
                   <IgniteSelect
                     :model-value="
                       coinToSelectOption({
-                        amount: '',
-                        denom: state.auction.selling_coin?.denom as string
+                        amount: '0',
+                        denom: state.auction.selling_coin?.denom ?? '0'
                       })
                     "
                     :items="(balances as Coin[]).map(i => coinToSelectOption(i as Coin))"
@@ -582,7 +600,7 @@ function cancel() {
               <div class="flex max-w-[15.5rem]">
                 <!-- Skeleton loading balances -->
                 <div
-                  v-if="isFetchingTotalSupply"
+                  v-if="isLoadingTotalSupply"
                   class="w-1/2 rounded-xs rounded-r-none border border-r-0 border-border p-2"
                 >
                   <IgniteLoader class="h-full w-full rounded-xs" />

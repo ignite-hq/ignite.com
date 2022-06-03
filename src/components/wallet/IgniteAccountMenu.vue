@@ -6,7 +6,6 @@ export default {
 
 <script lang="ts" setup>
 import { Menu, MenuButton, MenuItems } from '@headlessui/vue'
-import { useSpn } from 'tendermint-spn-vue-client'
 import { computed } from 'vue'
 
 import IgniteButton from '~/components/ui/IgniteButton.vue'
@@ -19,9 +18,10 @@ import IgniteText from '~/components/ui/IgniteText.vue'
 import useAccount from '~/composables/wallet/useAccount'
 import useAddress from '~/composables/wallet/useAddress'
 import useBalances from '~/composables/wallet/useBalances'
+import useConnectWallet from '~/composables/wallet/useConnectWallet'
 
 // ignite
-const { signOut } = useSpn()
+const { onSignOut } = useConnectWallet()
 
 // composables
 const { address } = useAddress()
@@ -72,7 +72,7 @@ const mainCoinBalance = computed(() => {
         <IgniteButton
           variant="primary"
           class="!px-0 !py-0 text-3 font-normal text-gray-0"
-          @click="signOut"
+          @click="onSignOut"
         >
           Disconnect wallet
         </IgniteButton>
