@@ -1,25 +1,39 @@
 <script lang="ts" setup>
-import { Validator } from 'tendermint-spn-ts-client/cosmos.staking.v1beta1'
 import { LaunchGenesisValidator } from 'tendermint-spn-ts-client/tendermint.spn.launch/rest'
-import { computed, PropType } from 'vue'
+import { computed } from 'vue'
 
 import validatorAvatar from '~/assets/svg/validatorAvatar.svg'
 import IgniteCard from '~/components/ui/IgniteCard.vue'
 import IgniteLink from '~/components/ui/IgniteLink.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
+import { V1Beta1Description } from '~/generated/tendermint-spn-ts-client/cosmos.staking.v1beta1/rest'
 
-const props = defineProps({
-  validator: {
-    type: Object as PropType<Validator>,
-    required: true
-  }
-})
+interface Props {
+  validator: LaunchGenesisValidator
+}
 
-const validatorData = computed<LaunchGenesisValidator>(() => {
-  return {
-    ...props.validator,
-    details: JSON.parse(atob(props.validator.genTx))
+interface Message {
+  description: V1Beta1Description
+}
+
+interface ValidatorDetails {
+  body: {
+    messages: Message[]
   }
+}
+
+const props = defineProps<Props>()
+
+const validatorDescription = computed<V1Beta1Description | undefined>(() => {
+  if (!props.validator) {
+    return {}
+  }
+
+  const validatorDetails = JSON.parse(
+    window.atob(props.validator.genTx ?? '')
+  ) as ValidatorDetails
+
+  return validatorDetails.body?.messages[0]?.description
 })
 </script>
 
@@ -30,14 +44,10 @@ const validatorData = computed<LaunchGenesisValidator>(() => {
         <img :src="validatorAvatar" class="h-9.5 w-9.5 rounded-circle" />
 
         <IgniteText class="mt-6 text-4 font-bold">
-          {{
-            validatorData.details.body?.messages[0]?.description?.moniker || '-'
-          }}
+          {{ validatorDescription?.moniker ?? validator?.address ?? '-' }}
         </IgniteText>
         <IgniteText class="mt-5 break-words pb-4 text-2 leading-5 text-muted">
-          {{
-            validatorData.details.body?.messages[0]?.description?.details || '-'
-          }}
+          {{ validatorDescription?.details || '' }}
         </IgniteText>
       </div>
 

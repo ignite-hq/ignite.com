@@ -84,16 +84,18 @@ const showIncentives = computed(function () {
       </div>
     </div>
 
-    <div>
-      <IgniteHeading
-        class="text-center font-title text-5 font-semibold md:text-7"
-      >
-        Validators
-      </IgniteHeading>
-      <IgniteText class="mx-auto mt-4 max-w-[20rem] text-muted md:mt-6">
-        Active validators verifying transactions to secure the
-        {{ campaignSummary?.campaign?.campaignName }} network
-      </IgniteText>
+    <div class="space-y-8">
+      <div>
+        <IgniteHeading
+          class="text-center font-title text-5 font-semibold md:text-7"
+        >
+          Validators
+        </IgniteHeading>
+        <IgniteText class="mx-auto mt-4 max-w-[20rem] text-muted md:mt-6">
+          Active validators verifying transactions to secure the
+          {{ campaignSummary?.campaign?.campaignName }} network
+        </IgniteText>
+      </div>
 
       <ValidatorList
         v-if="projectId && projectId !== '0'"
@@ -102,7 +104,7 @@ const showIncentives = computed(function () {
 
       <IgniteCard
         :shadow="true"
-        class="mx-auto mt-8 flex w-full max-w-[69.5rem] flex-col justify-start py-7 px-5 text-left md:mt-11 md:py-8.5 md:px-7.5"
+        class="mx-auto flex w-full max-w-[69.5rem] flex-col justify-start py-7 px-5 text-left md:mt-11 md:py-8.5 md:px-7.5"
       >
         <IgniteHeading class="font-title text-5 font-semibold md:text-7">
           Become a validator
