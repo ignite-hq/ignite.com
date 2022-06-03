@@ -18,6 +18,7 @@ import IgniteModal from '~/components/ui/IgniteModal.vue'
 import IgniteSpinner from '~/components/ui/IgniteSpinner.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import useAddress from '~/composables/wallet/useAddress'
+import useHasConnectedWallet from '~/composables/wallet/useHasConnectedWallet'
 
 import IgniteAccountMenu from './IgniteAccountMenu.vue'
 
@@ -47,6 +48,7 @@ const state = reactive({ ...initialState })
 
 // composables
 const { address } = useAddress()
+const hasConnectedWallet = useHasConnectedWallet()
 
 // methods
 function onCloseModal() {
@@ -86,6 +88,7 @@ async function tryToConnectToKeplr() {
     listenToAccChange(onKeplrConnect)
     resetState()
 
+    if (!hasConnectedWallet.value) hasConnectedWallet.value = true
     emit('connect')
   }
 
@@ -114,7 +117,7 @@ async function tryToConnectToKeplr() {
 
 // lifecycle
 onBeforeMount(() => {
-  tryToConnectToKeplr()
+  if (hasConnectedWallet.value) tryToConnectToKeplr()
 })
 
 // computed

@@ -45,6 +45,7 @@ import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 import IgniteSelect from '~/components/ui/IgniteSelect.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import useTotalSupply from '~/composables/fundraising/useTotalSupply'
+import useAddress from '~/composables/wallet/useAddress'
 import useBalances from '~/composables/wallet/useBalances'
 import { getDenomName } from '~/utils/fundraising'
 import { percentageToCosmosDecimal } from '~/utils/number'
@@ -78,12 +79,13 @@ function coinToSelectOption(c: Coin): { label: string; value: string } {
 const { spn } = useSpn()
 
 // composables
+const { address } = useAddress()
 const router = useRouter()
 const {
   balances,
   isFetching: isFetchingBalances,
   isFetched: isFetchedBalances
-} = useBalances(spn.signer.value.addr)
+} = useBalances(address)
 
 const {
   totalSupply,
