@@ -11,11 +11,15 @@ export function removeUndefinedFromArray<T>(
   return array.filter((val) => val !== undefined) as Exclude<T, undefined>[]
 }
 
-export function mergePages<T>(data?: T[], key?: keyof T) {
-  if (!data) return []
-
-  const mergedPages = data.flatMap((page) => (key ? page[key] : page))
-  return removeUndefinedFromArray(mergedPages)
+export function mergePagesByKey<T, K extends keyof T>(
+  data: T[] = [],
+  key: K
+): Exclude<T[K], undefined> {
+  const mergedPages = data.flatMap((page) => page[key])
+  return removeUndefinedFromArray(mergedPages) as unknown as Exclude<
+    T[K],
+    undefined
+  >
 }
 
 export function arrayNSize(size: number): undefined[] {

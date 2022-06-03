@@ -63,7 +63,7 @@ function onChange(newItemValue: string) {
 
       <SlideDown>
         <ListboxOptions
-          class="z-1 translate-0 absolute left-0 top-[100%] z-10 max-h-[20rem] min-w-full overflow-auto rounded-xs bg-white-1000 shadow-select transition-transform"
+          class="z-1 translate-0 absolute left-0 top-[100%] z-10 max-h-[20rem] min-w-full overflow-auto rounded-xs bg-white-1000 shadow-select"
           :class="[
             isMobileNative && 'mt-2 hidden md:block',
             !isMobileNative ? 'mt-2 block' : 'hidden'

@@ -21,7 +21,7 @@ import {
   FundraisingBid,
   V1Beta1Coin
 } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising/rest'
-import { mergePages } from '~/utils/array'
+import { mergePagesByKey } from '~/utils/array'
 import { getDenomName } from '~/utils/fundraising'
 
 interface Props {
@@ -44,11 +44,11 @@ const supply = computed(() => {
   if (!totalSupply.value?.supply || !props.currency) return 0
   return totalSupply.value?.supply.find(
     (token: V1Beta1Coin) => token.denom === props.currency
-  ).amount
+  )?.amount
 })
 
 const mergedBids = computed<FundraisingBid[]>(() => {
-  return mergePages(bids.value?.pages, 'bids')
+  return mergePagesByKey(bids.value?.pages, 'bids')
 })
 </script>
 

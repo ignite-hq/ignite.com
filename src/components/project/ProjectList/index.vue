@@ -6,15 +6,13 @@ export default {
 
 <script lang="ts" setup>
 import MasonryWall from '@yeger/vue-masonry-wall'
-import {
-  CampaignCampaignSummary,
-  CampaignQueryCampaignSummariesResponse
-} from 'tendermint-spn-ts-client/tendermint.spn.campaign/rest'
+import { CampaignCampaignSummary } from 'tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 import { computed } from 'vue'
 
 import IgniteButton from '~/components/ui/IgniteButton.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import useCampaignSummaries from '~/composables/campaign/useCampaignSummaries'
+import { mergePagesByKey } from '~/utils/array'
 
 import IgniteProjectCard from './ProjectCard/index.vue'
 
@@ -34,16 +32,6 @@ const {
   isFetchingNextPage
 } = useCampaignSummaries()
 
-// methods
-function mergePages(
-  pages: CampaignQueryCampaignSummariesResponse[] = []
-): CampaignCampaignSummary[] {
-  return pages.reduce(
-    (acc, page) => [...acc, ...(page?.campaignSummaries ?? [])],
-    [] as CampaignCampaignSummary[]
-  )
-}
-
 // computed
 const isListEmpty = computed<boolean>(
   () =>
@@ -55,11 +43,16 @@ const campaignSummaries = computed<CampaignCampaignSummary[]>(() => {
     return skeletons
   }
 
+  const mergedCampaignSummaries = mergePagesByKey(
+    allCampaignSummaries.value?.pages,
+    'campaignSummaries'
+  )
+
   if (isFetchingNextPage.value) {
-    return [...mergePages(allCampaignSummaries.value?.pages), ...skeletons]
+    return [...mergedCampaignSummaries, ...skeletons]
   }
 
-  return mergePages(allCampaignSummaries.value?.pages)
+  return mergedCampaignSummaries
 })
 </script>
 
