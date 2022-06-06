@@ -6,12 +6,14 @@ export default {
 
 <script lang="ts" setup>
 import IgniteNavbar from './components/common/IgniteNavbar.vue'
+import IgniteFooter from './components/common/IgniteFooter.vue'
 </script>
 
 <template>
-  <div>
+  <div class="flex min-h-screen flex-col justify-between">
     <IgniteNavbar />
     <router-view />
+    <IgniteFooter />
   </div>
 </template>
 
