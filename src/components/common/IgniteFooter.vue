@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import IconIgnite from '~/components/icons/IconIgnite.vue'
+import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteLink from '~/components/ui/IgniteLink.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
-import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 
 // variables
 const footerLinks = [

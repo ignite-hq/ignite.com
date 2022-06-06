@@ -46,8 +46,8 @@ import IgniteSelect from '~/components/ui/IgniteSelect.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import useTotalSupply from '~/composables/fundraising/useTotalSupply'
 import useBalances from '~/composables/wallet/useBalances'
-import { percentageToCosmosDecimal } from '~/utils/number'
 import { getDenomName } from '~/utils/fundraising'
+import { percentageToCosmosDecimal } from '~/utils/number'
 
 // types
 type FixedPriceAuction = MsgCreateFixedPriceAuction
@@ -141,9 +141,9 @@ const state = reactive(initialState)
 
 // lifecycles
 onMounted(() => {
-  if (!spn.signer.value.addr) {
-    router.push(`sign-in`)
-  }
+  // if (!spn.signer.value.addr) {
+  //   router.push(`sign-in`)
+  // }
 })
 
 // computed

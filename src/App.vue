@@ -5,14 +5,16 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import IgniteNavbar from './components/common/IgniteNavbar.vue'
 import IgniteFooter from './components/common/IgniteFooter.vue'
+import IgniteNavbar from './components/common/IgniteNavbar.vue'
 </script>
 
 <template>
   <div class="flex min-h-screen flex-col justify-between">
     <IgniteNavbar />
-    <router-view />
+    <div class="main h-[100%]">
+      <router-view />
+    </div>
     <IgniteFooter />
   </div>
 </template>
@@ -20,5 +22,12 @@ import IgniteFooter from './components/common/IgniteFooter.vue'
 <style scoped lang="postcss">
 body {
   margin: 0;
+}
+.main {
+  flex-grow: 1;
+  padding-bottom: 9.5rem;
+  &:last-child {
+    padding-bottom: 0;
+  }
 }
 </style>
