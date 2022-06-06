@@ -23,13 +23,13 @@ import IgniteLink from '~/components/ui/IgniteLink.vue'
 import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import useTotalSupply from '~/composables/fundraising/useTotalSupply'
+import { FixedPriceAuction } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising'
 import {
   getDenomName,
   getHumanizedAuctionStatus,
   toCompactNumber
 } from '~/utils/fundraising'
 import { ProgressBarItem } from '~/utils/types'
-import { FixedPriceAuction } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising'
 
 interface Props {
   fundraiser: FixedPriceAuction

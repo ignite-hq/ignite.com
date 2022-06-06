@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 
 import IconIgnite from '~/components/icons/IconIgnite.vue'
+import IgniteNavNotifications from '~/components/notifications/IgniteNavNotifications/index.vue'
 import IgniteButton from '~/components/ui/IgniteButton.vue'
 import IgniteLink from '~/components/ui/IgniteLink.vue'
 import IgniteAccount from '~/components/wallet/IgniteAccount.vue'
@@ -40,7 +41,7 @@ function hide() {
 </script>
 
 <template>
-  <nav class="relative border-b border-border py-6">
+  <nav class="relative z-[99] h-9.5 border-b border-border py-5">
     <div class="container flex items-center justify-between md:space-x-8">
       <router-link
         :to="'/'"
@@ -71,7 +72,10 @@ function hide() {
           </li>
         </ul>
 
-        <IgniteAccount />
+        <div class="flex items-center">
+          <IgniteNavNotifications class="mr-6" />
+          <IgniteAccount />
+        </div>
       </div>
 
       <IgniteButton

@@ -8,18 +8,17 @@ export default {
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 
+import IconUser from '~/components/icons/IconUser.vue'
+import IgniteNumber from '~/components/ui/IgniteNumber.vue'
+import useAllowedBidders from '~/composables/fundraising/useAllowedBidders'
 import useFundraiser from '~/composables/fundraising/useFundraiser'
 import useAddress from '~/composables/wallet/useAddress'
-
-import IgniteNumber from '~/components/ui/IgniteNumber.vue'
-import IconUser from '~/components/icons/IconUser.vue'
 
 import IgniteProjectInvestCancel from './IgniteProjectInvestCancel.vue'
 import IgniteProjectInvestInvestors from './IgniteProjectInvestInvestors.vue'
 import IgniteProjectInvestSingleCard from './IgniteProjectInvestSingleCard.vue'
 import IgniteProjectInvestValidators from './IgniteProjectInvestValidators.vue'
 import IgniteProjectInvestVesting from './IgniteProjectInvestVesting.vue'
-import useAllowedBidders from '~/composables/fundraising/useAllowedBidders'
 
 const route = useRoute()
 const fundraiserId = route.params.fundraiserId.toString() || '0'
