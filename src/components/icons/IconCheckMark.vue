@@ -9,7 +9,7 @@
   >
     <path
       d="M1 3.85714L4.09375 7L10 1"
-      stroke="currentcolor"
+      stroke="currentColor"
       stroke-width="2"
       stroke-linecap="round"
       stroke-linejoin="round"
