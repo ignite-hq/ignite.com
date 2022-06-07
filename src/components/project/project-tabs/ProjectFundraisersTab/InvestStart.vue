@@ -15,10 +15,12 @@ import IgniteText from '~/components/ui/IgniteText.vue'
 
 interface Props {
   projectName?: string
+  projectId?: string
 }
 
 withDefaults(defineProps<Props>(), {
-  projectName: ''
+  projectName: '',
+  projectId: '0'
 })
 </script>
 
@@ -33,7 +35,11 @@ withDefaults(defineProps<Props>(), {
         qualified investors.
       </IgniteText>
       <div class="mt-7">
-        <IgniteLink to="/create-fundraiser" type="button" color="primary">
+        <IgniteLink
+          :to="`/projects/${projectId}/create-fundraiser`"
+          type="button"
+          color="primary"
+        >
           <IconPlus class="ml-2 mr-4" />
           <span>Create fundraiser</span>
         </IgniteLink>

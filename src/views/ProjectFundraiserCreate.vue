@@ -22,7 +22,7 @@ import { cloneDeep } from 'lodash'
 import type { MsgCreateFixedPriceAuction } from 'tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/tx'
 import { useSpn } from 'tendermint-spn-vue-client'
 import { computed, onMounted, reactive } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 import IgniteBreadcrumbs from '~/components/common/IgniteBreadcrumbs.vue'
 import IgniteDenom from '~/components/common/IgniteDenom.vue'
@@ -48,6 +48,7 @@ import useTotalSupply from '~/composables/fundraising/useTotalSupply'
 import useBalances from '~/composables/wallet/useBalances'
 import { percentageToCosmosDecimal } from '~/utils/number'
 import { getDenomName } from '~/utils/fundraising'
+import useCampaignSummary from '~/composables/campaign/useCampaignSummary'
 
 // types
 type FixedPriceAuction = MsgCreateFixedPriceAuction
@@ -79,6 +80,10 @@ const { spn } = useSpn()
 
 // composables
 const router = useRouter()
+const route = useRoute()
+const projectId = route.params.projectId.toString() || '0'
+const { campaignSummary } = useCampaignSummary(projectId)
+
 const {
   balances,
   isFetching: isFetchingBalances,
@@ -92,11 +97,11 @@ const {
 const breadcrumbsLinks = computed(() => {
   return [
     {
-      link: `/`, // ToDo: update link
-      title: 'Project Name'
+      link: `/projects/${projectId}/overview`,
+      title: campaignSummary?.value?.campaign?.campaignName ?? '-'
     },
     {
-      link: `/create-fundraiser`,
+      link: `/projects/${projectId}/create-fundraiser`,
       title: 'Create fundraiser'
     }
   ]
@@ -141,9 +146,9 @@ const state = reactive(initialState)
 
 // lifecycles
 onMounted(() => {
-  if (!spn.signer.value.addr) {
-    router.push(`sign-in`)
-  }
+  // if (!spn.signer.value.addr) {
+  //   router.push(`sign-in`)
+  // }
 })
 
 // computed

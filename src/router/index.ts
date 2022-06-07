@@ -11,7 +11,10 @@ const routerHistory = createWebHistory()
 const routes = [
   { path: '/', component: Index },
   { path: '/projects', component: Projects },
-  { path: '/create-fundraiser', component: ProjectFundraiserCreate },
+  {
+    path: '/projects/:projectId/create-fundraiser',
+    component: ProjectFundraiserCreate
+  },
   { path: '/projects/:projectId/:tab', component: Project },
   {
     path: '/projects/:projectId/fundraisers/:fundraiserId',
