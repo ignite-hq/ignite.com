@@ -15,7 +15,7 @@ import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteLoader from '~/components/ui/IgniteLoader.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import useCampaignSummary from '~/composables/campaign/useCampaignSummary'
-import { hasAtLeastOneIncentive, hasAtLeastOneVoucher } from '~/utils/reward'
+import { hasAtLeastOneIncentive } from '~/utils/reward'
 
 import ProjectShareAllocation from '../../ProjectShareAllocation.vue'
 import ValidatorList from './ValidatorList.vue'
@@ -27,13 +27,7 @@ const projectId = route.params.projectId.toString() || '0'
 const { campaignSummary, isLoading } = useCampaignSummary(projectId)
 
 const showAllocation = computed(function () {
-  return (
-    campaignSummary?.value?.incentivized &&
-    hasAtLeastOneVoucher(
-      campaignSummary.value?.campaign?.campaignID ?? '',
-      campaignSummary.value?.rewards
-    )
-  )
+  return campaignSummary?.value?.campaign?.allocatedShares?.length > 0
 })
 
 const showIncentives = computed(function () {

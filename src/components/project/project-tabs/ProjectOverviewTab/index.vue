@@ -22,6 +22,8 @@ import ProjectRoadmap from './ProjectRoadmap.vue'
 import ProjectTeam from './ProjectTeam/index.vue'
 import ProjectTokenomics from './ProjectTokenomics.vue'
 import ProjectWhitepaper from './ProjectWhitepaper.vue'
+import ProjectShareAllocation from '../../ProjectShareAllocation.vue'
+
 import {
   ProjectMember,
   ProjectMilestone,
@@ -190,6 +192,11 @@ const showLinks = computed(() => {
 <template>
   <div class="space-y-8 pt-8 pb-10 md:space-y-11 md:pt-10.5">
     <ProjectCards />
+    <ProjectShareAllocation
+      v-if="campaignSummary?.campaign?.allocatedShares?.length > 0"
+      class="project-card__row"
+      :campaign-summary="campaignSummary"
+    />
     <ProjectDescription
       v-if="showProjectDescription"
       :raw-markdown="readme"

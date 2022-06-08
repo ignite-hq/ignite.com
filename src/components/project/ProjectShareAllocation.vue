@@ -1,18 +1,20 @@
 <script lang="ts">
 export default {
-  name: 'ProjectCardShareAllocation'
+  name: 'ProjectShareAllocation'
 }
 </script>
 
 <script setup lang="ts">
-import { CampaignCampaignSummary } from 'tendermint-spn-ts-client/tendermint.spn.campaign/rest'
+import {
+  CampaignCampaignSummary,
+  V1Beta1Coin
+} from 'tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 import { computed } from 'vue'
 
 import IgniteLegend from '~/components/common/IgniteLegend.vue'
 import IgniteProgressBar from '~/components/common/IgniteProgressBar.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import { roundToTwoDecimals } from '~/utils/number'
-import { getVouchersFromRewards } from '~/utils/reward'
 import { LegendItem, ProgressBarItem } from '~/utils/types'
 
 interface Props {
@@ -42,35 +44,21 @@ const legend: LegendItem[] = [
 
 // computed
 const totalSupply = computed(() => {
-  const campaignId = props?.campaignSummary?.campaign?.campaignID
-  const vouchers = getVouchersFromRewards(
-    campaignId ?? '',
-    props.campaignSummary.rewards
-  )
+  const shares: V1Beta1Coin[] =
+    props?.campaignSummary?.campaign?.allocatedShares ?? []
 
-  return vouchers.map((coin) => {
-    const denom = coin.denom?.split('/')[2] ?? ''
+  const TOTAL_SUPPLY = 100_000
 
-    const TOTAL_SUPPLY = 100_000
+  return shares.map((share) => {
+    const denom = share.denom?.split('/')[1] ?? ''
 
-    const pastCoin = props.campaignSummary.campaign?.allocatedShares?.find(
-      (coin) => coin.denom === `s/${denom}`
-    )
-    const pastCoinPercentage = (Number(pastCoin?.amount) / TOTAL_SUPPLY) * 100
-
-    const currentValue = (Number(coin.amount) / TOTAL_SUPPLY) * 100
-    const pastValue = Math.abs(currentValue - pastCoinPercentage)
-    const futureValue = Math.abs(currentValue + pastValue - 100)
+    const currentValue = (Number(share.amount) / TOTAL_SUPPLY) * 100
+    const futureValue = Math.abs(currentValue - 100)
 
     return {
-      ...coin,
+      ...share,
       denom,
       items: [
-        {
-          value: roundToTwoDecimals(pastValue).toString(),
-          bgColor: 'bg-secondary',
-          split: true
-        },
         {
           value: roundToTwoDecimals(currentValue).toString(),
           bgColor: 'bg-primary'

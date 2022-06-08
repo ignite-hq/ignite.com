@@ -9,7 +9,7 @@ import { CampaignCampaignSummary } from 'tendermint-spn-ts-client/tendermint.spn
 import { computed, PropType } from 'vue'
 
 import useGitHubRepository from '~/composables/github/useGitHubRepository'
-import { hasAtLeastOneIncentive, hasAtLeastOneVoucher } from '~/utils/reward'
+import { hasAtLeastOneIncentive } from '~/utils/reward'
 
 import ProjectIncentives from '../../ProjectIncentives.vue'
 import ProjectShareAllocation from '../../ProjectShareAllocation.vue'
@@ -35,19 +35,6 @@ const { repository, isLoading: isGitHubRepositoryLoading } =
 // computed
 const isLoading = computed(function () {
   return props.loading || isGitHubRepositoryLoading.value
-})
-
-const showAllocation = computed(function () {
-  const campaignSummary = props.campaignSummary
-
-  return (
-    !isLoading.value &&
-    props.campaignSummary?.incentivized &&
-    hasAtLeastOneVoucher(
-      campaignSummary.campaign?.campaignID ?? '',
-      campaignSummary.rewards
-    )
-  )
 })
 
 const showIncentives = computed(function () {
@@ -82,7 +69,7 @@ const showIncentives = computed(function () {
           class="project-card__row"
         />
         <ProjectShareAllocation
-          v-if="showAllocation"
+          v-if="campaignSummary?.campaign?.allocatedShares?.length > 0"
           class="project-card__row"
           :campaign-summary="campaignSummary"
         />
