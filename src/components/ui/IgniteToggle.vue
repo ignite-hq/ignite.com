@@ -51,9 +51,9 @@ defineProps({
     <span
       class="relative block h-6 w-8 cursor-pointer rounded-[100px] transition-colors after:absolute after:top-0 after:left-0 after:h-6 after:w-6 after:rounded-circle after:border after:bg-white-1000 after:transition-all"
       :class="[
-        isActive ? 'bg-primary' : 'bg-inactive',
-        isActive ? 'after:border-primary' : 'after:border-inactive',
-        isActive ? 'after:translate-x-[1.5rem]' : 'after:translate-x-0'
+        isActive
+          ? 'bg-primary after:translate-x-[1.5rem] after:border-primary'
+          : 'bg-inactive after:translate-x-0 after:border-inactive'
       ]"
     ></span>
   </label>
