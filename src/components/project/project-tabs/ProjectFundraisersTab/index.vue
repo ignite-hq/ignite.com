@@ -6,9 +6,13 @@ export default {
 
 <script lang="ts" setup>
 import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 
 import IgniteCard from '~/components/ui/IgniteCard.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
+import useCampaignFundraisers from '~/composables/fundraising/useCampaignFundraisers'
+import useCoordinator from '~/composables/profile/useCoordinator'
+import { FixedPriceAuction } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising'
 import { CampaignCampaignSummary } from '~/generated/tendermint-spn-ts-client/tendermint.spn.campaign/rest'
 import {
   getHumanizedAuctionStatus,
@@ -19,10 +23,6 @@ import InvestCard from './InvestCard.vue'
 import InvestStart from './InvestStart.vue'
 import InvestTitle from './InvestTitle.vue'
 import InvestVoucherAllocation from './InvestVoucherAllocation.vue'
-import { useRoute } from 'vue-router'
-import useCoordinator from '~/composables/profile/useCoordinator'
-import useCampaignFundraisers from '~/composables/fundraising/useCampaignFundraisers'
-import { FixedPriceAuction } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising'
 
 interface Props {
   campaignSummary?: CampaignCampaignSummary

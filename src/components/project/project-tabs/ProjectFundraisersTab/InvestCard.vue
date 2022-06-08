@@ -1,7 +1,7 @@
 <script lang="ts">
 import BigNumber from 'bignumber.js'
 import { V1Beta1Coin } from 'node_modules/tendermint-spn-ts-client/tendermint.fundraising/rest'
-import { defineComponent, computed, toRefs } from 'vue'
+import { computed, defineComponent, toRefs } from 'vue'
 
 export default defineComponent({
   name: 'ProjectInvestTitle'

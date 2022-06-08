@@ -98,7 +98,7 @@ const campaignSummaries = computed<CampaignCampaignSummary[]>(() => {
 
 <style scoped lang="postcss">
 .project-list {
-  @apply mb-7 flex flex-col items-center;
+  @apply flex flex-col items-center;
 }
 
 .masonry {
