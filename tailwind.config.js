@@ -86,9 +86,6 @@ module.exports = {
       inset: {
         center: '50%'
       },
-      flexGrow: {
-        1: 1
-      },
       lineHeight: {
         title: '127%',
         text: '153.8%'
