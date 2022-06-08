@@ -55,6 +55,7 @@ withDefaults(defineProps<Props>(), {
       // Color
       'text-primary hover:text-title': color === 'default',
       'bg-gray-0 text-white-1000': color === 'black',
+      'bg-gray-30 text-muted': color === 'gray',
       'bg-primary text-white-1000': color === 'primary',
       'border border-border bg-white-1000': color === 'light',
       'text-current': color === 'inherit',

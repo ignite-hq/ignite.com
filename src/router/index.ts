@@ -7,11 +7,13 @@ import ProjectFundraiserCreate from '../views/ProjectFundraiserCreate.vue'
 import Projects from '../views/Projects.vue'
 import Signin from '../views/SignIn.vue'
 import Validate from '../views/Validate.vue'
+import Notifications from '../views/Notifications.vue'
 
 const routerHistory = createWebHistory()
 const routes = [
   { path: '/', component: Index },
   { path: '/projects', component: Projects },
+  { path: '/notifications', component: Notifications },
   { path: '/create-fundraiser', component: ProjectFundraiserCreate },
   { path: '/projects/:projectId/:tab', component: Project },
   {
