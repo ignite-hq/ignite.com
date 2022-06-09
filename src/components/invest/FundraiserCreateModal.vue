@@ -14,7 +14,7 @@ import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteModal from '~/components/ui/IgniteModal.vue'
 import IgniteSpinner from '~/components/ui/IgniteSpinner.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
-import { UIStates } from '~/views/ProjectFundraiserCreate.vue'
+import { UIStates } from '~/utils/types'
 
 interface Props {
   currentUiState: UIStates

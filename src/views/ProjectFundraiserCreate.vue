@@ -2,15 +2,6 @@
 export default {
   name: 'ProjectFundraiserCreate'
 }
-
-enum UIStates {
-  Fresh,
-  Creating,
-  Created,
-  Error
-}
-
-export { UIStates }
 </script>
 
 <script lang="ts" setup>
@@ -48,6 +39,7 @@ import useTotalSupply from '~/composables/fundraising/useTotalSupply'
 import useBalances from '~/composables/wallet/useBalances'
 import { getDenomName } from '~/utils/fundraising'
 import { percentageToCosmosDecimal } from '~/utils/number'
+import { UIStates } from '~/utils/types'
 
 // types
 type FixedPriceAuction = MsgCreateFixedPriceAuction
