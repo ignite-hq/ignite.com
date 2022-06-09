@@ -246,11 +246,7 @@ const isVoucherPriceGreaterThanZero = computed<boolean>(() =>
   new BigNumber(state.auction.start_price).isGreaterThan(0)
 )
 const hasAnyBalance = computed<boolean>(
-  () =>
-    (isFetchedBalances.value &&
-      filteredBalances.value &&
-      filteredBalances.value.length > 0) ||
-    false
+  () => (isFetchedBalances.value && filteredBalances.value.length > 0) || false
 )
 const isLoadingCriticalData = computed<boolean>(
   () => isFetchingBalances.value || isFetchingTotalSupply.value
