@@ -14,11 +14,13 @@ import IgniteText from '~/components/ui/IgniteText.vue'
 
 interface Props {
   projectName?: string
+  projectId?: string
   allowCreate?: boolean
 }
 
 withDefaults(defineProps<Props>(), {
   projectName: '',
+  projectId: '0',
   allowCreate: false
 })
 </script>
@@ -42,7 +44,7 @@ withDefaults(defineProps<Props>(), {
         class="flex items-start justify-end md:col-span-3 lg:col-span-1"
       >
         <IgniteLink
-          to="/create-fundraiser"
+          :to="`/projects/${projectId}/create-fundraiser`"
           class="w-full md:w-auto"
           type="button"
           color="primary"

@@ -82,12 +82,14 @@ const statuses = computed(() => {
     <InvestTitle
       :project-name="campaignSummary?.campaign?.campaignName"
       :allow-create="coordinatorView"
+      :project-id="projectId"
       class="mt-8 md:mt-10.5"
     />
     <InvestVoucherAllocation :fundraisers="fundraisers" class="mt-7 md:mt-9" />
     <InvestStart
       v-if="coordinatorView && fundraisers?.length === 0"
       :project-name="campaignSummary?.campaign?.campaignName"
+      :project-id="projectId"
       class="mt-8 md:mt-10.5"
     />
     <div class="container">

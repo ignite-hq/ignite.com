@@ -21,8 +21,8 @@ import dayjs from 'dayjs'
 import { cloneDeep } from 'lodash'
 import type { MsgCreateFixedPriceAuction } from 'tendermint-spn-ts-client/tendermint.fundraising/types/fundraising/tx'
 import { useSpn } from 'tendermint-spn-vue-client'
-import { computed, onMounted, reactive } from 'vue'
-import { useRouter } from 'vue-router'
+import { computed, onMounted, reactive, watchEffect } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 import IgniteBreadcrumbs from '~/components/common/IgniteBreadcrumbs.vue'
 import IgniteDenom from '~/components/common/IgniteDenom.vue'
@@ -46,8 +46,10 @@ import IgniteSelect from '~/components/ui/IgniteSelect.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import useTotalSupply from '~/composables/fundraising/useTotalSupply'
 import useBalances from '~/composables/wallet/useBalances'
-import { getDenomName } from '~/utils/fundraising'
 import { percentageToCosmosDecimal } from '~/utils/number'
+import { getDenomName } from '~/utils/fundraising'
+import useCampaignSummary from '~/composables/campaign/useCampaignSummary'
+import useAddress from '~/composables/wallet/useAddress'
 
 // types
 type FixedPriceAuction = MsgCreateFixedPriceAuction
@@ -79,24 +81,25 @@ const { spn } = useSpn()
 
 // composables
 const router = useRouter()
+const route = useRoute()
+const projectId = route.params.projectId.toString() || '0'
+const { campaignSummary } = useCampaignSummary(projectId)
+
+const { address } = useAddress()
 const {
   balances,
   isFetching: isFetchingBalances,
   isFetched: isFetchedBalances
-} = useBalances(spn.signer.value.addr)
-const {
-  totalSupply,
-  isFetching: isFetchingTotalSupply,
-  isFetched: isFetchedTotalSupply
-} = useTotalSupply()
+} = useBalances(address)
+const { totalSupply, isFetching: isFetchingTotalSupply } = useTotalSupply()
 const breadcrumbsLinks = computed(() => {
   return [
     {
-      link: `/`, // ToDo: update link
-      title: 'Project Name'
+      link: `/projects/${projectId}/overview`,
+      title: campaignSummary?.value?.campaign?.campaignName ?? '-'
     },
     {
-      link: `/create-fundraiser`,
+      link: `/projects/${projectId}/create-fundraiser`,
       title: 'Create fundraiser'
     }
   ]
@@ -109,22 +112,6 @@ interface State {
   feeAmount?: Coin
   errorMsg?: string
 }
-const initialSellingCoin =
-  isFetchedBalances.value && balances.value && balances.value.length > 0
-    ? {
-        amount: '0',
-        denom: balances.value[0].denom as string
-      }
-    : undefined
-const filteredInitalTotalSupply: Coin[] = isFetchedTotalSupply.value
-  ? (totalSupply.value?.supply?.filter(
-      (i) => i.denom !== initialSellingCoin?.denom
-    ) as Coin[])
-  : []
-const initialPayingDenom =
-  isFetchedTotalSupply.value && filteredInitalTotalSupply.length > 0
-    ? filteredInitalTotalSupply[0].denom
-    : ''
 const initialState: State = {
   currentUIState: UIStates.Fresh,
   auction: {
@@ -132,8 +119,8 @@ const initialState: State = {
     start_price: '1',
     start_time: TODAY,
     end_time: getWeeksLater(TODAY, 1),
-    paying_coin_denom: initialPayingDenom,
-    selling_coin: initialSellingCoin,
+    paying_coin_denom: '',
+    selling_coin: undefined,
     vesting_schedules: []
   }
 }
@@ -147,7 +134,12 @@ onMounted(() => {
 })
 
 // computed
-const filterdTotalSupplyCoins = computed<Coin[]>(() => {
+const filteredBalances = computed<Coin[]>(() => {
+  return (
+    balances?.value?.filter((i) => i.denom.includes(`/${projectId}/`)) ?? []
+  )
+})
+const filteredTotalSupplyCoins = computed<Coin[]>(() => {
   const filtered = totalSupply.value?.supply?.filter(
     (i) => i.denom !== state.auction.selling_coin?.denom
   ) as Coin[]
@@ -253,9 +245,7 @@ const isVoucherPriceGreaterThanZero = computed<boolean>(() =>
   new BigNumber(state.auction.start_price).isGreaterThan(0)
 )
 const hasAnyBalance = computed<boolean>(
-  () =>
-    (isFetchedBalances.value && balances.value && balances.value.length > 0) ||
-    false
+  () => (isFetchedBalances.value && filteredBalances.value.length > 0) || false
 )
 const isLoadingCriticalData = computed<boolean>(
   () => isFetchingBalances.value || isFetchingTotalSupply.value
@@ -272,6 +262,17 @@ const ableToPublish = computed<boolean>(
     isSellingAmountGreaterThanZero.value &&
     isVoucherPriceGreaterThanZero.value
 )
+
+// watchers
+watchEffect(() => {
+  if (filteredBalances.value?.length > 0) {
+    state.auction.selling_coin = {
+      amount: '0',
+      denom: filteredBalances.value[0].denom as string
+    } as Coin
+    state.auction.paying_coin_denom = filteredBalances.value[0].denom
+  }
+})
 
 // handlers
 function handleAmountInput(evt: Event) {
@@ -494,14 +495,14 @@ function cancel() {
                         denom: state.auction.selling_coin?.denom as string
                       })
                     "
-                    :items="(balances as Coin[]).map(i => coinToSelectOption(i as Coin))"
+                    :items="(filteredBalances as Coin[]).map(i => coinToSelectOption(i as Coin))"
                     variants="rounded-r-none"
                     class="w-full"
                     :is-mobile-native="false"
                     @input="handleSellingDenomChange"
                   >
                     <template
-                      v-for="i in (balances as Coin[])"
+                      v-for="i in (filteredBalances as Coin[])"
                       :key="i.denom"
                       #[i.denom]
                     >
@@ -583,7 +584,7 @@ function cancel() {
                       })
                     "
                     :items="
-                      filterdTotalSupplyCoins.map(i => coinToSelectOption(i as Coin))
+                      filteredTotalSupplyCoins.map(i => coinToSelectOption(i as Coin))
                     "
                     variants="rounded-r-none"
                     class="w-full"
@@ -602,7 +603,7 @@ function cancel() {
                       {{ getDenomName(state.auction.paying_coin_denom) }}
                     </template>
                     <template
-                      v-for="i in filterdTotalSupplyCoins"
+                      v-for="i in filteredTotalSupplyCoins"
                       :key="i.denom"
                       #[i.denom]
                     >
