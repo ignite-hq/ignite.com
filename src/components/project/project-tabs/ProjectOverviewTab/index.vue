@@ -188,7 +188,7 @@ const showLinks = computed(() => {
 </script>
 
 <template>
-  <div class="space-y-8 pt-8 pb-10 md:space-y-11 md:pt-10.5">
+  <div class="space-y-8 pt-8 md:space-y-10.5 md:pt-10.5">
     <ProjectCards />
     <ProjectDescription
       v-if="showProjectDescription"

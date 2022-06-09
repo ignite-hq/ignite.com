@@ -10,6 +10,8 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import { computed } from 'vue'
+
 import IgniteBgWave from '~/components/ui/IgniteBgWave.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
@@ -31,38 +33,43 @@ const props = withDefaults(defineProps<Props>(), {
   dataSeries: () => []
 })
 
-const labels = props.dataSeries.map((item) => item.name)
-const datasets = props.dataSeries.map((item) => item.y)
+const labels = computed(() => {
+  return props.dataSeries.map((item) => item.name)
+})
 
-const chartData = datasets
+const chartData = computed(() => {
+  return props.dataSeries.map((item) => item.y)
+})
 
-const chartOptions = {
-  colors: props.colors,
-  dataLabels: {
-    enabled: false
-  },
-  labels: labels,
-  legend: {
-    show: false
-  },
-  plotOptions: {
-    pie: {
-      donut: {
-        size: '85%'
+const chartOptions = computed(() => {
+  return {
+    colors: props.colors,
+    dataLabels: {
+      enabled: false
+    },
+    labels: labels.value,
+    legend: {
+      show: false
+    },
+    plotOptions: {
+      pie: {
+        donut: {
+          size: '85%'
+        }
       }
-    }
-  },
-  stroke: {
-    width: 0
-  },
-  tooltip: {
-    y: {
-      formatter: function (value: number) {
-        return `${value}%`
+    },
+    stroke: {
+      width: 0
+    },
+    tooltip: {
+      y: {
+        formatter: function (value: number) {
+          return `${value}%`
+        }
       }
     }
   }
-}
+})
 </script>
 
 <template>

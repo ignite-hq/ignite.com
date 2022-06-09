@@ -10,7 +10,7 @@ import { formatNumber } from '~/utils/number'
 interface Props {
   as?: string
   number: number | string
-  notation: 'standard' | 'scientific' | 'engineering' | 'compact'
+  notation?: 'standard' | 'scientific' | 'engineering' | 'compact'
 }
 
 withDefaults(defineProps<Props>(), {

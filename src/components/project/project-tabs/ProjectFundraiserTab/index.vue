@@ -8,18 +8,17 @@ export default {
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 
+import IconUser from '~/components/icons/IconUser.vue'
+import IgniteNumber from '~/components/ui/IgniteNumber.vue'
+import useAllowedBidders from '~/composables/fundraising/useAllowedBidders'
 import useFundraiser from '~/composables/fundraising/useFundraiser'
 import useAddress from '~/composables/wallet/useAddress'
-
-import IgniteNumber from '~/components/ui/IgniteNumber.vue'
-import IconUser from '~/components/icons/IconUser.vue'
 
 import IgniteProjectInvestCancel from './IgniteProjectInvestCancel.vue'
 import IgniteProjectInvestInvestors from './IgniteProjectInvestInvestors.vue'
 import IgniteProjectInvestSingleCard from './IgniteProjectInvestSingleCard.vue'
 import IgniteProjectInvestValidators from './IgniteProjectInvestValidators.vue'
 import IgniteProjectInvestVesting from './IgniteProjectInvestVesting.vue'
-import useAllowedBidders from '~/composables/fundraising/useAllowedBidders'
 
 const route = useRoute()
 const fundraiserId = route.params.fundraiserId.toString() || '0'
@@ -46,7 +45,7 @@ const allowCancel = computed(() => {
       class="mt-8 md:mt-10.5"
     />
 
-    <div class="container mt-8 md:mt-10.5">
+    <div class="container pt-8 md:pt-10.5">
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7">
         <IgniteProjectInvestSingleCard
           :fundraiser="fundraiser.auction"
@@ -54,7 +53,7 @@ const allowCancel = computed(() => {
         />
       </div>
     </div>
-    <div class="container mt-8 md:mt-10.5">
+    <div class="container pt-8 md:pt-10.5">
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7">
         <div class="mt-6 md:mt-8 lg:mt-0">
           <IgniteProjectInvest :fundraiser="fundraiser.auction" />
@@ -68,7 +67,7 @@ const allowCancel = computed(() => {
           'AUCTION_STATUS_STANDBY' &&
         allowedBidders?.allowed_bidders?.length > 0
       "
-      class="container mt-8 md:mt-10.5"
+      class="container pt-8 md:pt-10.5"
     >
       <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:gap-7">
         <IgniteProjectInvestValidators />
@@ -95,7 +94,7 @@ const allowCancel = computed(() => {
         </div>
       </div>
     </div>
-    <div v-else class="container mt-8 md:mt-10.5">
+    <div v-else class="container pt-8 md:pt-10.5">
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7">
         <div class="lg:col-span-2">
           <IgniteProjectInvestValidators :is-wild="true" />
