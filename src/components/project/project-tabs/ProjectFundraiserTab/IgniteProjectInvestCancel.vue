@@ -8,13 +8,17 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { computed, reactive } from 'vue'
 
 import IgniteCard from '~/components/ui/IgniteCard.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
-import IgniteLink from '~/components/ui/IgniteLink.vue'
+import IgniteButton from '~/components/ui/IgniteButton.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import { FixedPriceAuction } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising'
+import { DeliverTxResponse } from '@cosmjs/stargate'
+import { useSpn } from 'tendermint-spn-vue-client'
+import { useRoute, useRouter } from 'vue-router'
+import { UIStates } from '~/utils/types'
 
 interface Props {
   fundraiser: FixedPriceAuction
@@ -22,9 +26,63 @@ interface Props {
 
 const props = defineProps<Props>()
 
+// composables
+const { spn } = useSpn()
+const route = useRoute()
+const router = useRouter()
+
+// const
+const projectId = route.params.projectId.toString() || '0'
+
+// state
+interface State {
+  currentUIState: UIStates
+  errorMsg?: string
+}
+const initialState: State = {
+  currentUIState: UIStates.Fresh,
+  errorMsg: ''
+}
+const state = reactive(initialState)
+
+// computed
 const endDate = computed(() => {
   return dayjs(new Date(props.fundraiser.base_auction.start_time))
 })
+
+// methods
+async function cancelFundraiser() {
+  let response: DeliverTxResponse
+
+  try {
+    state.currentUIState = UIStates.Creating
+
+    const msg = spn.tendermintFundraising.value.msgCancelAuction({
+      value: {
+        auctioneer: props.fundraiser?.base_auction?.auctioneer ?? '',
+        auction_id: props.fundraiser?.base_auction?.id ?? 0
+      }
+    })
+
+    response = await spn.signer.value.client.signAndBroadcast(
+      spn.signer.value.addr,
+      [msg],
+      'auto'
+    )
+
+    if (response.code) {
+      throw new Error(`Errored: ${response.code}`)
+    }
+
+    state.errorMsg = ''
+    state.currentUIState = UIStates.Created
+    router.push(`/projects/${projectId}/fundraisers`)
+  } catch (err) {
+    console.error(err)
+    state.errorMsg = `${err}`
+    state.currentUIState = UIStates.Error
+  }
+}
 </script>
 
 <template>
@@ -48,17 +106,29 @@ const endDate = computed(() => {
             at
             <strong> {{ endDate.format('h:mm A [GMT]Z') }} </strong>.<br />
             The fundraiser cannot be cancelled after it has begun.
+            <p
+              v-if="state.currentUIState === UIStates.Error"
+              class="text-error"
+            >
+              {{ state.errorMsg }}
+            </p>
           </IgniteText>
         </div>
         <div class="flex items-start justify-end md:col-span-3 lg:col-span-1">
-          <IgniteLink
-            to="/create-fundraiser"
+          <IgniteButton
             class="w-full md:w-auto"
-            type="button"
+            variant="primary"
             color="error"
+            @click="cancelFundraiser"
           >
-            <span>Cancel fundraiser</span>
-          </IgniteLink>
+            <span>
+              {{
+                state.currentUIState === UIStates.Creating
+                  ? 'Canceling...'
+                  : 'Cancel fundraiser'
+              }}
+            </span>
+          </IgniteButton>
         </div>
       </div>
     </IgniteCard>

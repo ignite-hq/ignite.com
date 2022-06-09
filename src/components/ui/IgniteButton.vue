@@ -7,7 +7,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-type Colors = 'default' | 'primary' | 'light' | 'inherit'
+type Colors = 'default' | 'primary' | 'light' | 'error' | 'inherit'
 
 interface Props extends ButtonHTMLAttributes {
   variant?: 'default' | 'primary' | 'text'
@@ -21,6 +21,7 @@ const colorTypes: string[] = [
   'default',
   'primary',
   'light',
+  'error',
   'inherit'
 ] as Colors[]
 
@@ -56,6 +57,7 @@ withDefaults(defineProps<Props>(), {
       'text-primary hover:text-title': color === 'default',
       'bg-gray-0 text-white-1000': color === 'black',
       'bg-primary text-white-1000': color === 'primary',
+      'bg-error text-white-1000': color === 'error',
       'border border-border bg-white-1000': color === 'light',
       'text-current': color === 'inherit',
       [color]: !colorTypes.includes(color),

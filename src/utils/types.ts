@@ -23,3 +23,10 @@ export interface PaginationParams {
 }
 
 export type RefOrValue<T> = Ref<T> | T
+
+export enum UIStates {
+  Fresh,
+  Creating,
+  Created,
+  Error
+}
