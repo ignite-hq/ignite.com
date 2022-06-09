@@ -48,7 +48,7 @@ const showIncentives = computed(function () {
 </script>
 
 <template>
-  <div class="container space-y-8 py-8 text-center md:space-y-10 md:py-10">
+  <div class="container space-y-8 pt-8 text-center md:space-y-10.5 md:pt-10.5">
     <div v-if="showAllocation || showIncentives">
       <IgniteHeading
         class="text-center font-title text-5 font-semibold md:text-7"

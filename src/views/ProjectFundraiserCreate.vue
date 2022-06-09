@@ -128,9 +128,9 @@ const state = reactive(initialState)
 
 // lifecycles
 onMounted(() => {
-  if (!spn.signer.value.addr) {
-    router.push(`sign-in`)
-  }
+  // if (!spn.signer.value.addr) {
+  //   router.push(`sign-in`)
+  // }
 })
 
 // computed

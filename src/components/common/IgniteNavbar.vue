@@ -46,7 +46,7 @@ function hide() {
         :to="'/'"
         alt="Home"
         title="Home"
-        class="relative z-[1]"
+        class="relative z-[3]"
         @click="hide"
       >
         <IconIgnite />
@@ -75,7 +75,7 @@ function hide() {
       </div>
 
       <IgniteButton
-        class="relative z-[1] h-2 w-[1.125rem] before:absolute before:top-[50%] before:left-[50%] before:-ml-5.5 before:-mt-5.5 before:h-7.5 before:w-7.5 md:hidden"
+        class="relative z-[2] h-2 w-[1.125rem] before:absolute before:top-[50%] before:left-[50%] before:-ml-5.5 before:-mt-5.5 before:h-7.5 before:w-7.5 md:hidden"
         @click="toggle"
       >
         <i
