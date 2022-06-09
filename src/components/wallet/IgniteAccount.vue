@@ -38,6 +38,7 @@ const { spn, signIn, signOut } = useSpn()
 
 // variables
 const initialState = {
+  showConnectWallet: false,
   modalPage: ModalPage.Connecting,
   isConnectWalletModalOpen: false
 }
@@ -91,6 +92,7 @@ async function tryToConnectToKeplr() {
 
   const onKeplrError = (): void => {
     state.modalPage = ModalPage.Error
+    state.showConnectWallet = true
   }
 
   try {
@@ -109,6 +111,7 @@ async function tryToConnectToKeplr() {
     })
   } catch (e) {
     state.modalPage = ModalPage.Error
+    state.showConnectWallet = true
   }
 }
 
@@ -131,17 +134,19 @@ watchEffect(() => {
 </script>
 
 <template>
-  <IgniteAccountMenu v-if="address" />
+  <div class="min-h-[42px]">
+    <IgniteAccountMenu v-if="address" />
 
-  <IgniteButton
-    v-else
-    variant="primary"
-    color="primary"
-    class="!px-5 !py-[10px] !text-2"
-    @click="onOpenModal"
-  >
-    Connect Wallet
-  </IgniteButton>
+    <IgniteButton
+      v-else-if="state.showConnectWallet"
+      variant="primary"
+      color="primary"
+      class="!px-5 !py-[10px] !text-2"
+      @click="onOpenModal"
+    >
+      Connect Wallet
+    </IgniteButton>
+  </div>
 
   <IgniteModal
     size="sm"
