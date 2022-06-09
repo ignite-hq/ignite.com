@@ -48,12 +48,12 @@ const mainCoinBalance = computed(() => {
     <MenuButton class="flex items-center space-x-4">
       <IgniteProfileIcon :address="address" />
 
-      <div class="text-left">
+      <div class="min-w-[100px] text-left">
         <IgniteHeading class="text-3 font-semibold">
           {{ account?.name }}
         </IgniteHeading>
 
-        <IgniteLoader v-if="isFetchingBalances" class="mt-2 h-5" />
+        <IgniteLoader v-if="isFetchingBalances" class="mt-1 h-5" />
         <IgniteText v-else-if="mainCoinBalance" class="text-2 text-muted">
           <IgniteNumber :number="mainCoinBalance.amount?.toUpperCase()" />
           {{ mainCoinBalance.denom?.toUpperCase() }}
