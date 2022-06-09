@@ -136,8 +136,7 @@ onMounted(() => {
 // computed
 const filteredBalances = computed<Coin[]>(() => {
   return (
-    balances?.value?.filter((i) => i.denom.includes(`/${projectId}/`)) ||
-    ([] as Coin[])
+    balances?.value?.filter((i) => i.denom.includes(`/${projectId}/`)) ?? []
   )
 })
 const filteredTotalSupplyCoins = computed<Coin[]>(() => {
