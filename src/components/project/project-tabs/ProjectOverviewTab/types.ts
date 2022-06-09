@@ -33,7 +33,7 @@ export interface ProjectMilestone {
   /**
    * Date with format YYYY-MM-DD
    */
-  date: string
+  date?: string
   description?: string
   status: RoadmapStatus
 }

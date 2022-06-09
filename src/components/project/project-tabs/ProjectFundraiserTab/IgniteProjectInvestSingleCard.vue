@@ -23,13 +23,15 @@ import IgniteLink from '~/components/ui/IgniteLink.vue'
 import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import useTotalSupply from '~/composables/fundraising/useTotalSupply'
-import { FixedPriceAuction } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising'
 import {
   getDenomName,
   getHumanizedAuctionStatus,
   toCompactNumber
 } from '~/utils/fundraising'
 import { ProgressBarItem } from '~/utils/types'
+import { FixedPriceAuction } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising'
+import { ProjectMilestone, RoadmapStatus } from '../ProjectOverviewTab/types'
+import dayjs from 'dayjs'
 
 interface Props {
   fundraiser: FixedPriceAuction
@@ -41,11 +43,14 @@ const props = withDefaults(defineProps<Props>(), {
   size: ''
 })
 
+const TODAY = dayjs()
+
 const { totalSupply } = useTotalSupply()
 const supply = computed(() => {
   if (!totalSupply.value?.supply) return 0
   return totalSupply.value?.supply.find(
-    (token) => token.denom === props.fundraiser?.base_auction.selling_coin.denom
+    (token) =>
+      token.denom === props.fundraiser?.base_auction?.selling_coin?.denom
   ).amount
 })
 
@@ -66,34 +71,59 @@ const progressBar = computed(() => {
   return { items }
 })
 
-const roadmapItems = computed(() => {
-  // TODO: set those programmatically
-  // {
-  //   status: 'completed',
-  //   name: 'Fundraiser published'
-  // },
-  // {
-  //   status: 'completed',
-  //   name: 'Project started',
-  //   date: '03.25'
-  // },
-  // {
-  //   name: 'Sale begins',
-  //   date: '04.01 at 9 AM UTC'
-  // },
-  // {
-  //   name: 'Sale ends',
-  //   date: '04.01 at 9 AM UTC'
-  // }
-  // {
-  //   status: 'complited',
-  //   name: 'Fundraiser published'
-  // },
-  // {
-  //   status: 'cancelled',
-  //   name: 'Fundraiser cancelled'
-  // }
-  return []
+function getMilestoneDate(date: Date) {
+  if (!date) return ''
+  return dayjs(date).format('DD.MM [at] h A [GMT]Z')
+}
+
+function isMilestoneCompleted(date: Date): RoadmapStatus {
+  return dayjs(date).isBefore(TODAY)
+    ? RoadmapStatus.Completed
+    : RoadmapStatus.Expected
+}
+
+function formatMilestone(title: string, date: Date): ProjectMilestone {
+  return {
+    status: isMilestoneCompleted(date),
+    title,
+    date: getMilestoneDate(date)
+  }
+}
+
+const roadmapItems = computed<ProjectMilestone[]>(() => {
+  const items: ProjectMilestone[] = [] as ProjectMilestone[]
+  items.push({
+    status: RoadmapStatus.Completed,
+    title: 'Fundraiser published'
+  })
+  if (props.fundraiser?.base_auction?.status === 'AUCTION_STATUS_CANCELLED') {
+    items.push({
+      status: RoadmapStatus.Completed,
+      title: 'Fundraiser cancelled'
+    })
+  } else {
+    if (props.fundraiser?.base_auction?.start_time) {
+      const startDate = dayjs(props.fundraiser?.base_auction?.start_time)
+        .subtract(7, 'days')
+        .toISOString()
+      items.push(formatMilestone('Registration opens', startDate))
+      items.push(
+        formatMilestone(
+          'Registration begins',
+          props.fundraiser?.base_auction?.start_time
+        )
+      )
+    }
+    if (props.fundraiser?.base_auction?.end_times[0]) {
+      items.push(
+        formatMilestone(
+          'Fundraiser ends',
+          props.fundraiser?.base_auction?.end_times[0]
+        )
+      )
+    }
+  }
+  return items
 })
 </script>
 

@@ -23,7 +23,7 @@ interface Props {
 const props = defineProps<Props>()
 
 const endDate = computed(() => {
-  return dayjs(new Date(props.fundraiser.base_auction.start_time))
+  return dayjs(new Date(props.fundraiser.base_auction?.start_time ?? 0))
 })
 </script>
 

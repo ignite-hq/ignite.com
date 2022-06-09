@@ -120,7 +120,10 @@ const statuses = computed(() => {
         </div>
       </div>
     </div>
-    <div v-if="fundraisers?.length === 0" class="text-center">
+    <div
+      v-if="!coordinatorView && fundraisers?.length === 0"
+      class="text-center"
+    >
       <span>- No fundraisers yet -</span>
     </div>
     <div class="z-1 container relative mt-8 md:mt-10.5">
