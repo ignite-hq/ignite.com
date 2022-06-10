@@ -89,3 +89,9 @@ function closeModal() {
     </Dialog>
   </TransitionRoot>
 </template>
+
+<style lang="postcss">
+#headlessui-portal-root {
+  @apply relative z-[99];
+}
+</style>

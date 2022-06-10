@@ -1,12 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 import Index from '../views/Index.vue'
+import Notifications from '../views/Notifications.vue'
 import Project from '../views/Project.vue'
 import ProjectFundraiser from '../views/ProjectFundraiser.vue'
 import ProjectFundraiserCreate from '../views/ProjectFundraiserCreate.vue'
 import Projects from '../views/Projects.vue'
 import Signin from '../views/SignIn.vue'
-import Notifications from '../views/Notifications.vue'
 
 const routerHistory = createWebHistory()
 const routes = [
