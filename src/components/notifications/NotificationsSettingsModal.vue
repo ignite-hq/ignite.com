@@ -8,11 +8,11 @@ export default {
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/vue'
 import { ref } from 'vue'
 
+import IgniteButton from '~/components/ui/IgniteButton.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteModal from '~/components/ui/IgniteModal.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import IgniteToggle from '~/components/ui/IgniteToggle.vue'
-import IgniteButton from '~/components/ui/IgniteButton.vue'
 
 interface Emits {
   (e: 'close'): void
@@ -220,7 +220,7 @@ const categories = ref({
                       class="text-sm flex w-full select-none items-center justify-between"
                     >
                       <span class="mr-3">{{ item.title }}</span>
-                      <IgniteToggle :defaultState="item.value" />
+                      <IgniteToggle :default-state="item.value" />
                     </label>
                   </li>
                 </ul>
@@ -234,17 +234,17 @@ const categories = ref({
     <template #footer>
       <div class="flex items-center justify-between">
         <IgniteButton
-          @click="onClose"
           color="inherit"
           variant="primary"
           class="w-full"
+          @click="onClose"
           >Cancel</IgniteButton
         >
         <IgniteButton
-          @click="onClose"
           color="gray-dark"
           variant="primary"
           class="w-full"
+          @click="onClose"
           >Save</IgniteButton
         >
       </div>

@@ -17,11 +17,12 @@ export { UIStates }
 import { ref } from 'vue'
 
 import IgniteEmptyState from '~/components/common/IgniteEmptyState.vue'
+import NotificationsFilters from '~/components/notifications/NotificationsFilters/index.vue'
 import NotificationsSettingsModal from '~/components/notifications/NotificationsSettingsModal.vue'
 import IgniteButton from '~/components/ui/IgniteButton.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 
-const notifications = []
+const notifications = [{}]
 
 // state
 const isSettingsModalOpen = ref(false)
@@ -53,6 +54,13 @@ const isSettingsModalOpen = ref(false)
       <IgniteEmptyState v-if="!notifications.length"
         >No notifications yet</IgniteEmptyState
       >
+
+      <div v-else class="grid grid-cols-1 gap-7 lg:grid-cols-12">
+        <div class="lg:col-span-5 xl:col-span-4">
+          <NotificationsFilters class="w-full lg:max-w-[20.75rem]" />
+        </div>
+        <div class="lg:grid-cols-7 xl:col-span-8"></div>
+      </div>
     </div>
 
     <!-- Modal -->
