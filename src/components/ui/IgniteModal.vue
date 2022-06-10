@@ -82,6 +82,13 @@ function closeModal() {
               </DialogDescription>
 
               <slot name="body"></slot>
+
+              <div
+                v-if="$slots['footer']"
+                class="-mx-7 border-t border-border px-7 pt-7"
+              >
+                <slot name="footer"></slot>
+              </div>
             </div>
           </TransitionChild>
         </div>

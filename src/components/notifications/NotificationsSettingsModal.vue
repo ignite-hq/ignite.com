@@ -11,6 +11,19 @@ import { ref } from 'vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteModal from '~/components/ui/IgniteModal.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
+import IgniteToggle from '~/components/ui/IgniteToggle.vue'
+import IgniteButton from '~/components/ui/IgniteButton.vue'
+
+interface Emits {
+  (e: 'close'): void
+}
+
+const emit = defineEmits<Emits>()
+
+// handlers
+function onClose() {
+  emit('close')
+}
 
 const categories = ref({
   Projects: [
@@ -151,6 +164,8 @@ const categories = ref({
       <IgniteHeading as="div" class="text-center text-5 font-semibold"
         >Settings</IgniteHeading
       >
+    </template>
+    <template #description>
       <IgniteText as="div" class="mt-5 text-center text-muted"
         >Notification types to be alerted about</IgniteText
       >
@@ -180,13 +195,13 @@ const categories = ref({
           <TabPanel
             v-for="(sections, idx) in Object.values(categories)"
             :key="idx"
-            class="py-7"
+            class="pt-7"
           >
-            <ul>
+            <ul class="-mr-7 max-h-[22.5rem] overflow-auto">
               <li
                 v-for="section in sections"
                 :key="section.name"
-                class="mt-7 first:mt-0"
+                class="mt-7 pr-7 first:mt-0"
               >
                 <IgniteHeading
                   v-if="section.name !== Object.keys(categories)[idx]"
@@ -199,10 +214,13 @@ const categories = ref({
                   <li
                     v-for="item in section.items"
                     :key="item.title"
-                    class="relative flex py-5"
+                    class="relative py-5"
                   >
-                    <label class="text-sm">
-                      {{ item.title }}
+                    <label
+                      class="text-sm flex w-full select-none items-center justify-between"
+                    >
+                      <span class="mr-3">{{ item.title }}</span>
+                      <IgniteToggle :defaultState="item.value" />
                     </label>
                   </li>
                 </ul>
@@ -211,6 +229,25 @@ const categories = ref({
           </TabPanel>
         </TabPanels>
       </TabGroup>
+    </template>
+
+    <template #footer>
+      <div class="flex items-center justify-between">
+        <IgniteButton
+          @click="onClose"
+          color="inherit"
+          variant="primary"
+          class="w-full"
+          >Cancel</IgniteButton
+        >
+        <IgniteButton
+          @click="onClose"
+          color="gray-dark"
+          variant="primary"
+          class="w-full"
+          >Save</IgniteButton
+        >
+      </div>
     </template>
   </IgniteModal>
 </template>
