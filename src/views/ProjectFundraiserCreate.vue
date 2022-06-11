@@ -52,6 +52,7 @@ import useConnectWallet, {
 } from '~/composables/wallet/useConnectWallet'
 import { getDenomName } from '~/utils/fundraising'
 import { percentageToCosmosDecimal } from '~/utils/number'
+import { ellipsisText } from '~/utils/string'
 
 // types
 type FixedPriceAuction = MsgCreateFixedPriceAuction
@@ -118,25 +119,6 @@ interface State {
   errorMsg?: string
 }
 
-const initialSellingCoin =
-  isFetchedBalances.value && balances.value && balances.value.length > 0
-    ? {
-        amount: '0',
-        denom: balances.value[0].denom as string
-      }
-    : undefined
-
-const filteredInitalTotalSupply: Coin[] = isFetchedTotalSupply.value
-  ? (totalSupply.value?.supply?.filter(
-      (i) => i.denom !== initialSellingCoin?.denom
-    ) as Coin[])
-  : []
-
-const initialPayingDenom =
-  isFetchedTotalSupply.value && filteredInitalTotalSupply.length > 0
-    ? filteredInitalTotalSupply[0].denom
-    : ''
-
 const initialState: State = {
   currentUIState: UIStates.Fresh,
   auction: {
@@ -144,8 +126,8 @@ const initialState: State = {
     start_price: '1',
     start_time: TODAY,
     end_time: getWeeksLater(TODAY, 1),
-    paying_coin_denom: initialPayingDenom,
-    selling_coin: initialSellingCoin,
+    paying_coin_denom: '',
+    selling_coin: undefined,
     vesting_schedules: []
   }
 }
@@ -172,17 +154,44 @@ watchEffect(() => {
   }
 })
 
+watchEffect(() => {
+  if (Boolean(state.auction.paying_coin_denom)) return
+
+  const filteredInitalTotalSupply: Coin[] = isFetchedTotalSupply.value
+    ? (totalSupply.value?.supply?.filter(
+        (i) => i.denom !== state.auction.selling_coin?.denom
+      ) as Coin[])
+    : []
+
+  if (isFetchedTotalSupply.value && filteredInitalTotalSupply.length > 0) {
+    state.auction.paying_coin_denom = filteredInitalTotalSupply[0].denom
+  }
+})
+
+watchEffect(() => {
+  if (Boolean(state.auction.selling_coin)) return
+
+  if (isFetchedBalances.value && balances.value && balances.value.length > 0) {
+    state.auction.selling_coin = {
+      amount: '0',
+      denom: balances.value[0].denom as string
+    }
+  }
+})
+
 // computed
-const filterdTotalSupplyCoins = computed<Coin[]>(() => {
+const filteredTotalSupplyCoins = computed<Coin[]>(() => {
   const filtered = totalSupply.value?.supply?.filter(
     (i) => i.denom !== state.auction.selling_coin?.denom
   ) as Coin[]
 
   return filtered ?? []
 })
+
 const amountForSale = computed<number>(() =>
   new BigNumber(state.auction.selling_coin?.amount ?? '0').toNumber()
 )
+
 const amountForSaleOverTotal = computed<string>(() =>
   new BigNumber(amountForSale.value)
     .dividedBy(voucherTotalSupply.value)
@@ -190,16 +199,19 @@ const amountForSaleOverTotal = computed<string>(() =>
     .decimalPlaces(5)
     .toString()
 )
+
 const totalSaleValue = computed<number>(
   () =>
     new BigNumber(state.auction.selling_coin?.amount ?? '0').toNumber() *
     new BigNumber(state.auction.start_price ?? '0').toNumber()
 )
+
 const showModal = computed<boolean>(() =>
   [UIStates.Creating, UIStates.Created, UIStates.Error].includes(
     state.currentUIState
   )
 )
+
 const nextMinDateForSchedule = computed<Date>(() => {
   const penultimateScheduleDate: number =
     state.auction.vesting_schedules.at(-2)?.release_time?.getTime() ?? 0
@@ -210,11 +222,13 @@ const nextMinDateForSchedule = computed<Date>(() => {
 
   return new Date(Math.max(penultimateScheduleDate, auctionEndDate, today))
 })
+
 const allVestingWeightsGreaterThanZero = computed<boolean>(() => {
   return state.auction.vesting_schedules.every((schedule) => {
     return new BigNumber(schedule.weight).isGreaterThan(0)
   })
 })
+
 const isVestingTotalSale = computed<boolean>(() => {
   if (state.auction.vesting_schedules.length === 0) {
     return true
@@ -228,6 +242,7 @@ const isVestingTotalSale = computed<boolean>(() => {
 
   return totalWeight === 100
 })
+
 const isEndAfterStart = computed<boolean>(() => {
   const auction = state.auction
 
@@ -236,6 +251,7 @@ const isEndAfterStart = computed<boolean>(() => {
 
   return endAsMilli > startAsMilli
 })
+
 const isReleaseTimeAfterEnd = computed<boolean>(() => {
   const auction = state.auction
   const endAsMilli = (auction.end_time as Date).getTime()
@@ -246,12 +262,14 @@ const isReleaseTimeAfterEnd = computed<boolean>(() => {
     return scheduleAsMilli > endAsMilli
   })
 })
+
 const isSellingDenomSameAsPayingDenom = computed<boolean>(() => {
   return (
     state.auction.selling_coin?.denom.toUpperCase() ===
     state.auction.paying_coin_denom.toUpperCase()
   )
 })
+
 const balanceFromSellingCoin = computed<number>(() => {
   const sellingDenom = state.auction.selling_coin?.denom
 
@@ -259,33 +277,41 @@ const balanceFromSellingCoin = computed<number>(() => {
 
   return balance ? new BigNumber(balance.amount).toNumber() : 0
 })
+
 const voucherTotalSupply = computed<number>(() => {
   const totalSupplyAsString = balanceFromSellingCoin.value
 
   return new BigNumber(totalSupplyAsString ?? '0').toNumber()
 })
+
 const isSellingAmountGreaterThanBalance = computed<boolean>(() => {
   return new BigNumber(
     state.auction.selling_coin?.amount as string
   ).isGreaterThan(balanceFromSellingCoin.value)
 })
+
 const isSellingAmountGreaterThan33Pct = computed<boolean>(() =>
   new BigNumber(amountForSaleOverTotal.value).isGreaterThan(33)
 )
+
 const isSellingAmountGreaterThanZero = computed<boolean>(() =>
   new BigNumber(state.auction.selling_coin?.amount as string).isGreaterThan(0)
 )
+
 const isVoucherPriceGreaterThanZero = computed<boolean>(() =>
   new BigNumber(state.auction.start_price).isGreaterThan(0)
 )
+
 const hasAnyBalance = computed<boolean>(
   () =>
     (isFetchedBalances.value && balances.value && balances.value.length > 0) ||
     false
 )
+
 const isLoadingCriticalData = computed<boolean>(
   () => isLoadingBalances.value || isLoadingTotalSupply.value
 )
+
 const ableToPublish = computed<boolean>(
   () =>
     !isLoadingCriticalData.value &&
@@ -517,13 +543,14 @@ function cancel() {
                 >
                   <IgniteLoader class="h-full w-full rounded-xs" />
                 </div>
+
                 <!-- Input -->
                 <div v-else-if="balances" class="flex w-1/2">
                   <IgniteSelect
                     :model-value="
                       coinToSelectOption({
                         amount: '0',
-                        denom: state.auction.selling_coin?.denom ?? '0'
+                        denom: state.auction.selling_coin?.denom ?? ''
                       })
                     "
                     :items="(balances as Coin[]).map(i => coinToSelectOption(i as Coin))"
@@ -615,7 +642,7 @@ function cancel() {
                       })
                     "
                     :items="
-                      filterdTotalSupplyCoins.map(i => coinToSelectOption(i as Coin))
+                      filteredTotalSupplyCoins.map(i => coinToSelectOption(i as Coin))
                     "
                     variants="rounded-r-none"
                     class="w-full"
@@ -631,10 +658,19 @@ function cancel() {
                         size="small"
                         class="mr-3"
                       />
-                      {{ getDenomName(state.auction.paying_coin_denom) }}
+                      <span
+                        :title="getDenomName(state.auction.paying_coin_denom)"
+                      >
+                        {{
+                          ellipsisText(
+                            getDenomName(state.auction.paying_coin_denom),
+                            6
+                          )
+                        }}
+                      </span>
                     </template>
                     <template
-                      v-for="i in filterdTotalSupplyCoins"
+                      v-for="i in filteredTotalSupplyCoins"
                       :key="i.denom"
                       #[i.denom]
                     >
@@ -660,8 +696,16 @@ function cancel() {
               </div>
               <div class="ml-6 flex-row">
                 <IgniteText class="font-bold">
-                  <IgniteNumber :number="totalSaleValue" />
-                  {{ getDenomName(state.auction.paying_coin_denom) }}
+                  <span><IgniteNumber :number="totalSaleValue" /></span
+                  >{{ ' ' }}
+                  <span :title="getDenomName(state.auction.paying_coin_denom)">
+                    {{
+                      ellipsisText(
+                        getDenomName(state.auction.paying_coin_denom),
+                        20
+                      )
+                    }}
+                  </span>
                 </IgniteText>
               </div>
             </div>
