@@ -24,8 +24,8 @@ import IgniteTooltip from '~/components/ui/IgniteTooltip.vue'
 import useAllowedBidders from '~/composables/fundraising/useAllowedBidders'
 import useBids from '~/composables/fundraising/useBids'
 import useAddress from '~/composables/wallet/useAddress'
-import { ProgressBarItem } from '~/utils/types'
 import { FixedPriceAuction } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising'
+import { ProgressBarItem } from '~/utils/types'
 
 const route = useRoute()
 const fundraiserId = route.params.fundraiserId.toString() || '0'

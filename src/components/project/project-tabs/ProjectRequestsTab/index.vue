@@ -115,7 +115,7 @@ const isLoading = computed(() => {
 </script>
 
 <template>
-  <div class="container py-10 text-center">
+  <div class="container pt-8 text-center md:pt-10.5">
     <RequestsHeaderTop
       :loading="isLoading"
       :campaign-summary="campaignSummary"
