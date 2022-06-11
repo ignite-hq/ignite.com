@@ -18,6 +18,9 @@ import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 
 defineProps({
+  titleSize: { type: String, default: 'text-3' },
+  border: { type: Boolean, default: false },
+  showSettings: { type: Boolean, default: false },
   data: { type: Object, required: true }
 })
 
@@ -35,12 +38,10 @@ function closeSettings() {
 
 <template>
   <div
-    class="relative z-[1] flex items-start justify-between border-b border-border p-5 text-2"
+    class="relative z-[1] flex items-start justify-between p-5 text-2"
+    :class="border && 'border-b border-border'"
   >
-    <div
-      class="flex"
-      :class="data.title.length < 30 ? 'items-center' : 'items-start'"
-    >
+    <div class="flex" :class="data.status ? 'items-center' : 'items-start'">
       <div class="mr-4">
         <IconCanceledCircle
           v-if="data.status === 'failed'"
@@ -61,16 +62,26 @@ function closeSettings() {
           <IgniteBgWave />
         </div>
       </div>
-      <div class="max-w-[12.125rem]">
-        <IgniteHeading as="div" class="font-semibold" v-html="data.title" />
+      <div :class="titleSize === 'text-2' && 'max-w-[12.125rem]'">
+        <IgniteHeading
+          as="div"
+          :class="[
+            titleSize === 'text-2' && 'text-2 font-semibold',
+            titleSize === 'text-3' && 'text-3 font-medium'
+          ]"
+          v-html="data.title"
+        />
         <IgniteText v-if="data.projectName" as="div" class="text-muted">{{
           data.projectName
         }}</IgniteText>
       </div>
     </div>
     <div class="flex items-center">
-      <IgniteText as="div" class="mr-4 text-muted">{{ data.time }}</IgniteText>
+      <IgniteText as="div" class="text-muted" :class="showSettings && 'mr-4'">{{
+        data.time
+      }}</IgniteText>
       <IgniteButton
+        v-if="showSettings"
         class="!text-muted hover:!text-primary"
         @click="openSettings"
       >
@@ -80,7 +91,7 @@ function closeSettings() {
 
     <Transition>
       <div
-        v-if="settingsOpened"
+        v-if="settingsOpened && showSettings"
         class="absolute inset-0 z-[2] flex justify-between bg-[#f7f7f7] py-3 px-5"
       >
         <div class="flex flex-col items-start justify-around">

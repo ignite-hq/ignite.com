@@ -14,7 +14,7 @@ import IgniteButton from '~/components/ui/IgniteButton.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteLink from '~/components/ui/IgniteLink.vue'
 
-import NotificationItem from './NotificationItem.vue'
+import NotificationItem from '../NotificationItem.vue'
 
 // state
 const opened = ref(false)
@@ -102,6 +102,9 @@ function clearNotification() {
             v-for="notification in notifications"
             :key="notification"
             :data="notification"
+            :border="true"
+            title-size="text-2"
+            :show-settings="true"
           />
         </div>
         <div class="px-5 pt-5 pb-6 text-center">
