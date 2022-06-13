@@ -2,7 +2,6 @@
 import { ref } from 'vue'
 
 import IconIgnite from '~/components/icons/IconIgnite.vue'
-import IgniteNavNotifications from '~/components/notifications/IgniteNavNotifications/index.vue'
 import IgniteButton from '~/components/ui/IgniteButton.vue'
 import IgniteLink from '~/components/ui/IgniteLink.vue'
 import IgniteAccount from '~/components/wallet/IgniteAccount.vue'
@@ -41,7 +40,7 @@ function hide() {
 </script>
 
 <template>
-  <nav class="relative z-[99] h-9.5 border-b border-border py-5">
+  <nav class="relative z-[99] border-b border-border py-5 md:h-9.5">
     <div class="container flex items-center justify-between md:space-x-8">
       <router-link
         :to="'/'"
@@ -54,11 +53,11 @@ function hide() {
       </router-link>
 
       <div
-        class="absolute inset-x-0 top-0 z-[2] origin-top-right space-y-7 bg-bg px-5 pt-10 pb-6 shadow transition-all md:relative md:flex md:w-full md:scale-100 md:items-center md:justify-between md:space-y-0 md:space-x-6 md:p-0 md:opacity-100"
+        class="absolute inset-x-0 top-0 z-[2] flex origin-top-right flex-col-reverse bg-bg px-5 pt-9.5 pb-6 shadow transition-all md:relative md:z-auto md:flex md:w-full md:scale-100 md:flex-row md:items-center md:justify-between md:space-x-6 md:bg-transparent md:p-0 md:opacity-100"
         :class="opened ? 'scale-100 opacity-100' : 'scale-0 opacity-0'"
       >
         <ul
-          class="flex flex-col space-y-6 text-left md:flex-row md:items-center md:space-y-0 md:space-x-6"
+          class="mt-7 flex flex-col space-y-6 text-left md:mt-0 md:flex-row md:items-center md:space-y-0 md:space-x-6"
         >
           <li v-for="link in links" :key="link.name">
             <IgniteLink
@@ -72,10 +71,7 @@ function hide() {
           </li>
         </ul>
 
-        <div class="flex items-center">
-          <IgniteNavNotifications class="mr-6" />
-          <IgniteAccount />
-        </div>
+        <IgniteAccount />
       </div>
 
       <IgniteButton

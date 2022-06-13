@@ -69,8 +69,19 @@ function clearNotification() {
 
 <template>
   <div v-click-outside="hide" class="relative flex">
+    <IgniteLink
+      class="relative z-[2] !items-start justify-between rounded-t-xs bg-white-1000 text-text hover:text-primary md:hidden md:py-4 md:px-5"
+      to="/notifications"
+    >
+      <IconNotifications />
+      <div
+        v-if="notifications.length"
+        class="h-2 w-2 rounded-circle bg-notification"
+      />
+    </IgniteLink>
+
     <IgniteButton
-      class="relative z-[2] !items-start justify-between rounded-t-xs bg-white-1000 py-4 px-5 text-text hover:text-primary"
+      class="relative z-[2] hidden !items-start justify-between rounded-t-xs bg-white-1000 text-text hover:text-primary md:flex md:py-4 md:px-5"
       @click="toggle"
     >
       <IconNotifications />

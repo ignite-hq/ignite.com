@@ -18,6 +18,7 @@ import IgniteModal from '~/components/ui/IgniteModal.vue'
 import IgniteSpinner from '~/components/ui/IgniteSpinner.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import useAddress from '~/composables/wallet/useAddress'
+import IgniteNavNotifications from '~/components/notifications/IgniteNavNotifications/index.vue'
 
 import IgniteAccountMenu from './IgniteAccountMenu.vue'
 
@@ -131,13 +132,19 @@ watchEffect(() => {
 </script>
 
 <template>
-  <IgniteAccountMenu v-if="address" />
+  <div
+    v-if="address"
+    class="flex items-center justify-between gap-6 md:flex-row-reverse"
+  >
+    <IgniteAccountMenu />
+    <IgniteNavNotifications />
+  </div>
 
   <IgniteButton
     v-else
     variant="primary"
     color="primary"
-    class="!px-5 !py-[10px] !text-2"
+    class="whitespace-nowrap !px-5 !py-[10px] !text-2"
     @click="onOpenModal"
   >
     Connect Wallet

@@ -44,7 +44,7 @@ const mainCoinBalance = computed(() => {
 </script>
 
 <template>
-  <Menu as="div" class="relative">
+  <Menu as="div" class="relative z-[2]">
     <MenuButton class="flex items-center space-x-4">
       <IgniteProfileIcon :address="address" />
 
@@ -115,7 +115,7 @@ const mainCoinBalance = computed(() => {
 
 <style lang="postcss" scoped>
 .account-menu {
-  @apply absolute right-0 mt-4 flex w-screen max-w-[288px] flex-col overflow-hidden rounded-sm bg-white-1000 px-6 py-5;
+  @apply absolute left-0 mt-4 flex w-screen max-w-[288px] flex-col overflow-hidden rounded-sm bg-white-1000 px-6 py-5 md:left-auto md:right-0;
 
   box-shadow: 40px 64px 128px -8px rgba(0, 0, 0, 0.14);
 }
