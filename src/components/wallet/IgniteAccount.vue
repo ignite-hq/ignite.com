@@ -11,6 +11,7 @@ import { computed, onBeforeMount, reactive, watchEffect } from 'vue'
 import IconExternalArrow from '~/components/icons/IconExternalArrow.vue'
 import IconKeplr from '~/components/icons/IconKeplr.vue'
 import IconWarning from '~/components/icons/IconWarning.vue'
+import IgniteNavNotifications from '~/components/notifications/IgniteNavNotifications/index.vue'
 import IgniteButton from '~/components/ui/IgniteButton.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteLink from '~/components/ui/IgniteLink.vue'
@@ -131,13 +132,19 @@ watchEffect(() => {
 </script>
 
 <template>
-  <IgniteAccountMenu v-if="address" />
+  <div
+    v-if="address"
+    class="flex items-center justify-between gap-4 md:flex-row-reverse"
+  >
+    <IgniteAccountMenu />
+    <IgniteNavNotifications />
+  </div>
 
   <IgniteButton
     v-else
     variant="primary"
     color="primary"
-    class="!px-5 !py-[10px] !text-2"
+    class="whitespace-nowrap !px-5 !py-[10px] !text-2"
     @click="onOpenModal"
   >
     Connect Wallet

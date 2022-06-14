@@ -32,10 +32,15 @@ interface Props {
   minDate?: Date
   maxDate?: Date
   initialDate: Date
+  showLabel?: boolean
+  showTime?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  minDate: () => new Date()
+  minDate: () => new Date(),
+  maxDate: () => new Date(),
+  showLabel: true,
+  showTime: true
 })
 
 // state
@@ -82,12 +87,15 @@ function handleDayClick() {
     <div class="z-1 relative">
       <div class="items-end text-left md:flex">
         <div class="">
-          <IgniteText as="label" class="block text-2 text-muted"
+          <IgniteText
+            v-if="showLabel"
+            as="label"
+            class="block text-2 text-muted"
             >Date</IgniteText
           >
           <DatePicker
             v-model="state.date"
-            class="mt-3"
+            :class="showLabel && 'mt-3'"
             :min-date="props.minDate"
             :max-date="props.maxDate"
             :input-debounce="500"
@@ -105,11 +113,17 @@ function handleDayClick() {
             </template>
           </DatePicker>
         </div>
-        <div class="mt-6 md:mt-0 md:ml-7.5">
-          <IgniteText as="label" class="block text-2 text-muted"
+        <div v-if="showTime" class="mt-6 md:mt-0 md:ml-7.5">
+          <IgniteText
+            v-if="showLabel"
+            as="label"
+            class="block text-2 text-muted"
             >Time (24 hr format) UTC</IgniteText
           >
-          <div class="-mx-3 mt-3 flex flex-wrap items-center md:flex-nowrap">
+          <div
+            :class="showLabel && 'mt-3'"
+            class="-mx-3 flex flex-wrap items-center md:flex-nowrap"
+          >
             <input
               class="mx-3 h-8.5 w-[3.5rem] rounded-xs border border-border bg-white-1000 px-5 text-center"
               :value="state.hour"

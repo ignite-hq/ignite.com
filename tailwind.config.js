@@ -51,7 +51,8 @@ module.exports = {
       radio: '#C4C4C4',
       warning: '#FC8C0B',
       error: '#D80228',
-      negative: '#D80228'
+      negative: '#D80228',
+      notification: '#FE475F'
     },
     container: {
       center: true,

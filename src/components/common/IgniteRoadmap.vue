@@ -5,8 +5,8 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import IconCanceledCircle from '~/components/icons/IconCanceledCircle.vue'
 import IconCheck from '~/components/icons/IconCheck.vue'
-import IconCircleCanceled from '~/components/icons/IconCircleCanceled.vue'
 import IgniteLoader from '~/components/ui/IgniteLoader.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import { arrayNSize } from '~/utils/array'
@@ -52,7 +52,7 @@ const SKELETON_MOCK_DATA: ProjectMilestone[] = arrayNSize(4).map(() => ({
         align === 'right' ? 'last:text-right' : 'last:border-dashed'
       ]"
     >
-      <IconCircleCanceled
+      <IconCanceledCircle
         v-if="item.status === RoadmapStatus.Cancelled"
         class="absolute -top-[0.8125rem] h-6 w-6"
         :class="[
