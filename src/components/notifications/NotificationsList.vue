@@ -14,12 +14,13 @@ import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 
 import NotificationItem from './NotificationItem.vue'
+import { Notification } from './utils'
 
-defineProps({
-  notifications: {
-    type: Array
-  }
-})
+interface Props {
+  notifications: Notification[]
+}
+
+defineProps<Props>()
 </script>
 
 <template>

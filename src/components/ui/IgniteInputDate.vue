@@ -38,6 +38,7 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   minDate: () => new Date(),
+  maxDate: () => new Date(),
   showLabel: true,
   showTime: true
 })

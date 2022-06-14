@@ -11,6 +11,7 @@ import { computed, onBeforeMount, reactive, watchEffect } from 'vue'
 import IconExternalArrow from '~/components/icons/IconExternalArrow.vue'
 import IconKeplr from '~/components/icons/IconKeplr.vue'
 import IconWarning from '~/components/icons/IconWarning.vue'
+import IgniteNavNotifications from '~/components/notifications/IgniteNavNotifications/index.vue'
 import IgniteButton from '~/components/ui/IgniteButton.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteLink from '~/components/ui/IgniteLink.vue'
@@ -18,7 +19,6 @@ import IgniteModal from '~/components/ui/IgniteModal.vue'
 import IgniteSpinner from '~/components/ui/IgniteSpinner.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import useAddress from '~/composables/wallet/useAddress'
-import IgniteNavNotifications from '~/components/notifications/IgniteNavNotifications/index.vue'
 
 import IgniteAccountMenu from './IgniteAccountMenu.vue'
 
@@ -134,7 +134,7 @@ watchEffect(() => {
 <template>
   <div
     v-if="address"
-    class="flex items-center justify-between gap-6 md:flex-row-reverse"
+    class="flex items-center justify-between gap-4 md:flex-row-reverse"
   >
     <IgniteAccountMenu />
     <IgniteNavNotifications />

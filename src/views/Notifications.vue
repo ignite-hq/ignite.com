@@ -20,10 +20,11 @@ import IgniteEmptyState from '~/components/common/IgniteEmptyState.vue'
 import NotificationsFilters from '~/components/notifications/NotificationsFilters/index.vue'
 import NotificationsList from '~/components/notifications/NotificationsList.vue'
 import NotificationsSettingsModal from '~/components/notifications/NotificationsSettingsModal.vue'
+import { Notification } from '~/components/notifications/utils'
 import IgniteButton from '~/components/ui/IgniteButton.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 
-const notifications = [
+const notifications: Notification[] = [
   {
     day: 'Today',
     date: 'April 7',

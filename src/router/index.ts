@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import Index from '../views/Index.vue'
 import Notifications from '../views/Notifications.vue'
-import Notifications from '../views/Notifications.vue'
 import Project from '../views/Project.vue'
 import ProjectFundraiser from '../views/ProjectFundraiser.vue'
 import ProjectFundraiserCreate from '../views/ProjectFundraiserCreate.vue'

@@ -1,4 +1,5 @@
 <script lang="ts">
+/* eslint-disable vue/no-v-html */
 export default {
   name: 'NotificationItem'
 }
@@ -17,11 +18,19 @@ import IgniteButton from '~/components/ui/IgniteButton.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 
-defineProps({
-  titleSize: { type: String, default: 'text-3' },
-  border: { type: Boolean, default: false },
-  showSettings: { type: Boolean, default: false },
-  data: { type: Object, required: true }
+import { NotificationItem, NotificationStatus } from './utils'
+
+interface Props {
+  titleSize: string
+  border: boolean
+  showSettings: boolean
+  data: NotificationItem
+}
+
+withDefaults(defineProps<Props>(), {
+  titleSize: 'text-3',
+  border: false,
+  showSettings: false
 })
 
 // state
@@ -44,11 +53,11 @@ function closeSettings() {
     <div class="flex" :class="data.status ? 'items-center' : 'items-start'">
       <div class="mr-4">
         <IconCanceledCircle
-          v-if="data.status === 'failed'"
+          v-if="data.status === NotificationStatus.Failed"
           class="h-[1.875rem] w-[1.875rem] stroke-[1.5] text-error"
         />
         <div
-          v-else-if="data.status === 'approved'"
+          v-else-if="data.status === NotificationStatus.Approved"
           class="flex h-[1.875rem] w-[1.875rem] items-center justify-center rounded-circle border-2 border-primary"
         >
           <IconCheckMarkThin

@@ -15,9 +15,11 @@ import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteLink from '~/components/ui/IgniteLink.vue'
 
 import NotificationItem from '../NotificationItem.vue'
+import { NotificationItem as NotificationItemType } from '../utils'
 
 // state
-const opened = ref(false)
+const areNotificationsOpen = ref(false)
+
 const notifications = ref([
   {
     title:
@@ -52,23 +54,25 @@ const notifications = ref([
     projectName: 'Project name',
     time: 'time'
   }
-])
+] as NotificationItemType[])
 
 // methods
-function toggle() {
-  opened.value = !opened.value
+function onOpenNotifications() {
+  areNotificationsOpen.value = !areNotificationsOpen.value
 }
-function hide() {
-  opened.value = false
+
+function onHideNotifications() {
+  areNotificationsOpen.value = false
 }
-function clearNotification() {
+
+function clearNotifications() {
   notifications.value = []
-  opened.value = false
+  areNotificationsOpen.value = false
 }
 </script>
 
 <template>
-  <div v-click-outside="hide" class="relative flex">
+  <div v-click-outside="onHideNotifications" class="relative flex">
     <IgniteLink
       class="relative z-[2] !items-start justify-between rounded-t-xs bg-white-1000 text-text hover:text-primary md:hidden md:py-4 md:px-5"
       to="/notifications"
@@ -82,7 +86,7 @@ function clearNotification() {
 
     <IgniteButton
       class="relative z-[2] hidden !items-start justify-between rounded-t-xs bg-white-1000 text-text hover:text-primary md:flex md:py-4 md:px-5"
-      @click="toggle"
+      @click="onOpenNotifications"
     >
       <IconNotifications />
       <div
@@ -92,7 +96,7 @@ function clearNotification() {
     </IgniteButton>
     <Transition>
       <div
-        v-if="opened"
+        v-if="areNotificationsOpen"
         class="absolute top-full right-0 w-[25rem] overflow-hidden rounded-b-xs rounded-tl-xs bg-white-1000 shadow-dropdown"
       >
         <div
@@ -111,7 +115,7 @@ function clearNotification() {
         <div v-else>
           <NotificationItem
             v-for="notification in notifications"
-            :key="notification"
+            :key="notification?.title"
             :data="notification"
             :border="true"
             title-size="text-2"
@@ -122,13 +126,13 @@ function clearNotification() {
           <IgniteLink
             to="/notifications"
             class="block w-full rounded-sm bg-gray-30 p-5 text-center font-semibold text-muted hover:text-text"
-            @click="hide"
+            @click="onHideNotifications"
             >View past notifications</IgniteLink
           >
           <IgniteButton
             v-if="notifications.length"
             class="mt-5"
-            @click="clearNotification"
+            @click="clearNotifications"
           >
             <IconEyes class="mr-3" />
             <span>Mark all as seen</span>

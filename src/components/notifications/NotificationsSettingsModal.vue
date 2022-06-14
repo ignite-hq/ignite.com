@@ -159,7 +159,7 @@ const categories = ref({
 </script>
 
 <template>
-  <IgniteModal @after-leave="resetState" @close="onClose">
+  <IgniteModal @close="onClose">
     <template #title>
       <IgniteHeading as="div" class="text-center text-5 font-semibold"
         >Settings</IgniteHeading
