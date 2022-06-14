@@ -8,16 +8,16 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { computed, reactive } from 'vue'
-
-import IgniteCard from '~/components/ui/IgniteCard.vue'
-import IgniteHeading from '~/components/ui/IgniteHeading.vue'
-import IgniteButton from '~/components/ui/IgniteButton.vue'
-import IgniteText from '~/components/ui/IgniteText.vue'
-import { FixedPriceAuction } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising'
 import { DeliverTxResponse } from '@cosmjs/stargate'
 import { useSpn } from 'tendermint-spn-vue-client'
+import { computed, reactive } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+
+import IgniteButton from '~/components/ui/IgniteButton.vue'
+import IgniteCard from '~/components/ui/IgniteCard.vue'
+import IgniteHeading from '~/components/ui/IgniteHeading.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
+import { FixedPriceAuction } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising'
 import { UIStates } from '~/utils/types'
 
 interface Props {
@@ -47,7 +47,7 @@ const state = reactive(initialState)
 
 // computed
 const endDate = computed(() => {
-  return dayjs(new Date(props.fundraiser.base_auction.start_time))
+  return dayjs(new Date(props.fundraiser?.base_auction?.start_time ?? ''))
 })
 
 // methods

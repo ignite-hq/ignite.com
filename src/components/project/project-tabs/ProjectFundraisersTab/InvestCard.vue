@@ -3,6 +3,8 @@ import BigNumber from 'bignumber.js'
 import { V1Beta1Coin } from 'node_modules/tendermint-spn-ts-client/tendermint.fundraising/rest'
 import { computed, defineComponent, toRefs } from 'vue'
 
+import { FixedPriceAuction } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising'
+
 export default defineComponent({
   name: 'ProjectInvestTitle'
 })
@@ -48,18 +50,19 @@ const { base_auction, remaining_selling_coin } = toRefs(props.fundraiser)
 
 const raised = computed<number>(() => {
   return (
-    Number(base_auction.selling_coin?.amount ?? 0) -
-    Number(remaining_selling_coin?.amount ?? 0)
+    Number(base_auction.value?.selling_coin?.amount ?? 0) -
+    Number(remaining_selling_coin?.value?.amount ?? 0)
   )
 })
 
 const currency = computed<string>(() => {
-  return getDenomName(base_auction.selling_coin?.denom ?? '')
+  return getDenomName(base_auction?.value?.selling_coin?.denom ?? '')
 })
 
 const tokenSupply = computed<number>(() => {
   const token = totalSupply.value?.supply?.find(
-    (token: V1Beta1Coin) => token.denom === base_auction.selling_coin?.denom
+    (token: V1Beta1Coin) =>
+      token.denom === base_auction.value?.selling_coin?.denom
   )
   return new BigNumber(token?.amount ?? '0').toNumber()
 })
@@ -67,7 +70,8 @@ const tokenSupply = computed<number>(() => {
 const relativeSupply = computed<number>(() => {
   return tokenSupply.value
     ? Math.round(
-        (Number(base_auction.selling_coin?.amount ?? 0) / tokenSupply.value) *
+        (Number(base_auction.value?.selling_coin?.amount ?? 0) /
+          tokenSupply.value) *
           100
       )
     : 0
@@ -77,7 +81,7 @@ const progressBar = {
   items: [
     {
       value: (
-        (raised.value / Number(base_auction.selling_coin?.amount ?? 0)) *
+        (raised.value / Number(base_auction.value?.selling_coin?.amount ?? 0)) *
         100
       ).toString(),
       bgColor: 'bg-primary'
@@ -88,7 +92,7 @@ const progressBar = {
 
 <template>
   <IgniteLink
-    :to="`/projects/${projectId}/fundraisers/${base_auction.id}`"
+    :to="`/projects/${projectId}/fundraisers/${base_auction?.id}`"
     class="w-full"
   >
     <IgniteCard :shadow="true" class="w-full py-6 px-5 md:p-7.5">
@@ -104,7 +108,7 @@ const progressBar = {
         Raised of
         <strong>
           <IgniteNumber
-            :number="Number(base_auction.selling_coin?.amount ?? 0)"
+            :number="Number(base_auction?.selling_coin?.amount ?? 0)"
           />
           {{ currency }}
         </strong>

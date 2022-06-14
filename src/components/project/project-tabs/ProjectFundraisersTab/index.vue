@@ -10,6 +10,7 @@ import { useRoute } from 'vue-router'
 
 import IgniteCard from '~/components/ui/IgniteCard.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
 import useCampaignFundraisers from '~/composables/fundraising/useCampaignFundraisers'
 import useCoordinator from '~/composables/profile/useCoordinator'
 import { FixedPriceAuction } from '~/generated/tendermint-spn-ts-client/tendermint.fundraising'
@@ -43,29 +44,48 @@ const { fundraisers } = useCampaignFundraisers(projectId)
 const { isSameAddressAsLoggedIn: coordinatorView } =
   useCoordinator(coordinatorId)
 
+const auctions = computed(() => {
+  return (fundraisers?.value?.map(({ auction }) => auction) ??
+    []) as FixedPriceAuction[]
+})
+
 const statuses = computed(() => {
   const statuses = []
-  const auctions = fundraisers?.value ?? []
-  const currentPresent = auctions.find(
-    ({ auction }: FixedPriceAuction) =>
-      getHumanizedAuctionStatus(auction.base_auction.status) ===
-      HumanizedAuctionStatus.Current
-  )
-  const upcomingPresent = auctions.find(
-    ({ auction }: FixedPriceAuction) =>
-      getHumanizedAuctionStatus(auction.base_auction.status) ===
+
+  const currentPresent = auctions.value.find((auction) => {
+    const status = auction.base_auction?.status as unknown as string
+
+    return (
+      getHumanizedAuctionStatus(status ?? '') === HumanizedAuctionStatus.Current
+    )
+  })
+
+  const upcomingPresent = auctions.value.find((auction) => {
+    const status = auction.base_auction?.status as unknown as string
+
+    return (
+      getHumanizedAuctionStatus(status ?? '') ===
       HumanizedAuctionStatus.Upcoming
-  )
-  const previousPresent = auctions.find(
-    ({ auction }: FixedPriceAuction) =>
-      getHumanizedAuctionStatus(auction.base_auction.status) ===
+    )
+  })
+
+  const previousPresent = auctions.value.find((auction) => {
+    const status = auction.base_auction?.status as unknown as string
+
+    return (
+      getHumanizedAuctionStatus(status ?? '') ===
       HumanizedAuctionStatus.Previous
-  )
-  const otherPresent = auctions.find(
-    ({ auction }: FixedPriceAuction) =>
-      getHumanizedAuctionStatus(auction.base_auction.status) ===
-      HumanizedAuctionStatus.Other
-  )
+    )
+  })
+
+  const otherPresent = auctions.value.find((auction) => {
+    const status = auction.base_auction?.status as unknown as string
+
+    return (
+      getHumanizedAuctionStatus(status ?? '') === HumanizedAuctionStatus.Other
+    )
+  })
+
   if (currentPresent && upcomingPresent)
     statuses.push(HumanizedAuctionStatus.CurrentAndUpcoming)
   else if (currentPresent) statuses.push(HumanizedAuctionStatus.Current)
@@ -84,7 +104,9 @@ const statuses = computed(() => {
       :allow-create="coordinatorView"
       class="mt-8 md:mt-10.5"
     />
-    <InvestVoucherAllocation :fundraisers="fundraisers" class="mt-7 md:mt-9" />
+
+    <InvestVoucherAllocation :fundraisers="auctions" class="mt-7 md:mt-9" />
+
     <InvestStart
       v-if="coordinatorView && fundraisers?.length === 0"
       :project-name="campaignSummary?.campaign?.campaignName"
@@ -98,34 +120,37 @@ const statuses = computed(() => {
         >
           {{ status }}
         </IgniteHeading>
+
         <div
           class="mt-6 grid grid-cols-1 gap-5 md:mt-8 md:gap-7 lg:grid-cols-2"
         >
           <div
-            v-for="(fundraiser, key) in fundraisers?.filter((fundraiser) =>
+            v-for="(fundraiser, key) in auctions?.filter(( auction ) =>
               status
                 .toString()
                 .toLowerCase()
                 .includes(
                   getHumanizedAuctionStatus(
-                    fundraiser.auction.base_auction.status
+                    (auction?.base_auction?.status as unknown as string) ?? ''
                   ).toLowerCase()
                 )
             )"
             :key="`fundraisers_${status}_${key}`"
             class="relative z-[1]"
           >
-            <InvestCard :fundraiser="fundraiser.auction" />
+            <InvestCard :fundraiser="fundraiser" />
           </div>
         </div>
       </div>
     </div>
+
     <div
       v-if="!coordinatorView && fundraisers?.length === 0"
       class="text-center"
     >
       <span>- No fundraisers yet -</span>
     </div>
+
     <div class="z-1 container relative mt-8 md:mt-10.5">
       <IgniteCard
         class="flex flex-col p-6 md:flex-row md:items-center md:justify-between md:gap-7 md:p-7.5 lg:p-9 xl:pr-11"
