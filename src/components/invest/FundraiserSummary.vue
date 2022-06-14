@@ -16,6 +16,7 @@ import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteNumber from '~/components/ui/IgniteNumber.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import useAddress from '~/composables/wallet/useAddress'
+import { ellipsisText } from '~/utils/string'
 
 interface Emits {
   (e: 'publish'): void
@@ -114,8 +115,11 @@ function formatRange(start: Date, end: Date): string {
               Total raise potential
             </IgniteText>
             <IgniteText class="text-4 font-normal text-muted">
-              <IgniteNumber :number="props.totalSaleValue" />
-              {{ props.saleDenom }}
+              <span><IgniteNumber :number="props.totalSaleValue" /></span
+              >{{ ' ' }}
+              <span :title="props.saleDenom">{{
+                ellipsisText(props.saleDenom ?? '', 20)
+              }}</span>
             </IgniteText>
           </div>
           <div class="mt-7 flex place-content-end md:mt-9">
