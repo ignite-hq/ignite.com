@@ -7,20 +7,20 @@ import { useQuery } from 'vue-query'
 
 import { RefOrValue } from '~/utils/types'
 
-export default function useGenesisValidatorAllChains(
-  campaignID: RefOrValue<string | undefined>
+export default function useAllGenesisValidators(
+  projectId: RefOrValue<string | undefined>
 ) {
   const { queryCampaignChains } = useTendermintSpnCampaign()
   const { queryGenesisValidatorAll } = useTendermintSpnLaunch()
 
   const isEnabled = computed(() => {
-    return Boolean(unref(campaignID))
+    return Boolean(unref(projectId))
   })
 
   const { data: campaignValidators, ...other } = useQuery(
-    ['campaignValidators', 'populated', campaignID],
+    ['campaignValidators', 'populated', projectId],
     async () => {
-      const { data } = await queryCampaignChains(unref(campaignID) as string)
+      const { data } = await queryCampaignChains(unref(projectId) as string)
 
       if (!data.campaignChains)
         throw new Error('Failed to fetch campaign chains')
@@ -34,18 +34,17 @@ export default function useGenesisValidatorAllChains(
 
       const validators = await Promise.all(validatorPromises)
 
-      const reducedValidatorsFromAllChains = validators.flatMap(
+      const campaignValidators = validators.flatMap(
         (chainValidators) => chainValidators?.genesisValidator || []
       )
 
-      const uniqueValidators = [
-        ...new Map(
-          reducedValidatorsFromAllChains.map((validator) => [
-            validator.address,
-            validator
-          ])
-        )
-      ]
+      const seen: Record<string, boolean> = {}
+
+      const uniqueValidators = campaignValidators.filter((validator) => {
+        const address = validator?.address ?? ''
+
+        return seen[address] ? false : (seen[address] = true)
+      })
 
       return uniqueValidators
     },
