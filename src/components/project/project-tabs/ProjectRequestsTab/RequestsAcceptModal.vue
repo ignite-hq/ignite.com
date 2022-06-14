@@ -14,6 +14,7 @@ import IgniteButton from '~/components/ui/IgniteButton.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteModal from '~/components/ui/IgniteModal.vue'
 import IgniteNumber from '~/components/ui/IgniteNumber.vue'
+import IgniteSpinner from '~/components/ui/IgniteSpinner.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import useSettleRequests from '~/composables/request/useSettleRequests'
 import useAddress from '~/composables/wallet/useAddress'
@@ -134,8 +135,8 @@ const isSigning = computed(() => state.currentUIState === UIStates.Signing)
       </div>
     </template>
 
-    <template v-if="isFresh" #body>
-      <div class="mt-4">
+    <template #body>
+      <div v-if="isFresh" class="mt-4">
         <IgniteText
           v-if="requestsSummaries.validatorCount > 0"
           class="text-center text-3 leading-normal text-muted"
@@ -181,66 +182,67 @@ const isSigning = computed(() => state.currentUIState === UIStates.Signing)
           </IgniteButton>
         </div>
       </div>
-    </template>
 
-    <template v-else-if="isError" #body>
-      <IgniteText class="text-center text-3 leading-normal text-muted">
-        {{ state.errorMessage }}
-      </IgniteText>
+      <div v-else-if="isError">
+        <IgniteText class="text-center text-3 leading-normal text-muted">
+          {{ state.errorMessage }}
+        </IgniteText>
 
-      <div class="mt-7 flex space-x-4">
-        <IgniteButton
-          variant="primary"
-          color="primary"
-          type="submit"
-          class="flex-1"
-          @click="onClose"
-        >
-          Done
-        </IgniteButton>
+        <div class="mt-7 flex space-x-4">
+          <IgniteButton
+            variant="primary"
+            color="primary"
+            type="submit"
+            class="flex-1"
+            @click="onClose"
+          >
+            Done
+          </IgniteButton>
+        </div>
       </div>
-    </template>
 
-    <template v-else-if="isSigning" #body>
-      <div class="mt-6 flex flex-col items-center space-y-7">
+      <div
+        v-else-if="isSigning"
+        class="mt-6 flex flex-col items-center space-y-7"
+      >
         <IgniteSpinner />
       </div>
-    </template>
 
-    <template v-else-if="isSuccess" #body>
-      <IgniteText
-        v-if="requestsSummaries.validatorCount > 0"
-        class="text-center text-3 leading-normal text-muted"
-      >
-        Added
-        <span class="font-semibold">{{
-          requestsSummaries.validatorCount
-        }}</span>
-        validator{{ requestsSummaries.validatorCount === 1 ? '' : 's' }}
-      </IgniteText>
-
-      <IgniteText
-        v-for="coin in requestsSummaries.coinsToGrant"
-        :key="coin.denom"
-        class="text-center text-3 leading-normal text-muted"
-      >
-        <span class="font-semibold"
-          ><IgniteNumber :number="coin.amount ?? ''" />
-          {{ coin.denom?.toUpperCase() }}</span
+      <div v-else-if="isSuccess">
+        <IgniteText
+          v-if="requestsSummaries.validatorCount > 0"
+          class="text-center text-3 leading-normal text-muted"
         >
-        were granted
-      </IgniteText>
+          Added
+          <span class="font-semibold">{{
+            requestsSummaries.validatorCount
+          }}</span>
+          validator{{ requestsSummaries.validatorCount === 1 ? '' : 's' }}
+        </IgniteText>
 
-      <div class="mt-7 flex space-x-4">
-        <IgniteButton
-          variant="primary"
-          color="primary"
-          type="submit"
-          class="flex-1"
-          @click="onSuccessClose"
+        <IgniteText
+          v-for="coin in requestsSummaries.coinsToGrant"
+          :key="coin.denom"
+          class="text-center text-3 leading-normal text-muted"
         >
-          Done
-        </IgniteButton>
+          <span class="font-semibold"
+            ><IgniteNumber :number="coin.amount ?? ''" />
+            {{ coin.denom?.toUpperCase() }}</span
+          >
+          were granted
+        </IgniteText>
+
+        <div class="mt-7 flex space-x-4">
+          <IgniteButton
+            variant="primary"
+            color="primary"
+            type="submit"
+            class="flex-1"
+            @click="onSuccessClose"
+          >
+            Done
+          </IgniteButton>
+        </div>
       </div>
     </template>
   </IgniteModal>

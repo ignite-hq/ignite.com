@@ -12,6 +12,8 @@ import IconWarning from '~/components/icons/IconWarning.vue'
 import IgniteButton from '~/components/ui/IgniteButton.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteModal from '~/components/ui/IgniteModal.vue'
+import IgniteSpinner from '~/components/ui/IgniteSpinner.vue'
+import IgniteText from '~/components/ui/IgniteText.vue'
 import useSettleRequests from '~/composables/request/useSettleRequests'
 import useAddress from '~/composables/wallet/useAddress'
 import { useRequestsStore } from '~/stores/requests-store'
@@ -144,7 +146,7 @@ const isSigning = computed(() => state.currentUIState === UIStates.Signing)
     </template>
 
     <template v-if="isFresh" #body>
-      <div class="mt-7 flex w-full space-x-4">
+      <div v-if="isFresh" class="mt-7 flex w-full space-x-4">
         <IgniteButton
           class="flex-1"
           variant="text"
@@ -165,47 +167,48 @@ const isSigning = computed(() => state.currentUIState === UIStates.Signing)
           Confirm
         </IgniteButton>
       </div>
-    </template>
 
-    <template v-else-if="isError" #body>
-      <IgniteText class="text-center text-3 leading-normal text-muted">
-        {{ state.errorMessage }}
-      </IgniteText>
+      <div v-else-if="isError">
+        <IgniteText class="text-center text-3 leading-normal text-muted">
+          {{ state.errorMessage }}
+        </IgniteText>
 
-      <div class="mt-7 flex space-x-4">
-        <IgniteButton
-          variant="primary"
-          color="primary"
-          type="submit"
-          class="flex-1"
-          @click="onClose"
-        >
-          Done
-        </IgniteButton>
+        <div class="mt-7 flex space-x-4">
+          <IgniteButton
+            variant="primary"
+            color="primary"
+            type="submit"
+            class="flex-1"
+            @click="onClose"
+          >
+            Done
+          </IgniteButton>
+        </div>
       </div>
-    </template>
 
-    <template v-else-if="isSigning" #body>
-      <div class="mt-6 flex flex-col items-center space-y-7">
+      <div
+        v-else-if="isSigning"
+        class="mt-6 flex flex-col items-center space-y-7"
+      >
         <IgniteSpinner />
       </div>
-    </template>
 
-    <template v-else-if="isSuccess" #body>
-      <IgniteText class="text-center text-3 leading-normal text-muted">
-        {{ confirmationMessage }}
-      </IgniteText>
+      <div v-else-if="isSuccess">
+        <IgniteText class="text-center text-3 leading-normal text-muted">
+          {{ confirmationMessage }}
+        </IgniteText>
 
-      <div class="mt-7 flex space-x-4">
-        <IgniteButton
-          variant="primary"
-          color="primary"
-          type="submit"
-          class="flex-1"
-          @click="onSuccessClose"
-        >
-          Done
-        </IgniteButton>
+        <div class="mt-7 flex space-x-4">
+          <IgniteButton
+            variant="primary"
+            color="primary"
+            type="submit"
+            class="flex-1"
+            @click="onSuccessClose"
+          >
+            Done
+          </IgniteButton>
+        </div>
       </div>
     </template>
   </IgniteModal>

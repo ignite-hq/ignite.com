@@ -121,10 +121,10 @@ function formatRange(start: Date, end: Date): string {
           <div class="mt-7 flex place-content-end md:mt-9">
             <IgniteButton
               variant="primary"
-              class="mr-6 !py-4 !px-6 !font-medium"
+              class="mr-6 !py-4 !px-6 !font-medium hover:text-primary"
               @click="emit('cancel')"
             >
-              <span>Cancel</span>
+              Cancel
             </IgniteButton>
             <IgniteButton
               variant="primary"

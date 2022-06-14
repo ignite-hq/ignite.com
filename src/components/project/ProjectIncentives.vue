@@ -16,7 +16,7 @@ import { getIncentivesFromRewards, isShare } from '~/utils/reward'
 
 interface Props {
   campaignSummary?: CampaignCampaignSummary
-  size: 'lg' | 'default'
+  size?: 'lg' | 'default'
 }
 
 const props = withDefaults(defineProps<Props>(), {

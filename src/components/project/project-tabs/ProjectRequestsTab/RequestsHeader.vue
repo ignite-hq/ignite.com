@@ -15,6 +15,7 @@ import {
 import IconCheck from '~/components/icons/IconCheckMarkThin.vue'
 import IconFilter from '~/components/icons/IconFilter.vue'
 import IconSort from '~/components/icons/IconSort.vue'
+import SlideDown from '~/components/transitions/SlideDown.vue'
 import IgniteHeading from '~/components/ui/IgniteHeading.vue'
 import IgniteText from '~/components/ui/IgniteText.vue'
 import {
@@ -57,24 +58,26 @@ const store = useRequestsStore()
             <span>{{ store.selectedPageFilter.displayName }}</span>
           </ListboxButton>
 
-          <ListboxOptions class="requests-dropdown-list">
-            <ListboxOption
-              v-for="page in requestPageFilters"
-              v-slot="{ active, selected }"
-              :key="page.id"
-              :value="page"
-              class="requests-dropdown-item"
-              as="template"
-            >
-              <li
-                class="flex items-center justify-between"
-                :class="{ 'text-primary': selected, 'bg-gray-30': active }"
+          <SlideDown>
+            <ListboxOptions class="requests-dropdown-list">
+              <ListboxOption
+                v-for="page in requestPageFilters"
+                v-slot="{ active, selected }"
+                :key="page.id"
+                :value="page"
+                class="requests-dropdown-item"
+                as="template"
               >
-                <span>{{ page.name }}</span>
-                <IconCheck v-if="selected" class="text-primary" />
-              </li>
-            </ListboxOption>
-          </ListboxOptions>
+                <li
+                  class="flex items-center justify-between"
+                  :class="{ 'text-primary': selected, 'bg-gray-30': active }"
+                >
+                  <span>{{ page.name }}</span>
+                  <IconCheck v-if="selected" class="text-primary" />
+                </li>
+              </ListboxOption>
+            </ListboxOptions>
+          </SlideDown>
         </div>
       </Listbox>
 
@@ -93,24 +96,26 @@ const store = useRequestsStore()
             <span>{{ store.selectedPageSort.name }}</span>
           </ListboxButton>
 
-          <ListboxOptions class="requests-dropdown-list">
-            <ListboxOption
-              v-for="sort in requestPageSorts"
-              v-slot="{ active, selected }"
-              :key="sort.id"
-              :value="sort"
-              class="requests-dropdown-item"
-              as="template"
-            >
-              <li
-                class="flex items-center justify-between"
-                :class="{ 'text-primary': selected, 'bg-gray-30': active }"
+          <SlideDown>
+            <ListboxOptions class="requests-dropdown-list">
+              <ListboxOption
+                v-for="sort in requestPageSorts"
+                v-slot="{ active, selected }"
+                :key="sort.id"
+                :value="sort"
+                class="requests-dropdown-item"
+                as="template"
               >
-                <span>{{ sort.name }}</span>
-                <IconCheck v-if="selected" class="text-primary" />
-              </li>
-            </ListboxOption>
-          </ListboxOptions>
+                <li
+                  class="flex items-center justify-between"
+                  :class="{ 'text-primary': selected, 'bg-gray-30': active }"
+                >
+                  <span>{{ sort.name }}</span>
+                  <IconCheck v-if="selected" class="text-primary" />
+                </li>
+              </ListboxOption>
+            </ListboxOptions>
+          </SlideDown>
         </div>
       </Listbox>
     </div>

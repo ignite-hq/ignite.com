@@ -84,11 +84,13 @@ const {
   isFetching: isFetchingBalances,
   isFetched: isFetchedBalances
 } = useBalances(spn.signer.value.addr)
+
 const {
   totalSupply,
   isFetching: isFetchingTotalSupply,
   isFetched: isFetchedTotalSupply
 } = useTotalSupply()
+
 const breadcrumbsLinks = computed(() => {
   return [
     {
@@ -109,6 +111,7 @@ interface State {
   feeAmount?: Coin
   errorMsg?: string
 }
+
 const initialSellingCoin =
   isFetchedBalances.value && balances.value && balances.value.length > 0
     ? {
@@ -116,15 +119,18 @@ const initialSellingCoin =
         denom: balances.value[0].denom as string
       }
     : undefined
+
 const filteredInitalTotalSupply: Coin[] = isFetchedTotalSupply.value
   ? (totalSupply.value?.supply?.filter(
       (i) => i.denom !== initialSellingCoin?.denom
     ) as Coin[])
   : []
+
 const initialPayingDenom =
   isFetchedTotalSupply.value && filteredInitalTotalSupply.length > 0
     ? filteredInitalTotalSupply[0].denom
     : ''
+
 const initialState: State = {
   currentUIState: UIStates.Fresh,
   auction: {
@@ -275,6 +281,8 @@ const ableToPublish = computed<boolean>(
 
 // handlers
 function handleAmountInput(evt: Event) {
+  if (!state.auction.selling_coin) return
+
   const inputEl = evt.target as HTMLInputElement
   const raw = inputEl.value
   const numbersOnly = raw.replace(/\D/g, '')
@@ -285,6 +293,7 @@ function handleAmountInput(evt: Event) {
   inputEl.value = formatted
   state.auction.selling_coin.amount = formatted
 }
+
 function handlePricePerVoucher(evt: Event) {
   const inputEl = evt.target as HTMLInputElement
   const raw = inputEl.value
@@ -350,6 +359,7 @@ function handleDeleteDistributionClick(index: number) {
     (_, i) => i !== index
   )
 }
+
 function handleModalAck() {
   router.push('/')
 }
@@ -372,6 +382,7 @@ function normalizeAuction(
 
   return normalized
 }
+
 async function publish() {
   const payload = normalizeAuction(state.auction)
   let response: DeliverTxResponse
@@ -405,6 +416,7 @@ async function publish() {
     state.currentUIState = UIStates.Error
   }
 }
+
 function cancel() {
   router.push('/')
 }
@@ -488,7 +500,7 @@ function cancel() {
                 <!-- Input -->
                 <div v-else class="flex w-1/2">
                   <IgniteSelect
-                    :selected="
+                    :model-value="
                       coinToSelectOption({
                         amount: '',
                         denom: state.auction.selling_coin?.denom as string
@@ -498,7 +510,7 @@ function cancel() {
                     variants="rounded-r-none"
                     class="w-full"
                     :is-mobile-native="false"
-                    @input="handleSellingDenomChange"
+                    @update:model-value="handleSellingDenomChange"
                   >
                     <template
                       v-for="i in (balances as Coin[])"
@@ -576,7 +588,7 @@ function cancel() {
                 <!-- Input -->
                 <div v-else class="flex w-1/2">
                   <IgniteSelect
-                    :selected="
+                    :model-value="
                       coinToSelectOption({
                         amount: '',
                         denom: state.auction.paying_coin_denom
@@ -588,7 +600,7 @@ function cancel() {
                     variants="rounded-r-none"
                     class="w-full"
                     :is-mobile-native="false"
-                    @input="handlePayingDenomChange"
+                    @update:model-value="handlePayingDenomChange"
                   >
                     <template #selected>
                       <IgniteDenom
@@ -833,10 +845,11 @@ function cancel() {
             <div>
               <IgniteButton
                 variant="primary"
-                class="h-8 border border-primary !px-4 font-normal"
+                class="h-8 border border-primary !px-4 font-normal hover:text-primary"
                 @click="handleAddDistributionClick"
               >
                 <IconPlus
+                  aria-hidden
                   class="mr-3 h-[0.625rem] w-[0.625rem]"
                   stroke-width="2"
                 />

@@ -17,6 +17,7 @@ import IgniteText from '~/components/ui/IgniteText.vue'
 import { getTypeFromContent } from './utils'
 
 interface Props {
+  error?: boolean
   request: LaunchRequest
 }
 
@@ -25,6 +26,10 @@ const props = defineProps<Props>()
 // computed
 const rawActionType = computed(() => {
   return getTypeFromContent(props.request.content)
+})
+
+const genesisAccountCoins = computed(() => {
+  return props.request.content?.genesisAccount?.coins
 })
 
 const actionIcon = computed(() => {
@@ -53,10 +58,8 @@ const actionIcon = computed(() => {
       >
         Grant
         <span class="font-semibold text-text">
-          <IgniteNumber
-            :number="request.content?.genesisAccount?.coins[0].amount"
-          />
-          {{ request.content?.genesisAccount?.coins[0].denom?.toUpperCase() }}
+          <IgniteNumber :number="genesisAccountCoins?.[0]?.amount ?? 0" />
+          {{ genesisAccountCoins?.[0].denom?.toUpperCase() }}
         </span>
       </IgniteText>
       <IgniteText

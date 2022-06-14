@@ -20,14 +20,6 @@ import useAccount from '~/composables/wallet/useAccount'
 import useAddress from '~/composables/wallet/useAddress'
 import useBalances from '~/composables/wallet/useBalances'
 
-interface Props {
-  visible: boolean
-}
-
-withDefaults(defineProps<Props>(), {
-  visible: false
-})
-
 // ignite
 const { signOut } = useSpn()
 

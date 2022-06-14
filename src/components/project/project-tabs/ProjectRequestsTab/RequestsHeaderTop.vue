@@ -46,7 +46,7 @@ const status = computed(() => {
   const chains =
     campaignChains.value?.chains.map(({ launchID }) => launchID ?? '') ?? []
   const isMainnetInitialized =
-    props.campaignSummary.campaign?.mainnetInitialized
+    props.campaignSummary?.campaign?.mainnetInitialized
 
   return getCampaignStatus(isMainnetInitialized ?? false, chains)
 })
